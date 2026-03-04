@@ -1,0 +1,20 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+ 1 | foo<string, boolean>();
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+ 1 | foo<string, boolean>();
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+ 1 | foo<string, boolean>();
+   :                     ^^^
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+ 1 | foo<string, boolean>();
+   : ^^^
+   `----

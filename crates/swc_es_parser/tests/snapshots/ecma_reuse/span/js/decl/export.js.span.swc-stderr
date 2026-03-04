@@ -1,0 +1,25 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+ 1 | export class Foo { }
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ModuleDeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+ 1 | export class Foo { }
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExportDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+ 1 | export class Foo { }
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ClassDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+ 1 | export class Foo { }
+   :        ^^^^^^^^^^^^^
+   `----
+  x Class
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+ 1 | export class Foo { }
+   :        ^^^^^^^^^^^^^
+   `----

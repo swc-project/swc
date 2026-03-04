@@ -1,0 +1,106 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..93,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Empty(\n    EmptyStmt {\n        span: 18..19,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "For(\n    ForStmt {\n        span: 1..23,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Pat(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Empty(\n    EmptyStmt {\n        span: 41..42,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "For(\n    ForStmt {\n        span: 20..46,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Expr(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Empty(\n    EmptyStmt {\n        span: 66..67,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "For(\n    ForStmt {\n        span: 43..71,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Expr(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 8,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Empty(\n    EmptyStmt {\n        span: 91..92,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "For(\n    ForStmt {\n        span: 68..93,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Expr(\n                    Id {\n                        index: 11,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 12,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 6..11,\n        sym: \"using\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 15..17,\n        sym: \"of\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 25..30,\n        sym: \"using\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Member(\n    MemberExpr {\n        span: 30..37,\n        obj: Id {\n            index: 2,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 31..34,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 38..40,\n        sym: \"of\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Ident(\n    Ident {\n        span: 48..53,\n        sym: \"using\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Call(\n    CallExpr {\n        span: 53..56,\n        callee: Id {\n            index: 5,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Member(\n    MemberExpr {\n        span: 55..62,\n        obj: Id {\n            index: 6,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 56..59,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Ident(\n    Ident {\n        span: 63..65,\n        sym: \"of\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Ident(\n    Ident {\n        span: 73..78,\n        sym: \"using\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 78..81,\n        tag: Id {\n            index: 9,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 78..80,\n            quasis: [\n                StrLit {\n                    span: 78..80,\n                    value: \"\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Member(\n    MemberExpr {\n        span: 80..87,\n        obj: Id {\n            index: 10,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 81..84,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Ident(\n    Ident {\n        span: 88..90,\n        sym: \"of\",\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

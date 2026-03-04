@@ -1,0 +1,2 @@
+  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/typescript-errors/meta-property/new-target/out-of-function-or-class/input.ts,
+  | but parser accepted the file

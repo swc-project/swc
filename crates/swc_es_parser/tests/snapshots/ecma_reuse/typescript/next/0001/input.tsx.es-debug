@@ -1,0 +1,61 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..88,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 28..88,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 28..87,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 34..38,\n        sym: \"comp\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Assign(\n    AssignPat {\n        span: 39..87,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967298,
+            node: "JSXElement(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Arrow(\n    ArrowExpr {\n        span: 41..87,\n        params: [],\n        body: Expr(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Import(\n    ImportDecl {\n        span: 1..33,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..13,\n                        sym: \"React\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 19..26,\n            value: \"react\",\n        },\n        with: [],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [
+        DebugNode {
+            id: 4294967297,
+            node: "JSXElement {\n    span: 47..87,\n    opening: JSXOpeningElement {\n        span: 47..87,\n        name: Ident(\n            Ident {\n                span: 48..71,\n                sym: \"amp-something\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 62..85,\n                name: \"className\",\n                value: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}",
+        },
+    ],
+    ts_types: [],
+}

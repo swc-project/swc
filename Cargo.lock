@@ -6954,6 +6954,7 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_es_ast",
+ "swc_es_visit",
  "swc_malloc",
  "testing",
  "unicode-id-start",

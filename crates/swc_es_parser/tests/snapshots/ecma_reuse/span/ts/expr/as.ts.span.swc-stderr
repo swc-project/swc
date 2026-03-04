@@ -1,0 +1,25 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsAsExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   :              ^^^^^^^^^
+   `----
+  x TsAsExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   :       ^^^^^^^^^
+   `----
+  x LitExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   : ^^^^^
+   `----

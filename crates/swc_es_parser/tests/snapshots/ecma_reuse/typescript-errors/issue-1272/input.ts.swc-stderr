@@ -1,0 +1,1 @@
+  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/typescript-errors/issue-1272/input.ts, but parser accepted the file

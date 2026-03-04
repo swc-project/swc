@@ -1,0 +1,1 @@
+  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/errors/issue-10529/input.cjs, but parser accepted the file

@@ -1,0 +1,25 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/debugger.js:1:1]
+ 1 | ,-> debugger;
+ 2 | |   ;
+ 3 | `-> ;
+   `----
+  x DebuggerStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/debugger.js:1:1]
+ 1 | debugger;
+   : ^^^^^^^^
+ 2 | ;
+   `----
+  x EmptyStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/debugger.js:2:1]
+ 1 | debugger;
+ 2 | ;
+   : ^
+ 3 | ;
+   `----
+  x EmptyStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/debugger.js:3:1]
+ 2 | ;
+ 3 | ;
+   : ^
+   `----

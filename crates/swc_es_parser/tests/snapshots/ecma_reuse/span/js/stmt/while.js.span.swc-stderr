@@ -1,0 +1,23 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/while.js:1:1]
+ 1 | ,-> while (foo) {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x WhileStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/while.js:1:1]
+ 1 | ,-> while (foo) {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/while.js:1:1]
+ 1 | while (foo) {
+   :        ^^^
+   `----
+  x BlockStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/while.js:1:1]
+ 1 | ,-> while (foo) {
+ 2 | |   
+ 3 | `-> }
+   `----

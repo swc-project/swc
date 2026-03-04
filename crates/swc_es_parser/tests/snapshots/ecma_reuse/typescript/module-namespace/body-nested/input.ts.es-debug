@@ -1,0 +1,37 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..41,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsModule(\n    TsModuleDecl {\n        span: 19..40,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 29..30,\n                sym: \"B\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "TsModule(\n    TsModuleDecl {\n        span: 1..41,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 11..12,\n                sym: \"A\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

@@ -1,0 +1,95 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..71,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 1..71,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..71,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 7..9,\n        sym: \"fn\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 13..16,\n        sym: \"foo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Assign(\n    AssignPat {\n        span: 10..71,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 22..25,\n        sym: \"foo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Member(\n    MemberExpr {\n        span: 25..31,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 26..29,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 33..36,\n        sym: \"foo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Member(\n    MemberExpr {\n        span: 36..41,\n        obj: Id {\n            index: 2,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 37..40,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Member(\n    MemberExpr {\n        span: 40..46,\n        obj: Id {\n            index: 3,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 41..44,\n                sym: \"bas\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 47..52,\n            value: \"bas\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 55..60,\n            value: \"bar\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Cond(\n    CondExpr {\n        span: 45..61,\n        test: Id {\n            index: 4,\n            generation: 1,\n        },\n        cons: Id {\n            index: 5,\n            generation: 1,\n        },\n        alt: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Paren(\n    ParenExpr {\n        span: 32..63,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 64..69,\n            value: \"bat\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Cond(\n    CondExpr {\n        span: 30..70,\n        test: Id {\n            index: 1,\n            generation: 1,\n        },\n        cons: Id {\n            index: 8,\n            generation: 1,\n        },\n        alt: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Paren(\n    ParenExpr {\n        span: 21..71,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Arrow(\n    ArrowExpr {\n        span: 12..71,\n        params: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n        body: Expr(\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

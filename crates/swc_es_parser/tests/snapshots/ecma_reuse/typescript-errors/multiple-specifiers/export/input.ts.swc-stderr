@@ -1,0 +1,8 @@
+  x expected ,, got Ident
+   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/multiple-specifiers/export/input.ts:1:1]
+ 1 | export { a b c }
+   :            ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

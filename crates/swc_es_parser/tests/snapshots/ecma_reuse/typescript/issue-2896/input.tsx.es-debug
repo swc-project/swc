@@ -1,0 +1,42 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..36,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Expr(\n    ExprStmt {\n        span: 1..34,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Expr(\n    ExprStmt {\n        span: 22..36,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "JSXElement(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 22..34,\n            value: \"<>hello</>\",\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [
+        DebugNode {
+            id: 4294967297,
+            node: "JSXElement {\n    span: 1..21,\n    opening: JSXOpeningElement {\n        span: 1..21,\n        name: Ident(\n            Ident {\n                span: 2..6,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"children\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 16..20,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+    ],
+    ts_types: [],
+}

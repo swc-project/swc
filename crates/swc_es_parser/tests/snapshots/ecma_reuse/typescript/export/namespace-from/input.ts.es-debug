@@ -1,0 +1,29 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..32,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [],
+    pats: [],
+    exprs: [],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "ExportAll(\n    ExportAllDecl {\n        span: 1..32,\n        src: StrLit {\n            span: 21..30,\n            value: \"package\",\n        },\n        exported: Some(\n            Ident {\n                span: 13..15,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

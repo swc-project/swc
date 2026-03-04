@@ -1,0 +1,15 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/tpl.js:1:1]
+ 1 | `foo`
+   : ^^^^^
+   `----
+  x ExprStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/tpl.js:1:1]
+ 1 | `foo`
+   : ^^^^^
+   `----
+  x TemplateExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/tpl.js:1:1]
+ 1 | `foo`
+   : ^^^^^
+   `----

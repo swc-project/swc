@@ -1,0 +1,42 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..51,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Expr(\n    ExprStmt {\n        span: 1..51,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967299,
+            node: "JSXElement(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [
+        DebugNode {
+            id: 4294967297,
+            node: "JSXElement {\n    span: 13..44,\n    opening: JSXOpeningElement {\n        span: 13..44,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"super\",\n        ),\n        Text(\n            \"deep\",\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "JSXElement {\n    span: 6..48,\n    opening: JSXOpeningElement {\n        span: 6..48,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "JSXElement {\n    span: 1..51,\n    opening: JSXOpeningElement {\n        span: 1..51,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}",
+        },
+    ],
+    ts_types: [],
+}

@@ -1,0 +1,68 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x DeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x ClassDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x Class
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x ClassStaticBlock
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/static-blocks.js:2:1]
+ 1 |     class Foo {
+ 2 | ,->     static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x ExprStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/static-blocks.js:3:1]
+ 2 |         static {
+ 3 | ,->         1 + 1;
+ 4 | `->     }
+ 5 |     }
+   `----
+  x BinaryExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/static-blocks.js:3:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :           ^^^^
+ 4 |     }
+   `----
+  x LitExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/static-blocks.js:3:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :         ^
+ 4 |     }
+   `----
+  x LitExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/static-blocks.js:3:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :             ^
+ 4 |     }
+   `----

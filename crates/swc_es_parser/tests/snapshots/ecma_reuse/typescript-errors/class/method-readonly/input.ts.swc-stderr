@@ -1,0 +1,1 @@
+  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/typescript-errors/class/method-readonly/input.ts, but parser accepted the file

@@ -1,0 +1,43 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+  x DeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+  x VarDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+  x IdentPat
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :       ^
+ 2 |     return 'foo'
+   `----
+  x ArrowExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+  x ReturnStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/arrow.ts:2:1]
+ 1 |     const a: () => any = () => {
+ 2 | ,->     return 'foo'
+ 3 | `-> };
+   `----
+  x LitExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/arrow.ts:2:1]
+ 1 | const a: () => any = () => {
+ 2 |     return 'foo'
+   :            ^^^^^
+ 3 | };
+   `----

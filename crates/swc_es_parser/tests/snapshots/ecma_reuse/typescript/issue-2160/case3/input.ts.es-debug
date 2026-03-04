@@ -1,0 +1,19 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..38,\n    kind: Script,\n    body: [],\n}",
+        },
+    ],
+    stmts: [],
+    decls: [],
+    pats: [],
+    exprs: [],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

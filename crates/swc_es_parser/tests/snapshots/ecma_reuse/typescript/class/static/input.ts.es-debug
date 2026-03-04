@@ -1,0 +1,113 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..102,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Expr(\n    ExprStmt {\n        span: 31..44,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Expr(\n    ExprStmt {\n        span: 38..46,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Expr(\n    ExprStmt {\n        span: 45..63,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Expr(\n    ExprStmt {\n        span: 54..70,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    ExprStmt {\n        span: 64..72,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Expr(\n    ExprStmt {\n        span: 71..87,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    ExprStmt {\n        span: 80..94,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Expr(\n    ExprStmt {\n        span: 88..96,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Expr(\n    ExprStmt {\n        span: 95..101,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Expr(\n    ExprStmt {\n        span: 100..102,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 31..37,\n        sym: \"public\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 38..44,\n        sym: \"static\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 45..46,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Call(\n    CallExpr {\n        span: 46..49,\n        callee: Id {\n            index: 2,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 54..63,\n        sym: \"protected\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Ident(\n    Ident {\n        span: 64..70,\n        sym: \"static\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Ident(\n    Ident {\n        span: 71..72,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Call(\n    CallExpr {\n        span: 72..75,\n        callee: Id {\n            index: 6,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Ident(\n    Ident {\n        span: 80..87,\n        sym: \"private\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Ident(\n    Ident {\n        span: 88..94,\n        sym: \"static\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Ident(\n    Ident {\n        span: 95..96,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Call(\n    CallExpr {\n        span: 96..99,\n        callee: Id {\n            index: 10,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

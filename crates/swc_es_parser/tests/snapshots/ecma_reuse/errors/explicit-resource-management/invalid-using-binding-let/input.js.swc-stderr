@@ -1,0 +1,2 @@
+  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/errors/explicit-resource-management/invalid-using-binding-let/input.js, but
+  | parser accepted the file

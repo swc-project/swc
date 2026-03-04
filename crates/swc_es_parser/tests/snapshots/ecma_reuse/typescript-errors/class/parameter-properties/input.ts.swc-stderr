@@ -1,0 +1,10 @@
+  x expected ), got Ident
+   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/class/parameter-properties/input.ts:3:1]
+ 2 |     constructor(
+ 3 |         readonly r,
+   :                  ^
+ 4 |         public pu: number,
+   `----
+
+Advice: 
+  > code: UnexpectedToken

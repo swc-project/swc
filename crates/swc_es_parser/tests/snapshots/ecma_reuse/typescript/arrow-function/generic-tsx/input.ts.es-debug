@@ -1,0 +1,86 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 74..238,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Expr(\n    ExprStmt {\n        span: 74..156,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Expr(\n    ExprStmt {\n        span: 155..226,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Expr(\n    ExprStmt {\n        span: 225..228,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Expr(\n    ExprStmt {\n        span: 226..238,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 79..80,\n        sym: \"a\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 165..166,\n        sym: \"v\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 91..92,\n        sym: \"a\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Arrow(\n    ArrowExpr {\n        span: 78..93,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n        body: Expr(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 177..178,\n        sym: \"v\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Arrow(\n    ArrowExpr {\n        span: 164..179,\n        params: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n        body: Expr(\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Ident(\n    Ident {\n        span: 226..228,\n        sym: \"h1\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Ident(\n    Ident {\n        span: 229..231,\n        sym: \"hi\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Binary(\n    BinaryExpr {\n        span: 228..232,\n        op: Gt,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Lit(\n    Regex(\n        RegexLit {\n            span: 232..238,\n            exp: \"h1>;\",\n            flags: \"\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Binary(\n    BinaryExpr {\n        span: 231..238,\n        op: Lt,\n        left: Id {\n            index: 7,\n            generation: 1,\n        },\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

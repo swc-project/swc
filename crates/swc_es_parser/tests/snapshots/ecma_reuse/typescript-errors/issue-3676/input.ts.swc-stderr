@@ -1,0 +1,8 @@
+  x expected ], got Comma
+   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/issue-3676/input.ts:1:1]
+ 1 | const [...rest,] = a
+   :               ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

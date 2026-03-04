@@ -1,0 +1,2 @@
+  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/typescript-errors/type-lit/readonly-getter/input.ts, but parser accepted the
+  | file

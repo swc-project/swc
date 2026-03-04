@@ -1,0 +1,1 @@
+  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/errors/conflict_marker_diff_3_trivia_2/input.ts, but parser accepted the file

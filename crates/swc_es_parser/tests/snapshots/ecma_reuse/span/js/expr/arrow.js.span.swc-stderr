@@ -1,0 +1,35 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow.js:1:1]
+ 1 | use(a => a)
+   : ^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow.js:1:1]
+ 1 | use(a => a)
+   : ^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow.js:1:1]
+ 1 | use(a => a)
+   :    ^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow.js:1:1]
+ 1 | use(a => a)
+   : ^^^
+   `----
+  x ArrowExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow.js:1:1]
+ 1 | use(a => a)
+   :     ^^^^^^^
+   `----
+  x IdentPat
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow.js:1:1]
+ 1 | use(a => a)
+   :     ^
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow.js:1:1]
+ 1 | use(a => a)
+   :          ^
+   `----

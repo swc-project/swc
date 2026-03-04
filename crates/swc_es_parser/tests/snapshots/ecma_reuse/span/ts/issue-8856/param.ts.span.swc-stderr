@@ -1,0 +1,30 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x FnDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x AssignPat
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   :                      ^^^^
+   `----
+  x IdentPat
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   :            ^
+   `----
+  x LitExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   :                        ^
+   `----

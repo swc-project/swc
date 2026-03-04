@@ -1,0 +1,29 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..52,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [],
+    pats: [],
+    exprs: [],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Import(\n    ImportDecl {\n        span: 1..52,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..13,\n                        sym: \"defer\",\n                    },\n                },\n            ),\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 19..21,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 27..30,\n            value: \"x\",\n        },\n        with: [\n            ImportAttribute {\n                span: 38..51,\n                key: Ident(\n                    Ident {\n                        span: 38..42,\n                        sym: \"attr\",\n                    },\n                ),\n                value: StrLit {\n                    span: 44..49,\n                    value: \"val\",\n                },\n            },\n        ],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}
