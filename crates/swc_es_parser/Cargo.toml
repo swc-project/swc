@@ -19,6 +19,7 @@ typescript = []
 [dependencies]
 bitflags   = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
+seq-macro  = { workspace = true }
 unicode-id-start = { workspace = true }
 
 swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
@@ -37,3 +38,7 @@ swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
 [[bench]]
 harness = false
 name    = "parser"
+
+[[bench]]
+harness = false
+name    = "lexer"

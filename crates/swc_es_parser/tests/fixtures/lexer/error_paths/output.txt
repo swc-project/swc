@@ -1,0 +1,27 @@
+Keyword(Const)	1..6	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Ident	7..11	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	ident:bad1
+Eq	12..13	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Str	14..20	had_lb=false	flags=TokenFlags { escaped: true, contains_legacy_octal_escape: false, contains_invalid_escape: true }	str:89
+Semi	20..21	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Keyword(Const)	22..27	had_lb=true	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Ident	28..32	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	ident:bad2
+Eq	33..34	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Str	35..41	had_lb=false	flags=TokenFlags { escaped: true, contains_legacy_octal_escape: false, contains_invalid_escape: true }	str:ZZ
+Semi	41..42	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Keyword(Const)	43..48	had_lb=true	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Ident	49..53	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	ident:bad3
+Eq	54..55	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Str	56..61	had_lb=false	flags=TokenFlags { escaped: true, contains_legacy_octal_escape: false, contains_invalid_escape: true }	str:{
+Semi	61..62	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Keyword(Const)	63..68	had_lb=true	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Ident	69..72	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	ident:jsx
+Eq	73..74	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Ident	75..76	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	ident:'
+Lt	76..77	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Ident	77..80	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	ident:div
+Eof	111..111	had_lb=true	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+ERROR	InvalidEscape	15..17	invalid decimal escape sequence
+ERROR	InvalidEscape	17..19	invalid decimal escape sequence
+ERROR	InvalidEscape	36..38	invalid hexadecimal escape sequence
+ERROR	InvalidEscape	57..59	invalid unicode escape sequence
+ERROR	UnterminatedBlockComment	81..111	unterminated block comment
