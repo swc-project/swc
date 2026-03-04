@@ -1,15 +1,28 @@
+use std::borrow::Cow;
+
 use swc_atoms::Atom;
 use swc_common::{
     comments::Comments,
     input::{Input, StringInput},
-    Span,
+    BytePos, Span,
 };
 
+use self::{
+    search::byte_search,
+    tables::{
+        DOUBLE_QUOTE_STRING_END_TABLE, NOT_ASCII_ID_CONTINUE_TABLE, SINGLE_QUOTE_STRING_END_TABLE,
+        TEMPLATE_LITERAL_SCAN_TABLE,
+    },
+};
 use crate::{
     error::{Error, ErrorCode, Severity},
     syntax::Syntax,
     token::{Keyword, Token, TokenFlags, TokenKind, TokenValue},
 };
+
+mod search;
+mod tables;
+mod whitespace;
 
 /// Checkpoint for lexer backtracking.
 #[derive(Clone)]
@@ -47,6 +60,16 @@ impl<'a> Lexer<'a> {
     /// Returns the current parser syntax.
     pub fn syntax(&self) -> Syntax {
         self.syntax
+    }
+
+    #[inline(always)]
+    fn input(&self) -> &StringInput<'a> {
+        &self.input
+    }
+
+    #[inline(always)]
+    fn input_mut(&mut self) -> &mut StringInput<'a> {
+        &mut self.input
     }
 
     /// Saves lexer state.
@@ -480,20 +503,63 @@ impl<'a> Lexer<'a> {
         }
     }
 
+    #[inline(always)]
+    fn scan_decimal_digits_or_sep(&mut self) {
+        while let Some(ch) = self.input.cur_as_ascii() {
+            if ch == b'_' || ch.is_ascii_digit() {
+                self.bump_ascii();
+            } else {
+                break;
+            }
+        }
+    }
+
+    #[inline(always)]
+    fn scan_hex_digits_or_sep(&mut self) {
+        while let Some(ch) = self.input.cur_as_ascii() {
+            if ch == b'_' || ch.is_ascii_hexdigit() {
+                self.bump_ascii();
+            } else {
+                break;
+            }
+        }
+    }
+
+    #[inline(always)]
+    fn scan_octal_digits_or_sep(&mut self) {
+        while let Some(ch) = self.input.cur_as_ascii() {
+            if ch == b'_' || matches!(ch, b'0'..=b'7') {
+                self.bump_ascii();
+            } else {
+                break;
+            }
+        }
+    }
+
+    #[inline(always)]
+    fn scan_binary_digits_or_sep(&mut self) {
+        while let Some(ch) = self.input.cur_as_ascii() {
+            if ch == b'_' || matches!(ch, b'0' | b'1') {
+                self.bump_ascii();
+            } else {
+                break;
+            }
+        }
+    }
+
+    #[inline]
+    fn strip_numeric_separators<'b>(raw: &'b str) -> Cow<'b, str> {
+        if raw.as_bytes().contains(&b'_') {
+            Cow::Owned(raw.chars().filter(|&c| c != '_').collect())
+        } else {
+            Cow::Borrowed(raw)
+        }
+    }
+
     fn read_number(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         let mut radix = 10u32;
         let mut is_float = false;
-
-        let eat_digits_with_sep = |lexer: &mut Self, valid: &mut dyn FnMut(u8) -> bool| {
-            while let Some(ch) = lexer.input.cur_as_ascii() {
-                if ch == b'_' || valid(ch) {
-                    lexer.bump_ascii();
-                } else {
-                    break;
-                }
-            }
-        };
 
         if self.input.cur_as_ascii() == Some(b'0')
             && matches!(
@@ -509,22 +575,19 @@ impl<'a> Lexer<'a> {
                 _ => {}
             }
             self.bump_ascii();
-            let mut valid = |ch: u8| match radix {
-                16 => ch.is_ascii_hexdigit(),
-                8 => (b'0'..=b'7').contains(&ch),
-                2 => matches!(ch, b'0' | b'1'),
-                _ => ch.is_ascii_digit(),
-            };
-            eat_digits_with_sep(self, &mut valid);
+            match radix {
+                16 => self.scan_hex_digits_or_sep(),
+                8 => self.scan_octal_digits_or_sep(),
+                2 => self.scan_binary_digits_or_sep(),
+                _ => self.scan_decimal_digits_or_sep(),
+            }
         } else {
-            let mut is_dec = |ch: u8| ch.is_ascii_digit();
-            eat_digits_with_sep(self, &mut is_dec);
+            self.scan_decimal_digits_or_sep();
 
             if self.input.cur_as_ascii() == Some(b'.') {
                 is_float = true;
                 self.bump_ascii();
-                let mut is_dec = |ch: u8| ch.is_ascii_digit();
-                eat_digits_with_sep(self, &mut is_dec);
+                self.scan_decimal_digits_or_sep();
             }
 
             if matches!(self.input.cur_as_ascii(), Some(b'e' | b'E')) {
@@ -542,8 +605,7 @@ impl<'a> Lexer<'a> {
                         "numeric literal exponent should contain digits",
                     ));
                 }
-                let mut is_dec = |ch: u8| ch.is_ascii_digit();
-                eat_digits_with_sep(self, &mut is_dec);
+                self.scan_decimal_digits_or_sep();
             }
         }
 
@@ -551,7 +613,8 @@ impl<'a> Lexer<'a> {
             self.bump_ascii();
             let end = self.input.cur_pos();
             let raw = unsafe { self.input.slice_str(start, end) };
-            let mut value = raw.trim_end_matches('n').replace('_', "");
+            let raw = raw.trim_end_matches('n');
+            let mut value = Self::strip_numeric_separators(raw).into_owned();
             if radix != 10 && value.len() >= 2 {
                 value = value[2..].to_string();
             }
@@ -565,9 +628,9 @@ impl<'a> Lexer<'a> {
 
         let end = self.input.cur_pos();
         let raw = unsafe { self.input.slice_str(start, end) };
-        let cleaned = raw.replace('_', "");
+        let cleaned = Self::strip_numeric_separators(raw);
         let value = if radix == 10 {
-            cleaned.parse::<f64>().unwrap_or_else(|_| {
+            cleaned.as_ref().parse::<f64>().unwrap_or_else(|_| {
                 self.errors.push(Error::new(
                     Span::new_with_checked(start, end),
                     Severity::Error,
@@ -604,24 +667,20 @@ impl<'a> Lexer<'a> {
         start: swc_common::BytePos,
         had_line_break_before: bool,
     ) -> Token {
-        while matches!(self.input.cur_as_ascii(), Some(b'0'..=b'9' | b'_')) {
-            self.bump_ascii();
-        }
+        self.scan_decimal_digits_or_sep();
 
         if matches!(self.input.cur_as_ascii(), Some(b'e' | b'E')) {
             self.bump_ascii();
             if matches!(self.input.cur_as_ascii(), Some(b'+' | b'-')) {
                 self.bump_ascii();
             }
-            while matches!(self.input.cur_as_ascii(), Some(b'0'..=b'9' | b'_')) {
-                self.bump_ascii();
-            }
+            self.scan_decimal_digits_or_sep();
         }
 
         let end = self.input.cur_pos();
         let raw = unsafe { self.input.slice_str(start, end) };
-        let cleaned = raw.replace('_', "");
-        let value = cleaned.parse::<f64>().unwrap_or_else(|_| {
+        let cleaned = Self::strip_numeric_separators(raw);
+        let value = cleaned.as_ref().parse::<f64>().unwrap_or_else(|_| {
             self.errors.push(Error::new(
                 Span::new_with_checked(start, end),
                 Severity::Error,
@@ -639,173 +698,287 @@ impl<'a> Lexer<'a> {
         )
     }
 
+    #[inline]
+    fn append_chunk(&self, out: &mut Option<String>, start: BytePos, end: BytePos) {
+        if start >= end {
+            return;
+        }
+        let chunk = unsafe { self.input.slice_str(start, end) };
+        match out {
+            Some(buf) => buf.push_str(chunk),
+            None => *out = Some(chunk.to_string()),
+        }
+    }
+
+    #[inline]
+    fn finalize_value(
+        &self,
+        mut out: Option<String>,
+        content_start: BytePos,
+        chunk_start: BytePos,
+        value_end: BytePos,
+    ) -> Atom {
+        if let Some(buf) = out.as_mut() {
+            if chunk_start < value_end {
+                let trailing = unsafe { self.input.slice_str(chunk_start, value_end) };
+                buf.push_str(trailing);
+            }
+            Atom::new(std::mem::take(buf))
+        } else {
+            let raw = unsafe { self.input.slice_str(content_start, value_end) };
+            Atom::new(raw)
+        }
+    }
+
+    fn read_escape_sequence(
+        &mut self,
+        out: &mut String,
+        flags: &mut TokenFlags,
+        esc_start: BytePos,
+        in_template: bool,
+    ) {
+        match self.input.cur_as_char() {
+            Some('n') => {
+                self.bump_char();
+                out.push('\n');
+            }
+            Some('r') => {
+                self.bump_char();
+                out.push('\r');
+            }
+            Some('t') => {
+                self.bump_char();
+                out.push('\t');
+            }
+            Some('b') => {
+                self.bump_char();
+                out.push('\u{0008}');
+            }
+            Some('f') => {
+                self.bump_char();
+                out.push('\u{000C}');
+            }
+            Some('v') => {
+                self.bump_char();
+                out.push('\u{000B}');
+            }
+            Some('\\') => {
+                self.bump_char();
+                out.push('\\');
+            }
+            Some('"') => {
+                self.bump_char();
+                out.push('"');
+            }
+            Some('\'') => {
+                self.bump_char();
+                out.push('\'');
+            }
+            Some('x') => {
+                let checkpoint = self.input.clone();
+                if let Some(decoded) = self.read_hex_escape(2) {
+                    out.push(decoded);
+                } else {
+                    self.input = checkpoint;
+                    self.bump_char();
+                    flags.contains_invalid_escape = true;
+                    self.errors.push(Error::new(
+                        Span::new_with_checked(esc_start, self.input.cur_pos()),
+                        Severity::Error,
+                        ErrorCode::InvalidEscape,
+                        "invalid hexadecimal escape sequence",
+                    ));
+                }
+            }
+            Some('u') => {
+                let checkpoint = self.input.clone();
+                if let Some(decoded) = self.read_unicode_escape_after_u() {
+                    out.push(decoded);
+                } else {
+                    self.input = checkpoint;
+                    self.bump_char();
+                    flags.contains_invalid_escape = true;
+                    self.errors.push(Error::new(
+                        Span::new_with_checked(esc_start, self.input.cur_pos()),
+                        Severity::Error,
+                        ErrorCode::InvalidEscape,
+                        "invalid unicode escape sequence",
+                    ));
+                }
+            }
+            Some('0') => {
+                if matches!(self.input.peek(), Some(b'0'..=b'9')) {
+                    let decoded = self.read_legacy_octal_escape();
+                    flags.contains_legacy_octal_escape = true;
+                    out.push(decoded);
+                } else {
+                    self.bump_char();
+                    out.push('\0');
+                }
+            }
+            Some('1'..='7') => {
+                let decoded = self.read_legacy_octal_escape();
+                flags.contains_legacy_octal_escape = true;
+                out.push(decoded);
+            }
+            Some('8' | '9') => {
+                let value = self.input.cur_as_char().unwrap_or('\0');
+                self.bump_char();
+                flags.contains_invalid_escape = true;
+                self.errors.push(Error::new(
+                    Span::new_with_checked(esc_start, self.input.cur_pos()),
+                    Severity::Error,
+                    ErrorCode::InvalidEscape,
+                    "invalid decimal escape sequence",
+                ));
+                out.push(value);
+            }
+            Some('\n') if !in_template => {
+                self.bump_char();
+                self.had_line_break_before = true;
+            }
+            Some('\r') if !in_template => {
+                self.bump_char();
+                if self.input.cur_as_ascii() == Some(b'\n') {
+                    self.bump_ascii();
+                }
+                self.had_line_break_before = true;
+            }
+            Some('\u{2028}' | '\u{2029}') if !in_template => {
+                self.bump_char();
+                self.had_line_break_before = true;
+            }
+            Some(other) => {
+                self.bump_char();
+                out.push(other);
+            }
+            None => {}
+        }
+    }
+
     fn read_string(&mut self, had_line_break_before: bool) -> Token {
         let quote = self.input.cur_as_ascii().unwrap_or(b'"');
+        let table = if quote == b'"' {
+            &DOUBLE_QUOTE_STRING_END_TABLE
+        } else {
+            &SINGLE_QUOTE_STRING_END_TABLE
+        };
+
         let checkpoint = self.input.clone();
         let start = self.input.cur_pos();
         self.bump_ascii();
 
-        let mut out = String::new();
+        let content_start = self.input.cur_pos();
+        let mut chunk_start = content_start;
+        let mut out: Option<String> = None;
         let mut terminated = false;
-        let mut saw_lt = false;
         let mut flags = TokenFlags::default();
 
-        while let Some(ch) = self.input.cur_as_char() {
-            if ch as u32 <= 0x7f && ch as u8 == quote {
-                self.bump_ascii();
-                terminated = true;
-                break;
-            }
+        let value_end = loop {
+            let matched = byte_search! {
+                lexer: self,
+                table: table,
+                handle_eof: {
+                    let value_end = self.input.cur_pos();
+                    let end = value_end;
 
-            if ch == '\\' {
-                let esc_start = self.input.cur_pos();
-                self.bump_char();
-                flags.escaped = true;
+                    if self.syntax.jsx() && quote == b'\'' {
+                        let saw_lt = if let Some(buf) = out.as_ref() {
+                            let trailing = if chunk_start < value_end {
+                                unsafe { self.input.slice_str(chunk_start, value_end) }
+                            } else {
+                                ""
+                            };
+                            buf.contains('<') || trailing.contains('<')
+                        } else if content_start < value_end {
+                            unsafe { self.input.slice_str(content_start, value_end) }.contains('<')
+                        } else {
+                            false
+                        };
 
-                match self.input.cur_as_char() {
-                    Some('n') => {
-                        self.bump_char();
-                        out.push('\n');
-                    }
-                    Some('r') => {
-                        self.bump_char();
-                        out.push('\r');
-                    }
-                    Some('t') => {
-                        self.bump_char();
-                        out.push('\t');
-                    }
-                    Some('b') => {
-                        self.bump_char();
-                        out.push('\u{0008}');
-                    }
-                    Some('f') => {
-                        self.bump_char();
-                        out.push('\u{000C}');
-                    }
-                    Some('v') => {
-                        self.bump_char();
-                        out.push('\u{000B}');
-                    }
-                    Some('\\') => {
-                        self.bump_char();
-                        out.push('\\');
-                    }
-                    Some('"') => {
-                        self.bump_char();
-                        out.push('"');
-                    }
-                    Some('\'') => {
-                        self.bump_char();
-                        out.push('\'');
-                    }
-                    Some('x') => {
-                        let checkpoint = self.input.clone();
-                        if let Some(decoded) = self.read_hex_escape(2) {
-                            out.push(decoded);
-                        } else {
+                        if saw_lt {
                             self.input = checkpoint;
-                            self.bump_char();
-                            flags.contains_invalid_escape = true;
-                            self.errors.push(Error::new(
-                                Span::new_with_checked(esc_start, self.input.cur_pos()),
-                                Severity::Error,
-                                ErrorCode::InvalidEscape,
-                                "invalid hexadecimal escape sequence",
-                            ));
-                        }
-                    }
-                    Some('u') => {
-                        let checkpoint = self.input.clone();
-                        if let Some(decoded) = self.read_unicode_escape_after_u() {
-                            out.push(decoded);
-                        } else {
-                            self.input = checkpoint;
-                            self.bump_char();
-                            flags.contains_invalid_escape = true;
-                            self.errors.push(Error::new(
-                                Span::new_with_checked(esc_start, self.input.cur_pos()),
-                                Severity::Error,
-                                ErrorCode::InvalidEscape,
-                                "invalid unicode escape sequence",
-                            ));
-                        }
-                    }
-                    Some('0') => {
-                        if matches!(self.input.peek(), Some(b'0'..=b'9')) {
-                            let decoded = self.read_legacy_octal_escape();
-                            flags.contains_legacy_octal_escape = true;
-                            out.push(decoded);
-                        } else {
-                            self.bump_char();
-                            out.push('\0');
-                        }
-                    }
-                    Some('1'..='7') => {
-                        let decoded = self.read_legacy_octal_escape();
-                        flags.contains_legacy_octal_escape = true;
-                        out.push(decoded);
-                    }
-                    Some('8' | '9') => {
-                        let value = self.input.cur_as_char().unwrap_or('\0');
-                        self.bump_char();
-                        flags.contains_invalid_escape = true;
-                        self.errors.push(Error::new(
-                            Span::new_with_checked(esc_start, self.input.cur_pos()),
-                            Severity::Error,
-                            ErrorCode::InvalidEscape,
-                            "invalid decimal escape sequence",
-                        ));
-                        out.push(value);
-                    }
-                    Some('\n') => {
-                        self.bump_char();
-                        self.had_line_break_before = true;
-                    }
-                    Some('\r') => {
-                        self.bump_char();
-                        if self.input.cur_as_ascii() == Some(b'\n') {
                             self.bump_ascii();
+                            let end = self.input.cur_pos();
+                            return Token {
+                                kind: TokenKind::Ident,
+                                span: Span::new_with_checked(start, end),
+                                had_line_break_before,
+                                value: Some(TokenValue::Ident(Atom::new("'"))),
+                                flags: TokenFlags::default(),
+                            };
                         }
-                        self.had_line_break_before = true;
                     }
-                    Some('\u{2028}' | '\u{2029}') => {
-                        self.bump_char();
-                        self.had_line_break_before = true;
-                    }
-                    Some(other) => {
-                        self.bump_char();
-                        out.push(other);
-                    }
-                    None => break,
+
+                    self.errors.push(Error::new(
+                        Span::new_with_checked(start, end),
+                        Severity::Error,
+                        ErrorCode::UnterminatedString,
+                        "unterminated string literal",
+                    ));
+
+                    let value = self.finalize_value(out, content_start, chunk_start, value_end);
+                    return Token {
+                        kind: TokenKind::Str,
+                        span: Span::new_with_checked(start, end),
+                        had_line_break_before,
+                        value: Some(TokenValue::Str(value)),
+                        flags,
+                    };
+                },
+            };
+
+            match matched {
+                b'"' | b'\'' if matched == quote => {
+                    let value_end = self.input.cur_pos();
+                    self.bump_ascii();
+                    terminated = true;
+                    break value_end;
                 }
-                continue;
+                b'\\' => {
+                    let esc_start = self.input.cur_pos();
+                    self.append_chunk(&mut out, chunk_start, esc_start);
+                    self.bump_ascii();
+                    flags.escaped = true;
+                    let buf = out.get_or_insert_with(String::new);
+                    self.read_escape_sequence(buf, &mut flags, esc_start, false);
+                    chunk_start = self.input.cur_pos();
+                }
+                b'\n' | b'\r' => {
+                    break self.input.cur_pos();
+                }
+                _ => unreachable!("unexpected byte in string scanner"),
             }
-
-            if ch == '\n' || ch == '\r' {
-                break;
-            }
-
-            if ch == '<' {
-                saw_lt = true;
-            }
-            self.bump_char();
-            out.push(ch);
-        }
+        };
 
         let end = self.input.cur_pos();
         if !terminated {
-            if self.syntax.jsx() && quote == b'\'' && saw_lt {
-                self.input = checkpoint;
-                self.bump_ascii();
-                let end = self.input.cur_pos();
-                return Token {
-                    kind: TokenKind::Ident,
-                    span: Span::new_with_checked(start, end),
-                    had_line_break_before,
-                    value: Some(TokenValue::Ident(Atom::new("'"))),
-                    flags: TokenFlags::default(),
+            if self.syntax.jsx() && quote == b'\'' {
+                let saw_lt = if let Some(buf) = out.as_ref() {
+                    let trailing = if chunk_start < value_end {
+                        unsafe { self.input.slice_str(chunk_start, value_end) }
+                    } else {
+                        ""
+                    };
+                    buf.contains('<') || trailing.contains('<')
+                } else if content_start < value_end {
+                    unsafe { self.input.slice_str(content_start, value_end) }.contains('<')
+                } else {
+                    false
                 };
+
+                if saw_lt {
+                    self.input = checkpoint;
+                    self.bump_ascii();
+                    let end = self.input.cur_pos();
+                    return Token {
+                        kind: TokenKind::Ident,
+                        span: Span::new_with_checked(start, end),
+                        had_line_break_before,
+                        value: Some(TokenValue::Ident(Atom::new("'"))),
+                        flags: TokenFlags::default(),
+                    };
+                }
             }
             self.errors.push(Error::new(
                 Span::new_with_checked(start, end),
@@ -815,11 +988,12 @@ impl<'a> Lexer<'a> {
             ));
         }
 
+        let value = self.finalize_value(out, content_start, chunk_start, value_end);
         Token {
             kind: TokenKind::Str,
             span: Span::new_with_checked(start, end),
             had_line_break_before,
-            value: Some(TokenValue::Str(Atom::new(out))),
+            value: Some(TokenValue::Str(value)),
             flags,
         }
     }
@@ -828,157 +1002,85 @@ impl<'a> Lexer<'a> {
         let start = self.input.cur_pos();
         self.bump_ascii();
 
-        let mut out = String::new();
-        let mut terminated = false;
+        let content_start = self.input.cur_pos();
+        let mut chunk_start = content_start;
+        let mut out: Option<String> = None;
         let mut expr_depth = 0usize;
         let mut flags = TokenFlags::default();
 
-        while let Some(ch) = self.input.cur_as_char() {
-            if ch == '`' && expr_depth == 0 {
-                self.bump_char();
-                terminated = true;
-                break;
-            }
+        let value_end = loop {
+            let matched = byte_search! {
+                lexer: self,
+                table: TEMPLATE_LITERAL_SCAN_TABLE,
+                handle_eof: {
+                    let end = self.input.cur_pos();
+                    self.errors.push(Error::new(
+                        Span::new_with_checked(start, end),
+                        Severity::Error,
+                        ErrorCode::UnterminatedString,
+                        "unterminated template literal",
+                    ));
 
-            if ch == '\\' {
-                let esc_start = self.input.cur_pos();
-                self.bump_char();
-                flags.escaped = true;
-                match self.input.cur_as_char() {
-                    Some('n') => {
-                        self.bump_char();
-                        out.push('\n');
-                    }
-                    Some('r') => {
-                        self.bump_char();
-                        out.push('\r');
-                    }
-                    Some('t') => {
-                        self.bump_char();
-                        out.push('\t');
-                    }
-                    Some('b') => {
-                        self.bump_char();
-                        out.push('\u{0008}');
-                    }
-                    Some('f') => {
-                        self.bump_char();
-                        out.push('\u{000C}');
-                    }
-                    Some('v') => {
-                        self.bump_char();
-                        out.push('\u{000B}');
-                    }
-                    Some('x') => {
-                        let checkpoint = self.input.clone();
-                        if let Some(decoded) = self.read_hex_escape(2) {
-                            out.push(decoded);
-                        } else {
-                            self.input = checkpoint;
-                            self.bump_char();
-                            flags.contains_invalid_escape = true;
-                            self.errors.push(Error::new(
-                                Span::new_with_checked(esc_start, self.input.cur_pos()),
-                                Severity::Error,
-                                ErrorCode::InvalidEscape,
-                                "invalid hexadecimal escape sequence",
-                            ));
-                        }
-                    }
-                    Some('u') => {
-                        let checkpoint = self.input.clone();
-                        if let Some(decoded) = self.read_unicode_escape_after_u() {
-                            out.push(decoded);
-                        } else {
-                            self.input = checkpoint;
-                            self.bump_char();
-                            flags.contains_invalid_escape = true;
-                            self.errors.push(Error::new(
-                                Span::new_with_checked(esc_start, self.input.cur_pos()),
-                                Severity::Error,
-                                ErrorCode::InvalidEscape,
-                                "invalid unicode escape sequence",
-                            ));
-                        }
-                    }
-                    Some('0') => {
-                        if matches!(self.input.peek(), Some(b'0'..=b'9')) {
-                            let decoded = self.read_legacy_octal_escape();
-                            flags.contains_legacy_octal_escape = true;
-                            out.push(decoded);
-                        } else {
-                            self.bump_char();
-                            out.push('\0');
-                        }
-                    }
-                    Some('1'..='7') => {
-                        let decoded = self.read_legacy_octal_escape();
-                        flags.contains_legacy_octal_escape = true;
-                        out.push(decoded);
-                    }
-                    Some('8' | '9') => {
-                        let value = self.input.cur_as_char().unwrap_or('\0');
-                        self.bump_char();
-                        flags.contains_invalid_escape = true;
-                        self.errors.push(Error::new(
-                            Span::new_with_checked(esc_start, self.input.cur_pos()),
-                            Severity::Error,
-                            ErrorCode::InvalidEscape,
-                            "invalid decimal escape sequence",
-                        ));
-                        out.push(value);
-                    }
-                    Some(next) => {
-                        self.bump_char();
-                        out.push(next);
-                    }
-                    None => break,
+                    let value = self.finalize_value(out, content_start, chunk_start, end);
+                    return Token {
+                        kind: TokenKind::Template,
+                        span: Span::new_with_checked(start, end),
+                        had_line_break_before,
+                        value: Some(TokenValue::Str(value)),
+                        flags,
+                    };
+                },
+            };
+
+            match matched {
+                b'`' if expr_depth == 0 => {
+                    let value_end = self.input.cur_pos();
+                    self.bump_ascii();
+                    break value_end;
                 }
-                continue;
+                b'\\' => {
+                    let esc_start = self.input.cur_pos();
+                    self.append_chunk(&mut out, chunk_start, esc_start);
+                    self.bump_ascii();
+                    flags.escaped = true;
+                    let buf = out.get_or_insert_with(String::new);
+                    self.read_escape_sequence(buf, &mut flags, esc_start, true);
+                    chunk_start = self.input.cur_pos();
+                }
+                b'$' => {
+                    self.bump_ascii();
+                    if self.input.cur_as_ascii() == Some(b'{') {
+                        self.bump_ascii();
+                        expr_depth += 1;
+                    }
+                }
+                b'{' => {
+                    self.bump_ascii();
+                    if expr_depth > 0 {
+                        expr_depth += 1;
+                    }
+                }
+                b'}' => {
+                    self.bump_ascii();
+                    if expr_depth > 0 {
+                        expr_depth = expr_depth.saturating_sub(1);
+                    }
+                }
+                b'`' => {
+                    self.bump_ascii();
+                }
+                _ => unreachable!("unexpected byte in template scanner"),
             }
-
-            if ch == '$' && self.input.peek() == Some(b'{') {
-                self.bump_ascii();
-                self.bump_ascii();
-                out.push('$');
-                out.push('{');
-                expr_depth += 1;
-                continue;
-            }
-
-            if ch == '{' && expr_depth > 0 {
-                self.bump_char();
-                out.push('{');
-                expr_depth += 1;
-                continue;
-            }
-
-            if ch == '}' && expr_depth > 0 {
-                self.bump_char();
-                out.push('}');
-                expr_depth = expr_depth.saturating_sub(1);
-                continue;
-            }
-
-            self.bump_char();
-            out.push(ch);
-        }
+        };
 
         let end = self.input.cur_pos();
-        if !terminated {
-            self.errors.push(Error::new(
-                Span::new_with_checked(start, end),
-                Severity::Error,
-                ErrorCode::UnterminatedString,
-                "unterminated template literal",
-            ));
-        }
 
+        let value = self.finalize_value(out, content_start, chunk_start, value_end);
         Token {
             kind: TokenKind::Template,
             span: Span::new_with_checked(start, end),
             had_line_break_before,
-            value: Some(TokenValue::Str(Atom::new(out))),
+            value: Some(TokenValue::Str(value)),
             flags,
         }
     }
@@ -1024,56 +1126,111 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn read_word(&mut self, had_line_break_before: bool) -> Token {
+    #[inline(always)]
+    fn is_ident_start_ascii(byte: u8) -> bool {
+        matches!(byte, b'$' | b'_' | b'a'..=b'z' | b'A'..=b'Z')
+    }
+
+    #[inline(always)]
+    fn is_ident_continue_ascii(byte: u8) -> bool {
+        Self::is_ident_start_ascii(byte) || byte.is_ascii_digit()
+    }
+
+    fn read_word_as_str_with(&mut self) -> (Cow<'a, str>, bool) {
         let start = self.input.cur_pos();
-        let mut out = String::new();
+
+        if let Some(c) = self.input.cur_as_ascii() {
+            if Self::is_ident_start_ascii(c) {
+                self.bump_ascii();
+
+                let next_byte = byte_search! {
+                    lexer: self,
+                    table: NOT_ASCII_ID_CONTINUE_TABLE,
+                    handle_eof: {
+                        let value = unsafe { self.input.slice_str(start, self.input.cur_pos()) };
+                        return (Cow::Borrowed(value), false);
+                    },
+                };
+
+                if !next_byte.is_ascii() || next_byte == b'\\' {
+                    return self.read_word_as_str_with_slow_path(start, false);
+                }
+
+                let value = unsafe { self.input.slice_str(start, self.input.cur_pos()) };
+                return (Cow::Borrowed(value), false);
+            }
+        }
+
+        self.read_word_as_str_with_slow_path(start, true)
+    }
+
+    #[cold]
+    fn read_word_as_str_with_slow_path(
+        &mut self,
+        start: BytePos,
+        mut first: bool,
+    ) -> (Cow<'a, str>, bool) {
         let mut has_escape = false;
+        let mut out: Option<String> = None;
+        let mut slice_start = start;
 
         loop {
+            if let Some(ch) = self.input.cur_as_ascii() {
+                if Self::is_ident_continue_ascii(ch) || (first && Self::is_ident_start_ascii(ch)) {
+                    self.bump_ascii();
+                    first = false;
+                    continue;
+                }
+
+                if ch == b'\\' && self.input.peek() == Some(b'u') {
+                    has_escape = true;
+                    self.append_chunk(&mut out, slice_start, self.input.cur_pos());
+                    let buf = out.get_or_insert_with(String::new);
+                    if let Some(decoded) = self.read_unicode_escape() {
+                        buf.push(decoded);
+                        slice_start = self.input.cur_pos();
+                        first = false;
+                        continue;
+                    }
+                    break;
+                }
+
+                break;
+            }
+
             let Some(ch) = self.input.cur_as_char() else {
                 break;
             };
-
-            if ch == '\\' && self.input.peek() == Some(b'u') {
-                if let Some(decoded) = self.read_unicode_escape() {
-                    has_escape = true;
-                    out.push(decoded);
-                    continue;
-                }
-                break;
-            }
-
-            if out.is_empty() {
-                if Self::is_ident_start_char(ch) {
-                    self.bump_char();
-                    out.push(ch);
-                    continue;
-                }
-                break;
-            }
-
-            if Self::is_ident_continue_char(ch) {
+            if Self::is_ident_continue_char(ch) || (first && Self::is_ident_start_char(ch)) {
                 self.bump_char();
-                out.push(ch);
+                first = false;
                 continue;
             }
+
             break;
         }
 
         let end = self.input.cur_pos();
-        if out.is_empty() {
-            let raw = unsafe { self.input.slice_str(start, end) };
-            return Token {
-                kind: TokenKind::Ident,
-                span: Span::new_with_checked(start, end),
-                had_line_break_before,
-                value: Some(TokenValue::Ident(Atom::new(raw))),
-                flags: TokenFlags::default(),
-            };
+        if !has_escape {
+            let value = unsafe { self.input.slice_str(start, end) };
+            return (Cow::Borrowed(value), false);
         }
 
+        let mut buf = out.unwrap_or_default();
+        if slice_start < end {
+            let tail = unsafe { self.input.slice_str(slice_start, end) };
+            buf.push_str(tail);
+        }
+        (Cow::Owned(buf), true)
+    }
+
+    fn read_word(&mut self, had_line_break_before: bool) -> Token {
+        let start = self.input.cur_pos();
+        let (value, has_escape) = self.read_word_as_str_with();
+        let end = self.input.cur_pos();
+
         if !has_escape {
-            if let Some(keyword) = keyword_from_str(&out) {
+            if let Some(keyword) = keyword_from_str(value.as_ref()) {
                 return Token::simple(
                     TokenKind::Keyword(keyword),
                     Span::new_with_checked(start, end),
@@ -1086,7 +1243,7 @@ impl<'a> Lexer<'a> {
             kind: TokenKind::Ident,
             span: Span::new_with_checked(start, end),
             had_line_break_before,
-            value: Some(TokenValue::Ident(Atom::new(out))),
+            value: Some(TokenValue::Ident(Atom::new(value))),
             flags: TokenFlags {
                 escaped: has_escape,
                 contains_legacy_octal_escape: false,
@@ -1142,102 +1299,6 @@ impl<'a> Lexer<'a> {
             Some(ch) => Some(ch),
             None if (0xd800..=0xdfff).contains(&value) => Some('\u{FFFD}'),
             None => None,
-        }
-    }
-
-    fn skip_space_and_comments(&mut self) {
-        loop {
-            match self.input.cur_as_ascii() {
-                Some(b' ' | b'\t' | b'\x0b' | b'\x0c') => self.bump_ascii(),
-                Some(b'\n' | b'\r') => {
-                    self.bump_ascii();
-                    self.had_line_break_before = true;
-                }
-                Some(b'<') if self.input.is_str("<!--") => {
-                    self.bump_ascii();
-                    self.bump_ascii();
-                    self.bump_ascii();
-                    self.bump_ascii();
-                    while let Some(c) = self.input.cur_as_ascii() {
-                        if c == b'\n' || c == b'\r' {
-                            break;
-                        }
-                        self.bump_ascii();
-                    }
-                }
-                Some(b'-')
-                    if self.input.is_str("-->")
-                        && (self.had_line_break_before || self.is_first_token) =>
-                {
-                    self.bump_ascii();
-                    self.bump_ascii();
-                    self.bump_ascii();
-                    while let Some(c) = self.input.cur_as_ascii() {
-                        if c == b'\n' || c == b'\r' {
-                            break;
-                        }
-                        self.bump_ascii();
-                    }
-                }
-                Some(b'/') if self.input.peek() == Some(b'/') => {
-                    self.bump_ascii();
-                    self.bump_ascii();
-                    while let Some(c) = self.input.cur_as_ascii() {
-                        if c == b'\n' || c == b'\r' {
-                            break;
-                        }
-                        self.bump_ascii();
-                    }
-                }
-                Some(b'/') if self.input.peek() == Some(b'*') => {
-                    let start = self.input.cur_pos();
-                    self.bump_ascii();
-                    self.bump_ascii();
-                    let mut terminated = false;
-
-                    while let Some(c) = self.input.cur_as_char() {
-                        if c == '*' && self.input.peek() == Some(b'/') {
-                            self.bump_ascii();
-                            self.bump_ascii();
-                            terminated = true;
-                            break;
-                        }
-
-                        if matches!(c, '\n' | '\r' | '\u{2028}' | '\u{2029}') {
-                            self.had_line_break_before = true;
-                        }
-                        self.bump_char();
-                    }
-
-                    if !terminated {
-                        self.errors.push(Error::new(
-                            Span::new_with_checked(start, self.input.cur_pos()),
-                            Severity::Error,
-                            ErrorCode::UnterminatedBlockComment,
-                            "unterminated block comment",
-                        ));
-                        break;
-                    }
-                }
-                _ => {
-                    let Some(ch) = self.input.cur_as_char() else {
-                        break;
-                    };
-                    if ch.is_whitespace() || ch == '\u{feff}' {
-                        if matches!(ch, '\n' | '\r' | '\u{2028}' | '\u{2029}') {
-                            self.had_line_break_before = true;
-                        }
-                        self.bump_char();
-                        continue;
-                    }
-                    break;
-                }
-            }
-        }
-
-        if self.comments.is_some() {
-            // Comments are intentionally not persisted yet.
-            // This branch exists to keep constructor contracts explicit.
         }
     }
 
