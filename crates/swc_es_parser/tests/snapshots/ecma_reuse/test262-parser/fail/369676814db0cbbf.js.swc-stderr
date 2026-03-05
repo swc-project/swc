@@ -1,0 +1,8 @@
+  x member access is not allowed in binding patterns
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/369676814db0cbbf.js:1:1]
+ 1 | ({set a({e: a.b}){}})
+   :              ^
+   `----
+
+Advice: 
+  > code: InvalidAssignTarget

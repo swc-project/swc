@@ -1,0 +1,55 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 86..163,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 86..133,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 86..93,\n        sym: \"exports\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Member(\n    MemberExpr {\n        span: 93..99,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 94..97,\n                sym: \"foo\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 100..105,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Assign(\n    AssignExpr {\n        span: 98..133,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "Import(\n    ImportDecl {\n        span: 127..163,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 134..137,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 143..154,\n            value: \"./foo.cjs\",\n        },\n        with: [],\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

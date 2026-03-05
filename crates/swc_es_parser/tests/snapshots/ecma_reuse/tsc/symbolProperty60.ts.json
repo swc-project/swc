@@ -1,0 +1,92 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 76..412,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 152..164,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Expr(\n    ExprStmt {\n        span: 232..242,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 243..284,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 243..273,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 275..353,\n        ident: Ident {\n            span: 285..287,\n            sym: \"I3\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 294..319,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 295..303,\n                        name: Some(\n                            Ident {\n                                span: 295..303,\n                                sym: \"mySymbol\",\n                            },\n                        ),\n                        ty: None,\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 318..342,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 319..322,\n                        name: Some(\n                            Ident {\n                                span: 319..322,\n                                sym: \"key\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 3,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 344..412,\n        ident: Ident {\n            span: 354..356,\n            sym: \"I4\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 363..388,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 364..372,\n                        name: Some(\n                            Ident {\n                                span: 364..372,\n                                sym: \"mySymbol\",\n                            },\n                        ),\n                        ty: None,\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 387..412,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 388..391,\n                        name: Some(\n                            Ident {\n                                span: 388..391,\n                                sym: \"key\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 6,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 249..257,\n        sym: \"mySymbol\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    {
+      "id": 4294967299,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Keyword(\n    Number,\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Keyword(\n    Number,\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Keyword(\n    Boolean,\n)"
+    }
+  ]
+}

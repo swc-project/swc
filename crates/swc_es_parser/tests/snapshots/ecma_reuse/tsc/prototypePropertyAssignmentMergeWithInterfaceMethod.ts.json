@@ -1,0 +1,108 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 142..660,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Expr(\n    ExprStmt {\n        span: 471..502,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Expr(\n    ExprStmt {\n        span: 500..609,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Expr(\n    ExprStmt {\n        span: 607..660,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 150..472,\n        declare: true,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 160..162,\n                sym: \"lf\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 649..654,\n        sym: \"scope\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Expr(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 500..502,\n        sym: \"lf\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Member(\n    MemberExpr {\n        span: 502..516,\n        obj: Id {\n            index: 1,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 503..514,\n                sym: \"Transaction\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Assign(\n    AssignExpr {\n        span: 515..531,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Ident(\n    Ident {\n        span: 607..609,\n        sym: \"lf\",\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Member(\n    MemberExpr {\n        span: 609..622,\n        obj: Id {\n            index: 5,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 610..621,\n                sym: \"Transaction\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Member(\n    MemberExpr {\n        span: 621..632,\n        obj: Id {\n            index: 6,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 622..631,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Member(\n    MemberExpr {\n        span: 631..639,\n        obj: Id {\n            index: 7,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 632..637,\n                sym: \"begin\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Function(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Assign(\n    AssignExpr {\n        span: 638..659,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [
+    {
+      "id": 4294967297,
+      "node": "Function {\n    span: 517..531,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "Function {\n    span: 640..659,\n    params: [\n        Param {\n            span: 640..640,\n            decorators: [],\n            pat: Id {\n                index: 1,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    }
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

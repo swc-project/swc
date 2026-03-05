@@ -1,0 +1,16 @@
+  x import/export is not allowed in script mode
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/7fdf990c6f42edcd.js:1:1]
+ 1 | export * from "a"
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: ImportExportInScript
+  x unexpected token while parsing expression
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/7fdf990c6f42edcd.js:1:1]
+ 1 | export * from "a"
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

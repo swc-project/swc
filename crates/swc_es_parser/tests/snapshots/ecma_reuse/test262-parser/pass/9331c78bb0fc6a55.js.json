@@ -1,0 +1,33 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 26..29,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 26..29,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 27..28,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Unary(\n    UnaryExpr {\n        span: 26..29,\n        op: Minus,\n        arg: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

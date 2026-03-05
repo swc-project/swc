@@ -1,0 +1,46 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..35,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 1..18,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Block(\n    BlockStmt {\n        span: 19..27,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Block(\n    BlockStmt {\n        span: 32..35,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Try(\n    TryStmt {\n        span: 15..35,\n        block: Id {\n            index: 1,\n            generation: 1,\n        },\n        handler: Some(\n            CatchClause {\n                span: 22..35,\n                param: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                body: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ),\n        finalizer: None,\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"a\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1..13,\n            value: \"use strict\",\n        },\n    ),\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

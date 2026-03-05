@@ -1,5 +1,5 @@
   x expected {, got Eof
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/missing-fn-expr-body/anonymous/input.ts:1:21]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/missing-fn-expr-body/anonymous/input.ts:1:21]
  1 | let f = function ()
    `----
 

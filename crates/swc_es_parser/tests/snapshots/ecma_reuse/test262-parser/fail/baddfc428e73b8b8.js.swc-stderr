@@ -1,0 +1,8 @@
+  x import/export is not allowed in script mode
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/baddfc428e73b8b8.js:1:1]
+ 1 | import { a as enum } from 'foo'
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: ImportExportInScript

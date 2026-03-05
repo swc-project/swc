@@ -1,0 +1,7 @@
+  x expected declaration
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/814e26b2395ad89d.module.js:1:1]
+ 1 | export 
+   `----
+
+Advice: 
+  > code: InvalidStatement

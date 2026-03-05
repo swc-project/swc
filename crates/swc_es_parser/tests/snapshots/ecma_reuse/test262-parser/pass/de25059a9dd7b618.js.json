@@ -1,0 +1,82 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..50,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 20..45,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Expr(\n    ExprStmt {\n        span: 1..50,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 20..24,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 34..35,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Unary(\n    UnaryExpr {\n        span: 29..36,\n        op: Void,\n        arg: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 41..42,\n            value: 2.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Unary(\n    UnaryExpr {\n        span: 36..43,\n        op: Void,\n        arg: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Cond(\n    CondExpr {\n        span: 28..43,\n        test: Id {\n            index: 1,\n            generation: 1,\n        },\n        cons: Id {\n            index: 3,\n            generation: 1,\n        },\n        alt: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Paren(\n    ParenExpr {\n        span: 26..45,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Binary(\n    BinaryExpr {\n        span: 24..45,\n        op: NotEq,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Call(\n    CallExpr {\n        span: 45..48,\n        callee: Id {\n            index: 9,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Paren(\n    ParenExpr {\n        span: 1..49,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [
+    {
+      "id": 4294967297,
+      "node": "Function {\n    span: 2..46,\n    params: [],\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    }
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

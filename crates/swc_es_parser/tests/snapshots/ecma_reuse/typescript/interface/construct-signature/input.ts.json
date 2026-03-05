@@ -1,0 +1,38 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..44,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 1..44,\n        ident: Ident {\n            span: 11..12,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..43,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 24..34,\n                        name: Some(\n                            Ident {\n                                span: 24..25,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 0,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    {
+      "id": 4294967297,
+      "node": "Keyword(\n    Number,\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Keyword(\n    Void,\n)"
+    }
+  ]
+}

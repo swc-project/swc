@@ -1,0 +1,112 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 11..200,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Expr(\n    ExprStmt {\n        span: 184..200,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 11..79,\n        ident: Ident {\n            span: 16..23,\n            sym: \"ObjType\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Var(\n    VarDecl {\n        span: 74..159,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 74..159,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Var(\n    VarDecl {\n        span: 154..190,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 154..190,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 80..83,\n        sym: \"obj\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 170..174,\n        sym: \"rest\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Object(\n    ObjectPat {\n        span: 160..178,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 162..166,\n                    key: Ident {\n                        span: 162..165,\n                        sym: \"foo\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 167..176,\n                    arg: Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 114..119,\n            value: \"bar\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 128..133,\n            value: \"qux\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 143..149,\n            value: \"quuz\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Object(\n    ObjectExpr {\n        span: 105..159,\n        props: [\n            KeyValueProp {\n                span: 109..120,\n                key: Ident(\n                    Ident {\n                        span: 109..112,\n                        sym: \"foo\",\n                    },\n                ),\n                value: Id {\n                    index: 0,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 123..134,\n                key: Ident(\n                    Ident {\n                        span: 123..126,\n                        sym: \"baz\",\n                    },\n                ),\n                value: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 137..150,\n                key: Ident(\n                    Ident {\n                        span: 137..141,\n                        sym: \"quux\",\n                    },\n                ),\n                value: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Ident(\n    Ident {\n        span: 179..182,\n        sym: \"obj\",\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Ident(\n    Ident {\n        span: 191..195,\n        sym: \"rest\",\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Member(\n    MemberExpr {\n        span: 195..200,\n        obj: Id {\n            index: 5,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 196..199,\n                sym: \"baz\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Unary(\n    UnaryExpr {\n        span: 184..200,\n        op: Delete,\n        arg: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    {
+      "id": 4294967297,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "TypeLit(\n    TsTypeLit {\n        span: 26..79,\n        members: [\n            TsTypeMember {\n                span: 30..47,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 30..33,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 44..62,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 44..47,\n                            sym: \"baz\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 58..72,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 58..62,\n                            sym: \"quux\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    }
+  ]
+}

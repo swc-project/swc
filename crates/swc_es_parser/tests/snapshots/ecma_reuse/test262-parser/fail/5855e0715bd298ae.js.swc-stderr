@@ -1,0 +1,16 @@
+  x import/export is not allowed in script mode
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/5855e0715bd298ae.js:1:1]
+ 1 | import default from "foo"
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: ImportExportInScript
+  x unexpected token while parsing expression
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/5855e0715bd298ae.js:1:1]
+ 1 | import default from "foo"
+   :        ^^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

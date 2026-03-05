@@ -1,0 +1,8 @@
+  x invalid unicode escape sequence
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/73c84046ac613107.js:1:1]
+ 1 | "\ux";
+   :  ^^
+   `----
+
+Advice: 
+  > code: InvalidEscape

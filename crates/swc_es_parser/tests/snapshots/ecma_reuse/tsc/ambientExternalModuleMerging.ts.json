@@ -1,0 +1,128 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 65..298,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 111..127,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 111..123,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Var(\n    VarDecl {\n        span: 124..198,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 124..136,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Var(\n    VarDecl {\n        span: 223..239,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 223..237,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 199..257,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 206..209,\n                value: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Var(\n    VarDecl {\n        span: 282..298,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 282..296,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 258..298,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 265..268,\n                value: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 115..116,\n        sym: \"x\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Assign(\n    AssignPat {\n        span: 117..123,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 128..129,\n        sym: \"y\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Assign(\n    AssignPat {\n        span: 130..136,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Ident(\n    Ident {\n        span: 227..228,\n        sym: \"x\",\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Ident(\n    Ident {\n        span: 286..287,\n        sym: \"y\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 119..120,\n        sym: \"M\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Member(\n    MemberExpr {\n        span: 120..123,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 121..122,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 132..133,\n        sym: \"M\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Member(\n    MemberExpr {\n        span: 133..136,\n        obj: Id {\n            index: 2,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 134..135,\n                sym: \"y\",\n            },\n        ),\n    },\n)"
+    }
+  ],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "Import(\n    ImportDecl {\n        span: 65..114,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 72..73,\n                        sym: \"M\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 216..239,\n        decl: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 275..298,\n        decl: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

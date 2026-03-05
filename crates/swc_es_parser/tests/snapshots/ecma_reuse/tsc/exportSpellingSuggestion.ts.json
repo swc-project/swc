@@ -1,0 +1,80 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 20..172,\n    kind: Module,\n    body: [\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Throw(\n    ThrowStmt {\n        span: 77..116,\n        arg: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Fn(\n    FnDecl {\n        span: 27..143,\n        ident: Ident {\n            span: 36..47,\n            sym: \"assertNever\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"x\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 58..61,\n        sym: \"msg\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 87..92,\n        sym: \"Error\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 93..106,\n            value: \"Unexpected \",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 109..112,\n        sym: \"msg\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Binary(\n    BinaryExpr {\n        span: 107..113,\n        op: Add,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Call(\n    CallExpr {\n        span: 92..114,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 3,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "New(\n    NewExpr {\n        span: 83..114,\n        callee: Id {\n            index: 4,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    }
+  ],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 20..143,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Import(\n    ImportDecl {\n        span: 137..172,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 146..157,\n                        sym: \"assertNevar\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 146..157,\n                            sym: \"assertNevar\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 165..170,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

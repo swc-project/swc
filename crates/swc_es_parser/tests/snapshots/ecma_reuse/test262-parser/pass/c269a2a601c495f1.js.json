@@ -1,0 +1,67 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..47,\n    kind: Script,\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 20..34,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Empty(\n    EmptyStmt {\n        span: 39..40,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "For(\n    ForStmt {\n        span: 31..42,\n        head: Classic(\n            ForClassicHead {\n                init: None,\n                test: None,\n                update: None,\n            },\n        ),\n        body: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Expr(\n    ExprStmt {\n        span: 1..47,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"a\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 24..25,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Assign(\n    AssignExpr {\n        span: 22..26,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Call(\n    CallExpr {\n        span: 42..45,\n        callee: Id {\n            index: 3,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Paren(\n    ParenExpr {\n        span: 1..46,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [
+    {
+      "id": 4294967297,
+      "node": "Function {\n    span: 2..43,\n    params: [],\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    }
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

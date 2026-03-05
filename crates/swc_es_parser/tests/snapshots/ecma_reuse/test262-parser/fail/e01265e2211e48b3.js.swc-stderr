@@ -1,0 +1,8 @@
+  x expected ;, got RParen
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/e01265e2211e48b3.js:1:1]
+ 1 | for(let a = 0 in b);
+   :                   ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

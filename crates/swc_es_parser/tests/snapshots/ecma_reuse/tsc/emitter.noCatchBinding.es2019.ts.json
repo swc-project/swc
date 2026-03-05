@@ -1,0 +1,81 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 20..146,\n    kind: Script,\n    body: [\n        Id {\n            index: 14,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Block(\n    BlockStmt {\n        span: 43..52,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Block(\n    BlockStmt {\n        span: 53..64,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Try(\n    TryStmt {\n        span: 39..64,\n        block: Id {\n            index: 0,\n            generation: 1,\n        },\n        handler: Some(\n            CatchClause {\n                span: 47..64,\n                param: None,\n                body: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n        ),\n        finalizer: None,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Block(\n    BlockStmt {\n        span: 65..74,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Block(\n    BlockStmt {\n        span: 90..99,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Block(\n    BlockStmt {\n        span: 100..109,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Try(\n    TryStmt {\n        span: 86..109,\n        block: Id {\n            index: 4,\n            generation: 1,\n        },\n        handler: Some(\n            CatchClause {\n                span: 94..109,\n                param: None,\n                body: Id {\n                    index: 5,\n                    generation: 1,\n                },\n            },\n        ),\n        finalizer: None,\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Block(\n    BlockStmt {\n        span: 75..117,\n        stmts: [\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Try(\n    TryStmt {\n        span: 61..117,\n        block: Id {\n            index: 3,\n            generation: 1,\n        },\n        handler: Some(\n            CatchClause {\n                span: 69..117,\n                param: None,\n                body: Id {\n                    index: 7,\n                    generation: 1,\n                },\n            },\n        ),\n        finalizer: None,\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Block(\n    BlockStmt {\n        span: 118..127,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Block(\n    BlockStmt {\n        span: 128..139,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Block(\n    BlockStmt {\n        span: 140..145,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Try(\n    TryStmt {\n        span: 114..145,\n        block: Id {\n            index: 9,\n            generation: 1,\n        },\n        handler: Some(\n            CatchClause {\n                span: 122..139,\n                param: None,\n                body: Id {\n                    index: 10,\n                    generation: 1,\n                },\n            },\n        ),\n        finalizer: Some(\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Fn(\n    FnDecl {\n        span: 20..146,\n        ident: Ident {\n            span: 29..30,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n            Id {\n                index: 8,\n                generation: 1,\n            },\n            Id {\n                index: 12,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

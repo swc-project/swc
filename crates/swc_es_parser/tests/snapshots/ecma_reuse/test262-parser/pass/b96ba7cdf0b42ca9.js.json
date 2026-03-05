@@ -1,0 +1,55 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..22,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967298,
+      "node": "Expr(\n    ExprStmt {\n        span: 1..22,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"a\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Call(\n    CallExpr {\n        span: 17..20,\n        callee: Id {\n            index: 1,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Call(\n    CallExpr {\n        span: 15..21,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Paren(\n    ParenExpr {\n        span: 1..22,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [
+    {
+      "id": 4294967297,
+      "node": "Function {\n    span: 2..16,\n    params: [\n        Param {\n            span: 2..2,\n            decorators: [],\n            pat: Id {\n                index: 0,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    }
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

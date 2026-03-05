@@ -1,0 +1,8 @@
+  x unexpected token while parsing expression
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/c49106fce7ac6b09.js:1:1]
+ 1 | ]
+   : ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

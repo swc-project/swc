@@ -1,0 +1,91 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..82,\n    kind: Script,\n    body: [\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Expr(\n    ExprStmt {\n        span: 51..66,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Return(\n    ReturnStmt {\n        span: 60..78,\n        arg: Some(\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Block(\n    BlockStmt {\n        span: 45..80,\n        stmts: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "If(\n    IfStmt {\n        span: 36..80,\n        test: Id {\n            index: 2,\n            generation: 1,\n        },\n        cons: Id {\n            index: 4,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Expr(\n    ExprStmt {\n        span: 1..82,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Fn(\n    FnDecl {\n        span: 18..38,\n        ident: Ident {\n            span: 27..28,\n            sym: \"b\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
+    }
+  ],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Call(\n    CallExpr {\n        span: 41..44,\n        callee: Id {\n            index: 1,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Ident(\n    Ident {\n        span: 51..52,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Call(\n    CallExpr {\n        span: 52..55,\n        callee: Id {\n            index: 3,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 72..73,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Unary(\n    UnaryExpr {\n        span: 67..74,\n        op: Void,\n        arg: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Call(\n    CallExpr {\n        span: 2..82,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 7,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [
+    {
+      "id": 4294967297,
+      "node": "Function {\n    span: 3..81,\n    params: [],\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    }
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,227 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 18..817,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Expr(\n    ExprStmt {\n        span: 92..126,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Expr(\n    ExprStmt {\n        span: 107..146,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Expr(\n    ExprStmt {\n        span: 128..166,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Expr(\n    ExprStmt {\n        span: 148..192,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Expr(\n    ExprStmt {\n        span: 168..223,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Expr(\n    ExprStmt {\n        span: 194..258,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Expr(\n    ExprStmt {\n        span: 225..285,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Expr(\n    ExprStmt {\n        span: 261..323,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Expr(\n    ExprStmt {\n        span: 287..359,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Expr(\n    ExprStmt {\n        span: 325..395,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Expr(\n    ExprStmt {\n        span: 361..441,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Expr(\n    ExprStmt {\n        span: 397..497,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Expr(\n    ExprStmt {\n        span: 443..537,\n        expr: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Expr(\n    ExprStmt {\n        span: 500..588,\n        expr: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Expr(\n    ExprStmt {\n        span: 539..637,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Expr(\n    ExprStmt {\n        span: 590..686,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Expr(\n    ExprStmt {\n        span: 639..745,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Expr(\n    ExprStmt {\n        span: 688..816,\n        expr: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Expr(\n    ExprStmt {\n        span: 747..817,\n        expr: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 18..34,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 18..30,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Var(\n    VarDecl {\n        span: 31..47,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 31..43,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Var(\n    VarDecl {\n        span: 44..105,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 44..50,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 22..24,\n        sym: \"t1\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Assign(\n    AssignPat {\n        span: 25..30,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 35..37,\n        sym: \"t2\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Assign(\n    AssignPat {\n        span: 38..43,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"s\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 27..29,\n            value: 10.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 40..42,\n            value: 10.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Template(\n    TemplateExpr {\n        span: 92..105,\n        quasis: [\n            StrLit {\n                span: 92..105,\n                value: \"${t1 ** t2}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Template(\n    TemplateExpr {\n        span: 107..126,\n        quasis: [\n            StrLit {\n                span: 107..126,\n                value: \"${t1 ** t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Template(\n    TemplateExpr {\n        span: 128..146,\n        quasis: [\n            StrLit {\n                span: 128..146,\n                value: \"${t1 + t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Template(\n    TemplateExpr {\n        span: 148..166,\n        quasis: [\n            StrLit {\n                span: 148..166,\n                value: \"${t1 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Template(\n    TemplateExpr {\n        span: 168..192,\n        quasis: [\n            StrLit {\n                span: 168..192,\n                value: \"${t1 + t2 ** t2 + t1 }\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Template(\n    TemplateExpr {\n        span: 194..223,\n        quasis: [\n            StrLit {\n                span: 194..223,\n                value: \"${typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Template(\n    TemplateExpr {\n        span: 225..258,\n        quasis: [\n            StrLit {\n                span: 225..258,\n                value: \"${1 + typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Template(\n    TemplateExpr {\n        span: 261..285,\n        quasis: [\n            StrLit {\n                span: 261..285,\n                value: \"${t1 ** t2}${t1 ** t2}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Template(\n    TemplateExpr {\n        span: 287..323,\n        quasis: [\n            StrLit {\n                span: 287..323,\n                value: \"${t1 ** t2 ** t1}${t1 ** t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Template(\n    TemplateExpr {\n        span: 325..359,\n        quasis: [\n            StrLit {\n                span: 325..359,\n                value: \"${t1 + t2 ** t1}${t1 + t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Template(\n    TemplateExpr {\n        span: 361..395,\n        quasis: [\n            StrLit {\n                span: 361..395,\n                value: \"${t1 ** t2 + t1}${t1 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Template(\n    TemplateExpr {\n        span: 397..441,\n        quasis: [\n            StrLit {\n                span: 397..441,\n                value: \"${t1 + t2 ** t2 + t1}${t1 + t2 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Template(\n    TemplateExpr {\n        span: 443..497,\n        quasis: [\n            StrLit {\n                span: 443..497,\n                value: \"${typeof (t1 ** t2 ** t1)}${typeof (t1 ** t2 ** t1)}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Template(\n    TemplateExpr {\n        span: 500..537,\n        quasis: [\n            StrLit {\n                span: 500..537,\n                value: \"${t1 ** t2} hello world ${t1 ** t2}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Template(\n    TemplateExpr {\n        span: 539..588,\n        quasis: [\n            StrLit {\n                span: 539..588,\n                value: \"${t1 ** t2 ** t1} hello world ${t1 ** t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Template(\n    TemplateExpr {\n        span: 590..637,\n        quasis: [\n            StrLit {\n                span: 590..637,\n                value: \"${t1 + t2 ** t1} hello world ${t1 + t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Template(\n    TemplateExpr {\n        span: 639..686,\n        quasis: [\n            StrLit {\n                span: 639..686,\n                value: \"${t1 ** t2 + t1} hello world ${t1 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Template(\n    TemplateExpr {\n        span: 688..745,\n        quasis: [\n            StrLit {\n                span: 688..745,\n                value: \"${t1 + t2 ** t2 + t1} hello world ${t1 + t2 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Template(\n    TemplateExpr {\n        span: 747..816,\n        quasis: [\n            StrLit {\n                span: 747..816,\n                value: \"${typeof (t1 ** t2 ** t1) } hello world ${typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

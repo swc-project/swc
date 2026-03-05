@@ -1,0 +1,85 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 168..254,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 188..204,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 188..201,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Class(\n    ClassDecl {\n        span: 208..239,\n        ident: Ident {\n            span: 208..208,\n            sym: \"default\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Var(\n    VarDecl {\n        span: 234..254,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 234..253,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 192..195,\n        sym: \"dec\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 240..245,\n        sym: \"after\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Assign(\n    AssignPat {\n        span: 246..253,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 204..207,\n        sym: \"dec\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 248..252,\n        },\n    ),\n)"
+    }
+  ],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 168..187,\n        src: None,\n        specifiers: [],\n        decl: None,\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 208..239,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [
+    {
+      "id": 4294967297,
+      "node": "Class {\n    span: 223..239,\n    decorators: [\n        Decorator {\n            span: 203..214,\n            expr: Id {\n                index: 0,\n                generation: 1,\n            },\n        },\n    ],\n    ident: None,\n    super_class: None,\n    body: [],\n}"
+    }
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

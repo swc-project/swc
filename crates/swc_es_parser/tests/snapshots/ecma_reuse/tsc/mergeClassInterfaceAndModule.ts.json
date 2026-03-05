@@ -1,0 +1,134 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 2..262,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Decl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Decl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Decl(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Decl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 2..25,\n        ident: Ident {\n            span: 12..14,\n            sym: \"C1\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Class(\n    ClassDecl {\n        span: 26..44,\n        ident: Ident {\n            span: 32..34,\n            sym: \"C1\",\n        },\n        declare: true,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 38..59,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 45..47,\n                sym: \"C1\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Class(\n    ClassDecl {\n        span: 60..81,\n        ident: Ident {\n            span: 66..68,\n            sym: \"C2\",\n        },\n        declare: true,\n        class: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 72..94,\n        ident: Ident {\n            span: 82..84,\n            sym: \"C2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 88..109,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 95..97,\n                sym: \"C2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Class(\n    ClassDecl {\n        span: 110..128,\n        ident: Ident {\n            span: 116..118,\n            sym: \"C3\",\n        },\n        declare: true,\n        class: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 122..144,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 129..131,\n                sym: \"C3\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 135..158,\n        ident: Ident {\n            span: 145..147,\n            sym: \"C3\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 152..172,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 159..161,\n                sym: \"C4\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Class(\n    ClassDecl {\n        span: 173..256,\n        ident: Ident {\n            span: 179..181,\n            sym: \"C4\",\n        },\n        declare: true,\n        class: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 247..262,\n        ident: Ident {\n            span: 257..259,\n            sym: \"C4\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+    }
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    {
+      "id": 4294967297,
+      "node": "Class {\n    span: 26..44,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 32..34,\n            sym: \"C1\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "Class {\n    span: 60..81,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 66..68,\n            sym: \"C2\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+    },
+    {
+      "id": 4294967299,
+      "node": "Class {\n    span: 110..128,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 116..118,\n            sym: \"C3\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+    },
+    {
+      "id": 4294967300,
+      "node": "Class {\n    span: 173..256,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 179..181,\n            sym: \"C4\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+    }
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

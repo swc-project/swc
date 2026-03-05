@@ -1,0 +1,7 @@
+  x unexpected eof
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/68f0106ad505b13f.js:1:1]
+ 1 | while(false)
+   `----
+
+Advice: 
+  > code: Eof

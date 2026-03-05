@@ -1,0 +1,74 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..29,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 24..29,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "For(\n    ForStmt {\n        span: 1..29,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Expr(\n                        Id {\n                            index: 2,\n                            generation: 1,\n                        },\n                    ),\n                ),\n                test: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n                update: Some(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n            },\n        ),\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 9..10,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Assign(\n    AssignExpr {\n        span: 7..11,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 16..17,\n            value: 2.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Binary(\n    BinaryExpr {\n        span: 14..18,\n        op: Lt,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        right: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Update(\n    UpdateExpr {\n        span: 20..23,\n        op: PlusPlus,\n        arg: Id {\n            index: 6,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Call(\n    CallExpr {\n        span: 25..29,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 9,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

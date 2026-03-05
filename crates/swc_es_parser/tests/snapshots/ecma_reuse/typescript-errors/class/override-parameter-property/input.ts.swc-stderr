@@ -1,5 +1,5 @@
   x expected ), got Keyword(Public)
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/class/override-parameter-property/input.ts:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/class/override-parameter-property/input.ts:2:1]
  1 | class C extends B {
  2 |   constructor(override public v: string)
    :                        ^^^^^^

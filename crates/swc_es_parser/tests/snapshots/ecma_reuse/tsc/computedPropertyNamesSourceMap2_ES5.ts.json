@@ -1,0 +1,80 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 37..127,\n    kind: Script,\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Debugger(\n    DebuggerStmt {\n        span: 73..81,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Return(\n    ReturnStmt {\n        span: 113..125,\n        arg: Some(\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 37..127,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 37..127,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 41..42,\n        sym: \"v\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Assign(\n    AssignPat {\n        span: 43..127,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 52..59,\n            value: \"hello\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 96..105,\n            value: \"goodbye\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 120..121,\n            value: 0.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Function(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Object(\n    ObjectExpr {\n        span: 45..127,\n        props: [\n            KeyValueProp {\n                span: 51..86,\n                key: Computed(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 91..127,\n                key: Computed(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [
+    {
+      "id": 4294967297,
+      "node": "Function {\n    span: 51..86,\n    params: [],\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "Function {\n    span: 91..127,\n    params: [],\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    }
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

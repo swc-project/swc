@@ -1,0 +1,64 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 17..58,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Class(\n    ClassDecl {\n        span: 17..32,\n        ident: Ident {\n            span: 23..24,\n            sym: \"D\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Var(\n    VarDecl {\n        span: 29..58,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 29..58,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 33..34,\n        sym: \"v\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Assign(\n    AssignPat {\n        span: 35..58,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 53..54,\n        sym: \"D\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Class(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    {
+      "id": 4294967297,
+      "node": "Class {\n    span: 17..32,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..24,\n            sym: \"D\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "Class {\n    span: 37..58,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ),\n    body: [],\n}"
+    }
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

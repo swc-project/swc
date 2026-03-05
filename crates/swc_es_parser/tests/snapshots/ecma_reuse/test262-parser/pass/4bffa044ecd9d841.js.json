@@ -1,0 +1,59 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..23,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 1..23,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..23,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"c\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Array(\n    ArrayPat {\n        span: 12..19,\n        elems: [\n            Some(\n                Id {\n                    index: 1,\n                    generation: 1,\n                },\n            ),\n            Some(\n                Id {\n                    index: 2,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Rest(\n    RestPat {\n        span: 9..19,\n        arg: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Array(\n    ArrayPat {\n        span: 5..21,\n        elems: [\n            Some(\n                Id {\n                    index: 0,\n                    generation: 1,\n                },\n            ),\n            Some(\n                Id {\n                    index: 4,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 22..23,\n        sym: \"d\",\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,38 +1,38 @@
   x Program
-    ,-[$DIR/../swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 |     // a
  10 | ,-> console.log(1);
  11 | `-> // b
     `----
   x ExprStmt
-    ,-[$DIR/../swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 |     // a
  10 | ,-> console.log(1);
  11 | `-> // b
     `----
   x CallExpr
-    ,-[$DIR/../swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     :            ^^^^
  11 | // b
     `----
   x MemberExpr
-    ,-[$DIR/../swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     :        ^^^^^
  11 | // b
     `----
   x IdentExpr
-    ,-[$DIR/../swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     : ^^^^^^^
  11 | // b
     `----
   x LitExpr
-    ,-[$DIR/../swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     :             ^

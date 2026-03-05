@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/variable-declarator/definite-assignment-not-allowed/input.ts:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/variable-declarator/definite-assignment-not-allowed/input.ts:1:1]
  1 | let {}! = {};
    :         ^
    `----

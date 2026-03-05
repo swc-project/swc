@@ -1,0 +1,38 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..19,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Block(\n    BlockStmt {\n        span: 16..19,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "For(\n    ForStmt {\n        span: 1..19,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Pat(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"a\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 11..14,\n        sym: \"let\",\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

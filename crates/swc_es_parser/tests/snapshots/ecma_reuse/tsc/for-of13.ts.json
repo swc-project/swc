@@ -1,0 +1,63 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 16..59,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Block(\n    BlockStmt {\n        span: 56..59,\n        stmts: [],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "For(\n    ForStmt {\n        span: 31..59,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Pat(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 16..34,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..30,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"v\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 36..37,\n        sym: \"v\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 42..44,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Array(\n    ArrayExpr {\n        span: 41..46,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Member(\n    MemberExpr {\n        span: 45..53,\n        obj: Id {\n            index: 2,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 46..52,\n                sym: \"values\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Call(\n    CallExpr {\n        span: 52..55,\n        callee: Id {\n            index: 3,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

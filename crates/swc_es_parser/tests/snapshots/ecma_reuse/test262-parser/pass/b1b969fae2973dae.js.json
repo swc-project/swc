@@ -1,0 +1,73 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..68,\n    kind: Script,\n    body: [\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 27..45,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Empty(\n    EmptyStmt {\n        span: 49..50,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "While(\n    WhileStmt {\n        span: 40..56,\n        test: Id {\n            index: 3,\n            generation: 1,\n        },\n        body: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Block(\n    BlockStmt {\n        span: 17..62,\n        stmts: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Expr(\n    ExprStmt {\n        span: 61..67,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Block(\n    BlockStmt {\n        span: 11..68,\n        stmts: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "While(\n    WhileStmt {\n        span: 1..68,\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n        body: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 8..9,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Call(\n    CallExpr {\n        span: 28..31,\n        callee: Id {\n            index: 1,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Ident(\n    Ident {\n        span: 47..48,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Call(\n    CallExpr {\n        span: 62..65,\n        callee: Id {\n            index: 4,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

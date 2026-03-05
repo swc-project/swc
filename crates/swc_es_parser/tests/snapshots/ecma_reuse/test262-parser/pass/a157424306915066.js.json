@@ -1,0 +1,59 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..41,\n    kind: Script,\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 26..37,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Expr(\n    ExprStmt {\n        span: 17..40,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Fn(\n    FnDecl {\n        span: 1..41,\n        ident: Ident {\n            span: 11..12,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 18..19,\n        sym: \"b\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 34..35,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Unary(\n    UnaryExpr {\n        span: 32..37,\n        op: Plus,\n        arg: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Yield(\n    YieldExpr {\n        span: 26..37,\n        arg: Some(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n        delegate: false,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Arrow(\n    ArrowExpr {\n        span: 17..38,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n        body: Block(\n            [\n                Id {\n                    index: 0,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: false,\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

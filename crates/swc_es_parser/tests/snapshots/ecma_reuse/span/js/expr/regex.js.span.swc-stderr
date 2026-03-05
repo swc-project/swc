@@ -1,50 +1,50 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
  1 | ,-> use(/a/g)
  2 | `-> use(/[a-zA-Z0-9]+/g)
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
  1 | ,-> use(/a/g)
  2 | `-> use(/[a-zA-Z0-9]+/g)
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
  1 | ,-> use(/a/g)
  2 | `-> use(/[a-zA-Z0-9]+/g)
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    : ^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    :     ^^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    :    ^^^^^^^^^^^^^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    :     ^^^^^^^^^^^^^^^^

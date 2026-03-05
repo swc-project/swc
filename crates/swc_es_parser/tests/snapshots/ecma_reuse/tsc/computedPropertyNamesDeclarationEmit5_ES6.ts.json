@@ -1,0 +1,132 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 39..149,\n    kind: Script,\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967298,
+      "node": "Return(\n    ReturnStmt {\n        span: 110..121,\n        arg: Some(\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 39..149,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 39..149,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"v\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 141..142,\n        sym: \"x\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Assign(\n    AssignPat {\n        span: 45..149,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 54..56,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 59..61,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Binary(\n    BinaryExpr {\n        span: 57..62,\n        op: Add,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 64..65,\n            value: 0.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 72..74,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 77..79,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Binary(\n    BinaryExpr {\n        span: 75..80,\n        op: Add,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        right: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 97..99,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 102..104,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Binary(\n    BinaryExpr {\n        span: 100..105,\n        op: Add,\n        left: Id {\n            index: 8,\n            generation: 1,\n        },\n        right: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 117..118,\n            value: 0.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Function(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 132..134,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 137..139,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Binary(\n    BinaryExpr {\n        span: 135..140,\n        op: Add,\n        left: Id {\n            index: 13,\n            generation: 1,\n        },\n        right: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Function(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Object(\n    ObjectExpr {\n        span: 47..149,\n        props: [\n            KeyValueProp {\n                span: 53..66,\n                key: Computed(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 3,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 71..87,\n                key: Computed(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 7,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 92..122,\n                key: Computed(\n                    Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 12,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 127..149,\n                key: Computed(\n                    Id {\n                        index: 15,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 16,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [
+    {
+      "id": 4294967297,
+      "node": "Function {\n    span: 71..87,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "Function {\n    span: 92..122,\n    params: [],\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967299,
+      "node": "Function {\n    span: 127..149,\n    params: [\n        Param {\n            span: 141..143,\n            decorators: [],\n            pat: Id {\n                index: 1,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    }
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

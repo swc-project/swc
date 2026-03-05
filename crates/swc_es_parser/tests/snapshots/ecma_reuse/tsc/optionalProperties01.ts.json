@@ -1,0 +1,112 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 51..238,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 51..138,\n        ident: Ident {\n            span: 61..64,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 69..99,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 69..78,\n                            sym: \"required1\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 90..119,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 90..99,\n                            sym: \"required2\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 111..131,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 111..119,\n                            sym: \"optional\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Var(\n    VarDecl {\n        span: 133..182,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 133..176,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Var(\n    VarDecl {\n        span: 177..238,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 177..237,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 139..143,\n        sym: \"foo1\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Assign(\n    AssignPat {\n        span: 144..176,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 183..187,\n        sym: \"foo2\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Assign(\n    AssignPat {\n        span: 188..237,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 159..166,\n            value: \"hello\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Object(\n    ObjectExpr {\n        span: 146..171,\n        props: [\n            KeyValueProp {\n                span: 148..168,\n                key: Ident(\n                    Ident {\n                        span: 148..157,\n                        sym: \"required1\",\n                    },\n                ),\n                value: Id {\n                    index: 0,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "TsAs(\n    TsAsExpr {\n        span: 169..176,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n        ty: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 203..210,\n            value: \"hello\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 222..227,\n            value: \"bar\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Object(\n    ObjectExpr {\n        span: 190..232,\n        props: [\n            KeyValueProp {\n                span: 192..211,\n                key: Ident(\n                    Ident {\n                        span: 192..201,\n                        sym: \"required1\",\n                    },\n                ),\n                value: Id {\n                    index: 3,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 212..229,\n                key: Ident(\n                    Ident {\n                        span: 212..220,\n                        sym: \"optional\",\n                    },\n                ),\n                value: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "TsAs(\n    TsAsExpr {\n        span: 230..237,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n        ty: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    {
+      "id": 4294967297,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 172..176,\n        name: Ident {\n            span: 172..176,\n            sym: \"Foo\",\n        },\n        type_args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 233..237,\n        name: Ident {\n            span: 233..237,\n            sym: \"Foo\",\n        },\n        type_args: [],\n    },\n)"
+    }
+  ]
+}

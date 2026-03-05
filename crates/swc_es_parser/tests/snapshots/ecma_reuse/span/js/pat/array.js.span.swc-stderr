@@ -1,55 +1,55 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x VarDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ArrayPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :      ^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :         ^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :            ^
    `----
   x RestPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :               ^^^^^^^^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :                  ^^^^
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :                             ^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :                          ^^^
    `----

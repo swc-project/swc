@@ -1,44 +1,44 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | ,-> const foo = 3;
  2 | `-> export { foo as "str" };
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | ,-> const foo = 3;
  2 | `-> export { foo as "str" };
    `----
   x VarDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | ,-> const foo = 3;
  2 | `-> export { foo as "str" };
    `----
   x AssignPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    :           ^^^^
  2 | export { foo as "str" };
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    :       ^^^
  2 | export { foo as "str" };
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    :             ^
  2 | export { foo as "str" };
    `----
   x ModuleDeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:2:1]
  1 | const foo = 3;
  2 | export { foo as "str" };
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExportNamedDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:2:1]
  1 | const foo = 3;
  2 | export { foo as "str" };
    : ^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -1,5 +1,5 @@
   x expected identifier, got Lt
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/instantiation-expr/case2/input.ts:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/instantiation-expr/case2/input.ts:1:1]
  1 | const b1 = f?.<number>;
    :               ^
    `----

@@ -1,0 +1,8 @@
+  x expected identifier, got Comma
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/e07ef2bccb56a292.module.js:1:1]
+ 1 | export {,,}
+   :         ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

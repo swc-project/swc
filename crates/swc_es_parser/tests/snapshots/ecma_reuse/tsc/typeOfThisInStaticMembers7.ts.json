@@ -1,0 +1,164 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 39..213,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Class(\n    ClassDecl {\n        span: 39..102,\n        ident: Ident {\n            span: 45..46,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Class(\n    ClassDecl {\n        span: 97..213,\n        ident: Ident {\n            span: 103..104,\n            sym: \"D\",\n        },\n        declare: false,\n        class: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 64..65,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 82..86,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Member(\n    MemberExpr {\n        span: 86..90,\n        obj: Id {\n            index: 1,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 87..88,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 91..92,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Binary(\n    BinaryExpr {\n        span: 89..93,\n        op: Add,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Ident(\n    Ident {\n        span: 113..114,\n        sym: \"C\",\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 132..133,\n            value: 2.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Ident(\n    Ident {\n        span: 150..154,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Member(\n    MemberExpr {\n        span: 154..158,\n        obj: Id {\n            index: 8,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 155..156,\n                sym: \"c\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 159..160,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Binary(\n    BinaryExpr {\n        span: 157..161,\n        op: Add,\n        left: Id {\n            index: 9,\n            generation: 1,\n        },\n        right: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 177..178,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Ident(\n    Ident {\n        span: 182..187,\n        sym: \"super\",\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Member(\n    MemberExpr {\n        span: 187..190,\n        obj: Id {\n            index: 13,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 188..189,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Paren(\n    ParenExpr {\n        span: 181..192,\n        expr: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Binary(\n    BinaryExpr {\n        span: 179..192,\n        op: Add,\n        left: Id {\n            index: 12,\n            generation: 1,\n        },\n        right: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Ident(\n    Ident {\n        span: 194..198,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Member(\n    MemberExpr {\n        span: 198..202,\n        obj: Id {\n            index: 17,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 199..200,\n                sym: \"c\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 203..204,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Binary(\n    BinaryExpr {\n        span: 201..205,\n        op: Add,\n        left: Id {\n            index: 18,\n            generation: 1,\n        },\n        right: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Paren(\n    ParenExpr {\n        span: 193..207,\n        expr: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Binary(\n    BinaryExpr {\n        span: 191..207,\n        op: Add,\n        left: Id {\n            index: 16,\n            generation: 1,\n        },\n        right: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 208..209,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Binary(\n    BinaryExpr {\n        span: 206..210,\n        op: Add,\n        left: Id {\n            index: 22,\n            generation: 1,\n        },\n        right: Id {\n            index: 23,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    {
+      "id": 4294967297,
+      "node": "Class {\n    span: 39..102,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 45..46,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "Class {\n    span: 97..213,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 103..104,\n            sym: \"D\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ),\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "class_members": [
+    {
+      "id": 4294967297,
+      "node": "Prop(\n    ClassProp {\n        span: 53..77,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 60..61,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Prop(\n    ClassProp {\n        span: 71..95,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 78..79,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Prop(\n    ClassProp {\n        span: 121..145,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 128..129,\n                sym: \"c\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Prop(\n    ClassProp {\n        span: 139..172,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 146..147,\n                sym: \"d\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Prop(\n    ClassProp {\n        span: 166..212,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 173..174,\n                sym: \"e\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 24,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    }
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

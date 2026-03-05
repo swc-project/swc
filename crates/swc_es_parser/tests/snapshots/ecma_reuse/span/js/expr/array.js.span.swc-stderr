@@ -1,40 +1,40 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    : ^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    : ^^^^^^^^^^^^^^^^^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    : ^^^^^^^^^^^^^^^^^^^
    `----
   x ArrayExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :  ^^^^^^^^^^^^^^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :   ^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :      ^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :         ^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :               ^^^
    `----

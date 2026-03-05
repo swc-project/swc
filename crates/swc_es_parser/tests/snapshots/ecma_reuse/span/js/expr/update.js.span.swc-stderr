@@ -1,82 +1,82 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:1:1]
  1 | ,-> ++a
  2 | |   b++
  3 | |   c--
  4 | `-> --d
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:1:1]
  1 | ,-> ++a
  2 | `-> b++
  3 |     c--
    `----
   x UpdateExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:1:1]
  1 | ,-> ++a
  2 | `-> b++
  3 |     c--
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:1:1]
  1 | ++a
    :   ^
  2 | b++
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:2:1]
  1 |     ++a
  2 | ,-> b++
  3 | `-> c--
  4 |     --d
    `----
   x UpdateExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:2:1]
  1 |     ++a
  2 | ,-> b++
  3 | `-> c--
  4 |     --d
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:2:1]
  1 | ++a
  2 | b++
    : ^
  3 | c--
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:3:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:3:1]
  2 |     b++
  3 | ,-> c--
  4 | `-> --d
    `----
   x UpdateExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:3:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:3:1]
  2 |     b++
  3 | ,-> c--
  4 | `-> --d
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:3:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:3:1]
  2 | b++
  3 | c--
    : ^
  4 | --d
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:4:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    : ^^^
    `----
   x UpdateExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:4:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    : ^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/update.js:4:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    :   ^

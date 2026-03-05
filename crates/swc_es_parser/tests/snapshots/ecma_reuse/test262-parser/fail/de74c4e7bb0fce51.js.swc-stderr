@@ -1,0 +1,7 @@
+  x unexpected eof
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/de74c4e7bb0fce51.js:1:14]
+ 1 | const x = 0,
+   `----
+
+Advice: 
+  > code: Eof

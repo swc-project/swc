@@ -1,0 +1,55 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..26,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967298,
+      "node": "Expr(\n    ExprStmt {\n        span: 1..26,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Object(\n    ObjectPat {\n        span: 11..19,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 12..18,\n                    key: Ident {\n                        span: 12..13,\n                        sym: \"b\",\n                    },\n                    value: Some(\n                        Id {\n                            index: 0,\n                            generation: 1,\n                        },\n                    ),\n                },\n            ),\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Array(\n    ArrayPat {\n        span: 10..20,\n        elems: [\n            Some(\n                Id {\n                    index: 0,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 16..17,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Object(\n    ObjectExpr {\n        span: 2..26,\n        props: [\n            KeyValueProp {\n                span: 4..23,\n                key: Ident(\n                    Ident {\n                        span: 8..9,\n                        sym: \"a\",\n                    },\n                ),\n                value: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Paren(\n    ParenExpr {\n        span: 1..26,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [
+    {
+      "id": 4294967297,
+      "node": "Function {\n    span: 4..23,\n    params: [\n        Param {\n            span: 10..20,\n            decorators: [],\n            pat: Id {\n                index: 1,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    }
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

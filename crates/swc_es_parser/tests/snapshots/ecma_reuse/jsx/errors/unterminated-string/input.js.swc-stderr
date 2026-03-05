@@ -1,0 +1,15 @@
+  x unterminated string literal
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/jsx/errors/unterminated-string/input.js:1:1]
+ 1 | <foo bar="
+   :          ^
+   `----
+
+Advice: 
+  > code: UnterminatedString
+  x expected >, got Eof
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/jsx/errors/unterminated-string/input.js:1:12]
+ 1 | <foo bar="
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,45 +1,45 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x VarDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ArrayPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :      ^
    `----
   x AssignPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :           ^^^^^^^^^^^^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :         ^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :             ^^^^^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :                          ^^^
    `----

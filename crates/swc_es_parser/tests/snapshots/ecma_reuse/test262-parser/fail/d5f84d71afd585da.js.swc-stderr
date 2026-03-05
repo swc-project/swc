@@ -1,0 +1,8 @@
+  x expected }, got LBrace
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/d5f84d71afd585da.js:1:1]
+ 1 | ({ set: s(a, b) { } })
+   :                 ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

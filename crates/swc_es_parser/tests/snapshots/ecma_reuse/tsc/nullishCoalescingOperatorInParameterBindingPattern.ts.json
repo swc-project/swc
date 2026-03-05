@@ -1,0 +1,95 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 116..200,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Expr(\n    ExprStmt {\n        span: 163..200,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 116..164,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 116..162,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 122..123,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Assign(\n    AssignPat {\n        span: 124..162,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 181..182,\n        sym: \"c\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Assign(\n    AssignPat {\n        span: 183..189,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Object(\n    ObjectPat {\n        span: 165..190,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 167..189,\n                    key: Computed(\n                        Id {\n                            index: 5,\n                            generation: 1,\n                        },\n                    ),\n                    value: Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 152..161,\n        sym: \"undefined\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Arrow(\n    ArrowExpr {\n        span: 126..162,\n        params: [],\n        body: Expr(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 168..169,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Call(\n    CallExpr {\n        span: 169..174,\n        callee: Id {\n            index: 2,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 175..178,\n            value: \"d\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Binary(\n    BinaryExpr {\n        span: 172..179,\n        op: NullishCoalescing,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        right: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 185..187,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Arrow(\n    ArrowExpr {\n        span: 164..197,\n        params: [\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Paren(\n    ParenExpr {\n        span: 163..198,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Call(\n    CallExpr {\n        span: 197..200,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

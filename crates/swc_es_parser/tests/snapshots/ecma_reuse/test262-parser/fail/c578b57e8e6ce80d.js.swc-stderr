@@ -1,0 +1,7 @@
+  x unexpected eof
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/c578b57e8e6ce80d.js:1:18]
+ 1 | var answer = 42,
+   `----
+
+Advice: 
+  > code: Eof

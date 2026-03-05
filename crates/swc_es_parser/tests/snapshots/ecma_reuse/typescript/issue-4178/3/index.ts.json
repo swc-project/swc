@@ -1,0 +1,92 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..111,\n    kind: Module,\n    body: [\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Return(\n    ReturnStmt {\n        span: 25..110,\n        arg: Some(\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 46..107,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 46..103,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Fn(\n    FnDecl {\n        span: 8..111,\n        ident: Ident {\n            span: 17..18,\n            sym: \"x\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 52..53,\n        sym: \"y\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 66..67,\n        sym: \"z\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Assign(\n    AssignPat {\n        span: 54..103,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Binary(\n    BinaryExpr {\n        span: 58..64,\n        op: LogicalAnd,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 88..95,\n            value: \"hello\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Arrow(\n    ArrowExpr {\n        span: 65..97,\n        params: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n        body: Expr(\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 98..102,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Cond(\n    CondExpr {\n        span: 63..103,\n        test: Id {\n            index: 2,\n            generation: 1,\n        },\n        cons: Id {\n            index: 4,\n            generation: 1,\n        },\n        alt: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Arrow(\n    ArrowExpr {\n        span: 32..108,\n        params: [],\n        body: Block(\n            [\n                Id {\n                    index: 0,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: false,\n    },\n)"
+    }
+  ],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 1..111,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

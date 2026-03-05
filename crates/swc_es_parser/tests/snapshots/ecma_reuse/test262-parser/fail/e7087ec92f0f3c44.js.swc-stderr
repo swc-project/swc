@@ -1,0 +1,8 @@
+  x unknown regular expression flag `\`
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/e7087ec92f0f3c44.js:1:1]
+ 1 | var x = /[P QR]/\\u0067
+   :         ^^^^^^^^^^^^^^^
+   `----
+
+Advice: 
+  > code: InvalidRegex

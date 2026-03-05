@@ -1,0 +1,319 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 105..878,\n    kind: Script,\n    body: [\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 26,\n            generation: 1,\n        },\n        Id {\n            index: 29,\n            generation: 1,\n        },\n        Id {\n            index: 32,\n            generation: 1,\n        },\n        Id {\n            index: 35,\n            generation: 1,\n        },\n        Id {\n            index: 38,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967298,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "ModuleDecl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "ModuleDecl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "ModuleDecl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "ModuleDecl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "ModuleDecl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "ModuleDecl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Decl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "ModuleDecl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Decl(\n    Id {\n        index: 13,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "ModuleDecl(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Decl(\n    Id {\n        index: 15,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "ModuleDecl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Decl(\n    Id {\n        index: 17,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "ModuleDecl(\n    Id {\n        index: 12,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "Decl(\n    Id {\n        index: 19,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967331,
+      "node": "ModuleDecl(\n    Id {\n        index: 13,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967332,
+      "node": "Decl(\n    Id {\n        index: 21,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967334,
+      "node": "ModuleDecl(\n    Id {\n        index: 14,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967335,
+      "node": "Decl(\n    Id {\n        index: 23,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 127..155,\n        ident: Ident {\n            span: 132..134,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 137..144,\n                name: Ident(\n                    Ident {\n                        span: 137..138,\n                        sym: \"A\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 156..180,\n        ident: Ident {\n            span: 161..163,\n            sym: \"E2\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 166..169,\n                name: Ident(\n                    Ident {\n                        span: 166..167,\n                        sym: \"C\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 181..200,\n        ident: Ident {\n            span: 186..188,\n            sym: \"E3\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 191..198,\n                name: Ident(\n                    Ident {\n                        span: 191..192,\n                        sym: \"A\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 105..207,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 112..113,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 223..262,\n        ident: Ident {\n            span: 228..230,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 233..251,\n                name: Ident(\n                    Ident {\n                        span: 233..234,\n                        sym: \"B\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 263..302,\n        ident: Ident {\n            span: 268..270,\n            sym: \"E2\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 273..291,\n                name: Ident(\n                    Ident {\n                        span: 273..274,\n                        sym: \"B\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 303..318,\n        ident: Ident {\n            span: 308..310,\n            sym: \"E3\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 313..316,\n                name: Ident(\n                    Ident {\n                        span: 313..314,\n                        sym: \"C\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 201..325,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 208..209,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 12,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 341..365,\n        ident: Ident {\n            span: 346..348,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 351..354,\n                name: Ident(\n                    Ident {\n                        span: 351..352,\n                        sym: \"C\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 366..394,\n        ident: Ident {\n            span: 371..373,\n            sym: \"E2\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 376..383,\n                name: Ident(\n                    Ident {\n                        span: 376..377,\n                        sym: \"A\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 395..425,\n        ident: Ident {\n            span: 400..402,\n            sym: \"E3\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 405..423,\n                name: Ident(\n                    Ident {\n                        span: 405..406,\n                        sym: \"B\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 319..531,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 326..327,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 15,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 17,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 19,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 548..567,\n        ident: Ident {\n            span: 553..555,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 558..565,\n                name: Ident(\n                    Ident {\n                        span: 558..559,\n                        sym: \"A\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 9,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 525..574,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 532..534,\n                sym: \"M1\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 22,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 591..606,\n        ident: Ident {\n            span: 596..598,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 601..604,\n                name: Ident(\n                    Ident {\n                        span: 601..602,\n                        sym: \"B\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 568..613,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 575..577,\n                sym: \"M1\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 25,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 630..645,\n        ident: Ident {\n            span: 635..637,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 640..643,\n                name: Ident(\n                    Ident {\n                        span: 640..641,\n                        sym: \"C\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 607..761,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 614..616,\n                sym: \"M1\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 28,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 778..793,\n        ident: Ident {\n            span: 783..785,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 788..791,\n                name: Ident(\n                    Ident {\n                        span: 788..789,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 755..800,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 762..764,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 31,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 817..836,\n        ident: Ident {\n            span: 822..824,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 827..834,\n                name: Ident(\n                    Ident {\n                        span: 827..828,\n                        sym: \"B\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 794..843,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 801..803,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 34,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 860..875,\n        ident: Ident {\n            span: 865..867,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 870..873,\n                name: Ident(\n                    Ident {\n                        span: 870..871,\n                        sym: \"C\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "TsModule(\n    TsModuleDecl {\n        span: 837..878,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 844..846,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 37,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
+    }
+  ],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 141..142,\n            value: 0.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 195..196,\n            value: 0.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 237..242,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Member(\n    MemberExpr {\n        span: 242..251,\n        obj: Id {\n            index: 2,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 243..249,\n                sym: \"length\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 277..282,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Member(\n    MemberExpr {\n        span: 282..291,\n        obj: Id {\n            index: 4,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 283..289,\n                sym: \"length\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 380..381,\n            value: 0.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 409..414,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Member(\n    MemberExpr {\n        span: 414..423,\n        obj: Id {\n            index: 7,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 415..421,\n                sym: \"length\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 562..563,\n            value: 0.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 831..832,\n            value: 0.0,\n        },\n    ),\n)"
+    }
+  ],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 120..155,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 149..180,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 174..200,\n        decl: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 216..262,\n        decl: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 256..302,\n        decl: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 296..318,\n        decl: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 334..365,\n        decl: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 359..394,\n        decl: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 388..425,\n        decl: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 541..567,\n        decl: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 584..606,\n        decl: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 623..645,\n        decl: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 771..793,\n        decl: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 810..836,\n        decl: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 853..875,\n        decl: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

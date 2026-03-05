@@ -1,0 +1,16 @@
+  x numeric literal exponent should contain digits
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/f79162fafa44fde2.js:1:1]
+ 1 | 3ea
+   : ^^
+   `----
+
+Advice: 
+  > code: InvalidNumber
+  x failed to parse number literal
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/f79162fafa44fde2.js:1:1]
+ 1 | 3ea
+   : ^^
+   `----
+
+Advice: 
+  > code: InvalidNumber

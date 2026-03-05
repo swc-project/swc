@@ -1,0 +1,8 @@
+  x invalid hexadecimal escape sequence
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/3b473034dde14c98.js:1:1]
+ 1 | "\xx";
+   :  ^^
+   `----
+
+Advice: 
+  > code: InvalidEscape

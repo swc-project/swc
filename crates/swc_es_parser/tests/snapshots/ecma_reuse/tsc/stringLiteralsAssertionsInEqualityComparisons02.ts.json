@@ -1,0 +1,164 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..204,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..59,\n        ident: Ident {\n            span: 6..20,\n            sym: \"EnhancedString\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Var(\n    VarDecl {\n        span: 56..93,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 56..89,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Var(\n    VarDecl {\n        span: 90..129,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 90..125,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Var(\n    VarDecl {\n        span: 160..204,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 160..204,\n                name: Id {\n                    index: 6,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 60..61,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Assign(\n    AssignPat {\n        span: 62..89,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 94..95,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Assign(\n    AssignPat {\n        span: 96..125,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Ident(\n    Ident {\n        span: 164..165,\n        sym: \"d\",\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Assign(\n    AssignPat {\n        span: 166..204,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        right: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 64..69,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 74..79,\n            value: \"bar\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Binary(\n    BinaryExpr {\n        span: 70..82,\n        op: EqEqEq,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "TsAs(\n    TsAsExpr {\n        span: 80..89,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n        ty: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 98..103,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 109..114,\n            value: \"bar\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "TsAs(\n    TsAsExpr {\n        span: 115..124,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n        ty: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Paren(\n    ParenExpr {\n        span: 108..125,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Binary(\n    BinaryExpr {\n        span: 104..125,\n        op: NotEqEq,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        right: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 168..173,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 179..184,\n            value: \"bar\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "TsAs(\n    TsAsExpr {\n        span: 185..203,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n        ty: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Paren(\n    ParenExpr {\n        span: 178..204,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Binary(\n    BinaryExpr {\n        span: 174..204,\n        op: EqEqEq,\n        left: Id {\n            index: 11,\n            generation: 1,\n        },\n        right: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    {
+      "id": 4294967297,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Keyword(\n    Any,\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "TypeLit(\n    TsTypeLit {\n        span: 32..54,\n        members: [\n            TsTypeMember {\n                span: 34..53,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 34..46,\n                            sym: \"enhancements\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Intersection(\n    TsIntersectionType {\n        span: 23..54,\n        types: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 83..88,\n            value: \"baz\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 118..123,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 188..203,\n        name: Ident {\n            span: 188..203,\n            sym: \"EnhancedString\",\n        },\n        type_args: [],\n    },\n)"
+    }
+  ]
+}

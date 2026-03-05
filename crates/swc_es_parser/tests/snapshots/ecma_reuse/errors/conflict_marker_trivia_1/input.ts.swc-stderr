@@ -1,1 +1,10 @@
-  x expected parser diagnostics; parser accepted input
+  x expected property name, got LtLt
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/conflict_marker_trivia_1/input.ts:2:1]
+ 1 | class C {
+ 2 | <<<<<<< HEAD
+   : ^^
+ 3 |     v = 1;
+   `----
+
+Advice: 
+  > code: UnexpectedToken

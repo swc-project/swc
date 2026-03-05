@@ -1,0 +1,8 @@
+  x expected `target` after `new.`
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/0817f13d2237d8d2.js:1:1]
+ 1 | new.prop
+   :     ^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

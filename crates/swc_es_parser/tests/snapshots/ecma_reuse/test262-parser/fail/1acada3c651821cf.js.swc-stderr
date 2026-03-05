@@ -1,0 +1,8 @@
+  x unterminated template literal
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/1acada3c651821cf.js:1:1]
+ 1 | `hello ${10;test`
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+Advice: 
+  > code: UnterminatedString

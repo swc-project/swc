@@ -6,6 +6,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use serde::Serialize;
 use serde_json::Value;
 use swc_common::{comments::SingleThreadedComments, SourceFile, SourceMap, Span};
 use swc_es_ast::{
@@ -55,13 +56,13 @@ pub struct ParseOutput {
     pub comments: SingleThreadedComments,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct DebugNode {
     pub id: u64,
     pub node: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize)]
 pub struct ProgramArenaSnapshot {
     pub root_program: u64,
     pub programs: Vec<DebugNode>,
@@ -77,16 +78,37 @@ pub struct ProgramArenaSnapshot {
     pub ts_types: Vec<DebugNode>,
 }
 
+#[derive(Debug, Clone, Serialize)]
+struct CanonicalProgramArenaSnapshot {
+    pub programs: Vec<String>,
+    pub stmts: Vec<String>,
+    pub decls: Vec<String>,
+    pub pats: Vec<String>,
+    pub exprs: Vec<String>,
+    pub module_decls: Vec<String>,
+    pub functions: Vec<String>,
+    pub classes: Vec<String>,
+    pub class_members: Vec<String>,
+    pub jsx_elements: Vec<String>,
+    pub ts_types: Vec<String>,
+}
+
 pub fn ecma_fixture_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../swc_ecma_parser/tests")
 }
 
+fn canonicalize_or_self(path: &Path) -> PathBuf {
+    path.canonicalize().unwrap_or_else(|_| path.to_path_buf())
+}
+
 pub fn snapshot_path_for(input: &Path, suffix: &str) -> PathBuf {
-    let rel = input.strip_prefix(ecma_fixture_root()).unwrap_or_else(|_| {
+    let root = canonicalize_or_self(&ecma_fixture_root());
+    let input = canonicalize_or_self(input);
+    let rel = input.strip_prefix(&root).unwrap_or_else(|_| {
         panic!(
             "fixture path {} is not inside {}",
             input.display(),
-            ecma_fixture_root().display()
+            root.display()
         )
     });
 
@@ -112,12 +134,19 @@ fn read_json(path: &Path) -> Option<Value> {
     serde_json::from_str::<Value>(&content).ok()
 }
 
+pub fn read_es_syntax_config(path: &Path) -> Option<EsSyntax> {
+    let content = fs::read_to_string(path).ok()?;
+    serde_json::from_str::<EsSyntax>(&content).ok()
+}
+
 pub fn category_for_path(path: &Path) -> String {
-    let rel = path.strip_prefix(ecma_fixture_root()).unwrap_or_else(|_| {
+    let root = canonicalize_or_self(&ecma_fixture_root());
+    let path = canonicalize_or_self(path);
+    let rel = path.strip_prefix(&root).unwrap_or_else(|_| {
         panic!(
             "fixture path {} is not inside {}",
             path.display(),
-            ecma_fixture_root().display()
+            root.display()
         )
     });
     rel.components()
@@ -383,6 +412,14 @@ pub fn parse_loaded_file(fm: &SourceFile, case: &Case) -> ParseOutput {
     let options = collect_fixture_options(&case.path);
     let syntax = syntax_for_file(&case.path, &case.category, &options);
     let mode = parse_mode_for(&case.path, &options);
+    parse_loaded_file_with_syntax_mode(fm, syntax, mode)
+}
+
+pub fn parse_loaded_file_with_syntax_mode(
+    fm: &SourceFile,
+    syntax: Syntax,
+    mode: ParseMode,
+) -> ParseOutput {
     let comments = SingleThreadedComments::default();
     let mut recovered = Vec::new();
 
@@ -411,6 +448,14 @@ pub fn parse_case(case: &Case) -> ParseOutput {
         .load_file(&case.path)
         .unwrap_or_else(|err| panic!("failed to load fixture {}: {err}", case.path.display()));
     parse_loaded_file(&fm, case)
+}
+
+pub fn parse_case_with_syntax_mode(case: &Case, syntax: Syntax, mode: ParseMode) -> ParseOutput {
+    let cm = SourceMap::default();
+    let fm = cm
+        .load_file(&case.path)
+        .unwrap_or_else(|err| panic!("failed to load fixture {}: {err}", case.path.display()));
+    parse_loaded_file_with_syntax_mode(&fm, syntax, mode)
 }
 
 #[derive(Default)]
@@ -627,11 +672,133 @@ impl Visit for ReachableArenaCollector {
     }
 }
 
-pub fn build_program_debug_snapshot(parsed: &ParsedProgram) -> String {
+fn collect_program_snapshot(parsed: &ParsedProgram) -> ProgramArenaSnapshot {
     let mut collector = ReachableArenaCollector::default();
     parsed.program.visit_with(&parsed.store, &mut collector);
-    let snapshot = collector.finish(parsed.program);
-    format!("{snapshot:#?}\n")
+    collector.finish(parsed.program)
+}
+
+pub fn build_program_json_snapshot(parsed: &ParsedProgram) -> String {
+    let snapshot = collect_program_snapshot(parsed);
+    let mut output =
+        serde_json::to_string_pretty(&snapshot).expect("failed to serialize program snapshot");
+    output.push('\n');
+    output
+}
+
+fn normalize_debug_node_for_canonical(node: &str) -> String {
+    let mut out = String::with_capacity(node.len());
+    let bytes = node.as_bytes();
+    let mut i = 0usize;
+
+    while i < bytes.len() {
+        if bytes[i..].starts_with(b"span: ") {
+            out.push_str("span: _.._");
+            i += "span: ".len();
+            while i < bytes.len() && bytes[i].is_ascii_whitespace() {
+                i += 1;
+            }
+            while i < bytes.len() {
+                let b = bytes[i];
+                if b == b',' || b == b'\n' {
+                    break;
+                }
+                i += 1;
+            }
+            continue;
+        }
+
+        if bytes[i..].starts_with(b"index: ") {
+            out.push_str("index: _");
+            i += "index: ".len();
+            while i < bytes.len() && bytes[i].is_ascii_digit() {
+                i += 1;
+            }
+            continue;
+        }
+
+        if bytes[i..].starts_with(b"generation: ") {
+            out.push_str("generation: _");
+            i += "generation: ".len();
+            while i < bytes.len() && bytes[i].is_ascii_digit() {
+                i += 1;
+            }
+            continue;
+        }
+
+        out.push(bytes[i] as char);
+        i += 1;
+    }
+
+    out
+}
+
+fn should_drop_canonical_expr(node: &str) -> bool {
+    node.trim_start().starts_with("Paren(")
+}
+
+pub fn build_program_canonical_json(parsed: &ParsedProgram) -> Value {
+    let snapshot = collect_program_snapshot(parsed);
+    let canonical = CanonicalProgramArenaSnapshot {
+        programs: snapshot
+            .programs
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+        stmts: snapshot
+            .stmts
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+        decls: snapshot
+            .decls
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+        pats: snapshot
+            .pats
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+        exprs: snapshot
+            .exprs
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .filter(|node| !should_drop_canonical_expr(node))
+            .collect(),
+        module_decls: snapshot
+            .module_decls
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+        functions: snapshot
+            .functions
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+        classes: snapshot
+            .classes
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+        class_members: snapshot
+            .class_members
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+        jsx_elements: snapshot
+            .jsx_elements
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+        ts_types: snapshot
+            .ts_types
+            .into_iter()
+            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .collect(),
+    };
+
+    serde_json::to_value(canonical).expect("failed to convert canonical snapshot to json value")
 }
 
 pub fn span_of_program(node: &Program) -> Span {

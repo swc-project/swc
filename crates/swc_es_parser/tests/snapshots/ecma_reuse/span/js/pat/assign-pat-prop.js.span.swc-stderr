@@ -1,30 +1,30 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
  1 | let { a = 'default' } = foo
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
  1 | let { a = 'default' } = foo
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x VarDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
  1 | let { a = 'default' } = foo
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ObjectPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
  1 | let { a = 'default' } = foo
    :     ^^^^^^^^^^^^^^^^^^^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
  1 | let { a = 'default' } = foo
    :           ^^^^^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
  1 | let { a = 'default' } = foo
    :                         ^^^
    `----

@@ -1,0 +1,141 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 184..671,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "ModuleDecl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "ModuleDecl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "ModuleDecl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "ModuleDecl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "ModuleDecl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "ModuleDecl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "ModuleDecl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "ModuleDecl(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "ModuleDecl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "ModuleDecl(\n    Id {\n        index: 12,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "ModuleDecl(\n    Id {\n        index: 13,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "ModuleDecl(\n    Id {\n        index: 14,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 184..225,\n        src: None,\n        specifiers: [],\n        decl: None,\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 219..261,\n        src: None,\n        specifiers: [],\n        decl: None,\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 255..293,\n        src: None,\n        specifiers: [],\n        decl: None,\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Import(\n    ImportDecl {\n        span: 287..319,\n        specifiers: [],\n        src: StrLit {\n            span: 302..311,\n            value: \"./ts.js\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Import(\n    ImportDecl {\n        span: 313..345,\n        specifiers: [],\n        src: StrLit {\n            span: 328..337,\n            value: \"./ts.ts\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Import(\n    ImportDecl {\n        span: 339..379,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Import(\n    ImportDecl {\n        span: 373..406,\n        specifiers: [],\n        src: StrLit {\n            span: 388..398,\n            value: \"./tsx.js\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Import(\n    ImportDecl {\n        span: 400..434,\n        specifiers: [],\n        src: StrLit {\n            span: 415..426,\n            value: \"./tsx.jsx\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Import(\n    ImportDecl {\n        span: 428..461,\n        specifiers: [],\n        src: StrLit {\n            span: 443..453,\n            value: \"./tsx.ts\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Import(\n    ImportDecl {\n        span: 455..489,\n        specifiers: [],\n        src: StrLit {\n            span: 470..481,\n            value: \"./tsx.tsx\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Import(\n    ImportDecl {\n        span: 483..524,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Import(\n    ImportDecl {\n        span: 518..551,\n        specifiers: [],\n        src: StrLit {\n            span: 533..543,\n            value: \"./dts.js\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Import(\n    ImportDecl {\n        span: 545..578,\n        specifiers: [],\n        src: StrLit {\n            span: 560..570,\n            value: \"./dts.ts\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Import(\n    ImportDecl {\n        span: 572..633,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Import(\n    ImportDecl {\n        span: 627..671,\n        specifiers: [],\n        src: StrLit {\n            span: 642..669,\n            value: \"./thisfiledoesnotexist.ts\",\n        },\n        with: [],\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

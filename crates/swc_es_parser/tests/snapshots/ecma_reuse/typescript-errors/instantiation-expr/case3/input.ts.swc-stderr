@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/instantiation-expr/case3/input.ts:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/instantiation-expr/case3/input.ts:1:1]
  1 | f<x> < g<y>;
    :      ^
    `----
@@ -7,7 +7,7 @@
 Advice: 
   > code: UnexpectedToken
   x unexpected token while parsing expression
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/instantiation-expr/case3/input.ts:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/instantiation-expr/case3/input.ts:1:1]
  1 | f<x> < g<y>;
    :            ^
    `----

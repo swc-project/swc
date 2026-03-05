@@ -1,60 +1,60 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :            ^^^^^^^^^^^^^^^
    `----
   x MemberExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :        ^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    : ^^^^^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :             ^^^^^^^^^^^^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :              ^^^^^^^^^^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :               ^^^^^^^^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                ^^^^^^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                 ^^^^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                  ^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                   ^
    `----

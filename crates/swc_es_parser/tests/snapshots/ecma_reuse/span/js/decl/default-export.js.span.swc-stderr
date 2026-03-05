@@ -1,25 +1,25 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleDeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExportDefaultDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ClassDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Class
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    :                ^^^^^^^^^^^^^
    `----

@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[$DIR/../swc_ecma_parser/tests/errors/explicit-resource-management/invalid-using-binding-await-module/input.js:2:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/explicit-resource-management/invalid-using-binding-await-module/input.js:2:1]
  1 | {
  2 |   using await = h();
    :               ^
@@ -9,7 +9,7 @@
 Advice: 
   > code: UnexpectedToken
   x expected ;, got Keyword(Await)
-    ,-[$DIR/../swc_ecma_parser/tests/errors/explicit-resource-management/invalid-using-binding-await-module/input.js:11:1]
+    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/explicit-resource-management/invalid-using-binding-await-module/input.js:11:1]
  10 | {
  11 |   for (using await of []);
     :              ^^^^^

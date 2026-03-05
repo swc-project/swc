@@ -1,25 +1,25 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    :       ^^^^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    :        ^^^^^
    `----

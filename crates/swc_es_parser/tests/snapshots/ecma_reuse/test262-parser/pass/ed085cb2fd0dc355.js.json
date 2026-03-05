@@ -1,0 +1,123 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..68,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Expr(\n    ExprStmt {\n        span: 40..48,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Block(\n    BlockStmt {\n        span: 34..53,\n        stmts: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Expr(\n    ExprStmt {\n        span: 60..68,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Block(\n    BlockStmt {\n        span: 54..68,\n        stmts: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "If(\n    IfStmt {\n        span: 8..68,\n        test: Id {\n            index: 10,\n            generation: 1,\n        },\n        cons: Id {\n            index: 2,\n            generation: 1,\n        },\n        alt: Some(\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 1..10,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..7,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"a\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 60..61,\n        sym: \"a\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"b\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Unary(\n    UnaryExpr {\n        span: 12..17,\n        op: Bang,\n        arg: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"c\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Unary(\n    UnaryExpr {\n        span: 18..23,\n        op: Bang,\n        arg: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Binary(\n    BinaryExpr {\n        span: 15..23,\n        op: LogicalAnd,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"d\",\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Unary(\n    UnaryExpr {\n        span: 24..29,\n        op: Bang,\n        arg: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Binary(\n    BinaryExpr {\n        span: 21..29,\n        op: LogicalAnd,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"e\",\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Unary(\n    UnaryExpr {\n        span: 30..33,\n        op: Bang,\n        arg: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Binary(\n    BinaryExpr {\n        span: 27..33,\n        op: LogicalAnd,\n        left: Id {\n            index: 7,\n            generation: 1,\n        },\n        right: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 44..45,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Assign(\n    AssignExpr {\n        span: 42..46,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 64..65,\n            value: 2.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Assign(\n    AssignExpr {\n        span: 62..66,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

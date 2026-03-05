@@ -1,5 +1,5 @@
   x expected identifier, got LParen
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/missing-fn-expr-body/async/input.ts:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/missing-fn-expr-body/async/input.ts:1:1]
  1 | let f = async function ()
    :                        ^
    `----

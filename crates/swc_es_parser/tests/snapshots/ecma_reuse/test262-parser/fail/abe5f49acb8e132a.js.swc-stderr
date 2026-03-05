@@ -1,0 +1,8 @@
+  x invalid unicode escape sequence
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/abe5f49acb8e132a.js:1:1]
+ 1 | "\u{FFZ}"
+   :  ^^
+   `----
+
+Advice: 
+  > code: InvalidEscape

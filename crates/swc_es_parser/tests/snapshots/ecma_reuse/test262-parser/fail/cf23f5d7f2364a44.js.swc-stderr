@@ -1,0 +1,15 @@
+  x unexpected token while parsing expression
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/cf23f5d7f2364a44.js:1:1]
+ 1 | () + 1
+   :  ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected ), got Eof
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/cf23f5d7f2364a44.js:1:1]
+ 1 | () + 1
+   `----
+
+Advice: 
+  > code: UnexpectedToken

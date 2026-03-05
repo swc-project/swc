@@ -1,0 +1,16 @@
+  x unexpected token while parsing expression
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/8262e85f06cb459c.js:1:1]
+ 1 | new f(....g);
+   :          ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected ,, got Ident
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/8262e85f06cb459c.js:1:1]
+ 1 | new f(....g);
+   :           ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,5 +1,5 @@
   x expected {, got Keyword(Let)
-   ,-[$DIR/../swc_ecma_parser/tests/errors/issue-8269/input.js:8:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/issue-8269/input.js:8:1]
  7 | {
  8 |     class let { }
    :           ^^^

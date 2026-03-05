@@ -1,0 +1,16 @@
+  x unexpected token while parsing expression
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/4c3f75c2ad9dc102.js:1:1]
+ 1 | ({ set: s(if) { } })
+   :           ^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected }, got LBrace
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/4c3f75c2ad9dc102.js:1:1]
+ 1 | ({ set: s(if) { } })
+   :               ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

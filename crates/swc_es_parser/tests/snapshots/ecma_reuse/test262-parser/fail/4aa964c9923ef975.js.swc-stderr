@@ -1,0 +1,8 @@
+  x failed to parse number literal
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/4aa964c9923ef975.js:1:1]
+ 1 | 0b9
+   : ^^
+   `----
+
+Advice: 
+  > code: InvalidNumber

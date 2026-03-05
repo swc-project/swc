@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:7:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:7:1]
  6 | export const pageLayout = ()=>jsx(
  7 |         <>
    :         ^
@@ -9,7 +9,7 @@
 Advice: 
   > code: UnexpectedToken
   x unexpected token while parsing expression
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:8:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:8:1]
  7 |         <>
  8 |             < !doctype html >
    :             ^
@@ -19,7 +19,7 @@ Advice:
 Advice: 
   > code: UnexpectedToken
   x expected ,, got Bang
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:8:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:8:1]
  7 |         <>
  8 |             < !doctype html >
    :               ^

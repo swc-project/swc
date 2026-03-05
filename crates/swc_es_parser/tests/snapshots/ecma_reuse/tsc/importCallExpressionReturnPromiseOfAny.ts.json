@@ -1,0 +1,438 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 91..1028,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 22,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967298,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Expr(\n    ExprStmt {\n        span: 367..412,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Expr(\n    ExprStmt {\n        span: 406..434,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Return(\n    ReturnStmt {\n        span: 727..767,\n        arg: Some(\n            Id {\n                index: 35,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Expr(\n    ExprStmt {\n        span: 705..774,\n        expr: Id {\n            index: 37,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Decl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Decl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Decl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Expr(\n    ExprStmt {\n        span: 1000..1025,\n        expr: Id {\n            index: 49,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Block(\n    BlockStmt {\n        span: 941..1027,\n        stmts: [\n            Id {\n                index: 17,\n                generation: 1,\n            },\n            Id {\n                index: 18,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "For(\n    ForStmt {\n        span: 904..1027,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 44,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Decl(\n    Id {\n        index: 12,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Class(\n    ClassDecl {\n        span: 98..135,\n        ident: Ident {\n            span: 104..105,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Var(\n    VarDecl {\n        span: 274..306,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 274..298,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Var(\n    VarDecl {\n        span: 307..339,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 307..331,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Var(\n    VarDecl {\n        span: 340..373,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 340..365,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Var(\n    VarDecl {\n        span: 431..500,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 431..496,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Var(\n    VarDecl {\n        span: 497..547,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 497..543,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 18,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Var(\n    VarDecl {\n        span: 544..614,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 544..608,\n                name: Id {\n                    index: 6,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 22,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Var(\n    VarDecl {\n        span: 609..707,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 609..704,\n                name: Id {\n                    index: 8,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Var(\n    VarDecl {\n        span: 771..789,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 771..785,\n                name: Id {\n                    index: 10,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Var(\n    VarDecl {\n        span: 786..861,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 786..851,\n                name: Id {\n                    index: 11,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 43,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Var(\n    VarDecl {\n        span: 909..927,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 909..927,\n                name: Id {\n                    index: 14,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Var(\n    VarDecl {\n        span: 951..1006,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 951..991,\n                name: Id {\n                    index: 16,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Fn(\n    FnDecl {\n        span: 853..1028,\n        ident: Ident {\n            span: 864..874,\n            sym: \"loadModule\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 13,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 20,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 278..288,\n        sym: \"whatToLoad\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 313..322,\n        sym: \"directory\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 346..356,\n        sym: \"moduleFile\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Ident(\n    Ident {\n        span: 435..437,\n        sym: \"p1\",\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Assign(\n    AssignPat {\n        span: 438..496,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        right: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Ident(\n    Ident {\n        span: 501..503,\n        sym: \"p1\",\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Ident(\n    Ident {\n        span: 548..551,\n        sym: \"p11\",\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Ident(\n    Ident {\n        span: 615..617,\n        sym: \"p2\",\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Assign(\n    AssignPat {\n        span: 618..704,\n        left: Id {\n            index: 7,\n            generation: 1,\n        },\n        right: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Ident(\n    Ident {\n        span: 713..717,\n        sym: \"zero\",\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Ident(\n    Ident {\n        span: 775..776,\n        sym: \"j\",\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Ident(\n    Ident {\n        span: 790..792,\n        sym: \"p3\",\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Ident(\n    Ident {\n        span: 833..834,\n        sym: \"j\",\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Ident(\n    Ident {\n        span: 875..886,\n        sym: \"directories\",\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Ident(\n    Ident {\n        span: 915..924,\n        sym: \"directory\",\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Ident(\n    Ident {\n        span: 957..961,\n        sym: \"path\",\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Assign(\n    AssignPat {\n        span: 962..991,\n        left: Id {\n            index: 15,\n            generation: 1,\n        },\n        right: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 367..373,\n        sym: \"import\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Template(\n    TemplateExpr {\n        span: 374..403,\n        quasis: [\n            StrLit {\n                span: 374..403,\n                value: \"${directory}\\\\${moduleFile}\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Call(\n    CallExpr {\n        span: 373..405,\n        callee: Id {\n            index: 1,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Ident(\n    Ident {\n        span: 406..412,\n        sym: \"import\",\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Ident(\n    Ident {\n        span: 413..425,\n        sym: \"getSpecifier\",\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Call(\n    CallExpr {\n        span: 425..428,\n        callee: Id {\n            index: 5,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Call(\n    CallExpr {\n        span: 412..429,\n        callee: Id {\n            index: 4,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 6,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Ident(\n    Ident {\n        span: 440..446,\n        sym: \"import\",\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Ident(\n    Ident {\n        span: 447..465,\n        sym: \"ValidSomeCondition\",\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Call(\n    CallExpr {\n        span: 465..469,\n        callee: Id {\n            index: 9,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 470..475,\n            value: \"./0\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 478..494,\n            value: \"externalModule\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Cond(\n    CondExpr {\n        span: 468..495,\n        test: Id {\n            index: 10,\n            generation: 1,\n        },\n        cons: Id {\n            index: 11,\n            generation: 1,\n        },\n        alt: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Call(\n    CallExpr {\n        span: 446..496,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 13,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Ident(\n    Ident {\n        span: 520..526,\n        sym: \"import\",\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Ident(\n    Ident {\n        span: 527..539,\n        sym: \"getSpecifier\",\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Call(\n    CallExpr {\n        span: 539..542,\n        callee: Id {\n            index: 16,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Call(\n    CallExpr {\n        span: 526..543,\n        callee: Id {\n            index: 15,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 17,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Ident(\n    Ident {\n        span: 585..591,\n        sym: \"import\",\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Ident(\n    Ident {\n        span: 592..604,\n        sym: \"getSpecifier\",\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Call(\n    CallExpr {\n        span: 604..607,\n        callee: Id {\n            index: 20,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Call(\n    CallExpr {\n        span: 591..608,\n        callee: Id {\n            index: 19,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 21,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Ident(\n    Ident {\n        span: 620..626,\n        sym: \"import\",\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Ident(\n    Ident {\n        span: 627..637,\n        sym: \"whatToLoad\",\n    },\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "Ident(\n    Ident {\n        span: 640..652,\n        sym: \"getSpecifier\",\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Call(\n    CallExpr {\n        span: 652..656,\n        callee: Id {\n            index: 25,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 657..669,\n            value: \"defaulPath\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "Cond(\n    CondExpr {\n        span: 638..670,\n        test: Id {\n            index: 24,\n            generation: 1,\n        },\n        cons: Id {\n            index: 26,\n            generation: 1,\n        },\n        alt: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Call(\n    CallExpr {\n        span: 626..673,\n        callee: Id {\n            index: 23,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 28,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967327,
+      "node": "TsAs(\n    TsAsExpr {\n        span: 671..704,\n        expr: Id {\n            index: 29,\n            generation: 1,\n        },\n        ty: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "Ident(\n    Ident {\n        span: 705..707,\n        sym: \"p1\",\n    },\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "Member(\n    MemberExpr {\n        span: 707..713,\n        obj: Id {\n            index: 31,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 708..712,\n                sym: \"then\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967330,
+      "node": "Ident(\n    Ident {\n        span: 734..738,\n        sym: \"zero\",\n    },\n)"
+    },
+    {
+      "id": 4294967331,
+      "node": "Member(\n    MemberExpr {\n        span: 738..743,\n        obj: Id {\n            index: 33,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 739..742,\n                sym: \"foo\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967332,
+      "node": "Call(\n    CallExpr {\n        span: 742..745,\n        callee: Id {\n            index: 34,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967333,
+      "node": "Arrow(\n    ArrowExpr {\n        span: 713..768,\n        params: [\n            Id {\n                index: 9,\n                generation: 1,\n            },\n        ],\n        body: Block(\n            [\n                Id {\n                    index: 12,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: false,\n    },\n)"
+    },
+    {
+      "id": 4294967334,
+      "node": "Call(\n    CallExpr {\n        span: 712..769,\n        callee: Id {\n            index: 32,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 36,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967335,
+      "node": "Ident(\n    Ident {\n        span: 826..832,\n        sym: \"import\",\n    },\n)"
+    },
+    {
+      "id": 4294967337,
+      "node": "Ident(\n    Ident {\n        span: 835..847,\n        sym: \"getSpecifier\",\n    },\n)"
+    },
+    {
+      "id": 4294967338,
+      "node": "Call(\n    CallExpr {\n        span: 847..850,\n        callee: Id {\n            index: 40,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967339,
+      "node": "Assign(\n    AssignExpr {\n        span: 834..850,\n        left: Id {\n            index: 12,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 41,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967340,
+      "node": "Call(\n    CallExpr {\n        span: 832..851,\n        callee: Id {\n            index: 38,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 42,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967341,
+      "node": "Ident(\n    Ident {\n        span: 928..939,\n        sym: \"directories\",\n    },\n)"
+    },
+    {
+      "id": 4294967342,
+      "node": "Template(\n    TemplateExpr {\n        span: 964..990,\n        quasis: [\n            StrLit {\n                span: 964..990,\n                value: \"${directory}\\\\moduleFile\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967343,
+      "node": "Ident(\n    Ident {\n        span: 1000..1006,\n        sym: \"import\",\n    },\n)"
+    },
+    {
+      "id": 4294967344,
+      "node": "Ident(\n    Ident {\n        span: 1013..1017,\n        sym: \"path\",\n    },\n)"
+    },
+    {
+      "id": 4294967345,
+      "node": "Yield(\n    YieldExpr {\n        span: 1007..1018,\n        arg: Some(\n            Id {\n                index: 47,\n                generation: 1,\n            },\n        ),\n        delegate: false,\n    },\n)"
+    },
+    {
+      "id": 4294967346,
+      "node": "Call(\n    CallExpr {\n        span: 1006..1019,\n        callee: Id {\n            index: 46,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 48,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 91..135,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Import(\n    ImportDecl {\n        span: 129..184,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 141..154,\n                        sym: \"defaultModule\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 160..175,\n            value: \"./defaultPath\",\n        },\n        with: [],\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [
+    {
+      "id": 4294967297,
+      "node": "Class {\n    span: 98..135,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 104..105,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+    }
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    {
+      "id": 4294967306,
+      "node": "TypeQuery(\n    TsTypeQuery {\n        span: 682..703,\n        expr_name: Ident {\n            span: 689..703,\n            sym: \"defaultModule\",\n        },\n        type_args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 674..704,\n        name: Ident {\n            span: 674..682,\n            sym: \"Promise\",\n        },\n        type_args: [\n            Id {\n                index: 9,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    }
+  ]
+}

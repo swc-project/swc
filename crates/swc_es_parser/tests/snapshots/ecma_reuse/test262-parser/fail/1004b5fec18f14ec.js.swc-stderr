@@ -1,0 +1,7 @@
+  x expected }, got Eof
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/1004b5fec18f14ec.js:1:1]
+ 1 | 1 + { t:t,
+   `----
+
+Advice: 
+  > code: UnexpectedToken

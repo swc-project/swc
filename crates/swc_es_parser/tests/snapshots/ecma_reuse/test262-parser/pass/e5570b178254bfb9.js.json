@@ -1,0 +1,37 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 102..134,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Continue(\n    ContinueStmt {\n        span: 108..125,\n        label: Some(\n            Ident {\n                span: 117..118,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "DoWhile(\n    DoWhileStmt {\n        span: 105..134,\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Labeled(\n    LabeledStmt {\n        span: 102..134,\n        label: Ident {\n            span: 102..103,\n            sym: \"a\",\n        },\n        body: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 127..131,\n            value: true,\n        },\n    ),\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

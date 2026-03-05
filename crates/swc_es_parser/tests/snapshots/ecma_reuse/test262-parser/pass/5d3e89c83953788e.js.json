@@ -1,0 +1,51 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..68,\n    kind: Script,\n    body: [\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Empty(\n    EmptyStmt {\n        span: 64..65,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "For(\n    ForStmt {\n        span: 48..67,\n        head: In(\n            ForInHead {\n                left: Decl(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 0,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 53..61,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 53..61,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Fn(\n    FnDecl {\n        span: 1..68,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"b\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"c\",\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

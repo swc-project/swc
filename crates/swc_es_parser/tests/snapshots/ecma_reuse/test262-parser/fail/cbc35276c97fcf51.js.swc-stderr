@@ -1,0 +1,8 @@
+  x expected binding pattern
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/cbc35276c97fcf51.js:1:1]
+ 1 | ((a)) => 1
+   :  ^
+   `----
+
+Advice: 
+  > code: InvalidIdentifier

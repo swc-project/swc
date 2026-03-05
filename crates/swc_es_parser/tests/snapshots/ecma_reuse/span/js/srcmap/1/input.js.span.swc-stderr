@@ -1,40 +1,40 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SwitchStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :         ^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                   ^
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                      ^^^^^^^^^^
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                       ^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                      ^
    `----
   x BreakStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                           ^^^^^^^^
    `----

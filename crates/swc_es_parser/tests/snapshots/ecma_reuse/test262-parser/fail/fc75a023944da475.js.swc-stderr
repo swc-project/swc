@@ -1,0 +1,8 @@
+  x expected {, got Ident
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/fc75a023944da475.js:1:1]
+ 1 | x = { set method(val) v = val }
+   :                       ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

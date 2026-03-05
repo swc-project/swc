@@ -1,0 +1,16 @@
+  x rest element must be the last element
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/ec226eb321cf8655.js:1:1]
+ 1 | {a = [...b, c]} = 0
+   :           ^
+   `----
+
+Advice: 
+  > code: InvalidStatement
+  x unexpected token while parsing expression
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/ec226eb321cf8655.js:1:1]
+ 1 | {a = [...b, c]} = 0
+   :                 ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

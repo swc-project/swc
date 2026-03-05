@@ -1,0 +1,8 @@
+  x expected property name, got Colon
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/5bb13cf33cea5691.js:1:1]
+ 1 | class A {a:0}
+   :           ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,5 +1,5 @@
   x unknown regular expression flag `z`
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/regex/unknown-flag/input.ts:1:1]
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/regex/unknown-flag/input.ts:1:1]
  1 | /shamiko/z;
    : ^^^^^^^^^^^
    `----

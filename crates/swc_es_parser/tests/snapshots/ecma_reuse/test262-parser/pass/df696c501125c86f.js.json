@@ -1,0 +1,41 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..19,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Empty(\n    EmptyStmt {\n        span: 18..19,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "For(\n    ForStmt {\n        span: 1..19,\n        head: In(\n            ForInHead {\n                left: Expr(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 5..8,\n        sym: \"let\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Member(\n    MemberExpr {\n        span: 8..15,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 9..12,\n                sym: \"let\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 16..17,\n            value: 1.0,\n        },\n    ),\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

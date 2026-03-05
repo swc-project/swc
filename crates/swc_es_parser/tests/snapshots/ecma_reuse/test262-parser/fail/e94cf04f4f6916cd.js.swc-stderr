@@ -1,0 +1,24 @@
+  x import/export is not allowed in script mode
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/e94cf04f4f6916cd.js:1:1]
+ 1 | export { if as foo }
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: ImportExportInScript
+  x unexpected token while parsing expression
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/e94cf04f4f6916cd.js:1:1]
+ 1 | export { if as foo }
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected (, got Keyword(As)
+   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/e94cf04f4f6916cd.js:1:1]
+ 1 | export { if as foo }
+   :             ^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

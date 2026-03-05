@@ -1,0 +1,29 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..29,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "Import(\n    ImportDecl {\n        span: 1..29,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 14..15,\n                        sym: \"a\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 9..10,\n                            sym: \"b\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 22..27,\n            value: \"foo\",\n        },\n        with: [],\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}
