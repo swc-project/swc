@@ -1,38 +1,38 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
  1 | ,-> function foo(a, b = c) {
  2 | |   
  3 | `-> }
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
  1 | ,-> function foo(a, b = c) {
  2 | |   
  3 | `-> }
    `----
   x FnDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
  1 | ,-> function foo(a, b = c) {
  2 | |   
  3 | `-> }
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
  1 | function foo(a, b = c) {
    :              ^
    `----
   x AssignPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
  1 | function foo(a, b = c) {
    :                   ^^^^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
  1 | function foo(a, b = c) {
    :                 ^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
  1 | function foo(a, b = c) {
    :                     ^
    `----

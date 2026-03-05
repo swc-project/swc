@@ -1,0 +1,8 @@
+  x expected ), got LParen
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/25b1013a4046bd70.js:1:1]
+ 1 | try {} catch (answer()) {} 
+   :                     ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

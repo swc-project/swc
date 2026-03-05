@@ -1,5 +1,5 @@
   x expected identifier, got LParen
-   ,-[$DIR/../swc_ecma_parser/tests/errors/async-line-break/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/errors/async-line-break/2/input.js:2:1]
  1 | foo = async
  2 | function() {
    :         ^

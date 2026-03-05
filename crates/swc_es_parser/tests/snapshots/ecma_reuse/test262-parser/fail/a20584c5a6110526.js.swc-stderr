@@ -1,0 +1,16 @@
+  x import/export is not allowed in script mode
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/a20584c5a6110526.js:1:1]
+ 1 | import { class, var } from 'foo'
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: ImportExportInScript
+  x expected {, got Comma
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/a20584c5a6110526.js:1:1]
+ 1 | import { class, var } from 'foo'
+   :               ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

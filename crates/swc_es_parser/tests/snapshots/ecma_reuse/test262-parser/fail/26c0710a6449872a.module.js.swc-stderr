@@ -1,0 +1,8 @@
+  x expected ,, got Ident
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/26c0710a6449872a.module.js:1:1]
+ 1 | export {as b} from a
+   :            ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

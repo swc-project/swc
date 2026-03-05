@@ -1,5 +1,5 @@
   x expected property name, got Colon
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/class/missing-closing-brace/input.ts:2:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/class/missing-closing-brace/input.ts:2:1]
  1 | class Class {
  2 |   prop: string;
    :       ^

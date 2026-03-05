@@ -1,25 +1,25 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
   x TsAsExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    :       ^^^^^^^^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^
    `----
   x TsTypeRef
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    :          ^^^^^
    `----

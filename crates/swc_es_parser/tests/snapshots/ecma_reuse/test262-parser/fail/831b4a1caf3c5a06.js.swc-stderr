@@ -1,0 +1,8 @@
+  x expected ), got Eq
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/831b4a1caf3c5a06.js:1:1]
+ 1 | try { } catch ([a] = []) { }
+   :                    ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

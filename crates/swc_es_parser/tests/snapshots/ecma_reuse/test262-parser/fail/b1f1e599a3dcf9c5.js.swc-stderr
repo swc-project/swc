@@ -1,0 +1,8 @@
+  x expected ], got Comma
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/b1f1e599a3dcf9c5.js:1:1]
+ 1 | let [...a,] = 0
+   :          ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

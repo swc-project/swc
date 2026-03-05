@@ -1,0 +1,15 @@
+  x unexpected character
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/5051401f9d49ca56.js:1:1]
+ 1 | �!
+   : ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x unexpected eof
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/5051401f9d49ca56.js:1:1]
+ 1 | �!
+   `----
+
+Advice: 
+  > code: Eof

@@ -1,5 +1,5 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/interface.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/interface.ts:1:1]
  1 | ,-> interface Foo {
  2 | |       new();
  3 | |       (foo: string): void;
@@ -7,7 +7,7 @@
  5 | `-> }
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/interface.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/interface.ts:1:1]
  1 | ,-> interface Foo {
  2 | |       new();
  3 | |       (foo: string): void;
@@ -15,7 +15,7 @@
  5 | `-> }
    `----
   x TsInterfaceDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/interface.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/interface.ts:1:1]
  1 | ,-> interface Foo {
  2 | |       new();
  3 | |       (foo: string): void;

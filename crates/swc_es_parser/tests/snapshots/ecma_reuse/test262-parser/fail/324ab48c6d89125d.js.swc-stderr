@@ -1,0 +1,8 @@
+  x expected `target` after `new.`
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/324ab48c6d89125d.js:1:1]
+ 1 | function f() { new..target; }
+   :                    ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

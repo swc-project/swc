@@ -1,15 +1,15 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/import-string-names-1.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleDeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/import-string-names-1.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ImportDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/import-string-names-1.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

@@ -1,0 +1,16 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/ca3dd7ea0b4626dd.js:1:1]
+ 1 | console.log(typeof () => {});
+   :                     ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected ), got Arrow
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/ca3dd7ea0b4626dd.js:1:1]
+ 1 | console.log(typeof () => {});
+   :                       ^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

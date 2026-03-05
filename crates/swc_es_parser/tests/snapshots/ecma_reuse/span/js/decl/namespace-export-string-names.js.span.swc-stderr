@@ -1,15 +1,15 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/namespace-export-string-names.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleDeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/namespace-export-string-names.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExportAllDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/namespace-export-string-names.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

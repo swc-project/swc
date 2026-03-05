@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[$DIR/../swc_ecma_parser/tests/errors/explicit-resource-management/invalid-for-using-binding-of-in/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/errors/explicit-resource-management/invalid-for-using-binding-of-in/input.js:1:1]
  1 | for (using of in []);
    :               ^^
    `----
@@ -7,7 +7,7 @@
 Advice: 
   > code: UnexpectedToken
   x unexpected token while parsing expression
-   ,-[$DIR/../swc_ecma_parser/tests/errors/explicit-resource-management/invalid-for-using-binding-of-in/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/errors/explicit-resource-management/invalid-for-using-binding-of-in/input.js:1:1]
  1 | for (using of in []);
    :                   ^
    `----
@@ -15,7 +15,7 @@ Advice:
 Advice: 
   > code: UnexpectedToken
   x expected ], got RParen
-   ,-[$DIR/../swc_ecma_parser/tests/errors/explicit-resource-management/invalid-for-using-binding-of-in/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/errors/explicit-resource-management/invalid-for-using-binding-of-in/input.js:1:1]
  1 | for (using of in []);
    :                    ^
    `----

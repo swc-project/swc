@@ -1,30 +1,30 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :         ^^^^^^^^^^^^^
    `----
   x VarDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :         ^^^^^^^^^^^^^
    `----
   x AssignPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :                 ^^^^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :               ^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :                   ^
    `----

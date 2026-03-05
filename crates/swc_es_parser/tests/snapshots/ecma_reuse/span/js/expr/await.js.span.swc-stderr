@@ -1,53 +1,53 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | async function foo() {
    : ^^^^^^^^^^^^^^
  2 |     await bar()
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | async function foo() {
    : ^^^^^
  2 |     await bar()
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
   x FnDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/await.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
  1 |     async function foo() {
  2 | ,->     await bar()
  3 | `-> }
    `----
   x AwaitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/await.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
  1 |     async function foo() {
  2 | ,->     await bar()
  3 | `-> }
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/await.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
  1 |     async function foo() {
  2 | ,->     await bar()
  3 | `-> }
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/await.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :           ^^^

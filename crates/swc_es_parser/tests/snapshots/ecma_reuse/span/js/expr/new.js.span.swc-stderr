@@ -1,63 +1,63 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | ,-> new Date();
  2 | `-> (new Date).toString()
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | ,-> new Date();
  2 | `-> (new Date).toString()
    `----
   x NewExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    : ^^^^^^^^^^^
  2 | (new Date).toString()
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    :         ^^^
  2 | (new Date).toString()
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    :     ^^^^
  2 | (new Date).toString()
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :                    ^^
    `----
   x MemberExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :           ^^^^^^^^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^
    `----
   x NewExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :  ^^^^^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :      ^^^^

@@ -1,0 +1,32 @@
+  x import/export is not allowed in script mode
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/4554c00dbb28cad8.js:1:1]
+ 1 | export default function () {}
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: ImportExportInScript
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/4554c00dbb28cad8.js:1:1]
+ 1 | export default function () {}
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/4554c00dbb28cad8.js:1:1]
+ 1 | export default function () {}
+   :        ^^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected identifier, got LParen
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/4554c00dbb28cad8.js:1:1]
+ 1 | export default function () {}
+   :                         ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

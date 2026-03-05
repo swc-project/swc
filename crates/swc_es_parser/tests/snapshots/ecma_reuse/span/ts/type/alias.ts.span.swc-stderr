@@ -1,20 +1,20 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsTypeAliasDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsLitType
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    :             ^^^^^^
    `----

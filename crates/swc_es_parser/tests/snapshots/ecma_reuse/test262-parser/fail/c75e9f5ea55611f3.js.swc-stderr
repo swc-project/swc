@@ -1,0 +1,8 @@
+  x expected ;, got RParen
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/c75e9f5ea55611f3.js:1:1]
+ 1 | for(let x=1 in [1,2,3]) 0
+   :                       ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

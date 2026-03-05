@@ -1,0 +1,8 @@
+  x expected ;, got LParen
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/796e4feabf0e0fef.js:1:1]
+ 1 | for(let[a]().b of 0);
+   :           ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

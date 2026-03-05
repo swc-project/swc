@@ -1,5 +1,5 @@
   x optional chain cannot be assigned
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/optional-chaining/indirect-assign/input.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/optional-chaining/indirect-assign/input.ts:1:1]
  1 | a.b.c?.d.e[f] = 0;
    :               ^
    `----

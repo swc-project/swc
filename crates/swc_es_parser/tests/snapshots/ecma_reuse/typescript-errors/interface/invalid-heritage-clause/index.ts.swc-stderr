@@ -1,5 +1,5 @@
   x expected {, got QuestionDot
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/interface/invalid-heritage-clause/index.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/interface/invalid-heritage-clause/index.ts:1:1]
  1 | interface Derived extends Base?.x {}
    :                               ^^
    `----

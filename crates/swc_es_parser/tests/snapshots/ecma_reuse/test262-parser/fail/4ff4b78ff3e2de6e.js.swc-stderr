@@ -1,0 +1,15 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/4ff4b78ff3e2de6e.js:1:1]
+ 1 | (a) => {}()
+   :           ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected ), got Eof
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/4ff4b78ff3e2de6e.js:1:1]
+ 1 | (a) => {}()
+   `----
+
+Advice: 
+  > code: UnexpectedToken

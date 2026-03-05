@@ -1,0 +1,46 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..41,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 1..41,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 18..23,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "JSXElement(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    {
+      "id": 4294967297,
+      "node": "JSXElement {\n    span: 28..34,\n    opening: JSXOpeningElement {\n        span: 28..34,\n        name: Ident(\n            Ident {\n                span: 29..32,\n                sym: \"c\",\n            },\n        ),\n        attrs: [],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "JSXElement {\n    span: 25..38,\n    opening: JSXOpeningElement {\n        span: 25..38,\n        name: Ident(\n            Ident {\n                span: 26..28,\n                sym: \"b\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 35..37,\n                sym: \"b\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967299,
+      "node": "JSXElement {\n    span: 1..41,\n    opening: JSXOpeningElement {\n        span: 1..41,\n        name: Ident(\n            Ident {\n                span: 2..5,\n                sym: \"a\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 4..6,\n                name: \"n\",\n                value: None,\n            },\n            JSXAttr {\n                span: 6..16,\n                name: \"foo\",\n                value: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Expr(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n        Element(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 39..41,\n                sym: \"a\",\n            },\n        ),\n    ),\n}"
+    }
+  ],
+  "ts_types": []
+}

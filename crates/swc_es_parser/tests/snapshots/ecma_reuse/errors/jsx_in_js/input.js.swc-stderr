@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[$DIR/../swc_ecma_parser/tests/errors/jsx_in_js/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/errors/jsx_in_js/input.js:2:1]
  1 | const a = (
  2 |   <section>
    :   ^
@@ -9,7 +9,7 @@
 Advice: 
   > code: UnexpectedToken
   x expected ), got Ident
-   ,-[$DIR/../swc_ecma_parser/tests/errors/jsx_in_js/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/errors/jsx_in_js/input.js:2:1]
  1 | const a = (
  2 |   <section>
    :    ^^^^^^^

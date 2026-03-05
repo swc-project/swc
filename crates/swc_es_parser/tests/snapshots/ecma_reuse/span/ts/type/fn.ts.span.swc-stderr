@@ -1,20 +1,20 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
  1 | type A = () => void;
    : ^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
  1 | type A = () => void;
    : ^^^^^^^^^^^^^^^^^^^^
    `----
   x TsTypeAliasDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
  1 | type A = () => void;
    : ^^^^^^^^^^^^^^^^^^^^
    `----
   x TsFnType
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
  1 | type A = () => void;
    :          ^^^^^^^^^^^
    `----

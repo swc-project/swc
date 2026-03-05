@@ -1,5 +1,5 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/try-catch.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:1:1]
  1 | ,-> try {
  2 | |   
  3 | |   } catch (e) {
@@ -7,7 +7,7 @@
  5 | `-> }
    `----
   x TryStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/try-catch.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:1:1]
  1 | ,-> try {
  2 | |   
  3 | |   } catch (e) {
@@ -15,19 +15,19 @@
  5 | `-> }
    `----
   x BlockStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/try-catch.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:1:1]
  1 | ,-> try {
  2 | |   
  3 | `-> } catch (e) {
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/try-catch.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:3:1]
  2 | 
  3 | } catch (e) {
    :          ^
    `----
   x BlockStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/try-catch.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:3:1]
  2 |     
  3 | ,-> } catch (e) {
  4 | |   

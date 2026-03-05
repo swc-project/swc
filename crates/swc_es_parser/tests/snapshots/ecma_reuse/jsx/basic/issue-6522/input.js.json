@@ -1,0 +1,257 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..263,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n        Id {\n            index: 22,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Expr(\n    ExprStmt {\n        span: 7..25,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Expr(\n    ExprStmt {\n        span: 29..47,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Expr(\n    ExprStmt {\n        span: 51..69,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Expr(\n    ExprStmt {\n        span: 72..90,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Expr(\n    ExprStmt {\n        span: 94..117,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Expr(\n    ExprStmt {\n        span: 138..147,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Expr(\n    ExprStmt {\n        span: 156..164,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Labeled(\n    LabeledStmt {\n        span: 151..164,\n        label: Ident {\n            span: 151..154,\n            sym: \"foo\",\n        },\n        body: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Block(\n    BlockStmt {\n        span: 149..166,\n        stmts: [\n            Id {\n                index: 15,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Expr(\n    ExprStmt {\n        span: 165..188,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Expr(\n    ExprStmt {\n        span: 200..220,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Decl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Expr(\n    ExprStmt {\n        span: 228..263,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 1..8,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..8,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Var(\n    VarDecl {\n        span: 22..30,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 22..30,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Var(\n    VarDecl {\n        span: 44..52,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 44..50,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Var(\n    VarDecl {\n        span: 66..73,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 66..73,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Var(\n    VarDecl {\n        span: 87..95,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 87..93,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Var(\n    VarDecl {\n        span: 128..139,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 128..139,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Fn(\n    FnDecl {\n        span: 109..150,\n        ident: Ident {\n            span: 118..119,\n            sym: \"x\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 10,\n                generation: 1,\n            },\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Fn(\n    FnDecl {\n        span: 180..201,\n        ident: Ident {\n            span: 189..194,\n            sym: \"test1\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Class(\n    ClassDecl {\n        span: 215..229,\n        ident: Ident {\n            span: 221..224,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"x\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"x\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"x\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Ident(\n    Ident {\n        span: 70..71,\n        sym: \"x\",\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Ident(\n    Ident {\n        span: 91..92,\n        sym: \"x\",\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Ident(\n    Ident {\n        span: 132..133,\n        sym: \"x\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "JSXElement(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "JSXElement(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "JSXElement(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "JSXElement(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "JSXElement(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "JSXElement(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 156..162,\n            value: \"test\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "JSXElement(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "JSXElement(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "JSXElement(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    {
+      "id": 4294967297,
+      "node": "Class {\n    span: 215..229,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 221..224,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+    }
+  ],
+  "class_members": [],
+  "jsx_elements": [
+    {
+      "id": 4294967297,
+      "node": "JSXElement {\n    span: 7..25,\n    opening: JSXOpeningElement {\n        span: 7..25,\n        name: Ident(\n            Ident {\n                span: 8..13,\n                sym: \"Comp\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 15..20,\n                sym: \"Comp\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "JSXElement {\n    span: 29..47,\n    opening: JSXOpeningElement {\n        span: 29..47,\n        name: Ident(\n            Ident {\n                span: 30..35,\n                sym: \"Comp\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 37..42,\n                sym: \"Comp\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967299,
+      "node": "JSXElement {\n    span: 51..69,\n    opening: JSXOpeningElement {\n        span: 51..69,\n        name: Ident(\n            Ident {\n                span: 52..57,\n                sym: \"Comp\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 59..64,\n                sym: \"Comp\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967300,
+      "node": "JSXElement {\n    span: 72..90,\n    opening: JSXOpeningElement {\n        span: 72..90,\n        name: Ident(\n            Ident {\n                span: 73..78,\n                sym: \"Comp\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 80..85,\n                sym: \"Comp\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967301,
+      "node": "JSXElement {\n    span: 94..117,\n    opening: JSXOpeningElement {\n        span: 94..117,\n        name: Ident(\n            Ident {\n                span: 95..100,\n                sym: \"Comp\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 102..107,\n                sym: \"Comp\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967302,
+      "node": "JSXElement {\n    span: 138..147,\n    opening: JSXOpeningElement {\n        span: 138..147,\n        name: Ident(\n            Ident {\n                span: 139..144,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}"
+    },
+    {
+      "id": 4294967303,
+      "node": "JSXElement {\n    span: 165..188,\n    opening: JSXOpeningElement {\n        span: 165..188,\n        name: Ident(\n            Ident {\n                span: 166..171,\n                sym: \"Comp\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 173..178,\n                sym: \"Comp\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967304,
+      "node": "JSXElement {\n    span: 200..220,\n    opening: JSXOpeningElement {\n        span: 200..220,\n        name: Ident(\n            Ident {\n                span: 201..206,\n                sym: \"Comp\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 208..213,\n                sym: \"Comp\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967305,
+      "node": "JSXElement {\n    span: 231..246,\n    opening: JSXOpeningElement {\n        span: 231..246,\n        name: Ident(\n            Ident {\n                span: 232..237,\n                sym: \"Comp\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 239..244,\n                sym: \"Comp\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967306,
+      "node": "JSXElement {\n    span: 245..260,\n    opening: JSXOpeningElement {\n        span: 245..260,\n        name: Ident(\n            Ident {\n                span: 246..251,\n                sym: \"Comp\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 253..258,\n                sym: \"Comp\",\n            },\n        ),\n    ),\n}"
+    },
+    {
+      "id": 4294967307,
+      "node": "JSXElement {\n    span: 228..263,\n    opening: JSXOpeningElement {\n        span: 228..263,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 8,\n                generation: 1,\n            },\n        ),\n        Element(\n            Id {\n                index: 9,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}"
+    }
+  ],
+  "ts_types": []
+}

@@ -1,5 +1,5 @@
   x expected {, got RBrace
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/class/override-with-abstract/input.ts:3:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/class/override-with-abstract/input.ts:3:1]
  2 |   override abstract show(): void
  3 | }
    : ^

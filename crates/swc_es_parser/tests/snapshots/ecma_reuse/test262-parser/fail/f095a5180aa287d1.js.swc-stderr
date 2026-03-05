@@ -1,0 +1,8 @@
+  x unterminated string literal
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/f095a5180aa287d1.js:1:1]
+ 1 | '\
+   : ^^
+   `----
+
+Advice: 
+  > code: UnterminatedString

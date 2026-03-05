@@ -1,53 +1,53 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                                      ^^^
    `----
   x ParenExpr
-   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :               ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ArrowExpr
-   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                            ^^^^^^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                      ^^^^^^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                             ^^^^^^^

@@ -1,0 +1,8 @@
+  x expected }, got Plus
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/85ee036d67974729.js:1:1]
+ 1 | ({get +:3})
+   :       ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

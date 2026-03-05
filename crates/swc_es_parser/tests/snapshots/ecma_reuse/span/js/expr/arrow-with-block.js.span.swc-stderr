@@ -1,47 +1,47 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
   x CallExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | use((a) => {
    : ^^^
  2 |     return a;
    `----
   x ArrowExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | use((a) => {
    :      ^
  2 |     return a;
    `----
   x ReturnStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:2:1]
  1 |     use((a) => {
  2 | ,->     return a;
  3 | `-> })
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:2:1]
  1 | use((a) => {
  2 |     return a;
    :            ^

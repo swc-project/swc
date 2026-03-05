@@ -1,5 +1,5 @@
   x expected {, got Semi
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/class/declare-class-method/input.ts:2:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/class/declare-class-method/input.ts:2:1]
  1 | class T {
  2 |     declare m1(): string;
    :                         ^

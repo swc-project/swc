@@ -1,0 +1,58 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..50,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..50,\n        ident: Ident {\n            span: 6..13,\n            sym: \"Element\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 14..15,\n                sym: \"T\",\n            },\n        ],\n        ty: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    {
+      "id": 4294967297,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 19..28,\n        name: Ident {\n            span: 19..28,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Infer(\n    TsInferType {\n        span: 30..38,\n        type_param: Ident {\n            span: 36..37,\n            sym: \"U\",\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Parenthesized(\n    TsParenthesizedType {\n        span: 29..39,\n        ty: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Array(\n    TsArrayType {\n        span: 29..42,\n        elem_type: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 43..46,\n        name: Ident {\n            span: 43..46,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 47..49,\n        name: Ident {\n            span: 47..49,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Conditional(\n    TsConditionalType {\n        span: 19..49,\n        check_type: Id {\n            index: 0,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 3,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 4,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ]
+}

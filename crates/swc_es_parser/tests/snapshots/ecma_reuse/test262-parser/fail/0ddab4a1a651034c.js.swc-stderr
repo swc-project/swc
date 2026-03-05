@@ -1,0 +1,8 @@
+  x expected ;, got RParen
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/0ddab4a1a651034c.js:1:1]
+ 1 | for (let x = 42 in list) process(x);
+   :                        ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,1 +1,10 @@
-  x expected parser diagnostics; parser accepted input
+  x expected property name, got Colon
+   ,-[/swc_ecma_parser/tests/errors/issue-8687/input.ts:3:1]
+ 2 |     private #p1() { }
+ 3 |     private #p2: number;
+   :                ^
+ 4 | }
+   `----
+
+Advice: 
+  > code: UnexpectedToken

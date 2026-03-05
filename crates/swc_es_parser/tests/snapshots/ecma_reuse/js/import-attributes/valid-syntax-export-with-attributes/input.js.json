@@ -1,0 +1,29 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..66,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1..66,\n        src: Some(\n            StrLit {\n                span: 32..42,\n                value: \"foo.json\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 10..17,\n                    sym: \"default\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 21..24,\n                        sym: \"foo\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [\n            ImportAttribute {\n                span: 50..64,\n                key: Ident(\n                    Ident {\n                        span: 50..54,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 56..62,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

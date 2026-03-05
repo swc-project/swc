@@ -1,25 +1,25 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x VarDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    :     ^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    :                   ^^^
    `----

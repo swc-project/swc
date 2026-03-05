@@ -1,0 +1,8 @@
+  x invalid unicode escape sequence
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/5a627d08e9b33ad1.js:1:1]
+ 1 | "\u00";
+   :  ^^
+   `----
+
+Advice: 
+  > code: InvalidEscape

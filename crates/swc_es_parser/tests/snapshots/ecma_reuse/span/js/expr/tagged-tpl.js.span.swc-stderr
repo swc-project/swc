@@ -1,20 +1,20 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
  1 | tag`foo`
    : ^^^^^^^^
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
  1 | tag`foo`
    : ^^^^^^^^
    `----
   x TaggedTemplateExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
  1 | tag`foo`
    :    ^^^^^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
  1 | tag`foo`
    : ^^^
    `----

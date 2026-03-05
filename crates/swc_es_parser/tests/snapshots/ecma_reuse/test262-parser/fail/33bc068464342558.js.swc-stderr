@@ -1,0 +1,16 @@
+  x class fields are not enabled in this syntax mode
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/33bc068464342558.js:1:1]
+ 1 | (class {a:0})
+   :         ^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected property name, got Colon
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/33bc068464342558.js:1:1]
+ 1 | (class {a:0})
+   :          ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

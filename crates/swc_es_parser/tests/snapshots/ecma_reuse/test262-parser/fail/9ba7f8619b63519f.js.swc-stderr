@@ -1,0 +1,10 @@
+  x expected identifier, got LParen
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/9ba7f8619b63519f.js:2:1]
+ 1 | (function*() {
+ 2 |     function*(x = yield 3) {}
+   :              ^
+ 3 | })
+   `----
+
+Advice: 
+  > code: UnexpectedToken

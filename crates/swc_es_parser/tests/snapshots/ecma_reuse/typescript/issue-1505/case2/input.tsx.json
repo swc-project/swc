@@ -1,0 +1,613 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..2258,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 22,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 24,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n        Id {\n            index: 27,\n            generation: 1,\n        },\n        Id {\n            index: 28,\n            generation: 1,\n        },\n        Id {\n            index: 30,\n            generation: 1,\n        },\n        Id {\n            index: 31,\n            generation: 1,\n        },\n        Id {\n            index: 32,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 351..452,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Expr(\n    ExprStmt {\n        span: 435..456,\n        expr: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Expr(\n    ExprStmt {\n        span: 463..487,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Block(\n    BlockStmt {\n        span: 455..498,\n        stmts: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Expr(\n    ExprStmt {\n        span: 493..509,\n        expr: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Expr(\n    ExprStmt {\n        span: 499..513,\n        expr: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Expr(\n    ExprStmt {\n        span: 520..584,\n        expr: Id {\n            index: 26,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Expr(\n    ExprStmt {\n        span: 595..657,\n        expr: Id {\n            index: 31,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Expr(\n    ExprStmt {\n        span: 934..1276,\n        expr: Id {\n            index: 61,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Expr(\n    ExprStmt {\n        span: 793..1295,\n        expr: Id {\n            index: 63,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Block(\n    BlockStmt {\n        span: 585..1301,\n        stmts: [\n            Id {\n                index: 7,\n                generation: 1,\n            },\n            Id {\n                index: 8,\n                generation: 1,\n            },\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Expr(\n    ExprStmt {\n        span: 1320..1403,\n        expr: Id {\n            index: 69,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Block(\n    BlockStmt {\n        span: 1310..1409,\n        stmts: [\n            Id {\n                index: 13,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Try(\n    TryStmt {\n        span: 581..1409,\n        block: Id {\n            index: 12,\n            generation: 1,\n        },\n        handler: Some(\n            CatchClause {\n                span: 1296..1409,\n                param: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n                body: Id {\n                    index: 14,\n                    generation: 1,\n                },\n            },\n        ),\n        finalizer: None,\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Block(\n    BlockStmt {\n        span: 512..1440,\n        stmts: [\n            Id {\n                index: 6,\n                generation: 1,\n            },\n            Id {\n                index: 15,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Expr(\n    ExprStmt {\n        span: 1505..1545,\n        expr: Id {\n            index: 77,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Return(\n    ReturnStmt {\n        span: 1793..1844,\n        arg: Some(\n            Id {\n                index: 93,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Expr(\n    ExprStmt {\n        span: 1853..1947,\n        expr: Id {\n            index: 101,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Expr(\n    ExprStmt {\n        span: 1946..1974,\n        expr: Id {\n            index: 102,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "Expr(\n    ExprStmt {\n        span: 1953..1978,\n        expr: Id {\n            index: 104,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Return(\n    ReturnStmt {\n        span: 1985..2059,\n        arg: Some(\n            Id {\n                index: 105,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "Block(\n    BlockStmt {\n        span: 1977..2071,\n        stmts: [\n            Id {\n                index: 26,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "Expr(\n    ExprStmt {\n        span: 2065..2075,\n        expr: Id {\n            index: 107,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Return(\n    ReturnStmt {\n        span: 2082..2218,\n        arg: Some(\n            Id {\n                index: 115,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967327,
+      "node": "Block(\n    BlockStmt {\n        span: 2074..2222,\n        stmts: [\n            Id {\n                index: 29,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "Expr(\n    ExprStmt {\n        span: 2221..2231,\n        expr: Id {\n            index: 116,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 652..797,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 652..784,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 40,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Var(\n    VarDecl {\n        span: 1540..1660,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1540..1648,\n                name: Id {\n                    index: 6,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 82,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Var(\n    VarDecl {\n        span: 1731..1799,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1731..1784,\n                name: Id {\n                    index: 10,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Var(\n    VarDecl {\n        span: 1655..1857,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1655..1846,\n                name: Id {\n                    index: 7,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 95,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 351..356,\n        sym: \"state\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Ident(\n    Ident {\n        span: 658..675,\n        sym: \"teamsWithProjects\",\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Ident(\n    Ident {\n        span: 1303..1308,\n        sym: \"error\",\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Expr(\n    Id {\n        index: 72,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Object(\n    ObjectPat {\n        span: 1546..1566,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 1548..1564,\n                    key: Ident {\n                        span: 1548..1562,\n                        sym: \"projectsByTeam\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Ident(\n    Ident {\n        span: 1661..1678,\n        sym: \"teamsWithProjects\",\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Ident(\n    Ident {\n        span: 1712..1716,\n        sym: \"team\",\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Ident(\n    Ident {\n        span: 1737..1749,\n        sym: \"teamProjects\",\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Assign(\n    AssignPat {\n        span: 1750..1784,\n        left: Id {\n            index: 9,\n            generation: 1,\n        },\n        right: Id {\n            index: 90,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967306,
+      "node": "Array(\n    ArrayExpr {\n        span: 374..377,\n        elems: [],\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 398..402,\n            value: true,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 417..421,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Object(\n    ObjectExpr {\n        span: 359..429,\n        props: [\n            KeyValueProp {\n                span: 367..377,\n                key: Ident(\n                    Ident {\n                        span: 367..372,\n                        sym: \"teams\",\n                    },\n                ),\n                value: Id {\n                    index: 9,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 384..403,\n                key: Ident(\n                    Ident {\n                        span: 384..396,\n                        sym: \"loadingTeams\",\n                    },\n                ),\n                value: Id {\n                    index: 10,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 410..422,\n                key: Ident(\n                    Ident {\n                        span: 410..415,\n                        sym: \"error\",\n                    },\n                ),\n                value: Id {\n                    index: 11,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Assign(\n    AssignExpr {\n        span: 357..429,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Ident(\n    Ident {\n        span: 435..452,\n        sym: \"componentDidMount\",\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Call(\n    CallExpr {\n        span: 452..456,\n        callee: Id {\n            index: 14,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Ident(\n    Ident {\n        span: 463..467,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Member(\n    MemberExpr {\n        span: 467..479,\n        obj: Id {\n            index: 16,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 468..478,\n                sym: \"fetchTeams\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Call(\n    CallExpr {\n        span: 478..481,\n        callee: Id {\n            index: 17,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Ident(\n    Ident {\n        span: 493..498,\n        sym: \"async\",\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Ident(\n    Ident {\n        span: 499..509,\n        sym: \"fetchTeams\",\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Call(\n    CallExpr {\n        span: 509..513,\n        callee: Id {\n            index: 20,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Ident(\n    Ident {\n        span: 520..524,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Member(\n    MemberExpr {\n        span: 524..534,\n        obj: Id {\n            index: 22,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 525..533,\n                sym: \"setState\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 558..562,\n            value: true,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "Object(\n    ObjectExpr {\n        span: 534..572,\n        props: [\n            KeyValueProp {\n                span: 544..563,\n                key: Ident(\n                    Ident {\n                        span: 544..556,\n                        sym: \"loadingTeams\",\n                    },\n                ),\n                value: Id {\n                    index: 24,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Call(\n    CallExpr {\n        span: 533..573,\n        callee: Id {\n            index: 23,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 25,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "Ident(\n    Ident {\n        span: 595..601,\n        sym: \"metric\",\n    },\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "Member(\n    MemberExpr {\n        span: 601..607,\n        obj: Id {\n            index: 27,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 602..606,\n                sym: \"mark\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 615..639,\n            value: \"user-teams-fetch-start\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967327,
+      "node": "Object(\n    ObjectExpr {\n        span: 607..642,\n        props: [\n            KeyValueProp {\n                span: 609..641,\n                key: Ident(\n                    Ident {\n                        span: 609..613,\n                        sym: \"name\",\n                    },\n                ),\n                value: Id {\n                    index: 29,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "Call(\n    CallExpr {\n        span: 606..643,\n        callee: Id {\n            index: 28,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 30,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "Ident(\n    Ident {\n        span: 704..708,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967330,
+      "node": "Member(\n    MemberExpr {\n        span: 708..715,\n        obj: Id {\n            index: 32,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 709..714,\n                sym: \"props\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967331,
+      "node": "Member(\n    MemberExpr {\n        span: 714..719,\n        obj: Id {\n            index: 33,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 715..718,\n                sym: \"api\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967332,
+      "node": "Member(\n    MemberExpr {\n        span: 718..734,\n        obj: Id {\n            index: 34,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 719..733,\n                sym: \"requestPromise\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967333,
+      "node": "Ident(\n    Ident {\n        span: 745..749,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967334,
+      "node": "Member(\n    MemberExpr {\n        span: 749..772,\n        obj: Id {\n            index: 36,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 750..771,\n                sym: \"getUsersTeamsEndpoint\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967335,
+      "node": "Call(\n    CallExpr {\n        span: 771..783,\n        callee: Id {\n            index: 37,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967336,
+      "node": "Call(\n    CallExpr {\n        span: 733..784,\n        callee: Id {\n            index: 35,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 38,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967337,
+      "node": "Await(\n    AwaitExpr {\n        span: 698..784,\n        arg: Id {\n            index: 39,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967338,
+      "node": "Ident(\n    Ident {\n        span: 793..797,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967339,
+      "node": "Member(\n    MemberExpr {\n        span: 797..807,\n        obj: Id {\n            index: 41,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 798..806,\n                sym: \"setState\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967340,
+      "node": "Ident(\n    Ident {\n        span: 839..856,\n        sym: \"teamsWithProjects\",\n    },\n)"
+    },
+    {
+      "id": 4294967341,
+      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 884..889,\n            value: false,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967342,
+      "node": "Object(\n    ObjectExpr {\n        span: 818..903,\n        props: [\n            KeyValueProp {\n                span: 832..857,\n                key: Ident(\n                    Ident {\n                        span: 832..837,\n                        sym: \"teams\",\n                    },\n                ),\n                value: Id {\n                    index: 43,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 870..890,\n                key: Ident(\n                    Ident {\n                        span: 870..882,\n                        sym: \"loadingTeams\",\n                    },\n                ),\n                value: Id {\n                    index: 44,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967343,
+      "node": "Ident(\n    Ident {\n        span: 934..940,\n        sym: \"metric\",\n    },\n)"
+    },
+    {
+      "id": 4294967344,
+      "node": "Member(\n    MemberExpr {\n        span: 940..949,\n        obj: Id {\n            index: 46,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 941..948,\n                sym: \"measure\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967345,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 971..991,\n            value: \"app.component.perf\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967346,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1014..1038,\n            value: \"user-teams-fetch-start\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967347,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1084..1096,\n            value: \"user-teams\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967348,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1121..1155,\n            value: \"/organizations/:orgid/user-teams\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967349,
+      "node": "Ident(\n    Ident {\n        span: 1190..1198,\n        sym: \"parseInt\",\n    },\n)"
+    },
+    {
+      "id": 4294967350,
+      "node": "Ident(\n    Ident {\n        span: 1199..1203,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967351,
+      "node": "Member(\n    MemberExpr {\n        span: 1203..1210,\n        obj: Id {\n            index: 53,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1204..1209,\n                sym: \"props\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967352,
+      "node": "Member(\n    MemberExpr {\n        span: 1209..1223,\n        obj: Id {\n            index: 54,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1210..1222,\n                sym: \"organization\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967353,
+      "node": "Member(\n    MemberExpr {\n        span: 1222..1226,\n        obj: Id {\n            index: 55,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1223..1225,\n                sym: \"id\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967354,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1227..1229,\n            value: 10.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967355,
+      "node": "Call(\n    CallExpr {\n        span: 1198..1231,\n        callee: Id {\n            index: 52,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 56,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 57,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967356,
+      "node": "Object(\n    ObjectExpr {\n        span: 1060..1248,\n        props: [\n            KeyValueProp {\n                span: 1078..1097,\n                key: Ident(\n                    Ident {\n                        span: 1078..1082,\n                        sym: \"name\",\n                    },\n                ),\n                value: Id {\n                    index: 50,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1114..1156,\n                key: Ident(\n                    Ident {\n                        span: 1114..1119,\n                        sym: \"route\",\n                    },\n                ),\n                value: Id {\n                    index: 51,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1173..1231,\n                key: Ident(\n                    Ident {\n                        span: 1173..1188,\n                        sym: \"organization_id\",\n                    },\n                ),\n                value: Id {\n                    index: 58,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967357,
+      "node": "Object(\n    ObjectExpr {\n        span: 949..1263,\n        props: [\n            KeyValueProp {\n                span: 965..992,\n                key: Ident(\n                    Ident {\n                        span: 965..969,\n                        sym: \"name\",\n                    },\n                ),\n                value: Id {\n                    index: 48,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1007..1039,\n                key: Ident(\n                    Ident {\n                        span: 1007..1012,\n                        sym: \"start\",\n                    },\n                ),\n                value: Id {\n                    index: 49,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1054..1248,\n                key: Ident(\n                    Ident {\n                        span: 1054..1058,\n                        sym: \"data\",\n                    },\n                ),\n                value: Id {\n                    index: 59,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967358,
+      "node": "Call(\n    CallExpr {\n        span: 948..1264,\n        callee: Id {\n            index: 47,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 60,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967359,
+      "node": "Arrow(\n    ArrowExpr {\n        span: 914..1286,\n        params: [],\n        body: Block(\n            [\n                Id {\n                    index: 9,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: false,\n    },\n)"
+    },
+    {
+      "id": 4294967360,
+      "node": "Call(\n    CallExpr {\n        span: 806..1287,\n        callee: Id {\n            index: 42,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 45,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 62,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967361,
+      "node": "Ident(\n    Ident {\n        span: 1320..1324,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967362,
+      "node": "Member(\n    MemberExpr {\n        span: 1324..1334,\n        obj: Id {\n            index: 64,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1325..1333,\n                sym: \"setState\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967363,
+      "node": "Ident(\n    Ident {\n        span: 1346..1351,\n        sym: \"error\",\n    },\n)"
+    },
+    {
+      "id": 4294967364,
+      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 1377..1382,\n            value: false,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967365,
+      "node": "Object(\n    ObjectExpr {\n        span: 1334..1394,\n        props: [\n            KeyValueProp {\n                span: 1346..1352,\n                key: Ident(\n                    Ident {\n                        span: 1346..1351,\n                        sym: \"error\",\n                    },\n                ),\n                value: Id {\n                    index: 66,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1363..1383,\n                key: Ident(\n                    Ident {\n                        span: 1363..1375,\n                        sym: \"loadingTeams\",\n                    },\n                ),\n                value: Id {\n                    index: 67,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967366,
+      "node": "Call(\n    CallExpr {\n        span: 1333..1395,\n        callee: Id {\n            index: 65,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 68,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967369,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967370,
+      "node": "Ident(\n    Ident {\n        span: 1509..1520,\n        sym: \"ConfigStore\",\n    },\n)"
+    },
+    {
+      "id": 4294967371,
+      "node": "Member(\n    MemberExpr {\n        span: 1520..1525,\n        obj: Id {\n            index: 73,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1521..1524,\n                sym: \"get\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967372,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1525..1531,\n            value: \"user\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967373,
+      "node": "Call(\n    CallExpr {\n        span: 1524..1533,\n        callee: Id {\n            index: 74,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 75,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967374,
+      "node": "Assign(\n    AssignExpr {\n        span: 1507..1533,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 76,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967375,
+      "node": "Ident(\n    Ident {\n        span: 1567..1585,\n        sym: \"getProjectsByTeams\",\n    },\n)"
+    },
+    {
+      "id": 4294967376,
+      "node": "Ident(\n    Ident {\n        span: 1595..1600,\n        sym: \"teams\",\n    },\n)"
+    },
+    {
+      "id": 4294967377,
+      "node": "Ident(\n    Ident {\n        span: 1610..1618,\n        sym: \"projects\",\n    },\n)"
+    },
+    {
+      "id": 4294967378,
+      "node": "Ident(\n    Ident {\n        span: 1628..1639,\n        sym: \"isSuperuser\",\n    },\n)"
+    },
+    {
+      "id": 4294967379,
+      "node": "Call(\n    CallExpr {\n        span: 1585..1648,\n        callee: Id {\n            index: 78,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 79,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 80,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 81,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967380,
+      "node": "Ident(\n    Ident {\n        span: 1701..1706,\n        sym: \"teams\",\n    },\n)"
+    },
+    {
+      "id": 4294967381,
+      "node": "Member(\n    MemberExpr {\n        span: 1706..1711,\n        obj: Id {\n            index: 83,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1707..1710,\n                sym: \"map\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967382,
+      "node": "Ident(\n    Ident {\n        span: 1752..1766,\n        sym: \"projectsByTeam\",\n    },\n)"
+    },
+    {
+      "id": 4294967383,
+      "node": "Ident(\n    Ident {\n        span: 1767..1771,\n        sym: \"team\",\n    },\n)"
+    },
+    {
+      "id": 4294967384,
+      "node": "Member(\n    MemberExpr {\n        span: 1771..1777,\n        obj: Id {\n            index: 86,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1772..1776,\n                sym: \"slug\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967385,
+      "node": "Member(\n    MemberExpr {\n        span: 1766..1780,\n        obj: Id {\n            index: 85,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 87,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967386,
+      "node": "Array(\n    ArrayExpr {\n        span: 1781..1784,\n        elems: [],\n    },\n)"
+    },
+    {
+      "id": 4294967387,
+      "node": "Binary(\n    BinaryExpr {\n        span: 1778..1784,\n        op: LogicalOr,\n        left: Id {\n            index: 88,\n            generation: 1,\n        },\n        right: Id {\n            index: 89,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967388,
+      "node": "Ident(\n    Ident {\n        span: 1805..1809,\n        sym: \"team\",\n    },\n)"
+    },
+    {
+      "id": 4294967389,
+      "node": "Ident(\n    Ident {\n        span: 1821..1833,\n        sym: \"teamProjects\",\n    },\n)"
+    },
+    {
+      "id": 4294967390,
+      "node": "Object(\n    ObjectExpr {\n        span: 1800..1836,\n        props: [\n            KeyValueProp {\n                span: 1802..1810,\n                key: Ident(\n                    Ident {\n                        span: 1802..1802,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 91,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1811..1835,\n                key: Ident(\n                    Ident {\n                        span: 1811..1819,\n                        sym: \"projects\",\n                    },\n                ),\n                value: Id {\n                    index: 92,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967391,
+      "node": "Arrow(\n    ArrowExpr {\n        span: 1711..1845,\n        params: [\n            Id {\n                index: 8,\n                generation: 1,\n            },\n        ],\n        body: Block(\n            [\n                Id {\n                    index: 19,\n                    generation: 1,\n                },\n                Id {\n                    index: 20,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: false,\n    },\n)"
+    },
+    {
+      "id": 4294967392,
+      "node": "Call(\n    CallExpr {\n        span: 1710..1846,\n        callee: Id {\n            index: 84,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 94,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967393,
+      "node": "Ident(\n    Ident {\n        span: 1853..1857,\n        sym: \"this\",\n    },\n)"
+    },
+    {
+      "id": 4294967394,
+      "node": "Member(\n    MemberExpr {\n        span: 1857..1867,\n        obj: Id {\n            index: 96,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1858..1866,\n                sym: \"setState\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967395,
+      "node": "Ident(\n    Ident {\n        span: 1884..1901,\n        sym: \"teamsWithProjects\",\n    },\n)"
+    },
+    {
+      "id": 4294967396,
+      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 1925..1930,\n            value: false,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967397,
+      "node": "Object(\n    ObjectExpr {\n        span: 1867..1940,\n        props: [\n            KeyValueProp {\n                span: 1877..1902,\n                key: Ident(\n                    Ident {\n                        span: 1877..1882,\n                        sym: \"teams\",\n                    },\n                ),\n                value: Id {\n                    index: 98,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1911..1931,\n                key: Ident(\n                    Ident {\n                        span: 1911..1923,\n                        sym: \"loadingTeams\",\n                    },\n                ),\n                value: Id {\n                    index: 99,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967398,
+      "node": "Call(\n    CallExpr {\n        span: 1866..1941,\n        callee: Id {\n            index: 97,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 100,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967399,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967400,
+      "node": "Ident(\n    Ident {\n        span: 1953..1974,\n        sym: \"getUsersTeamsEndpoint\",\n    },\n)"
+    },
+    {
+      "id": 4294967401,
+      "node": "Call(\n    CallExpr {\n        span: 1974..1978,\n        callee: Id {\n            index: 103,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967402,
+      "node": "Template(\n    TemplateExpr {\n        span: 1992..2052,\n        quasis: [\n            StrLit {\n                span: 1992..2052,\n                value: \"/organizations/${this.props.organization.slug}/user-teams/\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967403,
+      "node": "Ident(\n    Ident {\n        span: 2065..2071,\n        sym: \"render\",\n    },\n)"
+    },
+    {
+      "id": 4294967404,
+      "node": "Call(\n    CallExpr {\n        span: 2071..2075,\n        callee: Id {\n            index: 106,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967411,
+      "node": "JSXElement(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967412,
+      "node": "Paren(\n    ParenExpr {\n        span: 2089..2212,\n        expr: Id {\n            index: 114,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967413,
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967414,
+      "node": "Ident(\n    Ident {\n        span: 2240..2256,\n        sym: \"withTeamsForUser\",\n    },\n)"
+    }
+  ],
+  "module_decls": [
+    {
+      "id": 4294967297,
+      "node": "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 2225..2258,\n        expr: Id {\n            index: 117,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    {
+      "id": 4294967297,
+      "node": "JSXElement {\n    span: 2099..2211,\n    opening: JSXOpeningElement {\n        span: 2099..2211,\n        name: Ident(\n            Ident {\n                span: 2100..2128,\n                sym: \"WrappedComponent\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 2127..2178,\n                name: \"...\",\n                value: Some(\n                    Id {\n                        index: 111,\n                        generation: 1,\n                    },\n                ),\n            },\n            JSXAttr {\n                span: 2177..2202,\n                name: \"...\",\n                value: Some(\n                    Id {\n                        index: 113,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}"
+    }
+  ],
+  "ts_types": []
+}

@@ -1,0 +1,9 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/67419010fc81184a.js:2:1]
+ 1 | /*
+ 2 | */]
+   :   ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

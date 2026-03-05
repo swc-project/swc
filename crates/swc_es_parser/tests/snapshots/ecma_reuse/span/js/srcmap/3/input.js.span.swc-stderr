@@ -1,15 +1,15 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/3/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/3/input.js:1:1]
  1 | 1
    : ^
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/3/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/3/input.js:1:1]
  1 | 1
    : ^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/3/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/3/input.js:1:1]
  1 | 1
    : ^
    `----

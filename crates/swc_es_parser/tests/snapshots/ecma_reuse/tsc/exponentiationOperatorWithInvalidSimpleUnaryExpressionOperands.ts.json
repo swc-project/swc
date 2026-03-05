@@ -1,0 +1,915 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..673,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n        Id {\n            index: 22,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 24,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n        Id {\n            index: 26,\n            generation: 1,\n        },\n        Id {\n            index: 27,\n            generation: 1,\n        },\n        Id {\n            index: 28,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Expr(\n    ExprStmt {\n        span: 61..79,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Expr(\n    ExprStmt {\n        span: 78..95,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Expr(\n    ExprStmt {\n        span: 94..106,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Expr(\n    ExprStmt {\n        span: 105..122,\n        expr: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Expr(\n    ExprStmt {\n        span: 121..139,\n        expr: Id {\n            index: 28,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Expr(\n    ExprStmt {\n        span: 138..161,\n        expr: Id {\n            index: 36,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Expr(\n    ExprStmt {\n        span: 160..182,\n        expr: Id {\n            index: 44,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Expr(\n    ExprStmt {\n        span: 181..198,\n        expr: Id {\n            index: 51,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Expr(\n    ExprStmt {\n        span: 197..219,\n        expr: Id {\n            index: 59,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Expr(\n    ExprStmt {\n        span: 218..241,\n        expr: Id {\n            index: 67,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Expr(\n    ExprStmt {\n        span: 240..263,\n        expr: Id {\n            index: 73,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Expr(\n    ExprStmt {\n        span: 262..285,\n        expr: Id {\n            index: 79,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Expr(\n    ExprStmt {\n        span: 284..302,\n        expr: Id {\n            index: 84,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Expr(\n    ExprStmt {\n        span: 301..324,\n        expr: Id {\n            index: 90,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Expr(\n    ExprStmt {\n        span: 323..347,\n        expr: Id {\n            index: 96,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Expr(\n    ExprStmt {\n        span: 346..374,\n        expr: Id {\n            index: 104,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Expr(\n    ExprStmt {\n        span: 373..401,\n        expr: Id {\n            index: 112,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Expr(\n    ExprStmt {\n        span: 400..423,\n        expr: Id {\n            index: 119,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Expr(\n    ExprStmt {\n        span: 422..450,\n        expr: Id {\n            index: 127,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Expr(\n    ExprStmt {\n        span: 449..478,\n        expr: Id {\n            index: 135,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Expr(\n    ExprStmt {\n        span: 477..500,\n        expr: Id {\n            index: 141,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Expr(\n    ExprStmt {\n        span: 499..522,\n        expr: Id {\n            index: 147,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Expr(\n    ExprStmt {\n        span: 521..544,\n        expr: Id {\n            index: 153,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Expr(\n    ExprStmt {\n        span: 543..567,\n        expr: Id {\n            index: 159,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "Expr(\n    ExprStmt {\n        span: 566..594,\n        expr: Id {\n            index: 167,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Expr(\n    ExprStmt {\n        span: 593..621,\n        expr: Id {\n            index: 175,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "Expr(\n    ExprStmt {\n        span: 620..648,\n        expr: Id {\n            index: 183,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "Expr(\n    ExprStmt {\n        span: 647..673,\n        expr: Id {\n            index: 191,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Var(\n    VarDecl {\n        span: 1..62,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..15,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 5..9,\n        sym: \"temp\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 66..70,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Update(\n    UpdateExpr {\n        span: 64..71,\n        op: MinusMinus,\n        arg: Id {\n            index: 0,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Unary(\n    UnaryExpr {\n        span: 62..71,\n        op: Bang,\n        arg: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Paren(\n    ParenExpr {\n        span: 61..74,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 75..76,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Binary(\n    BinaryExpr {\n        span: 72..77,\n        op: Exp,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        right: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Ident(\n    Ident {\n        span: 80..84,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Update(\n    UpdateExpr {\n        span: 84..87,\n        op: MinusMinus,\n        arg: Id {\n            index: 6,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Unary(\n    UnaryExpr {\n        span: 79..87,\n        op: Bang,\n        arg: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Paren(\n    ParenExpr {\n        span: 78..90,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 91..92,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Binary(\n    BinaryExpr {\n        span: 88..93,\n        op: Exp,\n        left: Id {\n            index: 9,\n            generation: 1,\n        },\n        right: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 96..97,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Unary(\n    UnaryExpr {\n        span: 95..98,\n        op: Bang,\n        arg: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Paren(\n    ParenExpr {\n        span: 94..101,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 102..103,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Binary(\n    BinaryExpr {\n        span: 99..104,\n        op: Exp,\n        left: Id {\n            index: 14,\n            generation: 1,\n        },\n        right: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Ident(\n    Ident {\n        span: 107..111,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Update(\n    UpdateExpr {\n        span: 111..114,\n        op: PlusPlus,\n        arg: Id {\n            index: 17,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Unary(\n    UnaryExpr {\n        span: 106..114,\n        op: Bang,\n        arg: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Paren(\n    ParenExpr {\n        span: 105..117,\n        expr: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 118..119,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Binary(\n    BinaryExpr {\n        span: 115..120,\n        op: Exp,\n        left: Id {\n            index: 20,\n            generation: 1,\n        },\n        right: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Ident(\n    Ident {\n        span: 123..127,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Update(\n    UpdateExpr {\n        span: 127..130,\n        op: MinusMinus,\n        arg: Id {\n            index: 23,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "Unary(\n    UnaryExpr {\n        span: 122..130,\n        op: Bang,\n        arg: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Paren(\n    ParenExpr {\n        span: 121..133,\n        expr: Id {\n            index: 25,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 134..135,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "Binary(\n    BinaryExpr {\n        span: 131..136,\n        op: Exp,\n        left: Id {\n            index: 26,\n            generation: 1,\n        },\n        right: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Ident(\n    Ident {\n        span: 143..147,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967327,
+      "node": "Update(\n    UpdateExpr {\n        span: 141..148,\n        op: MinusMinus,\n        arg: Id {\n            index: 29,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "Unary(\n    UnaryExpr {\n        span: 139..148,\n        op: Bang,\n        arg: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "Paren(\n    ParenExpr {\n        span: 138..151,\n        expr: Id {\n            index: 31,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967330,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 152..153,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967331,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 157..158,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967332,
+      "node": "Binary(\n    BinaryExpr {\n        span: 154..159,\n        op: Exp,\n        left: Id {\n            index: 33,\n            generation: 1,\n        },\n        right: Id {\n            index: 34,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967333,
+      "node": "Binary(\n    BinaryExpr {\n        span: 149..159,\n        op: Exp,\n        left: Id {\n            index: 32,\n            generation: 1,\n        },\n        right: Id {\n            index: 35,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967334,
+      "node": "Ident(\n    Ident {\n        span: 162..166,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967335,
+      "node": "Update(\n    UpdateExpr {\n        span: 166..169,\n        op: MinusMinus,\n        arg: Id {\n            index: 37,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967336,
+      "node": "Unary(\n    UnaryExpr {\n        span: 161..169,\n        op: Bang,\n        arg: Id {\n            index: 38,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967337,
+      "node": "Paren(\n    ParenExpr {\n        span: 160..172,\n        expr: Id {\n            index: 39,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967338,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 173..174,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967339,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 178..179,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967340,
+      "node": "Binary(\n    BinaryExpr {\n        span: 175..180,\n        op: Exp,\n        left: Id {\n            index: 41,\n            generation: 1,\n        },\n        right: Id {\n            index: 42,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967341,
+      "node": "Binary(\n    BinaryExpr {\n        span: 170..180,\n        op: Exp,\n        left: Id {\n            index: 40,\n            generation: 1,\n        },\n        right: Id {\n            index: 43,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967342,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 183..184,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967343,
+      "node": "Unary(\n    UnaryExpr {\n        span: 182..185,\n        op: Bang,\n        arg: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967344,
+      "node": "Paren(\n    ParenExpr {\n        span: 181..188,\n        expr: Id {\n            index: 46,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967345,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 189..190,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967346,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 194..195,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967347,
+      "node": "Binary(\n    BinaryExpr {\n        span: 191..196,\n        op: Exp,\n        left: Id {\n            index: 48,\n            generation: 1,\n        },\n        right: Id {\n            index: 49,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967348,
+      "node": "Binary(\n    BinaryExpr {\n        span: 186..196,\n        op: Exp,\n        left: Id {\n            index: 47,\n            generation: 1,\n        },\n        right: Id {\n            index: 50,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967349,
+      "node": "Ident(\n    Ident {\n        span: 199..203,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967350,
+      "node": "Update(\n    UpdateExpr {\n        span: 203..206,\n        op: PlusPlus,\n        arg: Id {\n            index: 52,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967351,
+      "node": "Unary(\n    UnaryExpr {\n        span: 198..206,\n        op: Bang,\n        arg: Id {\n            index: 53,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967352,
+      "node": "Paren(\n    ParenExpr {\n        span: 197..209,\n        expr: Id {\n            index: 54,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967353,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 210..211,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967354,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 215..216,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967355,
+      "node": "Binary(\n    BinaryExpr {\n        span: 212..217,\n        op: Exp,\n        left: Id {\n            index: 56,\n            generation: 1,\n        },\n        right: Id {\n            index: 57,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967356,
+      "node": "Binary(\n    BinaryExpr {\n        span: 207..217,\n        op: Exp,\n        left: Id {\n            index: 55,\n            generation: 1,\n        },\n        right: Id {\n            index: 58,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967357,
+      "node": "Ident(\n    Ident {\n        span: 220..224,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967358,
+      "node": "Update(\n    UpdateExpr {\n        span: 224..227,\n        op: MinusMinus,\n        arg: Id {\n            index: 60,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967359,
+      "node": "Unary(\n    UnaryExpr {\n        span: 219..227,\n        op: Bang,\n        arg: Id {\n            index: 61,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967360,
+      "node": "Paren(\n    ParenExpr {\n        span: 218..230,\n        expr: Id {\n            index: 62,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967361,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 231..232,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967362,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 236..237,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967363,
+      "node": "Binary(\n    BinaryExpr {\n        span: 233..238,\n        op: Exp,\n        left: Id {\n            index: 64,\n            generation: 1,\n        },\n        right: Id {\n            index: 65,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967364,
+      "node": "Binary(\n    BinaryExpr {\n        span: 228..238,\n        op: Exp,\n        left: Id {\n            index: 63,\n            generation: 1,\n        },\n        right: Id {\n            index: 66,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967365,
+      "node": "Ident(\n    Ident {\n        span: 250..254,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967366,
+      "node": "Update(\n    UpdateExpr {\n        span: 248..255,\n        op: MinusMinus,\n        arg: Id {\n            index: 68,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
+    },
+    {
+      "id": 4294967367,
+      "node": "Unary(\n    UnaryExpr {\n        span: 241..255,\n        op: TypeOf,\n        arg: Id {\n            index: 69,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967368,
+      "node": "Paren(\n    ParenExpr {\n        span: 240..258,\n        expr: Id {\n            index: 70,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967369,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 259..260,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967370,
+      "node": "Binary(\n    BinaryExpr {\n        span: 256..261,\n        op: Exp,\n        left: Id {\n            index: 71,\n            generation: 1,\n        },\n        right: Id {\n            index: 72,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967371,
+      "node": "Ident(\n    Ident {\n        span: 270..274,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967372,
+      "node": "Update(\n    UpdateExpr {\n        span: 274..277,\n        op: MinusMinus,\n        arg: Id {\n            index: 74,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967373,
+      "node": "Unary(\n    UnaryExpr {\n        span: 263..277,\n        op: TypeOf,\n        arg: Id {\n            index: 75,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967374,
+      "node": "Paren(\n    ParenExpr {\n        span: 262..280,\n        expr: Id {\n            index: 76,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967375,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 281..282,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967376,
+      "node": "Binary(\n    BinaryExpr {\n        span: 278..283,\n        op: Exp,\n        left: Id {\n            index: 77,\n            generation: 1,\n        },\n        right: Id {\n            index: 78,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967377,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 292..293,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967378,
+      "node": "Unary(\n    UnaryExpr {\n        span: 285..294,\n        op: TypeOf,\n        arg: Id {\n            index: 80,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967379,
+      "node": "Paren(\n    ParenExpr {\n        span: 284..297,\n        expr: Id {\n            index: 81,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967380,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 298..299,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967381,
+      "node": "Binary(\n    BinaryExpr {\n        span: 295..300,\n        op: Exp,\n        left: Id {\n            index: 82,\n            generation: 1,\n        },\n        right: Id {\n            index: 83,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967382,
+      "node": "Ident(\n    Ident {\n        span: 309..313,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967383,
+      "node": "Update(\n    UpdateExpr {\n        span: 313..316,\n        op: PlusPlus,\n        arg: Id {\n            index: 85,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967384,
+      "node": "Unary(\n    UnaryExpr {\n        span: 302..316,\n        op: TypeOf,\n        arg: Id {\n            index: 86,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967385,
+      "node": "Paren(\n    ParenExpr {\n        span: 301..319,\n        expr: Id {\n            index: 87,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967386,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 320..321,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967387,
+      "node": "Binary(\n    BinaryExpr {\n        span: 317..322,\n        op: Exp,\n        left: Id {\n            index: 88,\n            generation: 1,\n        },\n        right: Id {\n            index: 89,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967388,
+      "node": "Ident(\n    Ident {\n        span: 331..335,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967389,
+      "node": "Update(\n    UpdateExpr {\n        span: 335..338,\n        op: MinusMinus,\n        arg: Id {\n            index: 91,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967390,
+      "node": "Unary(\n    UnaryExpr {\n        span: 324..338,\n        op: TypeOf,\n        arg: Id {\n            index: 92,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967391,
+      "node": "Paren(\n    ParenExpr {\n        span: 323..341,\n        expr: Id {\n            index: 93,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967392,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 342..343,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967393,
+      "node": "Binary(\n    BinaryExpr {\n        span: 339..344,\n        op: Exp,\n        left: Id {\n            index: 94,\n            generation: 1,\n        },\n        right: Id {\n            index: 95,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967394,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 346..347,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967395,
+      "node": "Ident(\n    Ident {\n        span: 361..365,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967396,
+      "node": "Update(\n    UpdateExpr {\n        span: 359..366,\n        op: MinusMinus,\n        arg: Id {\n            index: 98,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
+    },
+    {
+      "id": 4294967397,
+      "node": "Unary(\n    UnaryExpr {\n        span: 352..366,\n        op: TypeOf,\n        arg: Id {\n            index: 99,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967398,
+      "node": "Paren(\n    ParenExpr {\n        span: 351..369,\n        expr: Id {\n            index: 100,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967399,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 370..371,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967400,
+      "node": "Binary(\n    BinaryExpr {\n        span: 367..372,\n        op: Exp,\n        left: Id {\n            index: 101,\n            generation: 1,\n        },\n        right: Id {\n            index: 102,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967401,
+      "node": "Binary(\n    BinaryExpr {\n        span: 348..372,\n        op: Exp,\n        left: Id {\n            index: 97,\n            generation: 1,\n        },\n        right: Id {\n            index: 103,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967402,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 373..374,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967403,
+      "node": "Ident(\n    Ident {\n        span: 386..390,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967404,
+      "node": "Update(\n    UpdateExpr {\n        span: 390..393,\n        op: MinusMinus,\n        arg: Id {\n            index: 106,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967405,
+      "node": "Unary(\n    UnaryExpr {\n        span: 379..393,\n        op: TypeOf,\n        arg: Id {\n            index: 107,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967406,
+      "node": "Paren(\n    ParenExpr {\n        span: 378..396,\n        expr: Id {\n            index: 108,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967407,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 397..398,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967408,
+      "node": "Binary(\n    BinaryExpr {\n        span: 394..399,\n        op: Exp,\n        left: Id {\n            index: 109,\n            generation: 1,\n        },\n        right: Id {\n            index: 110,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967409,
+      "node": "Binary(\n    BinaryExpr {\n        span: 375..399,\n        op: Exp,\n        left: Id {\n            index: 105,\n            generation: 1,\n        },\n        right: Id {\n            index: 111,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967410,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 400..401,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967411,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 413..414,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967412,
+      "node": "Unary(\n    UnaryExpr {\n        span: 406..415,\n        op: TypeOf,\n        arg: Id {\n            index: 114,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967413,
+      "node": "Paren(\n    ParenExpr {\n        span: 405..418,\n        expr: Id {\n            index: 115,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967414,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 419..420,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967415,
+      "node": "Binary(\n    BinaryExpr {\n        span: 416..421,\n        op: Exp,\n        left: Id {\n            index: 116,\n            generation: 1,\n        },\n        right: Id {\n            index: 117,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967416,
+      "node": "Binary(\n    BinaryExpr {\n        span: 402..421,\n        op: Exp,\n        left: Id {\n            index: 113,\n            generation: 1,\n        },\n        right: Id {\n            index: 118,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967417,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 422..423,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967418,
+      "node": "Ident(\n    Ident {\n        span: 435..439,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967419,
+      "node": "Update(\n    UpdateExpr {\n        span: 439..442,\n        op: PlusPlus,\n        arg: Id {\n            index: 121,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967420,
+      "node": "Unary(\n    UnaryExpr {\n        span: 428..442,\n        op: TypeOf,\n        arg: Id {\n            index: 122,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967421,
+      "node": "Paren(\n    ParenExpr {\n        span: 427..445,\n        expr: Id {\n            index: 123,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967422,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 446..447,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967423,
+      "node": "Binary(\n    BinaryExpr {\n        span: 443..448,\n        op: Exp,\n        left: Id {\n            index: 124,\n            generation: 1,\n        },\n        right: Id {\n            index: 125,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967424,
+      "node": "Binary(\n    BinaryExpr {\n        span: 424..448,\n        op: Exp,\n        left: Id {\n            index: 120,\n            generation: 1,\n        },\n        right: Id {\n            index: 126,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967425,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 449..450,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967426,
+      "node": "Ident(\n    Ident {\n        span: 462..466,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967427,
+      "node": "Update(\n    UpdateExpr {\n        span: 466..469,\n        op: MinusMinus,\n        arg: Id {\n            index: 129,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967428,
+      "node": "Unary(\n    UnaryExpr {\n        span: 455..469,\n        op: TypeOf,\n        arg: Id {\n            index: 130,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967429,
+      "node": "Paren(\n    ParenExpr {\n        span: 454..472,\n        expr: Id {\n            index: 131,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967430,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 473..474,\n            value: 4.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967431,
+      "node": "Binary(\n    BinaryExpr {\n        span: 470..475,\n        op: Exp,\n        left: Id {\n            index: 132,\n            generation: 1,\n        },\n        right: Id {\n            index: 133,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967432,
+      "node": "Binary(\n    BinaryExpr {\n        span: 451..475,\n        op: Exp,\n        left: Id {\n            index: 128,\n            generation: 1,\n        },\n        right: Id {\n            index: 134,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967433,
+      "node": "Ident(\n    Ident {\n        span: 487..491,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967434,
+      "node": "Update(\n    UpdateExpr {\n        span: 485..492,\n        op: MinusMinus,\n        arg: Id {\n            index: 136,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
+    },
+    {
+      "id": 4294967435,
+      "node": "Unary(\n    UnaryExpr {\n        span: 478..492,\n        op: Delete,\n        arg: Id {\n            index: 137,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967436,
+      "node": "Paren(\n    ParenExpr {\n        span: 477..495,\n        expr: Id {\n            index: 138,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967437,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 496..497,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967438,
+      "node": "Binary(\n    BinaryExpr {\n        span: 493..498,\n        op: Exp,\n        left: Id {\n            index: 139,\n            generation: 1,\n        },\n        right: Id {\n            index: 140,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967439,
+      "node": "Ident(\n    Ident {\n        span: 509..513,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967440,
+      "node": "Update(\n    UpdateExpr {\n        span: 507..514,\n        op: PlusPlus,\n        arg: Id {\n            index: 142,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
+    },
+    {
+      "id": 4294967441,
+      "node": "Unary(\n    UnaryExpr {\n        span: 500..514,\n        op: Delete,\n        arg: Id {\n            index: 143,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967442,
+      "node": "Paren(\n    ParenExpr {\n        span: 499..517,\n        expr: Id {\n            index: 144,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967443,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 518..519,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967444,
+      "node": "Binary(\n    BinaryExpr {\n        span: 515..520,\n        op: Exp,\n        left: Id {\n            index: 145,\n            generation: 1,\n        },\n        right: Id {\n            index: 146,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967445,
+      "node": "Ident(\n    Ident {\n        span: 529..533,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967446,
+      "node": "Update(\n    UpdateExpr {\n        span: 533..536,\n        op: MinusMinus,\n        arg: Id {\n            index: 148,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967447,
+      "node": "Unary(\n    UnaryExpr {\n        span: 522..536,\n        op: Delete,\n        arg: Id {\n            index: 149,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967448,
+      "node": "Paren(\n    ParenExpr {\n        span: 521..539,\n        expr: Id {\n            index: 150,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967449,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 540..541,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967450,
+      "node": "Binary(\n    BinaryExpr {\n        span: 537..542,\n        op: Exp,\n        left: Id {\n            index: 151,\n            generation: 1,\n        },\n        right: Id {\n            index: 152,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967451,
+      "node": "Ident(\n    Ident {\n        span: 551..555,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967452,
+      "node": "Update(\n    UpdateExpr {\n        span: 555..558,\n        op: PlusPlus,\n        arg: Id {\n            index: 154,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967453,
+      "node": "Unary(\n    UnaryExpr {\n        span: 544..558,\n        op: Delete,\n        arg: Id {\n            index: 155,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967454,
+      "node": "Paren(\n    ParenExpr {\n        span: 543..561,\n        expr: Id {\n            index: 156,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967455,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 562..563,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967456,
+      "node": "Binary(\n    BinaryExpr {\n        span: 559..564,\n        op: Exp,\n        left: Id {\n            index: 157,\n            generation: 1,\n        },\n        right: Id {\n            index: 158,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967457,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 566..567,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967458,
+      "node": "Ident(\n    Ident {\n        span: 581..585,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967459,
+      "node": "Update(\n    UpdateExpr {\n        span: 579..586,\n        op: MinusMinus,\n        arg: Id {\n            index: 161,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
+    },
+    {
+      "id": 4294967460,
+      "node": "Unary(\n    UnaryExpr {\n        span: 572..586,\n        op: Delete,\n        arg: Id {\n            index: 162,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967461,
+      "node": "Paren(\n    ParenExpr {\n        span: 571..589,\n        expr: Id {\n            index: 163,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967462,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 590..591,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967463,
+      "node": "Binary(\n    BinaryExpr {\n        span: 587..592,\n        op: Exp,\n        left: Id {\n            index: 164,\n            generation: 1,\n        },\n        right: Id {\n            index: 165,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967464,
+      "node": "Binary(\n    BinaryExpr {\n        span: 568..592,\n        op: Exp,\n        left: Id {\n            index: 160,\n            generation: 1,\n        },\n        right: Id {\n            index: 166,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967465,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 593..594,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967466,
+      "node": "Ident(\n    Ident {\n        span: 608..612,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967467,
+      "node": "Update(\n    UpdateExpr {\n        span: 606..613,\n        op: PlusPlus,\n        arg: Id {\n            index: 169,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
+    },
+    {
+      "id": 4294967468,
+      "node": "Unary(\n    UnaryExpr {\n        span: 599..613,\n        op: Delete,\n        arg: Id {\n            index: 170,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967469,
+      "node": "Paren(\n    ParenExpr {\n        span: 598..616,\n        expr: Id {\n            index: 171,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967470,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 617..618,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967471,
+      "node": "Binary(\n    BinaryExpr {\n        span: 614..619,\n        op: Exp,\n        left: Id {\n            index: 172,\n            generation: 1,\n        },\n        right: Id {\n            index: 173,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967472,
+      "node": "Binary(\n    BinaryExpr {\n        span: 595..619,\n        op: Exp,\n        left: Id {\n            index: 168,\n            generation: 1,\n        },\n        right: Id {\n            index: 174,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967473,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 620..621,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967474,
+      "node": "Ident(\n    Ident {\n        span: 633..637,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967475,
+      "node": "Update(\n    UpdateExpr {\n        span: 637..640,\n        op: MinusMinus,\n        arg: Id {\n            index: 177,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967476,
+      "node": "Unary(\n    UnaryExpr {\n        span: 626..640,\n        op: Delete,\n        arg: Id {\n            index: 178,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967477,
+      "node": "Paren(\n    ParenExpr {\n        span: 625..643,\n        expr: Id {\n            index: 179,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967478,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 644..645,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967479,
+      "node": "Binary(\n    BinaryExpr {\n        span: 641..646,\n        op: Exp,\n        left: Id {\n            index: 180,\n            generation: 1,\n        },\n        right: Id {\n            index: 181,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967480,
+      "node": "Binary(\n    BinaryExpr {\n        span: 622..646,\n        op: Exp,\n        left: Id {\n            index: 176,\n            generation: 1,\n        },\n        right: Id {\n            index: 182,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967481,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 647..648,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967482,
+      "node": "Ident(\n    Ident {\n        span: 660..664,\n        sym: \"temp\",\n    },\n)"
+    },
+    {
+      "id": 4294967483,
+      "node": "Update(\n    UpdateExpr {\n        span: 664..667,\n        op: PlusPlus,\n        arg: Id {\n            index: 185,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
+    },
+    {
+      "id": 4294967484,
+      "node": "Unary(\n    UnaryExpr {\n        span: 653..667,\n        op: Delete,\n        arg: Id {\n            index: 186,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967485,
+      "node": "Paren(\n    ParenExpr {\n        span: 652..670,\n        expr: Id {\n            index: 187,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967486,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 671..672,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967487,
+      "node": "Binary(\n    BinaryExpr {\n        span: 668..673,\n        op: Exp,\n        left: Id {\n            index: 188,\n            generation: 1,\n        },\n        right: Id {\n            index: 189,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967488,
+      "node": "Binary(\n    BinaryExpr {\n        span: 649..673,\n        op: Exp,\n        left: Id {\n            index: 184,\n            generation: 1,\n        },\n        right: Id {\n            index: 190,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

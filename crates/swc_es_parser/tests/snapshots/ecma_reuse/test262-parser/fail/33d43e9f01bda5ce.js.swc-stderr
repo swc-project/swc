@@ -1,0 +1,8 @@
+  x expected ;, got RParen
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/33d43e9f01bda5ce.js:1:1]
+ 1 | for (let x = 0 in y){}
+   :                    ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

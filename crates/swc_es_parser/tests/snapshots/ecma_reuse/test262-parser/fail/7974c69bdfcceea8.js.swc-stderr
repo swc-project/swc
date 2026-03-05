@@ -1,0 +1,8 @@
+  x expected ), got RBrace
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/7974c69bdfcceea8.js:1:1]
+ 1 | ({get a(){}}) => 0;
+   :            ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

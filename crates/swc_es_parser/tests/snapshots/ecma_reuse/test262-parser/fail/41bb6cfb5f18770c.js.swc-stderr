@@ -1,0 +1,16 @@
+  x import/export is not allowed in script mode
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/41bb6cfb5f18770c.js:1:1]
+ 1 | import { a as class } from 'foo'
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: ImportExportInScript
+  x expected {, got RBrace
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/41bb6cfb5f18770c.js:1:1]
+ 1 | import { a as class } from 'foo'
+   :                     ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

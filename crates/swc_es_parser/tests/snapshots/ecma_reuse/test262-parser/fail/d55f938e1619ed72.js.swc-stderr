@@ -1,0 +1,8 @@
+  x expected binding pattern
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/d55f938e1619ed72.js:1:1]
+ 1 | (a, (b)) => 42
+   :     ^
+   `----
+
+Advice: 
+  > code: InvalidIdentifier

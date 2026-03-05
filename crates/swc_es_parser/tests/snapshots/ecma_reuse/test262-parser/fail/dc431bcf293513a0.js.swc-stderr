@@ -1,0 +1,15 @@
+  x unterminated string literal
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/dc431bcf293513a0.js:1:1]
+ 1 | (')
+   :  ^^
+   `----
+
+Advice: 
+  > code: UnterminatedString
+  x expected ), got Eof
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/dc431bcf293513a0.js:1:1]
+ 1 | (')
+   `----
+
+Advice: 
+  > code: UnexpectedToken

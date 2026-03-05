@@ -1,0 +1,246 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 23..429,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 23..52,\n        ident: Ident {\n            span: 28..30,\n            sym: \"T1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 37..46,\n                name: Ident(\n                    Ident {\n                        span: 37..38,\n                        sym: \"a\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 48..101,\n        ident: Ident {\n            span: 53..55,\n            sym: \"T2\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 62..70,\n                name: Ident(\n                    Ident {\n                        span: 62..63,\n                        sym: \"a\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 75..83,\n                name: Ident(\n                    Ident {\n                        span: 75..76,\n                        sym: \"b\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 88..95,\n                name: Ident(\n                    Ident {\n                        span: 88..89,\n                        sym: \"c\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 97..132,\n        ident: Ident {\n            span: 102..104,\n            sym: \"T3\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 111..126,\n                name: Ident(\n                    Ident {\n                        span: 111..112,\n                        sym: \"a\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 128..239,\n        ident: Ident {\n            span: 133..135,\n            sym: \"T4\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 142..150,\n                name: Ident(\n                    Ident {\n                        span: 142..143,\n                        sym: \"a\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 155..169,\n                name: Ident(\n                    Ident {\n                        span: 155..156,\n                        sym: \"b\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 174..188,\n                name: Ident(\n                    Ident {\n                        span: 174..175,\n                        sym: \"c\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 13,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 193..207,\n                name: Ident(\n                    Ident {\n                        span: 193..194,\n                        sym: \"d\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 16,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 212..233,\n                name: Ident(\n                    Ident {\n                        span: 212..213,\n                        sym: \"e\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 21,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 235..319,\n        ident: Ident {\n            span: 240..242,\n            sym: \"T5\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 249..257,\n                name: Ident(\n                    Ident {\n                        span: 249..250,\n                        sym: \"a\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 22,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 262..276,\n                name: Ident(\n                    Ident {\n                        span: 262..263,\n                        sym: \"b\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 25,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 281..301,\n                name: Ident(\n                    Ident {\n                        span: 281..282,\n                        sym: \"c\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 30,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 306..313,\n                name: Ident(\n                    Ident {\n                        span: 306..307,\n                        sym: \"d\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 31,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 315..366,\n        ident: Ident {\n            span: 320..322,\n            sym: \"T6\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 329..335,\n                name: Ident(\n                    Ident {\n                        span: 329..330,\n                        sym: \"a\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 32,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 340..357,\n                name: Ident(\n                    Ident {\n                        span: 340..341,\n                        sym: \"b\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 34,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "TsEnum(\n    TsEnumDecl {\n        span: 367..429,\n        ident: Ident {\n            span: 372..374,\n            sym: \"T7\",\n        },\n        declare: true,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 381..389,\n                name: Ident(\n                    Ident {\n                        span: 381..382,\n                        sym: \"a\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 35,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 394..408,\n                name: Ident(\n                    Ident {\n                        span: 394..395,\n                        sym: \"b\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 38,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 413..428,\n                name: Ident(\n                    Ident {\n                        span: 413..414,\n                        sym: \"c\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 41,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Template(\n    TemplateExpr {\n        span: 41..44,\n        quasis: [\n            StrLit {\n                span: 41..44,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Template(\n    TemplateExpr {\n        span: 66..69,\n        quasis: [\n            StrLit {\n                span: 66..69,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 79..82,\n            value: \"2\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 92..93,\n            value: 3.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Template(\n    TemplateExpr {\n        span: 115..118,\n        quasis: [\n            StrLit {\n                span: 115..118,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Template(\n    TemplateExpr {\n        span: 121..124,\n        quasis: [\n            StrLit {\n                span: 121..124,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Binary(\n    BinaryExpr {\n        span: 119..126,\n        op: Add,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        right: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Template(\n    TemplateExpr {\n        span: 146..149,\n        quasis: [\n            StrLit {\n                span: 146..149,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Template(\n    TemplateExpr {\n        span: 159..162,\n        quasis: [\n            StrLit {\n                span: 159..162,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Template(\n    TemplateExpr {\n        span: 165..168,\n        quasis: [\n            StrLit {\n                span: 165..168,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Binary(\n    BinaryExpr {\n        span: 163..169,\n        op: Add,\n        left: Id {\n            index: 8,\n            generation: 1,\n        },\n        right: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Template(\n    TemplateExpr {\n        span: 178..181,\n        quasis: [\n            StrLit {\n                span: 178..181,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 184..187,\n            value: \"2\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Binary(\n    BinaryExpr {\n        span: 182..188,\n        op: Add,\n        left: Id {\n            index: 11,\n            generation: 1,\n        },\n        right: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 197..200,\n            value: \"2\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Template(\n    TemplateExpr {\n        span: 203..206,\n        quasis: [\n            StrLit {\n                span: 203..206,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Binary(\n    BinaryExpr {\n        span: 201..207,\n        op: Add,\n        left: Id {\n            index: 14,\n            generation: 1,\n        },\n        right: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 216..219,\n            value: \"2\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Template(\n    TemplateExpr {\n        span: 222..225,\n        quasis: [\n            StrLit {\n                span: 222..225,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Binary(\n    BinaryExpr {\n        span: 220..227,\n        op: Add,\n        left: Id {\n            index: 17,\n            generation: 1,\n        },\n        right: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Template(\n    TemplateExpr {\n        span: 228..231,\n        quasis: [\n            StrLit {\n                span: 228..231,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Binary(\n    BinaryExpr {\n        span: 226..233,\n        op: Add,\n        left: Id {\n            index: 19,\n            generation: 1,\n        },\n        right: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Template(\n    TemplateExpr {\n        span: 253..256,\n        quasis: [\n            StrLit {\n                span: 253..256,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Template(\n    TemplateExpr {\n        span: 266..269,\n        quasis: [\n            StrLit {\n                span: 266..269,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Template(\n    TemplateExpr {\n        span: 272..275,\n        quasis: [\n            StrLit {\n                span: 272..275,\n                value: \"2\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "Binary(\n    BinaryExpr {\n        span: 270..276,\n        op: Add,\n        left: Id {\n            index: 23,\n            generation: 1,\n        },\n        right: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Template(\n    TemplateExpr {\n        span: 285..288,\n        quasis: [\n            StrLit {\n                span: 285..288,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "Template(\n    TemplateExpr {\n        span: 291..294,\n        quasis: [\n            StrLit {\n                span: 291..294,\n                value: \"2\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "Binary(\n    BinaryExpr {\n        span: 289..296,\n        op: Add,\n        left: Id {\n            index: 26,\n            generation: 1,\n        },\n        right: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Template(\n    TemplateExpr {\n        span: 297..300,\n        quasis: [\n            StrLit {\n                span: 297..300,\n                value: \"3\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967327,
+      "node": "Binary(\n    BinaryExpr {\n        span: 295..301,\n        op: Add,\n        left: Id {\n            index: 28,\n            generation: 1,\n        },\n        right: Id {\n            index: 29,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 310..311,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 333..334,\n            value: 1.0,\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967330,
+      "node": "Template(\n    TemplateExpr {\n        span: 344..348,\n        quasis: [\n            StrLit {\n                span: 344..348,\n                value: \"12\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967331,
+      "node": "Member(\n    MemberExpr {\n        span: 348..357,\n        obj: Id {\n            index: 33,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 349..355,\n                sym: \"length\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967332,
+      "node": "Template(\n    TemplateExpr {\n        span: 385..388,\n        quasis: [\n            StrLit {\n                span: 385..388,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967333,
+      "node": "Template(\n    TemplateExpr {\n        span: 398..401,\n        quasis: [\n            StrLit {\n                span: 398..401,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967334,
+      "node": "Template(\n    TemplateExpr {\n        span: 404..407,\n        quasis: [\n            StrLit {\n                span: 404..407,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967335,
+      "node": "Binary(\n    BinaryExpr {\n        span: 402..408,\n        op: Add,\n        left: Id {\n            index: 36,\n            generation: 1,\n        },\n        right: Id {\n            index: 37,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967336,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 417..420,\n            value: \"2\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967337,
+      "node": "Template(\n    TemplateExpr {\n        span: 423..426,\n        quasis: [\n            StrLit {\n                span: 423..426,\n                value: \"1\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+    },
+    {
+      "id": 4294967338,
+      "node": "Binary(\n    BinaryExpr {\n        span: 421..428,\n        op: Add,\n        left: Id {\n            index: 39,\n            generation: 1,\n        },\n        right: Id {\n            index: 40,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

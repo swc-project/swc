@@ -1,0 +1,8 @@
+  x invalid unicode escape sequence
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/f8b20220d8c85d71.js:1:1]
+ 1 | "\u{110000}"
+   :  ^^
+   `----
+
+Advice: 
+  > code: InvalidEscape

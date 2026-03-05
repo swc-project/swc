@@ -1,0 +1,7 @@
+  x expected >, got Eof
+   ,-[/swc_ecma_parser/tests/jsx/errors/issue-10681/index.js:1:1]
+ 1 | export default () => <div /
+   `----
+
+Advice: 
+  > code: UnexpectedToken

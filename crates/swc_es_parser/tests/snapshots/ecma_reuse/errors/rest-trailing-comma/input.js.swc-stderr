@@ -1,5 +1,5 @@
   x rest element must be the last element
-   ,-[$DIR/../swc_ecma_parser/tests/errors/rest-trailing-comma/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/errors/rest-trailing-comma/input.js:1:1]
  1 | [...a,]=[...spread,];
    :      ^
  2 | const [...a,] = [...spread,];
@@ -8,7 +8,7 @@
 Advice: 
   > code: InvalidStatement
   x rest element must be the last element
-   ,-[$DIR/../swc_ecma_parser/tests/errors/rest-trailing-comma/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/errors/rest-trailing-comma/input.js:1:1]
  1 | [...a,]=[...spread,];
    :                   ^
  2 | const [...a,] = [...spread,];
@@ -17,7 +17,7 @@ Advice:
 Advice: 
   > code: InvalidStatement
   x expected ], got Comma
-   ,-[$DIR/../swc_ecma_parser/tests/errors/rest-trailing-comma/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/errors/rest-trailing-comma/input.js:2:1]
  1 | [...a,]=[...spread,];
  2 | const [...a,] = [...spread,];
    :            ^

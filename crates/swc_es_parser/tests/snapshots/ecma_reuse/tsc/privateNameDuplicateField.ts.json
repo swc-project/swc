@@ -1,0 +1,2522 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 35..7576,\n    kind: Script,\n    body: [\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 43,\n            generation: 1,\n        },\n        Id {\n            index: 78,\n            generation: 1,\n        },\n        Id {\n            index: 104,\n            generation: 1,\n        },\n        Id {\n            index: 122,\n            generation: 1,\n        },\n        Id {\n            index: 148,\n            generation: 1,\n        },\n        Id {\n            index: 183,\n            generation: 1,\n        },\n        Id {\n            index: 209,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Return(\n    ReturnStmt {\n        span: 316..326,\n        arg: Some(\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Return(\n    ReturnStmt {\n        span: 739..749,\n        arg: Some(\n            Id {\n                index: 16,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Decl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Decl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Decl(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Return(\n    ReturnStmt {\n        span: 1152..1162,\n        arg: Some(\n            Id {\n                index: 23,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Decl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Decl(\n    Id {\n        index: 12,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "Decl(\n    Id {\n        index: 13,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967331,
+      "node": "Decl(\n    Id {\n        index: 14,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967333,
+      "node": "Return(\n    ReturnStmt {\n        span: 1567..1577,\n        arg: Some(\n            Id {\n                index: 29,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967335,
+      "node": "Decl(\n    Id {\n        index: 15,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967338,
+      "node": "Decl(\n    Id {\n        index: 16,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967340,
+      "node": "Decl(\n    Id {\n        index: 17,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967341,
+      "node": "Return(\n    ReturnStmt {\n        span: 1785..1795,\n        arg: Some(\n            Id {\n                index: 32,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967343,
+      "node": "Decl(\n    Id {\n        index: 18,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967344,
+      "node": "Return(\n    ReturnStmt {\n        span: 1887..1897,\n        arg: Some(\n            Id {\n                index: 35,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967347,
+      "node": "Decl(\n    Id {\n        index: 19,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967348,
+      "node": "Return(\n    ReturnStmt {\n        span: 1986..1996,\n        arg: Some(\n            Id {\n                index: 37,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967350,
+      "node": "Return(\n    ReturnStmt {\n        span: 2018..2028,\n        arg: Some(\n            Id {\n                index: 38,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967352,
+      "node": "Decl(\n    Id {\n        index: 20,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967353,
+      "node": "Return(\n    ReturnStmt {\n        span: 2094..2104,\n        arg: Some(\n            Id {\n                index: 40,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967356,
+      "node": "Decl(\n    Id {\n        index: 21,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967357,
+      "node": "Return(\n    ReturnStmt {\n        span: 2215..2225,\n        arg: Some(\n            Id {\n                index: 42,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967360,
+      "node": "Decl(\n    Id {\n        index: 22,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967361,
+      "node": "Return(\n    ReturnStmt {\n        span: 2327..2337,\n        arg: Some(\n            Id {\n                index: 44,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967364,
+      "node": "Decl(\n    Id {\n        index: 23,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967365,
+      "node": "Return(\n    ReturnStmt {\n        span: 2439..2449,\n        arg: Some(\n            Id {\n                index: 46,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967367,
+      "node": "Return(\n    ReturnStmt {\n        span: 2478..2488,\n        arg: Some(\n            Id {\n                index: 47,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967369,
+      "node": "Decl(\n    Id {\n        index: 24,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967370,
+      "node": "Return(\n    ReturnStmt {\n        span: 2564..2574,\n        arg: Some(\n            Id {\n                index: 49,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967373,
+      "node": "Decl(\n    Id {\n        index: 25,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967375,
+      "node": "Decl(\n    Id {\n        index: 26,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967377,
+      "node": "Decl(\n    Id {\n        index: 27,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967380,
+      "node": "Decl(\n    Id {\n        index: 28,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967382,
+      "node": "Return(\n    ReturnStmt {\n        span: 2950..2960,\n        arg: Some(\n            Id {\n                index: 54,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967384,
+      "node": "Decl(\n    Id {\n        index: 29,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967387,
+      "node": "Decl(\n    Id {\n        index: 30,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967389,
+      "node": "Decl(\n    Id {\n        index: 31,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967392,
+      "node": "Decl(\n    Id {\n        index: 32,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967394,
+      "node": "Return(\n    ReturnStmt {\n        span: 3433..3443,\n        arg: Some(\n            Id {\n                index: 60,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967396,
+      "node": "Decl(\n    Id {\n        index: 33,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967399,
+      "node": "Decl(\n    Id {\n        index: 34,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967401,
+      "node": "Decl(\n    Id {\n        index: 35,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967402,
+      "node": "Decl(\n    Id {\n        index: 36,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967404,
+      "node": "Decl(\n    Id {\n        index: 37,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967405,
+      "node": "Return(\n    ReturnStmt {\n        span: 3911..3921,\n        arg: Some(\n            Id {\n                index: 69,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967407,
+      "node": "Decl(\n    Id {\n        index: 38,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967409,
+      "node": "Decl(\n    Id {\n        index: 39,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967410,
+      "node": "Decl(\n    Id {\n        index: 40,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967412,
+      "node": "Decl(\n    Id {\n        index: 41,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967413,
+      "node": "Return(\n    ReturnStmt {\n        span: 4386..4396,\n        arg: Some(\n            Id {\n                index: 79,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967415,
+      "node": "Decl(\n    Id {\n        index: 42,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967417,
+      "node": "Decl(\n    Id {\n        index: 43,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967419,
+      "node": "Decl(\n    Id {\n        index: 44,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967421,
+      "node": "Decl(\n    Id {\n        index: 45,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967424,
+      "node": "Decl(\n    Id {\n        index: 46,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967426,
+      "node": "Return(\n    ReturnStmt {\n        span: 4857..4867,\n        arg: Some(\n            Id {\n                index: 86,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967428,
+      "node": "Decl(\n    Id {\n        index: 47,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967431,
+      "node": "Decl(\n    Id {\n        index: 48,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967433,
+      "node": "Decl(\n    Id {\n        index: 49,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967436,
+      "node": "Decl(\n    Id {\n        index: 50,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967438,
+      "node": "Return(\n    ReturnStmt {\n        span: 5324..5334,\n        arg: Some(\n            Id {\n                index: 92,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967440,
+      "node": "Decl(\n    Id {\n        index: 51,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967443,
+      "node": "Decl(\n    Id {\n        index: 52,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967445,
+      "node": "Decl(\n    Id {\n        index: 53,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967446,
+      "node": "Return(\n    ReturnStmt {\n        span: 5574..5584,\n        arg: Some(\n            Id {\n                index: 95,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967448,
+      "node": "Decl(\n    Id {\n        index: 54,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967449,
+      "node": "Return(\n    ReturnStmt {\n        span: 5689..5699,\n        arg: Some(\n            Id {\n                index: 98,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967452,
+      "node": "Decl(\n    Id {\n        index: 55,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967453,
+      "node": "Return(\n    ReturnStmt {\n        span: 5801..5811,\n        arg: Some(\n            Id {\n                index: 100,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967455,
+      "node": "Return(\n    ReturnStmt {\n        span: 5833..5843,\n        arg: Some(\n            Id {\n                index: 101,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967457,
+      "node": "Decl(\n    Id {\n        index: 56,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967458,
+      "node": "Return(\n    ReturnStmt {\n        span: 5926..5936,\n        arg: Some(\n            Id {\n                index: 103,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967461,
+      "node": "Decl(\n    Id {\n        index: 57,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967462,
+      "node": "Return(\n    ReturnStmt {\n        span: 6060..6070,\n        arg: Some(\n            Id {\n                index: 105,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967465,
+      "node": "Decl(\n    Id {\n        index: 58,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967466,
+      "node": "Return(\n    ReturnStmt {\n        span: 6185..6195,\n        arg: Some(\n            Id {\n                index: 107,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967469,
+      "node": "Decl(\n    Id {\n        index: 59,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967470,
+      "node": "Return(\n    ReturnStmt {\n        span: 6310..6320,\n        arg: Some(\n            Id {\n                index: 109,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967472,
+      "node": "Return(\n    ReturnStmt {\n        span: 6349..6359,\n        arg: Some(\n            Id {\n                index: 110,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967474,
+      "node": "Decl(\n    Id {\n        index: 60,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967475,
+      "node": "Return(\n    ReturnStmt {\n        span: 6444..6454,\n        arg: Some(\n            Id {\n                index: 112,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967478,
+      "node": "Decl(\n    Id {\n        index: 61,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967480,
+      "node": "Decl(\n    Id {\n        index: 62,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967482,
+      "node": "Decl(\n    Id {\n        index: 63,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967485,
+      "node": "Decl(\n    Id {\n        index: 64,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967487,
+      "node": "Return(\n    ReturnStmt {\n        span: 6879..6889,\n        arg: Some(\n            Id {\n                index: 117,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967489,
+      "node": "Decl(\n    Id {\n        index: 65,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967492,
+      "node": "Decl(\n    Id {\n        index: 66,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967494,
+      "node": "Decl(\n    Id {\n        index: 67,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967497,
+      "node": "Decl(\n    Id {\n        index: 68,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967499,
+      "node": "Return(\n    ReturnStmt {\n        span: 7411..7421,\n        arg: Some(\n            Id {\n                index: 123,\n                generation: 1,\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967501,
+      "node": "Decl(\n    Id {\n        index: 69,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967504,
+      "node": "Decl(\n    Id {\n        index: 70,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967506,
+      "node": "Decl(\n    Id {\n        index: 71,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "decls": [
+    {
+      "id": 4294967297,
+      "node": "Class(\n    ClassDecl {\n        span: 72..167,\n        ident: Ident {\n            span: 78..91,\n            sym: \"A_Field_Field\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Class(\n    ClassDecl {\n        span: 162..255,\n        ident: Ident {\n            span: 168..182,\n            sym: \"A_Field_Method\",\n        },\n        declare: false,\n        class: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Class(\n    ClassDecl {\n        span: 250..356,\n        ident: Ident {\n            span: 256..270,\n            sym: \"A_Field_Getter\",\n        },\n        declare: false,\n        class: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Class(\n    ClassDecl {\n        span: 351..461,\n        ident: Ident {\n            span: 357..371,\n            sym: \"A_Field_Setter\",\n        },\n        declare: false,\n        class: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Class(\n    ClassDecl {\n        span: 456..564,\n        ident: Ident {\n            span: 462..481,\n            sym: \"A_Field_StaticField\",\n        },\n        declare: false,\n        class: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Class(\n    ClassDecl {\n        span: 559..665,\n        ident: Ident {\n            span: 565..585,\n            sym: \"A_Field_StaticMethod\",\n        },\n        declare: false,\n        class: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Class(\n    ClassDecl {\n        span: 660..779,\n        ident: Ident {\n            span: 666..686,\n            sym: \"A_Field_StaticGetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Class(\n    ClassDecl {\n        span: 774..875,\n        ident: Ident {\n            span: 780..800,\n            sym: \"A_Field_StaticSetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Fn(\n    FnDecl {\n        span: 35..885,\n        ident: Ident {\n            span: 44..49,\n            sym: \"Field\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n            Id {\n                index: 5,\n                generation: 1,\n            },\n            Id {\n                index: 7,\n                generation: 1,\n            },\n            Id {\n                index: 8,\n                generation: 1,\n            },\n            Id {\n                index: 10,\n                generation: 1,\n            },\n            Id {\n                index: 13,\n                generation: 1,\n            },\n            Id {\n                index: 15,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Class(\n    ClassDecl {\n        span: 914..1007,\n        ident: Ident {\n            span: 920..934,\n            sym: \"A_Method_Field\",\n        },\n        declare: false,\n        class: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Class(\n    ClassDecl {\n        span: 1002..1093,\n        ident: Ident {\n            span: 1008..1023,\n            sym: \"A_Method_Method\",\n        },\n        declare: false,\n        class: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Class(\n    ClassDecl {\n        span: 1088..1192,\n        ident: Ident {\n            span: 1094..1109,\n            sym: \"A_Method_Getter\",\n        },\n        declare: false,\n        class: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Class(\n    ClassDecl {\n        span: 1187..1295,\n        ident: Ident {\n            span: 1193..1208,\n            sym: \"A_Method_Setter\",\n        },\n        declare: false,\n        class: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Class(\n    ClassDecl {\n        span: 1290..1396,\n        ident: Ident {\n            span: 1296..1316,\n            sym: \"A_Method_StaticField\",\n        },\n        declare: false,\n        class: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Class(\n    ClassDecl {\n        span: 1391..1495,\n        ident: Ident {\n            span: 1397..1418,\n            sym: \"A_Method_StaticMethod\",\n        },\n        declare: false,\n        class: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Class(\n    ClassDecl {\n        span: 1490..1607,\n        ident: Ident {\n            span: 1496..1517,\n            sym: \"A_Method_StaticGetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Class(\n    ClassDecl {\n        span: 1602..1701,\n        ident: Ident {\n            span: 1608..1629,\n            sym: \"A_Method_StaticSetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Fn(\n    FnDecl {\n        span: 877..1712,\n        ident: Ident {\n            span: 886..892,\n            sym: \"Method\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 19,\n                generation: 1,\n            },\n            Id {\n                index: 22,\n                generation: 1,\n            },\n            Id {\n                index: 26,\n                generation: 1,\n            },\n            Id {\n                index: 29,\n                generation: 1,\n            },\n            Id {\n                index: 31,\n                generation: 1,\n            },\n            Id {\n                index: 34,\n                generation: 1,\n            },\n            Id {\n                index: 38,\n                generation: 1,\n            },\n            Id {\n                index: 41,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Class(\n    ClassDecl {\n        span: 1741..1847,\n        ident: Ident {\n            span: 1747..1761,\n            sym: \"A_Getter_Field\",\n        },\n        declare: false,\n        class: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Class(\n    ClassDecl {\n        span: 1842..1946,\n        ident: Ident {\n            span: 1848..1863,\n            sym: \"A_Getter_Method\",\n        },\n        declare: false,\n        class: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Class(\n    ClassDecl {\n        span: 1941..2054,\n        ident: Ident {\n            span: 1947..1962,\n            sym: \"A_Getter_Getter\",\n        },\n        declare: false,\n        class: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Class(\n    ClassDecl {\n        span: 2049..2170,\n        ident: Ident {\n            span: 2055..2070,\n            sym: \"A_Getter_Setter\",\n        },\n        declare: false,\n        class: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Class(\n    ClassDecl {\n        span: 2165..2281,\n        ident: Ident {\n            span: 2171..2191,\n            sym: \"A_Getter_StaticField\",\n        },\n        declare: false,\n        class: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Class(\n    ClassDecl {\n        span: 2276..2393,\n        ident: Ident {\n            span: 2282..2303,\n            sym: \"A_Getter_StaticMethod\",\n        },\n        declare: false,\n        class: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Class(\n    ClassDecl {\n        span: 2388..2518,\n        ident: Ident {\n            span: 2394..2415,\n            sym: \"A_Getter_StaticGetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "Class(\n    ClassDecl {\n        span: 2513..2625,\n        ident: Ident {\n            span: 2519..2540,\n            sym: \"A_Getter_StaticSetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 23,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Fn(\n    FnDecl {\n        span: 1704..2635,\n        ident: Ident {\n            span: 1713..1719,\n            sym: \"Getter\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 46,\n                generation: 1,\n            },\n            Id {\n                index: 50,\n                generation: 1,\n            },\n            Id {\n                index: 55,\n                generation: 1,\n            },\n            Id {\n                index: 59,\n                generation: 1,\n            },\n            Id {\n                index: 63,\n                generation: 1,\n            },\n            Id {\n                index: 67,\n                generation: 1,\n            },\n            Id {\n                index: 72,\n                generation: 1,\n            },\n            Id {\n                index: 76,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "Class(\n    ClassDecl {\n        span: 2664..2774,\n        ident: Ident {\n            span: 2670..2684,\n            sym: \"A_Setter_Field\",\n        },\n        declare: false,\n        class: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "Class(\n    ClassDecl {\n        span: 2769..2874,\n        ident: Ident {\n            span: 2775..2790,\n            sym: \"A_Setter_Method\",\n        },\n        declare: false,\n        class: Id {\n            index: 25,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Class(\n    ClassDecl {\n        span: 2869..2990,\n        ident: Ident {\n            span: 2875..2890,\n            sym: \"A_Setter_Getter\",\n        },\n        declare: false,\n        class: Id {\n            index: 26,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967327,
+      "node": "Class(\n    ClassDecl {\n        span: 2985..3110,\n        ident: Ident {\n            span: 2991..3006,\n            sym: \"A_Setter_Setter\",\n        },\n        declare: false,\n        class: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "Class(\n    ClassDecl {\n        span: 3105..3228,\n        ident: Ident {\n            span: 3111..3131,\n            sym: \"A_Setter_StaticField\",\n        },\n        declare: false,\n        class: Id {\n            index: 28,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "Class(\n    ClassDecl {\n        span: 3223..3344,\n        ident: Ident {\n            span: 3229..3250,\n            sym: \"A_Setter_StaticMethod\",\n        },\n        declare: false,\n        class: Id {\n            index: 29,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967330,
+      "node": "Class(\n    ClassDecl {\n        span: 3339..3473,\n        ident: Ident {\n            span: 3345..3366,\n            sym: \"A_Setter_StaticGetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967331,
+      "node": "Class(\n    ClassDecl {\n        span: 3468..3584,\n        ident: Ident {\n            span: 3474..3495,\n            sym: \"A_Setter_StaticSetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 31,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967332,
+      "node": "Fn(\n    FnDecl {\n        span: 2627..3594,\n        ident: Ident {\n            span: 2636..2642,\n            sym: \"Setter\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 80,\n                generation: 1,\n            },\n            Id {\n                index: 83,\n                generation: 1,\n            },\n            Id {\n                index: 87,\n                generation: 1,\n            },\n            Id {\n                index: 90,\n                generation: 1,\n            },\n            Id {\n                index: 92,\n                generation: 1,\n            },\n            Id {\n                index: 95,\n                generation: 1,\n            },\n            Id {\n                index: 99,\n                generation: 1,\n            },\n            Id {\n                index: 102,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967333,
+      "node": "Class(\n    ClassDecl {\n        span: 3628..3736,\n        ident: Ident {\n            span: 3634..3653,\n            sym: \"A_StaticField_Field\",\n        },\n        declare: false,\n        class: Id {\n            index: 32,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967334,
+      "node": "Class(\n    ClassDecl {\n        span: 3731..3837,\n        ident: Ident {\n            span: 3737..3757,\n            sym: \"A_StaticField_Method\",\n        },\n        declare: false,\n        class: Id {\n            index: 33,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967335,
+      "node": "Class(\n    ClassDecl {\n        span: 3832..3951,\n        ident: Ident {\n            span: 3838..3858,\n            sym: \"A_StaticField_Getter\",\n        },\n        declare: false,\n        class: Id {\n            index: 34,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967336,
+      "node": "Class(\n    ClassDecl {\n        span: 3946..4069,\n        ident: Ident {\n            span: 3952..3972,\n            sym: \"A_StaticField_Setter\",\n        },\n        declare: false,\n        class: Id {\n            index: 35,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967337,
+      "node": "Class(\n    ClassDecl {\n        span: 4064..4185,\n        ident: Ident {\n            span: 4070..4095,\n            sym: \"A_StaticField_StaticField\",\n        },\n        declare: false,\n        class: Id {\n            index: 36,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967338,
+      "node": "Class(\n    ClassDecl {\n        span: 4180..4299,\n        ident: Ident {\n            span: 4186..4212,\n            sym: \"A_StaticField_StaticMethod\",\n        },\n        declare: false,\n        class: Id {\n            index: 37,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967339,
+      "node": "Class(\n    ClassDecl {\n        span: 4294..4426,\n        ident: Ident {\n            span: 4300..4326,\n            sym: \"A_StaticField_StaticGetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 38,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967340,
+      "node": "Class(\n    ClassDecl {\n        span: 4421..4535,\n        ident: Ident {\n            span: 4427..4453,\n            sym: \"A_StaticField_StaticSetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 39,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967341,
+      "node": "Fn(\n    FnDecl {\n        span: 3586..4545,\n        ident: Ident {\n            span: 3595..3606,\n            sym: \"StaticField\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 105,\n                generation: 1,\n            },\n            Id {\n                index: 107,\n                generation: 1,\n            },\n            Id {\n                index: 110,\n                generation: 1,\n            },\n            Id {\n                index: 112,\n                generation: 1,\n            },\n            Id {\n                index: 113,\n                generation: 1,\n            },\n            Id {\n                index: 115,\n                generation: 1,\n            },\n            Id {\n                index: 118,\n                generation: 1,\n            },\n            Id {\n                index: 120,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967342,
+      "node": "Class(\n    ClassDecl {\n        span: 4580..4686,\n        ident: Ident {\n            span: 4586..4606,\n            sym: \"A_StaticMethod_Field\",\n        },\n        declare: false,\n        class: Id {\n            index: 40,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967343,
+      "node": "Class(\n    ClassDecl {\n        span: 4681..4785,\n        ident: Ident {\n            span: 4687..4708,\n            sym: \"A_StaticMethod_Method\",\n        },\n        declare: false,\n        class: Id {\n            index: 41,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967344,
+      "node": "Class(\n    ClassDecl {\n        span: 4780..4897,\n        ident: Ident {\n            span: 4786..4807,\n            sym: \"A_StaticMethod_Getter\",\n        },\n        declare: false,\n        class: Id {\n            index: 42,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967345,
+      "node": "Class(\n    ClassDecl {\n        span: 4892..5013,\n        ident: Ident {\n            span: 4898..4919,\n            sym: \"A_StaticMethod_Setter\",\n        },\n        declare: false,\n        class: Id {\n            index: 43,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967346,
+      "node": "Class(\n    ClassDecl {\n        span: 5008..5127,\n        ident: Ident {\n            span: 5014..5040,\n            sym: \"A_StaticMethod_StaticField\",\n        },\n        declare: false,\n        class: Id {\n            index: 44,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967347,
+      "node": "Class(\n    ClassDecl {\n        span: 5122..5239,\n        ident: Ident {\n            span: 5128..5155,\n            sym: \"A_StaticMethod_StaticMethod\",\n        },\n        declare: false,\n        class: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967348,
+      "node": "Class(\n    ClassDecl {\n        span: 5234..5364,\n        ident: Ident {\n            span: 5240..5267,\n            sym: \"A_StaticMethod_StaticGetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 46,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967349,
+      "node": "Class(\n    ClassDecl {\n        span: 5359..5471,\n        ident: Ident {\n            span: 5365..5392,\n            sym: \"A_StaticMethod_StaticSetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 47,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967350,
+      "node": "Fn(\n    FnDecl {\n        span: 4537..5481,\n        ident: Ident {\n            span: 4546..4558,\n            sym: \"StaticMethod\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 124,\n                generation: 1,\n            },\n            Id {\n                index: 127,\n                generation: 1,\n            },\n            Id {\n                index: 131,\n                generation: 1,\n            },\n            Id {\n                index: 134,\n                generation: 1,\n            },\n            Id {\n                index: 136,\n                generation: 1,\n            },\n            Id {\n                index: 139,\n                generation: 1,\n            },\n            Id {\n                index: 143,\n                generation: 1,\n            },\n            Id {\n                index: 146,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967351,
+      "node": "Class(\n    ClassDecl {\n        span: 5517..5636,\n        ident: Ident {\n            span: 5523..5543,\n            sym: \"A_StaticGetter_Field\",\n        },\n        declare: false,\n        class: Id {\n            index: 48,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967352,
+      "node": "Class(\n    ClassDecl {\n        span: 5631..5748,\n        ident: Ident {\n            span: 5637..5658,\n            sym: \"A_StaticGetter_Method\",\n        },\n        declare: false,\n        class: Id {\n            index: 49,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967353,
+      "node": "Class(\n    ClassDecl {\n        span: 5743..5873,\n        ident: Ident {\n            span: 5749..5770,\n            sym: \"A_StaticGetter_Getter\",\n        },\n        declare: false,\n        class: Id {\n            index: 50,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967354,
+      "node": "Class(\n    ClassDecl {\n        span: 5868..6002,\n        ident: Ident {\n            span: 5874..5895,\n            sym: \"A_StaticGetter_Setter\",\n        },\n        declare: false,\n        class: Id {\n            index: 51,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967355,
+      "node": "Class(\n    ClassDecl {\n        span: 5997..6126,\n        ident: Ident {\n            span: 6003..6029,\n            sym: \"A_StaticGetter_StaticField\",\n        },\n        declare: false,\n        class: Id {\n            index: 52,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967356,
+      "node": "Class(\n    ClassDecl {\n        span: 6121..6251,\n        ident: Ident {\n            span: 6127..6154,\n            sym: \"A_StaticGetter_StaticMethod\",\n        },\n        declare: false,\n        class: Id {\n            index: 53,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967357,
+      "node": "Class(\n    ClassDecl {\n        span: 6246..6385,\n        ident: Ident {\n            span: 6252..6279,\n            sym: \"A_StaticGetter_StaticGetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 54,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967358,
+      "node": "Class(\n    ClassDecl {\n        span: 6380..6505,\n        ident: Ident {\n            span: 6386..6413,\n            sym: \"A_StaticGetter_StaticSetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 55,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967359,
+      "node": "Fn(\n    FnDecl {\n        span: 5473..6515,\n        ident: Ident {\n            span: 5482..5494,\n            sym: \"StaticGetter\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 151,\n                generation: 1,\n            },\n            Id {\n                index: 155,\n                generation: 1,\n            },\n            Id {\n                index: 160,\n                generation: 1,\n            },\n            Id {\n                index: 164,\n                generation: 1,\n            },\n            Id {\n                index: 168,\n                generation: 1,\n            },\n            Id {\n                index: 172,\n                generation: 1,\n            },\n            Id {\n                index: 177,\n                generation: 1,\n            },\n            Id {\n                index: 181,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967360,
+      "node": "Class(\n    ClassDecl {\n        span: 6550..6673,\n        ident: Ident {\n            span: 6556..6576,\n            sym: \"A_StaticSetter_Field\",\n        },\n        declare: false,\n        class: Id {\n            index: 56,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967361,
+      "node": "Class(\n    ClassDecl {\n        span: 6668..6790,\n        ident: Ident {\n            span: 6674..6695,\n            sym: \"A_StaticSetter_Method\",\n        },\n        declare: false,\n        class: Id {\n            index: 57,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967362,
+      "node": "Class(\n    ClassDecl {\n        span: 6785..6919,\n        ident: Ident {\n            span: 6791..6812,\n            sym: \"A_StaticSetter_Getter\",\n        },\n        declare: false,\n        class: Id {\n            index: 58,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967363,
+      "node": "Class(\n    ClassDecl {\n        span: 6914..7052,\n        ident: Ident {\n            span: 6920..6941,\n            sym: \"A_StaticSetter_Setter\",\n        },\n        declare: false,\n        class: Id {\n            index: 59,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967364,
+      "node": "Class(\n    ClassDecl {\n        span: 7047..7183,\n        ident: Ident {\n            span: 7053..7079,\n            sym: \"A_StaticSetter_StaticField\",\n        },\n        declare: false,\n        class: Id {\n            index: 60,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967365,
+      "node": "Class(\n    ClassDecl {\n        span: 7178..7309,\n        ident: Ident {\n            span: 7184..7211,\n            sym: \"A_StaticSetter_StaticMethod\",\n        },\n        declare: false,\n        class: Id {\n            index: 61,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967366,
+      "node": "Class(\n    ClassDecl {\n        span: 7304..7451,\n        ident: Ident {\n            span: 7310..7337,\n            sym: \"A_StaticSetter_StaticGetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 62,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967367,
+      "node": "Class(\n    ClassDecl {\n        span: 7446..7575,\n        ident: Ident {\n            span: 7452..7479,\n            sym: \"A_StaticSetter_StaticSetter\",\n        },\n        declare: false,\n        class: Id {\n            index: 63,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967368,
+      "node": "Fn(\n    FnDecl {\n        span: 6507..7576,\n        ident: Ident {\n            span: 6516..6528,\n            sym: \"StaticSetter\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 185,\n                generation: 1,\n            },\n            Id {\n                index: 188,\n                generation: 1,\n            },\n            Id {\n                index: 192,\n                generation: 1,\n            },\n            Id {\n                index: 195,\n                generation: 1,\n            },\n            Id {\n                index: 197,\n                generation: 1,\n            },\n            Id {\n                index: 200,\n                generation: 1,\n            },\n            Id {\n                index: 204,\n                generation: 1,\n            },\n            Id {\n                index: 207,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    }
+  ],
+  "pats": [
+    {
+      "id": 4294967297,
+      "node": "Ident(\n    Ident {\n        span: 413..418,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Ident(\n    Ident {\n        span: 849..854,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Ident(\n    Ident {\n        span: 1247..1252,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Ident(\n    Ident {\n        span: 1675..1680,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Ident(\n    Ident {\n        span: 2122..2127,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Ident(\n    Ident {\n        span: 2599..2604,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Ident(\n    Ident {\n        span: 2704..2709,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Ident(\n    Ident {\n        span: 2810..2815,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Ident(\n    Ident {\n        span: 2910..2915,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Ident(\n    Ident {\n        span: 3026..3031,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Ident(\n    Ident {\n        span: 3062..3067,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Ident(\n    Ident {\n        span: 3151..3156,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Ident(\n    Ident {\n        span: 3270..3275,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Ident(\n    Ident {\n        span: 3386..3391,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Ident(\n    Ident {\n        span: 3515..3520,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Ident(\n    Ident {\n        span: 3558..3563,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Ident(\n    Ident {\n        span: 4021..4026,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Ident(\n    Ident {\n        span: 4509..4514,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Ident(\n    Ident {\n        span: 4965..4970,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Ident(\n    Ident {\n        span: 5445..5450,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Ident(\n    Ident {\n        span: 5954..5959,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Ident(\n    Ident {\n        span: 6479..6484,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Ident(\n    Ident {\n        span: 6603..6608,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Ident(\n    Ident {\n        span: 6722..6727,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Ident(\n    Ident {\n        span: 6839..6844,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "Ident(\n    Ident {\n        span: 6968..6973,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Ident(\n    Ident {\n        span: 7004..7009,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "Ident(\n    Ident {\n        span: 7106..7111,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "Ident(\n    Ident {\n        span: 7238..7243,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Ident(\n    Ident {\n        span: 7364..7369,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967327,
+      "node": "Ident(\n    Ident {\n        span: 7506..7511,\n        sym: \"value\",\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "Ident(\n    Ident {\n        span: 7549..7554,\n        sym: \"value\",\n    },\n)"
+    }
+  ],
+  "exprs": [
+    {
+      "id": 4294967297,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 109..114,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 131..136,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 200..205,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 288..293,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 323..325,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 389..394,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 499..504,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 528..533,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 603..608,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 704..709,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 746..748,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 818..823,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 971..976,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1159..1161,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1360..1365,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1574..1576,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1792..1794,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967330,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1811..1816,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967332,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1894..1896,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967334,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1993..1995,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967335,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 2025..2027,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967337,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 2101..2103,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967339,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 2222..2224,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967341,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 2334..2336,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967343,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 2446..2448,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967344,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 2485..2487,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967346,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 2571..2573,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967348,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 2738..2743,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967351,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 2957..2959,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967354,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 3192..3197,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967357,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 3440..3442,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967360,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 3678..3683,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967361,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 3700..3705,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967363,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 3782..3787,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967365,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 3883..3888,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967366,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 3918..3920,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967368,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 3997..4002,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967370,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 4120..4125,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967371,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 4149..4154,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967373,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 4237..4242,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967375,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 4351..4356,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967376,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 4393..4395,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967378,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 4478..4483,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967380,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 4650..4655,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967383,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 4864..4866,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967386,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 5091..5096,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967389,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 5331..5333,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967392,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 5581..5583,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967393,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 5600..5605,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967395,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 5696..5698,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967397,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 5808..5810,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967398,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 5840..5842,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967400,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 5933..5935,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967402,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 6067..6069,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967404,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 6192..6194,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967406,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 6317..6319,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967407,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 6356..6358,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967409,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 6451..6453,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967411,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 6637..6642,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967414,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 6886..6888,\n            value: \"\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967417,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 7147..7152,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967420,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 7418..7420,\n            value: \"\",\n        },\n    ),\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [
+    {
+      "id": 4294967297,
+      "node": "Function {\n    span: 215..231,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "Function {\n    span: 307..332,\n    params: [],\n    body: [\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967299,
+      "node": "Function {\n    span: 408..437,\n    params: [\n        Param {\n            span: 413..427,\n            decorators: [],\n            pat: Id {\n                index: 0,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967300,
+      "node": "Function {\n    span: 618..641,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967301,
+      "node": "Function {\n    span: 730..755,\n    params: [],\n    body: [\n        Id {\n            index: 11,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967302,
+      "node": "Function {\n    span: 844..873,\n    params: [\n        Param {\n            span: 849..863,\n            decorators: [],\n            pat: Id {\n                index: 1,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967303,
+      "node": "Function {\n    span: 945..965,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967304,
+      "node": "Function {\n    span: 1034..1054,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967305,
+      "node": "Function {\n    span: 1053..1069,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967306,
+      "node": "Function {\n    span: 1120..1142,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967307,
+      "node": "Function {\n    span: 1143..1168,\n    params: [],\n    body: [\n        Id {\n            index: 24,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967308,
+      "node": "Function {\n    span: 1219..1241,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967309,
+      "node": "Function {\n    span: 1242..1271,\n    params: [\n        Param {\n            span: 1247..1261,\n            decorators: [],\n            pat: Id {\n                index: 2,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967310,
+      "node": "Function {\n    span: 1327..1352,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967311,
+      "node": "Function {\n    span: 1429..1454,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967312,
+      "node": "Function {\n    span: 1448..1471,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967313,
+      "node": "Function {\n    span: 1528..1553,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967314,
+      "node": "Function {\n    span: 1558..1583,\n    params: [],\n    body: [\n        Id {\n            index: 36,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967315,
+      "node": "Function {\n    span: 1640..1665,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967316,
+      "node": "Function {\n    span: 1670..1699,\n    params: [\n        Param {\n            span: 1675..1689,\n            decorators: [],\n            pat: Id {\n                index: 3,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967317,
+      "node": "Function {\n    span: 1776..1805,\n    params: [],\n    body: [\n        Id {\n            index: 44,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967318,
+      "node": "Function {\n    span: 1878..1907,\n    params: [],\n    body: [\n        Id {\n            index: 47,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967319,
+      "node": "Function {\n    span: 1906..1922,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967320,
+      "node": "Function {\n    span: 1977..2008,\n    params: [],\n    body: [\n        Id {\n            index: 51,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967321,
+      "node": "Function {\n    span: 2009..2034,\n    params: [],\n    body: [\n        Id {\n            index: 53,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967322,
+      "node": "Function {\n    span: 2085..2116,\n    params: [],\n    body: [\n        Id {\n            index: 56,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967323,
+      "node": "Function {\n    span: 2117..2146,\n    params: [\n        Param {\n            span: 2122..2136,\n            decorators: [],\n            pat: Id {\n                index: 4,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967324,
+      "node": "Function {\n    span: 2206..2240,\n    params: [],\n    body: [\n        Id {\n            index: 60,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967325,
+      "node": "Function {\n    span: 2234..2257,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967326,
+      "node": "Function {\n    span: 2318..2352,\n    params: [],\n    body: [\n        Id {\n            index: 64,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967327,
+      "node": "Function {\n    span: 2346..2369,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967328,
+      "node": "Function {\n    span: 2430..2464,\n    params: [],\n    body: [\n        Id {\n            index: 68,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967329,
+      "node": "Function {\n    span: 2469..2494,\n    params: [],\n    body: [\n        Id {\n            index: 70,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967330,
+      "node": "Function {\n    span: 2555..2589,\n    params: [],\n    body: [\n        Id {\n            index: 73,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967331,
+      "node": "Function {\n    span: 2594..2623,\n    params: [\n        Param {\n            span: 2599..2613,\n            decorators: [],\n            pat: Id {\n                index: 5,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967332,
+      "node": "Function {\n    span: 2699..2732,\n    params: [\n        Param {\n            span: 2704..2718,\n            decorators: [],\n            pat: Id {\n                index: 6,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967333,
+      "node": "Function {\n    span: 2805..2838,\n    params: [\n        Param {\n            span: 2810..2824,\n            decorators: [],\n            pat: Id {\n                index: 7,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967334,
+      "node": "Function {\n    span: 2837..2853,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967335,
+      "node": "Function {\n    span: 2905..2940,\n    params: [\n        Param {\n            span: 2910..2924,\n            decorators: [],\n            pat: Id {\n                index: 8,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967336,
+      "node": "Function {\n    span: 2941..2966,\n    params: [],\n    body: [\n        Id {\n            index: 85,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967337,
+      "node": "Function {\n    span: 3021..3056,\n    params: [\n        Param {\n            span: 3026..3040,\n            decorators: [],\n            pat: Id {\n                index: 9,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967338,
+      "node": "Function {\n    span: 3057..3086,\n    params: [\n        Param {\n            span: 3062..3076,\n            decorators: [],\n            pat: Id {\n                index: 10,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967339,
+      "node": "Function {\n    span: 3146..3184,\n    params: [\n        Param {\n            span: 3151..3165,\n            decorators: [],\n            pat: Id {\n                index: 11,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967340,
+      "node": "Function {\n    span: 3265..3303,\n    params: [\n        Param {\n            span: 3270..3284,\n            decorators: [],\n            pat: Id {\n                index: 12,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967341,
+      "node": "Function {\n    span: 3297..3320,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967342,
+      "node": "Function {\n    span: 3381..3419,\n    params: [\n        Param {\n            span: 3386..3400,\n            decorators: [],\n            pat: Id {\n                index: 13,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967343,
+      "node": "Function {\n    span: 3424..3449,\n    params: [],\n    body: [\n        Id {\n            index: 97,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967344,
+      "node": "Function {\n    span: 3510..3548,\n    params: [\n        Param {\n            span: 3515..3529,\n            decorators: [],\n            pat: Id {\n                index: 14,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967345,
+      "node": "Function {\n    span: 3553..3582,\n    params: [\n        Param {\n            span: 3558..3572,\n            decorators: [],\n            pat: Id {\n                index: 15,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967346,
+      "node": "Function {\n    span: 3797..3813,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967347,
+      "node": "Function {\n    span: 3902..3927,\n    params: [],\n    body: [\n        Id {\n            index: 108,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967348,
+      "node": "Function {\n    span: 4016..4045,\n    params: [\n        Param {\n            span: 4021..4035,\n            decorators: [],\n            pat: Id {\n                index: 16,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967349,
+      "node": "Function {\n    span: 4252..4275,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967350,
+      "node": "Function {\n    span: 4377..4402,\n    params: [],\n    body: [\n        Id {\n            index: 116,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967351,
+      "node": "Function {\n    span: 4504..4533,\n    params: [\n        Param {\n            span: 4509..4523,\n            decorators: [],\n            pat: Id {\n                index: 17,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967352,
+      "node": "Function {\n    span: 4617..4644,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967353,
+      "node": "Function {\n    span: 4719..4746,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967354,
+      "node": "Function {\n    span: 4745..4761,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967355,
+      "node": "Function {\n    span: 4818..4847,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967356,
+      "node": "Function {\n    span: 4848..4873,\n    params: [],\n    body: [\n        Id {\n            index: 129,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967357,
+      "node": "Function {\n    span: 4930..4959,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967358,
+      "node": "Function {\n    span: 4960..4989,\n    params: [\n        Param {\n            span: 4965..4979,\n            decorators: [],\n            pat: Id {\n                index: 18,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967359,
+      "node": "Function {\n    span: 5051..5083,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967360,
+      "node": "Function {\n    span: 5166..5198,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967361,
+      "node": "Function {\n    span: 5192..5215,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967362,
+      "node": "Function {\n    span: 5278..5310,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967363,
+      "node": "Function {\n    span: 5315..5340,\n    params: [],\n    body: [\n        Id {\n            index: 141,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967364,
+      "node": "Function {\n    span: 5403..5435,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967365,
+      "node": "Function {\n    span: 5440..5469,\n    params: [\n        Param {\n            span: 5445..5459,\n            decorators: [],\n            pat: Id {\n                index: 19,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967366,
+      "node": "Function {\n    span: 5565..5594,\n    params: [],\n    body: [\n        Id {\n            index: 149,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967367,
+      "node": "Function {\n    span: 5680..5709,\n    params: [],\n    body: [\n        Id {\n            index: 152,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967368,
+      "node": "Function {\n    span: 5708..5724,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967369,
+      "node": "Function {\n    span: 5792..5823,\n    params: [],\n    body: [\n        Id {\n            index: 156,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967370,
+      "node": "Function {\n    span: 5824..5849,\n    params: [],\n    body: [\n        Id {\n            index: 158,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967371,
+      "node": "Function {\n    span: 5917..5948,\n    params: [],\n    body: [\n        Id {\n            index: 161,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967372,
+      "node": "Function {\n    span: 5949..5978,\n    params: [\n        Param {\n            span: 5954..5968,\n            decorators: [],\n            pat: Id {\n                index: 20,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967373,
+      "node": "Function {\n    span: 6051..6085,\n    params: [],\n    body: [\n        Id {\n            index: 165,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967374,
+      "node": "Function {\n    span: 6079..6102,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967375,
+      "node": "Function {\n    span: 6176..6210,\n    params: [],\n    body: [\n        Id {\n            index: 169,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967376,
+      "node": "Function {\n    span: 6204..6227,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967377,
+      "node": "Function {\n    span: 6301..6335,\n    params: [],\n    body: [\n        Id {\n            index: 173,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967378,
+      "node": "Function {\n    span: 6340..6365,\n    params: [],\n    body: [\n        Id {\n            index: 175,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967379,
+      "node": "Function {\n    span: 6435..6469,\n    params: [],\n    body: [\n        Id {\n            index: 178,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967380,
+      "node": "Function {\n    span: 6474..6503,\n    params: [\n        Param {\n            span: 6479..6493,\n            decorators: [],\n            pat: Id {\n                index: 21,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967381,
+      "node": "Function {\n    span: 6598..6631,\n    params: [\n        Param {\n            span: 6603..6617,\n            decorators: [],\n            pat: Id {\n                index: 22,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967382,
+      "node": "Function {\n    span: 6717..6750,\n    params: [\n        Param {\n            span: 6722..6736,\n            decorators: [],\n            pat: Id {\n                index: 23,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967383,
+      "node": "Function {\n    span: 6749..6765,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967384,
+      "node": "Function {\n    span: 6834..6869,\n    params: [\n        Param {\n            span: 6839..6853,\n            decorators: [],\n            pat: Id {\n                index: 24,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967385,
+      "node": "Function {\n    span: 6870..6895,\n    params: [],\n    body: [\n        Id {\n            index: 190,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967386,
+      "node": "Function {\n    span: 6963..6998,\n    params: [\n        Param {\n            span: 6968..6982,\n            decorators: [],\n            pat: Id {\n                index: 25,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967387,
+      "node": "Function {\n    span: 6999..7028,\n    params: [\n        Param {\n            span: 7004..7018,\n            decorators: [],\n            pat: Id {\n                index: 26,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967388,
+      "node": "Function {\n    span: 7101..7139,\n    params: [\n        Param {\n            span: 7106..7120,\n            decorators: [],\n            pat: Id {\n                index: 27,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967389,
+      "node": "Function {\n    span: 7233..7271,\n    params: [\n        Param {\n            span: 7238..7252,\n            decorators: [],\n            pat: Id {\n                index: 28,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967390,
+      "node": "Function {\n    span: 7265..7288,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967391,
+      "node": "Function {\n    span: 7359..7397,\n    params: [\n        Param {\n            span: 7364..7378,\n            decorators: [],\n            pat: Id {\n                index: 29,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967392,
+      "node": "Function {\n    span: 7402..7427,\n    params: [],\n    body: [\n        Id {\n            index: 202,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967393,
+      "node": "Function {\n    span: 7501..7539,\n    params: [\n        Param {\n            span: 7506..7520,\n            decorators: [],\n            pat: Id {\n                index: 30,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    },
+    {
+      "id": 4294967394,
+      "node": "Function {\n    span: 7544..7573,\n    params: [\n        Param {\n            span: 7549..7563,\n            decorators: [],\n            pat: Id {\n                index: 31,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+    }
+  ],
+  "classes": [
+    {
+      "id": 4294967297,
+      "node": "Class {\n    span: 72..167,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 78..91,\n            sym: \"A_Field_Field\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967298,
+      "node": "Class {\n    span: 162..255,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 168..182,\n            sym: \"A_Field_Method\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967299,
+      "node": "Class {\n    span: 250..356,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 256..270,\n            sym: \"A_Field_Getter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967300,
+      "node": "Class {\n    span: 351..461,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 357..371,\n            sym: \"A_Field_Setter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967301,
+      "node": "Class {\n    span: 456..564,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 462..481,\n            sym: \"A_Field_StaticField\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967302,
+      "node": "Class {\n    span: 559..665,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 565..585,\n            sym: \"A_Field_StaticMethod\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967303,
+      "node": "Class {\n    span: 660..779,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 666..686,\n            sym: \"A_Field_StaticGetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967304,
+      "node": "Class {\n    span: 774..875,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 780..800,\n            sym: \"A_Field_StaticSetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967305,
+      "node": "Class {\n    span: 914..1007,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 920..934,\n            sym: \"A_Method_Field\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967306,
+      "node": "Class {\n    span: 1002..1093,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1008..1023,\n            sym: \"A_Method_Method\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 22,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967307,
+      "node": "Class {\n    span: 1088..1192,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1094..1109,\n            sym: \"A_Method_Getter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 24,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n        Id {\n            index: 26,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967308,
+      "node": "Class {\n    span: 1187..1295,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1193..1208,\n            sym: \"A_Method_Setter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 27,\n            generation: 1,\n        },\n        Id {\n            index: 28,\n            generation: 1,\n        },\n        Id {\n            index: 29,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967309,
+      "node": "Class {\n    span: 1290..1396,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1296..1316,\n            sym: \"A_Method_StaticField\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 30,\n            generation: 1,\n        },\n        Id {\n            index: 31,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967310,
+      "node": "Class {\n    span: 1391..1495,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1397..1418,\n            sym: \"A_Method_StaticMethod\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 32,\n            generation: 1,\n        },\n        Id {\n            index: 33,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967311,
+      "node": "Class {\n    span: 1490..1607,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1496..1517,\n            sym: \"A_Method_StaticGetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 34,\n            generation: 1,\n        },\n        Id {\n            index: 35,\n            generation: 1,\n        },\n        Id {\n            index: 36,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967312,
+      "node": "Class {\n    span: 1602..1701,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1608..1629,\n            sym: \"A_Method_StaticSetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 37,\n            generation: 1,\n        },\n        Id {\n            index: 38,\n            generation: 1,\n        },\n        Id {\n            index: 39,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967313,
+      "node": "Class {\n    span: 1741..1847,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1747..1761,\n            sym: \"A_Getter_Field\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 40,\n            generation: 1,\n        },\n        Id {\n            index: 41,\n            generation: 1,\n        },\n        Id {\n            index: 42,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967314,
+      "node": "Class {\n    span: 1842..1946,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1848..1863,\n            sym: \"A_Getter_Method\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 43,\n            generation: 1,\n        },\n        Id {\n            index: 44,\n            generation: 1,\n        },\n        Id {\n            index: 45,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967315,
+      "node": "Class {\n    span: 1941..2054,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1947..1962,\n            sym: \"A_Getter_Getter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 46,\n            generation: 1,\n        },\n        Id {\n            index: 47,\n            generation: 1,\n        },\n        Id {\n            index: 48,\n            generation: 1,\n        },\n        Id {\n            index: 49,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967316,
+      "node": "Class {\n    span: 2049..2170,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 2055..2070,\n            sym: \"A_Getter_Setter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 50,\n            generation: 1,\n        },\n        Id {\n            index: 51,\n            generation: 1,\n        },\n        Id {\n            index: 52,\n            generation: 1,\n        },\n        Id {\n            index: 53,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967317,
+      "node": "Class {\n    span: 2165..2281,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 2171..2191,\n            sym: \"A_Getter_StaticField\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 54,\n            generation: 1,\n        },\n        Id {\n            index: 55,\n            generation: 1,\n        },\n        Id {\n            index: 56,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967318,
+      "node": "Class {\n    span: 2276..2393,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 2282..2303,\n            sym: \"A_Getter_StaticMethod\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 57,\n            generation: 1,\n        },\n        Id {\n            index: 58,\n            generation: 1,\n        },\n        Id {\n            index: 59,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967319,
+      "node": "Class {\n    span: 2388..2518,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 2394..2415,\n            sym: \"A_Getter_StaticGetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 60,\n            generation: 1,\n        },\n        Id {\n            index: 61,\n            generation: 1,\n        },\n        Id {\n            index: 62,\n            generation: 1,\n        },\n        Id {\n            index: 63,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967320,
+      "node": "Class {\n    span: 2513..2625,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 2519..2540,\n            sym: \"A_Getter_StaticSetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 64,\n            generation: 1,\n        },\n        Id {\n            index: 65,\n            generation: 1,\n        },\n        Id {\n            index: 66,\n            generation: 1,\n        },\n        Id {\n            index: 67,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967321,
+      "node": "Class {\n    span: 2664..2774,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 2670..2684,\n            sym: \"A_Setter_Field\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 68,\n            generation: 1,\n        },\n        Id {\n            index: 69,\n            generation: 1,\n        },\n        Id {\n            index: 70,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967322,
+      "node": "Class {\n    span: 2769..2874,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 2775..2790,\n            sym: \"A_Setter_Method\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 71,\n            generation: 1,\n        },\n        Id {\n            index: 72,\n            generation: 1,\n        },\n        Id {\n            index: 73,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967323,
+      "node": "Class {\n    span: 2869..2990,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 2875..2890,\n            sym: \"A_Setter_Getter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 74,\n            generation: 1,\n        },\n        Id {\n            index: 75,\n            generation: 1,\n        },\n        Id {\n            index: 76,\n            generation: 1,\n        },\n        Id {\n            index: 77,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967324,
+      "node": "Class {\n    span: 2985..3110,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 2991..3006,\n            sym: \"A_Setter_Setter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 78,\n            generation: 1,\n        },\n        Id {\n            index: 79,\n            generation: 1,\n        },\n        Id {\n            index: 80,\n            generation: 1,\n        },\n        Id {\n            index: 81,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967325,
+      "node": "Class {\n    span: 3105..3228,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 3111..3131,\n            sym: \"A_Setter_StaticField\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 82,\n            generation: 1,\n        },\n        Id {\n            index: 83,\n            generation: 1,\n        },\n        Id {\n            index: 84,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967326,
+      "node": "Class {\n    span: 3223..3344,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 3229..3250,\n            sym: \"A_Setter_StaticMethod\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 85,\n            generation: 1,\n        },\n        Id {\n            index: 86,\n            generation: 1,\n        },\n        Id {\n            index: 87,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967327,
+      "node": "Class {\n    span: 3339..3473,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 3345..3366,\n            sym: \"A_Setter_StaticGetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 88,\n            generation: 1,\n        },\n        Id {\n            index: 89,\n            generation: 1,\n        },\n        Id {\n            index: 90,\n            generation: 1,\n        },\n        Id {\n            index: 91,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967328,
+      "node": "Class {\n    span: 3468..3584,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 3474..3495,\n            sym: \"A_Setter_StaticSetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 92,\n            generation: 1,\n        },\n        Id {\n            index: 93,\n            generation: 1,\n        },\n        Id {\n            index: 94,\n            generation: 1,\n        },\n        Id {\n            index: 95,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967329,
+      "node": "Class {\n    span: 3628..3736,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 3634..3653,\n            sym: \"A_StaticField_Field\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 96,\n            generation: 1,\n        },\n        Id {\n            index: 97,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967330,
+      "node": "Class {\n    span: 3731..3837,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 3737..3757,\n            sym: \"A_StaticField_Method\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 98,\n            generation: 1,\n        },\n        Id {\n            index: 99,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967331,
+      "node": "Class {\n    span: 3832..3951,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 3838..3858,\n            sym: \"A_StaticField_Getter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 100,\n            generation: 1,\n        },\n        Id {\n            index: 101,\n            generation: 1,\n        },\n        Id {\n            index: 102,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967332,
+      "node": "Class {\n    span: 3946..4069,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 3952..3972,\n            sym: \"A_StaticField_Setter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 103,\n            generation: 1,\n        },\n        Id {\n            index: 104,\n            generation: 1,\n        },\n        Id {\n            index: 105,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967333,
+      "node": "Class {\n    span: 4064..4185,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 4070..4095,\n            sym: \"A_StaticField_StaticField\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 106,\n            generation: 1,\n        },\n        Id {\n            index: 107,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967334,
+      "node": "Class {\n    span: 4180..4299,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 4186..4212,\n            sym: \"A_StaticField_StaticMethod\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 108,\n            generation: 1,\n        },\n        Id {\n            index: 109,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967335,
+      "node": "Class {\n    span: 4294..4426,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 4300..4326,\n            sym: \"A_StaticField_StaticGetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 110,\n            generation: 1,\n        },\n        Id {\n            index: 111,\n            generation: 1,\n        },\n        Id {\n            index: 112,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967336,
+      "node": "Class {\n    span: 4421..4535,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 4427..4453,\n            sym: \"A_StaticField_StaticSetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 113,\n            generation: 1,\n        },\n        Id {\n            index: 114,\n            generation: 1,\n        },\n        Id {\n            index: 115,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967337,
+      "node": "Class {\n    span: 4580..4686,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 4586..4606,\n            sym: \"A_StaticMethod_Field\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 116,\n            generation: 1,\n        },\n        Id {\n            index: 117,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967338,
+      "node": "Class {\n    span: 4681..4785,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 4687..4708,\n            sym: \"A_StaticMethod_Method\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 118,\n            generation: 1,\n        },\n        Id {\n            index: 119,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967339,
+      "node": "Class {\n    span: 4780..4897,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 4786..4807,\n            sym: \"A_StaticMethod_Getter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 120,\n            generation: 1,\n        },\n        Id {\n            index: 121,\n            generation: 1,\n        },\n        Id {\n            index: 122,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967340,
+      "node": "Class {\n    span: 4892..5013,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 4898..4919,\n            sym: \"A_StaticMethod_Setter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 123,\n            generation: 1,\n        },\n        Id {\n            index: 124,\n            generation: 1,\n        },\n        Id {\n            index: 125,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967341,
+      "node": "Class {\n    span: 5008..5127,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 5014..5040,\n            sym: \"A_StaticMethod_StaticField\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 126,\n            generation: 1,\n        },\n        Id {\n            index: 127,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967342,
+      "node": "Class {\n    span: 5122..5239,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 5128..5155,\n            sym: \"A_StaticMethod_StaticMethod\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 128,\n            generation: 1,\n        },\n        Id {\n            index: 129,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967343,
+      "node": "Class {\n    span: 5234..5364,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 5240..5267,\n            sym: \"A_StaticMethod_StaticGetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 130,\n            generation: 1,\n        },\n        Id {\n            index: 131,\n            generation: 1,\n        },\n        Id {\n            index: 132,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967344,
+      "node": "Class {\n    span: 5359..5471,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 5365..5392,\n            sym: \"A_StaticMethod_StaticSetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 133,\n            generation: 1,\n        },\n        Id {\n            index: 134,\n            generation: 1,\n        },\n        Id {\n            index: 135,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967345,
+      "node": "Class {\n    span: 5517..5636,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 5523..5543,\n            sym: \"A_StaticGetter_Field\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 136,\n            generation: 1,\n        },\n        Id {\n            index: 137,\n            generation: 1,\n        },\n        Id {\n            index: 138,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967346,
+      "node": "Class {\n    span: 5631..5748,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 5637..5658,\n            sym: \"A_StaticGetter_Method\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 139,\n            generation: 1,\n        },\n        Id {\n            index: 140,\n            generation: 1,\n        },\n        Id {\n            index: 141,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967347,
+      "node": "Class {\n    span: 5743..5873,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 5749..5770,\n            sym: \"A_StaticGetter_Getter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 142,\n            generation: 1,\n        },\n        Id {\n            index: 143,\n            generation: 1,\n        },\n        Id {\n            index: 144,\n            generation: 1,\n        },\n        Id {\n            index: 145,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967348,
+      "node": "Class {\n    span: 5868..6002,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 5874..5895,\n            sym: \"A_StaticGetter_Setter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 146,\n            generation: 1,\n        },\n        Id {\n            index: 147,\n            generation: 1,\n        },\n        Id {\n            index: 148,\n            generation: 1,\n        },\n        Id {\n            index: 149,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967349,
+      "node": "Class {\n    span: 5997..6126,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 6003..6029,\n            sym: \"A_StaticGetter_StaticField\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 150,\n            generation: 1,\n        },\n        Id {\n            index: 151,\n            generation: 1,\n        },\n        Id {\n            index: 152,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967350,
+      "node": "Class {\n    span: 6121..6251,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 6127..6154,\n            sym: \"A_StaticGetter_StaticMethod\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 153,\n            generation: 1,\n        },\n        Id {\n            index: 154,\n            generation: 1,\n        },\n        Id {\n            index: 155,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967351,
+      "node": "Class {\n    span: 6246..6385,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 6252..6279,\n            sym: \"A_StaticGetter_StaticGetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 156,\n            generation: 1,\n        },\n        Id {\n            index: 157,\n            generation: 1,\n        },\n        Id {\n            index: 158,\n            generation: 1,\n        },\n        Id {\n            index: 159,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967352,
+      "node": "Class {\n    span: 6380..6505,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 6386..6413,\n            sym: \"A_StaticGetter_StaticSetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 160,\n            generation: 1,\n        },\n        Id {\n            index: 161,\n            generation: 1,\n        },\n        Id {\n            index: 162,\n            generation: 1,\n        },\n        Id {\n            index: 163,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967353,
+      "node": "Class {\n    span: 6550..6673,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 6556..6576,\n            sym: \"A_StaticSetter_Field\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 164,\n            generation: 1,\n        },\n        Id {\n            index: 165,\n            generation: 1,\n        },\n        Id {\n            index: 166,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967354,
+      "node": "Class {\n    span: 6668..6790,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 6674..6695,\n            sym: \"A_StaticSetter_Method\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 167,\n            generation: 1,\n        },\n        Id {\n            index: 168,\n            generation: 1,\n        },\n        Id {\n            index: 169,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967355,
+      "node": "Class {\n    span: 6785..6919,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 6791..6812,\n            sym: \"A_StaticSetter_Getter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 170,\n            generation: 1,\n        },\n        Id {\n            index: 171,\n            generation: 1,\n        },\n        Id {\n            index: 172,\n            generation: 1,\n        },\n        Id {\n            index: 173,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967356,
+      "node": "Class {\n    span: 6914..7052,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 6920..6941,\n            sym: \"A_StaticSetter_Setter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 174,\n            generation: 1,\n        },\n        Id {\n            index: 175,\n            generation: 1,\n        },\n        Id {\n            index: 176,\n            generation: 1,\n        },\n        Id {\n            index: 177,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967357,
+      "node": "Class {\n    span: 7047..7183,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7053..7079,\n            sym: \"A_StaticSetter_StaticField\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 178,\n            generation: 1,\n        },\n        Id {\n            index: 179,\n            generation: 1,\n        },\n        Id {\n            index: 180,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967358,
+      "node": "Class {\n    span: 7178..7309,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7184..7211,\n            sym: \"A_StaticSetter_StaticMethod\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 181,\n            generation: 1,\n        },\n        Id {\n            index: 182,\n            generation: 1,\n        },\n        Id {\n            index: 183,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967359,
+      "node": "Class {\n    span: 7304..7451,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7310..7337,\n            sym: \"A_StaticSetter_StaticGetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 184,\n            generation: 1,\n        },\n        Id {\n            index: 185,\n            generation: 1,\n        },\n        Id {\n            index: 186,\n            generation: 1,\n        },\n        Id {\n            index: 187,\n            generation: 1,\n        },\n    ],\n}"
+    },
+    {
+      "id": 4294967360,
+      "node": "Class {\n    span: 7446..7575,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7452..7479,\n            sym: \"A_StaticSetter_StaticSetter\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 188,\n            generation: 1,\n        },\n        Id {\n            index: 189,\n            generation: 1,\n        },\n        Id {\n            index: 190,\n            generation: 1,\n        },\n        Id {\n            index: 191,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "class_members": [
+    {
+      "id": 4294967297,
+      "node": "Prop(\n    ClassProp {\n        span: 102..125,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 102..106,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967298,
+      "node": "Prop(\n    ClassProp {\n        span: 124..143,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 124..128,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Prop(\n    ClassProp {\n        span: 193..216,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 193..197,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Method(\n    ClassMethod {\n        span: 215..231,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 215..219,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Prop(\n    ClassProp {\n        span: 281..306,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 281..285,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "Prop(\n    ClassProp {\n        span: 303..308,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 303..306,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Method(\n    ClassMethod {\n        span: 307..332,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 307..311,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 1,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Prop(\n    ClassProp {\n        span: 382..407,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 382..386,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 8,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Prop(\n    ClassProp {\n        span: 404..409,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 404..407,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "Method(\n    ClassMethod {\n        span: 408..437,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 408..412,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 2,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Prop(\n    ClassProp {\n        span: 492..520,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 492..496,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 10,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Prop(\n    ClassProp {\n        span: 514..540,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 521..525,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "Prop(\n    ClassProp {\n        span: 596..624,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 596..600,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 13,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Method(\n    ClassMethod {\n        span: 618..641,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 625..629,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 3,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Prop(\n    ClassProp {\n        span: 697..725,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 697..701,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 15,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Prop(\n    ClassProp {\n        span: 719..731,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 726..729,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "Method(\n    ClassMethod {\n        span: 730..755,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 730..734,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 4,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967314,
+      "node": "Prop(\n    ClassProp {\n        span: 811..839,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 811..815,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 18,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967315,
+      "node": "Prop(\n    ClassProp {\n        span: 833..845,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 840..843,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967316,
+      "node": "Method(\n    ClassMethod {\n        span: 844..873,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 844..848,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 5,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967317,
+      "node": "Method(\n    ClassMethod {\n        span: 945..965,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 945..949,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 6,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967318,
+      "node": "Prop(\n    ClassProp {\n        span: 964..983,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 964..968,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 20,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Method(\n    ClassMethod {\n        span: 1034..1054,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1034..1038,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 7,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967320,
+      "node": "Method(\n    ClassMethod {\n        span: 1053..1069,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1053..1057,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 8,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967321,
+      "node": "Method(\n    ClassMethod {\n        span: 1120..1142,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1120..1124,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 9,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967322,
+      "node": "Prop(\n    ClassProp {\n        span: 1139..1144,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1139..1142,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "Method(\n    ClassMethod {\n        span: 1143..1168,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1143..1147,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 10,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "Method(\n    ClassMethod {\n        span: 1219..1241,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1219..1223,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 11,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967325,
+      "node": "Prop(\n    ClassProp {\n        span: 1238..1243,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1238..1241,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967326,
+      "node": "Method(\n    ClassMethod {\n        span: 1242..1271,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1242..1246,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 12,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967327,
+      "node": "Method(\n    ClassMethod {\n        span: 1327..1352,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1327..1331,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 13,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967328,
+      "node": "Prop(\n    ClassProp {\n        span: 1346..1372,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1353..1357,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 26,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "Method(\n    ClassMethod {\n        span: 1429..1454,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1429..1433,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 14,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967330,
+      "node": "Method(\n    ClassMethod {\n        span: 1448..1471,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1455..1459,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 15,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967331,
+      "node": "Method(\n    ClassMethod {\n        span: 1528..1553,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1528..1532,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 16,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967332,
+      "node": "Prop(\n    ClassProp {\n        span: 1547..1559,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1554..1557,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967333,
+      "node": "Method(\n    ClassMethod {\n        span: 1558..1583,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1558..1562,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 17,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967334,
+      "node": "Method(\n    ClassMethod {\n        span: 1640..1665,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1640..1644,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 18,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967335,
+      "node": "Prop(\n    ClassProp {\n        span: 1659..1671,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1666..1669,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967336,
+      "node": "Method(\n    ClassMethod {\n        span: 1670..1699,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1670..1674,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 19,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967337,
+      "node": "Prop(\n    ClassProp {\n        span: 1772..1777,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1772..1775,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967338,
+      "node": "Method(\n    ClassMethod {\n        span: 1776..1805,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1776..1780,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 20,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967339,
+      "node": "Prop(\n    ClassProp {\n        span: 1804..1823,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1804..1808,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 33,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967340,
+      "node": "Prop(\n    ClassProp {\n        span: 1874..1879,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1874..1877,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967341,
+      "node": "Method(\n    ClassMethod {\n        span: 1878..1907,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1878..1882,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 21,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967342,
+      "node": "Method(\n    ClassMethod {\n        span: 1906..1922,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1906..1910,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 22,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967343,
+      "node": "Prop(\n    ClassProp {\n        span: 1973..1978,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1973..1976,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967344,
+      "node": "Method(\n    ClassMethod {\n        span: 1977..2008,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 1977..1981,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 23,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967345,
+      "node": "Prop(\n    ClassProp {\n        span: 2005..2010,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2005..2008,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967346,
+      "node": "Method(\n    ClassMethod {\n        span: 2009..2034,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2009..2013,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 24,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967347,
+      "node": "Prop(\n    ClassProp {\n        span: 2081..2086,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2081..2084,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967348,
+      "node": "Method(\n    ClassMethod {\n        span: 2085..2116,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2085..2089,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 25,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967349,
+      "node": "Prop(\n    ClassProp {\n        span: 2113..2118,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2113..2116,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967350,
+      "node": "Method(\n    ClassMethod {\n        span: 2117..2146,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2117..2121,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 26,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967351,
+      "node": "Prop(\n    ClassProp {\n        span: 2202..2207,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2202..2205,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967352,
+      "node": "Method(\n    ClassMethod {\n        span: 2206..2240,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2206..2210,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 27,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967353,
+      "node": "Method(\n    ClassMethod {\n        span: 2234..2257,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2241..2245,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 28,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967354,
+      "node": "Prop(\n    ClassProp {\n        span: 2314..2319,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2314..2317,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967355,
+      "node": "Method(\n    ClassMethod {\n        span: 2318..2352,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2318..2322,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 29,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967356,
+      "node": "Method(\n    ClassMethod {\n        span: 2346..2369,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2353..2357,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 30,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967357,
+      "node": "Prop(\n    ClassProp {\n        span: 2426..2431,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2426..2429,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967358,
+      "node": "Method(\n    ClassMethod {\n        span: 2430..2464,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2430..2434,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 31,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967359,
+      "node": "Prop(\n    ClassProp {\n        span: 2458..2470,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2465..2468,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967360,
+      "node": "Method(\n    ClassMethod {\n        span: 2469..2494,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2469..2473,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 32,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967361,
+      "node": "Prop(\n    ClassProp {\n        span: 2551..2556,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2551..2554,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967362,
+      "node": "Method(\n    ClassMethod {\n        span: 2555..2589,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2555..2559,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 33,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967363,
+      "node": "Prop(\n    ClassProp {\n        span: 2583..2595,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2590..2593,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967364,
+      "node": "Method(\n    ClassMethod {\n        span: 2594..2623,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2594..2598,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 34,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967365,
+      "node": "Prop(\n    ClassProp {\n        span: 2695..2700,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2695..2698,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967366,
+      "node": "Method(\n    ClassMethod {\n        span: 2699..2732,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2699..2703,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 35,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967367,
+      "node": "Prop(\n    ClassProp {\n        span: 2731..2750,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2731..2735,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 51,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967368,
+      "node": "Prop(\n    ClassProp {\n        span: 2801..2806,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2801..2804,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967369,
+      "node": "Method(\n    ClassMethod {\n        span: 2805..2838,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2805..2809,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 36,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967370,
+      "node": "Method(\n    ClassMethod {\n        span: 2837..2853,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2837..2841,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 37,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967371,
+      "node": "Prop(\n    ClassProp {\n        span: 2901..2906,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2901..2904,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967372,
+      "node": "Method(\n    ClassMethod {\n        span: 2905..2940,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2905..2909,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 38,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967373,
+      "node": "Prop(\n    ClassProp {\n        span: 2937..2942,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2937..2940,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967374,
+      "node": "Method(\n    ClassMethod {\n        span: 2941..2966,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 2941..2945,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 39,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967375,
+      "node": "Prop(\n    ClassProp {\n        span: 3017..3022,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 3017..3020,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967376,
+      "node": "Method(\n    ClassMethod {\n        span: 3021..3056,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3021..3025,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 40,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967377,
+      "node": "Prop(\n    ClassProp {\n        span: 3053..3058,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 3053..3056,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967378,
+      "node": "Method(\n    ClassMethod {\n        span: 3057..3086,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3057..3061,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 41,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967379,
+      "node": "Prop(\n    ClassProp {\n        span: 3142..3147,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 3142..3145,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967380,
+      "node": "Method(\n    ClassMethod {\n        span: 3146..3184,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3146..3150,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 42,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967381,
+      "node": "Prop(\n    ClassProp {\n        span: 3178..3204,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3185..3189,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 57,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967382,
+      "node": "Prop(\n    ClassProp {\n        span: 3261..3266,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 3261..3264,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967383,
+      "node": "Method(\n    ClassMethod {\n        span: 3265..3303,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3265..3269,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 43,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967384,
+      "node": "Method(\n    ClassMethod {\n        span: 3297..3320,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3304..3308,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 44,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967385,
+      "node": "Prop(\n    ClassProp {\n        span: 3377..3382,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 3377..3380,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967386,
+      "node": "Method(\n    ClassMethod {\n        span: 3381..3419,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3381..3385,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 45,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967387,
+      "node": "Prop(\n    ClassProp {\n        span: 3413..3425,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 3420..3423,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967388,
+      "node": "Method(\n    ClassMethod {\n        span: 3424..3449,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3424..3428,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 46,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967389,
+      "node": "Prop(\n    ClassProp {\n        span: 3506..3511,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 3506..3509,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967390,
+      "node": "Method(\n    ClassMethod {\n        span: 3510..3548,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3510..3514,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 47,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967391,
+      "node": "Prop(\n    ClassProp {\n        span: 3542..3554,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 3549..3552,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967392,
+      "node": "Method(\n    ClassMethod {\n        span: 3553..3582,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3553..3557,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 48,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967393,
+      "node": "Prop(\n    ClassProp {\n        span: 3664..3694,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3671..3675,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 63,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967394,
+      "node": "Prop(\n    ClassProp {\n        span: 3693..3712,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3693..3697,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 64,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967395,
+      "node": "Prop(\n    ClassProp {\n        span: 3768..3798,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3775..3779,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 66,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967396,
+      "node": "Method(\n    ClassMethod {\n        span: 3797..3813,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3797..3801,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 49,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967397,
+      "node": "Prop(\n    ClassProp {\n        span: 3869..3901,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3876..3880,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 68,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967398,
+      "node": "Prop(\n    ClassProp {\n        span: 3898..3903,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 3898..3901,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967399,
+      "node": "Method(\n    ClassMethod {\n        span: 3902..3927,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3902..3906,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 50,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967400,
+      "node": "Prop(\n    ClassProp {\n        span: 3983..4015,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 3990..3994,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 71,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967401,
+      "node": "Prop(\n    ClassProp {\n        span: 4012..4017,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 4012..4015,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967402,
+      "node": "Method(\n    ClassMethod {\n        span: 4016..4045,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4016..4020,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 51,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967403,
+      "node": "Prop(\n    ClassProp {\n        span: 4106..4141,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4113..4117,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 73,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967404,
+      "node": "Prop(\n    ClassProp {\n        span: 4135..4161,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4142..4146,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 74,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967405,
+      "node": "Prop(\n    ClassProp {\n        span: 4223..4258,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4230..4234,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 76,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967406,
+      "node": "Method(\n    ClassMethod {\n        span: 4252..4275,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4259..4263,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 52,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967407,
+      "node": "Prop(\n    ClassProp {\n        span: 4337..4372,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4344..4348,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 78,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967408,
+      "node": "Prop(\n    ClassProp {\n        span: 4366..4378,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 4373..4376,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967409,
+      "node": "Method(\n    ClassMethod {\n        span: 4377..4402,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4377..4381,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 53,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967410,
+      "node": "Prop(\n    ClassProp {\n        span: 4464..4499,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4471..4475,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 81,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967411,
+      "node": "Prop(\n    ClassProp {\n        span: 4493..4505,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 4500..4503,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967412,
+      "node": "Method(\n    ClassMethod {\n        span: 4504..4533,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4504..4508,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 54,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967413,
+      "node": "Method(\n    ClassMethod {\n        span: 4617..4644,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4624..4628,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 55,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967414,
+      "node": "Prop(\n    ClassProp {\n        span: 4643..4662,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4643..4647,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 83,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967415,
+      "node": "Method(\n    ClassMethod {\n        span: 4719..4746,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4726..4730,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 56,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967416,
+      "node": "Method(\n    ClassMethod {\n        span: 4745..4761,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4745..4749,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 57,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967417,
+      "node": "Method(\n    ClassMethod {\n        span: 4818..4847,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4825..4829,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 58,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967418,
+      "node": "Prop(\n    ClassProp {\n        span: 4844..4849,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 4844..4847,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967419,
+      "node": "Method(\n    ClassMethod {\n        span: 4848..4873,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4848..4852,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 59,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967420,
+      "node": "Method(\n    ClassMethod {\n        span: 4930..4959,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4937..4941,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 60,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967421,
+      "node": "Prop(\n    ClassProp {\n        span: 4956..4961,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 4956..4959,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967422,
+      "node": "Method(\n    ClassMethod {\n        span: 4960..4989,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 4960..4964,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 61,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967423,
+      "node": "Method(\n    ClassMethod {\n        span: 5051..5083,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5058..5062,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 62,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967424,
+      "node": "Prop(\n    ClassProp {\n        span: 5077..5103,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5084..5088,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 89,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967425,
+      "node": "Method(\n    ClassMethod {\n        span: 5166..5198,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5173..5177,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 63,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967426,
+      "node": "Method(\n    ClassMethod {\n        span: 5192..5215,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5199..5203,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 64,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967427,
+      "node": "Method(\n    ClassMethod {\n        span: 5278..5310,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5285..5289,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 65,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967428,
+      "node": "Prop(\n    ClassProp {\n        span: 5304..5316,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 5311..5314,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967429,
+      "node": "Method(\n    ClassMethod {\n        span: 5315..5340,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5315..5319,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 66,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967430,
+      "node": "Method(\n    ClassMethod {\n        span: 5403..5435,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5410..5414,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 67,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967431,
+      "node": "Prop(\n    ClassProp {\n        span: 5429..5441,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 5436..5439,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967432,
+      "node": "Method(\n    ClassMethod {\n        span: 5440..5469,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5440..5444,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 68,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967433,
+      "node": "Prop(\n    ClassProp {\n        span: 5554..5566,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 5561..5564,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967434,
+      "node": "Method(\n    ClassMethod {\n        span: 5565..5594,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5565..5569,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 69,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967435,
+      "node": "Prop(\n    ClassProp {\n        span: 5593..5612,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5593..5597,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 96,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967436,
+      "node": "Prop(\n    ClassProp {\n        span: 5669..5681,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 5676..5679,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967437,
+      "node": "Method(\n    ClassMethod {\n        span: 5680..5709,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5680..5684,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 70,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967438,
+      "node": "Method(\n    ClassMethod {\n        span: 5708..5724,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5708..5712,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 71,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967439,
+      "node": "Prop(\n    ClassProp {\n        span: 5781..5793,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 5788..5791,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967440,
+      "node": "Method(\n    ClassMethod {\n        span: 5792..5823,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5792..5796,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 72,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967441,
+      "node": "Prop(\n    ClassProp {\n        span: 5820..5825,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 5820..5823,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967442,
+      "node": "Method(\n    ClassMethod {\n        span: 5824..5849,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5824..5828,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 73,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967443,
+      "node": "Prop(\n    ClassProp {\n        span: 5906..5918,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 5913..5916,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967444,
+      "node": "Method(\n    ClassMethod {\n        span: 5917..5948,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5917..5921,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 74,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967445,
+      "node": "Prop(\n    ClassProp {\n        span: 5945..5950,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 5945..5948,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967446,
+      "node": "Method(\n    ClassMethod {\n        span: 5949..5978,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 5949..5953,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 75,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967447,
+      "node": "Prop(\n    ClassProp {\n        span: 6040..6052,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6047..6050,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967448,
+      "node": "Method(\n    ClassMethod {\n        span: 6051..6085,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6051..6055,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 76,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967449,
+      "node": "Method(\n    ClassMethod {\n        span: 6079..6102,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6086..6090,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 77,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967450,
+      "node": "Prop(\n    ClassProp {\n        span: 6165..6177,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6172..6175,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967451,
+      "node": "Method(\n    ClassMethod {\n        span: 6176..6210,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6176..6180,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 78,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967452,
+      "node": "Method(\n    ClassMethod {\n        span: 6204..6227,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6211..6215,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 79,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967453,
+      "node": "Prop(\n    ClassProp {\n        span: 6290..6302,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6297..6300,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967454,
+      "node": "Method(\n    ClassMethod {\n        span: 6301..6335,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6301..6305,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 80,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967455,
+      "node": "Prop(\n    ClassProp {\n        span: 6329..6341,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6336..6339,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967456,
+      "node": "Method(\n    ClassMethod {\n        span: 6340..6365,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6340..6344,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 81,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967457,
+      "node": "Prop(\n    ClassProp {\n        span: 6424..6436,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6431..6434,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967458,
+      "node": "Method(\n    ClassMethod {\n        span: 6435..6469,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6435..6439,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 82,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967459,
+      "node": "Prop(\n    ClassProp {\n        span: 6463..6475,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6470..6473,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967460,
+      "node": "Method(\n    ClassMethod {\n        span: 6474..6503,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6474..6478,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 83,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967461,
+      "node": "Prop(\n    ClassProp {\n        span: 6587..6599,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6594..6597,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967462,
+      "node": "Method(\n    ClassMethod {\n        span: 6598..6631,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6598..6602,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 84,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967463,
+      "node": "Prop(\n    ClassProp {\n        span: 6630..6649,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6630..6634,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 114,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967464,
+      "node": "Prop(\n    ClassProp {\n        span: 6706..6718,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6713..6716,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967465,
+      "node": "Method(\n    ClassMethod {\n        span: 6717..6750,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6717..6721,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 85,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967466,
+      "node": "Method(\n    ClassMethod {\n        span: 6749..6765,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6749..6753,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 86,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967467,
+      "node": "Prop(\n    ClassProp {\n        span: 6823..6835,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6830..6833,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967468,
+      "node": "Method(\n    ClassMethod {\n        span: 6834..6869,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6834..6838,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 87,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967469,
+      "node": "Prop(\n    ClassProp {\n        span: 6866..6871,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6866..6869,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967470,
+      "node": "Method(\n    ClassMethod {\n        span: 6870..6895,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6870..6874,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 88,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967471,
+      "node": "Prop(\n    ClassProp {\n        span: 6952..6964,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6959..6962,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967472,
+      "node": "Method(\n    ClassMethod {\n        span: 6963..6998,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6963..6967,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 89,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967473,
+      "node": "Prop(\n    ClassProp {\n        span: 6995..7000,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 6995..6998,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+    },
+    {
+      "id": 4294967474,
+      "node": "Method(\n    ClassMethod {\n        span: 6999..7028,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 6999..7003,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 90,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967475,
+      "node": "Prop(\n    ClassProp {\n        span: 7090..7102,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 7097..7100,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967476,
+      "node": "Method(\n    ClassMethod {\n        span: 7101..7139,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 7101..7105,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 91,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967477,
+      "node": "Prop(\n    ClassProp {\n        span: 7133..7159,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 7140..7144,\n                sym: \"#foo\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 120,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967478,
+      "node": "Prop(\n    ClassProp {\n        span: 7222..7234,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 7229..7232,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967479,
+      "node": "Method(\n    ClassMethod {\n        span: 7233..7271,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 7233..7237,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 92,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967480,
+      "node": "Method(\n    ClassMethod {\n        span: 7265..7288,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 7272..7276,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 93,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967481,
+      "node": "Prop(\n    ClassProp {\n        span: 7348..7360,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 7355..7358,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967482,
+      "node": "Method(\n    ClassMethod {\n        span: 7359..7397,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 7359..7363,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 94,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967483,
+      "node": "Prop(\n    ClassProp {\n        span: 7391..7403,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 7398..7401,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967484,
+      "node": "Method(\n    ClassMethod {\n        span: 7402..7427,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 7402..7406,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 95,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967485,
+      "node": "Prop(\n    ClassProp {\n        span: 7490..7502,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 7497..7500,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967486,
+      "node": "Method(\n    ClassMethod {\n        span: 7501..7539,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 7501..7505,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 96,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    },
+    {
+      "id": 4294967487,
+      "node": "Prop(\n    ClassProp {\n        span: 7533..7545,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 7540..7543,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+    },
+    {
+      "id": 4294967488,
+      "node": "Method(\n    ClassMethod {\n        span: 7544..7573,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 7544..7548,\n                sym: \"#foo\",\n            },\n        ),\n        function: Id {\n            index: 97,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
+    }
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

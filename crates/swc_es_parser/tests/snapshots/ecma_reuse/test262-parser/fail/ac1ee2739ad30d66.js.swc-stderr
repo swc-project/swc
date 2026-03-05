@@ -1,0 +1,8 @@
+  x unterminated block comment
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/ac1ee2739ad30d66.js:1:1]
+ 0 | /*
+   : ^^
+   `----
+
+Advice: 
+  > code: UnterminatedBlockComment

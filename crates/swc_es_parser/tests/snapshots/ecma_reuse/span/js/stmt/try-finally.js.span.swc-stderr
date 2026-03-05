@@ -1,5 +1,5 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/try-finally.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-finally.js:1:1]
  1 | ,-> try {
  2 | |   
  3 | |   } finally {
@@ -7,7 +7,7 @@
  5 | `-> }
    `----
   x TryStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/try-finally.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-finally.js:1:1]
  1 | ,-> try {
  2 | |   
  3 | |   } finally {
@@ -15,13 +15,13 @@
  5 | `-> }
    `----
   x BlockStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/try-finally.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-finally.js:1:1]
  1 | ,-> try {
  2 | |   
  3 | `-> } finally {
    `----
   x BlockStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/try-finally.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-finally.js:3:1]
  2 |     
  3 | ,-> } finally {
  4 | |   

@@ -1,5 +1,5 @@
   x expected >, got Ident
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/variance-annotations/1/input.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/variance-annotations/1/input.ts:1:1]
  1 | type Covariant<out T> = {
    :                    ^
  2 |     x: T;

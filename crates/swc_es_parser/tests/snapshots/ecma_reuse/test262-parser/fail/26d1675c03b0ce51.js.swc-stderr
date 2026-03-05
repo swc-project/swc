@@ -1,0 +1,24 @@
+  x import/export is not allowed in script mode
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/26d1675c03b0ce51.js:1:1]
+ 1 | export { default as foo }
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: ImportExportInScript
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/26d1675c03b0ce51.js:1:1]
+ 1 | export { default as foo }
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/26d1675c03b0ce51.js:1:1]
+ 1 | export { default as foo }
+   :          ^^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

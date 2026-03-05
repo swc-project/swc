@@ -1,5 +1,5 @@
   x unterminated string literal
-   ,-[$DIR/../swc_ecma_parser/tests/errors/unterminated_string_constant/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/errors/unterminated_string_constant/input.js:1:1]
  1 | const string = "\
    :                ^^
    `----

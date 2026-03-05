@@ -1,5 +1,5 @@
   x expected }, got Ident
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/type-only-import-specifier/missing-local/input.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/type-only-import-specifier/missing-local/input.ts:1:1]
  1 | import { type foo as } from 'mod'
    :               ^^^
    `----

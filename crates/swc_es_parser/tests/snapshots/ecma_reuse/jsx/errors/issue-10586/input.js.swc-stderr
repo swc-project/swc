@@ -1,0 +1,16 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/jsx/errors/issue-10586/input.js:1:1]
+ 1 | <n c={...b}></n>
+   :       ^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected }, got Ident
+   ,-[/swc_ecma_parser/tests/jsx/errors/issue-10586/input.js:1:1]
+ 1 | <n c={...b}></n>
+   :          ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

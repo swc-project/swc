@@ -1,32 +1,32 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | ,-> for await (const a of foo) {
  2 | |   
  3 | `-> }
    `----
   x ForStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | ,-> for await (const a of foo) {
  2 | |   
  3 | `-> }
    `----
   x VarDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | for await (const a of foo) {
    :            ^^^^^^^^^^
    `----
   x IdentPat
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | for await (const a of foo) {
    :                  ^
    `----
   x IdentExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | for await (const a of foo) {
    :                       ^^^
    `----
   x BlockStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | ,-> for await (const a of foo) {
  2 | |   
  3 | `-> }

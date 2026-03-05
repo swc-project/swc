@@ -1,0 +1,8 @@
+  x expected declaration
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/45db351b2b07663a.module.js:1:1]
+ 1 | export / from a
+   :        ^
+   `----
+
+Advice: 
+  > code: InvalidStatement

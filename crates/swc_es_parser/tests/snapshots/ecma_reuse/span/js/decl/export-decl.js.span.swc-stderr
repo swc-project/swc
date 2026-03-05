@@ -1,56 +1,56 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-decl.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-decl.js:1:1]
  1 | ,-> export * from "./a.js";
  2 | |   export * as a from "./a.js";
  3 | |   export {};
  4 | `-> export { b } from "./b.js";
    `----
   x ModuleDeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-decl.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-decl.js:1:1]
  1 | ,-> export * from "./a.js";
  2 | `-> export * as a from "./a.js";
  3 |     export {};
    `----
   x ExportAllDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-decl.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-decl.js:1:1]
  1 | ,-> export * from "./a.js";
  2 | `-> export * as a from "./a.js";
  3 |     export {};
    `----
   x ModuleDeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-decl.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-decl.js:2:1]
  1 |     export * from "./a.js";
  2 | ,-> export * as a from "./a.js";
  3 | `-> export {};
  4 |     export { b } from "./b.js";
    `----
   x ExportAllDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-decl.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-decl.js:2:1]
  1 |     export * from "./a.js";
  2 | ,-> export * as a from "./a.js";
  3 | `-> export {};
  4 |     export { b } from "./b.js";
    `----
   x ModuleDeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-decl.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-decl.js:3:1]
  2 |     export * as a from "./a.js";
  3 | ,-> export {};
  4 | `-> export { b } from "./b.js";
    `----
   x ExportNamedDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-decl.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-decl.js:3:1]
  2 |     export * as a from "./a.js";
  3 | ,-> export {};
  4 | `-> export { b } from "./b.js";
    `----
   x ModuleDeclStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-decl.js:4:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-decl.js:4:1]
  3 | export {};
  4 | export { b } from "./b.js";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExportNamedDecl
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/export-decl.js:4:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-decl.js:4:1]
  3 | export {};
  4 | export { b } from "./b.js";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

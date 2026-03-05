@@ -1,5 +1,5 @@
   x expected ), got Eof
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/issue-2173/case1/input.tsx:5:9]
+   ,-[/swc_ecma_parser/tests/typescript-errors/issue-2173/case1/input.tsx:5:9]
  5 |     });
    `----
 

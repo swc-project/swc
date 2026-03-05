@@ -1,5 +1,5 @@
   x expected {, got Keyword(Implements)
-   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/class/implements-before-extends/input.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/class/implements-before-extends/input.ts:1:1]
  1 | class C implements A extends B {}
    :         ^^^^^^^^^^
    `----

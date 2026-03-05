@@ -1,0 +1,34 @@
+{
+  "root_program": 4294967297,
+  "programs": [
+    {
+      "id": 4294967297,
+      "node": "Program {\n    span: 1..61,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
+    }
+  ],
+  "stmts": [
+    {
+      "id": 4294967297,
+      "node": "Expr(\n    ExprStmt {\n        span: 1..61,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    {
+      "id": 4294967300,
+      "node": "JSXElement(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
+    }
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    {
+      "id": 4294967297,
+      "node": "JSXElement {\n    span: 1..61,\n    opening: JSXOpeningElement {\n        span: 1..61,\n        name: Ident(\n            Ident {\n                span: 2..15,\n                sym: \"Component\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 12..46,\n                name: \"mod\",\n                value: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            JSXAttr {\n                span: 44..47,\n                name: \"if\",\n                value: None,\n            },\n            JSXAttr {\n                span: 47..59,\n                name: \"abc\",\n                value: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}"
+    }
+  ],
+  "ts_types": []
+}

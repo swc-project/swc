@@ -1,0 +1,16 @@
+  x numeric literal exponent should contain digits
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/58e911fb2bbc1f6e.js:1:1]
+ 1 | 1.e+z
+   : ^^^^
+   `----
+
+Advice: 
+  > code: InvalidNumber
+  x failed to parse number literal
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/58e911fb2bbc1f6e.js:1:1]
+ 1 | 1.e+z
+   : ^^^^
+   `----
+
+Advice: 
+  > code: InvalidNumber

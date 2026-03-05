@@ -1,17 +1,17 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^
    `----
   x ExprStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/srcmap/2/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^

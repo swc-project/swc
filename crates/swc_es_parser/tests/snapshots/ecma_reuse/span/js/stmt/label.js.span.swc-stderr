@@ -1,35 +1,35 @@
   x Program
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
  1 | ,-> a: while (true) {
  2 | |       break a
  3 | `-> }
    `----
   x LabeledStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
  1 | ,-> a: while (true) {
  2 | |       break a
  3 | `-> }
    `----
   x WhileStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
  1 | ,-> a: while (true) {
  2 | |       break a
  3 | `-> }
    `----
   x LitExpr
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
  1 | a: while (true) {
    :           ^^^^
  2 |     break a
    `----
   x BlockStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
  1 | ,-> a: while (true) {
  2 | |       break a
  3 | `-> }
    `----
   x BreakStmt
-   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/label.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:2:1]
  1 |     a: while (true) {
  2 | ,->     break a
  3 | `-> }
