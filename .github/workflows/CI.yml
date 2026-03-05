@@ -134,8 +134,7 @@ jobs:
         shell: bash
         run: |
           corepack enable
-          # Avoid flaky postinstall downloads (for example dprint binary fetches).
-          yarn --mode=skip-build
+          yarn
 
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
@@ -177,8 +176,7 @@ jobs:
         shell: bash
         run: |
           corepack enable
-          # Avoid flaky postinstall downloads (for example dprint binary fetches).
-          yarn --mode=skip-build
+          yarn
 
       - name: Test
         run: |
@@ -249,8 +247,7 @@ jobs:
         shell: bash
         run: |
           corepack enable
-          # Avoid flaky postinstall downloads (for example dprint binary fetches).
-          yarn --mode=skip-build
+          yarn
           # I don't want to think deeply about this
           yarn global add jest@27 mocha || \
           yarn global add jest@27 mocha || \
