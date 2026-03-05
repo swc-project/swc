@@ -4,7 +4,9 @@ use swc_es_parser::{EsSyntax, Syntax, TsSyntax};
 
 mod common;
 
-use common::ecma_reuse::{parse_loaded_file_with_syntax_mode, snapshot_path_for, ParseMode};
+use common::ecma_reuse::{
+    load_ecma_fixture_file, parse_loaded_file_with_syntax_mode, snapshot_path_for, ParseMode,
+};
 
 fn syntax_for_error(file: &Path) -> Syntax {
     match file.extension().and_then(|ext| ext.to_str()) {
@@ -57,9 +59,7 @@ fn mode_for_error(file: &Path) -> ParseMode {
 #[testing::fixture("../swc_ecma_parser/tests/errors/**/*.tsx")]
 fn error(entry: PathBuf) {
     let output = testing::run_test(false, |cm, handler| -> Result<(), ()> {
-        let fm = cm
-            .load_file(&entry)
-            .unwrap_or_else(|err| panic!("failed to load {}: {err}", entry.display()));
+        let fm = load_ecma_fixture_file(&cm, &entry);
 
         let parsed = parse_loaded_file_with_syntax_mode(
             &fm,

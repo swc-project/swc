@@ -1,42 +1,42 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/do-while.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/do-while.js:1:1]
  1 | ,-> do {
  2 | |       foo()
  3 | `-> } while (bar)
    `----
   x DoWhileStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/do-while.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/do-while.js:1:1]
  1 | ,-> do {
  2 | |       foo()
  3 | `-> } while (bar)
    `----
   x BlockStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/do-while.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/do-while.js:1:1]
  1 | ,-> do {
  2 | |       foo()
  3 | `-> } while (bar)
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/do-while.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/do-while.js:2:1]
  1 |     do {
  2 | ,->     foo()
  3 | `-> } while (bar)
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/do-while.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/do-while.js:2:1]
  1 |     do {
  2 | ,->     foo()
  3 | `-> } while (bar)
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/do-while.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/do-while.js:2:1]
  1 | do {
  2 |     foo()
    :     ^^^
  3 | } while (bar)
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/do-while.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/do-while.js:3:1]
  2 |     foo()
  3 | } while (bar)
    :          ^^^

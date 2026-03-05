@@ -1,15 +1,15 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-3.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleDeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-3.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExportNamedDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export-string-names-3.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

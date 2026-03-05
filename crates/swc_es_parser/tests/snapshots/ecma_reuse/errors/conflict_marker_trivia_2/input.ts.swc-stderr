@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/conflict_marker_trivia_2/input.ts:3:1]
+   ,-[/swc_ecma_parser/tests/errors/conflict_marker_trivia_2/input.ts:3:1]
  2 |   foo() {
  3 | <<<<<<< B
    : ^^
@@ -9,7 +9,7 @@
 Advice: 
   > code: UnexpectedToken
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/conflict_marker_trivia_2/input.ts:3:1]
+   ,-[/swc_ecma_parser/tests/errors/conflict_marker_trivia_2/input.ts:3:1]
  2 |   foo() {
  3 | <<<<<<< B
    :     ^^
@@ -19,7 +19,7 @@ Advice:
 Advice: 
   > code: UnexpectedToken
   x expected property name, got EqEqEq
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/conflict_marker_trivia_2/input.ts:6:1]
+   ,-[/swc_ecma_parser/tests/errors/conflict_marker_trivia_2/input.ts:6:1]
  5 |   }
  6 | =======
    : ^^^

@@ -1,5 +1,5 @@
   x unterminated block comment
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/d056300d8658429f.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/d056300d8658429f.js:1:1]
  1 | /* 
    : ^^^
    `----

@@ -1,48 +1,48 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
  1 | ,-> let o = {
  2 | |       a: super.x,
  3 | `-> };
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
  1 | ,-> let o = {
  2 | |       a: super.x,
  3 | `-> };
    `----
   x VarDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
  1 | ,-> let o = {
  2 | |       a: super.x,
  3 | `-> };
    `----
   x AssignPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
  1 | ,-> let o = {
  2 | |       a: super.x,
  3 | `-> };
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
  1 | let o = {
    :     ^
  2 |     a: super.x,
    `----
   x ObjectExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
  1 | ,-> let o = {
  2 | |       a: super.x,
  3 | `-> };
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/obj2.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:2:1]
  1 | let o = {
  2 |     a: super.x,
    :             ^^^
  3 | };
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/obj2.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:2:1]
  1 | let o = {
  2 |     a: super.x,
    :        ^^^^^

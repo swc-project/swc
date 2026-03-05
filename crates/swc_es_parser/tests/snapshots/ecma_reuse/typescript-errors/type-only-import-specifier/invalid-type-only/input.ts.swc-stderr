@@ -1,5 +1,5 @@
   x expected }, got Keyword(Import)
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/type-only-import-specifier/invalid-type-only/input.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/type-only-import-specifier/invalid-type-only/input.ts:1:1]
  1 | import { type import } from 'mod'
    :               ^^^^^^
    `----

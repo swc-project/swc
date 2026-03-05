@@ -1,25 +1,25 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
   x TsAsExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    :       ^^^^^^^^
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^
    `----
   x TsTypeRef
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    :          ^^^^^
    `----

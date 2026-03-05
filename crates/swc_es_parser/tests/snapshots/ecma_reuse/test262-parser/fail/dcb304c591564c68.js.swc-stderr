@@ -1,5 +1,5 @@
   x failed to parse number literal
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/dcb304c591564c68.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/dcb304c591564c68.js:1:1]
  1 | 0O
    : ^^
    `----

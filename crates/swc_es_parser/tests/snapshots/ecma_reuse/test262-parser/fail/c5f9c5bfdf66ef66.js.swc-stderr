@@ -1,5 +1,5 @@
   x expected (, got Semi
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/c5f9c5bfdf66ef66.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/c5f9c5bfdf66ef66.js:1:1]
  1 | a if;
    :     ^
    `----

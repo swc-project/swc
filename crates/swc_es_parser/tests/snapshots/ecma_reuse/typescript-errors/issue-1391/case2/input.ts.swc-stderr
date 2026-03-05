@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/issue-1391/case2/input.ts:2:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/issue-1391/case2/input.ts:2:1]
  1 | let a = 0,
  2 |     let b = 1;
    :     ^^^

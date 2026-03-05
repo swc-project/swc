@@ -8,8 +8,8 @@ use testing::NormalizedOutput;
 mod common;
 
 use common::ecma_reuse::{
-    build_program_json_snapshot, parse_loaded_file_with_syntax_mode, read_es_syntax_config,
-    snapshot_path_for, ParseMode,
+    build_program_json_snapshot, load_ecma_fixture_file, parse_loaded_file_with_syntax_mode,
+    read_es_syntax_config, snapshot_path_for, ParseMode,
 };
 
 #[testing::fixture("../swc_ecma_parser/tests/js/**/*.js")]
@@ -49,9 +49,7 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
     };
 
     testing::run_test(false, |cm, handler| {
-        let fm = cm
-            .load_file(file)
-            .unwrap_or_else(|err| panic!("failed to load {}: {err}", file.display()));
+        let fm = load_ecma_fixture_file(&cm, file);
 
         let output = parse_loaded_file_with_syntax_mode(&fm, syntax, mode);
 

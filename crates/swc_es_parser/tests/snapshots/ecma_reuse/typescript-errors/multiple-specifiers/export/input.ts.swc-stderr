@@ -1,5 +1,5 @@
   x expected ,, got Ident
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/multiple-specifiers/export/input.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/multiple-specifiers/export/input.ts:1:1]
  1 | export { a b c }
    :            ^
    `----

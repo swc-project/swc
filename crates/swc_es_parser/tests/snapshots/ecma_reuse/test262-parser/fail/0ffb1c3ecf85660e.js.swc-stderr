@@ -1,5 +1,5 @@
   x unterminated string literal
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/0ffb1c3ecf85660e.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/0ffb1c3ecf85660e.js:1:1]
  1 | "Hello
    : ^^^^^^
  2 | World"
@@ -8,7 +8,7 @@
 Advice: 
   > code: UnterminatedString
   x unterminated string literal
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/0ffb1c3ecf85660e.js:2:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/0ffb1c3ecf85660e.js:2:1]
  1 | "Hello
  2 | World"
    :      ^

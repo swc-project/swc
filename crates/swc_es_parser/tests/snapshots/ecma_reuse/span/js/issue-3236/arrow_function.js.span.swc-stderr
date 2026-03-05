@@ -1,65 +1,65 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | ,-> let f = (a = 0) => {
  2 | |       "use strict";
  3 | `-> }
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | ,-> let f = (a = 0) => {
  2 | |       "use strict";
  3 | `-> }
    `----
   x VarDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | ,-> let f = (a = 0) => {
  2 | |       "use strict";
  3 | `-> }
    `----
   x AssignPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | ,-> let f = (a = 0) => {
  2 | |       "use strict";
  3 | `-> }
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :     ^
  2 |     "use strict";
    `----
   x ArrowExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | ,-> let f = (a = 0) => {
  2 | |       "use strict";
  3 | `-> }
    `----
   x AssignPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :            ^^^^
  2 |     "use strict";
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :          ^
  2 |     "use strict";
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :              ^
  2 |     "use strict";
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:2:1]
  1 |     let f = (a = 0) => {
  2 | ,->     "use strict";
  3 | `-> }
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/arrow_function.js:2:1]
  1 | let f = (a = 0) => {
  2 |     "use strict";
    :     ^^^^^^^^^^^^

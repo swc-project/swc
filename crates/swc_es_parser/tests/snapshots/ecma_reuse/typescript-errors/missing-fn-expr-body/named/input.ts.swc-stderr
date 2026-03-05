@@ -1,5 +1,5 @@
   x expected {, got Semi
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/missing-fn-expr-body/named/input.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/missing-fn-expr-body/named/input.ts:1:1]
  1 | let f = function f();
    :                     ^
    `----

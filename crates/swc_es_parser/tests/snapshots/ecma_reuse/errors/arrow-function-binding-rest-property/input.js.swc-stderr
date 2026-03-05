@@ -1,5 +1,5 @@
   x member access is not allowed in binding patterns
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/arrow-function-binding-rest-property/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/errors/arrow-function-binding-rest-property/input.js:1:1]
  1 | ({...a.b})=>{};
    :       ^
  2 | (a, {...b.c})=>{};

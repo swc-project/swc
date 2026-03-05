@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/arrow-function/async-rest-optional-parameter/input.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/arrow-function/async-rest-optional-parameter/input.ts:1:1]
  1 | async(...args?: any[]) : any => {}
    :               ^
    `----
@@ -7,7 +7,7 @@
 Advice: 
   > code: UnexpectedToken
   x expected :, got Keyword(Any)
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/arrow-function/async-rest-optional-parameter/input.ts:1:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/arrow-function/async-rest-optional-parameter/input.ts:1:1]
  1 | async(...args?: any[]) : any => {}
    :                 ^^^
    `----

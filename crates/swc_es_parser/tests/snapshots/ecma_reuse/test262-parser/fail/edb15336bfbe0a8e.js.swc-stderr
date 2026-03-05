@@ -1,5 +1,5 @@
   x class declaration requires a name
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/edb15336bfbe0a8e.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/edb15336bfbe0a8e.js:1:1]
  1 | class {}
    `----
 

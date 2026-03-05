@@ -1,5 +1,5 @@
   x import/export is not allowed in script mode
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/8cd3c4653493b667.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/8cd3c4653493b667.js:1:1]
  1 | export { if }
    : ^^^^^^
    `----
@@ -7,7 +7,7 @@
 Advice: 
   > code: ImportExportInScript
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/8cd3c4653493b667.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/8cd3c4653493b667.js:1:1]
  1 | export { if }
    : ^^^^^^
    `----
@@ -15,7 +15,7 @@ Advice:
 Advice: 
   > code: UnexpectedToken
   x expected (, got RBrace
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/8cd3c4653493b667.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/8cd3c4653493b667.js:1:1]
  1 | export { if }
    :             ^
    `----

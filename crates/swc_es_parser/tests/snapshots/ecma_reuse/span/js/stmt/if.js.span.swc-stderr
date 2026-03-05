@@ -1,41 +1,41 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
  1 | ,-> if (true) {
  2 | |       foo()
  3 | `-> }
    `----
   x IfStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
  1 | ,-> if (true) {
  2 | |       foo()
  3 | `-> }
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
  1 | if (true) {
    :     ^^^^
  2 |     foo()
    `----
   x BlockStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
  1 | ,-> if (true) {
  2 | |       foo()
  3 | `-> }
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/if.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:2:1]
  1 |     if (true) {
  2 | ,->     foo()
  3 | `-> }
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/if.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:2:1]
  1 |     if (true) {
  2 | ,->     foo()
  3 | `-> }
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/if.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:2:1]
  1 | if (true) {
  2 |     foo()
    :     ^^^

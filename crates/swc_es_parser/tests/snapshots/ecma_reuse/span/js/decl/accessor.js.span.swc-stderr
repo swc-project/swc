@@ -1,5 +1,5 @@
   x Program
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
   1 | ,-> class Foo {
   2 | |       get a() {
   3 | |   
@@ -15,7 +15,7 @@
  13 | `-> }
     `----
   x DeclStmt
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
   1 | ,-> class Foo {
   2 | |       get a() {
   3 | |   
@@ -29,7 +29,7 @@
  11 |         get a() { },
     `----
   x ClassDecl
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
   1 | ,-> class Foo {
   2 | |       get a() {
   3 | |   
@@ -43,7 +43,7 @@
  11 |         get a() { },
     `----
   x Class
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
   1 | ,-> class Foo {
   2 | |       get a() {
   3 | |   
@@ -57,7 +57,7 @@
  11 |         get a() { },
     `----
   x ClassMethod
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:2:1]
  1 |     class Foo {
  2 | ,->     get a() {
  3 | |   
@@ -65,7 +65,7 @@
  5 | `->     set a(v) {
    `----
   x Function
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:2:1]
  1 |     class Foo {
  2 | ,->     get a() {
  3 | |   
@@ -73,7 +73,7 @@
  5 | `->     set a(v) {
    `----
   x ClassMethod
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:5:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:5:1]
  4 |         }
  5 | ,->     set a(v) {
  6 | |   
@@ -81,7 +81,7 @@
  8 | `-> }
    `----
   x Function
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:5:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:5:1]
  4 |         }
  5 | ,->     set a(v) {
  6 | |   
@@ -89,13 +89,13 @@
  8 | `-> }
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:5:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:5:1]
  4 |     }
  5 |     set a(v) {
    :           ^
    `----
   x DeclStmt
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
   9 |     
  10 | ,-> let obj = {
  11 | |       get a() { },
@@ -103,7 +103,7 @@
  13 | `-> }
     `----
   x VarDecl
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
   9 |     
  10 | ,-> let obj = {
  11 | |       get a() { },
@@ -111,7 +111,7 @@
  13 | `-> }
     `----
   x AssignPat
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
   9 |     
  10 | ,-> let obj = {
  11 | |       get a() { },
@@ -119,14 +119,14 @@
  13 | `-> }
     `----
   x IdentPat
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
   9 | 
  10 | let obj = {
     :     ^^^
  11 |     get a() { },
     `----
   x ObjectExpr
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
   9 |     
  10 | ,-> let obj = {
  11 | |       get a() { },
@@ -134,35 +134,35 @@
  13 | `-> }
     `----
   x FunctionExpr
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:11:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:11:1]
  10 | let obj = {
  11 |     get a() { },
     :     ^^^^^^^^^^^^
  12 |     set a(v) { },
     `----
   x Function
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:11:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:11:1]
  10 | let obj = {
  11 |     get a() { },
     :     ^^^^^^^^^^^^
  12 |     set a(v) { },
     `----
   x FunctionExpr
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:12:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:12:1]
  11 |     get a() { },
  12 |     set a(v) { },
     :     ^^^^^^^^^^^^^
  13 | }
     `----
   x Function
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:12:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:12:1]
  11 |     get a() { },
  12 |     set a(v) { },
     :     ^^^^^^^^^^^^^
  13 | }
     `----
   x IdentPat
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/accessor.js:12:1]
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:12:1]
  11 |     get a() { },
  12 |     set a(v) { },
     :           ^

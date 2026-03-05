@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/jsx/errors/issue-6977/2/input.js:4:1]
+   ,-[/swc_ecma_parser/tests/jsx/errors/issue-6977/2/input.js:4:1]
  3 | 
  4 | <Component x={...{a: x}} />
    :               ^^^
@@ -8,7 +8,7 @@
 Advice: 
   > code: UnexpectedToken
   x expected }, got LBrace
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/jsx/errors/issue-6977/2/input.js:4:1]
+   ,-[/swc_ecma_parser/tests/jsx/errors/issue-6977/2/input.js:4:1]
  3 | 
  4 | <Component x={...{a: x}} />
    :                  ^

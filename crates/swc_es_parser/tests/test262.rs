@@ -7,7 +7,7 @@ mod common;
 
 use common::ecma_reuse::{
     build_program_canonical_json, build_program_json_snapshot, ecma_fixture_root,
-    parse_loaded_file_with_syntax_mode, snapshot_path_for, ParseMode,
+    load_ecma_fixture_file, parse_loaded_file_with_syntax_mode, snapshot_path_for, ParseMode,
 };
 
 const IGNORED_PASS_TESTS: &[&str] = &[
@@ -135,9 +135,7 @@ fn is_known_pass_canonical_mismatch(name: &str) -> bool {
 
 fn parse_success(path: &Path, mode: ParseMode) -> ParsedProgram {
     testing::run_test(false, |cm, handler| -> Result<ParsedProgram, ()> {
-        let fm = cm
-            .load_file(path)
-            .unwrap_or_else(|err| panic!("failed to load {}: {err}", path.display()));
+        let fm = load_ecma_fixture_file(&cm, path);
 
         let output = parse_loaded_file_with_syntax_mode(&fm, Syntax::default(), mode);
 
@@ -206,9 +204,7 @@ fn error(entry: PathBuf) {
     let mode = parse_mode(&entry);
 
     let output = testing::run_test(false, |cm, handler| -> Result<(), ()> {
-        let fm = cm
-            .load_file(&entry)
-            .unwrap_or_else(|err| panic!("failed to load {}: {err}", entry.display()));
+        let fm = load_ecma_fixture_file(&cm, &entry);
 
         let parsed = parse_loaded_file_with_syntax_mode(&fm, Syntax::default(), mode);
 

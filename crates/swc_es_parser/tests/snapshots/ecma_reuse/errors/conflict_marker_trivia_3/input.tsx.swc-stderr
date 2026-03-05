@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/conflict_marker_trivia_3/input.tsx:2:1]
+   ,-[/swc_ecma_parser/tests/errors/conflict_marker_trivia_3/input.tsx:2:1]
  1 | const x = <div/>;
  2 | <<<<<<< HEAD
    : ^^
@@ -8,7 +8,7 @@
 Advice: 
   > code: UnexpectedToken
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/conflict_marker_trivia_3/input.tsx:2:1]
+   ,-[/swc_ecma_parser/tests/errors/conflict_marker_trivia_3/input.tsx:2:1]
  1 | const x = <div/>;
  2 | <<<<<<< HEAD
    :     ^^

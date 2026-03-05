@@ -1,20 +1,20 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo
    : ^^^^^^^^^^^^^^^^^^
    `----
   x ModuleDeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo
    : ^^^^^^^^^^^^^^^^^^
    `----
   x ExportDefaultExprDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo
    : ^^^^^^^^^^^^^^^^^^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo
    :                ^^^
    `----

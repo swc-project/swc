@@ -1,35 +1,35 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
  1 | ,-> class Test {
  2 | |   
  3 | `->   method() {}
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
  1 | ,-> class Test {
  2 | |   
  3 | `->   method() {}
    `----
   x ClassDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
  1 | ,-> class Test {
  2 | |   
  3 | `->   method() {}
    `----
   x Class
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
  1 | ,-> class Test {
  2 | |   
  3 | `->   method() {}
    `----
   x ClassMethod
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:3:1]
  2 | 
  3 |   method() {}
    :   ^^^^^^^^^^^
    `----
   x Function
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:3:1]
  2 | 
  3 |   method() {}
    :   ^^^^^^^^^^^

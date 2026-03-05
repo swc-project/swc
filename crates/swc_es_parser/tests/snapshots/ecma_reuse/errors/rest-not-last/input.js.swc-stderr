@@ -1,5 +1,5 @@
   x rest element must be the last element
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/rest-not-last/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/errors/rest-not-last/input.js:1:1]
  1 | [...a, b] = [...spread];
    :      ^
  2 | const [...a, b] = [...spread];
@@ -8,7 +8,7 @@
 Advice: 
   > code: InvalidStatement
   x expected ], got Comma
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/rest-not-last/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/errors/rest-not-last/input.js:2:1]
  1 | [...a, b] = [...spread];
  2 | const [...a, b] = [...spread];
    :            ^

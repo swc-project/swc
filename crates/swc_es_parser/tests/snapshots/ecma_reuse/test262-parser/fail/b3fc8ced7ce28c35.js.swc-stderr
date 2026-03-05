@@ -1,5 +1,5 @@
   x invalid hexadecimal escape sequence
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/b3fc8ced7ce28c35.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/b3fc8ced7ce28c35.js:1:1]
  1 | ('\x')
    :   ^^
    `----

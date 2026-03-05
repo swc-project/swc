@@ -1,20 +1,20 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
  1 | super.x;
    : ^^^^^^^^
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
  1 | super.x;
    : ^^^^^^^^
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
  1 | super.x;
    :      ^^^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
  1 | super.x;
    : ^^^^^
    `----

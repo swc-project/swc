@@ -1,44 +1,44 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/member.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/member.js:1:1]
  1 | ,-> a.b
  2 | `-> c[d]
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/member.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/member.js:1:1]
  1 | ,-> a.b
  2 | `-> c[d]
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/member.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/member.js:1:1]
  1 | ,-> a.b
  2 | `-> c[d]
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/member.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/member.js:1:1]
  1 | a.b
    : ^
  2 | c[d]
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/member.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/member.js:2:1]
  1 | a.b
  2 | c[d]
    : ^^^^
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/member.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/member.js:2:1]
  1 | a.b
  2 | c[d]
    :  ^^^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/member.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/member.js:2:1]
  1 | a.b
  2 | c[d]
    : ^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/member.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/member.js:2:1]
  1 | a.b
  2 | c[d]
    :   ^

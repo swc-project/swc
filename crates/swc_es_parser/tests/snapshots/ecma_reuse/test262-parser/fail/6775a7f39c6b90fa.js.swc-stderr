@@ -1,5 +1,5 @@
   x expected {, got Semi
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/6775a7f39c6b90fa.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/6775a7f39c6b90fa.js:1:1]
  1 | class A;
    :        ^
    `----

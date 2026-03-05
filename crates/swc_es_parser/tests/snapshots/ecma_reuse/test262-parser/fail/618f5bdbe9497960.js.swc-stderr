@@ -1,5 +1,5 @@
   x legacy octal escape sequences are not allowed in strict mode
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/618f5bdbe9497960.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/618f5bdbe9497960.js:1:1]
  1 | 'use strict'; ('\11')
    :                ^^^^^
    `----

@@ -1,5 +1,5 @@
   x expected ), got Ident
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/class/parameter-properties/input.ts:3:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/class/parameter-properties/input.ts:3:1]
  2 |     constructor(
  3 |         readonly r,
    :                  ^

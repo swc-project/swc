@@ -1,25 +1,25 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    :         ^^^^^^^^^^^^^^^^^^
    `----
   x ClassDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    :         ^^^^^^^^^^^^^^^^^^
    `----
   x Class
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    :         ^^^^^^^^^^^^^^^^^^
    `----
   x EmptyStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    :                          ^
    `----

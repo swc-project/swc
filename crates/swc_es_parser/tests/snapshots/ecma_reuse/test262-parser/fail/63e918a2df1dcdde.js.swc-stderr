@@ -1,5 +1,5 @@
   x unexpected character
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/63e918a2df1dcdde.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/63e918a2df1dcdde.js:1:1]
  1 | �\x62
    : ^
    `----

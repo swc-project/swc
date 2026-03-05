@@ -8,7 +8,9 @@ use std::{
 
 use serde::Serialize;
 use serde_json::Value;
-use swc_common::{comments::SingleThreadedComments, SourceFile, SourceMap, Span};
+use swc_common::{
+    comments::SingleThreadedComments, sync::Lrc, FileName, SourceFile, SourceMap, Span,
+};
 use swc_es_ast::{
     AstStore, ClassMember, Decl, Expr, Lit, ModuleDecl, Pat, Program, ProgramId, Stmt, TsLitType,
     TsType,
@@ -95,6 +97,24 @@ struct CanonicalProgramArenaSnapshot {
 
 pub fn ecma_fixture_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../swc_ecma_parser/tests")
+}
+
+pub fn load_ecma_fixture_file(cm: &Lrc<SourceMap>, path: &Path) -> Lrc<SourceFile> {
+    let root = canonicalize_or_self(&ecma_fixture_root());
+    let path = canonicalize_or_self(path);
+    let rel = path.strip_prefix(&root).unwrap_or_else(|_| {
+        panic!(
+            "fixture path {} is not inside {}",
+            path.display(),
+            root.display()
+        )
+    });
+
+    let file_name = format!("/swc_ecma_parser/tests/{}", normalized(rel));
+    let src = fs::read_to_string(&path)
+        .unwrap_or_else(|err| panic!("failed to load fixture {}: {err}", path.display()));
+
+    cm.new_source_file(FileName::Custom(file_name).into(), src)
 }
 
 fn canonicalize_or_self(path: &Path) -> PathBuf {

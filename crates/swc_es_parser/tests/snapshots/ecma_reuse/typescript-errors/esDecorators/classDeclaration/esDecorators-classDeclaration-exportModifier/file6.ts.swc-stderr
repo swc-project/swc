@@ -1,5 +1,5 @@
   x expected declaration
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/esDecorators/classDeclaration/esDecorators-classDeclaration-exportModifier/file6.ts:4:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/esDecorators/classDeclaration/esDecorators-classDeclaration-exportModifier/file6.ts:4:1]
  3 | // error
  4 | @dec export @dec class C6 {}
    :             ^

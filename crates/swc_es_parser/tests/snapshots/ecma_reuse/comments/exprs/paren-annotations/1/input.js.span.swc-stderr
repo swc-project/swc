@@ -1,36 +1,36 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
   x VarDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
   x AssignPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
    :       ^^^
  2 | }
    `----
   x ArrowExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
    :                                       ^^^^
  2 | }

@@ -1,5 +1,5 @@
   x unknown regular expression flag `\`
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/94535dc25ef762ee.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/94535dc25ef762ee.js:1:1]
  1 | var x = /[a-z]/\\ux
    :         ^^^^^^^^^^
    `----

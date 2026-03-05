@@ -1,79 +1,79 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
  1 | ,-> a?.b?.c
  2 | `-> A?.['B']?.()
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
  1 | ,-> a?.b?.c
  2 | `-> A?.['B']?.()
    `----
   x OptChainExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
  1 | ,-> a?.b?.c
  2 | `-> A?.['B']?.()
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
  1 | ,-> a?.b?.c
  2 | `-> A?.['B']?.()
    `----
   x OptChainExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
  1 | a?.b?.c
    :  ^^^^^
  2 | A?.['B']?.()
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
  1 | a?.b?.c
    :  ^^^^^
  2 | A?.['B']?.()
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
  1 | a?.b?.c
    : ^
  2 | A?.['B']?.()
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
  1 | a?.b?.c
  2 | A?.['B']?.()
    : ^^^^^^^^^^^^
    `----
   x OptChainExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
  1 | a?.b?.c
  2 | A?.['B']?.()
    :         ^^^^
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
  1 | a?.b?.c
  2 | A?.['B']?.()
    :         ^^^^
    `----
   x OptChainExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
  1 | a?.b?.c
  2 | A?.['B']?.()
    :  ^^^^^^^^^
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
  1 | a?.b?.c
  2 | A?.['B']?.()
    :  ^^^^^^^^^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
  1 | a?.b?.c
  2 | A?.['B']?.()
    : ^
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
  1 | a?.b?.c
  2 | A?.['B']?.()
    :     ^^^

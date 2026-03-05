@@ -1,30 +1,30 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :         ^^^^^^^^^^^^^
    `----
   x VarDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :         ^^^^^^^^^^^^^
    `----
   x AssignPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :                 ^^^^
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :               ^
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :                   ^
    `----

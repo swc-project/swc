@@ -1,5 +1,5 @@
   x expected (, got RBrace
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/7b70beed5a327548.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/7b70beed5a327548.js:1:1]
  1 | ({ *a })
    :       ^
    `----

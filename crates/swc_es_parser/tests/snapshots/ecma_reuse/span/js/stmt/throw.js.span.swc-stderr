@@ -1,29 +1,29 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/throw.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/throw.js:1:1]
  1 | ,-> function foo() {
  2 | |       throw 'foo';
  3 | `-> }
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/throw.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/throw.js:1:1]
  1 | ,-> function foo() {
  2 | |       throw 'foo';
  3 | `-> }
    `----
   x FnDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/throw.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/throw.js:1:1]
  1 | ,-> function foo() {
  2 | |       throw 'foo';
  3 | `-> }
    `----
   x ThrowStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/throw.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/throw.js:2:1]
  1 |     function foo() {
  2 | ,->     throw 'foo';
  3 | `-> }
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/throw.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/throw.js:2:1]
  1 | function foo() {
  2 |     throw 'foo';
    :           ^^^^^

@@ -1,5 +1,5 @@
   x expected identifier, got LParen
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/783865dd3a3c2200.module.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/783865dd3a3c2200.module.js:1:1]
  1 | export function () {}
    :                 ^
    `----

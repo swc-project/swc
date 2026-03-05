@@ -1,47 +1,47 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | use((a) => {
    : ^^^
  2 |     return a;
    `----
   x ArrowExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | use((a) => {
    :      ^
  2 |     return a;
    `----
   x ReturnStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:2:1]
  1 |     use((a) => {
  2 | ,->     return a;
  3 | `-> })
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-block.js:2:1]
  1 | use((a) => {
  2 |     return a;
    :            ^

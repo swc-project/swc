@@ -1,42 +1,42 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
  1 | ,-> class A {
  2 | |       [foo] = '1'
  3 | `-> }
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
  1 | ,-> class A {
  2 | |       [foo] = '1'
  3 | `-> }
    `----
   x ClassDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
  1 | ,-> class A {
  2 | |       [foo] = '1'
  3 | `-> }
    `----
   x Class
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
  1 | ,-> class A {
  2 | |       [foo] = '1'
  3 | `-> }
    `----
   x ClassProp
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/computed-key.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:2:1]
  1 |     class A {
  2 | ,->     [foo] = '1'
  3 | `-> }
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/computed-key.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:2:1]
  1 | class A {
  2 |     [foo] = '1'
    :      ^^^
  3 | }
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/computed-key.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:2:1]
  1 | class A {
  2 |     [foo] = '1'
    :             ^^^

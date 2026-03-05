@@ -1,5 +1,5 @@
   x invalid unicode escape sequence
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/5427bdf48f3eb6d9.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/5427bdf48f3eb6d9.js:1:1]
  1 | ('\u{2028')
    :   ^^
    `----

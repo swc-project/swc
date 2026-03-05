@@ -1,5 +1,5 @@
   x unterminated string literal
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/265fda17a34611b1.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/265fda17a34611b1.js:1:1]
  1 | '
    : ^
    `----

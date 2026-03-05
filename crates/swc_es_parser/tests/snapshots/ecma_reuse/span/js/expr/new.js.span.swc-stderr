@@ -1,63 +1,63 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | ,-> new Date();
  2 | `-> (new Date).toString()
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | ,-> new Date();
  2 | `-> (new Date).toString()
    `----
   x NewExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    : ^^^^^^^^^^^
  2 | (new Date).toString()
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    :         ^^^
  2 | (new Date).toString()
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    :     ^^^^
  2 | (new Date).toString()
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :                    ^^
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :           ^^^^^^^^^^
    `----
   x ParenExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^
    `----
   x NewExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :  ^^^^^^^^^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :      ^^^^

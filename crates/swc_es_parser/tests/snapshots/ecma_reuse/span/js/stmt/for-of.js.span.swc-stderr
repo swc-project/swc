@@ -1,32 +1,32 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | ,-> for await (const a of foo) {
  2 | |   
  3 | `-> }
    `----
   x ForStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | ,-> for await (const a of foo) {
  2 | |   
  3 | `-> }
    `----
   x VarDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | for await (const a of foo) {
    :            ^^^^^^^^^^
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | for await (const a of foo) {
    :                  ^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | for await (const a of foo) {
    :                       ^^^
    `----
   x BlockStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
  1 | ,-> for await (const a of foo) {
  2 | |   
  3 | `-> }

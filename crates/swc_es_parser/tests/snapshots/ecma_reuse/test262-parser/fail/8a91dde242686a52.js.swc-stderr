@@ -1,5 +1,5 @@
   x expected }, got Dot
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/8a91dde242686a52.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/8a91dde242686a52.js:1:1]
  1 | ({a.b} = 0)
    :    ^
    `----

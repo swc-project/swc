@@ -1,5 +1,5 @@
   x expected {, got RBrace
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/class/override-with-declare/input.ts:3:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/class/override-with-declare/input.ts:3:1]
  2 |   declare override m1(): any
  3 | }
    : ^

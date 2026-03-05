@@ -1,20 +1,20 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/constructor-type.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/constructor-type.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsTypeAliasDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/constructor-type.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsFnType
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/constructor-type.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    :              ^^^^^^^^^^^
    `----

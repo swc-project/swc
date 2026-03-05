@@ -1,25 +1,25 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
  1 | export class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleDeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
  1 | export class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^
    `----
   x ExportDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
  1 | export class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^
    `----
   x ClassDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
  1 | export class Foo { }
    :        ^^^^^^^^^^^^^
    `----
   x Class
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/decl/export.js:1:1]
  1 | export class Foo { }
    :        ^^^^^^^^^^^^^
    `----

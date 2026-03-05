@@ -1,5 +1,5 @@
   x expected identifier, got Str
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/3f70195fa344151e.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/3f70195fa344151e.js:1:1]
  1 | new X()."s"
    :         ^^^
    `----

@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/custom/issue-380/input.ts:3:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/custom/issue-380/input.ts:3:1]
  2 |     componentDidMount() {
  3 |         import(../foo/bar)
    :                ^
@@ -9,7 +9,7 @@
 Advice: 
   > code: UnexpectedToken
   x expected identifier, got Slash
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/custom/issue-380/input.ts:3:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/custom/issue-380/input.ts:3:1]
  2 |     componentDidMount() {
  3 |         import(../foo/bar)
    :                  ^

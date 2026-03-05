@@ -1,53 +1,53 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | async function foo() {
    : ^^^^^^^^^^^^^^
  2 |     await bar()
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | async function foo() {
    : ^^^^^
  2 |     await bar()
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
   x FnDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
  1 |     async function foo() {
  2 | ,->     await bar()
  3 | `-> }
    `----
   x AwaitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
  1 |     async function foo() {
  2 | ,->     await bar()
  3 | `-> }
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
  1 |     async function foo() {
  2 | ,->     await bar()
  3 | `-> }
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :           ^^^

@@ -1,5 +1,5 @@
   x expected {, got Num
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/e82474d52b99f1b7.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/e82474d52b99f1b7.js:1:1]
  1 | function a() 1 // expression closure is not supported
    :              ^
    `----

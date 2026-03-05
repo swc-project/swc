@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/679ab0881c66b0cf.js:2:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/679ab0881c66b0cf.js:2:1]
  1 | 
  2 | ]
    : ^

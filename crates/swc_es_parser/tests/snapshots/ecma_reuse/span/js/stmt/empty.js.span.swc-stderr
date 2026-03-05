@@ -1,36 +1,36 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/empty.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/empty.js:1:1]
  1 | ,-> ;;;
  2 | |   ;
  3 | `-> ;
    `----
   x EmptyStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/empty.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    : ^
  2 | ;
    `----
   x EmptyStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/empty.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    :  ^
  2 | ;
    `----
   x EmptyStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/empty.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    :   ^
  2 | ;
    `----
   x EmptyStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/empty.js:2:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/empty.js:2:1]
  1 | ;;;
  2 | ;
    : ^
  3 | ;
    `----
   x EmptyStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/empty.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/empty.js:3:1]
  2 | ;
  3 | ;
    : ^

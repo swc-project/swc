@@ -1,38 +1,38 @@
   x Program
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 |     // a
  10 | ,-> console.log(1);
  11 | `-> // b
     `----
   x ExprStmt
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 |     // a
  10 | ,-> console.log(1);
  11 | `-> // b
     `----
   x CallExpr
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     :            ^^^^
  11 | // b
     `----
   x MemberExpr
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     :        ^^^^^
  11 | // b
     `----
   x IdentExpr
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     : ^^^^^^^
  11 | // b
     `----
   x LitExpr
-    ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     :             ^

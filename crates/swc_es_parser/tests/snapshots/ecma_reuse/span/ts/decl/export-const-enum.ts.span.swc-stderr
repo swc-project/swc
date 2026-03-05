@@ -1,20 +1,20 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/decl/export-const-enum.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleDeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/decl/export-const-enum.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExportDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/decl/export-const-enum.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsEnumDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/decl/export-const-enum.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    :        ^^^^^^^^^^^^^^^^
    `----

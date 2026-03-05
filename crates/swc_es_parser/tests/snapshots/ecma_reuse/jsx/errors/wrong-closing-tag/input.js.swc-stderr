@@ -1,5 +1,5 @@
   x jsx closing tag does not match opening tag
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/jsx/errors/wrong-closing-tag/input.js:1:13]
+   ,-[/swc_ecma_parser/tests/jsx/errors/wrong-closing-tag/input.js:1:13]
  1 | <Foo></Bar>
    `----
 

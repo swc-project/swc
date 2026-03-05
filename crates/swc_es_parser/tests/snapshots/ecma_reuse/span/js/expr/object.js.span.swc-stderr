@@ -1,45 +1,45 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ParenExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ObjectExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :    ^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :       ^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :             ^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                   ^^^^
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                                    ^^^^
    `----

@@ -1,41 +1,41 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
  1 | ,-> const a: () => any = () => {
  2 | |       return 'foo'
  3 | `-> };
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
  1 | ,-> const a: () => any = () => {
  2 | |       return 'foo'
  3 | `-> };
    `----
   x VarDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
  1 | ,-> const a: () => any = () => {
  2 | |       return 'foo'
  3 | `-> };
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
  1 | const a: () => any = () => {
    :       ^
  2 |     return 'foo'
    `----
   x ArrowExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/arrow.ts:1:1]
  1 | ,-> const a: () => any = () => {
  2 | |       return 'foo'
  3 | `-> };
    `----
   x ReturnStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/arrow.ts:2:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/arrow.ts:2:1]
  1 |     const a: () => any = () => {
  2 | ,->     return 'foo'
  3 | `-> };
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/arrow.ts:2:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/arrow.ts:2:1]
  1 | const a: () => any = () => {
  2 |     return 'foo'
    :            ^^^^^

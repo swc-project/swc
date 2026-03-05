@@ -1,40 +1,40 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsTypeAliasDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsConditionalType
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :             ^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsTypeRef
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :             ^^^^^^^^^
    `----
   x TsTypeLit
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                       ^^^^
    `----
   x TsTypeRef
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                            ^^^
    `----
   x TsTypeRef
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                                ^^
    `----

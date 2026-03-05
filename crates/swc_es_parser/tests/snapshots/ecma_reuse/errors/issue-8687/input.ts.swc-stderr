@@ -1,5 +1,5 @@
   x expected property name, got Colon
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/issue-8687/input.ts:3:1]
+   ,-[/swc_ecma_parser/tests/errors/issue-8687/input.ts:3:1]
  2 |     private #p1() { }
  3 |     private #p2: number;
    :                ^

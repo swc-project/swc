@@ -1,5 +1,5 @@
   x invalid hexadecimal escape sequence
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/errors/bad_character_escape_sequence_1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/errors/bad_character_escape_sequence_1/input.js:1:1]
  1 | const string = "\x";
    :                 ^^
    `----

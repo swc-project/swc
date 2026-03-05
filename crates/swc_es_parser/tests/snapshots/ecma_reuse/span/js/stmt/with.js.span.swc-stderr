@@ -1,22 +1,22 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/with.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/with.js:1:1]
  1 | ,-> with (foo) {
  2 | |   
  3 | `-> }
    `----
   x WithStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/with.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/with.js:1:1]
  1 | ,-> with (foo) {
  2 | |   
  3 | `-> }
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/with.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/with.js:1:1]
  1 | with (foo) {
    :       ^^^
    `----
   x BlockStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/with.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/with.js:1:1]
  1 | ,-> with (foo) {
  2 | |   
  3 | `-> }

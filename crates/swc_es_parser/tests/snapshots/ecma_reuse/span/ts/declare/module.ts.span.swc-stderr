@@ -1,41 +1,41 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/module.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/module.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
   x TsModuleDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/module.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
   x ModuleDeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
  1 |     declare module "name" {
  2 | ,->     export class Foo { }
  3 | `-> }
    `----
   x ExportDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
  1 |     declare module "name" {
  2 | ,->     export class Foo { }
  3 | `-> }
    `----
   x ClassDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
  1 |     declare module "name" {
  2 | ,->     export class Foo { }
  3 | `-> }
    `----
   x Class
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
  1 |     declare module "name" {
  2 | ,->     export class Foo { }
  3 | `-> }

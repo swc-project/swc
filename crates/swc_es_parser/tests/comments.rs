@@ -14,9 +14,9 @@ use swc_es_visit::{Visit, VisitWith};
 mod common;
 
 use common::ecma_reuse::{
-    parse_loaded_file_with_syntax_mode, snapshot_path_for, span_of_class_member, span_of_decl,
-    span_of_expr, span_of_module_decl, span_of_pat, span_of_program, span_of_stmt, span_of_ts_type,
-    ParseMode,
+    load_ecma_fixture_file, parse_loaded_file_with_syntax_mode, snapshot_path_for,
+    span_of_class_member, span_of_decl, span_of_expr, span_of_module_decl, span_of_pat,
+    span_of_program, span_of_stmt, span_of_ts_type, ParseMode,
 };
 
 fn syntax_for_comments(path: &std::path::Path) -> Syntax {
@@ -47,9 +47,7 @@ fn syntax_for_comments(path: &std::path::Path) -> Syntax {
 #[testing::fixture("../swc_ecma_parser/tests/comments/**/input.js")]
 fn test(input: PathBuf) {
     let output = testing::run_test(false, |cm, handler| -> Result<(), ()> {
-        let fm = cm
-            .load_file(&input)
-            .unwrap_or_else(|err| panic!("failed to load fixture {}: {err}", input.display()));
+        let fm = load_ecma_fixture_file(&cm, &input);
 
         let parsed =
             parse_loaded_file_with_syntax_mode(&fm, syntax_for_comments(&input), ParseMode::Module);

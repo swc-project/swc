@@ -1,20 +1,20 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-3715/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-3715/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-3715/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/issue-3715/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^
    `----

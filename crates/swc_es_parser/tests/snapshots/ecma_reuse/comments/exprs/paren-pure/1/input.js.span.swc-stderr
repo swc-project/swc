@@ -1,35 +1,35 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
  1 | /*#__PURE__*/ (console.log('simple'))
    :               ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
  1 | /*#__PURE__*/ (console.log('simple'))
    :               ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ParenExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
  1 | /*#__PURE__*/ (console.log('simple'))
    :               ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
  1 | /*#__PURE__*/ (console.log('simple'))
    :                           ^^^^^^^^^^^
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
  1 | /*#__PURE__*/ (console.log('simple'))
    :                       ^^^^^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
  1 | /*#__PURE__*/ (console.log('simple'))
    :                ^^^^^^^
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
  1 | /*#__PURE__*/ (console.log('simple'))
    :                            ^^^^^^^^
    `----

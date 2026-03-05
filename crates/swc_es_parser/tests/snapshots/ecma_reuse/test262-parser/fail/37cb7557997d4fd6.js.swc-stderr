@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/37cb7557997d4fd6.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/37cb7557997d4fd6.js:1:1]
  1 | "use strict"; for (let [a = let];;) {}
    :                             ^^^
    `----

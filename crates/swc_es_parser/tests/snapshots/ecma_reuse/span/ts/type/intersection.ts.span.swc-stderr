@@ -1,30 +1,30 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsTypeAliasDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsIntersectionType
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsTypeLit
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :          ^^^^^^^^^^^^^^^^^
    `----
   x TsTypeLit
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :                            ^^^^^^^^^^^^^^^^
    `----

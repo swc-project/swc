@@ -1,5 +1,5 @@
   x expected (, got Lt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:3:1]
+   ,-[/swc_ecma_parser/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:3:1]
  2 | 
  3 | declare function f1<const T>(x: T): T;
    :                    ^

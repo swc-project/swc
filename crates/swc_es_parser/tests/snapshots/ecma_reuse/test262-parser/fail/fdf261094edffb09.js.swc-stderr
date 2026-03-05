@@ -1,5 +1,5 @@
   x unexpected token while parsing expression
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/fdf261094edffb09.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/fdf261094edffb09.js:1:1]
  1 | ({a:for} = 0)
    :     ^^^
    `----

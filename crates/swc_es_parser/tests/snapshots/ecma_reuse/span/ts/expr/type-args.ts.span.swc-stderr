@@ -1,20 +1,20 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    :                     ^^^
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+   ,-[/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^
    `----

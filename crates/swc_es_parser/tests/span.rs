@@ -9,10 +9,10 @@ use swc_es_visit::{Visit, VisitWith};
 mod common;
 
 use common::ecma_reuse::{
-    category_for_path, class_member_label, decl_label, expr_label, module_decl_label,
-    parse_loaded_file, pat_label, snapshot_path_for, span_of_class_member, span_of_decl,
-    span_of_expr, span_of_module_decl, span_of_pat, span_of_program, span_of_stmt, span_of_ts_type,
-    stmt_label, ts_type_label, Case,
+    category_for_path, class_member_label, decl_label, expr_label, load_ecma_fixture_file,
+    module_decl_label, parse_loaded_file, pat_label, snapshot_path_for, span_of_class_member,
+    span_of_decl, span_of_expr, span_of_module_decl, span_of_pat, span_of_program, span_of_stmt,
+    span_of_ts_type, stmt_label, ts_type_label, Case,
 };
 
 #[testing::fixture("../swc_ecma_parser/tests/span/**/*.js")]
@@ -26,9 +26,7 @@ fn span(entry: PathBuf) {
     };
 
     let output = testing::run_test(false, |cm, handler| -> Result<(), ()> {
-        let fm = cm
-            .load_file(&entry)
-            .unwrap_or_else(|err| panic!("failed to load fixture {}: {err}", entry.display()));
+        let fm = load_ecma_fixture_file(&cm, &entry);
         let parsed = parse_loaded_file(&fm, &case);
 
         let mut had_parser_error = false;

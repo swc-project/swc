@@ -1,5 +1,5 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
  1 | ,-> for (const a in [1, 2, 3]) {
  2 | |   
  3 | |       if (a === 2) {
@@ -8,7 +8,7 @@
  6 | `-> }
    `----
   x ForStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
  1 | ,-> for (const a in [1, 2, 3]) {
  2 | |   
  3 | |       if (a === 2) {
@@ -17,37 +17,37 @@
  6 | `-> }
    `----
   x VarDecl
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
  1 | for (const a in [1, 2, 3]) {
    :      ^^^^^^^^^^
    `----
   x IdentPat
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
  1 | for (const a in [1, 2, 3]) {
    :            ^
    `----
   x ArrayExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
  1 | for (const a in [1, 2, 3]) {
    :                 ^^^^^^^^^^
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
  1 | for (const a in [1, 2, 3]) {
    :                  ^
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
  1 | for (const a in [1, 2, 3]) {
    :                     ^
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
  1 | for (const a in [1, 2, 3]) {
    :                        ^
    `----
   x BlockStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:1:1]
  1 | ,-> for (const a in [1, 2, 3]) {
  2 | |   
  3 | |       if (a === 2) {
@@ -56,7 +56,7 @@
  6 | `-> }
    `----
   x IfStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
  2 |     
  3 | ,->     if (a === 2) {
  4 | |           continue
@@ -64,28 +64,28 @@
  6 | `-> }
    `----
   x BinaryExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
  2 | 
  3 |     if (a === 2) {
    :           ^^^^^^
  4 |         continue
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
  2 | 
  3 |     if (a === 2) {
    :         ^
  4 |         continue
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
  2 | 
  3 |     if (a === 2) {
    :               ^
  4 |         continue
    `----
   x BlockStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:3:1]
  2 |     
  3 | ,->     if (a === 2) {
  4 | |           continue
@@ -93,7 +93,7 @@
  6 | `-> }
    `----
   x ContinueStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/span/js/stmt/for-in.js:4:1]
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-in.js:4:1]
  3 |         if (a === 2) {
  4 | ,->         continue
  5 | `->     }

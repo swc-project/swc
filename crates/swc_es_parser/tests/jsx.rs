@@ -6,7 +6,8 @@ use testing::NormalizedOutput;
 mod common;
 
 use common::ecma_reuse::{
-    build_program_json_snapshot, parse_loaded_file_with_syntax_mode, snapshot_path_for, ParseMode,
+    build_program_json_snapshot, load_ecma_fixture_file, parse_loaded_file_with_syntax_mode,
+    snapshot_path_for, ParseMode,
 };
 
 fn jsx_syntax() -> Syntax {
@@ -23,9 +24,7 @@ fn jsx_syntax() -> Syntax {
 #[testing::fixture("../swc_ecma_parser/tests/jsx/basic/**/*.jsx")]
 fn references(entry: PathBuf) {
     testing::run_test(false, |cm, handler| {
-        let fm = cm
-            .load_file(&entry)
-            .unwrap_or_else(|err| panic!("failed to load {}: {err}", entry.display()));
+        let fm = load_ecma_fixture_file(&cm, &entry);
 
         let output = parse_loaded_file_with_syntax_mode(&fm, jsx_syntax(), ParseMode::Module);
 
@@ -56,9 +55,7 @@ fn references(entry: PathBuf) {
 #[testing::fixture("../swc_ecma_parser/tests/jsx/errors/**/*.js")]
 fn error(entry: PathBuf) {
     let output = testing::run_test(false, |cm, handler| -> Result<(), ()> {
-        let fm = cm
-            .load_file(&entry)
-            .unwrap_or_else(|err| panic!("failed to load {}: {err}", entry.display()));
+        let fm = load_ecma_fixture_file(&cm, &entry);
 
         let parsed = parse_loaded_file_with_syntax_mode(&fm, jsx_syntax(), ParseMode::Module);
         for error in parsed.recovered {

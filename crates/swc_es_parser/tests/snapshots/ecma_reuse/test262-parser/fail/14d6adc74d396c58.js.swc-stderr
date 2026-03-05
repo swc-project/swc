@@ -1,5 +1,5 @@
   x rest element must be the last element
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/14d6adc74d396c58.js:1:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/14d6adc74d396c58.js:1:1]
  1 | [...x, y] = 0
    :      ^
    `----

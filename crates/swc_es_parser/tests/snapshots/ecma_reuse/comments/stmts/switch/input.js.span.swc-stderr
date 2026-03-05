@@ -1,5 +1,5 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/stmts/switch/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/stmts/switch/input.js:1:1]
  1 | ,-> switch (1) {
  2 | |       case 2:
  3 | |           3;
@@ -7,7 +7,7 @@
  5 | `-> }
    `----
   x SwitchStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/stmts/switch/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/stmts/switch/input.js:1:1]
  1 | ,-> switch (1) {
  2 | |       case 2:
  3 | |           3;
@@ -15,27 +15,27 @@
  5 | `-> }
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/stmts/switch/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/stmts/switch/input.js:1:1]
  1 | switch (1) {
    :         ^
  2 |     case 2:
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/stmts/switch/input.js:2:1]
+   ,-[/swc_ecma_parser/tests/comments/stmts/switch/input.js:2:1]
  1 | switch (1) {
  2 |     case 2:
    :          ^
  3 |         3;
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/stmts/switch/input.js:3:1]
+   ,-[/swc_ecma_parser/tests/comments/stmts/switch/input.js:3:1]
  2 |         case 2:
  3 | ,->         3;
  4 | |       // 4
  5 | `-> }
    `----
   x LitExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/stmts/switch/input.js:3:1]
+   ,-[/swc_ecma_parser/tests/comments/stmts/switch/input.js:3:1]
  2 |     case 2:
  3 |         3;
    :         ^

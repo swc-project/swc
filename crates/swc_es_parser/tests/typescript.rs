@@ -9,7 +9,8 @@ use testing::NormalizedOutput;
 mod common;
 
 use common::ecma_reuse::{
-    parse_loaded_file_with_syntax_mode, should_skip_tsc_case, snapshot_path_for, ParseMode,
+    load_ecma_fixture_file, parse_loaded_file_with_syntax_mode, should_skip_tsc_case,
+    snapshot_path_for, ParseMode,
 };
 
 fn ts_syntax(file: &Path, no_early_errors: bool) -> Syntax {
@@ -34,9 +35,7 @@ fn shifted(file: PathBuf) {
     testing::run_test(false, |cm, handler| {
         cm.new_source_file(FileName::Anon.into(), "");
 
-        let fm = cm
-            .load_file(&file)
-            .unwrap_or_else(|err| panic!("failed to load {}: {err}", file.display()));
+        let fm = load_ecma_fixture_file(&cm, &file);
 
         let output =
             parse_loaded_file_with_syntax_mode(&fm, ts_syntax(&file, true), ParseMode::Program);
@@ -96,9 +95,7 @@ fn tsc_spec(file: PathBuf) {
 
 fn run_spec(file: &Path, mode: ParseMode, no_early_errors: bool) {
     testing::run_test(false, |cm, handler| {
-        let fm = cm
-            .load_file(file)
-            .unwrap_or_else(|err| panic!("failed to load {}: {err}", file.display()));
+        let fm = load_ecma_fixture_file(&cm, file);
 
         let output =
             parse_loaded_file_with_syntax_mode(&fm, ts_syntax(file, no_early_errors), mode);
@@ -134,9 +131,7 @@ fn run_spec(file: &Path, mode: ParseMode, no_early_errors: bool) {
 #[testing::fixture("../swc_ecma_parser/tests/typescript-errors/**/*.tsx")]
 fn errors(file: PathBuf) {
     let output = testing::run_test(false, |cm, handler| -> Result<(), ()> {
-        let fm = cm
-            .load_file(&file)
-            .unwrap_or_else(|err| panic!("failed to load {}: {err}", file.display()));
+        let fm = load_ecma_fixture_file(&cm, &file);
 
         let parsed =
             parse_loaded_file_with_syntax_mode(&fm, ts_syntax(&file, false), ParseMode::Module);

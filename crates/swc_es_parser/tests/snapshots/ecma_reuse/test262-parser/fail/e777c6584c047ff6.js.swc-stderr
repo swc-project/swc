@@ -1,5 +1,5 @@
   x expected identifier, got LParen
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/test262-parser/fail/e777c6584c047ff6.js:2:1]
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/e777c6584c047ff6.js:2:1]
  1 | (function*() {
  2 |     function(x = yield 3) {}
    :             ^

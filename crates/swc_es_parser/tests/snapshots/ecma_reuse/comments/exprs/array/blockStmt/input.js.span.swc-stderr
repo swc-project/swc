@@ -1,35 +1,35 @@
   x Program
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
  1 | ,-> React.useEffect(() => {
  2 | |       // @refresh reset
  3 | `-> });
    `----
   x ExprStmt
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
  1 | ,-> React.useEffect(() => {
  2 | |       // @refresh reset
  3 | `-> });
    `----
   x CallExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
  1 | ,-> React.useEffect(() => {
  2 | |       // @refresh reset
  3 | `-> });
    `----
   x MemberExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
  1 | React.useEffect(() => {
    :      ^^^^^^^^^^^
  2 |     // @refresh reset
    `----
   x IdentExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
  1 | React.useEffect(() => {
    : ^^^^^
  2 |     // @refresh reset
    `----
   x ArrowExpr
-   ,-[/Users/kdy1/projects/swc/crates/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
  1 | ,-> React.useEffect(() => {
  2 | |       // @refresh reset
  3 | `-> });
