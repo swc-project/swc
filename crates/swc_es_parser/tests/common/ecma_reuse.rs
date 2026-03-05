@@ -296,6 +296,89 @@ pub fn collect_cases_for_categories(categories: &[&str]) -> Vec<Case> {
     cases
 }
 
+/// Mirrors skip rules from `swc_ecma_parser/tests/typescript.rs::tsc_spec`.
+pub fn should_skip_tsc_case(path: &Path) -> bool {
+    let file_name = normalized(path);
+
+    // `#[testing::fixture(..., exclude(...))]` exclusions.
+    if file_name.contains("for-of51.ts")
+        || file_name.contains("parserArrowFunctionExpression11")
+        || file_name.contains("esDecorators-decoratorExpression.1")
+    {
+        return true;
+    }
+
+    // Ignore some useless tests.
+    if file_name.contains("tsc/FunctionDeclaration7_es6")
+        || file_name.contains("unicodeExtendedEscapesInStrings11_ES5")
+        || file_name.contains("tsc/unicodeExtendedEscapesInStrings10_ES5")
+        || file_name.contains("tsc/unicodeExtendedEscapesInStrings11_ES6")
+        || file_name.contains("tsc/unicodeExtendedEscapesInStrings10_ES6")
+        || file_name.contains("tsc/propertyNamesOfReservedWords")
+        || file_name.contains("unicodeExtendedEscapesInTemplates10_ES5")
+        || file_name.contains("unicodeExtendedEscapesInTemplates10_ES6")
+        || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES5")
+        || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES6")
+        || file_name.contains("tsc/parser.numericSeparators.decimal")
+    {
+        return true;
+    }
+
+    // Useful only for error reporting.
+    if file_name.contains("tsc/callSignaturesWithParameterInitializers")
+        || file_name.contains("tsc/jsdocDisallowedInTypescript")
+        || file_name.contains("tsc/errorSuperCalls")
+        || file_name.contains("tsc/restElementMustBeLast")
+        || file_name.contains("tsc/parserRegularExpressionDivideAmbiguity3")
+    {
+        return true;
+    }
+
+    // Postponed.
+    if file_name.contains("tsc/inlineJsxFactoryDeclarationsx")
+        || file_name.contains("tsc/importDefaultNamedType")
+        || file_name.contains("tsc/tsxAttributeResolution5x")
+        || file_name.contains("tsc/tsxErrorRecovery2x")
+        || file_name.contains("tsc/tsxErrorRecovery3x")
+        || file_name.contains("tsc/tsxErrorRecovery5x")
+        || file_name.contains("tsc/tsxReactEmitEntitiesx")
+        || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutputx")
+        || file_name.contains("tsc/emitCompoundExponentiationAssignmentWithIndexingOnLHS3")
+        || file_name.contains("tsc/objectLiteralGettersAndSetters")
+        || file_name.contains("tsc/restElementMustBeLast")
+        || file_name.contains("tsc/unicodeEscapesInJsxtagsx")
+        || file_name.contains("tsc/FunctionDeclaration6_es6")
+        || file_name.contains("tsc/checkJsxNamespaceNamesQuestionableForms")
+        || file_name.contains("tsc/classExtendingOptionalChain")
+        || file_name.contains("tsc/inlineJsxFactoryDeclarations")
+        || file_name.contains("tsc/interfaceExtendingOptionalChain")
+        || file_name.contains("tsc/interfacesWithPredefinedTypesAsNames")
+        || file_name.contains("tsc/namedTupleMembersErrors")
+        || file_name.contains("tsc/parserForOfStatement23")
+        || file_name.contains("tsc/topLevelAwait.2")
+        || file_name.contains("tsc/tsxAttributeResolution5")
+        || file_name.contains("tsc/tsxErrorRecovery2")
+        || file_name.contains("tsc/tsxErrorRecovery3")
+        || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutput")
+        || file_name.contains("tsc/unicodeEscapesInJsxtags")
+        || file_name.contains("tsc/propertyAccessNumericLiterals")
+        || file_name.contains("tsc/parserAssignmentExpression1")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity11")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity15")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity16")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity20")
+        || file_name.contains("tsc/awaitUsingDeclarationsInFor")
+        || file_name.ends_with("tsc/usingDeclarationsInFor.ts")
+        || file_name.ends_with("tsc/decoratorOnClassMethod12.ts")
+        || file_name.ends_with("tsc/esDecorators-preservesThis.ts")
+        || file_name.ends_with("tsc/topLevelVarHoistingCommonJS.ts")
+    {
+        return true;
+    }
+
+    false
+}
+
 pub fn parse_loaded_file(fm: &SourceFile, case: &Case) -> ParseOutput {
     let options = collect_fixture_options(&case.path);
     let syntax = syntax_for_file(&case.path, &case.category, &options);
