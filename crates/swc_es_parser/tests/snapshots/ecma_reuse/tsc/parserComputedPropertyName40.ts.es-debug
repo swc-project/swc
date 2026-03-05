@@ -1,0 +1,61 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 16..50,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class(\n    ClassDecl {\n        span: 16..50,\n        ident: Ident {\n            span: 22..23,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"a\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 35..37,\n            value: \"\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 40..42,\n            value: \"\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Cond(\n    CondExpr {\n        span: 33..43,\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n        cons: Id {\n            index: 1,\n            generation: 1,\n        },\n        alt: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [
+        DebugNode {
+            id: 4294967297,
+            node: "Function {\n    span: 30..50,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+    ],
+    classes: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class {\n    span: 16..50,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 22..23,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    class_members: [
+        DebugNode {
+            id: 4294967297,
+            node: "Method(\n    ClassMethod {\n        span: 30..50,\n        decorators: [],\n        key: Computed(\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)",
+        },
+    ],
+    jsx_elements: [],
+    ts_types: [],
+}

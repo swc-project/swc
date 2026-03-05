@@ -1,0 +1,145 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 57..346,\n    kind: Script,\n    body: [\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Return(\n    ReturnStmt {\n        span: 101..116,\n        arg: Some(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Return(\n    ReturnStmt {\n        span: 152..167,\n        arg: Some(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Return(\n    ReturnStmt {\n        span: 245..261,\n        arg: Some(\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Return(\n    ReturnStmt {\n        span: 299..315,\n        arg: Some(\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class(\n    ClassDecl {\n        span: 57..202,\n        ident: Ident {\n            span: 63..64,\n            sym: \"A\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Class(\n    ClassDecl {\n        span: 197..346,\n        ident: Ident {\n            span: 203..204,\n            sym: \"B\",\n        },\n        declare: false,\n        class: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 108..109,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 159..160,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 213..214,\n        sym: \"A\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 252..254,\n            value: 10.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 306..308,\n            value: 30.0,\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [
+        DebugNode {
+            id: 4294967297,
+            node: "Function {\n    span: 71..128,\n    params: [],\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Function {\n    span: 122..179,\n    params: [],\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Function {\n    span: 173..195,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Function {\n    span: 230..275,\n    params: [],\n    body: [\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Function {\n    span: 276..329,\n    params: [],\n    body: [\n        Id {\n            index: 8,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Function {\n    span: 330..345,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+    ],
+    classes: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class {\n    span: 57..202,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 63..64,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Class {\n    span: 197..346,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 203..204,\n            sym: \"B\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ),\n    body: [\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    class_members: [
+        DebugNode {
+            id: 4294967297,
+            node: "Method(\n    ClassMethod {\n        span: 71..128,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 78..80,\n                sym: \"m1\",\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Method(\n    ClassMethod {\n        span: 122..179,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 129..131,\n                sym: \"m2\",\n            },\n        ),\n        function: Id {\n            index: 1,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Method(\n    ClassMethod {\n        span: 173..195,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 180..182,\n                sym: \"m3\",\n            },\n        ),\n        function: Id {\n            index: 2,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Prop(\n    ClassProp {\n        span: 221..232,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 221..229,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Method(\n    ClassMethod {\n        span: 230..275,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 230..232,\n                sym: \"m1\",\n            },\n        ),\n        function: Id {\n            index: 3,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Prop(\n    ClassProp {\n        span: 267..278,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 267..275,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Method(\n    ClassMethod {\n        span: 276..329,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 276..278,\n                sym: \"m2\",\n            },\n        ),\n        function: Id {\n            index: 4,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Prop(\n    ClassProp {\n        span: 321..332,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 321..329,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Method(\n    ClassMethod {\n        span: 330..345,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 330..332,\n                sym: \"m3\",\n            },\n        ),\n        function: Id {\n            index: 5,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)",
+        },
+    ],
+    jsx_elements: [],
+    ts_types: [],
+}

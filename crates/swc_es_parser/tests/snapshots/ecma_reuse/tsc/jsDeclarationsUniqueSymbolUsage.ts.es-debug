@@ -1,0 +1,80 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 124..378,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967298,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Return(\n    ReturnStmt {\n        span: 362..377,\n        arg: Some(\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 131..337,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 131..167,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Fn(\n    FnDecl {\n        span: 338..378,\n        ident: Ident {\n            span: 347..348,\n            sym: \"b\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 137..144,\n        sym: \"kSymbol\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Assign(\n    AssignPat {\n        span: 145..167,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 349..354,\n        sym: \"value\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 147..153,\n        sym: \"Symbol\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 154..165,\n            value: \"my-symbol\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Call(\n    CallExpr {\n        span: 153..167,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 369..374,\n        sym: \"value\",\n    },\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 124..337,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 331..378,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

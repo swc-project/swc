@@ -1,0 +1,85 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 37..140,\n    kind: Script,\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Return(\n    ReturnStmt {\n        span: 80..92,\n        arg: Some(\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Return(\n    ReturnStmt {\n        span: 126..138,\n        arg: Some(\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class(\n    ClassDecl {\n        span: 37..140,\n        ident: Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 56..62,\n        sym: \"Symbol\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Member(\n    MemberExpr {\n        span: 62..75,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 63..74,\n                sym: \"toPrimitive\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 87..89,\n            value: \"\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 102..108,\n        sym: \"Symbol\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Member(\n    MemberExpr {\n        span: 108..121,\n        obj: Id {\n            index: 3,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 109..120,\n                sym: \"toStringTag\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 133..135,\n            value: \"\",\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [
+        DebugNode {
+            id: 4294967297,
+            node: "Function {\n    span: 51..100,\n    params: [],\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Function {\n    span: 97..140,\n    params: [],\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+    ],
+    classes: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class {\n    span: 37..140,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    class_members: [
+        DebugNode {
+            id: 4294967297,
+            node: "Method(\n    ClassMethod {\n        span: 51..100,\n        decorators: [],\n        key: Computed(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Getter,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Method(\n    ClassMethod {\n        span: 97..140,\n        decorators: [],\n        key: Computed(\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ),\n        function: Id {\n            index: 1,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Getter,\n    },\n)",
+        },
+    ],
+    jsx_elements: [],
+    ts_types: [],
+}

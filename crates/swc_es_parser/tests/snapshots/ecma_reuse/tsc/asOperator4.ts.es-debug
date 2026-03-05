@@ -1,0 +1,88 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 42..176,\n    kind: Module,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967299,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    ExprStmt {\n        span: 152..156,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Expr(\n    ExprStmt {\n        span: 153..163,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    ExprStmt {\n        span: 162..176,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Fn(\n    FnDecl {\n        span: 49..95,\n        ident: Ident {\n            span: 58..61,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 153..156,\n        sym: \"any\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 157..160,\n        sym: \"foo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Binary(\n    BinaryExpr {\n        span: 156..161,\n        op: Gt,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 163..166,\n        sym: \"foo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "TsAs(\n    TsAsExpr {\n        span: 167..174,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n        ty: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Paren(\n    ParenExpr {\n        span: 162..175,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 42..95,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Import(\n    ImportDecl {\n        span: 89..153,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 98..101,\n                        sym: \"foo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 98..101,\n                            sym: \"foo\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 109..116,\n            value: \"./foo\",\n        },\n        with: [],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "Keyword(\n    Any,\n)",
+        },
+    ],
+}

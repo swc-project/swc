@@ -1,0 +1,119 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..85,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Expr(\n    ExprStmt {\n        span: 1..15,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Expr(\n    ExprStmt {\n        span: 22..36,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    ExprStmt {\n        span: 43..58,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    ExprStmt {\n        span: 65..75,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Expr(\n    ExprStmt {\n        span: 72..82,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Expr(\n    ExprStmt {\n        span: 79..85,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class(\n    ClassDecl {\n        span: 10..30,\n        ident: Ident {\n            span: 16..17,\n            sym: \"A\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Class(\n    ClassDecl {\n        span: 31..51,\n        ident: Ident {\n            span: 37..38,\n            sym: \"B\",\n        },\n        declare: false,\n        class: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Class(\n    ClassDecl {\n        span: 53..68,\n        ident: Ident {\n            span: 59..60,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 1..9,\n        sym: \"abstract\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 22..30,\n        sym: \"abstract\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 43..51,\n        sym: \"abstract\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Ident(\n    Ident {\n        span: 69..70,\n        sym: \"A\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "New(\n    NewExpr {\n        span: 65..71,\n        callee: Id {\n            index: 6,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Ident(\n    Ident {\n        span: 76..77,\n        sym: \"B\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "New(\n    NewExpr {\n        span: 72..78,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Ident(\n    Ident {\n        span: 83..84,\n        sym: \"C\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "New(\n    NewExpr {\n        span: 79..85,\n        callee: Id {\n            index: 10,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class {\n    span: 10..30,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 16..17,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Class {\n    span: 31..51,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 37..38,\n            sym: \"B\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Class {\n    span: 53..68,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 59..60,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+        },
+    ],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

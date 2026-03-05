@@ -1,0 +1,126 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 16..256,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Return(\n    ReturnStmt {\n        span: 93..171,\n        arg: Some(\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Return(\n    ReturnStmt {\n        span: 207..225,\n        arg: Some(\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Expr(\n    ExprStmt {\n        span: 229..256,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Fn(\n    FnDecl {\n        span: 16..54,\n        ident: Ident {\n            span: 25..28,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Class(\n    ClassDecl {\n        span: 49..232,\n        ident: Ident {\n            span: 55..69,\n            sym: \"SymbolIterator\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 32..33,\n        sym: \"s\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Rest(\n    RestPat {\n        span: 29..34,\n        arg: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 121..127,\n        sym: \"Symbol\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Call(\n    CallExpr {\n        span: 127..130,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Lit(\n    Bool(\n        BoolLit {\n            span: 149..154,\n            value: false,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Object(\n    ObjectExpr {\n        span: 100..165,\n        props: [\n            KeyValueProp {\n                span: 114..130,\n                key: Ident(\n                    Ident {\n                        span: 114..119,\n                        sym: \"value\",\n                    },\n                ),\n                value: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 143..164,\n                key: Ident(\n                    Ident {\n                        span: 143..147,\n                        sym: \"done\",\n                    },\n                ),\n                value: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 178..184,\n        sym: \"Symbol\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Member(\n    MemberExpr {\n        span: 184..194,\n        obj: Id {\n            index: 4,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 185..193,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Ident(\n    Ident {\n        span: 214..218,\n        sym: \"this\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Ident(\n    Ident {\n        span: 229..232,\n        sym: \"foo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Ident(\n    Ident {\n        span: 240..254,\n        sym: \"SymbolIterator\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "New(\n    NewExpr {\n        span: 236..255,\n        callee: Id {\n            index: 9,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Call(\n    CallExpr {\n        span: 232..256,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 10,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [
+        DebugNode {
+            id: 4294967297,
+            node: "Function {\n    span: 76..178,\n    params: [],\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Function {\n    span: 177..227,\n    params: [],\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+        },
+    ],
+    classes: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class {\n    span: 49..232,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 55..69,\n            sym: \"SymbolIterator\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    class_members: [
+        DebugNode {
+            id: 4294967297,
+            node: "Method(\n    ClassMethod {\n        span: 76..178,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 76..80,\n                sym: \"next\",\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Method(\n    ClassMethod {\n        span: 177..227,\n        decorators: [],\n        key: Computed(\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ),\n        function: Id {\n            index: 1,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)",
+        },
+    ],
+    jsx_elements: [],
+    ts_types: [],
+}

@@ -1,0 +1,153 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..401,\n    kind: Script,\n    body: [\n        Id {\n            index: 9,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "ModuleDecl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 17..90,\n        ident: Ident {\n            span: 27..32,\n            sym: \"Point\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 43..63,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 43..44,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 62..78,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 62..63,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Var(\n    VarDecl {\n        span: 91..138,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..126,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 139..209,\n        ident: Ident {\n            span: 149..156,\n            sym: \"Point3d\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 165..172,\n                sym: \"Point\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 181..197,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 181..182,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Var(\n    VarDecl {\n        span: 210..267,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 210..255,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 268..400,\n        ident: Ident {\n            span: 278..282,\n            sym: \"Line\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 283..289,\n                sym: \"TPoint\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 314..362,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 319..333,\n                        name: Some(\n                            Ident {\n                                span: 319..324,\n                                sym: \"start\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 6,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                    TsFnParam {\n                        span: 334..346,\n                        name: Some(\n                            Ident {\n                                span: 334..337,\n                                sym: \"end\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 7,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 357..383,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 357..362,\n                            sym: \"start\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 380..398,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 380..383,\n                            sym: \"end\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 9,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "TsModule(\n    TsModuleDecl {\n        span: 1..401,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 8..9,\n                sym: \"A\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 95..101,\n        sym: \"Origin\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 214..222,\n        sym: \"Origin3d\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 116..117,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 122..123,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Object(\n    ObjectExpr {\n        span: 111..126,\n        props: [\n            KeyValueProp {\n                span: 113..118,\n                key: Ident(\n                    Ident {\n                        span: 113..114,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 0,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 119..125,\n                key: Ident(\n                    Ident {\n                        span: 119..120,\n                        sym: \"y\",\n                    },\n                ),\n                value: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 239..240,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 245..246,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 251..252,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Object(\n    ObjectExpr {\n        span: 234..255,\n        props: [\n            KeyValueProp {\n                span: 236..241,\n                key: Ident(\n                    Ident {\n                        span: 236..237,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 3,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 242..247,\n                key: Ident(\n                    Ident {\n                        span: 242..243,\n                        sym: \"y\",\n                    },\n                ),\n                value: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 248..254,\n                key: Ident(\n                    Ident {\n                        span: 248..249,\n                        sym: \"z\",\n                    },\n                ),\n                value: Id {\n                    index: 5,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 84..138,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 132..209,\n        decl: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 203..267,\n        decl: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 261..400,\n        decl: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "TypeRef(\n    TsTypeRef {\n        span: 326..333,\n        name: Ident {\n            span: 326..333,\n            sym: \"TPoint\",\n        },\n        type_args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "TypeRef(\n    TsTypeRef {\n        span: 339..346,\n        name: Ident {\n            span: 339..346,\n            sym: \"TPoint\",\n        },\n        type_args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "TypeRef(\n    TsTypeRef {\n        span: 364..371,\n        name: Ident {\n            span: 364..371,\n            sym: \"TPoint\",\n        },\n        type_args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "TypeRef(\n    TsTypeRef {\n        span: 385..392,\n        name: Ident {\n            span: 385..392,\n            sym: \"TPoint\",\n        },\n        type_args: [],\n    },\n)",
+        },
+    ],
+}

@@ -1,0 +1,144 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 2..171,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Break(\n    BreakStmt {\n        span: 104..122,\n        label: None,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    ExprStmt {\n        span: 132..168,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Break(\n    BreakStmt {\n        span: 163..171,\n        label: None,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Switch(\n    SwitchStmt {\n        span: 53..171,\n        discriminant: Id {\n            index: 0,\n            generation: 1,\n        },\n        cases: [\n            SwitchCase {\n                span: 72..90,\n                test: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n                cons: [],\n            },\n            SwitchCase {\n                span: 86..122,\n                test: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n                cons: [\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ],\n            },\n            SwitchCase {\n                span: 115..171,\n                test: None,\n                cons: [\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ],\n            },\n        ],\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 2..26,\n        ident: Ident {\n            span: 7..8,\n            sym: \"S\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 22..44,\n        ident: Ident {\n            span: 27..28,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Var(\n    VarDecl {\n        span: 41..59,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 41..52,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 45..48,\n        sym: \"foo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 132..135,\n        sym: \"foo\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 61..64,\n        sym: \"foo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 77..80,\n            value: \"a\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 91..94,\n            value: \"b\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 139..142,\n        sym: \"foo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "TsAs(\n    TsAsExpr {\n        span: 143..150,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n        ty: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Paren(\n    ParenExpr {\n        span: 138..151,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 151..152,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Member(\n    MemberExpr {\n        span: 150..154,\n        obj: Id {\n            index: 6,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Assign(\n    AssignExpr {\n        span: 136..154,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 11..14,\n            value: \"a\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 17..20,\n            value: \"b\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Union(\n    TsUnionType {\n        span: 11..21,\n        types: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "TypeRef(\n    TsTypeRef {\n        span: 31..33,\n        name: Ident {\n            span: 31..33,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Array(\n    TsArrayType {\n        span: 31..36,\n        elem_type: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "TypeRef(\n    TsTypeRef {\n        span: 37..39,\n        name: Ident {\n            span: 37..39,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Union(\n    TsUnionType {\n        span: 31..39,\n        types: [\n            Id {\n                index: 4,\n                generation: 1,\n            },\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "TypeRef(\n    TsTypeRef {\n        span: 146..148,\n        name: Ident {\n            span: 146..148,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Array(\n    TsArrayType {\n        span: 146..150,\n        elem_type: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+}

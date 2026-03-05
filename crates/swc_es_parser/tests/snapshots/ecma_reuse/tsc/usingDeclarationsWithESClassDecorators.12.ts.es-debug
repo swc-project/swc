@@ -1,0 +1,89 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 168..261,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 188..204,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 188..201,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Class(\n    ClassDecl {\n        span: 208..227,\n        ident: Ident {\n            span: 214..215,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Var(\n    VarDecl {\n        span: 241..261,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 241..260,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 192..195,\n        sym: \"dec\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 247..252,\n        sym: \"after\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Assign(\n    AssignPat {\n        span: 253..260,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 204..207,\n        sym: \"dec\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 255..259,\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 168..187,\n        src: None,\n        specifiers: [],\n        decl: None,\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 221..246,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 230..231,\n                    sym: \"C\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 235..236,\n                        sym: \"D\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class {\n    span: 208..227,\n    decorators: [\n        Decorator {\n            span: 203..213,\n            expr: Id {\n                index: 0,\n                generation: 1,\n            },\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 214..215,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+        },
+    ],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

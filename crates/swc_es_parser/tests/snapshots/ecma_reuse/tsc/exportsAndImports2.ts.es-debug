@@ -1,0 +1,96 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 43..220,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967298,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "ModuleDecl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "ModuleDecl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 50..69,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 50..62,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Var(\n    VarDecl {\n        span: 70..110,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 70..82,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 54..55,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Assign(\n    AssignPat {\n        span: 56..62,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 74..75,\n        sym: \"y\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Assign(\n    AssignPat {\n        span: 76..82,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 58..61,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 78..81,\n            value: \"y\",\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 43..69,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 63..110,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 104..170,\n        src: Some(\n            StrLit {\n                span: 135..141,\n                value: \"./t1\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 113..114,\n                    sym: \"x\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 118..119,\n                        sym: \"y\",\n                    },\n                ),\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 121..122,\n                    sym: \"y\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 126..127,\n                        sym: \"x\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Import(\n    ImportDecl {\n        span: 164..199,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 173..174,\n                        sym: \"x\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 173..174,\n                            sym: \"x\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 176..177,\n                        sym: \"y\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 176..177,\n                            sym: \"y\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 185..191,\n            value: \"./t1\",\n        },\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 193..220,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 202..203,\n                    sym: \"x\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 207..208,\n                        sym: \"y\",\n                    },\n                ),\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 210..211,\n                    sym: \"y\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 215..216,\n                        sym: \"x\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

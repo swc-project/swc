@@ -1,0 +1,125 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 113..333,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Return(\n    ReturnStmt {\n        span: 188..214,\n        arg: Some(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Empty(\n    EmptyStmt {\n        span: 214..215,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Return(\n    ReturnStmt {\n        span: 259..284,\n        arg: Some(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Expr(\n    ExprStmt {\n        span: 314..333,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Fn(\n    FnDecl {\n        span: 147..215,\n        ident: Ident {\n            span: 156..160,\n            sym: \"SFC1\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Fn(\n    FnDecl {\n        span: 217..289,\n        ident: Ident {\n            span: 226..230,\n            sym: \"SFC2\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Var(\n    VarDecl {\n        span: 286..315,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 286..313,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 161..165,\n        sym: \"prop\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 231..235,\n        sym: \"prop\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 290..297,\n        sym: \"SFCComp\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Assign(\n    AssignPat {\n        span: 298..313,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "JSXElement(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "JSXElement(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 300..304,\n        sym: \"SFC1\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 308..312,\n        sym: \"SFC2\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Binary(\n    BinaryExpr {\n        span: 305..313,\n        op: LogicalOr,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "JSXElement(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Import(\n    ImportDecl {\n        span: 113..155,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 120..125,\n                        sym: \"React\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [
+        DebugNode {
+            id: 4294967297,
+            node: "JSXElement {\n    span: 195..212,\n    opening: JSXOpeningElement {\n        span: 195..212,\n        name: Ident(\n            Ident {\n                span: 196..200,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"hello\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 207..211,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "JSXElement {\n    span: 266..282,\n    opening: JSXOpeningElement {\n        span: 266..282,\n        name: Ident(\n            Ident {\n                span: 267..270,\n                sym: \"h1\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"World\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 278..281,\n                sym: \"h1\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "JSXElement {\n    span: 314..333,\n    opening: JSXOpeningElement {\n        span: 314..333,\n        name: Ident(\n            Ident {\n                span: 315..324,\n                sym: \"SFCComp\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 323..332,\n                name: \"x\",\n                value: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}",
+        },
+    ],
+    ts_types: [],
+}

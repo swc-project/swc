@@ -1,0 +1,773 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 73..1072,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Expr(\n    ExprStmt {\n        span: 139..147,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 81..103,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 81..94,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Var(\n    VarDecl {\n        span: 142..159,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 142..156,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Class(\n    ClassDecl {\n        span: 163..452,\n        ident: Ident {\n            span: 169..171,\n            sym: \"C1\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Class(\n    ClassDecl {\n        span: 456..772,\n        ident: Ident {\n            span: 462..464,\n            sym: \"C2\",\n        },\n        declare: false,\n        class: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Class(\n    ClassDecl {\n        span: 776..1072,\n        ident: Ident {\n            span: 782..784,\n            sym: \"C3\",\n        },\n        declare: false,\n        class: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 85..88,\n        sym: \"dec\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Assign(\n    AssignPat {\n        span: 150..156,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Expr(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Expr(\n    Id {\n        index: 28,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    Id {\n        index: 35,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Expr(\n    Id {\n        index: 47,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Expr(\n    Id {\n        index: 52,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Expr(\n    Id {\n        index: 74,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Expr(\n    Id {\n        index: 82,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Expr(\n    Id {\n        index: 94,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Expr(\n    Id {\n        index: 99,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Expr(\n    Id {\n        index: 121,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Expr(\n    Id {\n        index: 129,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 152..155,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 159..162,\n        sym: \"dec\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 180..184,\n        sym: \"Base\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 202..207,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Member(\n    MemberExpr {\n        span: 207..210,\n        obj: Id {\n            index: 4,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 208..209,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Ident(\n    Ident {\n        span: 226..231,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Member(\n    MemberExpr {\n        span: 231..235,\n        obj: Id {\n            index: 6,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 232..233,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 236..237,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Assign(\n    AssignExpr {\n        span: 234..238,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Ident(\n    Ident {\n        span: 254..259,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Member(\n    MemberExpr {\n        span: 259..264,\n        obj: Id {\n            index: 10,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 260..261,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 265..266,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Assign(\n    AssignExpr {\n        span: 262..267,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        op: AddAssign,\n        right: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Ident(\n    Ident {\n        span: 283..288,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Member(\n    MemberExpr {\n        span: 288..292,\n        obj: Id {\n            index: 14,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 289..290,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Update(\n    UpdateExpr {\n        span: 290..293,\n        op: PlusPlus,\n        arg: Id {\n            index: 15,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Ident(\n    Ident {\n        span: 309..314,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Member(\n    MemberExpr {\n        span: 314..318,\n        obj: Id {\n            index: 17,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 315..316,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Update(\n    UpdateExpr {\n        span: 316..319,\n        op: MinusMinus,\n        arg: Id {\n            index: 18,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Ident(\n    Ident {\n        span: 337..342,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Member(\n    MemberExpr {\n        span: 342..345,\n        obj: Id {\n            index: 20,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 343..344,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Update(\n    UpdateExpr {\n        span: 335..345,\n        op: PlusPlus,\n        arg: Id {\n            index: 21,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Ident(\n    Ident {\n        span: 363..368,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "Member(\n    MemberExpr {\n        span: 368..371,\n        obj: Id {\n            index: 23,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 369..370,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Update(\n    UpdateExpr {\n        span: 361..371,\n        op: MinusMinus,\n        arg: Id {\n            index: 24,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967323,
+            node: "Ident(\n    Ident {\n        span: 393..398,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967324,
+            node: "Member(\n    MemberExpr {\n        span: 398..402,\n        obj: Id {\n            index: 26,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 399..400,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967325,
+            node: "Object(\n    ObjectExpr {\n        span: 388..404,\n        props: [\n            KeyValueProp {\n                span: 390..402,\n                key: Ident(\n                    Ident {\n                        span: 390..391,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 27,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967326,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 410..411,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967327,
+            node: "Object(\n    ObjectExpr {\n        span: 405..414,\n        props: [\n            KeyValueProp {\n                span: 407..413,\n                key: Ident(\n                    Ident {\n                        span: 407..408,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 29,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967328,
+            node: "Assign(\n    AssignExpr {\n        span: 403..414,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967329,
+            node: "Paren(\n    ParenExpr {\n        span: 387..415,\n        expr: Id {\n            index: 31,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967330,
+            node: "Ident(\n    Ident {\n        span: 432..437,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967331,
+            node: "Member(\n    MemberExpr {\n        span: 437..440,\n        obj: Id {\n            index: 33,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 438..439,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967332,
+            node: "Array(\n    ArrayExpr {\n        span: 431..442,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 34,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967333,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 444..445,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967334,
+            node: "Array(\n    ArrayExpr {\n        span: 443..447,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 36,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967335,
+            node: "Assign(\n    AssignExpr {\n        span: 441..447,\n        left: Id {\n            index: 6,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 37,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967337,
+            node: "Ident(\n    Ident {\n        span: 452..455,\n        sym: \"dec\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967338,
+            node: "Ident(\n    Ident {\n        span: 473..477,\n        sym: \"Base\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967339,
+            node: "Ident(\n    Ident {\n        span: 495..500,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967340,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 501..504,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967341,
+            node: "Member(\n    MemberExpr {\n        span: 500..506,\n        obj: Id {\n            index: 42,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 43,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967342,
+            node: "Ident(\n    Ident {\n        span: 522..527,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967343,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 528..531,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967344,
+            node: "Member(\n    MemberExpr {\n        span: 527..534,\n        obj: Id {\n            index: 45,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 46,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967345,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 535..536,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967346,
+            node: "Assign(\n    AssignExpr {\n        span: 533..537,\n        left: Id {\n            index: 7,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 48,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967347,
+            node: "Ident(\n    Ident {\n        span: 553..558,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967348,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 559..562,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967349,
+            node: "Member(\n    MemberExpr {\n        span: 558..566,\n        obj: Id {\n            index: 50,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 51,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967350,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 567..568,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967351,
+            node: "Assign(\n    AssignExpr {\n        span: 564..569,\n        left: Id {\n            index: 8,\n            generation: 1,\n        },\n        op: AddAssign,\n        right: Id {\n            index: 53,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967352,
+            node: "Ident(\n    Ident {\n        span: 585..590,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967353,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 591..594,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967354,
+            node: "Member(\n    MemberExpr {\n        span: 590..597,\n        obj: Id {\n            index: 55,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 56,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967355,
+            node: "Update(\n    UpdateExpr {\n        span: 595..598,\n        op: PlusPlus,\n        arg: Id {\n            index: 57,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967356,
+            node: "Ident(\n    Ident {\n        span: 614..619,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967357,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 620..623,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967358,
+            node: "Member(\n    MemberExpr {\n        span: 619..626,\n        obj: Id {\n            index: 59,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 60,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967359,
+            node: "Update(\n    UpdateExpr {\n        span: 624..627,\n        op: MinusMinus,\n        arg: Id {\n            index: 61,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967360,
+            node: "Ident(\n    Ident {\n        span: 645..650,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967361,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 651..654,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967362,
+            node: "Member(\n    MemberExpr {\n        span: 650..656,\n        obj: Id {\n            index: 63,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 64,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967363,
+            node: "Update(\n    UpdateExpr {\n        span: 643..656,\n        op: PlusPlus,\n        arg: Id {\n            index: 65,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967364,
+            node: "Ident(\n    Ident {\n        span: 674..679,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967365,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 680..683,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967366,
+            node: "Member(\n    MemberExpr {\n        span: 679..685,\n        obj: Id {\n            index: 67,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 68,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967367,
+            node: "Update(\n    UpdateExpr {\n        span: 672..685,\n        op: MinusMinus,\n        arg: Id {\n            index: 69,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967368,
+            node: "Ident(\n    Ident {\n        span: 707..712,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967369,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 713..716,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967370,
+            node: "Member(\n    MemberExpr {\n        span: 712..719,\n        obj: Id {\n            index: 71,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 72,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967371,
+            node: "Object(\n    ObjectExpr {\n        span: 702..721,\n        props: [\n            KeyValueProp {\n                span: 704..719,\n                key: Ident(\n                    Ident {\n                        span: 704..705,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 73,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967372,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 727..728,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967373,
+            node: "Object(\n    ObjectExpr {\n        span: 722..731,\n        props: [\n            KeyValueProp {\n                span: 724..730,\n                key: Ident(\n                    Ident {\n                        span: 724..725,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 75,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967374,
+            node: "Assign(\n    AssignExpr {\n        span: 720..731,\n        left: Id {\n            index: 9,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 76,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967375,
+            node: "Paren(\n    ParenExpr {\n        span: 701..732,\n        expr: Id {\n            index: 77,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967376,
+            node: "Ident(\n    Ident {\n        span: 749..754,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967377,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 755..758,\n            value: \"x\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967378,
+            node: "Member(\n    MemberExpr {\n        span: 754..760,\n        obj: Id {\n            index: 79,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 80,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967379,
+            node: "Array(\n    ArrayExpr {\n        span: 748..762,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 81,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967380,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 764..765,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967381,
+            node: "Array(\n    ArrayExpr {\n        span: 763..767,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 83,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967382,
+            node: "Assign(\n    AssignExpr {\n        span: 761..767,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 84,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967384,
+            node: "Ident(\n    Ident {\n        span: 772..775,\n        sym: \"dec\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967385,
+            node: "Ident(\n    Ident {\n        span: 793..797,\n        sym: \"Base\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967386,
+            node: "Ident(\n    Ident {\n        span: 815..820,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967387,
+            node: "Ident(\n    Ident {\n        span: 821..822,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967388,
+            node: "Member(\n    MemberExpr {\n        span: 820..824,\n        obj: Id {\n            index: 89,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 90,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967389,
+            node: "Ident(\n    Ident {\n        span: 840..845,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967390,
+            node: "Ident(\n    Ident {\n        span: 846..847,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967391,
+            node: "Member(\n    MemberExpr {\n        span: 845..850,\n        obj: Id {\n            index: 92,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 93,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967392,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 851..852,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967393,
+            node: "Assign(\n    AssignExpr {\n        span: 849..853,\n        left: Id {\n            index: 11,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 95,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967394,
+            node: "Ident(\n    Ident {\n        span: 869..874,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967395,
+            node: "Ident(\n    Ident {\n        span: 875..876,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967396,
+            node: "Member(\n    MemberExpr {\n        span: 874..880,\n        obj: Id {\n            index: 97,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 98,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967397,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 881..882,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967398,
+            node: "Assign(\n    AssignExpr {\n        span: 878..883,\n        left: Id {\n            index: 12,\n            generation: 1,\n        },\n        op: AddAssign,\n        right: Id {\n            index: 100,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967399,
+            node: "Ident(\n    Ident {\n        span: 899..904,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967400,
+            node: "Ident(\n    Ident {\n        span: 905..906,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967401,
+            node: "Member(\n    MemberExpr {\n        span: 904..909,\n        obj: Id {\n            index: 102,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 103,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967402,
+            node: "Update(\n    UpdateExpr {\n        span: 907..910,\n        op: PlusPlus,\n        arg: Id {\n            index: 104,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967403,
+            node: "Ident(\n    Ident {\n        span: 926..931,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967404,
+            node: "Ident(\n    Ident {\n        span: 932..933,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967405,
+            node: "Member(\n    MemberExpr {\n        span: 931..936,\n        obj: Id {\n            index: 106,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 107,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967406,
+            node: "Update(\n    UpdateExpr {\n        span: 934..937,\n        op: MinusMinus,\n        arg: Id {\n            index: 108,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967407,
+            node: "Ident(\n    Ident {\n        span: 955..960,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967408,
+            node: "Ident(\n    Ident {\n        span: 961..962,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967409,
+            node: "Member(\n    MemberExpr {\n        span: 960..964,\n        obj: Id {\n            index: 110,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 111,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967410,
+            node: "Update(\n    UpdateExpr {\n        span: 953..964,\n        op: PlusPlus,\n        arg: Id {\n            index: 112,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967411,
+            node: "Ident(\n    Ident {\n        span: 982..987,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967412,
+            node: "Ident(\n    Ident {\n        span: 988..989,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967413,
+            node: "Member(\n    MemberExpr {\n        span: 987..991,\n        obj: Id {\n            index: 114,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 115,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967414,
+            node: "Update(\n    UpdateExpr {\n        span: 980..991,\n        op: MinusMinus,\n        arg: Id {\n            index: 116,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967415,
+            node: "Ident(\n    Ident {\n        span: 1013..1018,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967416,
+            node: "Ident(\n    Ident {\n        span: 1019..1020,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967417,
+            node: "Member(\n    MemberExpr {\n        span: 1018..1023,\n        obj: Id {\n            index: 118,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 119,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967418,
+            node: "Object(\n    ObjectExpr {\n        span: 1008..1025,\n        props: [\n            KeyValueProp {\n                span: 1010..1023,\n                key: Ident(\n                    Ident {\n                        span: 1010..1011,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 120,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967419,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 1031..1032,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967420,
+            node: "Object(\n    ObjectExpr {\n        span: 1026..1035,\n        props: [\n            KeyValueProp {\n                span: 1028..1034,\n                key: Ident(\n                    Ident {\n                        span: 1028..1029,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 122,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967421,
+            node: "Assign(\n    AssignExpr {\n        span: 1024..1035,\n        left: Id {\n            index: 13,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 123,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967422,
+            node: "Paren(\n    ParenExpr {\n        span: 1007..1036,\n        expr: Id {\n            index: 124,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967423,
+            node: "Ident(\n    Ident {\n        span: 1053..1058,\n        sym: \"super\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967424,
+            node: "Ident(\n    Ident {\n        span: 1059..1060,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967425,
+            node: "Member(\n    MemberExpr {\n        span: 1058..1062,\n        obj: Id {\n            index: 126,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 127,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967426,
+            node: "Array(\n    ArrayExpr {\n        span: 1052..1064,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 128,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967427,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 1066..1067,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967428,
+            node: "Array(\n    ArrayExpr {\n        span: 1065..1069,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 130,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967429,
+            node: "Assign(\n    AssignExpr {\n        span: 1063..1069,\n        left: Id {\n            index: 14,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 131,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class {\n    span: 163..452,\n    decorators: [\n        Decorator {\n            span: 158..168,\n            expr: Id {\n                index: 2,\n                generation: 1,\n            },\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 169..171,\n            sym: \"C1\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ),\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n    ],\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Class {\n    span: 456..772,\n    decorators: [\n        Decorator {\n            span: 451..461,\n            expr: Id {\n                index: 40,\n                generation: 1,\n            },\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 462..464,\n            sym: \"C2\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 41,\n            generation: 1,\n        },\n    ),\n    body: [\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n    ],\n}",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Class {\n    span: 776..1072,\n    decorators: [\n        Decorator {\n            span: 771..781,\n            expr: Id {\n                index: 87,\n                generation: 1,\n            },\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 782..784,\n            sym: \"C3\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 88,\n            generation: 1,\n        },\n    ),\n    body: [\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n        Id {\n            index: 22,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 24,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n        Id {\n            index: 26,\n            generation: 1,\n        },\n        Id {\n            index: 27,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    class_members: [
+        DebugNode {
+            id: 4294967298,
+            node: "Prop(\n    ClassProp {\n        span: 191..221,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 198..199,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Prop(\n    ClassProp {\n        span: 215..249,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 222..223,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 9,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Prop(\n    ClassProp {\n        span: 243..278,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 250..251,\n                sym: \"c\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 13,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Prop(\n    ClassProp {\n        span: 272..304,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 279..280,\n                sym: \"d\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 16,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Prop(\n    ClassProp {\n        span: 298..330,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 305..306,\n                sym: \"e\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 19,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Prop(\n    ClassProp {\n        span: 324..356,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 331..332,\n                sym: \"f\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 22,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Prop(\n    ClassProp {\n        span: 350..382,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 357..358,\n                sym: \"g\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 25,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Prop(\n    ClassProp {\n        span: 376..426,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 383..384,\n                sym: \"h\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 32,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Prop(\n    ClassProp {\n        span: 420..449,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 427..428,\n                sym: \"i\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 38,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Prop(\n    ClassProp {\n        span: 484..517,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 491..492,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 44,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Prop(\n    ClassProp {\n        span: 511..548,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 518..519,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 49,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Prop(\n    ClassProp {\n        span: 542..580,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 549..550,\n                sym: \"c\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 54,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Prop(\n    ClassProp {\n        span: 574..609,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 581..582,\n                sym: \"d\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 58,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Prop(\n    ClassProp {\n        span: 603..638,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 610..611,\n                sym: \"e\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 62,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Prop(\n    ClassProp {\n        span: 632..667,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 639..640,\n                sym: \"f\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 66,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Prop(\n    ClassProp {\n        span: 661..696,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 668..669,\n                sym: \"g\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 70,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Prop(\n    ClassProp {\n        span: 690..743,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 697..698,\n                sym: \"h\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 78,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Prop(\n    ClassProp {\n        span: 737..769,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 744..745,\n                sym: \"i\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 85,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Prop(\n    ClassProp {\n        span: 804..835,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 811..812,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 91,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Prop(\n    ClassProp {\n        span: 829..864,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 836..837,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 96,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Prop(\n    ClassProp {\n        span: 858..894,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 865..866,\n                sym: \"c\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 101,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Prop(\n    ClassProp {\n        span: 888..921,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 895..896,\n                sym: \"d\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 105,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Prop(\n    ClassProp {\n        span: 915..948,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 922..923,\n                sym: \"e\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 109,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "Prop(\n    ClassProp {\n        span: 942..975,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 949..950,\n                sym: \"f\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 113,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Prop(\n    ClassProp {\n        span: 969..1002,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 976..977,\n                sym: \"g\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 117,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967323,
+            node: "Prop(\n    ClassProp {\n        span: 996..1047,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1003..1004,\n                sym: \"h\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 125,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967324,
+            node: "Prop(\n    ClassProp {\n        span: 1041..1071,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1048..1049,\n                sym: \"i\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 132,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)",
+        },
+    ],
+    jsx_elements: [],
+    ts_types: [],
+}

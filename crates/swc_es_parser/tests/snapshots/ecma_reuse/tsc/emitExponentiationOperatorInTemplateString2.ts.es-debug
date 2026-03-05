@@ -1,0 +1,227 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 18..914,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Expr(\n    ExprStmt {\n        span: 73..119,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    ExprStmt {\n        span: 94..145,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Expr(\n    ExprStmt {\n        span: 121..171,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    ExprStmt {\n        span: 147..203,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Expr(\n    ExprStmt {\n        span: 173..240,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Expr(\n    ExprStmt {\n        span: 205..281,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Expr(\n    ExprStmt {\n        span: 242..314,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Expr(\n    ExprStmt {\n        span: 284..358,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Expr(\n    ExprStmt {\n        span: 316..400,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Expr(\n    ExprStmt {\n        span: 360..442,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Expr(\n    ExprStmt {\n        span: 402..494,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Expr(\n    ExprStmt {\n        span: 444..558,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Expr(\n    ExprStmt {\n        span: 496..604,\n        expr: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Expr(\n    ExprStmt {\n        span: 561..661,\n        expr: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Expr(\n    ExprStmt {\n        span: 606..716,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Expr(\n    ExprStmt {\n        span: 663..771,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Expr(\n    ExprStmt {\n        span: 718..836,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Expr(\n    ExprStmt {\n        span: 773..913,\n        expr: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Expr(\n    ExprStmt {\n        span: 838..914,\n        expr: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 18..34,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 18..30,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Var(\n    VarDecl {\n        span: 31..47,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 31..43,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Var(\n    VarDecl {\n        span: 44..92,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 44..50,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 22..24,\n        sym: \"t1\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Assign(\n    AssignPat {\n        span: 25..30,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 35..37,\n        sym: \"t2\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Assign(\n    AssignPat {\n        span: 38..43,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"s\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 27..29,\n            value: 10.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 40..42,\n            value: 10.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Template(\n    TemplateExpr {\n        span: 73..92,\n        quasis: [\n            StrLit {\n                span: 73..92,\n                value: \"hello ${t1 ** t2}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Template(\n    TemplateExpr {\n        span: 94..119,\n        quasis: [\n            StrLit {\n                span: 94..119,\n                value: \"hello ${t1 ** t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Template(\n    TemplateExpr {\n        span: 121..145,\n        quasis: [\n            StrLit {\n                span: 121..145,\n                value: \"hello ${t1 + t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Template(\n    TemplateExpr {\n        span: 147..171,\n        quasis: [\n            StrLit {\n                span: 147..171,\n                value: \"hello ${t1 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Template(\n    TemplateExpr {\n        span: 173..203,\n        quasis: [\n            StrLit {\n                span: 173..203,\n                value: \"hello ${t1 + t2 ** t2 + t1 }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Template(\n    TemplateExpr {\n        span: 205..240,\n        quasis: [\n            StrLit {\n                span: 205..240,\n                value: \"hello ${typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Template(\n    TemplateExpr {\n        span: 242..281,\n        quasis: [\n            StrLit {\n                span: 242..281,\n                value: \"hello ${1 + typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Template(\n    TemplateExpr {\n        span: 284..314,\n        quasis: [\n            StrLit {\n                span: 284..314,\n                value: \"hello ${t1 ** t2}${t1 ** t2}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Template(\n    TemplateExpr {\n        span: 316..358,\n        quasis: [\n            StrLit {\n                span: 316..358,\n                value: \"hello ${t1 ** t2 ** t1}${t1 ** t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Template(\n    TemplateExpr {\n        span: 360..400,\n        quasis: [\n            StrLit {\n                span: 360..400,\n                value: \"hello ${t1 + t2 ** t1}${t1 + t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Template(\n    TemplateExpr {\n        span: 402..442,\n        quasis: [\n            StrLit {\n                span: 402..442,\n                value: \"hello ${t1 ** t2 + t1}${t1 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Template(\n    TemplateExpr {\n        span: 444..494,\n        quasis: [\n            StrLit {\n                span: 444..494,\n                value: \"hello ${t1 + t2 ** t2 + t1}${t1 + t2 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Template(\n    TemplateExpr {\n        span: 496..558,\n        quasis: [\n            StrLit {\n                span: 496..558,\n                value: \"hello ${typeof (t1 ** t2 ** t1) }${typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Template(\n    TemplateExpr {\n        span: 561..604,\n        quasis: [\n            StrLit {\n                span: 561..604,\n                value: \"hello ${t1 ** t2} hello world ${t1 ** t2}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Template(\n    TemplateExpr {\n        span: 606..661,\n        quasis: [\n            StrLit {\n                span: 606..661,\n                value: \"hello ${t1 ** t2 ** t1} hello world ${t1 ** t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Template(\n    TemplateExpr {\n        span: 663..716,\n        quasis: [\n            StrLit {\n                span: 663..716,\n                value: \"hello ${t1 + t2 ** t1} hello world ${t1 + t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Template(\n    TemplateExpr {\n        span: 718..771,\n        quasis: [\n            StrLit {\n                span: 718..771,\n                value: \"hello ${t1 ** t2 + t1} hello world ${t1 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Template(\n    TemplateExpr {\n        span: 773..836,\n        quasis: [\n            StrLit {\n                span: 773..836,\n                value: \"hello ${t1 + t2 ** t2 + t1} hello world ${t1 + t2 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Template(\n    TemplateExpr {\n        span: 838..913,\n        quasis: [\n            StrLit {\n                span: 838..913,\n                value: \"hello ${typeof (t1 ** t2 ** t1) } hello world ${typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

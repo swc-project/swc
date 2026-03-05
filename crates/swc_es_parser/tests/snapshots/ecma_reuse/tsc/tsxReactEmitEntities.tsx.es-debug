@@ -1,0 +1,153 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 37..728,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    ExprStmt {\n        span: 162..214,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Expr(\n    ExprStmt {\n        span: 213..259,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    ExprStmt {\n        span: 258..325,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Expr(\n    ExprStmt {\n        span: 324..384,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Expr(\n    ExprStmt {\n        span: 383..603,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Expr(\n    ExprStmt {\n        span: 602..681,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Expr(\n    ExprStmt {\n        span: 680..728,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 59..91,\n        ident: Ident {\n            span: 69..76,\n            sym: \"Element\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 82..136,\n        ident: Ident {\n            span: 92..109,\n            sym: \"IntrinsicElements\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 114..134,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 115..116,\n                        name: Some(\n                            Ident {\n                                span: 115..116,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 0,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "TsModule(\n    TsModuleDecl {\n        span: 45..144,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 52..55,\n                sym: \"JSX\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Var(\n    VarDecl {\n        span: 145..163,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 145..160,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 149..154,\n        sym: \"React\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "JSXElement(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "JSXElement(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "JSXElement(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "JSXElement(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "JSXElement(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "JSXElement(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "JSXElement(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [
+        DebugNode {
+            id: 4294967297,
+            node: "JSXElement {\n    span: 162..212,\n    opening: JSXOpeningElement {\n        span: 162..212,\n        name: Ident(\n            Ident {\n                span: 163..167,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"Dot\",\n        ),\n        Text(\n            \"goes\",\n        ),\n        Text(\n            \"here\",\n        ),\n        Text(\n            \":\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"middot\",\n        ),\n        Text(\n            \";\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"notAnEntity\",\n        ),\n        Text(\n            \";\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 207..211,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "JSXElement {\n    span: 213..257,\n    opening: JSXOpeningElement {\n        span: 213..257,\n        name: Ident(\n            Ident {\n                span: 214..218,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"Be\",\n        ),\n        Text(\n            \"careful\",\n        ),\n        Text(\n            \"of\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"quot\",\n        ),\n        Text(\n            \";\",\n        ),\n        Text(\n            \"-\",\n        ),\n        Text(\n            \"ed\",\n        ),\n        Text(\n            \"strings\",\n        ),\n        Text(\n            \"!\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 252..256,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "JSXElement {\n    span: 258..301,\n    opening: JSXOpeningElement {\n        span: 258..301,\n        name: Ident(\n            Ident {\n                span: 259..263,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"123\",\n        ),\n        Text(\n            \";\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"123\",\n        ),\n        Text(\n            \";\",\n        ),\n        Text(\n            \"braces\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"x7d\",\n        ),\n        Text(\n            \";\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"x7D\",\n        ),\n        Text(\n            \";\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 296..300,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "JSXElement {\n    span: 324..338,\n    opening: JSXOpeningElement {\n        span: 324..338,\n        name: Ident(\n            Ident {\n                span: 325..329,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"\\\\\",\n        ),\n        Text(\n            \"n\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 333..337,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "JSXElement {\n    span: 383..574,\n    opening: JSXOpeningElement {\n        span: 383..574,\n        name: Ident(\n            Ident {\n                span: 384..392,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 388..530,\n                name: \"attr\",\n                value: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n            JSXAttr {\n                span: 530..538,\n                name: \"div\",\n                value: None,\n            },\n            JSXAttr {\n                span: 534..567,\n                name: \"attr\",\n                value: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 569..573,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "JSXElement {\n    span: 602..623,\n    opening: JSXOpeningElement {\n        span: 602..623,\n        name: Ident(\n            Ident {\n                span: 603..611,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 607..616,\n                name: \"attr\",\n                value: Some(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 618..622,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "JSXElement {\n    span: 680..728,\n    opening: JSXOpeningElement {\n        span: 680..728,\n        name: Ident(\n            Ident {\n                span: 681..685,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"x1F408\",\n        ),\n        Text(\n            \";\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"x1F415\",\n        ),\n        Text(\n            \";\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"128007\",\n        ),\n        Text(\n            \";\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"128017\",\n        ),\n        Text(\n            \";\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 723..727,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+    ],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Keyword(\n    Any,\n)",
+        },
+    ],
+}

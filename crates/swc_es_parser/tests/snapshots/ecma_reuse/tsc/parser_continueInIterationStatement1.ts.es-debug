@@ -1,0 +1,37 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..29,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Continue(\n    ContinueStmt {\n        span: 18..29,\n        label: None,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Block(\n    BlockStmt {\n        span: 14..29,\n        stmts: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "While(\n    WhileStmt {\n        span: 1..29,\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n        body: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Bool(\n        BoolLit {\n            span: 8..12,\n            value: true,\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

@@ -1,0 +1,51 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 55..136,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class(\n    ClassDecl {\n        span: 55..109,\n        ident: Ident {\n            span: 76..79,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Fn(\n    FnDecl {\n        span: 118..136,\n        ident: Ident {\n            span: 127..130,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 55..109,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 103..136,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class {\n    span: 70..109,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 76..79,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+        },
+    ],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

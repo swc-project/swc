@@ -1,0 +1,29 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..22,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsModule(\n    TsModuleDecl {\n        span: 1..22,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 8..9,\n                sym: \"a\",\n            },\n        ),\n        body: Some(\n            Namespace(\n                TsNamespaceDecl {\n                    span: 1..22,\n                    declare: false,\n                    global: false,\n                    id: Ident {\n                        span: 8..9,\n                        sym: \"a\",\n                    },\n                    body: Namespace(\n                        TsNamespaceDecl {\n                            span: 10..22,\n                            declare: false,\n                            global: false,\n                            id: Ident {\n                                span: 10..16,\n                                sym: \"number\",\n                            },\n                            body: Namespace(\n                                TsNamespaceDecl {\n                                    span: 17..22,\n                                    declare: false,\n                                    global: false,\n                                    id: Ident {\n                                        span: 17..18,\n                                        sym: \"b\",\n                                    },\n                                    body: ModuleBlock(\n                                        [],\n                                    ),\n                                },\n                            ),\n                        },\n                    ),\n                },\n            ),\n        ),\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

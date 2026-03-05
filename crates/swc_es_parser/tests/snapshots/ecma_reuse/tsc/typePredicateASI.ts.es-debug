@@ -1,0 +1,54 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..82,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 1..82,\n        ident: Ident {\n            span: 11..12,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..68,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 19..22,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 23..58,\n                        name: Some(\n                            Ident {\n                                span: 23..31,\n                                sym: \"callback\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 3,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 66..82,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 66..68,\n                            sym: \"is\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "Keyword(\n    Any,\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Keyword(\n    Any,\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Keyword(\n    Void,\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Fn(\n    TsFnType {\n        span: 33..58,\n        params: [\n            TsFnParam {\n                span: 34..41,\n                name: Some(\n                    Ident {\n                        span: 34..35,\n                        sym: \"a\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                is_rest: false,\n                optional: false,\n            },\n            TsFnParam {\n                span: 42..49,\n                name: Some(\n                    Ident {\n                        span: 42..43,\n                        sym: \"b\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "TypeRef(\n    TsTypeRef {\n        span: 60..68,\n        name: Ident {\n            span: 60..68,\n            sym: \"I\",\n        },\n        type_args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Keyword(\n    Boolean,\n)",
+        },
+    ],
+}

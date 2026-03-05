@@ -1,0 +1,696 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 37..852,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n        Id {\n            index: 22,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 24,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Expr(\n    ExprStmt {\n        span: 128..143,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Expr(\n    ExprStmt {\n        span: 142..159,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    ExprStmt {\n        span: 259..277,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Expr(\n    ExprStmt {\n        span: 383..397,\n        expr: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Expr(\n    ExprStmt {\n        span: 396..406,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Expr(\n    ExprStmt {\n        span: 482..509,\n        expr: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Decl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Decl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Expr(\n    ExprStmt {\n        span: 579..593,\n        expr: Id {\n            index: 26,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Expr(\n    ExprStmt {\n        span: 590..611,\n        expr: Id {\n            index: 31,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Decl(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Decl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Decl(\n    Id {\n        index: 12,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Expr(\n    ExprStmt {\n        span: 761..782,\n        expr: Id {\n            index: 38,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Expr(\n    ExprStmt {\n        span: 778..794,\n        expr: Id {\n            index: 43,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Expr(\n    ExprStmt {\n        span: 790..816,\n        expr: Id {\n            index: 48,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "Expr(\n    ExprStmt {\n        span: 812..835,\n        expr: Id {\n            index: 53,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Expr(\n    ExprStmt {\n        span: 831..852,\n        expr: Id {\n            index: 58,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 37..116,\n        ident: Ident {\n            span: 42..45,\n            sym: \"Two\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Var(\n    VarDecl {\n        span: 117..129,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 117..129,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 155..245,\n        ident: Ident {\n            span: 160..165,\n            sym: \"Three\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Var(\n    VarDecl {\n        span: 246..260,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 246..260,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 273..367,\n        ident: Ident {\n            span: 278..285,\n            sym: \"Missing\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Var(\n    VarDecl {\n        span: 368..384,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 368..384,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 402..470,\n        ident: Ident {\n            span: 407..409,\n            sym: \"RO\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 34,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Var(\n    VarDecl {\n        span: 471..484,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 471..484,\n                name: Id {\n                    index: 7,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 505..565,\n        ident: Ident {\n            span: 510..513,\n            sym: \"Num\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 41,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Var(\n    VarDecl {\n        span: 566..582,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 566..582,\n                name: Id {\n                    index: 9,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Var(\n    VarDecl {\n        span: 606..631,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 606..631,\n                name: Id {\n                    index: 13,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 627..745,\n        ident: Ident {\n            span: 632..636,\n            sym: \"Both\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 54,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Var(\n    VarDecl {\n        span: 746..765,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 746..765,\n                name: Id {\n                    index: 14,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 121..122,\n        sym: \"u\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Expr(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Expr(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 250..251,\n        sym: \"v\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Ident(\n    Ident {\n        span: 372..373,\n        sym: \"m\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    Id {\n        index: 13,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Ident(\n    Ident {\n        span: 475..477,\n        sym: \"ro\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Expr(\n    Id {\n        index: 19,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Ident(\n    Ident {\n        span: 570..573,\n        sym: \"num\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Expr(\n    Id {\n        index: 24,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Expr(\n    Id {\n        index: 29,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Ident(\n    Ident {\n        span: 612..615,\n        sym: \"sym\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Assign(\n    AssignPat {\n        span: 616..631,\n        left: Id {\n            index: 12,\n            generation: 1,\n        },\n        right: Id {\n            index: 33,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Ident(\n    Ident {\n        span: 750..754,\n        sym: \"both\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Expr(\n    Id {\n        index: 36,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Expr(\n    Id {\n        index: 41,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Expr(\n    Id {\n        index: 46,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Expr(\n    Id {\n        index: 51,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Expr(\n    Id {\n        index: 56,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 128..129,\n        sym: \"u\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Member(\n    MemberExpr {\n        span: 129..135,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 130..133,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 136..141,\n            value: \"bye\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Assign(\n    AssignExpr {\n        span: 134..143,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 142..143,\n        sym: \"u\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Member(\n    MemberExpr {\n        span: 143..149,\n        obj: Id {\n            index: 4,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 144..147,\n                sym: \"baz\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 150..154,\n            value: \"hi\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Assign(\n    AssignExpr {\n        span: 148..159,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Ident(\n    Ident {\n        span: 259..260,\n        sym: \"v\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Member(\n    MemberExpr {\n        span: 260..266,\n        obj: Id {\n            index: 8,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 261..264,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Lit(\n    Bool(\n        BoolLit {\n            span: 267..272,\n            value: false,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Assign(\n    AssignExpr {\n        span: 265..277,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Ident(\n    Ident {\n        span: 383..384,\n        sym: \"m\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Member(\n    MemberExpr {\n        span: 384..390,\n        obj: Id {\n            index: 12,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 385..388,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 391..395,\n            value: \"hi\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Assign(\n    AssignExpr {\n        span: 389..397,\n        left: Id {\n            index: 6,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Ident(\n    Ident {\n        span: 396..397,\n        sym: \"m\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Member(\n    MemberExpr {\n        span: 397..406,\n        obj: Id {\n            index: 16,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 398..401,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Ident(\n    Ident {\n        span: 482..484,\n        sym: \"ro\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Member(\n    MemberExpr {\n        span: 484..490,\n        obj: Id {\n            index: 18,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 485..488,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 491..504,\n            value: \"not allowed\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Assign(\n    AssignExpr {\n        span: 489..509,\n        left: Id {\n            index: 8,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Ident(\n    Ident {\n        span: 579..582,\n        sym: \"num\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 583..584,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "Member(\n    MemberExpr {\n        span: 582..587,\n        obj: Id {\n            index: 22,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 23,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 588..589,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967323,
+            node: "Assign(\n    AssignExpr {\n        span: 586..593,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 25,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967324,
+            node: "Ident(\n    Ident {\n        span: 590..593,\n        sym: \"num\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967325,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 594..597,\n            value: \"0\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967326,
+            node: "Member(\n    MemberExpr {\n        span: 593..600,\n        obj: Id {\n            index: 27,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 28,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967327,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 601..605,\n            value: \"ok\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967328,
+            node: "Assign(\n    AssignExpr {\n        span: 599..611,\n        left: Id {\n            index: 11,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967329,
+            node: "Ident(\n    Ident {\n        span: 618..624,\n        sym: \"Symbol\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967330,
+            node: "Call(\n    CallExpr {\n        span: 624..631,\n        callee: Id {\n            index: 32,\n            generation: 1,\n        },\n        args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967331,
+            node: "Ident(\n    Ident {\n        span: 761..765,\n        sym: \"both\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967332,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 766..769,\n            value: \"s\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967333,
+            node: "Member(\n    MemberExpr {\n        span: 765..772,\n        obj: Id {\n            index: 34,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 35,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967334,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 773..777,\n            value: \"ok\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967335,
+            node: "Assign(\n    AssignExpr {\n        span: 771..782,\n        left: Id {\n            index: 15,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 37,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967336,
+            node: "Ident(\n    Ident {\n        span: 778..782,\n        sym: \"both\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967337,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 783..784,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967338,
+            node: "Member(\n    MemberExpr {\n        span: 782..787,\n        obj: Id {\n            index: 39,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 40,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967339,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 788..789,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967340,
+            node: "Assign(\n    AssignExpr {\n        span: 786..794,\n        left: Id {\n            index: 16,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 42,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967341,
+            node: "Ident(\n    Ident {\n        span: 790..794,\n        sym: \"both\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967342,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 795..796,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967343,
+            node: "Member(\n    MemberExpr {\n        span: 794..799,\n        obj: Id {\n            index: 44,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 45,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967344,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 800..801,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967345,
+            node: "Assign(\n    AssignExpr {\n        span: 798..816,\n        left: Id {\n            index: 17,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 47,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967346,
+            node: "Ident(\n    Ident {\n        span: 812..816,\n        sym: \"both\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967347,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 817..818,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967348,
+            node: "Member(\n    MemberExpr {\n        span: 816..821,\n        obj: Id {\n            index: 49,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 50,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967349,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 822..830,\n            value: \"not ok\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967350,
+            node: "Assign(\n    AssignExpr {\n        span: 820..835,\n        left: Id {\n            index: 18,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 52,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967351,
+            node: "Ident(\n    Ident {\n        span: 831..835,\n        sym: \"both\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967352,
+            node: "Ident(\n    Ident {\n        span: 836..839,\n        sym: \"sym\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967353,
+            node: "Member(\n    MemberExpr {\n        span: 835..842,\n        obj: Id {\n            index: 54,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 55,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967354,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 843..851,\n            value: \"not ok\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967355,
+            node: "Assign(\n    AssignExpr {\n        span: 841..852,\n        left: Id {\n            index: 19,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 57,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Bool(\n        BoolLit {\n            span: 62..66,\n            value: true,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 55..69,\n        members: [\n            TsTypeMember {\n                span: 57..68,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 57..60,\n                            sym: \"bar\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Lit(\n    Bool(\n        BoolLit {\n            span: 75..79,\n            value: true,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 48..83,\n        members: [\n            TsTypeMember {\n                span: 50..73,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 50..53,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 70..81,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 70..73,\n                            sym: \"baz\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 84..108,\n        members: [\n            TsTypeMember {\n                span: 86..107,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 87..88,\n                        name: Some(\n                            Ident {\n                                span: 87..88,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 4,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Union(\n    TsUnionType {\n        span: 48..108,\n        types: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 168..185,\n        members: [\n            TsTypeMember {\n                span: 170..183,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 170..173,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 9,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 186..211,\n        members: [\n            TsTypeMember {\n                span: 188..209,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 189..190,\n                        name: Some(\n                            Ident {\n                                span: 189..190,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 11,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 12,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Keyword(\n    Boolean,\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 212..237,\n        members: [\n            TsTypeMember {\n                span: 214..236,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 215..216,\n                        name: Some(\n                            Ident {\n                                span: 215..216,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 14,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 15,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Union(\n    TsUnionType {\n        span: 168..237,\n        types: [\n            Id {\n                index: 10,\n                generation: 1,\n            },\n            Id {\n                index: 13,\n                generation: 1,\n            },\n            Id {\n                index: 16,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Lit(\n    Bool(\n        BoolLit {\n            span: 308..312,\n            value: true,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 288..316,\n        members: [\n            TsTypeMember {\n                span: 290..306,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 290..293,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 19,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 303..314,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 303..306,\n                            sym: \"bar\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 20,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 317..342,\n        members: [\n            TsTypeMember {\n                span: 319..340,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 320..321,\n                        name: Some(\n                            Ident {\n                                span: 320..321,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 22,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 23,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Keyword(\n    Boolean,\n)",
+        },
+        DebugNode {
+            id: 4294967323,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 343..367,\n        members: [\n            TsTypeMember {\n                span: 345..359,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 345..348,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 25,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967324,
+            node: "Union(\n    TsUnionType {\n        span: 288..367,\n        types: [\n            Id {\n                index: 21,\n                generation: 1,\n            },\n            Id {\n                index: 24,\n                generation: 1,\n            },\n            Id {\n                index: 26,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967326,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967327,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 412..429,\n        members: [\n            TsTypeMember {\n                span: 414..427,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 414..417,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 29,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967328,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967329,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967330,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 430..470,\n        members: [\n            TsTypeMember {\n                span: 432..462,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: true,\n                params: [\n                    TsFnParam {\n                        span: 442..443,\n                        name: Some(\n                            Ident {\n                                span: 442..443,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 31,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 32,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967331,
+            node: "Union(\n    TsUnionType {\n        span: 412..470,\n        types: [\n            Id {\n                index: 30,\n                generation: 1,\n            },\n            Id {\n                index: 33,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967333,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967334,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 516..533,\n        members: [\n            TsTypeMember {\n                span: 518..531,\n                kind: Property,\n                name: Some(\n                    Str(\n                        StrLit {\n                            span: 518..521,\n                            value: \"0\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 36,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967335,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967336,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967337,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 534..565,\n        members: [\n            TsTypeMember {\n                span: 536..557,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 537..538,\n                        name: Some(\n                            Ident {\n                                span: 537..538,\n                                sym: \"n\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 38,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 39,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967338,
+            node: "Union(\n    TsUnionType {\n        span: 516..565,\n        types: [\n            Id {\n                index: 37,\n                generation: 1,\n            },\n            Id {\n                index: 40,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967340,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967341,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967342,
+            node: "Keyword(\n    Boolean,\n)",
+        },
+        DebugNode {
+            id: 4294967343,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 639..683,\n        members: [\n            TsTypeMember {\n                span: 641..655,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 641..642,\n                            sym: \"s\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 43,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 652..666,\n                kind: Property,\n                name: Some(\n                    Str(\n                        StrLit {\n                            span: 652..655,\n                            value: \"0\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 44,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 665..681,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 666..669,\n                        name: Some(\n                            Ident {\n                                span: 666..669,\n                                sym: \"sym\",\n                            },\n                        ),\n                        ty: None,\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 45,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967344,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967345,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967346,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967347,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967348,
+            node: "Keyword(\n    Number,\n)",
+        },
+        DebugNode {
+            id: 4294967349,
+            node: "Union(\n    TsUnionType {\n        span: 720..737,\n        types: [\n            Id {\n                index: 50,\n                generation: 1,\n            },\n            Id {\n                index: 51,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967350,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 684..745,\n        members: [\n            TsTypeMember {\n                span: 686..708,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 687..688,\n                        name: Some(\n                            Ident {\n                                span: 687..688,\n                                sym: \"n\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 47,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 48,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 707..737,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 708..709,\n                        name: Some(\n                            Ident {\n                                span: 708..709,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 49,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 52,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967351,
+            node: "Union(\n    TsUnionType {\n        span: 639..745,\n        types: [\n            Id {\n                index: 46,\n                generation: 1,\n            },\n            Id {\n                index: 53,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+    ],
+}

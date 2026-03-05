@@ -1,0 +1,169 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 105..907,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Empty(\n    EmptyStmt {\n        span: 105..119,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Expr(\n    ExprStmt {\n        span: 113..121,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Block(\n    BlockStmt {\n        span: 120..234,\n        stmts: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    ExprStmt {\n        span: 516..603,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Expr(\n    ExprStmt {\n        span: 631..718,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Expr(\n    ExprStmt {\n        span: 742..833,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "ModuleDecl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "ModuleDecl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Expr(\n    ExprStmt {\n        span: 889..907,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 150..225,\n        ident: Ident {\n            span: 160..177,\n            sym: \"IntrinsicElements\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 192..219,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 193..194,\n                        name: Some(\n                            Ident {\n                                span: 193..194,\n                                sym: \"e\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 0,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "TsModule(\n    TsModuleDecl {\n        span: 126..227,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 136..139,\n                sym: \"JSX\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 113..119,\n        sym: \"global\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "JSXElement(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "JSXElement(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "JSXElement(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "JSXElement(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Import(\n    ImportDecl {\n        span: 467..517,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 475..488,\n                        sym: \"createElement\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 475..488,\n                            sym: \"createElement\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 490..498,\n                        sym: \"Fragment\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 490..498,\n                            sym: \"Fragment\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 505..514,\n            value: \"./react\",\n        },\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Import(\n    ImportDecl {\n        span: 597..632,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 605..606,\n                        sym: \"h\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 605..606,\n                            sym: \"h\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 608..612,\n                        sym: \"Frag\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 608..612,\n                            sym: \"Frag\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 619..629,\n            value: \"./preact\",\n        },\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Import(\n    ImportDecl {\n        span: 712..743,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 720..721,\n                        sym: \"h\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 720..721,\n                            sym: \"h\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 728..740,\n            value: \"./snabbdom\",\n        },\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Import(\n    ImportDecl {\n        span: 827..861,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 835..836,\n                        sym: \"h\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 835..836,\n                            sym: \"h\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 843..853,\n            value: \"./preact\",\n        },\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Import(\n    ImportDecl {\n        span: 855..890,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 863..871,\n                        sym: \"Fragment\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 863..871,\n                            sym: \"Fragment\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 878..887,\n            value: \"./react\",\n        },\n        with: [],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [
+        DebugNode {
+            id: 4294967297,
+            node: "JSXElement {\n    span: 518..532,\n    opening: JSXOpeningElement {\n        span: 518..532,\n        name: Ident(\n            Ident {\n                span: 519..524,\n                sym: \"span\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 526..531,\n                sym: \"span\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "JSXElement {\n    span: 516..603,\n    opening: JSXOpeningElement {\n        span: 516..603,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "JSXElement {\n    span: 633..645,\n    opening: JSXOpeningElement {\n        span: 633..645,\n        name: Ident(\n            Ident {\n                span: 634..638,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 640..644,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "JSXElement {\n    span: 631..718,\n    opening: JSXOpeningElement {\n        span: 631..718,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "JSXElement {\n    span: 744..756,\n    opening: JSXOpeningElement {\n        span: 744..756,\n        name: Ident(\n            Ident {\n                span: 745..749,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 751..755,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "JSXElement {\n    span: 742..833,\n    opening: JSXOpeningElement {\n        span: 742..833,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "JSXElement {\n    span: 891..905,\n    opening: JSXOpeningElement {\n        span: 891..905,\n        name: Ident(\n            Ident {\n                span: 892..897,\n                sym: \"span\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 899..904,\n                sym: \"span\",\n            },\n        ),\n    ),\n}",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "JSXElement {\n    span: 889..907,\n    opening: JSXOpeningElement {\n        span: 889..907,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}",
+        },
+    ],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Keyword(\n    Any,\n)",
+        },
+    ],
+}

@@ -1,0 +1,77 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 18..1076,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Expr(\n    ExprStmt {\n        span: 305..552,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Expr(\n    ExprStmt {\n        span: 544..635,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Expr(\n    ExprStmt {\n        span: 627..780,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Expr(\n    ExprStmt {\n        span: 772..932,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    ExprStmt {\n        span: 924..1076,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 544..552,\n        sym: \"tempTag1\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 553..626,\n        tag: Id {\n            index: 1,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 553..625,\n            quasis: [\n                StrLit {\n                    span: 553..625,\n                    value: \"${ x => { x<number>(undefined); return x; }                   }${ 10 }\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 627..635,\n        sym: \"tempTag1\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 636..771,\n        tag: Id {\n            index: 3,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 636..770,\n            quasis: [\n                StrLit {\n                    span: 636..770,\n                    value: \"${ x => { x<number>(undefined); return x; }                   }${ y => { y<number>(undefined); return y; }                  }${ 10 }\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Ident(\n    Ident {\n        span: 772..780,\n        sym: \"tempTag1\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 781..923,\n        tag: Id {\n            index: 5,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 781..922,\n            quasis: [\n                StrLit {\n                    span: 781..922,\n                    value: \"${ x => { x<number>(undefined); return x; }                   }${ (y: <T>(p: T) => T) => { y<number>(undefined); return y } }${ undefined }\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Ident(\n    Ident {\n        span: 924..932,\n        sym: \"tempTag1\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 933..1075,\n        tag: Id {\n            index: 7,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 933..1074,\n            quasis: [\n                StrLit {\n                    span: 933..1074,\n                    value: \"${ (x: <T>(p: T) => T) => { x<number>(undefined); return x; } }${ y => { y<number>(undefined); return y; }                  }${ undefined }\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

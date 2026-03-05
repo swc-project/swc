@@ -1,0 +1,120 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 99..477,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967298,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "ModuleDecl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "ModuleDecl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "ModuleDecl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "ModuleDecl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "ModuleDecl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 106..125,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 106..118,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Var(\n    VarDecl {\n        span: 126..165,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 126..138,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 112..113,\n        sym: \"a\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Assign(\n    AssignPat {\n        span: 114..118,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 132..133,\n        sym: \"b\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Assign(\n    AssignPat {\n        span: 134..138,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 116..117,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 136..137,\n            value: 2.0,\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 99..125,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 119..165,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 159..210,\n        src: Some(\n            StrLit {\n                span: 174..179,\n                value: \"./0\",\n            },\n        ),\n        specifiers: [],\n        decl: None,\n        with: [\n            ImportAttribute {\n                span: 189..203,\n                key: Ident(\n                    Ident {\n                        span: 189..193,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 195..201,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 204..261,\n        src: Some(\n            StrLit {\n                span: 225..230,\n                value: \"./0\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 213..214,\n                    sym: \"a\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 216..217,\n                    sym: \"b\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [\n            ImportAttribute {\n                span: 240..254,\n                key: Ident(\n                    Ident {\n                        span: 240..244,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 246..252,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "ExportAll(\n    ExportAllDecl {\n        span: 255..305,\n        src: StrLit {\n            span: 269..274,\n            value: \"./0\",\n        },\n        exported: None,\n        with: [\n            ImportAttribute {\n                span: 284..298,\n                key: Ident(\n                    Ident {\n                        span: 284..288,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 290..296,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "ExportAll(\n    ExportAllDecl {\n        span: 299..375,\n        src: StrLit {\n            span: 319..324,\n            value: \"./0\",\n        },\n        exported: Some(\n            Ident {\n                span: 311..313,\n                sym: \"ns\",\n            },\n        ),\n        with: [\n            ImportAttribute {\n                span: 334..348,\n                key: Ident(\n                    Ident {\n                        span: 334..338,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 340..346,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 369..412,\n        src: Some(\n            StrLit {\n                span: 390..395,\n                value: \"./0\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 378..379,\n                    sym: \"a\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 381..382,\n                    sym: \"b\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 406..477,\n        src: Some(\n            StrLit {\n                span: 437..442,\n                value: \"./0\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 415..416,\n                    sym: \"a\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 420..421,\n                        sym: \"c\",\n                    },\n                ),\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 423..424,\n                    sym: \"b\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 428..429,\n                        sym: \"d\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [\n            ImportAttribute {\n                span: 452..459,\n                key: Ident(\n                    Ident {\n                        span: 452..453,\n                        sym: \"a\",\n                    },\n                ),\n                value: StrLit {\n                    span: 455..458,\n                    value: \"a\",\n                },\n            },\n            ImportAttribute {\n                span: 460..467,\n                key: Ident(\n                    Ident {\n                        span: 460..461,\n                        sym: \"b\",\n                    },\n                ),\n                value: StrLit {\n                    span: 463..466,\n                    value: \"b\",\n                },\n            },\n            ImportAttribute {\n                span: 468..476,\n                key: Ident(\n                    Ident {\n                        span: 468..469,\n                        sym: \"c\",\n                    },\n                ),\n                value: StrLit {\n                    span: 471..474,\n                    value: \"c\",\n                },\n            },\n        ],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

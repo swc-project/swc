@@ -1,0 +1,1391 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..4882,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n        Id {\n            index: 22,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 24,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n        Id {\n            index: 26,\n            generation: 1,\n        },\n        Id {\n            index: 27,\n            generation: 1,\n        },\n        Id {\n            index: 28,\n            generation: 1,\n        },\n        Id {\n            index: 29,\n            generation: 1,\n        },\n        Id {\n            index: 30,\n            generation: 1,\n        },\n        Id {\n            index: 31,\n            generation: 1,\n        },\n        Id {\n            index: 32,\n            generation: 1,\n        },\n        Id {\n            index: 33,\n            generation: 1,\n        },\n        Id {\n            index: 34,\n            generation: 1,\n        },\n        Id {\n            index: 35,\n            generation: 1,\n        },\n        Id {\n            index: 36,\n            generation: 1,\n        },\n        Id {\n            index: 37,\n            generation: 1,\n        },\n        Id {\n            index: 38,\n            generation: 1,\n        },\n        Id {\n            index: 39,\n            generation: 1,\n        },\n        Id {\n            index: 40,\n            generation: 1,\n        },\n        Id {\n            index: 41,\n            generation: 1,\n        },\n        Id {\n            index: 42,\n            generation: 1,\n        },\n        Id {\n            index: 43,\n            generation: 1,\n        },\n        Id {\n            index: 44,\n            generation: 1,\n        },\n        Id {\n            index: 45,\n            generation: 1,\n        },\n        Id {\n            index: 46,\n            generation: 1,\n        },\n        Id {\n            index: 47,\n            generation: 1,\n        },\n        Id {\n            index: 48,\n            generation: 1,\n        },\n        Id {\n            index: 49,\n            generation: 1,\n        },\n        Id {\n            index: 50,\n            generation: 1,\n        },\n        Id {\n            index: 51,\n            generation: 1,\n        },\n        Id {\n            index: 52,\n            generation: 1,\n        },\n        Id {\n            index: 53,\n            generation: 1,\n        },\n        Id {\n            index: 54,\n            generation: 1,\n        },\n        Id {\n            index: 55,\n            generation: 1,\n        },\n        Id {\n            index: 56,\n            generation: 1,\n        },\n        Id {\n            index: 57,\n            generation: 1,\n        },\n        Id {\n            index: 58,\n            generation: 1,\n        },\n        Id {\n            index: 59,\n            generation: 1,\n        },\n        Id {\n            index: 60,\n            generation: 1,\n        },\n        Id {\n            index: 61,\n            generation: 1,\n        },\n        Id {\n            index: 62,\n            generation: 1,\n        },\n        Id {\n            index: 63,\n            generation: 1,\n        },\n        Id {\n            index: 64,\n            generation: 1,\n        },\n        Id {\n            index: 65,\n            generation: 1,\n        },\n        Id {\n            index: 66,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Expr(\n    ExprStmt {\n        span: 26..33,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Expr(\n    ExprStmt {\n        span: 63..69,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Decl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Expr(\n    ExprStmt {\n        span: 627..687,\n        expr: Id {\n            index: 25,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Expr(\n    ExprStmt {\n        span: 681..775,\n        expr: Id {\n            index: 36,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Decl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Decl(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Decl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Decl(\n    Id {\n        index: 12,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Decl(\n    Id {\n        index: 13,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Decl(\n    Id {\n        index: 14,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Decl(\n    Id {\n        index: 15,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Decl(\n    Id {\n        index: 16,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Decl(\n    Id {\n        index: 17,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Decl(\n    Id {\n        index: 18,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "Decl(\n    Id {\n        index: 19,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Decl(\n    Id {\n        index: 20,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967323,
+            node: "Decl(\n    Id {\n        index: 21,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967324,
+            node: "Decl(\n    Id {\n        index: 22,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967325,
+            node: "Decl(\n    Id {\n        index: 23,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967326,
+            node: "Decl(\n    Id {\n        index: 24,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967327,
+            node: "Decl(\n    Id {\n        index: 25,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967328,
+            node: "Decl(\n    Id {\n        index: 26,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967329,
+            node: "Decl(\n    Id {\n        index: 27,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967330,
+            node: "Decl(\n    Id {\n        index: 28,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967331,
+            node: "Decl(\n    Id {\n        index: 29,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967332,
+            node: "Decl(\n    Id {\n        index: 30,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967333,
+            node: "Decl(\n    Id {\n        index: 31,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967334,
+            node: "Decl(\n    Id {\n        index: 32,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967335,
+            node: "Decl(\n    Id {\n        index: 33,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967336,
+            node: "Decl(\n    Id {\n        index: 34,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967337,
+            node: "Decl(\n    Id {\n        index: 35,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967338,
+            node: "Decl(\n    Id {\n        index: 36,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967339,
+            node: "Decl(\n    Id {\n        index: 37,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967340,
+            node: "Decl(\n    Id {\n        index: 38,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967341,
+            node: "Decl(\n    Id {\n        index: 39,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967342,
+            node: "Decl(\n    Id {\n        index: 40,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967343,
+            node: "Decl(\n    Id {\n        index: 41,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967344,
+            node: "Decl(\n    Id {\n        index: 42,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967345,
+            node: "Decl(\n    Id {\n        index: 43,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967346,
+            node: "Decl(\n    Id {\n        index: 44,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967347,
+            node: "Decl(\n    Id {\n        index: 45,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967348,
+            node: "Decl(\n    Id {\n        index: 46,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967349,
+            node: "Decl(\n    Id {\n        index: 47,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967350,
+            node: "Decl(\n    Id {\n        index: 48,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967351,
+            node: "Decl(\n    Id {\n        index: 49,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967352,
+            node: "Decl(\n    Id {\n        index: 50,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967353,
+            node: "Decl(\n    Id {\n        index: 51,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967354,
+            node: "Decl(\n    Id {\n        index: 52,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967355,
+            node: "Decl(\n    Id {\n        index: 53,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967356,
+            node: "Decl(\n    Id {\n        index: 54,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967357,
+            node: "Decl(\n    Id {\n        index: 55,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967358,
+            node: "Decl(\n    Id {\n        index: 56,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967359,
+            node: "Decl(\n    Id {\n        index: 57,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967360,
+            node: "Decl(\n    Id {\n        index: 58,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967361,
+            node: "Decl(\n    Id {\n        index: 59,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967362,
+            node: "Decl(\n    Id {\n        index: 60,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967363,
+            node: "Decl(\n    Id {\n        index: 61,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsEnum(\n    TsEnumDecl {\n        span: 65..115,\n        ident: Ident {\n            span: 70..77,\n            sym: \"Compass\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 84..90,\n                name: Ident(\n                    Ident {\n                        span: 84..89,\n                        sym: \"North\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 91..97,\n                name: Ident(\n                    Ident {\n                        span: 91..96,\n                        sym: \"South\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 98..103,\n                name: Ident(\n                    Ident {\n                        span: 98..102,\n                        sym: \"East\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 104..110,\n                name: Ident(\n                    Ident {\n                        span: 104..108,\n                        sym: \"West\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Var(\n    VarDecl {\n        span: 112..189,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 112..185,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Var(\n    VarDecl {\n        span: 186..273,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 186..269,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Var(\n    VarDecl {\n        span: 270..355,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 270..345,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Fn(\n    FnDecl {\n        span: 347..374,\n        ident: Ident {\n            span: 356..363,\n            sym: \"noIndex\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Var(\n    VarDecl {\n        span: 371..505,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 371..501,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Var(\n    VarDecl {\n        span: 502..527,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 502..523,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 21,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Var(\n    VarDecl {\n        span: 524..564,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 524..560,\n                name: Id {\n                    index: 6,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Var(\n    VarDecl {\n        span: 561..630,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 561..594,\n                name: Id {\n                    index: 7,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Var(\n    VarDecl {\n        span: 772..867,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 772..787,\n                name: Id {\n                    index: 13,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Var(\n    VarDecl {\n        span: 864..979,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 864..892,\n                name: Id {\n                    index: 15,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Var(\n    VarDecl {\n        span: 976..1113,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 976..993,\n                name: Id {\n                    index: 17,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Var(\n    VarDecl {\n        span: 1110..1147,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1110..1143,\n                name: Id {\n                    index: 19,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Var(\n    VarDecl {\n        span: 1144..1273,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1144..1159,\n                name: Id {\n                    index: 20,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Var(\n    VarDecl {\n        span: 1270..1305,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1270..1301,\n                name: Id {\n                    index: 22,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Var(\n    VarDecl {\n        span: 1302..1433,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1302..1314,\n                name: Id {\n                    index: 23,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Var(\n    VarDecl {\n        span: 1430..1453,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1430..1449,\n                name: Id {\n                    index: 25,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Var(\n    VarDecl {\n        span: 1450..1587,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1450..1465,\n                name: Id {\n                    index: 26,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Var(\n    VarDecl {\n        span: 1584..1606,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1584..1602,\n                name: Id {\n                    index: 28,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Var(\n    VarDecl {\n        span: 1603..1713,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1603..1615,\n                name: Id {\n                    index: 29,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Var(\n    VarDecl {\n        span: 1710..1737,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1710..1733,\n                name: Id {\n                    index: 31,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Var(\n    VarDecl {\n        span: 1734..1844,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1734..1749,\n                name: Id {\n                    index: 32,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Var(\n    VarDecl {\n        span: 1841..1878,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1841..1874,\n                name: Id {\n                    index: 34,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Var(\n    VarDecl {\n        span: 1875..1994,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1875..1890,\n                name: Id {\n                    index: 35,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "Var(\n    VarDecl {\n        span: 1991..2021,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1991..2017,\n                name: Id {\n                    index: 37,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Var(\n    VarDecl {\n        span: 2018..2130,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2018..2033,\n                name: Id {\n                    index: 38,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967323,
+            node: "Var(\n    VarDecl {\n        span: 2127..2157,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2127..2153,\n                name: Id {\n                    index: 40,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967324,
+            node: "Var(\n    VarDecl {\n        span: 2154..2300,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2154..2166,\n                name: Id {\n                    index: 41,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967325,
+            node: "Var(\n    VarDecl {\n        span: 2297..2463,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2297..2327,\n                name: Id {\n                    index: 43,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967326,
+            node: "Var(\n    VarDecl {\n        span: 2460..2487,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2460..2483,\n                name: Id {\n                    index: 45,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967327,
+            node: "Var(\n    VarDecl {\n        span: 2484..2504,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2484..2500,\n                name: Id {\n                    index: 46,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967328,
+            node: "Var(\n    VarDecl {\n        span: 2501..2531,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2501..2527,\n                name: Id {\n                    index: 48,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967329,
+            node: "Var(\n    VarDecl {\n        span: 2528..2673,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2528..2545,\n                name: Id {\n                    index: 49,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967330,
+            node: "Var(\n    VarDecl {\n        span: 2670..2696,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2670..2692,\n                name: Id {\n                    index: 51,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967331,
+            node: "Var(\n    VarDecl {\n        span: 2693..2834,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2693..2709,\n                name: Id {\n                    index: 52,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967332,
+            node: "Var(\n    VarDecl {\n        span: 2831..2867,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2831..2863,\n                name: Id {\n                    index: 54,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967333,
+            node: "Var(\n    VarDecl {\n        span: 2864..3014,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2864..2880,\n                name: Id {\n                    index: 55,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967334,
+            node: "Var(\n    VarDecl {\n        span: 3041..3151,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3041..3057,\n                name: Id {\n                    index: 57,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967335,
+            node: "Var(\n    VarDecl {\n        span: 3148..3174,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3148..3170,\n                name: Id {\n                    index: 59,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967336,
+            node: "Var(\n    VarDecl {\n        span: 3171..3276,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3171..3183,\n                name: Id {\n                    index: 60,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967337,
+            node: "Var(\n    VarDecl {\n        span: 3273..3302,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3273..3298,\n                name: Id {\n                    index: 62,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967338,
+            node: "Var(\n    VarDecl {\n        span: 3299..3402,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3299..3311,\n                name: Id {\n                    index: 63,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967339,
+            node: "Var(\n    VarDecl {\n        span: 3399..3435,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3399..3431,\n                name: Id {\n                    index: 65,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967340,
+            node: "Var(\n    VarDecl {\n        span: 3432..3544,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3432..3444,\n                name: Id {\n                    index: 66,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967341,
+            node: "Var(\n    VarDecl {\n        span: 3570..3684,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3570..3582,\n                name: Id {\n                    index: 68,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967342,
+            node: "Var(\n    VarDecl {\n        span: 3681..3844,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3681..3710,\n                name: Id {\n                    index: 70,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967343,
+            node: "Var(\n    VarDecl {\n        span: 3841..3866,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3841..3862,\n                name: Id {\n                    index: 72,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967344,
+            node: "Var(\n    VarDecl {\n        span: 3863..3997,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3863..3875,\n                name: Id {\n                    index: 73,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967345,
+            node: "Var(\n    VarDecl {\n        span: 3994..4031,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3994..4027,\n                name: Id {\n                    index: 75,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967346,
+            node: "Var(\n    VarDecl {\n        span: 4028..4169,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4028..4038,\n                name: Id {\n                    index: 76,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967347,
+            node: "Var(\n    VarDecl {\n        span: 4197..4331,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4197..4207,\n                name: Id {\n                    index: 78,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967348,
+            node: "Var(\n    VarDecl {\n        span: 4328..4358,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4328..4354,\n                name: Id {\n                    index: 80,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967349,
+            node: "Var(\n    VarDecl {\n        span: 4355..4497,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4355..4365,\n                name: Id {\n                    index: 81,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967350,
+            node: "Var(\n    VarDecl {\n        span: 4494..4524,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4494..4520,\n                name: Id {\n                    index: 83,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967351,
+            node: "Var(\n    VarDecl {\n        span: 4521..4692,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4521..4531,\n                name: Id {\n                    index: 84,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967352,
+            node: "Var(\n    VarDecl {\n        span: 4689..4736,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4689..4722,\n                name: Id {\n                    index: 86,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967353,
+            node: "Var(\n    VarDecl {\n        span: 4733..4771,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4733..4767,\n                name: Id {\n                    index: 88,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967354,
+            node: "Var(\n    VarDecl {\n        span: 4768..4785,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4768..4780,\n                name: Id {\n                    index: 89,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967355,
+            node: "Var(\n    VarDecl {\n        span: 4782..4820,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4782..4816,\n                name: Id {\n                    index: 91,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967356,
+            node: "Var(\n    VarDecl {\n        span: 4817..4838,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4817..4833,\n                name: Id {\n                    index: 92,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967357,
+            node: "Var(\n    VarDecl {\n        span: 4835..4874,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4835..4870,\n                name: Id {\n                    index: 94,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967358,
+            node: "Var(\n    VarDecl {\n        span: 4871..4882,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4871..4881,\n                name: Id {\n                    index: 95,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 116..124,\n        sym: \"numIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 190..198,\n        sym: \"strIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 274..283,\n        sym: \"bothIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 375..378,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Assign(\n    AssignPat {\n        span: 379..501,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        right: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Ident(\n    Ident {\n        span: 506..512,\n        sym: \"anyVar\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Ident(\n    Ident {\n        span: 528..542,\n        sym: \"stringOrNumber\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Ident(\n    Ident {\n        span: 565..575,\n        sym: \"someObject\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Expr(\n    Id {\n        index: 23,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Expr(\n    Id {\n        index: 31,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Expr(\n    Id {\n        index: 29,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Expr(\n    Id {\n        index: 27,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Ident(\n    Ident {\n        span: 776..778,\n        sym: \"aa\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Assign(\n    AssignPat {\n        span: 779..787,\n        left: Id {\n            index: 12,\n            generation: 1,\n        },\n        right: Id {\n            index: 38,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Ident(\n    Ident {\n        span: 868..870,\n        sym: \"bb\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Assign(\n    AssignPat {\n        span: 871..892,\n        left: Id {\n            index: 14,\n            generation: 1,\n        },\n        right: Id {\n            index: 40,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Ident(\n    Ident {\n        span: 980..982,\n        sym: \"cc\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Assign(\n    AssignPat {\n        span: 983..993,\n        left: Id {\n            index: 16,\n            generation: 1,\n        },\n        right: Id {\n            index: 42,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Ident(\n    Ident {\n        span: 1114..1116,\n        sym: \"dd\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Assign(\n    AssignPat {\n        span: 1117..1143,\n        left: Id {\n            index: 18,\n            generation: 1,\n        },\n        right: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Ident(\n    Ident {\n        span: 1148..1150,\n        sym: \"dd\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Ident(\n    Ident {\n        span: 1274..1276,\n        sym: \"ee\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Assign(\n    AssignPat {\n        span: 1277..1301,\n        left: Id {\n            index: 21,\n            generation: 1,\n        },\n        right: Id {\n            index: 48,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Ident(\n    Ident {\n        span: 1306..1308,\n        sym: \"ee\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "Ident(\n    Ident {\n        span: 1434..1436,\n        sym: \"ff\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Assign(\n    AssignPat {\n        span: 1437..1449,\n        left: Id {\n            index: 24,\n            generation: 1,\n        },\n        right: Id {\n            index: 51,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967323,
+            node: "Ident(\n    Ident {\n        span: 1454..1456,\n        sym: \"ff\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967324,
+            node: "Ident(\n    Ident {\n        span: 1588..1590,\n        sym: \"gg\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967325,
+            node: "Assign(\n    AssignPat {\n        span: 1591..1602,\n        left: Id {\n            index: 27,\n            generation: 1,\n        },\n        right: Id {\n            index: 54,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967326,
+            node: "Ident(\n    Ident {\n        span: 1607..1609,\n        sym: \"gg\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967327,
+            node: "Ident(\n    Ident {\n        span: 1714..1716,\n        sym: \"hh\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967328,
+            node: "Assign(\n    AssignPat {\n        span: 1717..1733,\n        left: Id {\n            index: 30,\n            generation: 1,\n        },\n        right: Id {\n            index: 57,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967329,
+            node: "Ident(\n    Ident {\n        span: 1738..1740,\n        sym: \"hh\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967330,
+            node: "Ident(\n    Ident {\n        span: 1845..1847,\n        sym: \"ii\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967331,
+            node: "Assign(\n    AssignPat {\n        span: 1848..1874,\n        left: Id {\n            index: 33,\n            generation: 1,\n        },\n        right: Id {\n            index: 61,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967332,
+            node: "Ident(\n    Ident {\n        span: 1879..1881,\n        sym: \"ii\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967333,
+            node: "Ident(\n    Ident {\n        span: 1995..1997,\n        sym: \"jj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967334,
+            node: "Assign(\n    AssignPat {\n        span: 1998..2017,\n        left: Id {\n            index: 36,\n            generation: 1,\n        },\n        right: Id {\n            index: 64,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967335,
+            node: "Ident(\n    Ident {\n        span: 2022..2024,\n        sym: \"jj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967336,
+            node: "Ident(\n    Ident {\n        span: 2131..2133,\n        sym: \"kk\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967337,
+            node: "Assign(\n    AssignPat {\n        span: 2134..2153,\n        left: Id {\n            index: 39,\n            generation: 1,\n        },\n        right: Id {\n            index: 67,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967338,
+            node: "Ident(\n    Ident {\n        span: 2158..2160,\n        sym: \"kk\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967339,
+            node: "Ident(\n    Ident {\n        span: 2301..2303,\n        sym: \"ll\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967340,
+            node: "Assign(\n    AssignPat {\n        span: 2304..2327,\n        left: Id {\n            index: 42,\n            generation: 1,\n        },\n        right: Id {\n            index: 70,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967341,
+            node: "Ident(\n    Ident {\n        span: 2464..2466,\n        sym: \"mm\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967342,
+            node: "Assign(\n    AssignPat {\n        span: 2467..2483,\n        left: Id {\n            index: 44,\n            generation: 1,\n        },\n        right: Id {\n            index: 73,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967343,
+            node: "Ident(\n    Ident {\n        span: 2488..2490,\n        sym: \"mm\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967344,
+            node: "Ident(\n    Ident {\n        span: 2505..2508,\n        sym: \"mm2\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967345,
+            node: "Assign(\n    AssignPat {\n        span: 2509..2527,\n        left: Id {\n            index: 47,\n            generation: 1,\n        },\n        right: Id {\n            index: 76,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967346,
+            node: "Ident(\n    Ident {\n        span: 2532..2535,\n        sym: \"mm2\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967347,
+            node: "Ident(\n    Ident {\n        span: 2674..2676,\n        sym: \"nn\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967348,
+            node: "Assign(\n    AssignPat {\n        span: 2677..2692,\n        left: Id {\n            index: 50,\n            generation: 1,\n        },\n        right: Id {\n            index: 79,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967349,
+            node: "Ident(\n    Ident {\n        span: 2697..2699,\n        sym: \"nn\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967350,
+            node: "Ident(\n    Ident {\n        span: 2835..2837,\n        sym: \"oo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967351,
+            node: "Assign(\n    AssignPat {\n        span: 2838..2863,\n        left: Id {\n            index: 53,\n            generation: 1,\n        },\n        right: Id {\n            index: 83,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967352,
+            node: "Ident(\n    Ident {\n        span: 2868..2870,\n        sym: \"oo\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967354,
+            node: "Ident(\n    Ident {\n        span: 3045..3047,\n        sym: \"pp\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967355,
+            node: "Ident(\n    Ident {\n        span: 3152..3154,\n        sym: \"qq\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967356,
+            node: "Assign(\n    AssignPat {\n        span: 3155..3170,\n        left: Id {\n            index: 58,\n            generation: 1,\n        },\n        right: Id {\n            index: 88,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967357,
+            node: "Ident(\n    Ident {\n        span: 3175..3177,\n        sym: \"qq\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967358,
+            node: "Ident(\n    Ident {\n        span: 3277..3279,\n        sym: \"rr\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967359,
+            node: "Assign(\n    AssignPat {\n        span: 3280..3298,\n        left: Id {\n            index: 61,\n            generation: 1,\n        },\n        right: Id {\n            index: 91,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967360,
+            node: "Ident(\n    Ident {\n        span: 3303..3305,\n        sym: \"rr\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967361,
+            node: "Ident(\n    Ident {\n        span: 3403..3405,\n        sym: \"ss\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967362,
+            node: "Assign(\n    AssignPat {\n        span: 3406..3431,\n        left: Id {\n            index: 64,\n            generation: 1,\n        },\n        right: Id {\n            index: 95,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967363,
+            node: "Ident(\n    Ident {\n        span: 3436..3438,\n        sym: \"ss\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967365,
+            node: "Ident(\n    Ident {\n        span: 3574..3576,\n        sym: \"tt\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967366,
+            node: "Ident(\n    Ident {\n        span: 3685..3687,\n        sym: \"uu\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967367,
+            node: "Assign(\n    AssignPat {\n        span: 3688..3710,\n        left: Id {\n            index: 69,\n            generation: 1,\n        },\n        right: Id {\n            index: 100,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967368,
+            node: "Ident(\n    Ident {\n        span: 3845..3847,\n        sym: \"vv\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967369,
+            node: "Assign(\n    AssignPat {\n        span: 3848..3862,\n        left: Id {\n            index: 71,\n            generation: 1,\n        },\n        right: Id {\n            index: 103,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967370,
+            node: "Ident(\n    Ident {\n        span: 3867..3869,\n        sym: \"vv\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967371,
+            node: "Ident(\n    Ident {\n        span: 3998..4000,\n        sym: \"ww\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967372,
+            node: "Assign(\n    AssignPat {\n        span: 4001..4027,\n        left: Id {\n            index: 74,\n            generation: 1,\n        },\n        right: Id {\n            index: 107,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967373,
+            node: "Ident(\n    Ident {\n        span: 4032..4034,\n        sym: \"ww\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967375,
+            node: "Ident(\n    Ident {\n        span: 4201..4203,\n        sym: \"xx\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967376,
+            node: "Ident(\n    Ident {\n        span: 4332..4334,\n        sym: \"yy\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967377,
+            node: "Assign(\n    AssignPat {\n        span: 4335..4354,\n        left: Id {\n            index: 79,\n            generation: 1,\n        },\n        right: Id {\n            index: 112,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967378,
+            node: "Ident(\n    Ident {\n        span: 4359..4361,\n        sym: \"yy\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967379,
+            node: "Ident(\n    Ident {\n        span: 4498..4500,\n        sym: \"zz\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967380,
+            node: "Assign(\n    AssignPat {\n        span: 4501..4520,\n        left: Id {\n            index: 82,\n            generation: 1,\n        },\n        right: Id {\n            index: 115,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967381,
+            node: "Ident(\n    Ident {\n        span: 4525..4527,\n        sym: \"zz\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967382,
+            node: "Ident(\n    Ident {\n        span: 4693..4697,\n        sym: \"zzzz\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967383,
+            node: "Assign(\n    AssignPat {\n        span: 4698..4722,\n        left: Id {\n            index: 85,\n            generation: 1,\n        },\n        right: Id {\n            index: 118,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967384,
+            node: "Ident(\n    Ident {\n        span: 4737..4739,\n        sym: \"x1\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967385,
+            node: "Assign(\n    AssignPat {\n        span: 4740..4767,\n        left: Id {\n            index: 87,\n            generation: 1,\n        },\n        right: Id {\n            index: 121,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967386,
+            node: "Ident(\n    Ident {\n        span: 4772..4774,\n        sym: \"x1\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967387,
+            node: "Ident(\n    Ident {\n        span: 4786..4788,\n        sym: \"x2\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967388,
+            node: "Assign(\n    AssignPat {\n        span: 4789..4816,\n        left: Id {\n            index: 90,\n            generation: 1,\n        },\n        right: Id {\n            index: 124,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967389,
+            node: "Ident(\n    Ident {\n        span: 4821..4823,\n        sym: \"x2\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967390,
+            node: "Ident(\n    Ident {\n        span: 4839..4841,\n        sym: \"x3\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967391,
+            node: "Assign(\n    AssignPat {\n        span: 4842..4870,\n        left: Id {\n            index: 93,\n            generation: 1,\n        },\n        right: Id {\n            index: 127,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967392,
+            node: "Ident(\n    Ident {\n        span: 4875..4877,\n        sym: \"x3\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 157..164,\n            value: \"three\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 175..182,\n            value: \"three\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Object(\n    ObjectExpr {\n        span: 152..185,\n        props: [\n            KeyValueProp {\n                span: 154..165,\n                key: Num(\n                    NumberLit {\n                        span: 154..155,\n                        value: 3.0,\n                    },\n                ),\n                value: Id {\n                    index: 3,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 166..184,\n                key: Str(\n                    StrLit {\n                        span: 166..173,\n                        value: \"three\",\n                    },\n                ),\n                value: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Ident(\n    Ident {\n        span: 234..241,\n        sym: \"Compass\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Member(\n    MemberExpr {\n        span: 241..248,\n        obj: Id {\n            index: 6,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 242..247,\n                sym: \"North\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Ident(\n    Ident {\n        span: 254..261,\n        sym: \"Compass\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Member(\n    MemberExpr {\n        span: 261..268,\n        obj: Id {\n            index: 8,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 262..266,\n                sym: \"East\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Object(\n    ObjectExpr {\n        span: 227..269,\n        props: [\n            KeyValueProp {\n                span: 229..248,\n                key: Str(\n                    StrLit {\n                        span: 229..232,\n                        value: \"N\",\n                    },\n                ),\n                value: Id {\n                    index: 7,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 249..268,\n                key: Str(\n                    StrLit {\n                        span: 249..252,\n                        value: \"E\",\n                    },\n                ),\n                value: Id {\n                    index: 9,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 391..396,\n            value: \"ten\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 405..412,\n            value: \"hello\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 421..423,\n            value: 32.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 437..444,\n            value: \"world\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 449..451,\n            value: 15.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "Lit(\n    Bool(\n        BoolLit {\n            span: 462..467,\n            value: false,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Arrow(\n    ArrowExpr {\n        span: 456..469,\n        params: [],\n        body: Expr(\n            Id {\n                index: 16,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Object(\n    ObjectExpr {\n        span: 432..470,\n        props: [\n            KeyValueProp {\n                span: 434..445,\n                key: Ident(\n                    Ident {\n                        span: 434..435,\n                        sym: \"n\",\n                    },\n                ),\n                value: Id {\n                    index: 14,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 446..452,\n                key: Ident(\n                    Ident {\n                        span: 446..447,\n                        sym: \"m\",\n                    },\n                ),\n                value: Id {\n                    index: 15,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 453..469,\n                key: Ident(\n                    Ident {\n                        span: 453..454,\n                        sym: \"o\",\n                    },\n                ),\n                value: Id {\n                    index: 17,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 495..498,\n            value: 100.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "Object(\n    ObjectExpr {\n        span: 381..501,\n        props: [\n            KeyValueProp {\n                span: 387..397,\n                key: Num(\n                    NumberLit {\n                        span: 387..389,\n                        value: 10.0,\n                    },\n                ),\n                value: Id {\n                    index: 11,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 402..413,\n                key: Ident(\n                    Ident {\n                        span: 402..403,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 12,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 418..424,\n                key: Ident(\n                    Ident {\n                        span: 418..419,\n                        sym: \"y\",\n                    },\n                ),\n                value: Id {\n                    index: 13,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 429..470,\n                key: Ident(\n                    Ident {\n                        span: 429..430,\n                        sym: \"z\",\n                    },\n                ),\n                value: Id {\n                    index: 18,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 475..500,\n                key: Str(\n                    StrLit {\n                        span: 475..493,\n                        value: \"literal property\",\n                    },\n                ),\n                value: Id {\n                    index: 19,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Object(\n    ObjectExpr {\n        span: 520..523,\n        props: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Ident(\n    Ident {\n        span: 627..630,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Member(\n    MemberExpr {\n        span: 630..634,\n        obj: Id {\n            index: 22,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 631..632,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 635..636,\n            value: 4.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Assign(\n    AssignExpr {\n        span: 633..637,\n        left: Id {\n            index: 8,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967323,
+            node: "Ident(\n    Ident {\n        span: 681..687,\n        sym: \"anyVar\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967324,
+            node: "Member(\n    MemberExpr {\n        span: 687..691,\n        obj: Id {\n            index: 26,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 688..689,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967325,
+            node: "Ident(\n    Ident {\n        span: 692..698,\n        sym: \"anyVar\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967326,
+            node: "Member(\n    MemberExpr {\n        span: 698..702,\n        obj: Id {\n            index: 28,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 699..700,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967327,
+            node: "Ident(\n    Ident {\n        span: 703..706,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967328,
+            node: "Member(\n    MemberExpr {\n        span: 706..710,\n        obj: Id {\n            index: 30,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 707..708,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967329,
+            node: "Ident(\n    Ident {\n        span: 711..717,\n        sym: \"anyVar\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967330,
+            node: "Member(\n    MemberExpr {\n        span: 717..720,\n        obj: Id {\n            index: 32,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 718..719,\n                sym: \"z\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967331,
+            node: "Assign(\n    AssignExpr {\n        span: 709..720,\n        left: Id {\n            index: 9,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 33,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967332,
+            node: "Assign(\n    AssignExpr {\n        span: 701..720,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 34,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967333,
+            node: "Assign(\n    AssignExpr {\n        span: 690..720,\n        left: Id {\n            index: 11,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 35,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967334,
+            node: "Ident(\n    Ident {\n        span: 781..784,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967335,
+            node: "Member(\n    MemberExpr {\n        span: 784..787,\n        obj: Id {\n            index: 37,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 785..786,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967336,
+            node: "Ident(\n    Ident {\n        span: 873..876,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967337,
+            node: "Member(\n    MemberExpr {\n        span: 876..892,\n        obj: Id {\n            index: 39,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 877..891,\n                sym: \"hasOwnProperty\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967338,
+            node: "Ident(\n    Ident {\n        span: 985..988,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967339,
+            node: "Member(\n    MemberExpr {\n        span: 988..993,\n        obj: Id {\n            index: 41,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 989..992,\n                sym: \"qqq\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967340,
+            node: "Ident(\n    Ident {\n        span: 1119..1122,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967341,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 1123..1141,\n            value: \"literal property\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967342,
+            node: "Member(\n    MemberExpr {\n        span: 1122..1143,\n        obj: Id {\n            index: 43,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 44,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967343,
+            node: "Ident(\n    Ident {\n        span: 1279..1282,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967344,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 1283..1299,\n            value: \"wa wa wa wa wa\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967345,
+            node: "Member(\n    MemberExpr {\n        span: 1282..1301,\n        obj: Id {\n            index: 46,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 47,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967346,
+            node: "Ident(\n    Ident {\n        span: 1439..1442,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967347,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 1443..1447,\n            value: \"10\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967348,
+            node: "Member(\n    MemberExpr {\n        span: 1442..1449,\n        obj: Id {\n            index: 49,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 50,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967349,
+            node: "Ident(\n    Ident {\n        span: 1593..1596,\n        sym: \"obj\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967350,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 1597..1600,\n            value: \"1\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967351,
+            node: "Member(\n    MemberExpr {\n        span: 1596..1602,\n        obj: Id {\n            index: 52,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 53,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967352,
+            node: "Ident(\n    Ident {\n        span: 1719..1727,\n        sym: \"numIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967353,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 1728..1731,\n            value: 3.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967354,
+            node: "Member(\n    MemberExpr {\n        span: 1727..1733,\n        obj: Id {\n            index: 55,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 56,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967355,
+            node: "Ident(\n    Ident {\n        span: 1850..1858,\n        sym: \"numIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967356,
+            node: "Ident(\n    Ident {\n        span: 1859..1866,\n        sym: \"Compass\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967357,
+            node: "Member(\n    MemberExpr {\n        span: 1866..1873,\n        obj: Id {\n            index: 59,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1867..1872,\n                sym: \"South\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967358,
+            node: "Member(\n    MemberExpr {\n        span: 1858..1874,\n        obj: Id {\n            index: 58,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 60,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967359,
+            node: "Ident(\n    Ident {\n        span: 2000..2008,\n        sym: \"numIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967360,
+            node: "Ident(\n    Ident {\n        span: 2009..2015,\n        sym: \"anyVar\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967361,
+            node: "Member(\n    MemberExpr {\n        span: 2008..2017,\n        obj: Id {\n            index: 62,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 63,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967362,
+            node: "Ident(\n    Ident {\n        span: 2136..2144,\n        sym: \"numIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967363,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 2145..2151,\n            value: \"what\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967364,
+            node: "Member(\n    MemberExpr {\n        span: 2144..2153,\n        obj: Id {\n            index: 65,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 66,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967365,
+            node: "Ident(\n    Ident {\n        span: 2306..2314,\n        sym: \"numIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967366,
+            node: "Ident(\n    Ident {\n        span: 2315..2325,\n        sym: \"someObject\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967367,
+            node: "Member(\n    MemberExpr {\n        span: 2314..2327,\n        obj: Id {\n            index: 68,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 69,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967368,
+            node: "Ident(\n    Ident {\n        span: 2469..2477,\n        sym: \"strIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967369,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 2478..2481,\n            value: \"N\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967370,
+            node: "Member(\n    MemberExpr {\n        span: 2477..2483,\n        obj: Id {\n            index: 71,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 72,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967371,
+            node: "Ident(\n    Ident {\n        span: 2511..2519,\n        sym: \"strIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967372,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 2520..2525,\n            value: \"zzz\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967373,
+            node: "Member(\n    MemberExpr {\n        span: 2519..2527,\n        obj: Id {\n            index: 74,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 75,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967374,
+            node: "Ident(\n    Ident {\n        span: 2679..2687,\n        sym: \"strIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967375,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 2688..2690,\n            value: 10.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967376,
+            node: "Member(\n    MemberExpr {\n        span: 2687..2692,\n        obj: Id {\n            index: 77,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 78,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967377,
+            node: "Ident(\n    Ident {\n        span: 2840..2848,\n        sym: \"strIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967378,
+            node: "Ident(\n    Ident {\n        span: 2849..2856,\n        sym: \"Compass\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967379,
+            node: "Member(\n    MemberExpr {\n        span: 2856..2862,\n        obj: Id {\n            index: 81,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2857..2861,\n                sym: \"East\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967380,
+            node: "Member(\n    MemberExpr {\n        span: 2848..2863,\n        obj: Id {\n            index: 80,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 82,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967383,
+            node: "Ident(\n    Ident {\n        span: 3157..3164,\n        sym: \"noIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967384,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 3165..3168,\n            value: 123.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967385,
+            node: "Member(\n    MemberExpr {\n        span: 3164..3170,\n        obj: Id {\n            index: 86,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 87,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967386,
+            node: "Ident(\n    Ident {\n        span: 3282..3289,\n        sym: \"noIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967387,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 3290..3296,\n            value: \"zzzz\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967388,
+            node: "Member(\n    MemberExpr {\n        span: 3289..3298,\n        obj: Id {\n            index: 89,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 90,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967389,
+            node: "Ident(\n    Ident {\n        span: 3408..3415,\n        sym: \"noIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967390,
+            node: "Ident(\n    Ident {\n        span: 3416..3423,\n        sym: \"Compass\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967391,
+            node: "Member(\n    MemberExpr {\n        span: 3423..3430,\n        obj: Id {\n            index: 93,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 3424..3429,\n                sym: \"South\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967392,
+            node: "Member(\n    MemberExpr {\n        span: 3415..3431,\n        obj: Id {\n            index: 92,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 94,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967395,
+            node: "Ident(\n    Ident {\n        span: 3690..3697,\n        sym: \"noIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967396,
+            node: "Ident(\n    Ident {\n        span: 3698..3708,\n        sym: \"someObject\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967397,
+            node: "Member(\n    MemberExpr {\n        span: 3697..3710,\n        obj: Id {\n            index: 98,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 99,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967398,
+            node: "Ident(\n    Ident {\n        span: 3850..3857,\n        sym: \"noIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967399,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 3858..3860,\n            value: 32.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967400,
+            node: "Member(\n    MemberExpr {\n        span: 3857..3862,\n        obj: Id {\n            index: 101,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 102,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967401,
+            node: "Ident(\n    Ident {\n        span: 4003..4012,\n        sym: \"bothIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967402,
+            node: "Ident(\n    Ident {\n        span: 4013..4020,\n        sym: \"Compass\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967403,
+            node: "Member(\n    MemberExpr {\n        span: 4020..4026,\n        obj: Id {\n            index: 105,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 4021..4025,\n                sym: \"East\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967404,
+            node: "Member(\n    MemberExpr {\n        span: 4012..4027,\n        obj: Id {\n            index: 104,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 106,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967407,
+            node: "Ident(\n    Ident {\n        span: 4337..4346,\n        sym: \"bothIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967408,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 4347..4352,\n            value: \"foo\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967409,
+            node: "Member(\n    MemberExpr {\n        span: 4346..4354,\n        obj: Id {\n            index: 110,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 111,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967410,
+            node: "Ident(\n    Ident {\n        span: 4503..4512,\n        sym: \"bothIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967411,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 4513..4518,\n            value: \"1.0\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967412,
+            node: "Member(\n    MemberExpr {\n        span: 4512..4520,\n        obj: Id {\n            index: 113,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 114,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967413,
+            node: "Ident(\n    Ident {\n        span: 4700..4709,\n        sym: \"bothIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967414,
+            node: "Ident(\n    Ident {\n        span: 4710..4720,\n        sym: \"someObject\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967415,
+            node: "Member(\n    MemberExpr {\n        span: 4709..4722,\n        obj: Id {\n            index: 116,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 117,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967416,
+            node: "Ident(\n    Ident {\n        span: 4742..4750,\n        sym: \"numIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967417,
+            node: "Ident(\n    Ident {\n        span: 4751..4765,\n        sym: \"stringOrNumber\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967418,
+            node: "Member(\n    MemberExpr {\n        span: 4750..4767,\n        obj: Id {\n            index: 119,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 120,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967419,
+            node: "Ident(\n    Ident {\n        span: 4791..4799,\n        sym: \"strIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967420,
+            node: "Ident(\n    Ident {\n        span: 4800..4814,\n        sym: \"stringOrNumber\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967421,
+            node: "Member(\n    MemberExpr {\n        span: 4799..4816,\n        obj: Id {\n            index: 122,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 123,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967422,
+            node: "Ident(\n    Ident {\n        span: 4844..4853,\n        sym: \"bothIndex\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967423,
+            node: "Ident(\n    Ident {\n        span: 4854..4868,\n        sym: \"stringOrNumber\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967424,
+            node: "Member(\n    MemberExpr {\n        span: 4853..4870,\n        obj: Id {\n            index: 125,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 126,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}

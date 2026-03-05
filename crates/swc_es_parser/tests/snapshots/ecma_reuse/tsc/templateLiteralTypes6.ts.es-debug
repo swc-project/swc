@@ -1,0 +1,83 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 112..486,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Expr(\n    ExprStmt {\n        span: 484..486,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 112..172,\n        ident: Ident {\n            span: 117..125,\n            sym: \"Registry\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 168..210,\n        ident: Ident {\n            span: 173..178,\n            sym: \"Keyof\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 179..180,\n                sym: \"T\",\n            },\n        ],\n        ty: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    pats: [],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 141..145,\n        members: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 135..146,\n        members: [\n            TsTypeMember {\n                span: 137..145,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 137..139,\n                            sym: \"a1\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 158..162,\n        members: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 152..163,\n        members: [\n            TsTypeMember {\n                span: 154..162,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 154..156,\n                            sym: \"b1\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 128..166,\n        members: [\n            TsTypeMember {\n                span: 132..150,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 132..133,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 149..165,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 149..150,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "TypeRef(\n    TsTypeRef {\n        span: 190..193,\n        name: Ident {\n            span: 190..193,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "TypeOperator(\n    TsTypeOperatorType {\n        span: 184..193,\n        op: KeyOf,\n        ty: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Keyword(\n    String,\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Intersection(\n    TsIntersectionType {\n        span: 184..201,\n        types: [\n            Id {\n                index: 6,\n                generation: 1,\n            },\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+    ],
+}

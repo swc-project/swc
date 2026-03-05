@@ -1,0 +1,186 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 54..501,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "Decl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Decl(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "ModuleDecl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "ModuleDecl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "ModuleDecl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "ModuleDecl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 54..73,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 54..64,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Fn(\n    FnDecl {\n        span: 65..87,\n        ident: Ident {\n            span: 74..75,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Class(\n    ClassDecl {\n        span: 82..103,\n        ident: Ident {\n            span: 88..89,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 94..114,\n        ident: Ident {\n            span: 104..105,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "TsEnum(\n    TsEnumDecl {\n        span: 110..138,\n        ident: Ident {\n            span: 115..116,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 123..125,\n                name: Ident(\n                    Ident {\n                        span: 123..124,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 126..128,\n                name: Ident(\n                    Ident {\n                        span: 126..127,\n                        sym: \"B\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 129..132,\n                name: Ident(\n                    Ident {\n                        span: 129..130,\n                        sym: \"C\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "TsEnum(\n    TsEnumDecl {\n        span: 133..168,\n        ident: Ident {\n            span: 144..145,\n            sym: \"D\",\n        },\n        declare: false,\n        is_const: true,\n        members: [\n            TsEnumMember {\n                span: 152..154,\n                name: Ident(\n                    Ident {\n                        span: 152..153,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 155..157,\n                name: Ident(\n                    Ident {\n                        span: 155..156,\n                        sym: \"B\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 158..161,\n                name: Ident(\n                    Ident {\n                        span: 158..159,\n                        sym: \"C\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Var(\n    VarDecl {\n        span: 184..192,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 184..190,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "TsModule(\n    TsModuleDecl {\n        span: 162..199,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 169..170,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 215..236,\n        ident: Ident {\n            span: 225..226,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "TsModule(\n    TsModuleDecl {\n        span: 193..241,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 200..201,\n                sym: \"N\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 11,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 237..260,\n        ident: Ident {\n            span: 242..243,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 58..59,\n        sym: \"v\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Assign(\n    AssignPat {\n        span: 60..64,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Ident(\n    Ident {\n        span: 188..189,\n        sym: \"x\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 62..63,\n            value: 1.0,\n        },\n    ),\n)",
+        },
+    ],
+    module_decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 177..192,\n        decl: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "ExportDecl(\n    ExportDecl {\n        span: 208..236,\n        decl: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Import(\n    ImportDecl {\n        span: 254..277,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 261..262,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 271..339,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 280..281,\n                    sym: \"v\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 283..284,\n                    sym: \"f\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 286..287,\n                    sym: \"C\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 289..290,\n                    sym: \"I\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 292..293,\n                    sym: \"E\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 295..296,\n                    sym: \"D\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 298..299,\n                    sym: \"M\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 301..302,\n                    sym: \"N\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 304..305,\n                    sym: \"T\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 307..308,\n                    sym: \"a\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 333..413,\n        src: Some(\n            StrLit {\n                span: 378..384,\n                value: \"./t1\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 342..343,\n                    sym: \"v\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 345..346,\n                    sym: \"f\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 348..349,\n                    sym: \"C\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 351..352,\n                    sym: \"I\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 354..355,\n                    sym: \"E\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 357..358,\n                    sym: \"D\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 360..361,\n                    sym: \"M\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 363..364,\n                    sym: \"N\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 366..367,\n                    sym: \"T\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 369..370,\n                    sym: \"a\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Import(\n    ImportDecl {\n        span: 407..466,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 416..417,\n                        sym: \"v\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 416..417,\n                            sym: \"v\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 419..420,\n                        sym: \"f\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 419..420,\n                            sym: \"f\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 422..423,\n                        sym: \"C\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 422..423,\n                            sym: \"C\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 425..426,\n                        sym: \"I\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 425..426,\n                            sym: \"I\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 428..429,\n                        sym: \"E\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 428..429,\n                            sym: \"E\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 431..432,\n                        sym: \"D\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 431..432,\n                            sym: \"D\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 434..435,\n                        sym: \"M\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 434..435,\n                            sym: \"M\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 437..438,\n                        sym: \"N\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 437..438,\n                            sym: \"N\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 440..441,\n                        sym: \"T\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 440..441,\n                            sym: \"T\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 443..444,\n                        sym: \"a\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 443..444,\n                            sym: \"a\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 452..458,\n            value: \"./t1\",\n        },\n        with: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "ExportNamed(\n    ExportNamedDecl {\n        span: 460..501,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 469..470,\n                    sym: \"v\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 472..473,\n                    sym: \"f\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 475..476,\n                    sym: \"C\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 478..479,\n                    sym: \"I\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 481..482,\n                    sym: \"E\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 484..485,\n                    sym: \"D\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 487..488,\n                    sym: \"M\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 490..491,\n                    sym: \"N\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 493..494,\n                    sym: \"T\",\n                },\n                exported: None,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 496..497,\n                    sym: \"a\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)",
+        },
+    ],
+    functions: [],
+    classes: [
+        DebugNode {
+            id: 4294967297,
+            node: "Class {\n    span: 82..103,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 88..89,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+        },
+    ],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "Keyword(\n    Number,\n)",
+        },
+    ],
+}

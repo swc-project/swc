@@ -1,0 +1,100 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 24..360,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Empty(\n    EmptyStmt {\n        span: 55..56,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Return(\n    ReturnStmt {\n        span: 341..360,\n        arg: Some(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 24..56,\n        ident: Ident {\n            span: 34..40,\n            sym: \"Animal\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 43..55,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 43..49,\n                            sym: \"animal\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 57..107,\n        ident: Ident {\n            span: 67..70,\n            sym: \"Dog\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 79..87,\n                sym: \"Animal\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 88..97,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 88..91,\n                            sym: \"dog\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 98..148,\n        ident: Ident {\n            span: 108..111,\n            sym: \"Cat\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 120..128,\n                sym: \"Animal\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 129..138,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 129..132,\n                            sym: \"cat\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "TsInterface(\n    TsInterfaceDecl {\n        span: 139..193,\n        ident: Ident {\n            span: 149..154,\n            sym: \"Moose\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 163..171,\n                sym: \"Animal\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 172..183,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 172..177,\n                            sym: \"moose\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Fn(\n    FnDecl {\n        span: 288..360,\n        ident: Ident {\n            span: 297..304,\n            sym: \"doThing\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 305..306,\n        sym: \"x\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Ident(\n    Ident {\n        span: 316..317,\n        sym: \"y\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 348..357,\n        sym: \"undefined\",\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [
+        DebugNode {
+            id: 4294967297,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 51..55,\n        members: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 93..97,\n        members: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 134..138,\n        members: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "TypeLit(\n    TsTypeLit {\n        span: 179..183,\n        members: [],\n    },\n)",
+        },
+    ],
+}

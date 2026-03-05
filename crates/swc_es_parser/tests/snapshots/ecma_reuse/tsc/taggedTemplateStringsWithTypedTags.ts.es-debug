@@ -1,0 +1,235 @@
+ProgramArenaSnapshot {
+    root_program: 4294967297,
+    programs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Program {\n    span: 1..480,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n    ],\n}",
+        },
+    ],
+    stmts: [
+        DebugNode {
+            id: 4294967297,
+            node: "Expr(\n    ExprStmt {\n        span: 168..174,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "Expr(\n    ExprStmt {\n        span: 182..192,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Expr(\n    ExprStmt {\n        span: 191..216,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "Expr(\n    ExprStmt {\n        span: 215..232,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Expr(\n    ExprStmt {\n        span: 231..263,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "Expr(\n    ExprStmt {\n        span: 262..283,\n        expr: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Expr(\n    ExprStmt {\n        span: 282..317,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Expr(\n    ExprStmt {\n        span: 316..357,\n        expr: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "Expr(\n    ExprStmt {\n        span: 356..418,\n        expr: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Expr(\n    ExprStmt {\n        span: 417..443,\n        expr: Id {\n            index: 34,\n            generation: 1,\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Expr(\n    ExprStmt {\n        span: 442..480,\n        expr: Id {\n            index: 38,\n            generation: 1,\n        },\n    },\n)",
+        },
+    ],
+    decls: [
+        DebugNode {
+            id: 4294967297,
+            node: "Var(\n    VarDecl {\n        span: 171..183,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 171..180,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)",
+        },
+    ],
+    pats: [
+        DebugNode {
+            id: 4294967297,
+            node: "Ident(\n    Ident {\n        span: 175..176,\n        sym: \"f\",\n    },\n)",
+        },
+    ],
+    exprs: [
+        DebugNode {
+            id: 4294967297,
+            node: "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967298,
+            node: "Ident(\n    Ident {\n        span: 182..183,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967299,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 184..192,\n        tag: Id {\n            index: 1,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 184..189,\n            quasis: [\n                StrLit {\n                    span: 184..189,\n                    value: \"abc\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967300,
+            node: "Ident(\n    Ident {\n        span: 191..192,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967301,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 193..213,\n        tag: Id {\n            index: 3,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 193..212,\n            quasis: [\n                StrLit {\n                    span: 193..212,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967302,
+            node: "Ident(\n    Ident {\n        span: 215..216,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967303,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 217..223,\n        tag: Id {\n            index: 5,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 217..222,\n            quasis: [\n                StrLit {\n                    span: 217..222,\n                    value: \"abc\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967304,
+            node: "Member(\n    MemberExpr {\n        span: 222..232,\n        obj: Id {\n            index: 6,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 223..229,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967305,
+            node: "Ident(\n    Ident {\n        span: 231..232,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967306,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 233..253,\n        tag: Id {\n            index: 8,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 233..252,\n            quasis: [\n                StrLit {\n                    span: 233..252,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967307,
+            node: "Member(\n    MemberExpr {\n        span: 252..260,\n        obj: Id {\n            index: 9,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 253..259,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967308,
+            node: "Ident(\n    Ident {\n        span: 262..263,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967309,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 264..270,\n        tag: Id {\n            index: 11,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 264..269,\n            quasis: [\n                StrLit {\n                    span: 264..269,\n                    value: \"abc\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967310,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 270..278,\n            value: \"member\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967311,
+            node: "Member(\n    MemberExpr {\n        span: 269..280,\n        obj: Id {\n            index: 12,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 13,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967312,
+            node: "Ident(\n    Ident {\n        span: 282..283,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967313,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 284..304,\n        tag: Id {\n            index: 15,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 284..303,\n            quasis: [\n                StrLit {\n                    span: 284..303,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967314,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 304..312,\n            value: \"member\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967315,
+            node: "Member(\n    MemberExpr {\n        span: 303..314,\n        obj: Id {\n            index: 16,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 17,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967316,
+            node: "Ident(\n    Ident {\n        span: 316..317,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967317,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 318..324,\n        tag: Id {\n            index: 19,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 318..323,\n            quasis: [\n                StrLit {\n                    span: 318..323,\n                    value: \"abc\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967318,
+            node: "Lit(\n    Num(\n        NumberLit {\n            span: 324..325,\n            value: 0.0,\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967319,
+            node: "Member(\n    MemberExpr {\n        span: 323..327,\n        obj: Id {\n            index: 20,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 21,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967320,
+            node: "Member(\n    MemberExpr {\n        span: 326..353,\n        obj: Id {\n            index: 22,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 327..333,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967321,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 334..354,\n        tag: Id {\n            index: 23,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 334..353,\n            quasis: [\n                StrLit {\n                    span: 334..353,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967322,
+            node: "Ident(\n    Ident {\n        span: 356..357,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967323,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 358..378,\n        tag: Id {\n            index: 25,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 358..377,\n            quasis: [\n                StrLit {\n                    span: 358..377,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967324,
+            node: "Lit(\n    Str(\n        StrLit {\n            span: 378..386,\n            value: \"member\",\n        },\n    ),\n)",
+        },
+        DebugNode {
+            id: 4294967325,
+            node: "Member(\n    MemberExpr {\n        span: 377..388,\n        obj: Id {\n            index: 26,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 27,\n                generation: 1,\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967326,
+            node: "Member(\n    MemberExpr {\n        span: 387..414,\n        obj: Id {\n            index: 28,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 388..394,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967327,
+            node: "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 395..415,\n        tag: Id {\n            index: 29,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 395..414,\n            quasis: [\n                StrLit {\n                    span: 395..414,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967328,
+            node: "Ident(\n    Ident {\n        span: 417..418,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967329,
+            node: "Member(\n    MemberExpr {\n        span: 418..433,\n        obj: Id {\n            index: 31,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 419..432,\n                sym: \"thisIsNotATag\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967330,
+            node: "Template(\n    TemplateExpr {\n        span: 433..438,\n        quasis: [\n            StrLit {\n                span: 433..438,\n                value: \"abc\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967331,
+            node: "Call(\n    CallExpr {\n        span: 432..440,\n        callee: Id {\n            index: 32,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 33,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967332,
+            node: "Ident(\n    Ident {\n        span: 442..443,\n        sym: \"f\",\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967333,
+            node: "Member(\n    MemberExpr {\n        span: 443..458,\n        obj: Id {\n            index: 35,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 444..457,\n                sym: \"thisIsNotATag\",\n            },\n        ),\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967334,
+            node: "Template(\n    TemplateExpr {\n        span: 458..477,\n        quasis: [\n            StrLit {\n                span: 458..477,\n                value: \"abc${1}def${2}ghi\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+        },
+        DebugNode {
+            id: 4294967335,
+            node: "Call(\n    CallExpr {\n        span: 457..479,\n        callee: Id {\n            index: 36,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 37,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)",
+        },
+    ],
+    module_decls: [],
+    functions: [],
+    classes: [],
+    class_members: [],
+    jsx_elements: [],
+    ts_types: [],
+}
