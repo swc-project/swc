@@ -62,13 +62,17 @@ impl<'a> Parser<'a> {
     /// Creates a parser from lexer.
     pub fn new_from(mut lexer: Lexer<'a>) -> Self {
         let cur = lexer.next_token();
+        let mut ctx = Context::TOP_LEVEL | Context::CAN_BE_MODULE;
+        if lexer.syntax().dts() {
+            ctx.insert(Context::IN_DECLARE);
+        }
         Self {
             lexer,
             cur,
             next: None,
             store: AstStore::default(),
             errors: Vec::new(),
-            ctx: Context::TOP_LEVEL | Context::CAN_BE_MODULE,
+            ctx,
             pending_decorators: Vec::new(),
             string_token_flags: Vec::new(),
         }
@@ -278,6 +282,14 @@ impl<'a> Parser<'a> {
         if self.cur.kind == TokenKind::Keyword(Keyword::Export)
             && (self.ctx.contains(Context::MODULE) || self.ctx.contains(Context::CAN_BE_MODULE))
         {
+            if !self.syntax().decorators_before_export() {
+                self.errors.push(Error::new(
+                    self.cur.span,
+                    Severity::Error,
+                    ErrorCode::InvalidStatement,
+                    "decorators before export are disabled by syntax option",
+                ));
+            }
             return self.parse_module_decl_stmt();
         }
         if self.cur.kind == TokenKind::Keyword(Keyword::Class) {
@@ -411,6 +423,7 @@ impl<'a> Parser<'a> {
         self.bump();
 
         if self.cur.kind == TokenKind::Keyword(Keyword::Default) {
+            let default_span = self.cur.span;
             self.bump();
             if self.cur.kind == TokenKind::Keyword(Keyword::Function) {
                 let fn_start = self.cur.span.lo;
@@ -472,6 +485,73 @@ impl<'a> Parser<'a> {
                         decl,
                     },
                 ));
+            }
+            let parse_export_default_from = self.syntax().export_default_from()
+                && match self.cur.kind {
+                    TokenKind::Comma => true,
+                    // Keep `export default from;` on the default-expression path.
+                    TokenKind::Keyword(Keyword::From) => self.peek_nth_kind(1) == TokenKind::Str,
+                    _ => false,
+                };
+            if parse_export_default_from {
+                let mut specifiers = vec![swc_es_ast::ExportSpecifier {
+                    local: Ident::new(default_span, Atom::new("default")),
+                    exported: None,
+                }];
+
+                if self.cur.kind == TokenKind::Comma {
+                    self.bump();
+                    if self.cur.kind == TokenKind::LBrace {
+                        self.bump();
+                        while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof
+                        {
+                            let local = self.parse_module_export_name()?;
+                            let exported = if self.cur.kind == TokenKind::Keyword(Keyword::As) {
+                                self.bump();
+                                Some(self.parse_module_export_name()?)
+                            } else {
+                                None
+                            };
+                            specifiers.push(swc_es_ast::ExportSpecifier { local, exported });
+
+                            if self.cur.kind != TokenKind::RBrace {
+                                let _ = self.expect(TokenKind::Comma, ",")?;
+                            }
+                        }
+                        let _ = self.expect(TokenKind::RBrace, "}")?;
+                    } else if self.cur.kind == TokenKind::Star {
+                        self.errors.push(Error::new(
+                            self.cur.span,
+                            Severity::Error,
+                            ErrorCode::InvalidStatement,
+                            "`export default, * as ns from` is not supported by swc_es_ast \
+                             ExportSpecifier model",
+                        ));
+                        self.bump();
+                        if self.cur.kind == TokenKind::Keyword(Keyword::As) {
+                            self.bump();
+                            let _ = self.parse_module_export_name()?;
+                        }
+                    } else {
+                        return Err(self.expected("{"));
+                    }
+                }
+
+                if self.cur.kind != TokenKind::Keyword(Keyword::From) {
+                    return Err(self.expected("from"));
+                }
+                self.bump();
+                let src = self.expect_string()?;
+                let with = self.parse_import_attributes_clause();
+                self.eat_semi();
+
+                return Ok(ModuleDecl::ExportNamed(swc_es_ast::ExportNamedDecl {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    src: Some(src),
+                    specifiers,
+                    decl: None,
+                    with,
+                }));
             }
             let expr = self.parse_expr()?;
             self.eat_semi();
@@ -1268,6 +1348,7 @@ impl<'a> Parser<'a> {
 
         let old_ctx = self.ctx;
         self.ctx.insert(Context::IN_FUNCTION);
+        self.ctx.remove(Context::ALLOW_DIRECT_SUPER);
         if is_async {
             self.ctx.insert(Context::IN_ASYNC);
         }
@@ -1505,7 +1586,9 @@ impl<'a> Parser<'a> {
         let is_const_enum = self.cur.kind == TokenKind::Keyword(Keyword::Const)
             && self.peek_kind() == TokenKind::Keyword(Keyword::Enum);
 
-        match self.cur.kind {
+        let old_ctx = self.ctx;
+        self.ctx.insert(Context::IN_DECLARE);
+        let out = match self.cur.kind {
             TokenKind::Keyword(Keyword::Const) if is_const_enum => {
                 self.parse_ts_enum_decl_stmt_with_declare(true)
             }
@@ -1529,7 +1612,9 @@ impl<'a> Parser<'a> {
             _ => Ok(self.store.alloc_stmt(Stmt::Empty(EmptyStmt {
                 span: Span::new_with_checked(start, self.last_pos()),
             }))),
-        }
+        };
+        self.ctx = old_ctx;
+        out
     }
 
     fn parse_ts_type_alias_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
@@ -2233,6 +2318,7 @@ impl<'a> Parser<'a> {
             let cur = self.cur.clone();
             let next = self.next.clone();
             let errors_len = self.errors.len();
+            let ambiguous_start = self.cur.span;
 
             let type_params_ok = self.parse_ts_type_params().is_ok();
             let parenthesized = self.cur.kind == TokenKind::LParen;
@@ -2242,6 +2328,14 @@ impl<'a> Parser<'a> {
                 self.cur_can_be_arrow_param() && self.peek_kind() == TokenKind::Arrow
             };
             if type_params_ok && can_arrow {
+                if self.syntax().disallow_ambiguous_jsx_like() {
+                    self.errors.push(Error::new(
+                        ambiguous_start,
+                        Severity::Error,
+                        ErrorCode::InvalidStatement,
+                        "ambiguous TypeScript arrow type-parameter syntax is disallowed",
+                    ));
+                }
                 return self.parse_arrow_expr(false, parenthesized);
             }
 
@@ -2760,6 +2854,7 @@ impl<'a> Parser<'a> {
         loop {
             match self.cur.kind {
                 TokenKind::Dot => {
+                    self.ensure_super_property_or_call_allowed(expr)?;
                     let start = self.cur.span.lo;
                     self.bump();
                     let is_private = self.cur.kind == TokenKind::Hash;
@@ -2779,6 +2874,7 @@ impl<'a> Parser<'a> {
                     }));
                 }
                 TokenKind::QuestionDot => {
+                    self.ensure_super_property_or_call_allowed(expr)?;
                     let start = self.cur.span.lo;
                     self.bump();
                     match self.cur.kind {
@@ -2853,6 +2949,7 @@ impl<'a> Parser<'a> {
                     }
                 }
                 TokenKind::LBracket => {
+                    self.ensure_super_property_or_call_allowed(expr)?;
                     let start = self.cur.span.lo;
                     self.bump();
                     let old_ctx = self.ctx;
@@ -2867,6 +2964,7 @@ impl<'a> Parser<'a> {
                     }));
                 }
                 TokenKind::LParen => {
+                    self.ensure_super_property_or_call_allowed(expr)?;
                     let start = self.cur.span.lo;
                     self.bump();
                     let mut args = Vec::new();
@@ -3453,6 +3551,16 @@ impl<'a> Parser<'a> {
         is_async: bool,
         is_generator: bool,
     ) -> PResult<swc_es_ast::FunctionId> {
+        let old_ctx = self.ctx;
+        self.ctx.insert(Context::IN_FUNCTION);
+        self.ctx.insert(Context::ALLOW_DIRECT_SUPER);
+        if is_async {
+            self.ctx.insert(Context::IN_ASYNC);
+        }
+        if is_generator {
+            self.ctx.insert(Context::IN_GENERATOR);
+        }
+
         let _ = self.expect(TokenKind::LParen, "(")?;
         let mut params = Vec::new();
         while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof {
@@ -3469,14 +3577,6 @@ impl<'a> Parser<'a> {
             let _ = self.parse_ts_type()?;
         }
 
-        let old_ctx = self.ctx;
-        self.ctx.insert(Context::IN_FUNCTION);
-        if is_async {
-            self.ctx.insert(Context::IN_ASYNC);
-        }
-        if is_generator {
-            self.ctx.insert(Context::IN_GENERATOR);
-        }
         let body_stmt = self.parse_block_stmt_with_directives(true)?;
         self.ctx = old_ctx;
 
@@ -4593,6 +4693,18 @@ impl<'a> Parser<'a> {
 
     fn parse_ts_pat_suffix(&mut self, pat: swc_es_ast::PatId) -> PResult<swc_es_ast::PatId> {
         if self.cur.kind == TokenKind::Question {
+            let allow_optional = matches!(self.store.pat(pat), Some(Pat::Ident(_)))
+                || self.syntax().dts()
+                || self.ctx.contains(Context::IN_DECLARE);
+            if !allow_optional {
+                self.errors.push(Error::new(
+                    self.cur.span,
+                    Severity::Error,
+                    ErrorCode::InvalidAssignTarget,
+                    "optional marker is allowed only on identifier bindings outside declaration \
+                     contexts",
+                ));
+            }
             self.bump();
         }
         if self.cur.kind == TokenKind::Colon {
@@ -5046,6 +5158,32 @@ impl<'a> Parser<'a> {
             Some(Expr::Call(call)) => self.expr_is_optional_chain(call.callee),
             _ => false,
         }
+    }
+
+    fn expr_is_super_reference(&self, expr: swc_es_ast::ExprId) -> bool {
+        match self.store.expr(expr) {
+            Some(Expr::Ident(ident)) => ident.sym.as_ref() == "super",
+            Some(Expr::Paren(paren)) => self.expr_is_super_reference(paren.expr),
+            _ => false,
+        }
+    }
+
+    fn ensure_super_property_or_call_allowed(&self, expr: swc_es_ast::ExprId) -> PResult<()> {
+        if !self.expr_is_super_reference(expr) {
+            return Ok(());
+        }
+        if self.syntax().allow_super_outside_method()
+            || self.ctx.contains(Context::ALLOW_DIRECT_SUPER)
+        {
+            return Ok(());
+        }
+
+        Err(Error::new(
+            self.cur.span,
+            Severity::Fatal,
+            ErrorCode::InvalidStatement,
+            "`super` is not allowed outside methods in current syntax mode",
+        ))
     }
 
     fn expr_is_let_member(&self, expr: swc_es_ast::ExprId) -> bool {
@@ -5602,6 +5740,19 @@ mod tests {
     use crate::syntax::TsSyntax;
     use crate::syntax::{EsSyntax, Syntax};
 
+    fn parse_program_with_syntax(
+        src: &str,
+        syntax: Syntax,
+    ) -> (PResult<ParsedProgram>, Vec<Error>) {
+        let cm = SourceMap::default();
+        let fm = cm.new_source_file(FileName::Custom("test.js".into()).into(), src.to_string());
+        let lexer = Lexer::new(syntax, StringInput::from(&*fm), None);
+        let mut parser = Parser::new_from(lexer);
+        let program = parser.parse_program();
+        let errors = parser.take_errors();
+        (program, errors)
+    }
+
     #[test]
     fn parses_simple_script() {
         let cm = SourceMap::default();
@@ -5957,5 +6108,134 @@ mod tests {
             parsed.store.class_member(*member),
             Some(swc_es_ast::ClassMember::StaticBlock(_))
         )));
+    }
+
+    #[test]
+    fn enforces_decorators_before_export_option() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "@dec export class A {}",
+            Syntax::Es(EsSyntax {
+                decorators: true,
+                decorators_before_export: false,
+                ..Default::default()
+            }),
+        );
+
+        assert!(parsed.is_ok(), "parser should recover and produce module");
+        assert!(
+            errors.iter().any(|error| error
+                .message()
+                .contains("decorators before export are disabled")),
+            "expected decorators-before-export option diagnostic, got: {errors:?}"
+        );
+    }
+
+    #[test]
+    fn supports_export_default_from_when_enabled() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "export default from 'mod';",
+            Syntax::Es(EsSyntax {
+                export_default_from: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics: {errors:?}"
+        );
+        let parsed = parsed.expect("module should parse");
+        let program = parsed
+            .store
+            .program(parsed.program)
+            .expect("program should exist");
+        let Some(Stmt::ModuleDecl(decl_id)) = parsed.store.stmt(program.body[0]) else {
+            panic!("first statement should be module declaration");
+        };
+        let Some(ModuleDecl::ExportNamed(named)) = parsed.store.module_decl(*decl_id) else {
+            panic!("first module declaration should be named export");
+        };
+        assert!(named.src.is_some(), "re-export source should exist");
+        assert_eq!(named.specifiers.len(), 1);
+        assert_eq!(named.specifiers[0].local.sym.as_ref(), "default");
+    }
+
+    #[test]
+    fn allow_super_outside_method_option_controls_super_member_access() {
+        let (disabled, _) = parse_program_with_syntax(
+            "super.foo;",
+            Syntax::Es(EsSyntax {
+                allow_super_outside_method: false,
+                ..Default::default()
+            }),
+        );
+        assert!(
+            disabled.is_err(),
+            "super outside methods should be rejected"
+        );
+
+        let (enabled, errors) = parse_program_with_syntax(
+            "super.foo;",
+            Syntax::Es(EsSyntax {
+                allow_super_outside_method: true,
+                ..Default::default()
+            }),
+        );
+        assert!(
+            enabled.is_ok(),
+            "super outside methods should parse if option is enabled"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn dts_option_allows_optional_non_identifier_parameter_patterns() {
+        let src = "function f({ a }?) {}";
+
+        let (_without_dts, errors_without_dts) =
+            parse_program_with_syntax(src, Syntax::Typescript(TsSyntax::default()));
+        assert!(
+            errors_without_dts
+                .iter()
+                .any(|error| error.message().contains("optional marker")),
+            "expected optional-marker diagnostic without dts mode"
+        );
+
+        let (with_dts, errors_with_dts) = parse_program_with_syntax(
+            src,
+            Syntax::Typescript(TsSyntax {
+                dts: true,
+                ..Default::default()
+            }),
+        );
+        assert!(with_dts.is_ok(), "dts mode should still parse");
+        assert!(
+            errors_with_dts.is_empty(),
+            "dts mode should allow optional marker without diagnostics: {errors_with_dts:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn disallow_ambiguous_jsx_like_option_reports_ambiguous_typescript_forms() {
+        let src = "<T>(value: T) => value;";
+
+        let (_parsed, errors) = parse_program_with_syntax(
+            src,
+            Syntax::Typescript(TsSyntax {
+                disallow_ambiguous_jsx_like: true,
+                ..Default::default()
+            }),
+        );
+        assert!(
+            errors.iter().any(|error| error
+                .message()
+                .contains("ambiguous TypeScript arrow type-parameter syntax")),
+            "expected ambiguous-arrow diagnostic, got: {errors:?}"
+        );
     }
 }

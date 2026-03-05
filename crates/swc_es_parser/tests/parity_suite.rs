@@ -210,6 +210,19 @@ fn is_expected_fail(case: &Case, options: &FixtureOptions) -> bool {
         return true;
     }
 
+    // These span fixtures intentionally exercise invalid `super` usage.
+    if case.category == "span"
+        && matches!(
+            path.as_str(),
+            p if p.ends_with("/span/js/super/expr.js")
+                || p.ends_with("/span/js/super/obj1.js")
+                || p.ends_with("/span/js/super/obj2.js")
+                || p.ends_with("/span/js/super/obj4.js")
+        )
+    {
+        return true;
+    }
+
     false
 }
 

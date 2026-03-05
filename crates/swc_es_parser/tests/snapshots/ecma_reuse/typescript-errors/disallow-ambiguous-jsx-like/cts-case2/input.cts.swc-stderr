@@ -1,1 +1,8 @@
-  x expected parser diagnostics; parser accepted input
+  x ambiguous TypeScript arrow type-parameter syntax is disallowed
+   ,-[/swc_ecma_parser/tests/typescript-errors/disallow-ambiguous-jsx-like/cts-case2/input.cts:1:1]
+ 1 | <T>() => 1;
+   : ^
+   `----
+
+Advice: 
+  > code: InvalidStatement

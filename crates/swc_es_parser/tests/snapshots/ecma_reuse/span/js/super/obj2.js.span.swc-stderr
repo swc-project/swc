@@ -1,50 +1,10 @@
-  x Program
-   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
- 1 | ,-> let o = {
- 2 | |       a: super.x,
- 3 | `-> };
-   `----
-  x DeclStmt
-   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
- 1 | ,-> let o = {
- 2 | |       a: super.x,
- 3 | `-> };
-   `----
-  x VarDecl
-   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
- 1 | ,-> let o = {
- 2 | |       a: super.x,
- 3 | `-> };
-   `----
-  x AssignPat
-   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
- 1 | ,-> let o = {
- 2 | |       a: super.x,
- 3 | `-> };
-   `----
-  x IdentPat
-   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
- 1 | let o = {
-   :     ^
- 2 |     a: super.x,
-   `----
-  x ObjectExpr
-   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
- 1 | ,-> let o = {
- 2 | |       a: super.x,
- 3 | `-> };
-   `----
-  x MemberExpr
+  x `super` is not allowed outside methods in current syntax mode
    ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:2:1]
  1 | let o = {
  2 |     a: super.x,
-   :             ^^^
+   :             ^
  3 | };
    `----
-  x IdentExpr
-   ,-[/swc_ecma_parser/tests/span/js/super/obj2.js:2:1]
- 1 | let o = {
- 2 |     a: super.x,
-   :        ^^^^^
- 3 | };
-   `----
+
+Advice: 
+  > code: InvalidStatement

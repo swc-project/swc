@@ -52,6 +52,24 @@ impl Syntax {
         }
     }
 
+    /// Returns `true` if decorators before `export` are allowed.
+    pub fn decorators_before_export(self) -> bool {
+        match self {
+            Syntax::Es(es) => es.decorators_before_export,
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(_) => true,
+        }
+    }
+
+    /// Returns `true` if `export default from` is enabled.
+    pub fn export_default_from(self) -> bool {
+        match self {
+            Syntax::Es(es) => es.export_default_from,
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(_) => false,
+        }
+    }
+
     /// Returns `true` if resource declarations are enabled.
     pub fn explicit_resource_management(self) -> bool {
         match self {
@@ -85,6 +103,38 @@ impl Syntax {
             Syntax::Es(es) => es.allow_return_outside_function,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => false,
+        }
+    }
+
+    /// Returns `true` if declaration-file parsing rules are enabled.
+    pub fn dts(self) -> bool {
+        #[cfg(feature = "typescript")]
+        {
+            match self {
+                Syntax::Typescript(ts) => ts.dts,
+                _ => false,
+            }
+        }
+
+        #[cfg(not(feature = "typescript"))]
+        {
+            false
+        }
+    }
+
+    /// Returns `true` if ambiguous JSX-like TS syntax is disallowed.
+    pub fn disallow_ambiguous_jsx_like(self) -> bool {
+        #[cfg(feature = "typescript")]
+        {
+            match self {
+                Syntax::Typescript(ts) => ts.disallow_ambiguous_jsx_like,
+                _ => false,
+            }
+        }
+
+        #[cfg(not(feature = "typescript"))]
+        {
+            false
         }
     }
 }
