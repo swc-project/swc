@@ -2,6 +2,12 @@ use std::{fs, path::PathBuf};
 
 use walkdir::WalkDir;
 
+fn contains_swc_ecma_parser_import(source: &str) -> bool {
+    source.contains("use swc_ecma_parser")
+        || source.contains("extern crate swc_ecma_parser")
+        || source.contains("::swc_ecma_parser::")
+}
+
 #[test]
 fn src_does_not_reference_swc_ecma_parser() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src");
@@ -44,9 +50,7 @@ fn tests_do_not_import_swc_ecma_parser_crate() {
         let source = fs::read_to_string(path)
             .unwrap_or_else(|err| panic!("failed to read {}: {err}", path.display()));
         assert!(
-            !source.contains("use swc_ecma_parser")
-                && !source.contains("extern crate swc_ecma_parser")
-                && !source.contains("::swc_ecma_parser::"),
+            !contains_swc_ecma_parser_import(&source),
             "test file {} must not import swc_ecma_parser crate",
             path.display()
         );

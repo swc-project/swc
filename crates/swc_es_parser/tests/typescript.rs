@@ -19,13 +19,14 @@ fn ts_syntax(file: &Path, no_early_errors: bool) -> Syntax {
         .to_string()
         .replace("\\\\", "/")
         .replace('\\', "/");
+    let ext = file.extension().and_then(|ext| ext.to_str()).unwrap_or("");
 
     Syntax::Typescript(TsSyntax {
         dts: file_name.ends_with(".d.ts"),
-        tsx: file_name.contains("tsx"),
+        tsx: ext == "tsx" || file_name.contains("tsx"),
         decorators: true,
         no_early_errors,
-        disallow_ambiguous_jsx_like: file_name.contains("cts") || file_name.contains("mts"),
+        disallow_ambiguous_jsx_like: matches!(ext, "cts" | "mts"),
         ..Default::default()
     })
 }

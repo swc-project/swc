@@ -1,20 +1,8 @@
-  x Program
+  x `super` is not allowed outside methods in current syntax mode
    ,-[/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
  1 | super.x;
-   : ^^^^^^^^
+   :      ^
    `----
-  x ExprStmt
-   ,-[/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
- 1 | super.x;
-   : ^^^^^^^^
-   `----
-  x MemberExpr
-   ,-[/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
- 1 | super.x;
-   :      ^^^
-   `----
-  x IdentExpr
-   ,-[/swc_ecma_parser/tests/span/js/super/expr.js:1:1]
- 1 | super.x;
-   : ^^^^^
-   `----
+
+Advice: 
+  > code: InvalidStatement

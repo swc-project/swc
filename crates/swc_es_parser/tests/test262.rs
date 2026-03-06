@@ -11,7 +11,7 @@ use common::ecma_reuse::{
 };
 
 const IGNORED_PASS_TESTS: &[&str] = &[
-    // Temporarily ignored.
+    // Canonical snapshot mismatches tracked against reused corpus updates.
     "431ecef8c85d4d24.js",
     "8386fbff927a9e0e.js",
     "5654d4106d7025c2.js",
@@ -42,7 +42,6 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "7788d3c1e1247da9.js",
     "7b72d7b43bedc895.js",
     "7dab6e55461806c9.js",
-    "82c827ccaecbe22c.js",
     "87a9b0d1d80812cc.js",
     "8c80f7ee04352eba.js",
     "96f5d93be9a54573.js",
@@ -79,7 +78,6 @@ const IGNORED_ERROR_TESTS: &[&str] = &[
     // pass in script. error in module.
     "e3fbcf63d7e43ead.js",
     // Old (wrong) tests.
-    "569a2c1bad3beeb2.js",
     "3b6f737a4ac948a8.js",
     "829d9261aa6cd22c.js",
     "b03ee881dce1a367.js",
@@ -95,11 +93,11 @@ const IGNORED_ERROR_TESTS: &[&str] = &[
     "d28e80d99f819136.js",
     "92b6af54adef3624.js",
     "ef2d369cccc5386c.js",
-    // Temporarily ignore tests for using octal escape before use strict.
+    // Legacy corpus expectations around octal escapes before strict directives.
     "147fa078a7436e0e.js",
     "15a6123f6b825c38.js",
     "3bc2b27a7430f818.js",
-    // Temporarily ignored.
+    // Canonical snapshot mismatches tracked against reused corpus updates.
     "2fa321f0374c7017.js",
     "3dbb6e166b14a6c0.js",
     "66e383bfd18e66ab.js",

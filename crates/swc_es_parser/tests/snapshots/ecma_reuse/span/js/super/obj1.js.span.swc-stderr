@@ -1,83 +1,10 @@
-  x Program
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
- 1 | ,-> let o2 = {
- 2 | |       a: function a() {
- 3 | |           super.x;
- 4 | |       },
- 5 | `-> };
-   `----
-  x DeclStmt
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
- 1 | ,-> let o2 = {
- 2 | |       a: function a() {
- 3 | |           super.x;
- 4 | |       },
- 5 | `-> };
-   `----
-  x VarDecl
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
- 1 | ,-> let o2 = {
- 2 | |       a: function a() {
- 3 | |           super.x;
- 4 | |       },
- 5 | `-> };
-   `----
-  x AssignPat
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
- 1 | ,-> let o2 = {
- 2 | |       a: function a() {
- 3 | |           super.x;
- 4 | |       },
- 5 | `-> };
-   `----
-  x IdentPat
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
- 1 | let o2 = {
-   :     ^^
- 2 |     a: function a() {
-   `----
-  x ObjectExpr
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
- 1 | ,-> let o2 = {
- 2 | |       a: function a() {
- 3 | |           super.x;
- 4 | |       },
- 5 | `-> };
-   `----
-  x FunctionExpr
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:2:1]
- 1 |     let o2 = {
- 2 | ,->     a: function a() {
- 3 | |           super.x;
- 4 | `->     },
- 5 |     };
-   `----
-  x Function
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:2:1]
- 1 |     let o2 = {
- 2 | ,->     a: function a() {
- 3 | |           super.x;
- 4 | `->     },
- 5 |     };
-   `----
-  x ExprStmt
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:3:1]
- 2 |         a: function a() {
- 3 | ,->         super.x;
- 4 | `->     },
- 5 |     };
-   `----
-  x MemberExpr
+  x `super` is not allowed outside methods in current syntax mode
    ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:3:1]
  2 |     a: function a() {
  3 |         super.x;
-   :              ^^^
+   :              ^
  4 |     },
    `----
-  x IdentExpr
-   ,-[/swc_ecma_parser/tests/span/js/super/obj1.js:3:1]
- 2 |     a: function a() {
- 3 |         super.x;
-   :         ^^^^^
- 4 |     },
-   `----
+
+Advice: 
+  > code: InvalidStatement

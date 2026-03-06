@@ -1,1 +1,8 @@
-  x expected parser diagnostics; parser accepted input
+  x `super` is not allowed outside methods in current syntax mode
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/5864c96b99472ffc.js:1:1]
+ 1 | function f() { (super)() }
+   :                       ^
+   `----
+
+Advice: 
+  > code: InvalidStatement
