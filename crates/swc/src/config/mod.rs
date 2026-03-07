@@ -1623,16 +1623,7 @@ impl ModuleConfig {
         // https://github.com/swc-project/swc/issues/8265
         // https://github.com/swc-project/swc/issues/11584
         let base = match base {
-            FileName::Real(v) if !skip_resolver => {
-                let cleaned = if v.is_absolute() {
-                    v.clean()
-                } else {
-                    env::current_dir()
-                        .map(|cwd| cwd.join(v).clean())
-                        .unwrap_or_else(|_| v.to_path_buf())
-                };
-                FileName::Real(cleaned)
-            }
+            FileName::Real(v) if !skip_resolver => FileName::Real(v.clean()),
             _ => base.clone(),
         };
 
