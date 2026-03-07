@@ -24,8 +24,7 @@
       "symbols": [
         4,
         5,
-        6,
-        7
+        6
       ]
     },
     {
@@ -45,7 +44,7 @@
       "parent_function": 0,
       "has_dynamic_lookup": false,
       "symbols": [
-        8
+        7
       ]
     },
     {
@@ -56,7 +55,7 @@
       "parent_function": 0,
       "has_dynamic_lookup": false,
       "symbols": [
-        9
+        8
       ]
     }
   ],
@@ -99,13 +98,6 @@
     },
     {
       "id": 4,
-      "kind": "Function",
-      "scope": 1,
-      "name": "run",
-      "references": []
-    },
-    {
-      "id": 5,
       "kind": "Param",
       "scope": 1,
       "name": "a",
@@ -114,7 +106,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": 5,
       "kind": "Param",
       "scope": 1,
       "name": "c",
@@ -123,7 +115,7 @@
       ]
     },
     {
-      "id": 7,
+      "id": 6,
       "kind": "Param",
       "scope": 1,
       "name": "rest",
@@ -132,7 +124,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": 7,
       "kind": "CatchParam",
       "scope": 3,
       "name": "m",
@@ -141,7 +133,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": 8,
       "kind": "Let",
       "scope": 4,
       "name": "bar",
@@ -183,7 +175,7 @@
       "kind": "Read",
       "scope": 2,
       "enclosing_function": 1,
-      "symbol": 5,
+      "symbol": 4,
       "name": "a",
       "maybe_dynamic": false
     },
@@ -192,7 +184,7 @@
       "kind": "Read",
       "scope": 2,
       "enclosing_function": 1,
-      "symbol": 6,
+      "symbol": 5,
       "name": "c",
       "maybe_dynamic": false
     },
@@ -201,7 +193,7 @@
       "kind": "Read",
       "scope": 2,
       "enclosing_function": 1,
-      "symbol": 7,
+      "symbol": 6,
       "name": "rest",
       "maybe_dynamic": false
     },
@@ -210,7 +202,7 @@
       "kind": "Read",
       "scope": 4,
       "enclosing_function": 1,
-      "symbol": 8,
+      "symbol": 7,
       "name": "m",
       "maybe_dynamic": false
     },
@@ -219,7 +211,7 @@
       "kind": "Read",
       "scope": 4,
       "enclosing_function": 1,
-      "symbol": 9,
+      "symbol": 8,
       "name": "bar",
       "maybe_dynamic": false
     },

@@ -13,10 +13,10 @@
     },
     {
       "id": 1,
-      "kind": "Function",
+      "kind": "Block",
       "parent": 0,
-      "enclosing_function": 1,
-      "parent_function": 0,
+      "enclosing_function": 0,
+      "parent_function": null,
       "has_dynamic_lookup": false,
       "symbols": [
         1,
@@ -25,21 +25,10 @@
     },
     {
       "id": 2,
-      "kind": "Block",
-      "parent": 1,
-      "enclosing_function": 1,
-      "parent_function": 0,
-      "has_dynamic_lookup": false,
-      "symbols": [
-        3
-      ]
-    },
-    {
-      "id": 3,
       "kind": "Function",
-      "parent": 2,
-      "enclosing_function": 3,
-      "parent_function": 1,
+      "parent": 1,
+      "enclosing_function": 2,
+      "parent_function": 0,
       "has_dynamic_lookup": false,
       "symbols": []
     }
@@ -47,63 +36,58 @@
   "symbols": [
     {
       "id": 0,
-      "kind": "Function",
+      "kind": "Let",
       "scope": 0,
-      "name": "h",
-      "references": []
+      "name": "a",
+      "references": [
+        2
+      ]
     },
     {
       "id": 1,
-      "kind": "Param",
+      "kind": "Let",
       "scope": 1,
-      "name": "flag",
+      "name": "a",
       "references": [
         0
       ]
     },
     {
       "id": 2,
-      "kind": "Var",
+      "kind": "Function",
       "scope": 1,
-      "name": "a",
+      "name": "f",
       "references": [
         1
       ]
-    },
-    {
-      "id": 3,
-      "kind": "Function",
-      "scope": 2,
-      "name": "inner",
-      "references": []
     }
   ],
   "references": [
     {
       "id": 0,
       "kind": "Read",
-      "scope": 1,
-      "enclosing_function": 1,
+      "scope": 2,
+      "enclosing_function": 2,
       "symbol": 1,
-      "name": "flag",
+      "name": "a",
       "maybe_dynamic": false
     },
     {
       "id": 1,
       "kind": "Read",
-      "scope": 3,
-      "enclosing_function": 3,
+      "scope": 1,
+      "enclosing_function": 0,
       "symbol": 2,
-      "name": "a",
+      "name": "f",
       "maybe_dynamic": false
     },
     {
       "id": 2,
       "kind": "Read",
-      "scope": 1,
-      "enclosing_function": 1,
-      "symbol": null,
-      "name": "inner",
+      "scope": 0,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "a",
       "maybe_dynamic": false
     }
   ]

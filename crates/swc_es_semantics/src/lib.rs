@@ -109,6 +109,8 @@ pub enum CfgRoot {
     Program(ProgramId),
     /// Function root.
     Function(FunctionId),
+    /// Function declaration root.
+    FunctionDecl(DeclId),
     /// Arrow-expression root.
     Arrow(ExprId),
     /// Class static block root.
@@ -121,6 +123,7 @@ impl PartialEq for CfgRoot {
         match (*self, *other) {
             (Program(a), Program(b)) => a.as_raw() == b.as_raw(),
             (Function(a), Function(b)) => a.as_raw() == b.as_raw(),
+            (FunctionDecl(a), FunctionDecl(b)) => a.as_raw() == b.as_raw(),
             (Arrow(a), Arrow(b)) => a.as_raw() == b.as_raw(),
             (ClassStaticBlock(a), ClassStaticBlock(b)) => a.as_raw() == b.as_raw(),
             _ => false,
@@ -142,12 +145,16 @@ impl Hash for CfgRoot {
                 1u8.hash(state);
                 id.as_raw().hash(state);
             }
-            Arrow(id) => {
+            FunctionDecl(id) => {
                 2u8.hash(state);
                 id.as_raw().hash(state);
             }
-            ClassStaticBlock(id) => {
+            Arrow(id) => {
                 3u8.hash(state);
+                id.as_raw().hash(state);
+            }
+            ClassStaticBlock(id) => {
+                4u8.hash(state);
                 id.as_raw().hash(state);
             }
         }

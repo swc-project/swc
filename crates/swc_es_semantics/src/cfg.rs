@@ -1,10 +1,12 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_es_ast::{
-    ArrowBody, AstStore, ClassMember, ClassMemberId, Expr, ExprId, FunctionId, ProgramId, Stmt,
-    StmtId,
+    ArrowBody, AstStore, ClassMember, ClassMemberId, Decl, DeclId, Expr, ExprId, FunctionId,
+    ProgramId, Stmt, StmtId,
 };
-use swc_es_visit::{walk_class_member, walk_expr, walk_function, walk_program, Visit, VisitWith};
+use swc_es_visit::{
+    walk_class_member, walk_decl, walk_expr, walk_function, walk_program, Visit, VisitWith,
+};
 
 use crate::{BlockId, CfgId, CfgRoot, Semantics};
 
@@ -194,6 +196,13 @@ impl Visit for RootCollector<'_> {
         walk_function(self, store, id);
     }
 
+    fn visit_decl(&mut self, store: &AstStore, id: DeclId) {
+        if matches!(self.store.decl(id), Some(Decl::Fn(_))) {
+            self.push_root(CfgRoot::FunctionDecl(id));
+        }
+        walk_decl(self, store, id);
+    }
+
     fn visit_expr(&mut self, store: &AstStore, id: ExprId) {
         if matches!(self.store.expr(id), Some(Expr::Arrow(_))) {
             self.push_root(CfgRoot::Arrow(id));
@@ -235,6 +244,11 @@ impl<'a> CfgBuilder<'a> {
             CfgRoot::Function(function_id) => {
                 if let Some(function) = self.store.function(function_id) {
                     self.build_stmt_root(&function.body, CfgEdgeKind::Normal);
+                }
+            }
+            CfgRoot::FunctionDecl(decl_id) => {
+                if let Some(Decl::Fn(function_decl)) = self.store.decl(decl_id) {
+                    self.build_stmt_root(&function_decl.body, CfgEdgeKind::Normal);
                 }
             }
             CfgRoot::Arrow(expr_id) => {
@@ -471,7 +485,7 @@ impl<'a> CfgBuilder<'a> {
             }
             Stmt::For(for_stmt) => self.build_loop_stmt(stmt_block, for_stmt.body, attached_label),
             Stmt::DoWhile(do_while) => {
-                self.build_loop_stmt(stmt_block, do_while.body, attached_label)
+                self.build_do_while_stmt(stmt_block, do_while, attached_label)
             }
             Stmt::Switch(switch_stmt) => {
                 self.build_switch_stmt(stmt_block, switch_stmt.cases, attached_label)
@@ -537,24 +551,85 @@ impl<'a> CfgBuilder<'a> {
         outcome
     }
 
+    fn build_do_while_stmt(
+        &mut self,
+        do_while_head: BlockId,
+        do_while: swc_es_ast::DoWhileStmt,
+        attached_label: Option<&Atom>,
+    ) -> Outcome {
+        let body_outcome = self.build_stmt(
+            do_while.body,
+            vec![IncomingEdge {
+                from: do_while_head,
+                kind: CfgEdgeKind::Normal,
+            }],
+            None,
+        );
+
+        let test_block = self.cfg.add_block(BasicBlockKind::Synthetic);
+        for block in body_outcome.normal {
+            self.cfg.add_edge(block, test_block, CfgEdgeKind::Normal);
+        }
+
+        let join = self.cfg.add_block(BasicBlockKind::Synthetic);
+        self.cfg.add_edge(test_block, join, CfgEdgeKind::False);
+        self.cfg
+            .add_edge(test_block, do_while_head, CfgEdgeKind::True);
+
+        let mut outcome = Outcome {
+            normal: vec![join],
+            returns: body_outcome.returns,
+            throws: body_outcome.throws,
+            ..Outcome::default()
+        };
+
+        for jump in body_outcome.continues {
+            if jump.label.is_none()
+                || attached_label
+                    .map(|label| Some(label) == jump.label.as_ref())
+                    .unwrap_or(false)
+            {
+                self.cfg
+                    .add_edge(jump.from, test_block, CfgEdgeKind::Continue);
+            } else {
+                outcome.continues.push(jump);
+            }
+        }
+
+        for jump in body_outcome.breaks {
+            if jump.label.is_none()
+                || attached_label
+                    .map(|label| Some(label) == jump.label.as_ref())
+                    .unwrap_or(false)
+            {
+                self.cfg.add_edge(jump.from, join, CfgEdgeKind::Break);
+            } else {
+                outcome.breaks.push(jump);
+            }
+        }
+
+        outcome
+    }
+
     fn build_switch_stmt(
         &mut self,
         switch_block: BlockId,
         cases: Vec<swc_es_ast::SwitchCase>,
         attached_label: Option<&Atom>,
     ) -> Outcome {
-        let mut incoming = vec![IncomingEdge {
-            from: switch_block,
-            kind: CfgEdgeKind::True,
-        }];
+        let mut incoming: Vec<IncomingEdge> = Vec::new();
+        let mut has_case = false;
 
         let mut outcome = Outcome::default();
         for case in cases {
-            if incoming.is_empty() {
-                break;
-            }
+            has_case = true;
+            let mut case_incoming = std::mem::take(&mut incoming);
+            case_incoming.push(IncomingEdge {
+                from: switch_block,
+                kind: CfgEdgeKind::True,
+            });
 
-            let mut case_outcome = self.build_stmt_list(&case.cons, incoming);
+            let mut case_outcome = self.build_stmt_list(&case.cons, case_incoming);
             let case_normals = std::mem::take(&mut case_outcome.normal);
             incoming = case_normals
                 .into_iter()
@@ -568,8 +643,10 @@ impl<'a> CfgBuilder<'a> {
 
         let join = self.cfg.add_block(BasicBlockKind::Synthetic);
         self.cfg.add_edge(switch_block, join, CfgEdgeKind::False);
-        for edge in incoming {
-            self.cfg.add_edge(edge.from, join, CfgEdgeKind::Normal);
+        if has_case {
+            for edge in incoming {
+                self.cfg.add_edge(edge.from, join, CfgEdgeKind::Normal);
+            }
         }
 
         let mut final_outcome = Outcome {

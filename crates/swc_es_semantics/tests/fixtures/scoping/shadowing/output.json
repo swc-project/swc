@@ -21,8 +21,7 @@
       "has_dynamic_lookup": false,
       "symbols": [
         2,
-        3,
-        4
+        3
       ]
     },
     {
@@ -33,8 +32,8 @@
       "parent_function": 0,
       "has_dynamic_lookup": false,
       "symbols": [
-        5,
-        6
+        4,
+        5
       ]
     },
     {
@@ -45,7 +44,7 @@
       "parent_function": 0,
       "has_dynamic_lookup": false,
       "symbols": [
-        7
+        6
       ]
     },
     {
@@ -56,8 +55,8 @@
       "parent_function": 1,
       "has_dynamic_lookup": false,
       "symbols": [
-        8,
-        9
+        7,
+        8
       ]
     }
   ],
@@ -78,13 +77,6 @@
     },
     {
       "id": 2,
-      "kind": "Function",
-      "scope": 1,
-      "name": "f",
-      "references": []
-    },
-    {
-      "id": 3,
       "kind": "Param",
       "scope": 1,
       "name": "x",
@@ -94,7 +86,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": 3,
       "kind": "Let",
       "scope": 1,
       "name": "y",
@@ -105,7 +97,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": 4,
       "kind": "Let",
       "scope": 2,
       "name": "x",
@@ -114,21 +106,21 @@
       ]
     },
     {
-      "id": 6,
+      "id": 5,
       "kind": "Class",
       "scope": 2,
       "name": "C",
       "references": []
     },
     {
-      "id": 7,
+      "id": 6,
       "kind": "Class",
       "scope": 3,
       "name": "C",
       "references": []
     },
     {
-      "id": 8,
+      "id": 7,
       "kind": "Param",
       "scope": 4,
       "name": "x",
@@ -137,7 +129,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": 8,
       "kind": "Let",
       "scope": 4,
       "name": "y",
@@ -152,7 +144,7 @@
       "kind": "Read",
       "scope": 1,
       "enclosing_function": 1,
-      "symbol": 3,
+      "symbol": 2,
       "name": "x",
       "maybe_dynamic": false
     },
@@ -161,7 +153,7 @@
       "kind": "Read",
       "scope": 2,
       "enclosing_function": 1,
-      "symbol": 4,
+      "symbol": 3,
       "name": "y",
       "maybe_dynamic": false
     },
@@ -170,7 +162,7 @@
       "kind": "Read",
       "scope": 4,
       "enclosing_function": 4,
-      "symbol": 8,
+      "symbol": 7,
       "name": "x",
       "maybe_dynamic": false
     },
@@ -179,7 +171,7 @@
       "kind": "Read",
       "scope": 4,
       "enclosing_function": 4,
-      "symbol": 9,
+      "symbol": 8,
       "name": "y",
       "maybe_dynamic": false
     },
@@ -188,7 +180,7 @@
       "kind": "Write",
       "scope": 2,
       "enclosing_function": 1,
-      "symbol": 4,
+      "symbol": 3,
       "name": "y",
       "maybe_dynamic": false
     },
@@ -197,7 +189,7 @@
       "kind": "Read",
       "scope": 2,
       "enclosing_function": 1,
-      "symbol": 5,
+      "symbol": 4,
       "name": "x",
       "maybe_dynamic": false
     },
@@ -206,7 +198,7 @@
       "kind": "Read",
       "scope": 1,
       "enclosing_function": 1,
-      "symbol": 3,
+      "symbol": 2,
       "name": "x",
       "maybe_dynamic": false
     },
@@ -215,7 +207,7 @@
       "kind": "Read",
       "scope": 1,
       "enclosing_function": 1,
-      "symbol": 4,
+      "symbol": 3,
       "name": "y",
       "maybe_dynamic": false
     }

@@ -20,8 +20,7 @@
       "has_dynamic_lookup": true,
       "symbols": [
         1,
-        2,
-        3
+        2
       ]
     },
     {
@@ -31,9 +30,7 @@
       "enclosing_function": 2,
       "parent_function": 1,
       "has_dynamic_lookup": true,
-      "symbols": [
-        4
-      ]
+      "symbols": []
     },
     {
       "id": 3,
@@ -43,7 +40,7 @@
       "parent_function": 0,
       "has_dynamic_lookup": false,
       "symbols": [
-        5
+        3
       ]
     }
   ],
@@ -57,13 +54,6 @@
     },
     {
       "id": 1,
-      "kind": "Function",
-      "scope": 1,
-      "name": "outer",
-      "references": []
-    },
-    {
-      "id": 2,
       "kind": "Param",
       "scope": 1,
       "name": "obj",
@@ -72,7 +62,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": 2,
       "kind": "Function",
       "scope": 1,
       "name": "inner",
@@ -81,14 +71,7 @@
       ]
     },
     {
-      "id": 4,
-      "kind": "Function",
-      "scope": 2,
-      "name": "inner",
-      "references": []
-    },
-    {
-      "id": 5,
+      "id": 3,
       "kind": "Let",
       "scope": 3,
       "name": "x",
@@ -119,7 +102,7 @@
       "kind": "Read",
       "scope": 1,
       "enclosing_function": 1,
-      "symbol": 2,
+      "symbol": 1,
       "name": "obj",
       "maybe_dynamic": true
     },
@@ -128,7 +111,7 @@
       "kind": "Read",
       "scope": 3,
       "enclosing_function": 1,
-      "symbol": 3,
+      "symbol": 2,
       "name": "inner",
       "maybe_dynamic": true
     }

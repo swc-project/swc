@@ -19,6 +19,7 @@
 
 - Per-root CFG generation for:
   - Program
+  - Function declaration
   - Function
   - Arrow expression
   - Class static block

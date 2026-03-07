@@ -8,9 +8,7 @@
       "parent_function": null,
       "has_dynamic_lookup": false,
       "symbols": [
-        0,
-        1,
-        2
+        0
       ]
     },
     {
@@ -21,17 +19,16 @@
       "parent_function": 0,
       "has_dynamic_lookup": false,
       "symbols": [
-        3,
-        4,
-        5
+        1,
+        2
       ]
     },
     {
       "id": 2,
-      "kind": "Block",
+      "kind": "Function",
       "parent": 1,
-      "enclosing_function": 1,
-      "parent_function": 0,
+      "enclosing_function": 2,
+      "parent_function": 1,
       "has_dynamic_lookup": false,
       "symbols": []
     }
@@ -42,52 +39,26 @@
       "kind": "Function",
       "scope": 0,
       "name": "outer",
-      "references": [
-        5
-      ]
+      "references": []
     },
     {
       "id": 1,
-      "kind": "Import",
-      "scope": 0,
-      "name": "y",
+      "kind": "Function",
+      "scope": 1,
+      "name": "f",
       "references": [
-        4
+        0,
+        1,
+        2
       ]
     },
     {
       "id": 2,
       "kind": "Const",
-      "scope": 0,
-      "name": "z",
-      "references": []
-    },
-    {
-      "id": 3,
-      "kind": "Param",
       "scope": 1,
-      "name": "a",
-      "references": [
-        0
-      ]
-    },
-    {
-      "id": 4,
-      "kind": "Var",
-      "scope": 1,
-      "name": "c",
+      "name": "g",
       "references": [
         3
-      ]
-    },
-    {
-      "id": 5,
-      "kind": "Let",
-      "scope": 1,
-      "name": "b",
-      "references": [
-        1,
-        2
       ]
     }
   ],
@@ -95,10 +66,10 @@
     {
       "id": 0,
       "kind": "Read",
-      "scope": 1,
-      "enclosing_function": 1,
-      "symbol": 3,
-      "name": "a",
+      "scope": 2,
+      "enclosing_function": 2,
+      "symbol": 1,
+      "name": "f",
       "maybe_dynamic": false
     },
     {
@@ -106,17 +77,17 @@
       "kind": "Read",
       "scope": 1,
       "enclosing_function": 1,
-      "symbol": 5,
-      "name": "b",
+      "symbol": 1,
+      "name": "f",
       "maybe_dynamic": false
     },
     {
       "id": 2,
-      "kind": "Read",
-      "scope": 2,
+      "kind": "Write",
+      "scope": 1,
       "enclosing_function": 1,
-      "symbol": 5,
-      "name": "b",
+      "symbol": 1,
+      "name": "f",
       "maybe_dynamic": false
     },
     {
@@ -124,26 +95,8 @@
       "kind": "Read",
       "scope": 1,
       "enclosing_function": 1,
-      "symbol": 4,
-      "name": "c",
-      "maybe_dynamic": false
-    },
-    {
-      "id": 4,
-      "kind": "Read",
-      "scope": 0,
-      "enclosing_function": 0,
-      "symbol": 1,
-      "name": "y",
-      "maybe_dynamic": false
-    },
-    {
-      "id": 5,
-      "kind": "Read",
-      "scope": 0,
-      "enclosing_function": 0,
-      "symbol": 0,
-      "name": "outer",
+      "symbol": 2,
+      "name": "g",
       "maybe_dynamic": false
     }
   ]

@@ -218,6 +218,12 @@ impl<'a> Analyzer<'a> {
         }
     }
 
+    fn predeclare_param_bindings(&mut self, params: &[PatId], scope: ScopeId) {
+        for pat_id in params {
+            self.declare_binding_pat(*pat_id, scope, SymbolKind::Param);
+        }
+    }
+
     fn visit_binding_pat(&mut self, pat_id: PatId, scope: ScopeId, kind: SymbolKind) {
         let Some(pat) = self.store.pat(pat_id).cloned() else {
             return;
@@ -259,6 +265,49 @@ impl<'a> Analyzer<'a> {
             Pat::Rest(rest) => self.visit_binding_pat(rest.arg, scope, kind),
             Pat::Assign(assign) => {
                 self.visit_binding_pat(assign.left, scope, kind);
+                self.visit_expr(assign.right);
+            }
+        }
+    }
+
+    fn visit_binding_pat_initializers(&mut self, pat_id: PatId) {
+        let Some(pat) = self.store.pat(pat_id).cloned() else {
+            return;
+        };
+
+        match pat {
+            Pat::Ident(_) => {}
+            Pat::Expr(expr) => {
+                self.visit_assignment_target_expr(expr, ReferenceKind::Write);
+            }
+            Pat::Array(array) => {
+                for elem in array.elems.into_iter().flatten() {
+                    self.visit_binding_pat_initializers(elem);
+                }
+            }
+            Pat::Object(object) => {
+                for prop in object.props {
+                    match prop {
+                        swc_es_ast::ObjectPatProp::KeyValue(key_value) => {
+                            if let PropName::Computed(expr) = key_value.key {
+                                self.visit_expr(expr);
+                            }
+                            self.visit_binding_pat_initializers(key_value.value);
+                        }
+                        swc_es_ast::ObjectPatProp::Assign(assign) => {
+                            if let Some(value) = assign.value {
+                                self.visit_expr(value);
+                            }
+                        }
+                        swc_es_ast::ObjectPatProp::Rest(rest) => {
+                            self.visit_binding_pat_initializers(rest.arg);
+                        }
+                    }
+                }
+            }
+            Pat::Rest(rest) => self.visit_binding_pat_initializers(rest.arg),
+            Pat::Assign(assign) => {
+                self.visit_binding_pat_initializers(assign.left);
                 self.visit_expr(assign.right);
             }
         }
@@ -546,13 +595,24 @@ impl<'a> Analyzer<'a> {
                 self.visit_expr(do_while.test);
             }
             Stmt::Switch(switch_stmt) => {
-                self.visit_expr(switch_stmt.discriminant);
-                for case in switch_stmt.cases {
+                let switch_scope = self.push_scope(ScopeKind::Block);
+                let discriminant = switch_stmt.discriminant;
+                let cases = switch_stmt.cases;
+
+                let mut case_stmts = Vec::new();
+                for case in &cases {
+                    case_stmts.extend(case.cons.iter().copied());
+                }
+                self.predeclare_lexical_stmt_list(&case_stmts, switch_scope);
+
+                self.visit_expr(discriminant);
+                for case in cases {
                     if let Some(test) = case.test {
                         self.visit_expr(test);
                     }
                     self.visit_stmt_list(&case.cons);
                 }
+                self.pop_scope();
             }
             Stmt::Try(try_stmt) => {
                 self.visit_stmt(try_stmt.block);
@@ -724,11 +784,7 @@ impl<'a> Analyzer<'a> {
             Decl::Fn(function_decl) => {
                 let scope = self.current_scope();
                 self.declare_symbol(scope, &function_decl.ident.sym, SymbolKind::Function);
-                self.visit_function(
-                    function_decl.ident.clone(),
-                    function_decl.params,
-                    function_decl.body,
-                );
+                self.visit_function(function_decl.params, function_decl.body);
             }
             Decl::Class(class_decl) => {
                 let scope = self.current_scope();
@@ -739,13 +795,12 @@ impl<'a> Analyzer<'a> {
         }
     }
 
-    fn visit_function(&mut self, name: Ident, params: Vec<PatId>, body: Vec<StmtId>) {
+    fn visit_function(&mut self, params: Vec<PatId>, body: Vec<StmtId>) {
         let function_scope = self.push_scope(ScopeKind::Function);
 
-        self.declare_symbol(function_scope, &name.sym, SymbolKind::Function);
-
-        for param in &params {
-            self.visit_binding_pat(*param, function_scope, SymbolKind::Param);
+        self.predeclare_param_bindings(&params, function_scope);
+        for param in params {
+            self.visit_binding_pat_initializers(param);
         }
 
         self.hoist_scan_stmt_list(&body, function_scope, true);
@@ -762,11 +817,14 @@ impl<'a> Analyzer<'a> {
 
         let function_scope = self.push_scope(ScopeKind::Function);
 
+        let param_pats: Vec<PatId> = function.params.iter().map(|param| param.pat).collect();
+        self.predeclare_param_bindings(&param_pats, function_scope);
+
         for param in function.params {
             for decorator in param.decorators {
                 self.visit_expr(decorator.expr);
             }
-            self.visit_binding_pat(param.pat, function_scope, SymbolKind::Param);
+            self.visit_binding_pat_initializers(param.pat);
         }
 
         self.hoist_scan_stmt_list(&function.body, function_scope, true);
@@ -778,8 +836,9 @@ impl<'a> Analyzer<'a> {
     fn visit_arrow(&mut self, arrow: ArrowExpr) {
         let function_scope = self.push_scope(ScopeKind::Function);
 
+        self.predeclare_param_bindings(&arrow.params, function_scope);
         for param in arrow.params {
-            self.visit_binding_pat(param, function_scope, SymbolKind::Param);
+            self.visit_binding_pat_initializers(param);
         }
 
         match arrow.body {
@@ -864,8 +923,9 @@ impl<'a> Analyzer<'a> {
                     }
                 }
                 ClassMember::StaticBlock(block) => {
-                    let block_scope = self.push_scope(ScopeKind::Block);
-                    self.predeclare_lexical_stmt_list(&block.body, block_scope);
+                    let static_scope = self.push_scope(ScopeKind::Function);
+                    self.hoist_scan_stmt_list(&block.body, static_scope, true);
+                    self.predeclare_lexical_stmt_list(&block.body, static_scope);
                     self.visit_stmt_list(&block.body);
                     self.pop_scope();
                 }

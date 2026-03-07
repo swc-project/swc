@@ -64,6 +64,7 @@ pub fn root_to_string(root: CfgRoot) -> &'static str {
     match root {
         CfgRoot::Program(_) => "Program",
         CfgRoot::Function(_) => "Function",
+        CfgRoot::FunctionDecl(_) => "FunctionDecl",
         CfgRoot::Arrow(_) => "Arrow",
         CfgRoot::ClassStaticBlock(_) => "ClassStaticBlock",
     }

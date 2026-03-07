@@ -19,8 +19,7 @@
       "parent_function": 0,
       "has_dynamic_lookup": true,
       "symbols": [
-        1,
-        2
+        1
       ]
     },
     {
@@ -43,13 +42,6 @@
     },
     {
       "id": 1,
-      "kind": "Function",
-      "scope": 1,
-      "name": "dynamic",
-      "references": []
-    },
-    {
-      "id": 2,
       "kind": "Param",
       "scope": 1,
       "name": "obj",
@@ -64,7 +56,7 @@
       "kind": "Read",
       "scope": 1,
       "enclosing_function": 1,
-      "symbol": 2,
+      "symbol": 1,
       "name": "obj",
       "maybe_dynamic": true
     },

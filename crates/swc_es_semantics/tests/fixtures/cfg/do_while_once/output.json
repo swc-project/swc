@@ -17,10 +17,6 @@
         {
           "id": 2,
           "kind": "Statement"
-        },
-        {
-          "id": 3,
-          "kind": "Statement"
         }
       ],
       "edges": [
@@ -31,11 +27,6 @@
         },
         {
           "from": 2,
-          "to": 3,
-          "kind": "Normal"
-        },
-        {
-          "from": 3,
           "to": 1,
           "kind": "Normal"
         }
@@ -73,7 +64,7 @@
         },
         {
           "id": 6,
-          "kind": "Statement"
+          "kind": "Synthetic"
         },
         {
           "id": 7,
@@ -81,26 +72,6 @@
         },
         {
           "id": 8,
-          "kind": "Statement"
-        },
-        {
-          "id": 9,
-          "kind": "Statement"
-        },
-        {
-          "id": 10,
-          "kind": "Synthetic"
-        },
-        {
-          "id": 11,
-          "kind": "Statement"
-        },
-        {
-          "id": 12,
-          "kind": "Synthetic"
-        },
-        {
-          "id": 13,
           "kind": "Statement"
         }
       ],
@@ -118,7 +89,7 @@
         {
           "from": 3,
           "to": 4,
-          "kind": "True"
+          "kind": "Normal"
         },
         {
           "from": 4,
@@ -128,12 +99,17 @@
         {
           "from": 5,
           "to": 6,
-          "kind": "True"
+          "kind": "Normal"
         },
         {
-          "from": 5,
+          "from": 6,
           "to": 7,
-          "kind": "Normal"
+          "kind": "False"
+        },
+        {
+          "from": 6,
+          "to": 3,
+          "kind": "True"
         },
         {
           "from": 7,
@@ -142,46 +118,6 @@
         },
         {
           "from": 8,
-          "to": 9,
-          "kind": "True"
-        },
-        {
-          "from": 8,
-          "to": 10,
-          "kind": "Normal"
-        },
-        {
-          "from": 10,
-          "to": 11,
-          "kind": "Normal"
-        },
-        {
-          "from": 3,
-          "to": 12,
-          "kind": "False"
-        },
-        {
-          "from": 11,
-          "to": 3,
-          "kind": "Normal"
-        },
-        {
-          "from": 6,
-          "to": 3,
-          "kind": "Continue"
-        },
-        {
-          "from": 9,
-          "to": 12,
-          "kind": "Break"
-        },
-        {
-          "from": 12,
-          "to": 13,
-          "kind": "Normal"
-        },
-        {
-          "from": 13,
           "to": 1,
           "kind": "Return"
         }
