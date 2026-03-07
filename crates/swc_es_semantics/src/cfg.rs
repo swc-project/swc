@@ -481,9 +481,15 @@ impl<'a> CfgBuilder<'a> {
                 outcome
             }
             Stmt::While(while_stmt) => {
-                self.build_loop_stmt(stmt_block, while_stmt.body, attached_label)
+                self.build_loop_stmt(stmt_block, while_stmt.body, attached_label, true)
             }
-            Stmt::For(for_stmt) => self.build_loop_stmt(stmt_block, for_stmt.body, attached_label),
+            Stmt::For(for_stmt) => {
+                let has_false_exit = match &for_stmt.head {
+                    swc_es_ast::ForHead::Classic(head) => head.test.is_some(),
+                    swc_es_ast::ForHead::In(_) | swc_es_ast::ForHead::Of(_) => true,
+                };
+                self.build_loop_stmt(stmt_block, for_stmt.body, attached_label, has_false_exit)
+            }
             Stmt::DoWhile(do_while) => {
                 self.build_do_while_stmt(stmt_block, do_while, attached_label)
             }
@@ -499,6 +505,7 @@ impl<'a> CfgBuilder<'a> {
         loop_head: BlockId,
         body: StmtId,
         attached_label: Option<&Atom>,
+        has_false_exit: bool,
     ) -> Outcome {
         let body_outcome = self.build_stmt(
             body,
@@ -510,14 +517,20 @@ impl<'a> CfgBuilder<'a> {
         );
 
         let join = self.cfg.add_block(BasicBlockKind::Synthetic);
-        self.cfg.add_edge(loop_head, join, CfgEdgeKind::False);
+        if has_false_exit {
+            self.cfg.add_edge(loop_head, join, CfgEdgeKind::False);
+        }
 
         for block in body_outcome.normal {
             self.cfg.add_edge(block, loop_head, CfgEdgeKind::Normal);
         }
 
         let mut outcome = Outcome {
-            normal: vec![join],
+            normal: if has_false_exit {
+                vec![join]
+            } else {
+                Vec::new()
+            },
             returns: body_outcome.returns,
             throws: body_outcome.throws,
             ..Outcome::default()
@@ -543,6 +556,9 @@ impl<'a> CfgBuilder<'a> {
                     .unwrap_or(false)
             {
                 self.cfg.add_edge(jump.from, join, CfgEdgeKind::Break);
+                if !outcome.normal.contains(&join) {
+                    outcome.normal.push(join);
+                }
             } else {
                 outcome.breaks.push(jump);
             }
@@ -619,10 +635,12 @@ impl<'a> CfgBuilder<'a> {
     ) -> Outcome {
         let mut incoming: Vec<IncomingEdge> = Vec::new();
         let mut has_case = false;
+        let mut has_default = false;
 
         let mut outcome = Outcome::default();
         for case in cases {
             has_case = true;
+            has_default |= case.test.is_none();
             let mut case_incoming = std::mem::take(&mut incoming);
             case_incoming.push(IncomingEdge {
                 from: switch_block,
@@ -642,7 +660,9 @@ impl<'a> CfgBuilder<'a> {
         }
 
         let join = self.cfg.add_block(BasicBlockKind::Synthetic);
-        self.cfg.add_edge(switch_block, join, CfgEdgeKind::False);
+        if !has_default {
+            self.cfg.add_edge(switch_block, join, CfgEdgeKind::False);
+        }
         if has_case {
             for edge in incoming {
                 self.cfg.add_edge(edge.from, join, CfgEdgeKind::Normal);

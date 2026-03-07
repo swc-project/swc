@@ -1,0 +1,65 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Block",
+      "parent": 0,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        1
+      ]
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Let",
+      "scope": 0,
+      "name": "x",
+      "references": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Let",
+      "scope": 1,
+      "name": "x",
+      "references": []
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 0,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "x",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 1,
+      "kind": "Read",
+      "scope": 0,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "x",
+      "maybe_dynamic": false
+    }
+  ]
+}

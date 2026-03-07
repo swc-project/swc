@@ -60,10 +60,6 @@
         },
         {
           "id": 5,
-          "kind": "Statement"
-        },
-        {
-          "id": 6,
           "kind": "Synthetic"
         }
       ],
@@ -79,34 +75,14 @@
           "kind": "True"
         },
         {
-          "from": 2,
-          "to": 4,
-          "kind": "True"
-        },
-        {
-          "from": 2,
-          "to": 5,
-          "kind": "True"
-        },
-        {
           "from": 3,
-          "to": 6,
-          "kind": "Break"
-        },
-        {
-          "from": 6,
-          "to": 1,
+          "to": 4,
           "kind": "Normal"
         },
         {
           "from": 4,
-          "to": 1,
-          "kind": "Return"
-        },
-        {
-          "from": 5,
-          "to": 1,
-          "kind": "Return"
+          "to": 2,
+          "kind": "Normal"
         }
       ]
     }

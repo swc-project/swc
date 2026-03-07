@@ -595,17 +595,19 @@ impl<'a> Analyzer<'a> {
                 self.visit_expr(do_while.test);
             }
             Stmt::Switch(switch_stmt) => {
-                let switch_scope = self.push_scope(ScopeKind::Block);
                 let discriminant = switch_stmt.discriminant;
                 let cases = switch_stmt.cases;
 
+                // The discriminant is evaluated before entering the switch
+                // lexical environment.
+                self.visit_expr(discriminant);
+
+                let switch_scope = self.push_scope(ScopeKind::Block);
                 let mut case_stmts = Vec::new();
                 for case in &cases {
                     case_stmts.extend(case.cons.iter().copied());
                 }
                 self.predeclare_lexical_stmt_list(&case_stmts, switch_scope);
-
-                self.visit_expr(discriminant);
                 for case in cases {
                     if let Some(test) = case.test {
                         self.visit_expr(test);
@@ -878,20 +880,25 @@ impl<'a> Analyzer<'a> {
             return;
         };
 
+        let class_ident = class.ident.clone();
+        let super_class = class.super_class;
+        let class_body = class.body;
+
+        let class_scope = self.push_scope(ScopeKind::Class);
+        if let Some(name) = class_ident {
+            self.declare_symbol(class_scope, &name.sym, SymbolKind::Class);
+        }
+
         for decorator in class.decorators {
             self.visit_expr(decorator.expr);
         }
 
-        if let Some(super_class) = class.super_class {
+        // Named class-expression self binding should be visible in heritage.
+        if let Some(super_class) = super_class {
             self.visit_expr(super_class);
         }
 
-        let class_scope = self.push_scope(ScopeKind::Class);
-        if let Some(name) = class.ident {
-            self.declare_symbol(class_scope, &name.sym, SymbolKind::Class);
-        }
-
-        self.visit_class_members(class.body);
+        self.visit_class_members(class_body);
         self.pop_scope();
     }
 

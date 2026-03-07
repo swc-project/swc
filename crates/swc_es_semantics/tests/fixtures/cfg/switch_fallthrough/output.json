@@ -107,11 +107,6 @@
           "kind": "True"
         },
         {
-          "from": 2,
-          "to": 7,
-          "kind": "False"
-        },
-        {
           "from": 6,
           "to": 7,
           "kind": "Normal"
