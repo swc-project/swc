@@ -1,0 +1,14 @@
+type T<K> = import("pkg").Foo<K | number> & { readonly a?: string; [k: string]: number; };
+
+interface I extends Base {
+  readonly p?: string;
+  m(x?: number): T<string>;
+  (value: string): number;
+  new (value: string): I;
+}
+
+declare namespace N.M {
+  interface Box {
+    value: T<string>;
+  }
+}
