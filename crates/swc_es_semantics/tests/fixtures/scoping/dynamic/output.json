@@ -66,7 +66,6 @@
       "enclosing_function": 1,
       "symbol": 2,
       "name": "obj",
-      "expr": 4294967297,
       "maybe_dynamic": true
     },
     {
@@ -76,7 +75,6 @@
       "enclosing_function": 1,
       "symbol": null,
       "name": "eval",
-      "expr": 4294967298,
       "maybe_dynamic": true
     },
     {
@@ -86,7 +84,6 @@
       "enclosing_function": 1,
       "symbol": null,
       "name": "x",
-      "expr": 4294967301,
       "maybe_dynamic": true
     }
   ]

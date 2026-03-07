@@ -103,7 +103,6 @@
       "enclosing_function": 2,
       "symbol": null,
       "name": "eval",
-      "expr": 4294967297,
       "maybe_dynamic": true
     },
     {
@@ -113,7 +112,6 @@
       "enclosing_function": 2,
       "symbol": null,
       "name": "x",
-      "expr": 4294967300,
       "maybe_dynamic": true
     },
     {
@@ -123,7 +121,6 @@
       "enclosing_function": 1,
       "symbol": 2,
       "name": "obj",
-      "expr": 4294967302,
       "maybe_dynamic": true
     },
     {
@@ -133,7 +130,6 @@
       "enclosing_function": 1,
       "symbol": 3,
       "name": "inner",
-      "expr": 4294967304,
       "maybe_dynamic": true
     }
   ]

@@ -105,7 +105,6 @@
       "enclosing_function": 2,
       "symbol": 2,
       "name": "B",
-      "expr": 4294967297,
       "maybe_dynamic": false
     },
     {
@@ -115,7 +114,6 @@
       "enclosing_function": 0,
       "symbol": 2,
       "name": "B",
-      "expr": 4294967300,
       "maybe_dynamic": false
     },
     {
@@ -125,7 +123,6 @@
       "enclosing_function": 0,
       "symbol": 3,
       "name": "C",
-      "expr": 4294967305,
       "maybe_dynamic": false
     }
   ]

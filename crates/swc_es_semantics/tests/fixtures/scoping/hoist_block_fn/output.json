@@ -103,7 +103,6 @@
       "enclosing_function": 1,
       "symbol": 2,
       "name": "flag",
-      "expr": 4294967297,
       "maybe_dynamic": false
     },
     {
@@ -113,7 +112,6 @@
       "enclosing_function": 3,
       "symbol": 3,
       "name": "a",
-      "expr": 4294967298,
       "maybe_dynamic": false
     },
     {
@@ -123,7 +121,6 @@
       "enclosing_function": 1,
       "symbol": null,
       "name": "inner",
-      "expr": 4294967300,
       "maybe_dynamic": false
     }
   ]

@@ -158,7 +158,6 @@
       "enclosing_function": 1,
       "symbol": 2,
       "name": "f",
-      "expr": 4294967297,
       "maybe_dynamic": false
     },
     {
@@ -168,7 +167,6 @@
       "enclosing_function": 1,
       "symbol": 3,
       "name": "bar",
-      "expr": 4294967298,
       "maybe_dynamic": false
     },
     {
@@ -178,7 +176,6 @@
       "enclosing_function": 1,
       "symbol": 1,
       "name": "d",
-      "expr": 4294967300,
       "maybe_dynamic": false
     },
     {
@@ -188,7 +185,6 @@
       "enclosing_function": 1,
       "symbol": 5,
       "name": "a",
-      "expr": 4294967302,
       "maybe_dynamic": false
     },
     {
@@ -198,7 +194,6 @@
       "enclosing_function": 1,
       "symbol": 6,
       "name": "c",
-      "expr": 4294967304,
       "maybe_dynamic": false
     },
     {
@@ -208,7 +203,6 @@
       "enclosing_function": 1,
       "symbol": 7,
       "name": "rest",
-      "expr": 4294967306,
       "maybe_dynamic": false
     },
     {
@@ -218,7 +212,6 @@
       "enclosing_function": 1,
       "symbol": 8,
       "name": "m",
-      "expr": 4294967309,
       "maybe_dynamic": false
     },
     {
@@ -228,7 +221,6 @@
       "enclosing_function": 1,
       "symbol": 9,
       "name": "bar",
-      "expr": 4294967310,
       "maybe_dynamic": false
     },
     {
@@ -238,7 +230,6 @@
       "enclosing_function": 0,
       "symbol": 0,
       "name": "run",
-      "expr": 4294967311,
       "maybe_dynamic": false
     }
   ]

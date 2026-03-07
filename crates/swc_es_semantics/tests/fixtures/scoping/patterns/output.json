@@ -81,7 +81,6 @@
       "enclosing_function": 1,
       "symbol": null,
       "name": "b",
-      "expr": 4294967298,
       "maybe_dynamic": false
     },
     {
@@ -91,7 +90,6 @@
       "enclosing_function": 1,
       "symbol": 2,
       "name": "obj",
-      "expr": 4294967300,
       "maybe_dynamic": false
     },
     {
@@ -101,7 +99,6 @@
       "enclosing_function": 1,
       "symbol": 4,
       "name": "x",
-      "expr": 4294967301,
       "maybe_dynamic": false
     },
     {
@@ -111,7 +108,6 @@
       "enclosing_function": 1,
       "symbol": null,
       "name": "b",
-      "expr": 4294967302,
       "maybe_dynamic": false
     },
     {
@@ -121,7 +117,6 @@
       "enclosing_function": 1,
       "symbol": 3,
       "name": "arr",
-      "expr": 4294967304,
       "maybe_dynamic": false
     },
     {
@@ -131,7 +126,6 @@
       "enclosing_function": 1,
       "symbol": 4,
       "name": "x",
-      "expr": 4294967306,
       "maybe_dynamic": false
     },
     {
@@ -141,7 +135,6 @@
       "enclosing_function": 1,
       "symbol": null,
       "name": "b",
-      "expr": 4294967307,
       "maybe_dynamic": false
     },
     {
@@ -151,7 +144,6 @@
       "enclosing_function": 1,
       "symbol": 2,
       "name": "obj",
-      "expr": 4294967309,
       "maybe_dynamic": false
     },
     {
@@ -161,7 +153,6 @@
       "enclosing_function": 1,
       "symbol": 4,
       "name": "x",
-      "expr": null,
       "maybe_dynamic": false
     },
     {
@@ -171,7 +162,6 @@
       "enclosing_function": 1,
       "symbol": null,
       "name": "b",
-      "expr": 4294967313,
       "maybe_dynamic": false
     },
     {
@@ -181,7 +171,6 @@
       "enclosing_function": 1,
       "symbol": 4,
       "name": "x",
-      "expr": 4294967315,
       "maybe_dynamic": false
     }
   ]

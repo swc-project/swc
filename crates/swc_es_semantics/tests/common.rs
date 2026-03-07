@@ -1,11 +1,15 @@
 #![allow(dead_code)]
 
-use std::{fs, path::Path};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_es_parser::{parse_file_as_program, EsSyntax, Syntax};
 use swc_es_semantics::{analyze_program, CfgEdgeKind, CfgRoot, Semantics};
 use testing::NormalizedOutput;
+use walkdir::WalkDir;
 
 pub fn analyze_fixture(path: &Path) -> Semantics {
     let cm = SourceMap::default();
@@ -38,12 +42,30 @@ pub fn analyze_fixture(path: &Path) -> Semantics {
     analyze_program(&parsed.store, parsed.program)
 }
 
-pub fn root_to_string(root: CfgRoot) -> String {
+pub fn fixture_inputs(group: &str) -> Vec<PathBuf> {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("tests")
+        .join("fixtures")
+        .join(group);
+
+    let mut files: Vec<PathBuf> = WalkDir::new(&root)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|entry| entry.file_type().is_file())
+        .filter(|entry| entry.file_name() == "input.js")
+        .map(|entry| entry.path().to_path_buf())
+        .collect();
+    files.sort();
+
+    files
+}
+
+pub fn root_to_string(root: CfgRoot) -> &'static str {
     match root {
-        CfgRoot::Program(id) => format!("Program({})", id.as_raw()),
-        CfgRoot::Function(id) => format!("Function({})", id.as_raw()),
-        CfgRoot::Arrow(id) => format!("Arrow({})", id.as_raw()),
-        CfgRoot::ClassStaticBlock(id) => format!("ClassStaticBlock({})", id.as_raw()),
+        CfgRoot::Program(_) => "Program",
+        CfgRoot::Function(_) => "Function",
+        CfgRoot::Arrow(_) => "Arrow",
+        CfgRoot::ClassStaticBlock(_) => "ClassStaticBlock",
     }
 }
 

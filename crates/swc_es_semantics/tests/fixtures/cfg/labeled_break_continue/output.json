@@ -2,7 +2,7 @@
   "cfgs": [
     {
       "id": 0,
-      "root": "Program(4294967297)",
+      "root": "Program",
       "entry": 0,
       "exit": 1,
       "blocks": [
@@ -16,31 +16,31 @@
         },
         {
           "id": 2,
-          "kind": "Statement(4294967305)"
+          "kind": "Statement"
         },
         {
           "id": 3,
-          "kind": "Statement(4294967304)"
+          "kind": "Statement"
         },
         {
           "id": 4,
-          "kind": "Statement(4294967303)"
+          "kind": "Statement"
         },
         {
           "id": 5,
-          "kind": "Statement(4294967302)"
+          "kind": "Statement"
         },
         {
           "id": 6,
-          "kind": "Statement(4294967301)"
+          "kind": "Statement"
         },
         {
           "id": 7,
-          "kind": "Statement(4294967298)"
+          "kind": "Statement"
         },
         {
           "id": 8,
-          "kind": "Statement(4294967297)"
+          "kind": "Statement"
         },
         {
           "id": 9,
@@ -48,11 +48,11 @@
         },
         {
           "id": 10,
-          "kind": "Statement(4294967300)"
+          "kind": "Statement"
         },
         {
           "id": 11,
-          "kind": "Statement(4294967299)"
+          "kind": "Statement"
         },
         {
           "id": 12,

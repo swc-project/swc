@@ -101,7 +101,6 @@
       "enclosing_function": 0,
       "symbol": 1,
       "name": "i",
-      "expr": 4294967298,
       "maybe_dynamic": false
     },
     {
@@ -111,7 +110,6 @@
       "enclosing_function": 0,
       "symbol": 1,
       "name": "i",
-      "expr": 4294967301,
       "maybe_dynamic": false
     },
     {
@@ -121,7 +119,6 @@
       "enclosing_function": 0,
       "symbol": 1,
       "name": "i",
-      "expr": 4294967303,
       "maybe_dynamic": false
     },
     {
@@ -131,7 +128,6 @@
       "enclosing_function": 0,
       "symbol": 0,
       "name": "k",
-      "expr": 4294967305,
       "maybe_dynamic": false
     },
     {
@@ -141,7 +137,6 @@
       "enclosing_function": 0,
       "symbol": 0,
       "name": "k",
-      "expr": 4294967308,
       "maybe_dynamic": false
     },
     {
@@ -151,7 +146,6 @@
       "enclosing_function": 0,
       "symbol": 0,
       "name": "k",
-      "expr": 4294967310,
       "maybe_dynamic": false
     },
     {
@@ -161,7 +155,6 @@
       "enclosing_function": 0,
       "symbol": 0,
       "name": "k",
-      "expr": 4294967311,
       "maybe_dynamic": false
     }
   ]

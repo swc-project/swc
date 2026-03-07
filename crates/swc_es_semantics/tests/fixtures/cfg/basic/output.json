@@ -2,7 +2,7 @@
   "cfgs": [
     {
       "id": 0,
-      "root": "Program(4294967297)",
+      "root": "Program",
       "entry": 0,
       "exit": 1,
       "blocks": [
@@ -16,11 +16,11 @@
         },
         {
           "id": 2,
-          "kind": "Statement(4294967307)"
+          "kind": "Statement"
         },
         {
           "id": 3,
-          "kind": "Statement(4294967308)"
+          "kind": "Statement"
         }
       ],
       "edges": [

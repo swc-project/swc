@@ -154,7 +154,6 @@
       "enclosing_function": 1,
       "symbol": 3,
       "name": "x",
-      "expr": 4294967298,
       "maybe_dynamic": false
     },
     {
@@ -164,7 +163,6 @@
       "enclosing_function": 1,
       "symbol": 4,
       "name": "y",
-      "expr": 4294967299,
       "maybe_dynamic": false
     },
     {
@@ -174,7 +172,6 @@
       "enclosing_function": 4,
       "symbol": 8,
       "name": "x",
-      "expr": 4294967302,
       "maybe_dynamic": false
     },
     {
@@ -184,7 +181,6 @@
       "enclosing_function": 4,
       "symbol": 9,
       "name": "y",
-      "expr": 4294967303,
       "maybe_dynamic": false
     },
     {
@@ -194,7 +190,6 @@
       "enclosing_function": 1,
       "symbol": 4,
       "name": "y",
-      "expr": null,
       "maybe_dynamic": false
     },
     {
@@ -204,7 +199,6 @@
       "enclosing_function": 1,
       "symbol": 5,
       "name": "x",
-      "expr": 4294967306,
       "maybe_dynamic": false
     },
     {
@@ -214,7 +208,6 @@
       "enclosing_function": 1,
       "symbol": 3,
       "name": "x",
-      "expr": 4294967308,
       "maybe_dynamic": false
     },
     {
@@ -224,7 +217,6 @@
       "enclosing_function": 1,
       "symbol": 4,
       "name": "y",
-      "expr": 4294967309,
       "maybe_dynamic": false
     }
   ]
