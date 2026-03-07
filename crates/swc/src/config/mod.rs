@@ -1629,7 +1629,21 @@ impl ModuleConfig {
         // https://github.com/swc-project/swc/issues/11584
         let base = match base {
             FileName::Real(v) if !skip_resolver => {
-                let cleaned = v.clean();
+                let cleaned = if v.is_absolute() {
+                    v.clean()
+                } else {
+                    let relative = v.clean();
+
+                    // If the relative input filename points to an existing file from
+                    // cwd (CLI/manual use-cases), keep it in cwd path space.
+                    // Otherwise (virtual/in-memory filenames), keep it relative so
+                    // resolver logic can rebase through `jsc.baseUrl`.
+                    env::current_dir()
+                        .ok()
+                        .map(|cwd| cwd.join(&relative).clean())
+                        .filter(|abs| abs.exists())
+                        .unwrap_or(relative)
+                };
 
                 #[cfg(target_os = "windows")]
                 let cleaned = if cleaned.is_absolute()

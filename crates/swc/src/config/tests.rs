@@ -85,6 +85,64 @@ fn issue_11584_relative_base_is_rebased_against_base_url() {
     let _ = fs::remove_dir_all(&tmp_root);
 }
 
+#[cfg(feature = "module")]
+#[test]
+fn issue_11584_existing_relative_base_uses_cwd_path_space() {
+    use std::{
+        env, fs,
+        time::{SystemTime, UNIX_EPOCH},
+    };
+
+    let cwd = env::current_dir().expect("should get current_dir");
+    let uniq = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock should be monotonic")
+        .as_nanos();
+    let tmp_root = cwd.join(format!(
+        "swc-issue-11584-existing-{}-{}",
+        std::process::id(),
+        uniq
+    ));
+    let base_url = tmp_root.join("src");
+    let base_file = base_url.join("index.ts");
+    let dep_file = base_url.join("modules").join("moduleA").join("index.ts");
+
+    fs::create_dir_all(dep_file.parent().expect("dep parent should exist"))
+        .expect("should create fixture directories");
+    fs::write(&base_file, "import { moduleA } from '@modules/moduleA';\n")
+        .expect("should create base file");
+    fs::write(&dep_file, "export const moduleA = () => {};\n").expect("should create dep file");
+
+    let base_relative = base_file
+        .strip_prefix(&cwd)
+        .expect("fixture path should be under cwd")
+        .to_path_buf();
+    let base = FileName::Real(base_relative);
+    let paths = vec![("@modules/*".to_string(), vec!["./modules/*".to_string()])];
+
+    let (normalized_base, resolver) = ModuleConfig::get_resolver(&base_url, paths, &base, None)
+        .expect("resolver should be created");
+
+    let normalized_path = match &normalized_base {
+        FileName::Real(path) => path,
+        other => panic!("unexpected base filename: {other:?}"),
+    };
+    assert!(
+        normalized_path.is_absolute(),
+        "existing relative filename should be normalized into cwd path space"
+    );
+
+    let resolved = resolver
+        .resolve_import(&normalized_base, "@modules/moduleA")
+        .expect("import should resolve");
+    assert_eq!(
+        &*resolved, "./modules/moduleA",
+        "resolved import should stay relative to src/ for existing relative filenames"
+    );
+
+    let _ = fs::remove_dir_all(&tmp_root);
+}
+
 #[cfg(all(feature = "module", target_os = "windows"))]
 #[test]
 fn issue_11584_windows_absolute_base_is_unc() {
