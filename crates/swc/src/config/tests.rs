@@ -84,3 +84,56 @@ fn issue_11584_relative_base_is_rebased_against_base_url() {
 
     let _ = fs::remove_dir_all(&tmp_root);
 }
+
+#[cfg(all(feature = "module", target_os = "windows"))]
+#[test]
+fn issue_11584_windows_absolute_base_is_unc() {
+    use std::{
+        env, fs,
+        time::{SystemTime, UNIX_EPOCH},
+    };
+
+    let uniq = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock should be monotonic")
+        .as_nanos();
+    let tmp_root = env::temp_dir().join(format!(
+        "swc-issue-11584-win-{}-{}",
+        std::process::id(),
+        uniq
+    ));
+    let base_url = tmp_root.join("project");
+    let src_dir = base_url.join("src");
+    let entry = src_dir.join("index.ts");
+
+    fs::create_dir_all(&src_dir).expect("should create fixture directories");
+    fs::write(&entry, "export const value = 1;\n").expect("should create fixture file");
+
+    let base = FileName::Real(entry);
+    let paths = vec![("@app/*".to_string(), vec!["src/*".to_string()])];
+    let (normalized_base, _) = ModuleConfig::get_resolver(&base_url, paths, &base, None)
+        .expect("resolver should be created");
+
+    let normalized_path = match &normalized_base {
+        FileName::Real(path) => path,
+        other => panic!("unexpected base filename: {other:?}"),
+    };
+
+    let is_unc = matches!(
+        normalized_path.components().next(),
+        Some(std::path::Component::Prefix(prefix))
+            if matches!(
+                prefix.kind(),
+                std::path::Prefix::Verbatim(_)
+                    | std::path::Prefix::VerbatimDisk(_)
+                    | std::path::Prefix::VerbatimUNC(_, _)
+            )
+    );
+    assert!(
+        is_unc,
+        "normalized Windows base path should be UNC, got: {}",
+        normalized_path.display()
+    );
+
+    let _ = fs::remove_dir_all(&tmp_root);
+}

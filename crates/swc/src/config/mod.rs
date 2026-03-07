@@ -1620,10 +1620,36 @@ impl ModuleConfig {
         // computation in `diff_paths` (both base and target must live
         // in the same "path space").
         //
+        // On Windows, we still canonicalize absolute paths to keep the base
+        // path in UNC form. `build_resolver` canonicalizes `jsc.baseUrl` to
+        // UNC as well, and `diff_paths` requires both paths to be in the same
+        // form to produce relative paths consistently.
+        //
         // https://github.com/swc-project/swc/issues/8265
         // https://github.com/swc-project/swc/issues/11584
         let base = match base {
-            FileName::Real(v) if !skip_resolver => FileName::Real(v.clean()),
+            FileName::Real(v) if !skip_resolver => {
+                let cleaned = v.clean();
+
+                #[cfg(target_os = "windows")]
+                let cleaned = if cleaned.is_absolute()
+                    && !matches!(
+                        cleaned.components().next(),
+                        Some(std::path::Component::Prefix(prefix))
+                            if matches!(
+                                prefix.kind(),
+                                std::path::Prefix::Verbatim(_)
+                                    | std::path::Prefix::VerbatimDisk(_)
+                                    | std::path::Prefix::VerbatimUNC(_, _)
+                            )
+                    ) {
+                    cleaned.canonicalize().unwrap_or(cleaned)
+                } else {
+                    cleaned
+                };
+
+                FileName::Real(cleaned)
+            }
             _ => base.clone(),
         };
 
