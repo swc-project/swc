@@ -6946,10 +6946,12 @@ dependencies = [
 name = "swc_es_codegen"
 version = "0.1.0"
 dependencies = [
+ "codspeed-criterion-compat",
  "ryu-js",
  "swc_common",
  "swc_es_ast",
  "swc_es_parser",
+ "swc_malloc",
  "testing",
  "walkdir",
 ]

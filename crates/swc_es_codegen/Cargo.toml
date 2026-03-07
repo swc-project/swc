@@ -19,8 +19,14 @@ ryu-js = { workspace = true }
 swc_es_ast = { version = "0.1.0", path = "../swc_es_ast" }
 
 [dev-dependencies]
+codspeed-criterion-compat = { workspace = true }
 testing = { version = "20.0.0", path = "../testing" }
 walkdir = { workspace = true }
 
 swc_common = { version = "19.0.0", path = "../swc_common" }
 swc_es_parser = { version = "0.1.0", path = "../swc_es_parser" }
+swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
+
+[[bench]]
+harness = false
+name    = "with_parse"
