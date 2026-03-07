@@ -1,0 +1,11 @@
+{
+  "presets": [
+    [
+      "../../../../lib",
+      {
+        "targets": "chrome 120",
+        "include": ["transform-named-capturing-groups-regex"]
+      }
+    ]
+  ]
+}

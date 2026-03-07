@@ -1,7 +1,7 @@
 use swc_atoms::Atom;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
-use swc_ecma_compat_regexp::transform_unicode_property_escapes;
+use swc_ecma_compat_regexp::{transform_named_capture_groups, transform_unicode_property_escapes};
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_regexp::{LiteralParser, Options as RegexpOptions};
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -65,15 +65,43 @@ struct RegexpPass {
 }
 
 impl RegexpPass {
-    /// Transform the regex pattern if it contains unicode property escapes.
+    fn contains_named_capture_group(pattern: &str) -> bool {
+        let bytes = pattern.as_bytes();
+        let mut i = 0;
+
+        while i + 2 < bytes.len() {
+            if bytes[i] == b'(' && bytes[i + 1] == b'?' && bytes[i + 2] == b'<' {
+                let lookbehind_marker = bytes.get(i + 3).copied();
+                if !matches!(lookbehind_marker, Some(b'=') | Some(b'!')) {
+                    return true;
+                }
+            }
+
+            i += 1;
+        }
+
+        false
+    }
+
+    fn should_transform_named_capture(&self, pattern: &str) -> bool {
+        self.options.named_capturing_groups_regex
+            && (Self::contains_named_capture_group(pattern) || pattern.contains("\\k<"))
+    }
+
+    fn should_transform_unicode_property(&self, pattern: &str, flags: &str) -> bool {
+        self.options.unicode_property_regex
+            && flags.contains(['u', 'v'])
+            && (pattern.contains("\\p{") || pattern.contains("\\P{"))
+    }
+
+    /// Transform the regex pattern if it contains supported syntax.
     /// Returns the transformed pattern string.
     fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<String> {
-        // Only transform if unicode_property_regex is enabled and pattern contains
-        // \p{ or \P{
-        if !self.options.unicode_property_regex {
-            return None;
-        }
-        if !pattern.contains("\\p{") && !pattern.contains("\\P{") {
+        let should_transform_unicode_property =
+            self.should_transform_unicode_property(pattern, flags);
+        let should_transform_named_capture = self.should_transform_named_capture(pattern);
+
+        if !should_transform_unicode_property && !should_transform_named_capture {
             return None;
         }
 
@@ -82,15 +110,20 @@ impl RegexpPass {
             .parse()
             .ok()?;
 
-        // Transform unicode property escapes
-        transform_unicode_property_escapes(&mut ast);
+        if should_transform_unicode_property {
+            transform_unicode_property_escapes(&mut ast);
+        }
+
+        if should_transform_named_capture {
+            transform_named_capture_groups(&mut ast);
+        }
 
         // Serialize back to string
         Some(ast.to_string())
     }
 
     fn transform_regexp_args(&self, args: &mut [ExprOrSpread]) {
-        if !self.options.unicode_property_regex {
+        if !self.options.unicode_property_regex && !self.options.named_capturing_groups_regex {
             return;
         }
 
@@ -126,10 +159,6 @@ impl RegexpPass {
             None => "",
         };
 
-        if !flags.contains(['u', 'v']) {
-            return;
-        }
-
         let Some(transformed_pattern) = self.transform_pattern(pattern, flags) else {
             return;
         };
@@ -151,11 +180,10 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                     || (self.options.unicode_regex && regex.flags.contains('u'))
                     || (self.options.unicode_sets_regex && regex.flags.contains('v'))
                     || (self.options.has_indices && regex.flags.contains('d'))
-                    || (self.options.named_capturing_groups_regex && regex.exp.contains("(?<"))
+                    || self.should_transform_named_capture(&regex.exp)
                     || (self.options.lookbehind_assertion
                         && (regex.exp.contains("(?<=") || regex.exp.contains("(?<!")))
-                    || (self.options.unicode_property_regex
-                        && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")));
+                    || self.should_transform_unicode_property(&regex.exp, &regex.flags);
 
                 if needs_transform {
                     let Regex { exp, flags, span } = regex.take();

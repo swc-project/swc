@@ -6293,6 +6293,7 @@ name = "swc_ecma_compat_regexp"
 version = "2.0.0"
 dependencies = [
  "icu_properties 2.1.2",
+ "swc_atoms",
  "swc_ecma_regexp",
  "swc_ecma_regexp_ast",
  "swc_ecma_regexp_visit",
