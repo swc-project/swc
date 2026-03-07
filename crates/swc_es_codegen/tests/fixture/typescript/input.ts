@@ -1,0 +1,17 @@
+declare namespace A.B {
+  let n: number;
+}
+type Pair<T> = [T, T];
+interface I<T> extends Base, Extra {
+  readonly x?: T;
+  call(a: T): Pair<T>;
+  [k: string]: T;
+}
+const enum E {
+  A = 1,
+  B = 2,
+}
+type C<T> = T extends string ? number : boolean;
+type R = import("pkg").Type<string[]>;
+type Q = typeof Foo;
+let value: C<string>;

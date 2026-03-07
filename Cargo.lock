@@ -6943,6 +6943,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_es_codegen"
+version = "0.1.0"
+dependencies = [
+ "codspeed-criterion-compat",
+ "ryu-js",
+ "swc_atoms",
+ "swc_common",
+ "swc_es_ast",
+ "swc_es_parser",
+ "swc_malloc",
+ "testing",
+ "walkdir",
+]
+
+[[package]]
 name = "swc_es_parser"
 version = "0.1.0"
 dependencies = [
