@@ -228,3 +228,49 @@ fn issue_11584_symlink_not_canonicalized() {
         "Symlink path should be preserved, not canonicalized to real path"
     );
 }
+
+/// Test for use cases discussed in
+/// https://github.com/swc-project/swc/pull/11585#issuecomment-3993466331
+///
+/// In a pnpm-like layout, `node_modules/@a/pkg` may be a symlink to
+/// `node_modules/.pnpm/.../node_modules/@a/pkg`. Both a package import and
+/// an explicit `./node_modules` import should preserve the original specifier.
+#[cfg(unix)]
+#[test]
+fn issue_11585_pnpm_node_modules_symlink() {
+    use std::{fs, os::unix::fs as unix_fs};
+
+    let tmpdir = TempDir::new().unwrap();
+    let project_dir = tmpdir.path().join("project");
+    let node_modules = project_dir.join("node_modules");
+    let pnpm_pkg = node_modules
+        .join(".pnpm")
+        .join("@a+pkg@1.0.0")
+        .join("node_modules")
+        .join("@a")
+        .join("pkg");
+
+    fs::create_dir_all(&pnpm_pkg).unwrap();
+    fs::create_dir_all(node_modules.join("@a")).unwrap();
+    fs::write(pnpm_pkg.join("index.js"), "export const value = 1;\n").unwrap();
+    fs::write(project_dir.join("index.js"), "import '@a/pkg';\n").unwrap();
+
+    unix_fs::symlink(&pnpm_pkg, node_modules.join("@a").join("pkg")).unwrap();
+
+    let base = FileName::Real(project_dir.join("index.js"));
+    let resolver = NodeImportResolver::with_config(
+        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
+        swc_ecma_transforms_module::path::Config {
+            base_dir: Some(project_dir.clone()),
+            ..Default::default()
+        },
+    );
+
+    let package_import = resolver.resolve_import(&base, "@a/pkg").unwrap();
+    assert_eq!(&*package_import, "@a/pkg");
+
+    let explicit_node_modules_import = resolver
+        .resolve_import(&base, "./node_modules/@a/pkg")
+        .unwrap();
+    assert_eq!(&*explicit_node_modules_import, "./node_modules/@a/pkg");
+}
