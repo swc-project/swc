@@ -373,6 +373,7 @@ define_helpers!(Helpers {
     type_of: (),
     unsupported_iterable_to_array: (array_like_to_array),
     wrap_async_generator: (async_generator),
+    wrap_regexp: (inherits, set_prototype_of),
     wrap_native_super: (
         construct,
         get_prototype_of,

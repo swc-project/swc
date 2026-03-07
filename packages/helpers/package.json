@@ -678,6 +678,12 @@
             "import": "./esm/_wrap_native_super.js",
             "default": "./cjs/_wrap_native_super.cjs"
         },
+        "./_/_wrap_regexp": {
+            "module-sync": "./esm/_wrap_regexp.js",
+            "webpack": "./esm/_wrap_regexp.js",
+            "import": "./esm/_wrap_regexp.js",
+            "default": "./cjs/_wrap_regexp.cjs"
+        },
         "./_/_write_only_error": {
             "module-sync": "./esm/_write_only_error.js",
             "webpack": "./esm/_write_only_error.js",

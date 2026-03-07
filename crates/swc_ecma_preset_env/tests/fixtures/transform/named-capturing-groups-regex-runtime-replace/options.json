@@ -1,0 +1,8 @@
+{
+    "presets": [
+        ["@babel/preset-env", {
+            "targets": { "chrome": "49" },
+            "include": ["transform-named-capturing-groups-regex"]
+        }]
+    ]
+}

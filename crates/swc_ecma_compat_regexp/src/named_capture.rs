@@ -9,6 +9,12 @@ use swc_atoms::Atom;
 use swc_ecma_regexp_ast::{CapturingGroup, IndexedReference, Pattern, Term};
 use swc_ecma_regexp_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
+/// Named capture group mapping used for runtime group reconstruction.
+///
+/// Each entry contains the group name and the list of positional capture
+/// indices associated with that name.
+pub type NamedCaptureGroups = Vec<(Atom, Vec<u32>)>;
+
 /// Transforms named capture groups and named backreferences in a regex pattern.
 ///
 /// This transformation is syntax-only:
@@ -17,23 +23,33 @@ use swc_ecma_regexp_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 ///
 /// If a named backreference cannot be resolved, it is left unchanged.
 pub fn transform_named_capture_groups(pattern: &mut Pattern) {
+    let _ = transform_named_capture_groups_with_info(pattern);
+}
+
+/// Transforms named capture groups and named backreferences while collecting
+/// positional indices for each named capture group.
+pub fn transform_named_capture_groups_with_info(pattern: &mut Pattern) -> NamedCaptureGroups {
     let mut collector = CaptureGroupCollector::default();
     pattern.visit_with(&mut collector);
 
-    if collector.name_to_index.is_empty() {
-        return;
+    if collector.first_index_by_name.is_empty() {
+        return Vec::new();
     }
 
     let mut transformer = NamedCaptureGroupTransformer {
-        name_to_index: &collector.name_to_index,
+        first_index_by_name: &collector.first_index_by_name,
     };
     pattern.visit_mut_with(&mut transformer);
+
+    collector.named_groups
 }
 
 #[derive(Default)]
 struct CaptureGroupCollector {
     next_index: u32,
-    name_to_index: HashMap<Atom, u32>,
+    first_index_by_name: HashMap<Atom, u32>,
+    name_to_slot: HashMap<Atom, usize>,
+    named_groups: NamedCaptureGroups,
 }
 
 impl Visit for CaptureGroupCollector {
@@ -41,9 +57,16 @@ impl Visit for CaptureGroupCollector {
         self.next_index += 1;
 
         if let Some(name) = &group.name {
-            self.name_to_index
+            self.first_index_by_name
                 .entry(name.clone())
                 .or_insert(self.next_index);
+
+            let slot = *self.name_to_slot.entry(name.clone()).or_insert_with(|| {
+                let slot = self.named_groups.len();
+                self.named_groups.push((name.clone(), Vec::new()));
+                slot
+            });
+            self.named_groups[slot].1.push(self.next_index);
         }
 
         group.body.visit_with(self);
@@ -51,7 +74,7 @@ impl Visit for CaptureGroupCollector {
 }
 
 struct NamedCaptureGroupTransformer<'a> {
-    name_to_index: &'a HashMap<Atom, u32>,
+    first_index_by_name: &'a HashMap<Atom, u32>,
 }
 
 impl VisitMut for NamedCaptureGroupTransformer<'_> {
@@ -62,7 +85,7 @@ impl VisitMut for NamedCaptureGroupTransformer<'_> {
                 group.body.visit_mut_with(self);
             }
             Term::NamedReference(named_ref) => {
-                if let Some(&index) = self.name_to_index.get(&named_ref.name) {
+                if let Some(&index) = self.first_index_by_name.get(&named_ref.name) {
                     *term = Term::IndexedReference(Box::new(IndexedReference {
                         span: named_ref.span,
                         index,
@@ -78,9 +101,10 @@ impl VisitMut for NamedCaptureGroupTransformer<'_> {
 
 #[cfg(test)]
 mod tests {
+    use swc_atoms::Atom;
     use swc_ecma_regexp::{LiteralParser, Options};
 
-    use super::transform_named_capture_groups;
+    use super::{transform_named_capture_groups, transform_named_capture_groups_with_info};
 
     fn parse_and_transform(pattern: &str, flags: &str) -> String {
         let mut ast = LiteralParser::new(pattern, Some(flags), Options::default())
@@ -88,6 +112,14 @@ mod tests {
             .unwrap();
         transform_named_capture_groups(&mut ast);
         ast.to_string()
+    }
+
+    fn parse_transform_and_collect(pattern: &str, flags: &str) -> (String, Vec<(Atom, Vec<u32>)>) {
+        let mut ast = LiteralParser::new(pattern, Some(flags), Options::default())
+            .parse()
+            .unwrap();
+        let named_groups = transform_named_capture_groups_with_info(&mut ast);
+        (ast.to_string(), named_groups)
     }
 
     #[test]
@@ -106,5 +138,13 @@ mod tests {
     fn keeps_mixed_capture_indices_stable() {
         let actual = parse_and_transform(r"(.)(?<a>b)(?<b>c)\k<a>\k<b>", "");
         assert_eq!(actual, r"(.)(b)(c)\2\3");
+    }
+
+    #[test]
+    fn collects_named_capture_group_indices_for_runtime_mapping() {
+        let (actual, named_groups) = parse_transform_and_collect(r"(?<left>a)|(?<left>b)", "");
+
+        assert_eq!(actual, r"(a)|(b)");
+        assert_eq!(named_groups, vec![(Atom::from("left"), vec![1, 2])]);
     }
 }

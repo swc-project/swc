@@ -105,4 +105,5 @@ export { _ as _using } from "./_using.js";
 export { _ as _using_ctx } from "./_using_ctx.js";
 export { _ as _wrap_async_generator } from "./_wrap_async_generator.js";
 export { _ as _wrap_native_super } from "./_wrap_native_super.js";
+export { _ as _wrap_regexp } from "./_wrap_regexp.js";
 export { _ as _write_only_error } from "./_write_only_error.js";

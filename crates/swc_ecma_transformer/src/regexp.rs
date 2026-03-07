@@ -1,9 +1,13 @@
 use swc_atoms::Atom;
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_compat_regexp::{transform_named_capture_groups, transform_unicode_property_escapes};
+use swc_ecma_compat_regexp::{
+    transform_named_capture_groups_with_info, transform_unicode_property_escapes,
+    NamedCaptureGroups,
+};
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_regexp::{LiteralParser, Options as RegexpOptions};
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory};
 
 use crate::TraverseCtx;
@@ -64,6 +68,11 @@ struct RegexpPass {
     options: RegExpOptions,
 }
 
+struct PatternTransformResult {
+    transformed_pattern: String,
+    named_capture_groups: NamedCaptureGroups,
+}
+
 impl RegexpPass {
     fn contains_named_capture_group(pattern: &str) -> bool {
         let bytes = pattern.as_bytes();
@@ -95,8 +104,7 @@ impl RegexpPass {
     }
 
     /// Transform the regex pattern if it contains supported syntax.
-    /// Returns the transformed pattern string.
-    fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<String> {
+    fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<PatternTransformResult> {
         let should_transform_unicode_property =
             self.should_transform_unicode_property(pattern, flags);
         let should_transform_named_capture = self.should_transform_named_capture(pattern);
@@ -114,60 +122,124 @@ impl RegexpPass {
             transform_unicode_property_escapes(&mut ast);
         }
 
-        if should_transform_named_capture {
-            transform_named_capture_groups(&mut ast);
-        }
+        let named_capture_groups = if should_transform_named_capture {
+            transform_named_capture_groups_with_info(&mut ast)
+        } else {
+            Vec::new()
+        };
 
-        // Serialize back to string
-        Some(ast.to_string())
+        Some(PatternTransformResult {
+            transformed_pattern: ast.to_string(),
+            named_capture_groups,
+        })
     }
 
-    fn transform_regexp_args(&self, args: &mut [ExprOrSpread]) {
+    fn transform_regexp_args(&self, args: &mut [ExprOrSpread]) -> Option<NamedCaptureGroups> {
         if !self.options.unicode_property_regex && !self.options.named_capturing_groups_regex {
-            return;
+            return None;
         }
 
-        let Some((pattern_arg, rest_args)) = args.split_first_mut() else {
-            return;
-        };
+        let (pattern_arg, rest_args) = args.split_first_mut()?;
         if pattern_arg.spread.is_some() {
-            return;
+            return None;
         }
 
         let Expr::Lit(Lit::Str(pattern_lit)) = &*pattern_arg.expr else {
-            return;
+            return None;
         };
-        let Some(pattern) = pattern_lit.value.as_str() else {
-            return;
-        };
+        let pattern = pattern_lit.value.as_str()?;
 
         let flags = match rest_args.first() {
             Some(flags_arg) => {
                 if flags_arg.spread.is_some() {
-                    return;
+                    return None;
                 }
 
                 let Expr::Lit(Lit::Str(flags_lit)) = &*flags_arg.expr else {
-                    return;
+                    return None;
                 };
-                let Some(flags) = flags_lit.value.as_str() else {
-                    return;
-                };
+                let flags = flags_lit.value.as_str()?;
 
                 flags
             }
             None => "",
         };
 
-        let Some(transformed_pattern) = self.transform_pattern(pattern, flags) else {
-            return;
-        };
+        let transformed = self.transform_pattern(pattern, flags)?;
+
+        let PatternTransformResult {
+            transformed_pattern,
+            named_capture_groups,
+        } = transformed;
 
         let Expr::Lit(Lit::Str(pattern_lit)) = &mut *pattern_arg.expr else {
-            return;
+            return None;
         };
         pattern_lit.value = transformed_pattern.into();
         pattern_lit.raw = None;
+
+        Some(named_capture_groups)
+    }
+
+    fn number_literal(index: u32) -> Expr {
+        Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: f64::from(index),
+            raw: None,
+        }))
+    }
+
+    fn build_named_capture_groups_object(named_capture_groups: NamedCaptureGroups) -> Expr {
+        let props = named_capture_groups
+            .into_iter()
+            .map(|(name, indices)| {
+                let value = if indices.len() == 1 {
+                    Self::number_literal(indices[0])
+                } else {
+                    Expr::Array(ArrayLit {
+                        span: DUMMY_SP,
+                        elems: indices
+                            .into_iter()
+                            .map(|index| Some(Self::number_literal(index).as_arg()))
+                            .collect(),
+                    })
+                };
+
+                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                    key: PropName::Str(Str {
+                        span: DUMMY_SP,
+                        value: name.into(),
+                        raw: None,
+                    }),
+                    value: Box::new(value),
+                })))
+            })
+            .collect();
+
+        Expr::Object(ObjectLit {
+            span: DUMMY_SP,
+            props,
+        })
+    }
+
+    fn wrap_regexp_with_named_capture_groups(
+        &self,
+        span: Span,
+        regexp_expr: Expr,
+        named_capture_groups: NamedCaptureGroups,
+    ) -> Expr {
+        if named_capture_groups.is_empty() {
+            return regexp_expr;
+        }
+
+        let groups = Self::build_named_capture_groups_object(named_capture_groups);
+
+        Expr::Call(CallExpr {
+            span,
+            callee: helper!(span, wrap_regexp),
+            args: vec![regexp_expr.as_arg(), groups.as_arg()],
+            ..Default::default()
+        })
     }
 }
 
@@ -188,10 +260,14 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                 if needs_transform {
                     let Regex { exp, flags, span } = regex.take();
 
-                    // Transform the pattern if it contains unicode property escapes
-                    let transformed_pattern = self
-                        .transform_pattern(&exp, &flags)
-                        .unwrap_or_else(|| exp.to_string());
+                    let (transformed_pattern, named_capture_groups) =
+                        match self.transform_pattern(&exp, &flags) {
+                            Some(transformed) => (
+                                transformed.transformed_pattern,
+                                transformed.named_capture_groups,
+                            ),
+                            None => (exp.to_string(), Vec::new()),
+                        };
 
                     let exp: Expr = Atom::from(transformed_pattern).into();
                     let mut args = vec![exp.into()];
@@ -201,28 +277,68 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                         args.push(flags.into());
                     }
 
-                    *expr = CallExpr {
+                    let regexp_expr: Expr = CallExpr {
                         span,
                         callee: quote_ident!("RegExp").as_callee(),
                         args,
                         ..Default::default()
                     }
-                    .into()
+                    .into();
+
+                    *expr = self.wrap_regexp_with_named_capture_groups(
+                        span,
+                        regexp_expr,
+                        named_capture_groups,
+                    );
                 }
             }
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                args,
-                ..
-            }) if callee.is_ident_ref_to("RegExp") => {
-                self.transform_regexp_args(args);
+            Expr::Call(call_expr) => {
+                let Callee::Expr(callee) = &call_expr.callee else {
+                    return;
+                };
+                if !callee.is_ident_ref_to("RegExp") {
+                    return;
+                }
+
+                let Some(named_capture_groups) = self.transform_regexp_args(&mut call_expr.args)
+                else {
+                    return;
+                };
+
+                if named_capture_groups.is_empty() {
+                    return;
+                }
+
+                let span = call_expr.span;
+                *expr = self.wrap_regexp_with_named_capture_groups(
+                    span,
+                    Expr::Call(call_expr.take()),
+                    named_capture_groups,
+                );
             }
-            Expr::New(NewExpr {
-                callee,
-                args: Some(args),
-                ..
-            }) if callee.is_ident_ref_to("RegExp") => {
-                self.transform_regexp_args(args);
+            Expr::New(new_expr) => {
+                if !new_expr.callee.is_ident_ref_to("RegExp") {
+                    return;
+                }
+
+                let Some(args) = new_expr.args.as_mut() else {
+                    return;
+                };
+
+                let Some(named_capture_groups) = self.transform_regexp_args(args) else {
+                    return;
+                };
+
+                if named_capture_groups.is_empty() {
+                    return;
+                }
+
+                let span = new_expr.span;
+                *expr = self.wrap_regexp_with_named_capture_groups(
+                    span,
+                    Expr::New(new_expr.take()),
+                    named_capture_groups,
+                );
             }
             _ => {}
         }

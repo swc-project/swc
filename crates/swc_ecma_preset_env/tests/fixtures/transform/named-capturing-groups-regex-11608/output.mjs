@@ -1,1 +1,3 @@
-const match = "IJobHeader[[ModuleName]]".match(RegExp("IJobHeader\\[\\[([A-Za-z]+)\\]\\]"));
+const match = "IJobHeader[[ModuleName]]".match(_wrap_regexp(RegExp("IJobHeader\\[\\[([A-Za-z]+)\\]\\]"), {
+    "moduleName": 1
+}));
