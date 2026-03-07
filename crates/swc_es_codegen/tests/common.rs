@@ -16,27 +16,29 @@ pub struct Generated {
 }
 
 pub fn fixture_inputs() -> Vec<PathBuf> {
-    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("tests")
-        .join("fixtures");
+    let tests_root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests");
+    let mut files = Vec::new();
 
-    let mut files: Vec<PathBuf> = WalkDir::new(&root)
-        .into_iter()
-        .filter_map(Result::ok)
-        .filter(|entry| entry.file_type().is_file())
-        .filter(|entry| {
-            let name = entry.file_name().to_string_lossy();
-            name == "input.js"
-                || name == "input.mjs"
-                || name == "input.ts"
-                || name == "input.tsx"
-                || name == "input.jsx"
-        })
-        .map(|entry| entry.path().to_path_buf())
-        .collect();
+    for root in ["fixtures", "fixture"] {
+        files.extend(
+            WalkDir::new(tests_root.join(root))
+                .into_iter()
+                .filter_map(Result::ok)
+                .filter(|entry| entry.file_type().is_file())
+                .filter(|entry| is_fixture_input(entry.file_name().to_string_lossy().as_ref()))
+                .map(|entry| entry.path().to_path_buf()),
+        );
+    }
 
     files.sort();
     files
+}
+
+fn is_fixture_input(name: &str) -> bool {
+    matches!(
+        name,
+        "input.js" | "input.mjs" | "input.ts" | "input.tsx" | "input.jsx"
+    )
 }
 
 pub fn run_fixture(input: &Path) -> Generated {
