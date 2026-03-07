@@ -1,0 +1,164 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Function",
+      "parent": 0,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Block",
+      "parent": 1,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": []
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Function",
+      "scope": 0,
+      "name": "outer",
+      "references": [
+        5
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Import",
+      "scope": 0,
+      "name": "y",
+      "references": [
+        4
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Const",
+      "scope": 0,
+      "name": "z",
+      "references": []
+    },
+    {
+      "id": 3,
+      "kind": "Function",
+      "scope": 1,
+      "name": "outer",
+      "references": []
+    },
+    {
+      "id": 4,
+      "kind": "Param",
+      "scope": 1,
+      "name": "a",
+      "references": [
+        0
+      ]
+    },
+    {
+      "id": 5,
+      "kind": "Var",
+      "scope": 1,
+      "name": "c",
+      "references": [
+        3
+      ]
+    },
+    {
+      "id": 6,
+      "kind": "Let",
+      "scope": 1,
+      "name": "b",
+      "references": [
+        1,
+        2
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 4,
+      "name": "a",
+      "expr": 4294967297,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 1,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 6,
+      "name": "b",
+      "expr": 4294967298,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 2,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 6,
+      "name": "b",
+      "expr": 4294967299,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 3,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 5,
+      "name": "c",
+      "expr": 4294967302,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 4,
+      "kind": "Read",
+      "scope": 0,
+      "enclosing_function": 0,
+      "symbol": 1,
+      "name": "y",
+      "expr": 4294967303,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 5,
+      "kind": "Read",
+      "scope": 0,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "outer",
+      "expr": 4294967304,
+      "maybe_dynamic": false
+    }
+  ]
+}
