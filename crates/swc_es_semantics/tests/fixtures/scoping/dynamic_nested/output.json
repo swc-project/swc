@@ -1,0 +1,140 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Function",
+      "parent": 0,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": true,
+      "symbols": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Function",
+      "parent": 1,
+      "enclosing_function": 2,
+      "parent_function": 1,
+      "has_dynamic_lookup": true,
+      "symbols": [
+        4
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Block",
+      "parent": 1,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        5
+      ]
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Function",
+      "scope": 0,
+      "name": "outer",
+      "references": []
+    },
+    {
+      "id": 1,
+      "kind": "Function",
+      "scope": 1,
+      "name": "outer",
+      "references": []
+    },
+    {
+      "id": 2,
+      "kind": "Param",
+      "scope": 1,
+      "name": "obj",
+      "references": [
+        2
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Function",
+      "scope": 1,
+      "name": "inner",
+      "references": [
+        3
+      ]
+    },
+    {
+      "id": 4,
+      "kind": "Function",
+      "scope": 2,
+      "name": "inner",
+      "references": []
+    },
+    {
+      "id": 5,
+      "kind": "Let",
+      "scope": 3,
+      "name": "x",
+      "references": []
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 2,
+      "symbol": null,
+      "name": "eval",
+      "expr": 4294967297,
+      "maybe_dynamic": true
+    },
+    {
+      "id": 1,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 2,
+      "symbol": null,
+      "name": "x",
+      "expr": 4294967300,
+      "maybe_dynamic": true
+    },
+    {
+      "id": 2,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 2,
+      "name": "obj",
+      "expr": 4294967302,
+      "maybe_dynamic": true
+    },
+    {
+      "id": 3,
+      "kind": "Read",
+      "scope": 3,
+      "enclosing_function": 1,
+      "symbol": 3,
+      "name": "inner",
+      "expr": 4294967304,
+      "maybe_dynamic": true
+    }
+  ]
+}

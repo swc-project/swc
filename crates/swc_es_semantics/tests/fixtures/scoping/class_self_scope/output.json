@@ -1,0 +1,132 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Class",
+      "parent": 0,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Function",
+      "parent": 1,
+      "enclosing_function": 2,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": []
+    },
+    {
+      "id": 3,
+      "kind": "Block",
+      "parent": 1,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": []
+    },
+    {
+      "id": 4,
+      "kind": "Class",
+      "parent": 0,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        3
+      ]
+    },
+    {
+      "id": 5,
+      "kind": "Block",
+      "parent": 4,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": []
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Const",
+      "scope": 0,
+      "name": "A",
+      "references": []
+    },
+    {
+      "id": 1,
+      "kind": "Class",
+      "scope": 0,
+      "name": "C",
+      "references": []
+    },
+    {
+      "id": 2,
+      "kind": "Class",
+      "scope": 1,
+      "name": "B",
+      "references": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Class",
+      "scope": 4,
+      "name": "C",
+      "references": [
+        2
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 2,
+      "symbol": 2,
+      "name": "B",
+      "expr": 4294967297,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 1,
+      "kind": "Read",
+      "scope": 3,
+      "enclosing_function": 0,
+      "symbol": 2,
+      "name": "B",
+      "expr": 4294967300,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 2,
+      "kind": "Read",
+      "scope": 5,
+      "enclosing_function": 0,
+      "symbol": 3,
+      "name": "C",
+      "expr": 4294967305,
+      "maybe_dynamic": false
+    }
+  ]
+}

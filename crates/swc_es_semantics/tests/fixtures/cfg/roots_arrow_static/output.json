@@ -1,0 +1,191 @@
+{
+  "cfgs": [
+    {
+      "id": 0,
+      "root": "Program(4294967297)",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement(4294967297)"
+        },
+        {
+          "id": 3,
+          "kind": "Statement(4294967300)"
+        },
+        {
+          "id": 4,
+          "kind": "Statement(4294967306)"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "kind": "Normal"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "kind": "Normal"
+        },
+        {
+          "from": 4,
+          "to": 1,
+          "kind": "Normal"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "root": "Arrow(4294967300)",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Expression(4294967299)"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "kind": "Return"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "root": "Arrow(4294967305)",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement(4294967298)"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "kind": "Return"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "root": "ClassStaticBlock(4294967297)",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement(4294967301)"
+        },
+        {
+          "id": 3,
+          "kind": "Statement(4294967304)"
+        },
+        {
+          "id": 4,
+          "kind": "Statement(4294967303)"
+        },
+        {
+          "id": 5,
+          "kind": "Statement(4294967302)"
+        },
+        {
+          "id": 6,
+          "kind": "Synthetic"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "kind": "Normal"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "kind": "True"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "kind": "Normal"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "kind": "Normal"
+        },
+        {
+          "from": 3,
+          "to": 6,
+          "kind": "Normal"
+        },
+        {
+          "from": 6,
+          "to": 1,
+          "kind": "Normal"
+        }
+      ]
+    }
+  ]
+}

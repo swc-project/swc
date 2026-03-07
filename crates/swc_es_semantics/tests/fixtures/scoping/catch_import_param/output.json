@@ -1,0 +1,245 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Function",
+      "parent": 0,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Block",
+      "parent": 1,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": []
+    },
+    {
+      "id": 3,
+      "kind": "Catch",
+      "parent": 1,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        8
+      ]
+    },
+    {
+      "id": 4,
+      "kind": "Block",
+      "parent": 3,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        9
+      ]
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Function",
+      "scope": 0,
+      "name": "run",
+      "references": [
+        8
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Import",
+      "scope": 0,
+      "name": "d",
+      "references": [
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Import",
+      "scope": 0,
+      "name": "f",
+      "references": [
+        0
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Import",
+      "scope": 0,
+      "name": "bar",
+      "references": [
+        1
+      ]
+    },
+    {
+      "id": 4,
+      "kind": "Function",
+      "scope": 1,
+      "name": "run",
+      "references": []
+    },
+    {
+      "id": 5,
+      "kind": "Param",
+      "scope": 1,
+      "name": "a",
+      "references": [
+        3
+      ]
+    },
+    {
+      "id": 6,
+      "kind": "Param",
+      "scope": 1,
+      "name": "c",
+      "references": [
+        4
+      ]
+    },
+    {
+      "id": 7,
+      "kind": "Param",
+      "scope": 1,
+      "name": "rest",
+      "references": [
+        5
+      ]
+    },
+    {
+      "id": 8,
+      "kind": "CatchParam",
+      "scope": 3,
+      "name": "m",
+      "references": [
+        6
+      ]
+    },
+    {
+      "id": 9,
+      "kind": "Let",
+      "scope": 4,
+      "name": "bar",
+      "references": [
+        7
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 2,
+      "name": "f",
+      "expr": 4294967297,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 1,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 3,
+      "name": "bar",
+      "expr": 4294967298,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 2,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 1,
+      "name": "d",
+      "expr": 4294967300,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 3,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 5,
+      "name": "a",
+      "expr": 4294967302,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 4,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 6,
+      "name": "c",
+      "expr": 4294967304,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 5,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 7,
+      "name": "rest",
+      "expr": 4294967306,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 6,
+      "kind": "Read",
+      "scope": 4,
+      "enclosing_function": 1,
+      "symbol": 8,
+      "name": "m",
+      "expr": 4294967309,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 7,
+      "kind": "Read",
+      "scope": 4,
+      "enclosing_function": 1,
+      "symbol": 9,
+      "name": "bar",
+      "expr": 4294967310,
+      "maybe_dynamic": false
+    },
+    {
+      "id": 8,
+      "kind": "Read",
+      "scope": 0,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "run",
+      "expr": 4294967311,
+      "maybe_dynamic": false
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "cfgs": [
+    {
+      "id": 0,
+      "root": "Program(4294967297)",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement(4294967304)"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "kind": "Normal"
+        }
+      ]
+    }
+  ]
+}
