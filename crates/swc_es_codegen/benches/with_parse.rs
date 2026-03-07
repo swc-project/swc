@@ -42,7 +42,7 @@ fn bench_cases(c: &mut Criterion) {
         bench_with_parse(
             b,
             js_syntax,
-            include_str!("../../swc_ecma_parser/benches/files/angular-1.2.5.js"),
+            include_str!("../tests/fixture/module-attrs/input.js"),
             false,
         )
     });
@@ -51,7 +51,7 @@ fn bench_cases(c: &mut Criterion) {
         bench_with_parse(
             b,
             js_syntax,
-            include_str!("../../swc_ecma_parser/benches/files/angular-1.2.5.js"),
+            include_str!("../tests/fixture/module-attrs/input.js"),
             true,
         )
     });
@@ -60,7 +60,7 @@ fn bench_cases(c: &mut Criterion) {
         bench_with_parse(
             b,
             tsx_syntax,
-            include_str!("../../swc_ecma_parser/benches/files/cal.com.tsx"),
+            include_str!("../tests/fixture/tsx-basic/input.tsx"),
             false,
         )
     });
@@ -69,7 +69,7 @@ fn bench_cases(c: &mut Criterion) {
         bench_with_parse(
             b,
             tsx_syntax,
-            include_str!("../../swc_ecma_parser/benches/files/cal.com.tsx"),
+            include_str!("../tests/fixture/tsx-basic/input.tsx"),
             true,
         )
     });
