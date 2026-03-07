@@ -1,0 +1,110 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Class",
+      "parent": 0,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        1
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Function",
+      "parent": 1,
+      "enclosing_function": 2,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Function",
+      "parent": 2,
+      "enclosing_function": 3,
+      "parent_function": 2,
+      "has_dynamic_lookup": false,
+      "symbols": []
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Class",
+      "scope": 0,
+      "name": "C",
+      "references": []
+    },
+    {
+      "id": 1,
+      "kind": "Class",
+      "scope": 1,
+      "name": "C",
+      "references": []
+    },
+    {
+      "id": 2,
+      "kind": "Var",
+      "scope": 2,
+      "name": "leak",
+      "references": [
+        0
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Function",
+      "scope": 2,
+      "name": "local",
+      "references": [
+        1
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 3,
+      "enclosing_function": 3,
+      "symbol": 2,
+      "name": "leak",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 1,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 2,
+      "symbol": 3,
+      "name": "local",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 2,
+      "kind": "Read",
+      "scope": 0,
+      "enclosing_function": 0,
+      "symbol": null,
+      "name": "leak",
+      "maybe_dynamic": false
+    }
+  ]
+}

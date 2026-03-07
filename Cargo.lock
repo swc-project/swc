@@ -6962,6 +6962,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_es_semantics"
+version = "0.1.0"
+dependencies = [
+ "rustc-hash 2.1.1",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_es_ast",
+ "swc_es_parser",
+ "swc_es_visit",
+ "testing",
+ "walkdir",
+]
+
+[[package]]
 name = "swc_es_visit"
 version = "0.1.0"
 dependencies = [

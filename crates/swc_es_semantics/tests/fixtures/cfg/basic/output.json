@@ -1,0 +1,191 @@
+{
+  "cfgs": [
+    {
+      "id": 0,
+      "root": "Program",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement"
+        },
+        {
+          "id": 3,
+          "kind": "Statement"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "kind": "Normal"
+        },
+        {
+          "from": 3,
+          "to": 1,
+          "kind": "Normal"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "root": "FunctionDecl",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement"
+        },
+        {
+          "id": 3,
+          "kind": "Statement"
+        },
+        {
+          "id": 4,
+          "kind": "Statement"
+        },
+        {
+          "id": 5,
+          "kind": "Statement"
+        },
+        {
+          "id": 6,
+          "kind": "Statement"
+        },
+        {
+          "id": 7,
+          "kind": "Synthetic"
+        },
+        {
+          "id": 8,
+          "kind": "Statement"
+        },
+        {
+          "id": 9,
+          "kind": "Statement"
+        },
+        {
+          "id": 10,
+          "kind": "Synthetic"
+        },
+        {
+          "id": 11,
+          "kind": "Statement"
+        },
+        {
+          "id": 12,
+          "kind": "Synthetic"
+        },
+        {
+          "id": 13,
+          "kind": "Statement"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "kind": "Normal"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "kind": "True"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "kind": "Normal"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "kind": "True"
+        },
+        {
+          "from": 5,
+          "to": 7,
+          "kind": "Normal"
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "kind": "Normal"
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "kind": "True"
+        },
+        {
+          "from": 8,
+          "to": 10,
+          "kind": "Normal"
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "kind": "Normal"
+        },
+        {
+          "from": 3,
+          "to": 12,
+          "kind": "False"
+        },
+        {
+          "from": 11,
+          "to": 3,
+          "kind": "Normal"
+        },
+        {
+          "from": 6,
+          "to": 3,
+          "kind": "Continue"
+        },
+        {
+          "from": 9,
+          "to": 12,
+          "kind": "Break"
+        },
+        {
+          "from": 12,
+          "to": 13,
+          "kind": "Normal"
+        },
+        {
+          "from": 13,
+          "to": 1,
+          "kind": "Return"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "cfgs": [
+    {
+      "id": 0,
+      "root": "Program",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "kind": "Normal"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "root": "FunctionDecl",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement"
+        },
+        {
+          "id": 3,
+          "kind": "Statement"
+        },
+        {
+          "id": 4,
+          "kind": "Statement"
+        },
+        {
+          "id": 5,
+          "kind": "Statement"
+        },
+        {
+          "id": 6,
+          "kind": "Synthetic"
+        },
+        {
+          "id": 7,
+          "kind": "Synthetic"
+        },
+        {
+          "id": 8,
+          "kind": "Statement"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "kind": "Normal"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "kind": "Normal"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "kind": "Normal"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "kind": "Normal"
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "kind": "False"
+        },
+        {
+          "from": 6,
+          "to": 3,
+          "kind": "True"
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "kind": "Normal"
+        },
+        {
+          "from": 8,
+          "to": 1,
+          "kind": "Return"
+        }
+      ]
+    }
+  ]
+}

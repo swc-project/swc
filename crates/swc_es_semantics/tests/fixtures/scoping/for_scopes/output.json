@@ -1,0 +1,161 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Block",
+      "parent": 0,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        1
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Block",
+      "parent": 1,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        2
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Block",
+      "parent": 0,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": []
+    },
+    {
+      "id": 4,
+      "kind": "Block",
+      "parent": 3,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        3
+      ]
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Var",
+      "scope": 0,
+      "name": "k",
+      "references": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Let",
+      "scope": 1,
+      "name": "i",
+      "references": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Let",
+      "scope": 2,
+      "name": "j",
+      "references": []
+    },
+    {
+      "id": 3,
+      "kind": "Const",
+      "scope": 4,
+      "name": "z",
+      "references": []
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 0,
+      "symbol": 1,
+      "name": "i",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 1,
+      "kind": "ReadWrite",
+      "scope": 1,
+      "enclosing_function": 0,
+      "symbol": 1,
+      "name": "i",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 2,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 0,
+      "symbol": 1,
+      "name": "i",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 3,
+      "kind": "Read",
+      "scope": 3,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "k",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 4,
+      "kind": "ReadWrite",
+      "scope": 3,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "k",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 5,
+      "kind": "Read",
+      "scope": 4,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "k",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 6,
+      "kind": "Read",
+      "scope": 0,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "k",
+      "maybe_dynamic": false
+    }
+  ]
+}
