@@ -44,7 +44,7 @@ fn bench_cases(c: &mut Criterion) {
         bench_with_parse(
             b,
             js_syntax,
-            include_str!("../tests/fixture/bench/input.js"),
+            include_str!("../../swc_ecma_parser/benches/files/angular-1.2.5.js"),
         )
     });
 
@@ -52,7 +52,7 @@ fn bench_cases(c: &mut Criterion) {
         bench_with_parse(
             b,
             tsx_syntax,
-            include_str!("../tests/fixture/bench/input.tsx"),
+            include_str!("../../swc_ecma_parser/benches/files/cal.com.tsx"),
         )
     });
 }
