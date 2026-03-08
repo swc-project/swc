@@ -8,6 +8,10 @@ fn contains_swc_ecma_parser_import(source: &str) -> bool {
         || source.contains("::swc_ecma_parser::")
 }
 
+fn contains_swc_ecma_reference(source: &str) -> bool {
+    source.contains("swc_ecma_")
+}
+
 #[test]
 fn src_does_not_reference_swc_ecma_parser() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src");
@@ -52,6 +56,29 @@ fn tests_do_not_import_swc_ecma_parser_crate() {
         assert!(
             !contains_swc_ecma_parser_import(&source),
             "test file {} must not import swc_ecma_parser crate",
+            path.display()
+        );
+    }
+}
+
+#[test]
+fn benches_do_not_reference_swc_ecma_family() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("benches");
+
+    for entry in WalkDir::new(&root).into_iter().filter_map(Result::ok) {
+        if !entry.file_type().is_file() {
+            continue;
+        }
+        let path = entry.path();
+        if path.extension().and_then(|ext| ext.to_str()) != Some("rs") {
+            continue;
+        }
+
+        let source = fs::read_to_string(path)
+            .unwrap_or_else(|err| panic!("failed to read {}: {err}", path.display()));
+        assert!(
+            !contains_swc_ecma_reference(&source),
+            "bench file {} must not reference swc_ecma_*",
             path.display()
         );
     }

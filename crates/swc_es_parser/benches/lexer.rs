@@ -24,11 +24,75 @@ fn bench_lex(b: &mut Bencher, syntax: Syntax, src: &'static str) {
 }
 
 fn bench_files(c: &mut Criterion) {
+    c.bench_function("es_parser/lexer/colors", |b| {
+        bench_lex(
+            b,
+            Syntax::Es(EsSyntax::default()),
+            include_str!("./files/colors.js"),
+        )
+    });
+
     c.bench_function("es_parser/lexer/angular", |b| {
         bench_lex(
             b,
             Syntax::Es(EsSyntax::default()),
-            include_str!("../../swc_ecma_parser/benches/files/angular-1.2.5.js"),
+            include_str!("./files/angular-1.2.5.js"),
+        )
+    });
+
+    c.bench_function("es_parser/lexer/backbone", |b| {
+        bench_lex(
+            b,
+            Syntax::Es(EsSyntax::default()),
+            include_str!("./files/backbone-1.1.0.js"),
+        )
+    });
+
+    c.bench_function("es_parser/lexer/jquery", |b| {
+        bench_lex(
+            b,
+            Syntax::Es(EsSyntax::default()),
+            include_str!("./files/jquery-1.9.1.js"),
+        )
+    });
+
+    c.bench_function("es_parser/lexer/jquery-mobile", |b| {
+        bench_lex(
+            b,
+            Syntax::Es(EsSyntax::default()),
+            include_str!("./files/jquery.mobile-1.4.2.js"),
+        )
+    });
+
+    c.bench_function("es_parser/lexer/mootools", |b| {
+        bench_lex(
+            b,
+            Syntax::Es(EsSyntax::default()),
+            include_str!("./files/mootools-1.4.5.js"),
+        )
+    });
+
+    c.bench_function("es_parser/lexer/underscore", |b| {
+        bench_lex(
+            b,
+            Syntax::Es(EsSyntax::default()),
+            include_str!("./files/underscore-1.5.2.js"),
+        )
+    });
+
+    c.bench_function("es_parser/lexer/three", |b| {
+        bench_lex(
+            b,
+            Syntax::Es(EsSyntax::default()),
+            include_str!("./files/three-0.138.3.js"),
+        )
+    });
+
+    c.bench_function("es_parser/lexer/yui", |b| {
+        bench_lex(
+            b,
+            Syntax::Es(EsSyntax::default()),
+            include_str!("./files/yui-3.12.0.js"),
         )
     });
 
@@ -39,7 +103,15 @@ fn bench_files(c: &mut Criterion) {
                 tsx: true,
                 ..Default::default()
             }),
-            include_str!("../../swc_ecma_parser/benches/files/cal.com.tsx"),
+            include_str!("./files/cal.com.tsx"),
+        )
+    });
+
+    c.bench_function("es_parser/lexer/typescript-js", |b| {
+        bench_lex(
+            b,
+            Syntax::Es(EsSyntax::default()),
+            include_str!("./files/typescript.js"),
         )
     });
 }
