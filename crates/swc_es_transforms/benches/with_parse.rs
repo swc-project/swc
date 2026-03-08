@@ -48,11 +48,15 @@ fn bench_cases(c: &mut Criterion) {
         ..Default::default()
     });
 
+    // Keep benchmark inputs parser-stable in CI by using local crate fixtures.
+    let js_source = include_str!("../tests/fixtures/lower-nullish/input.js");
+    let tsx_source = "const view = <div>{foo ?? bar}</div>;\nexport default view;\n";
+
     c.bench_function("es/transforms/with-parser/js", |b| {
         bench_with_parse(
             b,
             js_syntax,
-            include_str!("../../swc_ecma_parser/benches/files/angular-1.2.5.js"),
+            js_source,
             TransformOptions {
                 target: TransformTarget::Es2019,
                 ..Default::default()
@@ -64,7 +68,7 @@ fn bench_cases(c: &mut Criterion) {
         bench_with_parse(
             b,
             tsx_syntax,
-            include_str!("../../swc_ecma_parser/benches/files/cal.com.tsx"),
+            tsx_source,
             TransformOptions {
                 target: TransformTarget::Es2018,
                 ..Default::default()
