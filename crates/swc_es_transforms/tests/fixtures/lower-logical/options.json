@@ -1,0 +1,7 @@
+{
+  "target": "es2018",
+  "enable_optional_chaining": false,
+  "enable_nullish_coalescing": false,
+  "enable_logical_assignment": true,
+  "enable_normalize": false
+}

@@ -6957,6 +6957,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_es_minifier"
+version = "0.1.0"
+dependencies = [
+ "codspeed-criterion-compat",
+ "rustc-hash 2.1.1",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_es_ast",
+ "swc_es_codegen",
+ "swc_es_parser",
+ "swc_es_semantics",
+ "swc_es_visit",
+ "swc_malloc",
+ "testing",
+ "walkdir",
+]
+
+[[package]]
 name = "swc_es_parser"
 version = "0.1.0"
 dependencies = [
@@ -6987,6 +7007,26 @@ dependencies = [
  "swc_es_ast",
  "swc_es_parser",
  "swc_es_visit",
+ "testing",
+ "walkdir",
+]
+
+[[package]]
+name = "swc_es_transforms"
+version = "0.1.0"
+dependencies = [
+ "codspeed-criterion-compat",
+ "rustc-hash 2.1.1",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_es_ast",
+ "swc_es_codegen",
+ "swc_es_parser",
+ "swc_es_semantics",
+ "swc_es_visit",
+ "swc_malloc",
  "testing",
  "walkdir",
 ]
