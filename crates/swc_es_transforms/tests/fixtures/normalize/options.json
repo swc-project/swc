@@ -1,0 +1,7 @@
+{
+  "target": "es2022",
+  "enable_optional_chaining": false,
+  "enable_nullish_coalescing": false,
+  "enable_logical_assignment": false,
+  "enable_normalize": true
+}

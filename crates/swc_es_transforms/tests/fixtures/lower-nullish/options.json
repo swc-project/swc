@@ -1,0 +1,7 @@
+{
+  "target": "es2019",
+  "enable_optional_chaining": false,
+  "enable_nullish_coalescing": true,
+  "enable_logical_assignment": false,
+  "enable_normalize": false
+}

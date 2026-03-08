@@ -1,0 +1,11 @@
+{
+  "compress": {
+    "fold_constants": true,
+    "dead_code": true,
+    "simplify_branches": true,
+    "drop_unused_bindings": false
+  },
+  "mangle": {
+    "enabled": false
+  }
+}
