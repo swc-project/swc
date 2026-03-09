@@ -513,6 +513,9 @@ impl<'a> Analyzer<'a> {
                         continue;
                     };
                     if let ModuleDecl::Import(import) = module_decl {
+                        if import.type_only {
+                            continue;
+                        }
                         for specifier in import.specifiers {
                             match specifier {
                                 swc_es_ast::ImportSpecifier::Default(default) => {
@@ -530,6 +533,9 @@ impl<'a> Analyzer<'a> {
                                     );
                                 }
                                 swc_es_ast::ImportSpecifier::Named(named) => {
+                                    if named.is_type_only {
+                                        continue;
+                                    }
                                     self.declare_symbol(
                                         scope,
                                         &named.local.sym,
@@ -947,6 +953,9 @@ impl<'a> Analyzer<'a> {
 
         match module_decl {
             ModuleDecl::Import(import_decl) => {
+                if import_decl.type_only {
+                    return;
+                }
                 for specifier in import_decl.specifiers {
                     match specifier {
                         swc_es_ast::ImportSpecifier::Default(default) => {
@@ -964,6 +973,9 @@ impl<'a> Analyzer<'a> {
                             );
                         }
                         swc_es_ast::ImportSpecifier::Named(named) => {
+                            if named.is_type_only {
+                                continue;
+                            }
                             self.declare_symbol(
                                 self.current_scope(),
                                 &named.local.sym,
@@ -974,8 +986,11 @@ impl<'a> Analyzer<'a> {
                 }
             }
             ModuleDecl::ExportNamed(named) => {
-                if named.src.is_none() && named.decl.is_none() {
+                if !named.type_only && named.src.is_none() && named.decl.is_none() {
                     for specifier in named.specifiers {
+                        if specifier.is_type_only {
+                            continue;
+                        }
                         self.record_ident_reference(None, &specifier.local, ReferenceKind::Read);
                     }
                 }
@@ -1031,6 +1046,8 @@ impl<'a> Analyzer<'a> {
             Expr::Class(class_id) => self.visit_class_expr(class_id),
             Expr::JSXElement(jsx_id) => self.visit_jsx_element(jsx_id),
             Expr::TsAs(ts_as) => self.visit_expr(ts_as.expr),
+            Expr::TsNonNull(ts_non_null) => self.visit_expr(ts_non_null.expr),
+            Expr::TsSatisfies(ts_satisfies) => self.visit_expr(ts_satisfies.expr),
             Expr::Array(array) => {
                 for elem in array.elems.into_iter().flatten() {
                     self.visit_expr(elem.expr);

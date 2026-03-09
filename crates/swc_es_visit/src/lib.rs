@@ -442,6 +442,13 @@ where
             visitor.visit_expr(store, ts_as.expr);
             visitor.visit_ts_type(store, ts_as.ty);
         }
+        Expr::TsNonNull(ts_non_null) => {
+            visitor.visit_expr(store, ts_non_null.expr);
+        }
+        Expr::TsSatisfies(ts_satisfies) => {
+            visitor.visit_expr(store, ts_satisfies.expr);
+            visitor.visit_ts_type(store, ts_satisfies.ty);
+        }
         Expr::Array(array) => {
             for elem in array.elems.iter().flatten() {
                 visitor.visit_expr(store, elem.expr);

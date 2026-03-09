@@ -1,13 +1,45 @@
+use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_es_ast::*;
 
-use crate::{analysis::AnalysisFacts, ConstValue, TransformOptions};
+use crate::{analysis::AnalysisFacts, ConstValue, ReactRuntime, TransformOptions};
 
 pub(crate) struct RewriteResult {
     pub program: ProgramId,
     pub changed: bool,
     pub nodes: u32,
+}
+
+#[derive(Debug, Clone)]
+struct ReactRuntimeState {
+    needs_jsx: bool,
+    needs_jsxs: bool,
+    needs_fragment: bool,
+    has_jsx: bool,
+    has_jsxs: bool,
+    has_fragment: bool,
+    local_jsx: Atom,
+    local_jsxs: Atom,
+    local_fragment: Atom,
+    used_names: FxHashSet<Atom>,
+}
+
+impl Default for ReactRuntimeState {
+    fn default() -> Self {
+        Self {
+            needs_jsx: false,
+            needs_jsxs: false,
+            needs_fragment: false,
+            has_jsx: false,
+            has_jsxs: false,
+            has_fragment: false,
+            local_jsx: Atom::new("_jsx"),
+            local_jsxs: Atom::new("_jsxs"),
+            local_fragment: Atom::new("_Fragment"),
+            used_names: FxHashSet::default(),
+        }
+    }
 }
 
 pub(crate) fn rewrite_once(
@@ -20,6 +52,7 @@ pub(crate) fn rewrite_once(
         store,
         options,
         facts,
+        react: ReactRuntimeState::default(),
         changed: false,
         nodes: 0,
     };
@@ -37,6 +70,7 @@ struct Rewriter<'a> {
     store: &'a mut AstStore,
     options: &'a TransformOptions,
     facts: &'a AnalysisFacts,
+    react: ReactRuntimeState,
     changed: bool,
     nodes: u32,
 }
@@ -53,9 +87,22 @@ impl Rewriter<'_> {
             return id;
         };
 
+        if self.options.react.enabled
+            && matches!(self.options.react.runtime, ReactRuntime::Automatic)
+        {
+            self.prepare_react_runtime_locals(&program);
+        }
+
         let mut next = program.clone();
-        for stmt in &mut next.body {
-            *stmt = self.rewrite_stmt(*stmt);
+        next.body.clear();
+        for stmt in program.body.iter().copied() {
+            next.body.extend(self.rewrite_stmt_to_vec(stmt));
+        }
+
+        if self.options.react.enabled
+            && matches!(self.options.react.runtime, ReactRuntime::Automatic)
+        {
+            self.inject_react_runtime_imports(&mut next);
         }
 
         if next != program {
@@ -66,6 +113,185 @@ impl Rewriter<'_> {
         }
 
         id
+    }
+
+    fn rewrite_stmt_to_vec(&mut self, id: StmtId) -> Vec<StmtId> {
+        let id = self.rewrite_stmt(id);
+
+        if !self.options.typescript.enabled {
+            return if self.is_empty_stmt(id) {
+                Vec::new()
+            } else {
+                vec![id]
+            };
+        }
+
+        let mut expanded = self.expand_stmt(id);
+        expanded.retain(|stmt| !self.is_empty_stmt(*stmt));
+        expanded
+    }
+
+    fn rewrite_stmt_to_single(&mut self, id: StmtId) -> StmtId {
+        let mut stmts = self.rewrite_stmt_to_vec(id);
+        if stmts.len() == 1 {
+            return stmts.pop().unwrap_or(id);
+        }
+
+        self.changed = true;
+        self.store.alloc_stmt(Stmt::Block(BlockStmt {
+            span: DUMMY_SP,
+            stmts,
+        }))
+    }
+
+    fn is_empty_stmt(&self, id: StmtId) -> bool {
+        matches!(self.store.stmt(id), Some(Stmt::Empty(_)))
+    }
+
+    fn should_drop_decl(&self, decl: &Decl) -> bool {
+        if !self.options.typescript.enabled {
+            return false;
+        }
+
+        match decl {
+            Decl::TsTypeAlias(_) | Decl::TsInterface(_) => true,
+            Decl::Var(var) => self.options.typescript.drop_declare && var.declare,
+            Decl::Fn(function) => self.options.typescript.drop_declare && function.declare,
+            Decl::Class(class_decl) => self.options.typescript.drop_declare && class_decl.declare,
+            Decl::TsEnum(ts_enum) => self.options.typescript.drop_declare && ts_enum.declare,
+            Decl::TsModule(module) => self.options.typescript.drop_declare && module.declare,
+        }
+    }
+
+    fn expand_stmt(&mut self, id: StmtId) -> Vec<StmtId> {
+        let Some(stmt) = self.store.stmt(id).cloned() else {
+            return vec![id];
+        };
+
+        match stmt {
+            Stmt::Empty(_) => Vec::new(),
+            Stmt::Decl(decl) => self.expand_decl_stmt(id, decl),
+            Stmt::ModuleDecl(module_decl) => self.expand_module_decl_stmt(id, module_decl),
+            _ => vec![id],
+        }
+    }
+
+    fn expand_decl_stmt(&mut self, stmt_id: StmtId, decl_id: DeclId) -> Vec<StmtId> {
+        let Some(decl) = self.store.decl(decl_id).cloned() else {
+            return vec![stmt_id];
+        };
+
+        if self.should_drop_decl(&decl) {
+            return Vec::new();
+        }
+
+        match decl {
+            Decl::TsEnum(ts_enum) if self.options.typescript.transform_enum => {
+                self.lower_ts_enum_decl(&ts_enum, false)
+            }
+            Decl::TsModule(module) if self.options.typescript.transform_namespace => {
+                self.lower_ts_module_decl(&module, false, None)
+            }
+            _ => vec![stmt_id],
+        }
+    }
+
+    fn expand_module_decl_stmt(
+        &mut self,
+        stmt_id: StmtId,
+        module_decl_id: ModuleDeclId,
+    ) -> Vec<StmtId> {
+        let Some(module_decl) = self.store.module_decl(module_decl_id).cloned() else {
+            return vec![stmt_id];
+        };
+
+        match module_decl {
+            ModuleDecl::Import(mut import_decl) => {
+                if !self.options.typescript.enabled {
+                    return vec![stmt_id];
+                }
+
+                if import_decl.type_only {
+                    return Vec::new();
+                }
+
+                let original_len = import_decl.specifiers.len();
+                import_decl.specifiers.retain(|specifier| match specifier {
+                    ImportSpecifier::Named(named) => !named.is_type_only,
+                    ImportSpecifier::Default(_) | ImportSpecifier::Namespace(_) => true,
+                });
+
+                if original_len > 0 && import_decl.specifiers.is_empty() {
+                    return Vec::new();
+                }
+
+                let next = ModuleDecl::Import(import_decl);
+                if let Some(slot) = self.store.module_decl_mut(module_decl_id) {
+                    if *slot != next {
+                        *slot = next;
+                        self.changed = true;
+                    }
+                }
+                vec![stmt_id]
+            }
+            ModuleDecl::ExportAll(export_all) => {
+                if self.options.typescript.enabled && export_all.type_only {
+                    return Vec::new();
+                }
+                vec![stmt_id]
+            }
+            ModuleDecl::ExportNamed(mut named) => {
+                if self.options.typescript.enabled {
+                    if named.type_only {
+                        return Vec::new();
+                    }
+
+                    named.specifiers.retain(|specifier| !specifier.is_type_only);
+
+                    if named.decl.is_none() && named.specifiers.is_empty() {
+                        return Vec::new();
+                    }
+                }
+
+                let next = ModuleDecl::ExportNamed(named);
+                if let Some(slot) = self.store.module_decl_mut(module_decl_id) {
+                    if *slot != next {
+                        *slot = next;
+                        self.changed = true;
+                    }
+                }
+                vec![stmt_id]
+            }
+            ModuleDecl::ExportDecl(export_decl) => {
+                let Some(decl) = self.store.decl(export_decl.decl).cloned() else {
+                    return vec![stmt_id];
+                };
+
+                if self.should_drop_decl(&decl) {
+                    return Vec::new();
+                }
+
+                match decl {
+                    Decl::TsEnum(ts_enum) if self.options.typescript.transform_enum => {
+                        self.lower_ts_enum_decl(&ts_enum, true)
+                    }
+                    Decl::TsModule(module) if self.options.typescript.transform_namespace => {
+                        self.lower_ts_module_decl(&module, true, None)
+                    }
+                    _ => vec![stmt_id],
+                }
+            }
+            ModuleDecl::ExportDefaultDecl(default_decl) => {
+                let Some(decl) = self.store.decl(default_decl.decl).cloned() else {
+                    return vec![stmt_id];
+                };
+                if self.should_drop_decl(&decl) {
+                    return Vec::new();
+                }
+                vec![stmt_id]
+            }
+            ModuleDecl::ExportDefaultExpr(_) => vec![stmt_id],
+        }
     }
 
     fn rewrite_stmt(&mut self, id: StmtId) -> StmtId {
@@ -88,14 +314,14 @@ impl Rewriter<'_> {
             }
             Stmt::If(if_stmt) => {
                 if_stmt.test = self.rewrite_expr(if_stmt.test);
-                if_stmt.cons = self.rewrite_stmt(if_stmt.cons);
+                if_stmt.cons = self.rewrite_stmt_to_single(if_stmt.cons);
                 if let Some(alt) = if_stmt.alt {
-                    if_stmt.alt = Some(self.rewrite_stmt(alt));
+                    if_stmt.alt = Some(self.rewrite_stmt_to_single(alt));
                 }
             }
             Stmt::While(while_stmt) => {
                 while_stmt.test = self.rewrite_expr(while_stmt.test);
-                while_stmt.body = self.rewrite_stmt(while_stmt.body);
+                while_stmt.body = self.rewrite_stmt_to_single(while_stmt.body);
             }
             Stmt::For(for_stmt) => {
                 match &mut for_stmt.head {
@@ -131,10 +357,10 @@ impl Rewriter<'_> {
                     }
                 }
 
-                for_stmt.body = self.rewrite_stmt(for_stmt.body);
+                for_stmt.body = self.rewrite_stmt_to_single(for_stmt.body);
             }
             Stmt::DoWhile(do_while) => {
-                do_while.body = self.rewrite_stmt(do_while.body);
+                do_while.body = self.rewrite_stmt_to_single(do_while.body);
                 do_while.test = self.rewrite_expr(do_while.test);
             }
             Stmt::Switch(switch_stmt) => {
@@ -143,21 +369,23 @@ impl Rewriter<'_> {
                     if let Some(test) = case.test {
                         case.test = Some(self.rewrite_expr(test));
                     }
-                    for cons in &mut case.cons {
-                        *cons = self.rewrite_stmt(*cons);
+                    let mut rewritten = Vec::with_capacity(case.cons.len());
+                    for cons in case.cons.drain(..) {
+                        rewritten.extend(self.rewrite_stmt_to_vec(cons));
                     }
+                    case.cons = rewritten;
                 }
             }
             Stmt::Try(try_stmt) => {
-                try_stmt.block = self.rewrite_stmt(try_stmt.block);
+                try_stmt.block = self.rewrite_stmt_to_single(try_stmt.block);
                 if let Some(handler) = &mut try_stmt.handler {
                     if let Some(param) = handler.param {
                         handler.param = Some(self.rewrite_pat(param));
                     }
-                    handler.body = self.rewrite_stmt(handler.body);
+                    handler.body = self.rewrite_stmt_to_single(handler.body);
                 }
                 if let Some(finalizer) = try_stmt.finalizer {
-                    try_stmt.finalizer = Some(self.rewrite_stmt(finalizer));
+                    try_stmt.finalizer = Some(self.rewrite_stmt_to_single(finalizer));
                 }
             }
             Stmt::Throw(throw_stmt) => {
@@ -165,15 +393,17 @@ impl Rewriter<'_> {
             }
             Stmt::With(with_stmt) => {
                 with_stmt.obj = self.rewrite_expr(with_stmt.obj);
-                with_stmt.body = self.rewrite_stmt(with_stmt.body);
+                with_stmt.body = self.rewrite_stmt_to_single(with_stmt.body);
             }
             Stmt::Labeled(labeled) => {
-                labeled.body = self.rewrite_stmt(labeled.body);
+                labeled.body = self.rewrite_stmt_to_single(labeled.body);
             }
             Stmt::Block(block) => {
-                for stmt in &mut block.stmts {
-                    *stmt = self.rewrite_stmt(*stmt);
+                let mut rewritten = Vec::with_capacity(block.stmts.len());
+                for stmt in block.stmts.drain(..) {
+                    rewritten.extend(self.rewrite_stmt_to_vec(stmt));
                 }
+                block.stmts = rewritten;
             }
             Stmt::Decl(decl) => *decl = self.rewrite_decl(*decl),
             Stmt::ModuleDecl(module_decl) => *module_decl = self.rewrite_module_decl(*module_decl),
@@ -210,9 +440,11 @@ impl Rewriter<'_> {
                 for param in &mut function.params {
                     *param = self.rewrite_pat(*param);
                 }
-                for stmt in &mut function.body {
-                    *stmt = self.rewrite_stmt(*stmt);
+                let mut rewritten = Vec::with_capacity(function.body.len());
+                for stmt in function.body.drain(..) {
+                    rewritten.extend(self.rewrite_stmt_to_vec(stmt));
                 }
+                function.body = rewritten;
             }
             Decl::Class(class_decl) => {
                 class_decl.class = self.rewrite_class(class_decl.class);
@@ -317,6 +549,13 @@ impl Rewriter<'_> {
                 as_expr.expr = self.rewrite_expr(as_expr.expr);
                 as_expr.ty = self.rewrite_ts_type(as_expr.ty);
             }
+            Expr::TsNonNull(non_null) => {
+                non_null.expr = self.rewrite_expr(non_null.expr);
+            }
+            Expr::TsSatisfies(satisfies) => {
+                satisfies.expr = self.rewrite_expr(satisfies.expr);
+                satisfies.ty = self.rewrite_ts_type(satisfies.ty);
+            }
             Expr::Array(array) => {
                 for elem in array.elems.iter_mut().flatten() {
                     elem.expr = self.rewrite_expr(elem.expr);
@@ -378,9 +617,11 @@ impl Rewriter<'_> {
                 match &mut arrow.body {
                     ArrowBody::Expr(expr) => *expr = self.rewrite_expr(*expr),
                     ArrowBody::Block(stmts) => {
-                        for stmt in stmts {
-                            *stmt = self.rewrite_stmt(*stmt);
+                        let mut rewritten = Vec::with_capacity(stmts.len());
+                        for stmt in stmts.drain(..) {
+                            rewritten.extend(self.rewrite_stmt_to_vec(stmt));
                         }
+                        *stmts = rewritten;
                     }
                 }
             }
@@ -406,6 +647,14 @@ impl Rewriter<'_> {
             Expr::Paren(paren) => {
                 paren.expr = self.rewrite_expr(paren.expr);
             }
+        }
+
+        if self.options.typescript.enabled {
+            next = self.apply_typescript_expr(next);
+        }
+
+        if self.options.react.enabled {
+            next = self.apply_react_expr(next);
         }
 
         if self.options.enable_normalize {
@@ -474,9 +723,11 @@ impl Rewriter<'_> {
             }
             param.pat = self.rewrite_pat(param.pat);
         }
-        for stmt in &mut next.body {
-            *stmt = self.rewrite_stmt(*stmt);
+        let mut rewritten = Vec::with_capacity(next.body.len());
+        for stmt in next.body.drain(..) {
+            rewritten.extend(self.rewrite_stmt_to_vec(stmt));
         }
+        next.body = rewritten;
 
         if next != function {
             if let Some(slot) = self.store.function_mut(id) {
@@ -543,9 +794,11 @@ impl Rewriter<'_> {
                 }
             }
             ClassMember::StaticBlock(block) => {
-                for stmt in &mut block.body {
-                    *stmt = self.rewrite_stmt(*stmt);
+                let mut rewritten = Vec::with_capacity(block.body.len());
+                for stmt in block.body.drain(..) {
+                    rewritten.extend(self.rewrite_stmt_to_vec(stmt));
                 }
+                block.body = rewritten;
             }
         }
 
@@ -695,9 +948,11 @@ impl Rewriter<'_> {
     fn rewrite_ts_namespace_body(&mut self, body: &mut TsNamespaceBody) {
         match body {
             TsNamespaceBody::ModuleBlock(stmts) => {
-                for stmt in stmts {
-                    *stmt = self.rewrite_stmt(*stmt);
+                let mut rewritten = Vec::with_capacity(stmts.len());
+                for stmt in stmts.drain(..) {
+                    rewritten.extend(self.rewrite_stmt_to_vec(stmt));
                 }
+                *stmts = rewritten;
             }
             TsNamespaceBody::Namespace(namespace) => {
                 self.rewrite_ts_namespace_body(&mut namespace.body);
@@ -708,6 +963,1123 @@ impl Rewriter<'_> {
     fn rewrite_prop_name(&mut self, key: &mut PropName) {
         if let PropName::Computed(expr) = key {
             *expr = self.rewrite_expr(*expr);
+        }
+    }
+
+    fn apply_typescript_expr(&mut self, expr: Expr) -> Expr {
+        match expr {
+            Expr::TsAs(ts_as) => self
+                .store
+                .expr(ts_as.expr)
+                .cloned()
+                .unwrap_or(Expr::TsAs(ts_as)),
+            Expr::TsNonNull(non_null) => self
+                .store
+                .expr(non_null.expr)
+                .cloned()
+                .unwrap_or(Expr::TsNonNull(non_null)),
+            Expr::TsSatisfies(satisfies) => self
+                .store
+                .expr(satisfies.expr)
+                .cloned()
+                .unwrap_or(Expr::TsSatisfies(satisfies)),
+            other => other,
+        }
+    }
+
+    fn apply_react_expr(&mut self, expr: Expr) -> Expr {
+        match expr {
+            Expr::JSXElement(element) => self.lower_jsx_element_expr(element),
+            other => other,
+        }
+    }
+
+    fn alloc_ident_expr(&mut self, ident: Ident) -> ExprId {
+        self.store.alloc_expr(Expr::Ident(ident))
+    }
+
+    fn alloc_ident_pat(&mut self, ident: Ident) -> PatId {
+        self.store.alloc_pat(Pat::Ident(ident))
+    }
+
+    fn alloc_string_expr(&mut self, span: swc_common::Span, value: Atom) -> ExprId {
+        self.store
+            .alloc_expr(Expr::Lit(Lit::Str(StrLit { span, value })))
+    }
+
+    fn alloc_number_expr(&mut self, span: swc_common::Span, value: f64) -> ExprId {
+        self.store
+            .alloc_expr(Expr::Lit(Lit::Num(NumberLit { span, value })))
+    }
+
+    fn alloc_bool_expr(&mut self, span: swc_common::Span, value: bool) -> ExprId {
+        self.store
+            .alloc_expr(Expr::Lit(Lit::Bool(BoolLit { span, value })))
+    }
+
+    fn alloc_null_expr(&mut self, span: swc_common::Span) -> ExprId {
+        self.store
+            .alloc_expr(Expr::Lit(Lit::Null(NullLit { span })))
+    }
+
+    fn alloc_empty_object_expr(&mut self, span: swc_common::Span) -> ExprId {
+        self.store.alloc_expr(Expr::Object(ObjectExpr {
+            span,
+            props: Vec::new(),
+        }))
+    }
+
+    fn alloc_assign_expr(&mut self, span: swc_common::Span, left: ExprId, right: ExprId) -> ExprId {
+        let left = self.store.alloc_pat(Pat::Expr(left));
+        self.store.alloc_expr(Expr::Assign(AssignExpr {
+            span,
+            left,
+            op: AssignOp::Assign,
+            right,
+        }))
+    }
+
+    fn alloc_expr_stmt(&mut self, span: swc_common::Span, expr: ExprId) -> StmtId {
+        self.store.alloc_stmt(Stmt::Expr(ExprStmt { span, expr }))
+    }
+
+    fn member_prop_from_atom(&mut self, span: swc_common::Span, name: Atom) -> MemberProp {
+        if is_valid_ident_name(name.as_ref()) {
+            MemberProp::Ident(Ident::new(span, name))
+        } else {
+            let key = self.alloc_string_expr(span, name);
+            MemberProp::Computed(key)
+        }
+    }
+
+    fn collect_pat_binding_idents(&self, id: PatId, out: &mut Vec<Ident>) {
+        let Some(pat) = self.store.pat(id).cloned() else {
+            return;
+        };
+
+        match pat {
+            Pat::Ident(ident) => out.push(ident),
+            Pat::Expr(_) => {}
+            Pat::Array(array) => {
+                for elem in array.elems.into_iter().flatten() {
+                    self.collect_pat_binding_idents(elem, out);
+                }
+            }
+            Pat::Object(object) => {
+                for prop in object.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(key_value) => {
+                            self.collect_pat_binding_idents(key_value.value, out);
+                        }
+                        ObjectPatProp::Assign(assign) => out.push(assign.key),
+                        ObjectPatProp::Rest(rest) => self.collect_pat_binding_idents(rest.arg, out),
+                    }
+                }
+            }
+            Pat::Rest(rest) => self.collect_pat_binding_idents(rest.arg, out),
+            Pat::Assign(assign) => self.collect_pat_binding_idents(assign.left, out),
+        }
+    }
+
+    fn collect_decl_binding_idents(&self, decl: &Decl) -> Vec<Ident> {
+        let mut out = Vec::new();
+        match decl {
+            Decl::Var(var) => {
+                for declarator in &var.declarators {
+                    self.collect_pat_binding_idents(declarator.name, &mut out);
+                }
+            }
+            Decl::Fn(function) => out.push(function.ident.clone()),
+            Decl::Class(class_decl) => out.push(class_decl.ident.clone()),
+            Decl::TsEnum(ts_enum) => out.push(ts_enum.ident.clone()),
+            Decl::TsModule(module) => {
+                if let TsModuleName::Ident(ident) = &module.id {
+                    out.push(ident.clone());
+                }
+            }
+            Decl::TsTypeAlias(_) | Decl::TsInterface(_) => {}
+        }
+        out
+    }
+
+    fn namespace_assignment_stmt(
+        &mut self,
+        namespace: &Ident,
+        exported: &Ident,
+        local: &Ident,
+        span: swc_common::Span,
+    ) -> StmtId {
+        let ns_expr = self.alloc_ident_expr(namespace.clone());
+        let prop = self.member_prop_from_atom(span, exported.sym.clone());
+        let member = self.store.alloc_expr(Expr::Member(MemberExpr {
+            span,
+            obj: ns_expr,
+            prop,
+        }));
+        let local_expr = self.alloc_ident_expr(local.clone());
+        let assign = self.alloc_assign_expr(span, member, local_expr);
+        self.alloc_expr_stmt(span, assign)
+    }
+
+    fn decl_span(&self, decl: &Decl) -> swc_common::Span {
+        match decl {
+            Decl::Var(var) => var.span,
+            Decl::Fn(function) => function.span,
+            Decl::Class(class_decl) => class_decl.span,
+            Decl::TsTypeAlias(type_alias) => type_alias.span,
+            Decl::TsInterface(interface_decl) => interface_decl.span,
+            Decl::TsEnum(ts_enum) => ts_enum.span,
+            Decl::TsModule(module) => module.span,
+        }
+    }
+
+    fn alloc_var_binding_stmt(
+        &mut self,
+        ident: &Ident,
+        span: swc_common::Span,
+        export_as_module: bool,
+    ) -> StmtId {
+        let pat = self.alloc_ident_pat(ident.clone());
+        let decl = self.store.alloc_decl(Decl::Var(VarDecl {
+            span,
+            kind: VarDeclKind::Var,
+            declare: false,
+            declarators: vec![VarDeclarator {
+                span,
+                name: pat,
+                init: None,
+            }],
+        }));
+
+        if export_as_module {
+            let module_decl = self
+                .store
+                .alloc_module_decl(ModuleDecl::ExportDecl(ExportDecl { span, decl }));
+            self.store.alloc_stmt(Stmt::ModuleDecl(module_decl))
+        } else {
+            self.store.alloc_stmt(Stmt::Decl(decl))
+        }
+    }
+
+    fn enum_member_name_expr(&mut self, member: &TsEnumMember) -> ExprId {
+        match &member.name {
+            TsEnumMemberName::Ident(ident) => {
+                self.alloc_string_expr(member.span, ident.sym.clone())
+            }
+            TsEnumMemberName::Str(string) => {
+                self.alloc_string_expr(member.span, string.value.clone())
+            }
+            TsEnumMemberName::Num(number) => self.alloc_number_expr(member.span, number.value),
+        }
+    }
+
+    fn enum_member_name_string_expr(&mut self, member: &TsEnumMember) -> ExprId {
+        let value = match &member.name {
+            TsEnumMemberName::Ident(ident) => ident.sym.clone(),
+            TsEnumMemberName::Str(string) => string.value.clone(),
+            TsEnumMemberName::Num(number) => Atom::new(number.value.to_string()),
+        };
+        self.alloc_string_expr(member.span, value)
+    }
+
+    fn enum_member_value_expr(
+        &mut self,
+        member: &TsEnumMember,
+        next_numeric: &mut Option<f64>,
+    ) -> (ExprId, bool) {
+        if let Some(init) = member.init {
+            match self.facts.expr_constant(init) {
+                ConstValue::Number(value) => {
+                    *next_numeric = Some(value + 1.0);
+                    (init, false)
+                }
+                ConstValue::Str(_) => {
+                    *next_numeric = None;
+                    (init, true)
+                }
+                _ => {
+                    *next_numeric = None;
+                    (init, false)
+                }
+            }
+        } else {
+            let value = next_numeric.unwrap_or(0.0);
+            *next_numeric = Some(value + 1.0);
+            (self.alloc_number_expr(member.span, value), false)
+        }
+    }
+
+    fn lower_ts_enum_decl(&mut self, ts_enum: &TsEnumDecl, export_as_module: bool) -> Vec<StmtId> {
+        if self.options.typescript.drop_declare && ts_enum.declare {
+            return Vec::new();
+        }
+
+        let enum_ident = ts_enum.ident.clone();
+        let var_stmt = self.alloc_var_binding_stmt(&enum_ident, ts_enum.span, export_as_module);
+
+        let mut body_stmts = Vec::with_capacity(ts_enum.members.len());
+        let mut next_numeric = Some(0.0);
+
+        for member in &ts_enum.members {
+            let key_expr = self.enum_member_name_expr(member);
+            let (value_expr, is_string_enum) =
+                self.enum_member_value_expr(member, &mut next_numeric);
+
+            let enum_obj = self.alloc_ident_expr(enum_ident.clone());
+            let forward_member = self.store.alloc_expr(Expr::Member(MemberExpr {
+                span: member.span,
+                obj: enum_obj,
+                prop: MemberProp::Computed(key_expr),
+            }));
+            let forward_assign = self.alloc_assign_expr(member.span, forward_member, value_expr);
+
+            let runtime_expr = if is_string_enum {
+                forward_assign
+            } else {
+                let enum_obj = self.alloc_ident_expr(enum_ident.clone());
+                let reverse_member = self.store.alloc_expr(Expr::Member(MemberExpr {
+                    span: member.span,
+                    obj: enum_obj,
+                    prop: MemberProp::Computed(forward_assign),
+                }));
+                let key_name = self.enum_member_name_string_expr(member);
+                self.alloc_assign_expr(member.span, reverse_member, key_name)
+            };
+
+            body_stmts.push(self.alloc_expr_stmt(member.span, runtime_expr));
+        }
+
+        let param_pat = self.alloc_ident_pat(enum_ident.clone());
+        let function = self.store.alloc_function(Function {
+            span: ts_enum.span,
+            params: vec![Param {
+                span: ts_enum.span,
+                decorators: Vec::new(),
+                pat: param_pat,
+            }],
+            body: body_stmts,
+            is_async: false,
+            is_generator: false,
+        });
+        let callee = self.store.alloc_expr(Expr::Function(function));
+
+        let enum_ref = self.alloc_ident_expr(enum_ident.clone());
+        let assign_target = self.alloc_ident_expr(enum_ident.clone());
+        let empty_object = self.alloc_empty_object_expr(ts_enum.span);
+        let assign_expr = self.alloc_assign_expr(ts_enum.span, assign_target, empty_object);
+        let arg = self.store.alloc_expr(Expr::Binary(BinaryExpr {
+            span: ts_enum.span,
+            op: BinaryOp::LogicalOr,
+            left: enum_ref,
+            right: assign_expr,
+        }));
+        let iife = self.store.alloc_expr(Expr::Call(CallExpr {
+            span: ts_enum.span,
+            callee,
+            args: vec![ExprOrSpread {
+                spread: false,
+                expr: arg,
+            }],
+        }));
+        let iife_stmt = self.alloc_expr_stmt(ts_enum.span, iife);
+
+        vec![var_stmt, iife_stmt]
+    }
+
+    fn lower_ts_module_decl(
+        &mut self,
+        module: &TsModuleDecl,
+        export_as_module: bool,
+        export_to_namespace: Option<Ident>,
+    ) -> Vec<StmtId> {
+        if self.options.typescript.drop_declare && module.declare {
+            return Vec::new();
+        }
+        if module.global {
+            return Vec::new();
+        }
+
+        let TsModuleName::Ident(module_ident) = &module.id else {
+            return Vec::new();
+        };
+
+        let module_ident = module_ident.clone();
+        let var_stmt = self.alloc_var_binding_stmt(&module_ident, module.span, export_as_module);
+
+        let body_stmts = module
+            .body
+            .as_ref()
+            .map(|body| self.lower_ts_namespace_body_stmts(&module_ident, body))
+            .unwrap_or_default();
+
+        let param_pat = self.alloc_ident_pat(module_ident.clone());
+        let function = self.store.alloc_function(Function {
+            span: module.span,
+            params: vec![Param {
+                span: module.span,
+                decorators: Vec::new(),
+                pat: param_pat,
+            }],
+            body: body_stmts,
+            is_async: false,
+            is_generator: false,
+        });
+        let callee = self.store.alloc_expr(Expr::Function(function));
+
+        let module_ref = self.alloc_ident_expr(module_ident.clone());
+        let assign_target = self.alloc_ident_expr(module_ident.clone());
+        let empty_object = self.alloc_empty_object_expr(module.span);
+        let assign_expr = self.alloc_assign_expr(module.span, assign_target, empty_object);
+        let arg = self.store.alloc_expr(Expr::Binary(BinaryExpr {
+            span: module.span,
+            op: BinaryOp::LogicalOr,
+            left: module_ref,
+            right: assign_expr,
+        }));
+        let iife = self.store.alloc_expr(Expr::Call(CallExpr {
+            span: module.span,
+            callee,
+            args: vec![ExprOrSpread {
+                spread: false,
+                expr: arg,
+            }],
+        }));
+        let iife_stmt = self.alloc_expr_stmt(module.span, iife);
+
+        let mut out = vec![var_stmt, iife_stmt];
+        if let Some(parent_namespace) = export_to_namespace {
+            out.push(self.namespace_assignment_stmt(
+                &parent_namespace,
+                &module_ident,
+                &module_ident,
+                module.span,
+            ));
+        }
+        out
+    }
+
+    fn lower_ts_namespace_body_stmts(
+        &mut self,
+        namespace_ident: &Ident,
+        body: &TsNamespaceBody,
+    ) -> Vec<StmtId> {
+        match body {
+            TsNamespaceBody::ModuleBlock(stmts) => {
+                self.lower_ts_namespace_block(namespace_ident, stmts)
+            }
+            TsNamespaceBody::Namespace(namespace) => {
+                let nested = TsModuleDecl {
+                    span: namespace.span,
+                    declare: namespace.declare,
+                    global: namespace.global,
+                    namespace: true,
+                    id: TsModuleName::Ident(namespace.id.clone()),
+                    body: Some((*namespace.body).clone()),
+                };
+                self.lower_ts_module_decl(&nested, false, Some(namespace_ident.clone()))
+            }
+        }
+    }
+
+    fn lower_ts_namespace_block(
+        &mut self,
+        namespace_ident: &Ident,
+        stmts: &[StmtId],
+    ) -> Vec<StmtId> {
+        let mut out = Vec::new();
+        for stmt in stmts {
+            let stmt = self.rewrite_stmt(*stmt);
+            let Some(node) = self.store.stmt(stmt).cloned() else {
+                continue;
+            };
+            match node {
+                Stmt::Empty(_) => {}
+                Stmt::Decl(decl) => {
+                    out.extend(self.lower_decl_in_namespace(stmt, decl, namespace_ident, false));
+                }
+                Stmt::ModuleDecl(module_decl) => {
+                    out.extend(self.lower_namespace_module_decl(namespace_ident, module_decl));
+                }
+                _ => out.push(stmt),
+            }
+        }
+        out
+    }
+
+    fn lower_decl_in_namespace(
+        &mut self,
+        stmt_id: StmtId,
+        decl_id: DeclId,
+        namespace_ident: &Ident,
+        exported: bool,
+    ) -> Vec<StmtId> {
+        let Some(decl) = self.store.decl(decl_id).cloned() else {
+            return Vec::new();
+        };
+
+        if self.should_drop_decl(&decl) {
+            return Vec::new();
+        }
+
+        match decl {
+            Decl::TsTypeAlias(_) | Decl::TsInterface(_) => Vec::new(),
+            Decl::TsEnum(ts_enum) if self.options.typescript.transform_enum => {
+                let mut out = self.lower_ts_enum_decl(&ts_enum, false);
+                if exported {
+                    out.push(self.namespace_assignment_stmt(
+                        namespace_ident,
+                        &ts_enum.ident,
+                        &ts_enum.ident,
+                        ts_enum.span,
+                    ));
+                }
+                out
+            }
+            Decl::TsModule(module) if self.options.typescript.transform_namespace => self
+                .lower_ts_module_decl(
+                    &module,
+                    false,
+                    if exported {
+                        Some(namespace_ident.clone())
+                    } else {
+                        None
+                    },
+                ),
+            _ => {
+                let span = self.decl_span(&decl);
+                let mut out = vec![stmt_id];
+                if exported {
+                    for binding in self.collect_decl_binding_idents(&decl) {
+                        out.push(self.namespace_assignment_stmt(
+                            namespace_ident,
+                            &binding,
+                            &binding,
+                            span,
+                        ));
+                    }
+                }
+                out
+            }
+        }
+    }
+
+    fn lower_namespace_module_decl(
+        &mut self,
+        namespace_ident: &Ident,
+        module_decl_id: ModuleDeclId,
+    ) -> Vec<StmtId> {
+        let Some(module_decl) = self.store.module_decl(module_decl_id).cloned() else {
+            return Vec::new();
+        };
+
+        match module_decl {
+            ModuleDecl::Import(_) | ModuleDecl::ExportAll(_) => Vec::new(),
+            ModuleDecl::ExportDefaultExpr(_) | ModuleDecl::ExportDefaultDecl(_) => Vec::new(),
+            ModuleDecl::ExportDecl(export_decl) => {
+                let stmt_id = self.store.alloc_stmt(Stmt::Decl(export_decl.decl));
+                self.lower_decl_in_namespace(stmt_id, export_decl.decl, namespace_ident, true)
+            }
+            ModuleDecl::ExportNamed(named) => {
+                if named.type_only {
+                    return Vec::new();
+                }
+
+                let mut out = Vec::new();
+                if let Some(decl) = named.decl {
+                    let stmt_id = self.store.alloc_stmt(Stmt::Decl(decl));
+                    out.extend(self.lower_decl_in_namespace(stmt_id, decl, namespace_ident, true));
+                    return out;
+                }
+
+                if named.src.is_some() {
+                    return Vec::new();
+                }
+
+                for specifier in named.specifiers {
+                    if specifier.is_type_only {
+                        continue;
+                    }
+                    let exported = specifier
+                        .exported
+                        .unwrap_or_else(|| specifier.local.clone());
+                    out.push(self.namespace_assignment_stmt(
+                        namespace_ident,
+                        &exported,
+                        &specifier.local,
+                        named.span,
+                    ));
+                }
+
+                out
+            }
+        }
+    }
+
+    fn insert_used_ident(&mut self, ident: &Ident) {
+        self.react.used_names.insert(ident.sym.clone());
+    }
+
+    fn collect_program_used_names(&mut self, program: &Program) {
+        for stmt in &program.body {
+            let Some(stmt) = self.store.stmt(*stmt).cloned() else {
+                continue;
+            };
+
+            match stmt {
+                Stmt::Decl(decl_id) => {
+                    if let Some(decl) = self.store.decl(decl_id).cloned() {
+                        for ident in self.collect_decl_binding_idents(&decl) {
+                            self.insert_used_ident(&ident);
+                        }
+                    }
+                }
+                Stmt::ModuleDecl(module_decl_id) => {
+                    let Some(module_decl) = self.store.module_decl(module_decl_id).cloned() else {
+                        continue;
+                    };
+
+                    match module_decl {
+                        ModuleDecl::Import(import_decl) => {
+                            for specifier in import_decl.specifiers {
+                                match specifier {
+                                    ImportSpecifier::Default(default) => {
+                                        self.insert_used_ident(&default.local);
+                                    }
+                                    ImportSpecifier::Namespace(namespace) => {
+                                        self.insert_used_ident(&namespace.local);
+                                    }
+                                    ImportSpecifier::Named(named) => {
+                                        self.insert_used_ident(&named.local);
+                                    }
+                                }
+                            }
+                        }
+                        ModuleDecl::ExportDecl(export_decl) => {
+                            if let Some(decl) = self.store.decl(export_decl.decl).cloned() {
+                                for ident in self.collect_decl_binding_idents(&decl) {
+                                    self.insert_used_ident(&ident);
+                                }
+                            }
+                        }
+                        ModuleDecl::ExportDefaultDecl(default_decl) => {
+                            if let Some(decl) = self.store.decl(default_decl.decl).cloned() {
+                                for ident in self.collect_decl_binding_idents(&decl) {
+                                    self.insert_used_ident(&ident);
+                                }
+                            }
+                        }
+                        ModuleDecl::ExportNamed(_)
+                        | ModuleDecl::ExportDefaultExpr(_)
+                        | ModuleDecl::ExportAll(_) => {}
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    fn fresh_react_local(&mut self, base: &str) -> Atom {
+        let mut index = 0usize;
+        loop {
+            let candidate = if index == 0 {
+                Atom::new(base)
+            } else {
+                Atom::new(format!("{base}{index}"))
+            };
+            index += 1;
+            if self.react.used_names.insert(candidate.clone()) {
+                return candidate;
+            }
+        }
+    }
+
+    fn prepare_react_runtime_locals(&mut self, program: &Program) {
+        self.react = ReactRuntimeState::default();
+        self.collect_program_used_names(program);
+
+        for stmt in &program.body {
+            let Some(Stmt::ModuleDecl(module_decl_id)) = self.store.stmt(*stmt).cloned() else {
+                continue;
+            };
+            let Some(ModuleDecl::Import(import_decl)) =
+                self.store.module_decl(module_decl_id).cloned()
+            else {
+                continue;
+            };
+            if import_decl.type_only || import_decl.src.value != self.options.react.import_source {
+                continue;
+            }
+
+            for specifier in import_decl.specifiers {
+                let ImportSpecifier::Named(named) = specifier else {
+                    continue;
+                };
+                if named.is_type_only {
+                    continue;
+                }
+
+                let imported = named
+                    .imported
+                    .as_ref()
+                    .map(|ident| ident.sym.as_ref())
+                    .unwrap_or(named.local.sym.as_ref());
+
+                match imported {
+                    "jsx" => {
+                        self.react.has_jsx = true;
+                        self.react.local_jsx = named.local.sym.clone();
+                        self.react.used_names.insert(named.local.sym);
+                    }
+                    "jsxs" => {
+                        self.react.has_jsxs = true;
+                        self.react.local_jsxs = named.local.sym.clone();
+                        self.react.used_names.insert(named.local.sym);
+                    }
+                    "Fragment" => {
+                        self.react.has_fragment = true;
+                        self.react.local_fragment = named.local.sym.clone();
+                        self.react.used_names.insert(named.local.sym);
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        if !self.react.has_jsx {
+            self.react.local_jsx = self.fresh_react_local("_jsx");
+        }
+        if !self.react.has_jsxs {
+            self.react.local_jsxs = self.fresh_react_local("_jsxs");
+        }
+        if !self.react.has_fragment {
+            self.react.local_fragment = self.fresh_react_local("_Fragment");
+        }
+    }
+
+    fn inject_react_runtime_imports(&mut self, program: &mut Program) {
+        let mut needed = Vec::<(&str, Atom)>::new();
+        if self.react.needs_jsx && !self.react.has_jsx {
+            needed.push(("jsx", self.react.local_jsx.clone()));
+        }
+        if self.react.needs_jsxs && !self.react.has_jsxs {
+            needed.push(("jsxs", self.react.local_jsxs.clone()));
+        }
+        if self.react.needs_fragment && !self.react.has_fragment {
+            needed.push(("Fragment", self.react.local_fragment.clone()));
+        }
+        if needed.is_empty() {
+            return;
+        }
+
+        let mut existing_import_stmt = None;
+        for stmt in &program.body {
+            let Some(Stmt::ModuleDecl(module_decl_id)) = self.store.stmt(*stmt).cloned() else {
+                continue;
+            };
+            let Some(ModuleDecl::Import(import_decl)) =
+                self.store.module_decl(module_decl_id).cloned()
+            else {
+                continue;
+            };
+            if !import_decl.type_only && import_decl.src.value == self.options.react.import_source {
+                existing_import_stmt = Some((*stmt, module_decl_id, import_decl));
+                break;
+            }
+        }
+
+        if let Some((_stmt, module_decl_id, mut import_decl)) = existing_import_stmt {
+            let mut changed = false;
+            for (imported_name, local_name) in &needed {
+                let already = import_decl.specifiers.iter().any(|specifier| {
+                    let ImportSpecifier::Named(named) = specifier else {
+                        return false;
+                    };
+                    if named.is_type_only {
+                        return false;
+                    }
+                    let imported = named
+                        .imported
+                        .as_ref()
+                        .map(|ident| ident.sym.as_ref())
+                        .unwrap_or(named.local.sym.as_ref());
+                    imported == *imported_name
+                });
+                if already {
+                    continue;
+                }
+                import_decl
+                    .specifiers
+                    .push(ImportSpecifier::Named(ImportNamedSpecifier {
+                        local: Ident::new(DUMMY_SP, local_name.clone()),
+                        imported: Some(Ident::new(DUMMY_SP, Atom::new(*imported_name))),
+                        is_type_only: false,
+                    }));
+                changed = true;
+            }
+
+            if changed {
+                if let Some(slot) = self.store.module_decl_mut(module_decl_id) {
+                    *slot = ModuleDecl::Import(import_decl);
+                    self.changed = true;
+                }
+            }
+        } else {
+            let mut specifiers = Vec::with_capacity(needed.len());
+            for (imported_name, local_name) in needed {
+                specifiers.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                    local: Ident::new(DUMMY_SP, local_name),
+                    imported: Some(Ident::new(DUMMY_SP, Atom::new(imported_name))),
+                    is_type_only: false,
+                }));
+            }
+
+            let import_decl = self.store.alloc_module_decl(ModuleDecl::Import(ImportDecl {
+                span: DUMMY_SP,
+                specifiers,
+                type_only: false,
+                src: StrLit {
+                    span: DUMMY_SP,
+                    value: self.options.react.import_source.clone(),
+                },
+                with: Vec::new(),
+            }));
+            let import_stmt = self.store.alloc_stmt(Stmt::ModuleDecl(import_decl));
+            let insert_at = program
+                .body
+                .iter()
+                .take_while(|stmt| {
+                    matches!(
+                        self.store.stmt(**stmt),
+                        Some(Stmt::ModuleDecl(module_decl_id))
+                            if matches!(self.store.module_decl(*module_decl_id), Some(ModuleDecl::Import(_)))
+                    )
+                })
+                .count();
+            program.body.insert(insert_at, import_stmt);
+            program.kind = ProgramKind::Module;
+            self.changed = true;
+        }
+
+        self.react.has_jsx |= self.react.needs_jsx;
+        self.react.has_jsxs |= self.react.needs_jsxs;
+        self.react.has_fragment |= self.react.needs_fragment;
+    }
+
+    fn dotted_path_expr(&mut self, span: swc_common::Span, path: &Atom) -> ExprId {
+        let raw = path.as_ref();
+        let mut parts = raw.split('.');
+        let Some(first) = parts.next() else {
+            return self.alloc_ident_expr(Ident::new(span, path.clone()));
+        };
+        if !is_valid_ident_name(first) {
+            return self.alloc_ident_expr(Ident::new(span, path.clone()));
+        }
+
+        let mut expr = self.alloc_ident_expr(Ident::new(span, Atom::new(first)));
+        for part in parts {
+            if !is_valid_ident_name(part) {
+                return self.alloc_ident_expr(Ident::new(span, path.clone()));
+            }
+            expr = self.store.alloc_expr(Expr::Member(MemberExpr {
+                span,
+                obj: expr,
+                prop: MemberProp::Ident(Ident::new(span, Atom::new(part))),
+            }));
+        }
+        expr
+    }
+
+    fn jsx_name_type_expr(&mut self, span: swc_common::Span, name: &JSXElementName) -> ExprId {
+        match name {
+            JSXElementName::Ident(ident) => {
+                if is_jsx_intrinsic_name(ident.sym.as_ref()) {
+                    self.alloc_string_expr(span, ident.sym.clone())
+                } else {
+                    self.alloc_ident_expr(ident.clone())
+                }
+            }
+            JSXElementName::Qualified(qualified) => {
+                let text = qualified.as_ref();
+                if text.is_empty() {
+                    return self.alloc_string_expr(span, Atom::new(""));
+                }
+                if text.contains('.') {
+                    if let Some(expr) = self.member_chain_from_qualified_name(span, text) {
+                        return expr;
+                    }
+                }
+                if is_jsx_intrinsic_name(text) || text.contains(':') || text.contains('-') {
+                    self.alloc_string_expr(span, qualified.clone())
+                } else if is_valid_ident_name(text) {
+                    self.alloc_ident_expr(Ident::new(span, qualified.clone()))
+                } else {
+                    self.alloc_string_expr(span, qualified.clone())
+                }
+            }
+        }
+    }
+
+    fn member_chain_from_qualified_name(
+        &mut self,
+        span: swc_common::Span,
+        qualified: &str,
+    ) -> Option<ExprId> {
+        let mut parts = qualified.split('.');
+        let first = parts.next()?;
+        if !is_valid_ident_name(first) {
+            return None;
+        }
+
+        let mut expr = self.alloc_ident_expr(Ident::new(span, Atom::new(first)));
+        for part in parts {
+            if !is_valid_ident_name(part) {
+                return None;
+            }
+            expr = self.store.alloc_expr(Expr::Member(MemberExpr {
+                span,
+                obj: expr,
+                prop: MemberProp::Ident(Ident::new(span, Atom::new(part))),
+            }));
+        }
+        Some(expr)
+    }
+
+    fn is_jsx_fragment_name(name: &JSXElementName) -> bool {
+        matches!(name, JSXElementName::Qualified(qualified) if qualified.is_empty())
+    }
+
+    fn lower_jsx_element_to_expr_id(&mut self, id: JSXElementId) -> ExprId {
+        let expr = self.lower_jsx_element_expr(id);
+        self.store.alloc_expr(expr)
+    }
+
+    fn lower_jsx_children_exprs(&mut self, children: &[JSXElementChild]) -> Vec<ExprId> {
+        let mut out = Vec::new();
+        for child in children {
+            match child {
+                JSXElementChild::Element(element) => {
+                    out.push(self.lower_jsx_element_to_expr_id(*element));
+                }
+                JSXElementChild::Expr(expr) => {
+                    if matches!(self.store.expr(*expr), Some(Expr::Lit(Lit::Null(_)))) {
+                        continue;
+                    }
+                    out.push(*expr);
+                }
+                JSXElementChild::Text(text) => {
+                    let trimmed = text.trim();
+                    if trimmed.is_empty() {
+                        continue;
+                    }
+                    out.push(self.alloc_string_expr(DUMMY_SP, Atom::new(trimmed)));
+                }
+            }
+        }
+        out
+    }
+
+    fn jsx_attr_key(&self, attr: &JSXAttr) -> PropName {
+        if is_valid_ident_name(attr.name.as_ref()) {
+            PropName::Ident(Ident::new(attr.span, attr.name.clone()))
+        } else {
+            PropName::Str(StrLit {
+                span: attr.span,
+                value: attr.name.clone(),
+            })
+        }
+    }
+
+    fn object_assign_callee(&mut self, span: swc_common::Span) -> ExprId {
+        let object_ident = self.alloc_ident_expr(Ident::new(span, Atom::new("Object")));
+        self.store.alloc_expr(Expr::Member(MemberExpr {
+            span,
+            obj: object_ident,
+            prop: MemberProp::Ident(Ident::new(span, Atom::new("assign"))),
+        }))
+    }
+
+    fn build_jsx_props_expr(
+        &mut self,
+        span: swc_common::Span,
+        attrs: &[JSXAttr],
+        extra_props: Vec<KeyValueProp>,
+        allow_none: bool,
+    ) -> Option<ExprId> {
+        let mut has_spread = false;
+        let mut pending_props = Vec::<KeyValueProp>::new();
+        let mut segments = Vec::<ExprId>::new();
+
+        for attr in attrs {
+            if attr.name.as_ref() == "..." {
+                has_spread = true;
+                if !pending_props.is_empty() {
+                    let segment = self.store.alloc_expr(Expr::Object(ObjectExpr {
+                        span,
+                        props: std::mem::take(&mut pending_props),
+                    }));
+                    segments.push(segment);
+                }
+                if let Some(value) = attr.value {
+                    segments.push(value);
+                }
+                continue;
+            }
+
+            let value = attr
+                .value
+                .unwrap_or_else(|| self.alloc_bool_expr(attr.span, true));
+            pending_props.push(KeyValueProp {
+                span: attr.span,
+                key: self.jsx_attr_key(attr),
+                value,
+            });
+        }
+
+        pending_props.extend(extra_props);
+        if !pending_props.is_empty() {
+            let segment = self.store.alloc_expr(Expr::Object(ObjectExpr {
+                span,
+                props: pending_props,
+            }));
+            segments.push(segment);
+        }
+
+        if segments.is_empty() {
+            return if allow_none {
+                None
+            } else {
+                Some(self.alloc_empty_object_expr(span))
+            };
+        }
+
+        if !has_spread {
+            return segments.pop();
+        }
+
+        let mut args = Vec::with_capacity(segments.len() + 1);
+        args.push(ExprOrSpread {
+            spread: false,
+            expr: self.alloc_empty_object_expr(span),
+        });
+        args.extend(segments.into_iter().map(|expr| ExprOrSpread {
+            spread: false,
+            expr,
+        }));
+
+        let callee = self.object_assign_callee(span);
+        Some(
+            self.store
+                .alloc_expr(Expr::Call(CallExpr { span, callee, args })),
+        )
+    }
+
+    fn lower_jsx_element_expr(&mut self, element_id: JSXElementId) -> Expr {
+        let Some(element) = self.store.jsx_element(element_id).cloned() else {
+            return Expr::JSXElement(element_id);
+        };
+
+        let span = element.span;
+        let is_fragment = Self::is_jsx_fragment_name(&element.opening.name);
+        let children = self.lower_jsx_children_exprs(&element.children);
+
+        match self.options.react.runtime {
+            ReactRuntime::Classic => {
+                let tag = if is_fragment {
+                    self.dotted_path_expr(span, &self.options.react.classic_fragment_pragma)
+                } else {
+                    self.jsx_name_type_expr(span, &element.opening.name)
+                };
+
+                let props = self
+                    .build_jsx_props_expr(span, &element.opening.attrs, Vec::new(), true)
+                    .unwrap_or_else(|| self.alloc_null_expr(span));
+
+                let mut args = Vec::with_capacity(children.len() + 2);
+                args.push(ExprOrSpread {
+                    spread: false,
+                    expr: tag,
+                });
+                args.push(ExprOrSpread {
+                    spread: false,
+                    expr: props,
+                });
+                args.extend(children.into_iter().map(|expr| ExprOrSpread {
+                    spread: false,
+                    expr,
+                }));
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: self.dotted_path_expr(span, &self.options.react.classic_pragma),
+                    args,
+                })
+            }
+            ReactRuntime::Automatic => {
+                let children_count = children.len();
+                let tag = if is_fragment {
+                    self.react.needs_fragment = true;
+                    self.alloc_ident_expr(Ident::new(span, self.react.local_fragment.clone()))
+                } else {
+                    self.jsx_name_type_expr(span, &element.opening.name)
+                };
+
+                let mut extra_props = Vec::new();
+                if children.len() == 1 {
+                    extra_props.push(KeyValueProp {
+                        span,
+                        key: PropName::Ident(Ident::new(span, Atom::new("children"))),
+                        value: children[0],
+                    });
+                } else if !children.is_empty() {
+                    let array = self.store.alloc_expr(Expr::Array(ArrayExpr {
+                        span,
+                        elems: children
+                            .into_iter()
+                            .map(|expr| {
+                                Some(ExprOrSpread {
+                                    spread: false,
+                                    expr,
+                                })
+                            })
+                            .collect(),
+                    }));
+                    extra_props.push(KeyValueProp {
+                        span,
+                        key: PropName::Ident(Ident::new(span, Atom::new("children"))),
+                        value: array,
+                    });
+                }
+
+                let props = self
+                    .build_jsx_props_expr(span, &element.opening.attrs, extra_props, false)
+                    .unwrap_or_else(|| self.alloc_empty_object_expr(span));
+
+                let (callee_local, needs_jsxs) = if children_count > 1 {
+                    (self.react.local_jsxs.clone(), true)
+                } else {
+                    (self.react.local_jsx.clone(), false)
+                };
+                if needs_jsxs {
+                    self.react.needs_jsxs = true;
+                } else {
+                    self.react.needs_jsx = true;
+                }
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: self.alloc_ident_expr(Ident::new(span, callee_local)),
+                    args: vec![
+                        ExprOrSpread {
+                            spread: false,
+                            expr: tag,
+                        },
+                        ExprOrSpread {
+                            spread: false,
+                            expr: props,
+                        },
+                    ],
+                })
+            }
         }
     }
 
@@ -900,6 +2272,24 @@ impl Rewriter<'_> {
     }
 }
 
+fn is_valid_ident_name(name: &str) -> bool {
+    let mut chars = name.chars();
+    let Some(first) = chars.next() else {
+        return false;
+    };
+    if !(first == '_' || first == '$' || first.is_ascii_alphabetic()) {
+        return false;
+    }
+    chars.all(|ch| ch == '_' || ch == '$' || ch.is_ascii_alphanumeric())
+}
+
+fn is_jsx_intrinsic_name(name: &str) -> bool {
+    let Some(first) = name.chars().next() else {
+        return false;
+    };
+    first.is_ascii_lowercase() || name.contains('-')
+}
+
 fn expr_span(expr: &Expr) -> swc_common::Span {
     match expr {
         Expr::Ident(value) => value.span,
@@ -915,6 +2305,8 @@ fn expr_span(expr: &Expr) -> swc_common::Span {
         Expr::Class(_) => DUMMY_SP,
         Expr::JSXElement(_) => DUMMY_SP,
         Expr::TsAs(value) => value.span,
+        Expr::TsNonNull(value) => value.span,
+        Expr::TsSatisfies(value) => value.span,
         Expr::Array(value) => value.span,
         Expr::Object(value) => value.span,
         Expr::Unary(value) => value.span,

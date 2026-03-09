@@ -324,6 +324,8 @@ fn eval_expr(
         Some(Expr::Lit(lit)) => (true, const_from_lit(&lit)),
         Some(Expr::Paren(paren)) => eval_expr(paren.expr, store, purity, constants, visiting),
         Some(Expr::TsAs(expr)) => eval_expr(expr.expr, store, purity, constants, visiting),
+        Some(Expr::TsNonNull(expr)) => eval_expr(expr.expr, store, purity, constants, visiting),
+        Some(Expr::TsSatisfies(expr)) => eval_expr(expr.expr, store, purity, constants, visiting),
         Some(Expr::Seq(seq)) => {
             let mut all_pure = true;
             let mut last = ConstValue::Unknown;

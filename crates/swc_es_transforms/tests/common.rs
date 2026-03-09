@@ -8,7 +8,10 @@ use std::{
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_es_codegen::{emit_program, Config};
 use swc_es_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
-use swc_es_transforms::{transform_program, TransformOptions, TransformTarget};
+use swc_es_transforms::{
+    transform_program, ReactRuntime, ReactTransformOptions, TransformOptions, TransformTarget,
+    TypeScriptTransformOptions,
+};
 use testing::NormalizedOutput;
 use walkdir::WalkDir;
 
@@ -122,6 +125,54 @@ fn read_options(input: &Path) -> TransformOptions {
         enable_nullish_coalescing: raw.enable_nullish_coalescing.unwrap_or(true),
         enable_logical_assignment: raw.enable_logical_assignment.unwrap_or(true),
         enable_normalize: raw.enable_normalize.unwrap_or(true),
+        typescript: TypeScriptTransformOptions {
+            enabled: raw
+                .typescript
+                .as_ref()
+                .and_then(|v| v.enabled)
+                .unwrap_or(true),
+            transform_enum: raw
+                .typescript
+                .as_ref()
+                .and_then(|v| v.transform_enum)
+                .unwrap_or(true),
+            transform_namespace: raw
+                .typescript
+                .as_ref()
+                .and_then(|v| v.transform_namespace)
+                .unwrap_or(true),
+            drop_declare: raw
+                .typescript
+                .as_ref()
+                .and_then(|v| v.drop_declare)
+                .unwrap_or(true),
+        },
+        react: ReactTransformOptions {
+            enabled: raw.react.as_ref().and_then(|v| v.enabled).unwrap_or(true),
+            runtime: match raw.react.as_ref().and_then(|v| v.runtime.as_deref()) {
+                Some("classic") => ReactRuntime::Classic,
+                Some("automatic") | None => ReactRuntime::Automatic,
+                Some(other) => panic!(
+                    "unknown react runtime `{other}` in {}",
+                    options_path.display()
+                ),
+            },
+            import_source: raw
+                .react
+                .as_ref()
+                .and_then(|v| v.import_source.clone())
+                .unwrap_or_else(|| swc_atoms::Atom::new("react/jsx-runtime")),
+            classic_pragma: raw
+                .react
+                .as_ref()
+                .and_then(|v| v.classic_pragma.clone())
+                .unwrap_or_else(|| swc_atoms::Atom::new("React.createElement")),
+            classic_fragment_pragma: raw
+                .react
+                .as_ref()
+                .and_then(|v| v.classic_fragment_pragma.clone())
+                .unwrap_or_else(|| swc_atoms::Atom::new("React.Fragment")),
+        },
     }
 }
 
@@ -132,6 +183,25 @@ struct RawOptions {
     enable_nullish_coalescing: Option<bool>,
     enable_logical_assignment: Option<bool>,
     enable_normalize: Option<bool>,
+    typescript: Option<RawTypeScriptOptions>,
+    react: Option<RawReactOptions>,
+}
+
+#[derive(Debug, serde::Deserialize)]
+struct RawTypeScriptOptions {
+    enabled: Option<bool>,
+    transform_enum: Option<bool>,
+    transform_namespace: Option<bool>,
+    drop_declare: Option<bool>,
+}
+
+#[derive(Debug, serde::Deserialize)]
+struct RawReactOptions {
+    enabled: Option<bool>,
+    runtime: Option<String>,
+    import_source: Option<swc_atoms::Atom>,
+    classic_pragma: Option<swc_atoms::Atom>,
+    classic_fragment_pragma: Option<swc_atoms::Atom>,
 }
 
 pub fn assert_snapshot(path: &Path, content: &str) {
