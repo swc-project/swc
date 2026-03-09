@@ -18,7 +18,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..15,\n        specifiers: [],\n        src: StrLit {\n            span: 8..13,\n            value: \"foo\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..15,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 8..13,\n            value: \"foo\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

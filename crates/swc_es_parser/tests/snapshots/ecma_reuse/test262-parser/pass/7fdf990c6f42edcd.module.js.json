@@ -18,7 +18,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "ExportAll(\n    ExportAllDecl {\n        span: 1..18,\n        src: StrLit {\n            span: 15..18,\n            value: \"a\",\n        },\n        exported: None,\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 1..18,\n        src: StrLit {\n            span: 15..18,\n            value: \"a\",\n        },\n        type_only: false,\n        exported: None,\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

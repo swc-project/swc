@@ -18,7 +18,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..30,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 18..19,\n                        sym: \"a\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 10..14,\n                            sym: \"null\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 27..30,\n            value: \"b\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..30,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 18..19,\n                        sym: \"a\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 10..14,\n                            sym: \"null\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 27..30,\n            value: \"b\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],
