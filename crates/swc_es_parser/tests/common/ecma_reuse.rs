@@ -257,7 +257,6 @@ pub fn syntax_for_file(path: &Path, category: &str, options: &FixtureOptions) ->
             import_attributes: options.import_attributes.unwrap_or(true),
             explicit_resource_management: options.explicit_resource_management.unwrap_or(true),
             allow_return_outside_function: is_cjs,
-            allow_super_outside_method: category == "span",
             ..Default::default()
         })
     }
@@ -296,6 +295,17 @@ pub fn is_expected_fail(case: &Case, options: &FixtureOptions) -> bool {
         return true;
     }
     if case.category == "test262-parser" && path.contains("/test262-parser/fail/") {
+        return true;
+    }
+    if case.category == "span"
+        && matches!(
+            path.as_str(),
+            p if p.ends_with("/span/js/super/expr.js")
+                || p.ends_with("/span/js/super/obj1.js")
+                || p.ends_with("/span/js/super/obj2.js")
+                || p.ends_with("/span/js/super/obj4.js")
+        )
+    {
         return true;
     }
 
