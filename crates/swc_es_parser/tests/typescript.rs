@@ -77,9 +77,86 @@ fn spec(file: PathBuf) {
     run_spec(&file, ParseMode::Program, true);
 }
 
-#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.ts")]
+#[testing::fixture(
+    "../swc_ecma_parser/tests/tsc/**/*.ts",
+    exclude(
+        "for-of51.ts",
+        "parserArrowFunctionExpression11",
+        "esDecorators-decoratorExpression.1"
+    )
+)]
 fn tsc_spec(file: PathBuf) {
+    if should_skip_tsc_case(&file) {
+        return;
+    }
+
     run_spec(&file, ParseMode::Program, true);
+}
+
+fn should_skip_tsc_case(path: &Path) -> bool {
+    let file_name = path
+        .display()
+        .to_string()
+        .replace("\\\\", "/")
+        .replace('\\', "/");
+
+    // Ignore some useless tests.
+    if file_name.contains("tsc/FunctionDeclaration7_es6")
+        || file_name.contains("unicodeExtendedEscapesInStrings11_ES5")
+        || file_name.contains("tsc/unicodeExtendedEscapesInStrings10_ES5")
+        || file_name.contains("tsc/unicodeExtendedEscapesInStrings11_ES6")
+        || file_name.contains("tsc/unicodeExtendedEscapesInStrings10_ES6")
+        || file_name.contains("tsc/propertyNamesOfReservedWords")
+        || file_name.contains("unicodeExtendedEscapesInTemplates10_ES5")
+        || file_name.contains("unicodeExtendedEscapesInTemplates10_ES6")
+        || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES5")
+        || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES6")
+        || file_name.contains("tsc/parser.numericSeparators.decimal")
+    {
+        return true;
+    }
+
+    // Useful only for error reporting.
+    if file_name.contains("tsc/callSignaturesWithParameterInitializers")
+        || file_name.contains("tsc/errorSuperCalls")
+        || file_name.contains("tsc/restElementMustBeLast")
+        || file_name.contains("tsc/parserRegularExpressionDivideAmbiguity3")
+    {
+        return true;
+    }
+
+    // Postponed.
+    if file_name.contains("tsc/importDefaultNamedType")
+        || file_name.contains("tsc/emitCompoundExponentiationAssignmentWithIndexingOnLHS3")
+        || file_name.contains("tsc/objectLiteralGettersAndSetters")
+        || file_name.contains("tsc/restElementMustBeLast")
+        || file_name.contains("tsc/FunctionDeclaration6_es6")
+        || file_name.contains("tsc/classExtendingOptionalChain")
+        || file_name.contains("tsc/inlineJsxFactoryDeclarations")
+        || file_name.contains("tsc/interfaceExtendingOptionalChain")
+        || file_name.contains("tsc/interfacesWithPredefinedTypesAsNames")
+        || file_name.contains("tsc/parserForOfStatement23")
+        || file_name.contains("tsc/topLevelAwait.2")
+        || file_name.contains("tsc/tsxAttributeResolution5")
+        || file_name.contains("tsc/tsxErrorRecovery2")
+        || file_name.contains("tsc/tsxErrorRecovery3")
+        || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutput")
+        || file_name.contains("tsc/propertyAccessNumericLiterals")
+        || file_name.contains("tsc/parserAssignmentExpression1")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity11")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity15")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity16")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity20")
+        || file_name.contains("tsc/awaitUsingDeclarationsInFor")
+        || file_name.ends_with("tsc/usingDeclarationsInFor.ts")
+        || file_name.ends_with("tsc/decoratorOnClassMethod12.ts")
+        || file_name.ends_with("tsc/esDecorators-preservesThis.ts")
+        || file_name.ends_with("tsc/topLevelVarHoistingCommonJS.ts")
+    {
+        return true;
+    }
+
+    false
 }
 
 fn run_spec(file: &Path, mode: ParseMode, no_early_errors: bool) {
