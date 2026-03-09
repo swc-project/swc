@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 1..133,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 1..133,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -25,47 +25,43 @@
     },
     {
       "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 64..66,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 64..73,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967302,
-      "node": "Expr(\n    ExprStmt {\n        span: 65..73,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 72..75,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967303,
-      "node": "Expr(\n    ExprStmt {\n        span: 72..74,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 74..82,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967304,
-      "node": "Expr(\n    ExprStmt {\n        span: 73..82,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 76..93,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 76..93,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 95..114,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967306,
-      "node": "Expr(\n    ExprStmt {\n        span: 95..114,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Labeled(\n    LabeledStmt {\n        span: 88..114,\n        label: Ident {\n            span: 88..93,\n            sym: \"async\",\n        },\n        body: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967307,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 88..114,\n        label: Ident {\n            span: 88..93,\n            sym: \"async\",\n        },\n        body: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 108..120,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 108..120,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 122..132,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967309,
-      "node": "Expr(\n    ExprStmt {\n        span: 122..132,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Labeled(\n    LabeledStmt {\n        span: 115..132,\n        label: Ident {\n            span: 115..120,\n            sym: \"async\",\n        },\n        body: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967310,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 115..132,\n        label: Ident {\n            span: 115..120,\n            sym: \"async\",\n        },\n        body: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Expr(\n    ExprStmt {\n        span: 131..133,\n        expr: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 131..133,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "decls": [],
@@ -94,15 +90,15 @@
     },
     {
       "id": 4294967302,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 65..67,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967303,
-      "node": "Unary(\n    UnaryExpr {\n        span: 65..73,\n        op: Bang,\n        arg: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Ident(\n    Ident {\n        span: 72..73,\n        sym: \"x\",\n    },\n)"
     },
     {
       "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 72..73,\n        sym: \"x\",\n    },\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 73..75,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967305,
@@ -110,26 +106,22 @@
     },
     {
       "id": 4294967306,
-      "node": "Unary(\n    UnaryExpr {\n        span: 73..82,\n        op: Bang,\n        arg: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
       "node": "Ident(\n    Ident {\n        span: 76..82,\n        sym: \"number\",\n    },\n)"
     },
     {
-      "id": 4294967308,
+      "id": 4294967307,
       "node": "Ident(\n    Ident {\n        span: 95..102,\n        sym: \"boolean\",\n    },\n)"
     },
     {
-      "id": 4294967309,
+      "id": 4294967308,
       "node": "Ident(\n    Ident {\n        span: 108..114,\n        sym: \"static\",\n    },\n)"
     },
     {
-      "id": 4294967310,
+      "id": 4294967309,
       "node": "Ident(\n    Ident {\n        span: 122..129,\n        sym: \"boolean\",\n    },\n)"
     },
     {
-      "id": 4294967311,
+      "id": 4294967310,
       "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
     }
   ],

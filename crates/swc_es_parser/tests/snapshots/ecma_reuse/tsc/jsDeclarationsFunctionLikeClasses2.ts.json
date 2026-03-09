@@ -765,7 +765,7 @@
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 1430..1471,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 1438..1445,\n                        sym: \"Point2D\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 1438..1445,\n                            sym: \"Point2D\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 1452..1462,\n            value: \"./source\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1430..1471,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 1438..1445,\n                        sym: \"Point2D\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 1438..1445,\n                            sym: \"Point2D\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 1452..1462,\n            value: \"./source\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,

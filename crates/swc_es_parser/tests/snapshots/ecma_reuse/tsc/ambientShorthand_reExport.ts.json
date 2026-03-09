@@ -56,19 +56,19 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 86..148,\n        src: Some(\n            StrLit {\n                span: 102..110,\n                value: \"jquery\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 94..95,\n                    sym: \"x\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 86..148,\n        src: Some(\n            StrLit {\n                span: 102..110,\n                value: \"jquery\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 94..95,\n                    sym: \"x\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
-      "node": "ExportAll(\n    ExportAllDecl {\n        span: 142..203,\n        src: StrLit {\n            span: 156..164,\n            value: \"jquery\",\n        },\n        exported: None,\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 142..203,\n        src: StrLit {\n            span: 156..164,\n            value: \"jquery\",\n        },\n        type_only: false,\n        exported: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 197..234,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 205..206,\n                        sym: \"x\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 205..206,\n                            sym: \"x\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 213..226,\n            value: \"./reExportX\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 197..234,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 205..206,\n                        sym: \"x\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 205..206,\n                            sym: \"x\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 213..226,\n            value: \"./reExportX\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
-      "node": "Import(\n    ImportDecl {\n        span: 228..306,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 240..241,\n                        sym: \"$\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 247..262,\n            value: \"./reExportAll\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 228..306,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 240..241,\n                        sym: \"$\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 247..262,\n            value: \"./reExportAll\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

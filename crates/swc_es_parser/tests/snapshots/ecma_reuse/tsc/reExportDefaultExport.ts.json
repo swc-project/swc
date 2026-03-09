@@ -64,15 +64,15 @@
     },
     {
       "id": 4294967298,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 91..131,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 99..100,\n                    sym: \"f\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 91..131,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 99..100,\n                    sym: \"f\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 125..155,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 132..135,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 141..147,\n            value: \"./m1\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 125..155,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 132..135,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 141..147,\n            value: \"./m1\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
-      "node": "Import(\n    ImportDecl {\n        span: 149..175,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 157..158,\n                        sym: \"f\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 157..158,\n                            sym: \"f\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 165..171,\n            value: \"./m1\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 149..175,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 157..158,\n                        sym: \"f\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 157..158,\n                            sym: \"f\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 165..171,\n            value: \"./m1\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

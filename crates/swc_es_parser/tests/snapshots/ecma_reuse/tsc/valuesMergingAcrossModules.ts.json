@@ -101,19 +101,19 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 36..76,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 45..46,\n                    sym: \"A\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 36..76,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 45..46,\n                    sym: \"A\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 70..99,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 79..80,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 79..80,\n                            sym: \"A\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 88..93,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 70..99,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 79..80,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 79..80,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 88..93,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 107..147,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 116..117,\n                    sym: \"A\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 107..147,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 116..117,\n                    sym: \"A\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
-      "node": "Import(\n    ImportDecl {\n        span: 141..175,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 150..151,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 150..151,\n                            sym: \"A\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 159..164,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 141..175,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 150..151,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 150..151,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 159..164,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967301,

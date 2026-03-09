@@ -1,8 +1,1 @@
-  x expected }, got Keyword(Import)
-   ,-[/swc_ecma_parser/tests/typescript-errors/type-only-import-specifier/invalid-type-only/input.ts:1:1]
- 1 | import { type import } from 'mod'
-   :               ^^^^^^
-   `----
-
-Advice: 
-  > code: UnexpectedToken
+  x expected parser diagnostics; parser accepted input

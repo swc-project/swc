@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 19..667,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 19..667,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -49,19 +49,15 @@
     },
     {
       "id": 4294967307,
-      "node": "Expr(\n    ExprStmt {\n        span: 590..604,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 590..610,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 603..610,\n        expr: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
       "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
     },
     {
-      "id": 4294967310,
-      "node": "Expr(\n    ExprStmt {\n        span: 665..667,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
+      "id": 4294967309,
+      "node": "Expr(\n    ExprStmt {\n        span: 665..667,\n        expr: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "decls": [
@@ -95,7 +91,7 @@
     },
     {
       "id": 4294967304,
-      "node": "Var(\n    VarDecl {\n        span: 607..666,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 607..658,\n                name: Id {\n                    index: 11,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 15,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+      "node": "Var(\n    VarDecl {\n        span: 607..666,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 607..658,\n                name: Id {\n                    index: 11,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 14,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
     }
   ],
   "pats": [
@@ -187,22 +183,18 @@
     },
     {
       "id": 4294967309,
-      "node": "Assign(\n    AssignExpr {\n        span: 592..604,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 603..605,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967310,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+      "node": "Assign(\n    AssignExpr {\n        span: 592..605,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967311,
-      "node": "Unary(\n    UnaryExpr {\n        span: 603..610,\n        op: Bang,\n        arg: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967312,
       "node": "Ident(\n    Ident {\n        span: 649..657,\n        sym: \"optional\",\n    },\n)"
     },
     {
-      "id": 4294967313,
+      "id": 4294967312,
       "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
     }
   ],

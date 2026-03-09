@@ -72,7 +72,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 85..125,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 94..98,\n                        sym: \"Enum\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 94..98,\n                            sym: \"Enum\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 106..114,\n            value: \"./enum\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 85..125,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 94..98,\n                        sym: \"Enum\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 94..98,\n                            sym: \"Enum\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 106..114,\n            value: \"./enum\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,
@@ -80,11 +80,11 @@
     },
     {
       "id": 4294967300,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 163..210,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 172..176,\n                    sym: \"Enum\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 163..210,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 172..176,\n                    sym: \"Enum\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967301,
-      "node": "Import(\n    ImportDecl {\n        span: 204..240,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 213..217,\n                        sym: \"Enum\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 213..217,\n                            sym: \"Enum\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 225..234,\n            value: \"./merge\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 204..240,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 213..217,\n                        sym: \"Enum\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 213..217,\n                            sym: \"Enum\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 225..234,\n            value: \"./merge\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

@@ -85,7 +85,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 170..207,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 179..182,\n                        sym: \"abc\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 179..182,\n                            sym: \"abc\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 190..202,\n            value: \"./bug24934\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 170..207,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 179..182,\n                        sym: \"abc\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 179..182,\n                            sym: \"abc\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 190..202,\n            value: \"./bug24934\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

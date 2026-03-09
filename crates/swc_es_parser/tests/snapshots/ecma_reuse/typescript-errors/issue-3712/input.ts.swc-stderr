@@ -18,11 +18,11 @@ Advice:
 
 Advice: 
   > code: UnexpectedToken
-  x expected ,, got Bang
+  x expected ,, got Ident
    ,-[/swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:8:1]
  7 |         <>
  8 |             < !doctype html >
-   :               ^
+   :                ^^^^^^^
  9 |             <html lang='en-US' charSet='UTF-8'>
    `----
 

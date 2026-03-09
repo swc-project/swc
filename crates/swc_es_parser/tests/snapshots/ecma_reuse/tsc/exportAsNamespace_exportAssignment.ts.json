@@ -27,7 +27,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "ExportAll(\n    ExportAllDecl {\n        span: 128..155,\n        src: StrLit {\n            span: 148..153,\n            value: \"./a\",\n        },\n        exported: Some(\n            Ident {\n                span: 140..142,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 128..155,\n        src: StrLit {\n            span: 148..153,\n            value: \"./a\",\n        },\n        type_only: false,\n        exported: Some(\n            Ident {\n                span: 140..142,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

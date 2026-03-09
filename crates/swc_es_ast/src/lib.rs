@@ -51,10 +51,10 @@ pub use crate::{
     typescript::{
         TsArrayType, TsAsExpr, TsConditionalType, TsFnParam, TsFnType, TsImportType,
         TsIndexedAccessType, TsInferType, TsIntersectionType, TsKeywordType, TsLitType,
-        TsMappedType, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNamespaceDecl,
-        TsParenthesizedType, TsTupleType, TsType, TsTypeAnn, TsTypeLit, TsTypeMember,
-        TsTypeMemberKind, TsTypeOperatorOp, TsTypeOperatorType, TsTypeQuery, TsTypeRef,
-        TsUnionType,
+        TsMappedType, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNamespaceDecl, TsNonNullExpr,
+        TsParenthesizedType, TsSatisfiesExpr, TsTupleType, TsType, TsTypeAnn, TsTypeLit,
+        TsTypeMember, TsTypeMemberKind, TsTypeOperatorOp, TsTypeOperatorType, TsTypeQuery,
+        TsTypeRef, TsUnionType,
     },
 };
 

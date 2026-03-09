@@ -164,7 +164,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 188..280,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 195..196,\n                        sym: \"A\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 202..210,\n            value: \"./mod1\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 188..280,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 195..196,\n                        sym: \"A\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 202..210,\n            value: \"./mod1\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [

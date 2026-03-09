@@ -217,11 +217,11 @@
     },
     {
       "id": 4294967349,
-      "node": "Expr(\n    ExprStmt {\n        span: 451..453,\n        expr: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 451..454,\n        expr: Id {\n            index: 46,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967350,
-      "node": "Expr(\n    ExprStmt {\n        span: 452..461,\n        expr: Id {\n            index: 47,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 453..461,\n        expr: Id {\n            index: 47,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967351,
@@ -449,11 +449,11 @@
     },
     {
       "id": 4294967343,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 452..454,\n        expr: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967344,
-      "node": "Unary(\n    UnaryExpr {\n        span: 452..461,\n        op: Bang,\n        arg: Id {\n            index: 46,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
     },
     {
       "id": 4294967345,

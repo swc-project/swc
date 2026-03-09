@@ -339,6 +339,11 @@ impl<'a> Parser<'a> {
     fn parse_import_decl(&mut self, start: swc_common::BytePos) -> PResult<ModuleDecl> {
         self.bump();
         let mut specifiers = Vec::new();
+        let mut type_only = false;
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Keyword(Keyword::Type) {
+            type_only = true;
+            self.bump();
+        }
         let src = if self.cur.kind == TokenKind::Str {
             let src = self.cur_string_value();
             self.bump();
@@ -366,6 +371,12 @@ impl<'a> Parser<'a> {
             } else if self.cur.kind == TokenKind::LBrace {
                 self.bump();
                 while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
+                    let is_type_only = self.syntax().typescript()
+                        && self.cur.kind == TokenKind::Keyword(Keyword::Type)
+                        && self.peek_kind() != TokenKind::Keyword(Keyword::As);
+                    if is_type_only {
+                        self.bump();
+                    }
                     let imported = self.parse_module_export_name()?;
                     let local = if self.cur.kind == TokenKind::Keyword(Keyword::As) {
                         self.bump();
@@ -377,6 +388,7 @@ impl<'a> Parser<'a> {
                         swc_es_ast::ImportNamedSpecifier {
                             local,
                             imported: Some(imported),
+                            is_type_only,
                         },
                     ));
                     if self.cur.kind == TokenKind::Comma {
@@ -414,6 +426,7 @@ impl<'a> Parser<'a> {
         Ok(ModuleDecl::Import(swc_es_ast::ImportDecl {
             span: Span::new_with_checked(start, self.last_pos()),
             specifiers,
+            type_only,
             src,
             with,
         }))
@@ -421,6 +434,14 @@ impl<'a> Parser<'a> {
 
     fn parse_export_decl(&mut self, start: swc_common::BytePos) -> PResult<ModuleDecl> {
         self.bump();
+        let mut type_only = false;
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Keyword(Keyword::Type) {
+            let next_kind = self.peek_kind();
+            if matches!(next_kind, TokenKind::LBrace | TokenKind::Star) {
+                type_only = true;
+                self.bump();
+            }
+        }
 
         if self.cur.kind == TokenKind::Keyword(Keyword::Default) {
             let default_span = self.cur.span;
@@ -497,6 +518,7 @@ impl<'a> Parser<'a> {
                 let mut specifiers = vec![swc_es_ast::ExportSpecifier {
                     local: Ident::new(default_span, Atom::new("default")),
                     exported: None,
+                    is_type_only: false,
                 }];
 
                 if self.cur.kind == TokenKind::Comma {
@@ -505,6 +527,12 @@ impl<'a> Parser<'a> {
                         self.bump();
                         while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof
                         {
+                            let is_specifier_type_only = self.syntax().typescript()
+                                && self.cur.kind == TokenKind::Keyword(Keyword::Type)
+                                && self.peek_kind() != TokenKind::Keyword(Keyword::As);
+                            if is_specifier_type_only {
+                                self.bump();
+                            }
                             let local = self.parse_module_export_name()?;
                             let exported = if self.cur.kind == TokenKind::Keyword(Keyword::As) {
                                 self.bump();
@@ -512,7 +540,11 @@ impl<'a> Parser<'a> {
                             } else {
                                 None
                             };
-                            specifiers.push(swc_es_ast::ExportSpecifier { local, exported });
+                            specifiers.push(swc_es_ast::ExportSpecifier {
+                                local,
+                                exported,
+                                is_type_only: is_specifier_type_only,
+                            });
 
                             if self.cur.kind != TokenKind::RBrace {
                                 let _ = self.expect(TokenKind::Comma, ",")?;
@@ -549,6 +581,7 @@ impl<'a> Parser<'a> {
                     span: Span::new_with_checked(start, self.last_pos()),
                     src: Some(src),
                     specifiers,
+                    type_only: false,
                     decl: None,
                     with,
                 }));
@@ -589,6 +622,7 @@ impl<'a> Parser<'a> {
             return Ok(ModuleDecl::ExportAll(swc_es_ast::ExportAllDecl {
                 span: Span::new_with_checked(start, self.last_pos()),
                 src,
+                type_only,
                 exported,
                 with,
             }));
@@ -598,6 +632,12 @@ impl<'a> Parser<'a> {
             self.bump();
             let mut specifiers = Vec::new();
             while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
+                let is_specifier_type_only = self.syntax().typescript()
+                    && self.cur.kind == TokenKind::Keyword(Keyword::Type)
+                    && self.peek_kind() != TokenKind::Keyword(Keyword::As);
+                if is_specifier_type_only {
+                    self.bump();
+                }
                 let local = self.parse_module_export_name()?;
                 let exported = if self.cur.kind == TokenKind::Keyword(Keyword::As) {
                     self.bump();
@@ -605,7 +645,11 @@ impl<'a> Parser<'a> {
                 } else {
                     None
                 };
-                specifiers.push(swc_es_ast::ExportSpecifier { local, exported });
+                specifiers.push(swc_es_ast::ExportSpecifier {
+                    local,
+                    exported,
+                    is_type_only: type_only || is_specifier_type_only,
+                });
 
                 if self.cur.kind != TokenKind::RBrace {
                     let _ = self.expect(TokenKind::Comma, ",")?;
@@ -626,6 +670,7 @@ impl<'a> Parser<'a> {
                 span: Span::new_with_checked(start, self.last_pos()),
                 src,
                 specifiers,
+                type_only,
                 decl: None,
                 with,
             }));
@@ -2405,15 +2450,34 @@ impl<'a> Parser<'a> {
         }
 
         let mut expr = left;
-        while self.syntax().typescript() && self.cur.kind == TokenKind::Keyword(Keyword::As) {
-            let start = self.cur.span.lo;
-            self.bump();
-            let ty = self.parse_ts_type()?;
-            expr = self.store.alloc_expr(Expr::TsAs(swc_es_ast::TsAsExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                expr,
-                ty,
-            }));
+        while self.syntax().typescript() {
+            if self.cur.kind == TokenKind::Keyword(Keyword::As) {
+                let start = self.cur.span.lo;
+                self.bump();
+                let ty = self.parse_ts_type()?;
+                expr = self.store.alloc_expr(Expr::TsAs(swc_es_ast::TsAsExpr {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    expr,
+                    ty,
+                }));
+                continue;
+            }
+
+            if self.cur_ident_is("satisfies") {
+                let start = self.cur.span.lo;
+                self.bump();
+                let ty = self.parse_ts_type()?;
+                expr = self
+                    .store
+                    .alloc_expr(Expr::TsSatisfies(swc_es_ast::TsSatisfiesExpr {
+                        span: Span::new_with_checked(start, self.last_pos()),
+                        expr,
+                        ty,
+                    }));
+                continue;
+            }
+
+            break;
         }
 
         Ok(expr)
@@ -3059,6 +3123,18 @@ impl<'a> Parser<'a> {
                         arg: expr,
                         prefix: false,
                     }));
+                }
+                TokenKind::Bang
+                    if self.syntax().typescript() && !self.cur.had_line_break_before =>
+                {
+                    let start = self.cur.span.lo;
+                    self.bump();
+                    expr = self
+                        .store
+                        .alloc_expr(Expr::TsNonNull(swc_es_ast::TsNonNullExpr {
+                            span: Span::new_with_checked(start, self.last_pos()),
+                            expr,
+                        }));
                 }
                 _ => break,
             }
@@ -5154,6 +5230,9 @@ impl<'a> Parser<'a> {
         match self.store.expr(expr) {
             Some(Expr::OptChain(_)) => true,
             Some(Expr::Paren(paren)) => self.expr_is_optional_chain(paren.expr),
+            Some(Expr::TsAs(value)) => self.expr_is_optional_chain(value.expr),
+            Some(Expr::TsNonNull(value)) => self.expr_is_optional_chain(value.expr),
+            Some(Expr::TsSatisfies(value)) => self.expr_is_optional_chain(value.expr),
             Some(Expr::Member(member)) => self.expr_is_optional_chain(member.obj),
             Some(Expr::Call(call)) => self.expr_is_optional_chain(call.callee),
             _ => false,
@@ -5164,6 +5243,9 @@ impl<'a> Parser<'a> {
         match self.store.expr(expr) {
             Some(Expr::Ident(ident)) => ident.sym.as_ref() == "super",
             Some(Expr::Paren(paren)) => self.expr_is_super_reference(paren.expr),
+            Some(Expr::TsAs(value)) => self.expr_is_super_reference(value.expr),
+            Some(Expr::TsNonNull(value)) => self.expr_is_super_reference(value.expr),
+            Some(Expr::TsSatisfies(value)) => self.expr_is_super_reference(value.expr),
             _ => false,
         }
     }

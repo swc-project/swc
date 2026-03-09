@@ -385,11 +385,11 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..99,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 13..46,\n                        sym: \"__typia_transform__validateReport\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 52..91,\n            value: \"typia/lib/internal/_validateReport.js\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..99,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 13..46,\n                        sym: \"__typia_transform__validateReport\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 52..91,\n            value: \"typia/lib/internal/_validateReport.js\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 93..126,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 100..105,\n                        sym: \"typia\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 111..118,\n            value: \"typia\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 93..126,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 100..105,\n                        sym: \"typia\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 111..118,\n            value: \"typia\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,

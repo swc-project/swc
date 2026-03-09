@@ -400,6 +400,13 @@ impl Rewriter<'_> {
                 as_expr.expr = self.rewrite_expr(as_expr.expr);
                 as_expr.ty = self.rewrite_ts_type(as_expr.ty);
             }
+            Expr::TsNonNull(non_null) => {
+                non_null.expr = self.rewrite_expr(non_null.expr);
+            }
+            Expr::TsSatisfies(satisfies) => {
+                satisfies.expr = self.rewrite_expr(satisfies.expr);
+                satisfies.ty = self.rewrite_ts_type(satisfies.ty);
+            }
             Expr::Array(array) => {
                 for elem in array.elems.iter_mut().flatten() {
                     elem.expr = self.rewrite_expr(elem.expr);
@@ -515,18 +522,26 @@ impl Rewriter<'_> {
 
         match &mut next {
             ModuleDecl::Import(import_decl) => {
-                for specifier in &mut import_decl.specifiers {
-                    match specifier {
-                        ImportSpecifier::Default(default) => {
-                            self.rename_ident(&mut default.local, None)
-                        }
-                        ImportSpecifier::Namespace(namespace) => {
-                            self.rename_ident(&mut namespace.local, None)
-                        }
-                        ImportSpecifier::Named(named) => {
-                            self.rename_ident(&mut named.local, None);
-                            if let Some(imported) = &mut named.imported {
-                                self.rename_ident(imported, None);
+                if import_decl.type_only {
+                    // Type-only import has no runtime bindings.
+                    import_decl.specifiers.clear();
+                } else {
+                    for specifier in &mut import_decl.specifiers {
+                        match specifier {
+                            ImportSpecifier::Default(default) => {
+                                self.rename_ident(&mut default.local, None)
+                            }
+                            ImportSpecifier::Namespace(namespace) => {
+                                self.rename_ident(&mut namespace.local, None)
+                            }
+                            ImportSpecifier::Named(named) => {
+                                if named.is_type_only {
+                                    continue;
+                                }
+                                self.rename_ident(&mut named.local, None);
+                                if let Some(imported) = &mut named.imported {
+                                    self.rename_ident(imported, None);
+                                }
                             }
                         }
                     }
@@ -534,6 +549,9 @@ impl Rewriter<'_> {
             }
             ModuleDecl::ExportNamed(named) => {
                 for specifier in &mut named.specifiers {
+                    if named.type_only || specifier.is_type_only {
+                        continue;
+                    }
                     self.rename_ident(&mut specifier.local, None);
                     if let Some(exported) = &mut specifier.exported {
                         self.rename_ident(exported, None);
@@ -1265,6 +1283,8 @@ fn expr_span(expr: &Expr) -> swc_common::Span {
             Lit::Regex(value) => value.span,
         },
         Expr::TsAs(value) => value.span,
+        Expr::TsNonNull(value) => value.span,
+        Expr::TsSatisfies(value) => value.span,
         Expr::Array(value) => value.span,
         Expr::Object(value) => value.span,
         Expr::Unary(value) => value.span,

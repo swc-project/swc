@@ -72,7 +72,7 @@
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 180..237,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 189..193,\n                        sym: \"OhNo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 189..193,\n                            sym: \"OhNo\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 201..208,\n            value: \"b.foo\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 180..237,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 189..193,\n                        sym: \"OhNo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 189..193,\n                            sym: \"OhNo\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 201..208,\n            value: \"b.foo\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

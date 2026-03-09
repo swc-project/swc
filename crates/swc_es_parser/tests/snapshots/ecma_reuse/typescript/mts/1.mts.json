@@ -39,7 +39,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..39,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..12,\n                        sym: \"path\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 18..29,\n            value: \"node:path\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..39,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..12,\n                        sym: \"path\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 18..29,\n            value: \"node:path\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

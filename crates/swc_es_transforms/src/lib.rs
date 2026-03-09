@@ -5,6 +5,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(clippy::all)]
 
+use swc_atoms::Atom;
 use swc_es_ast::{AstStore, ProgramId};
 
 mod analysis;
@@ -52,8 +53,71 @@ impl TransformTarget {
     }
 }
 
-/// Transform options.
+/// React runtime mode.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+pub enum ReactRuntime {
+    /// Automatic runtime (`jsx`/`jsxs` helpers).
+    #[default]
+    Automatic,
+    /// Classic runtime (`React.createElement`).
+    Classic,
+}
+
+/// TypeScript transform options.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct TypeScriptTransformOptions {
+    /// Enable TypeScript transform.
+    pub enabled: bool,
+    /// Lower enums to runtime JavaScript.
+    pub transform_enum: bool,
+    /// Lower namespaces/modules to runtime JavaScript.
+    pub transform_namespace: bool,
+    /// Drop `declare` declarations.
+    pub drop_declare: bool,
+}
+
+impl Default for TypeScriptTransformOptions {
+    #[inline]
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            transform_enum: true,
+            transform_namespace: true,
+            drop_declare: true,
+        }
+    }
+}
+
+/// React transform options.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ReactTransformOptions {
+    /// Enable React transform.
+    pub enabled: bool,
+    /// Runtime mode.
+    pub runtime: ReactRuntime,
+    /// Runtime import source for automatic mode.
+    pub import_source: Atom,
+    /// Factory function name for classic mode.
+    pub classic_pragma: Atom,
+    /// Fragment name for classic mode.
+    pub classic_fragment_pragma: Atom,
+}
+
+impl Default for ReactTransformOptions {
+    #[inline]
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            runtime: ReactRuntime::Automatic,
+            import_source: Atom::new("react/jsx-runtime"),
+            classic_pragma: Atom::new("React.createElement"),
+            classic_fragment_pragma: Atom::new("React.Fragment"),
+        }
+    }
+}
+
+/// Transform options.
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TransformOptions {
     /// Output target.
     pub target: TransformTarget,
@@ -65,6 +129,10 @@ pub struct TransformOptions {
     pub enable_logical_assignment: bool,
     /// Enable normalization cleanup.
     pub enable_normalize: bool,
+    /// TypeScript transform options.
+    pub typescript: TypeScriptTransformOptions,
+    /// React transform options.
+    pub react: ReactTransformOptions,
 }
 
 impl Default for TransformOptions {
@@ -76,6 +144,8 @@ impl Default for TransformOptions {
             enable_nullish_coalescing: true,
             enable_logical_assignment: true,
             enable_normalize: true,
+            typescript: TypeScriptTransformOptions::default(),
+            react: ReactTransformOptions::default(),
         }
     }
 }

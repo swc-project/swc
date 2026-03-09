@@ -401,3 +401,25 @@ pub struct TsAsExpr {
     /// Target type.
     pub ty: crate::TsTypeId,
 }
+
+/// Non-null assertion expression (`expr!`).
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsNonNullExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Expression being asserted.
+    pub expr: ExprId,
+}
+
+/// `satisfies` assertion expression (`expr satisfies T`).
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsSatisfiesExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Expression being checked.
+    pub expr: ExprId,
+    /// Constraint type.
+    pub ty: crate::TsTypeId,
+}

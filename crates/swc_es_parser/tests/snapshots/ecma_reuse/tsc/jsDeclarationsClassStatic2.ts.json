@@ -109,7 +109,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 235..273,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 244..247,\n                        sym: \"Foo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 244..247,\n                            sym: \"Foo\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 255..265,\n            value: \"./Foo.js\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 235..273,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 244..247,\n                        sym: \"Foo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 244..247,\n                            sym: \"Foo\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 255..265,\n            value: \"./Foo.js\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

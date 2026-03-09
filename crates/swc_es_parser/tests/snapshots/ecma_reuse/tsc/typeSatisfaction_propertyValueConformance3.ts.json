@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 1..325,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 1..325,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -14,14 +14,6 @@
     {
       "id": 4294967300,
       "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 292..308,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Expr(\n    ExprStmt {\n        span: 302..325,\n        expr: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "decls": [
@@ -31,7 +23,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 134..301,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 134..301,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+      "node": "Var(\n    VarDecl {\n        span: 134..325,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 134..324,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
     }
   ],
   "pats": [
@@ -41,7 +33,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 148..301,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Assign(\n    AssignPat {\n        span: 148..324,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "exprs": [
@@ -99,35 +91,7 @@
     },
     {
       "id": 4294967310,
-      "node": "Ident(\n    Ident {\n        span: 292..301,\n        sym: \"satisfies\",\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Ident(\n    Ident {\n        span: 302..308,\n        sym: \"Record\",\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Ident(\n    Ident {\n        span: 309..315,\n        sym: \"string\",\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Binary(\n    BinaryExpr {\n        span: 308..316,\n        op: Lt,\n        left: Id {\n            index: 14,\n            generation: 1,\n        },\n        right: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Ident(\n    Ident {\n        span: 317..322,\n        sym: \"Color\",\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Binary(\n    BinaryExpr {\n        span: 322..325,\n        op: Gt,\n        left: Id {\n            index: 17,\n            generation: 1,\n        },\n        right: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Seq(\n    SeqExpr {\n        span: 302..325,\n        exprs: [\n            Id {\n                index: 16,\n                generation: 1,\n            },\n            Id {\n                index: 19,\n                generation: 1,\n            },\n        ],\n    },\n)"
+      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 292..324,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n        ty: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "module_decls": [
@@ -137,7 +101,7 @@
     },
     {
       "id": 4294967298,
-      "node": "ExportDecl(\n    ExportDecl {\n        span: 127..301,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 127..325,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "functions": [],
@@ -160,6 +124,18 @@
     {
       "id": 4294967300,
       "node": "TypeLit(\n    TsTypeLit {\n        span: 21..57,\n        members: [\n            TsTypeMember {\n                span: 23..35,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 23..24,\n                            sym: \"r\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 34..46,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 34..35,\n                            sym: \"g\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 45..56,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 45..46,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 317..323,\n        name: Ident {\n            span: 317..323,\n            sym: \"Color\",\n        },\n        type_args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 302..324,\n        name: Ident {\n            span: 302..309,\n            sym: \"Record\",\n        },\n        type_args: [\n            Id {\n                index: 4,\n                generation: 1,\n            },\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ],\n    },\n)"
     }
   ]
 }

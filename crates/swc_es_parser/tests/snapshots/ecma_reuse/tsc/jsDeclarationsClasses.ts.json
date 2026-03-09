@@ -545,11 +545,11 @@
     },
     {
       "id": 4294967303,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1874..1894,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 1883..1884,\n                    sym: \"G\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1874..1894,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 1883..1884,\n                    sym: \"G\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967304,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1902..1929,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 1911..1913,\n                    sym: \"HH\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 1917..1918,\n                        sym: \"H\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1902..1929,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 1911..1913,\n                    sym: \"HH\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 1917..1918,\n                        sym: \"H\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967305,
@@ -557,11 +557,11 @@
     },
     {
       "id": 4294967306,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1941..1968,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 1950..1951,\n                    sym: \"I\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 1955..1957,\n                        sym: \"II\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1941..1968,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 1950..1951,\n                    sym: \"I\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 1955..1957,\n                        sym: \"II\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967307,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1962..1988,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 1971..1972,\n                    sym: \"J\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 1976..1978,\n                        sym: \"JJ\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1962..1988,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 1971..1972,\n                    sym: \"J\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 1976..1978,\n                        sym: \"JJ\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967308,

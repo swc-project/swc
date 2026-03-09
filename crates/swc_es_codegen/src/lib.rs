@@ -688,6 +688,10 @@ impl<'a> Emitter<'a> {
 
     fn emit_import_decl(&mut self, decl: &ImportDecl) -> Result<()> {
         self.output.push_str("import");
+        if decl.type_only {
+            self.hard_space();
+            self.output.push_str("type");
+        }
 
         if decl.specifiers.is_empty() {
             self.hard_space();
@@ -712,6 +716,9 @@ impl<'a> Emitter<'a> {
                 }
                 ImportSpecifier::Named(spec) => {
                     self.output.push('{');
+                    if spec.is_type_only {
+                        self.output.push_str("type ");
+                    }
                     if let Some(imported) = &spec.imported {
                         self.emit_ident(imported);
                         if imported.sym != spec.local.sym {
@@ -737,6 +744,9 @@ impl<'a> Emitter<'a> {
 
     fn emit_export_named_decl(&mut self, decl: &ExportNamedDecl) -> Result<()> {
         self.output.push_str("export ");
+        if decl.type_only {
+            self.output.push_str("type ");
+        }
 
         if let Some(inner_decl) = decl.decl {
             self.emit_decl(inner_decl)?;
@@ -749,6 +759,9 @@ impl<'a> Emitter<'a> {
                 self.comma();
             }
 
+            if spec.is_type_only {
+                self.output.push_str("type ");
+            }
             self.emit_ident(&spec.local);
             if let Some(exported) = &spec.exported {
                 if exported.sym != spec.local.sym {
@@ -770,7 +783,11 @@ impl<'a> Emitter<'a> {
     }
 
     fn emit_export_all_decl(&mut self, decl: &ExportAllDecl) -> Result<()> {
-        self.output.push_str("export *");
+        self.output.push_str("export ");
+        if decl.type_only {
+            self.output.push_str("type ");
+        }
+        self.output.push('*');
         if let Some(exported) = &decl.exported {
             self.output.push_str(" as ");
             self.emit_ident(exported);
@@ -1042,6 +1059,15 @@ impl<'a> Emitter<'a> {
                 self.emit_expr_with_min_prec(ts_as.expr, PREC_REL)?;
                 self.output.push_str(" as ");
                 self.emit_ts_type_with_min_prec(ts_as.ty, TYPE_PREC_COND)?;
+            }
+            Expr::TsNonNull(ts_non_null) => {
+                self.emit_expr_with_min_prec(ts_non_null.expr, PREC_POSTFIX)?;
+                self.output.push('!');
+            }
+            Expr::TsSatisfies(ts_satisfies) => {
+                self.emit_expr_with_min_prec(ts_satisfies.expr, PREC_REL)?;
+                self.output.push_str(" satisfies ");
+                self.emit_ts_type_with_min_prec(ts_satisfies.ty, TYPE_PREC_COND)?;
             }
             Expr::Array(array) => {
                 self.output.push('[');
@@ -1846,7 +1872,11 @@ const PREC_PRIMARY: u8 = 19;
 fn expr_precedence(expr: &Expr) -> u8 {
     match expr {
         Expr::Seq(_) => PREC_SEQ,
-        Expr::Assign(_) | Expr::Arrow(_) | Expr::Yield(_) | Expr::TsAs(_) => PREC_ASSIGN,
+        Expr::Assign(_)
+        | Expr::Arrow(_)
+        | Expr::Yield(_)
+        | Expr::TsAs(_)
+        | Expr::TsSatisfies(_) => PREC_ASSIGN,
         Expr::Cond(_) => PREC_COND,
         Expr::Binary(binary) => binary_op_precedence(binary.op),
         Expr::Unary(_) | Expr::Await(_) => PREC_UNARY,
@@ -1867,6 +1897,7 @@ fn expr_precedence(expr: &Expr) -> u8 {
         | Expr::Function(_)
         | Expr::Class(_)
         | Expr::JSXElement(_)
+        | Expr::TsNonNull(_)
         | Expr::Array(_)
         | Expr::Object(_)
         | Expr::Template(_)

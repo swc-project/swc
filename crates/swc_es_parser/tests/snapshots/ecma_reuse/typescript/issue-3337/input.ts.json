@@ -27,7 +27,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..41,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 13..19,\n                        sym: \"joiful\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 25..33,\n            value: \"joiful\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..41,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 13..19,\n                        sym: \"joiful\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 25..33,\n            value: \"joiful\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

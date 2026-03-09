@@ -64,7 +64,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 140..177,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 148..151,\n                        sym: \"Foo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 148..151,\n                            sym: \"Foo\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 158..168,\n            value: \"./foo.js\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 140..177,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 148..151,\n                        sym: \"Foo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 148..151,\n                            sym: \"Foo\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 158..168,\n            value: \"./foo.js\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,

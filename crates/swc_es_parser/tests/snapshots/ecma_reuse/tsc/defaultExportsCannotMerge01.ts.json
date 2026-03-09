@@ -169,7 +169,7 @@
     },
     {
       "id": 4294967302,
-      "node": "Import(\n    ImportDecl {\n        span: 286..325,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 293..299,\n                        sym: \"Entity\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 305..309,\n            value: \"m1\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 286..325,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 293..299,\n                        sym: \"Entity\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 305..309,\n            value: \"m1\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

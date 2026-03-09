@@ -280,11 +280,11 @@
     },
     {
       "id": 4294967299,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 339..358,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 348..349,\n                    sym: \"C\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 339..358,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 348..349,\n                    sym: \"C\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 366..393,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 375..377,\n                    sym: \"DD\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 381..382,\n                        sym: \"D\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 366..393,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 375..377,\n                    sym: \"DD\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 381..382,\n                        sym: \"D\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967301,
@@ -292,11 +292,11 @@
     },
     {
       "id": 4294967302,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 404..431,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 413..414,\n                    sym: \"E\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 418..420,\n                        sym: \"EE\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 404..431,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 413..414,\n                    sym: \"E\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 418..420,\n                        sym: \"EE\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967303,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 425..451,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 434..435,\n                    sym: \"F\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 439..441,\n                        sym: \"FF\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 425..451,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 434..435,\n                    sym: \"F\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 439..441,\n                        sym: \"FF\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967304,

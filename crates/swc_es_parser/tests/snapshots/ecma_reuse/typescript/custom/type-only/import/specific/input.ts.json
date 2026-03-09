@@ -22,11 +22,11 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..39,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..39,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 15..18,\n                        sym: \"Foo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 15..18,\n                            sym: \"Foo\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 26..31,\n            value: \"foo\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 33..59,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 33..59,\n        specifiers: [],\n        type_only: true,\n        src: StrLit {\n            span: 53..58,\n            value: \"foo\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

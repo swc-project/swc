@@ -2,7 +2,7 @@ use swc_common::Span;
 
 use crate::{
     ClassId, ExprId, FunctionId, Ident, JSXElementId, KeyValueProp, Lit, PatId, StmtId, StrLit,
-    TsAsExpr, UpdateOp,
+    TsAsExpr, TsNonNullExpr, TsSatisfiesExpr, UpdateOp,
 };
 
 /// Expression node.
@@ -21,6 +21,10 @@ pub enum Expr {
     JSXElement(JSXElementId),
     /// Type assertion expression.
     TsAs(TsAsExpr),
+    /// Non-null assertion expression.
+    TsNonNull(TsNonNullExpr),
+    /// `satisfies` assertion expression.
+    TsSatisfies(TsSatisfiesExpr),
     /// Array literal expression.
     Array(ArrayExpr),
     /// Object literal expression.

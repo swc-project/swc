@@ -1,9 +1,1 @@
-  x expected ,, got Keyword(Export)
-   ,-[/swc_ecma_parser/tests/errors/issue-8268/2/input.ts:1:1]
- 1 | export { type export }
-   :               ^^^^^^
- 2 | export { type if }
-   `----
-
-Advice: 
-  > code: UnexpectedToken
+  x expected parser diagnostics; parser accepted input
