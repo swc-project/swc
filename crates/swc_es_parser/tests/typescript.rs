@@ -9,8 +9,7 @@ use testing::NormalizedOutput;
 mod common;
 
 use common::ecma_reuse::{
-    load_ecma_fixture_file, parse_loaded_file_with_syntax_mode, should_skip_tsc_case,
-    snapshot_path_for, ParseMode,
+    load_ecma_fixture_file, parse_loaded_file_with_syntax_mode, snapshot_path_for, ParseMode,
 };
 
 fn ts_syntax(file: &Path, no_early_errors: bool) -> Syntax {
@@ -78,19 +77,8 @@ fn spec(file: PathBuf) {
     run_spec(&file, ParseMode::Program, true);
 }
 
-#[testing::fixture(
-    "../swc_ecma_parser/tests/tsc/**/*.ts",
-    exclude(
-        "for-of51.ts",
-        "parserArrowFunctionExpression11",
-        "esDecorators-decoratorExpression.1"
-    )
-)]
+#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.ts")]
 fn tsc_spec(file: PathBuf) {
-    if should_skip_tsc_case(&file) {
-        return;
-    }
-
     run_spec(&file, ParseMode::Program, true);
 }
 
