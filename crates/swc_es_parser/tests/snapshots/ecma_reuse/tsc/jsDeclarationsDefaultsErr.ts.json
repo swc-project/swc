@@ -81,7 +81,7 @@
     },
     {
       "id": 4294967299,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 566..635,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 574..575,\n                    sym: \"x\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 579..586,\n                        sym: \"default\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 566..635,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 574..575,\n                    sym: \"x\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 579..586,\n                        sym: \"default\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

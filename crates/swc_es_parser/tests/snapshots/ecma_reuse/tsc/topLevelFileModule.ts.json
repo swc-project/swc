@@ -93,11 +93,11 @@
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 151..193,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 158..161,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 151..193,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 158..161,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
-      "node": "Import(\n    ImportDecl {\n        span: 187..224,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 194..197,\n                        sym: \"fum\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 187..224,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 194..197,\n                        sym: \"fum\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

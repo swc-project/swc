@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 1..124,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 1..124,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -13,45 +13,17 @@
     },
     {
       "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 24..39,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 34..54,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
       "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 90..101,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Expr(\n    ExprStmt {\n        span: 107..122,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 102..122,\n        label: Ident {\n            span: 102..105,\n            sym: \"xyz\",\n        },\n        body: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Block(\n    BlockStmt {\n        span: 100..123,\n        stmts: [\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Empty(\n    EmptyStmt {\n        span: 122..123,\n    },\n)"
     }
   ],
   "decls": [
     {
       "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 1..33,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..33,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+      "node": "Var(\n    VarDecl {\n        span: 1..54,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..48,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
     },
     {
       "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 49..99,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 49..99,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+      "node": "Var(\n    VarDecl {\n        span: 49..124,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 49..123,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
     }
   ],
   "pats": [
@@ -71,43 +43,19 @@
     },
     {
       "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 24..33,\n        sym: \"satisfies\",\n    },\n)"
+      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 24..48,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n        ty: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967299,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 34..39,\n            value: \"foo\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 42..47,\n            value: \"bar\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Binary(\n    BinaryExpr {\n        span: 40..48,\n        op: BitOr,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
       "node": "Lit(\n    Str(\n        StrLit {\n            span: 82..87,\n            value: \"foo\",\n        },\n    ),\n)"
     },
     {
-      "id": 4294967303,
-      "node": "Object(\n    ObjectExpr {\n        span: 75..99,\n        props: [\n            KeyValueProp {\n                span: 77..89,\n                key: Ident(\n                    Ident {\n                        span: 77..80,\n                        sym: \"xyz\",\n                    },\n                ),\n                value: Id {\n                    index: 5,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+      "id": 4294967300,
+      "node": "Object(\n    ObjectExpr {\n        span: 75..99,\n        props: [\n            KeyValueProp {\n                span: 77..89,\n                key: Ident(\n                    Ident {\n                        span: 77..80,\n                        sym: \"xyz\",\n                    },\n                ),\n                value: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
     },
     {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 90..99,\n        sym: \"satisfies\",\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 107..112,\n            value: \"foo\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 115..120,\n            value: \"bar\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Binary(\n    BinaryExpr {\n        span: 113..122,\n        op: BitOr,\n        left: Id {\n            index: 8,\n            generation: 1,\n        },\n        right: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+      "id": 4294967301,
+      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 90..123,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n        ty: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "module_decls": [],
@@ -115,5 +63,34 @@
   "classes": [],
   "class_members": [],
   "jsx_elements": [],
-  "ts_types": []
+  "ts_types": [
+    {
+      "id": 4294967298,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 34..39,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967299,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 42..47,\n            value: \"bar\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Union(\n    TsUnionType {\n        span: 34..48,\n        types: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 107..112,\n            value: \"foo\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967304,
+      "node": "Lit(\n    Str(\n        StrLit {\n            span: 115..120,\n            value: \"bar\",\n        },\n    ),\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Union(\n    TsUnionType {\n        span: 107..122,\n        types: [\n            Id {\n                index: 6,\n                generation: 1,\n            },\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "TypeLit(\n    TsTypeLit {\n        span: 100..123,\n        members: [\n            TsTypeMember {\n                span: 102..122,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 102..105,\n                            sym: \"xyz\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    }
+  ]
 }

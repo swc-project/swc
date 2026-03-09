@@ -21,15 +21,15 @@
     },
     {
       "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 192..202,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
       "node": "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
     },
     {
-      "id": 4294967305,
+      "id": 4294967303,
       "node": "ModuleDecl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "ModuleDecl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
     }
   ],
   "decls": [
@@ -69,7 +69,7 @@
     },
     {
       "id": 4294967301,
-      "node": "Assign(\n    AssignPat {\n        span: 219..280,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Assign(\n    AssignPat {\n        span: 219..280,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967302,
@@ -77,7 +77,7 @@
     },
     {
       "id": 4294967303,
-      "node": "Assign(\n    AssignPat {\n        span: 304..335,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        right: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Assign(\n    AssignPat {\n        span: 304..335,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        right: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "exprs": [
@@ -91,45 +91,41 @@
     },
     {
       "id": 4294967300,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
       "node": "Ident(\n    Ident {\n        span: 267..273,\n        sym: \"class_\",\n    },\n)"
     },
     {
+      "id": 4294967301,
+      "node": "Object(\n    ObjectExpr {\n        span: 250..279,\n        props: [\n            KeyValueProp {\n                span: 256..274,\n                key: Ident(\n                    Ident {\n                        span: 256..265,\n                        sym: \"directive\",\n                    },\n                ),\n                value: Id {\n                    index: 3,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
       "id": 4294967302,
-      "node": "Object(\n    ObjectExpr {\n        span: 250..279,\n        props: [\n            KeyValueProp {\n                span: 256..274,\n                key: Ident(\n                    Ident {\n                        span: 256..265,\n                        sym: \"directive\",\n                    },\n                ),\n                value: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+      "node": "Paren(\n    ParenExpr {\n        span: 249..280,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967303,
-      "node": "Paren(\n    ParenExpr {\n        span: 249..280,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Arrow(\n    ArrowExpr {\n        span: 243..280,\n        params: [],\n        body: Expr(\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)"
     },
     {
       "id": 4294967304,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 243..280,\n        params: [],\n        body: Expr(\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)"
+      "node": "Arrow(\n    ArrowExpr {\n        span: 226..280,\n        params: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n        body: Expr(\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)"
     },
     {
       "id": 4294967305,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 226..280,\n        params: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n        body: Expr(\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)"
-    },
-    {
-      "id": 4294967306,
       "node": "Ident(\n    Ident {\n        span: 306..315,\n        sym: \"directive\",\n    },\n)"
     },
     {
-      "id": 4294967307,
+      "id": 4294967306,
       "node": "Ident(\n    Ident {\n        span: 316..333,\n        sym: \"ClassMapDirective\",\n    },\n)"
     },
     {
-      "id": 4294967308,
-      "node": "Call(\n    CallExpr {\n        span: 315..335,\n        callee: Id {\n            index: 9,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 10,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+      "id": 4294967307,
+      "node": "Call(\n    CallExpr {\n        span: 315..335,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 9,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
     }
   ],
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 48..89,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 56..64,\n                        sym: \"classMap\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 56..64,\n                            sym: \"classMap\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 71..81,\n            value: \"./lit.js\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 48..89,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 56..64,\n                        sym: \"classMap\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 56..64,\n                            sym: \"classMap\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 71..81,\n            value: \"./lit.js\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
@@ -137,10 +133,14 @@
     },
     {
       "id": 4294967299,
-      "node": "ExportDecl(\n    ExportDecl {\n        span: 196..288,\n        decl: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 162..202,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 175..192,\n                    sym: \"ClassMapDirective\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: true,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
+      "node": "ExportDecl(\n    ExportDecl {\n        span: 196..288,\n        decl: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967301,
       "node": "ExportDecl(\n    ExportDecl {\n        span: 282..336,\n        decl: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
     }
   ],

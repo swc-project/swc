@@ -61,7 +61,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 92..127,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 99..103,\n                        sym: \"data\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 109..122,\n            value: \"./data.json\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 92..127,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 99..103,\n                        sym: \"data\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 109..122,\n            value: \"./data.json\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,

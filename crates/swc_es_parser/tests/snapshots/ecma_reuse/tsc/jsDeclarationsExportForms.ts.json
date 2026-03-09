@@ -249,27 +249,27 @@
     },
     {
       "id": 4294967299,
-      "node": "ExportAll(\n    ExportAllDecl {\n        span: 205..257,\n        src: StrLit {\n            span: 219..226,\n            value: \"./cls\",\n        },\n        exported: None,\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 205..257,\n        src: StrLit {\n            span: 219..226,\n            value: \"./cls\",\n        },\n        type_only: false,\n        exported: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
-      "node": "ExportAll(\n    ExportAllDecl {\n        span: 251..281,\n        src: StrLit {\n            span: 265..273,\n            value: \"./func\",\n        },\n        exported: None,\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 251..281,\n        src: StrLit {\n            span: 265..273,\n            value: \"./func\",\n        },\n        type_only: false,\n        exported: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967301,
-      "node": "ExportAll(\n    ExportAllDecl {\n        span: 275..326,\n        src: StrLit {\n            span: 289..296,\n            value: \"./cls\",\n        },\n        exported: None,\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 275..326,\n        src: StrLit {\n            span: 289..296,\n            value: \"./cls\",\n        },\n        type_only: false,\n        exported: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967302,
-      "node": "Import(\n    ImportDecl {\n        span: 320..353,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 328..331,\n                        sym: \"Foo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 328..331,\n                            sym: \"Foo\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 338..345,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 320..353,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 328..331,\n                        sym: \"Foo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 328..331,\n                            sym: \"Foo\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 338..345,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967303,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 347..389,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 355..358,\n                    sym: \"Foo\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 347..389,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 355..358,\n                    sym: \"Foo\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967304,
-      "node": "Import(\n    ImportDecl {\n        span: 383..418,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 395..397,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 403..410,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 383..418,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 395..397,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 403..410,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967305,
@@ -277,59 +277,59 @@
     },
     {
       "id": 4294967306,
-      "node": "Import(\n    ImportDecl {\n        span: 453..488,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 465..467,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 473..480,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 453..488,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 465..467,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 473..480,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967307,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 482..523,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 490..492,\n                    sym: \"ns\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 482..523,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 490..492,\n                    sym: \"ns\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967308,
-      "node": "Import(\n    ImportDecl {\n        span: 517..552,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 529..531,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 537..544,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 517..552,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 529..531,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 537..544,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967309,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 546..606,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 555..557,\n                    sym: \"ns\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 561..575,\n                        sym: \"classContainer\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 546..606,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 555..557,\n                    sym: \"ns\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 561..575,\n                        sym: \"classContainer\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967310,
-      "node": "Import(\n    ImportDecl {\n        span: 912..935,\n        specifiers: [],\n        src: StrLit {\n            span: 919..927,\n            value: \"./cjs4\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 912..935,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 919..927,\n            value: \"./cjs4\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967311,
-      "node": "Import(\n    ImportDecl {\n        span: 929..952,\n        specifiers: [],\n        src: StrLit {\n            span: 936..944,\n            value: \"./cjs3\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 929..952,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 936..944,\n            value: \"./cjs3\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967312,
-      "node": "Import(\n    ImportDecl {\n        span: 946..969,\n        specifiers: [],\n        src: StrLit {\n            span: 953..961,\n            value: \"./cjs2\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 946..969,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 953..961,\n            value: \"./cjs2\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967313,
-      "node": "Import(\n    ImportDecl {\n        span: 963..985,\n        specifiers: [],\n        src: StrLit {\n            span: 970..977,\n            value: \"./cjs\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 963..985,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 970..977,\n            value: \"./cjs\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967314,
-      "node": "Import(\n    ImportDecl {\n        span: 979..1001,\n        specifiers: [],\n        src: StrLit {\n            span: 986..993,\n            value: \"./bol\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 979..1001,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 986..993,\n            value: \"./bol\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967315,
-      "node": "Import(\n    ImportDecl {\n        span: 995..1017,\n        specifiers: [],\n        src: StrLit {\n            span: 1002..1009,\n            value: \"./ban\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 995..1017,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 1002..1009,\n            value: \"./ban\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967316,
-      "node": "Import(\n    ImportDecl {\n        span: 1011..1033,\n        specifiers: [],\n        src: StrLit {\n            span: 1018..1025,\n            value: \"./bat\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1011..1033,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 1018..1025,\n            value: \"./bat\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967317,
-      "node": "Import(\n    ImportDecl {\n        span: 1027..1049,\n        specifiers: [],\n        src: StrLit {\n            span: 1034..1041,\n            value: \"./baz\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1027..1049,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 1034..1041,\n            value: \"./baz\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967318,
-      "node": "Import(\n    ImportDecl {\n        span: 1043..1065,\n        specifiers: [],\n        src: StrLit {\n            span: 1050..1057,\n            value: \"./bar\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1043..1065,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 1050..1057,\n            value: \"./bar\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967319,
-      "node": "Import(\n    ImportDecl {\n        span: 1059..1076,\n        specifiers: [],\n        src: StrLit {\n            span: 1066..1074,\n            value: \"./bar2\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1059..1076,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 1066..1074,\n            value: \"./bar2\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

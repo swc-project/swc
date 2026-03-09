@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 44..506,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 44..506,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -38,14 +38,6 @@
     {
       "id": 4294967304,
       "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 489..504,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Expr(\n    ExprStmt {\n        span: 499..506,\n        expr: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "decls": [
@@ -67,7 +59,7 @@
     },
     {
       "id": 4294967301,
-      "node": "Var(\n    VarDecl {\n        span: 446..498,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 446..498,\n                name: Id {\n                    index: 6,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+      "node": "Var(\n    VarDecl {\n        span: 446..506,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 446..505,\n                name: Id {\n                    index: 6,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
     }
   ],
   "pats": [
@@ -89,7 +81,7 @@
     },
     {
       "id": 4294967303,
-      "node": "Assign(\n    AssignPat {\n        span: 455..498,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        right: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Assign(\n    AssignPat {\n        span: 455..505,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        right: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "exprs": [
@@ -167,11 +159,7 @@
     },
     {
       "id": 4294967315,
-      "node": "Ident(\n    Ident {\n        span: 489..498,\n        sym: \"satisfies\",\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Ident(\n    Ident {\n        span: 499..504,\n        sym: \"Facts\",\n    },\n)"
+      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 489..505,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n        ty: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "module_decls": [],
@@ -199,6 +187,10 @@
     {
       "id": 4294967307,
       "node": "TypeOperator(\n    TsTypeOperatorType {\n        span: 386..401,\n        op: KeyOf,\n        ty: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 499..505,\n        name: Ident {\n            span: 499..505,\n            sym: \"Facts\",\n        },\n        type_args: [],\n    },\n)"
     }
   ]
 }

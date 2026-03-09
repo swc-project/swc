@@ -169,7 +169,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 366..412,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 373..375,\n                        sym: \"fs\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 366..412,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 373..375,\n                        sym: \"fs\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
@@ -177,19 +177,19 @@
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 513..541,\n        specifiers: [],\n        src: StrLit {\n            span: 528..533,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 513..541,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 528..533,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
-      "node": "Import(\n    ImportDecl {\n        span: 612..640,\n        specifiers: [],\n        src: StrLit {\n            span: 627..632,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 612..640,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 627..632,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967301,
-      "node": "Import(\n    ImportDecl {\n        span: 634..686,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 641..642,\n                        sym: \"_\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 634..686,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 641..642,\n                        sym: \"_\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967302,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 702..740,\n        src: None,\n        specifiers: [],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 702..740,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967303,

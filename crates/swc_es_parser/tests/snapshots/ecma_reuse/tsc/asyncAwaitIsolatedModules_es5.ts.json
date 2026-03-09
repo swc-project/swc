@@ -461,7 +461,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 71..116,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 80..89,\n                        sym: \"MyPromise\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 80..89,\n                            sym: \"MyPromise\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 97..106,\n            value: \"missing\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 71..116,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 80..89,\n                        sym: \"MyPromise\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 80..89,\n                            sym: \"MyPromise\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 97..106,\n            value: \"missing\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [

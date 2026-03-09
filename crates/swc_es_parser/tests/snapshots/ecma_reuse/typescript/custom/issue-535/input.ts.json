@@ -26,15 +26,15 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "ExportAll(\n    ExportAllDecl {\n        span: 1..30,\n        src: StrLit {\n            span: 15..21,\n            value: \"test\",\n        },\n        exported: None,\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 1..30,\n        src: StrLit {\n            span: 15..21,\n            value: \"test\",\n        },\n        type_only: false,\n        exported: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 24..46,\n        specifiers: [],\n        src: StrLit {\n            span: 31..37,\n            value: \"test\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 24..46,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 31..37,\n            value: \"test\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 40..65,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 47..51,\n                        sym: \"Test\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 57..63,\n            value: \"test\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 40..65,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 47..51,\n                        sym: \"Test\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 57..63,\n            value: \"test\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

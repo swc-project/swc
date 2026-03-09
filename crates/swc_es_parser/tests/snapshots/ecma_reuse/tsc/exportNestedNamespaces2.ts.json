@@ -172,7 +172,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 363..446,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 375..380,\n                        sym: \"debug\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 386..393,\n            value: \"./mod\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 363..446,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 375..380,\n                        sym: \"debug\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 386..393,\n            value: \"./mod\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [

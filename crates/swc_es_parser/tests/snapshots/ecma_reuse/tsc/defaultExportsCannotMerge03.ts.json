@@ -145,7 +145,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 206..245,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 213..219,\n                        sym: \"Entity\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 225..229,\n            value: \"m1\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 206..245,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 213..219,\n                        sym: \"Entity\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 225..229,\n            value: \"m1\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 73..4858,\n    kind: Script,\n    body: [\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 24,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n        Id {\n            index: 30,\n            generation: 1,\n        },\n        Id {\n            index: 37,\n            generation: 1,\n        },\n        Id {\n            index: 38,\n            generation: 1,\n        },\n        Id {\n            index: 39,\n            generation: 1,\n        },\n        Id {\n            index: 40,\n            generation: 1,\n        },\n        Id {\n            index: 41,\n            generation: 1,\n        },\n        Id {\n            index: 42,\n            generation: 1,\n        },\n        Id {\n            index: 55,\n            generation: 1,\n        },\n        Id {\n            index: 66,\n            generation: 1,\n        },\n        Id {\n            index: 67,\n            generation: 1,\n        },\n        Id {\n            index: 76,\n            generation: 1,\n        },\n        Id {\n            index: 87,\n            generation: 1,\n        },\n        Id {\n            index: 92,\n            generation: 1,\n        },\n        Id {\n            index: 93,\n            generation: 1,\n        },\n        Id {\n            index: 102,\n            generation: 1,\n        },\n        Id {\n            index: 103,\n            generation: 1,\n        },\n        Id {\n            index: 104,\n            generation: 1,\n        },\n        Id {\n            index: 105,\n            generation: 1,\n        },\n        Id {\n            index: 113,\n            generation: 1,\n        },\n        Id {\n            index: 120,\n            generation: 1,\n        },\n        Id {\n            index: 129,\n            generation: 1,\n        },\n        Id {\n            index: 130,\n            generation: 1,\n        },\n        Id {\n            index: 131,\n            generation: 1,\n        },\n        Id {\n            index: 136,\n            generation: 1,\n        },\n        Id {\n            index: 145,\n            generation: 1,\n        },\n        Id {\n            index: 146,\n            generation: 1,\n        },\n        Id {\n            index: 147,\n            generation: 1,\n        },\n        Id {\n            index: 153,\n            generation: 1,\n        },\n        Id {\n            index: 154,\n            generation: 1,\n        },\n        Id {\n            index: 161,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 73..4858,\n    kind: Script,\n    body: [\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 24,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n        Id {\n            index: 30,\n            generation: 1,\n        },\n        Id {\n            index: 37,\n            generation: 1,\n        },\n        Id {\n            index: 38,\n            generation: 1,\n        },\n        Id {\n            index: 39,\n            generation: 1,\n        },\n        Id {\n            index: 40,\n            generation: 1,\n        },\n        Id {\n            index: 41,\n            generation: 1,\n        },\n        Id {\n            index: 42,\n            generation: 1,\n        },\n        Id {\n            index: 55,\n            generation: 1,\n        },\n        Id {\n            index: 66,\n            generation: 1,\n        },\n        Id {\n            index: 67,\n            generation: 1,\n        },\n        Id {\n            index: 76,\n            generation: 1,\n        },\n        Id {\n            index: 87,\n            generation: 1,\n        },\n        Id {\n            index: 92,\n            generation: 1,\n        },\n        Id {\n            index: 93,\n            generation: 1,\n        },\n        Id {\n            index: 102,\n            generation: 1,\n        },\n        Id {\n            index: 103,\n            generation: 1,\n        },\n        Id {\n            index: 104,\n            generation: 1,\n        },\n        Id {\n            index: 105,\n            generation: 1,\n        },\n        Id {\n            index: 113,\n            generation: 1,\n        },\n        Id {\n            index: 120,\n            generation: 1,\n        },\n        Id {\n            index: 129,\n            generation: 1,\n        },\n        Id {\n            index: 130,\n            generation: 1,\n        },\n        Id {\n            index: 131,\n            generation: 1,\n        },\n        Id {\n            index: 136,\n            generation: 1,\n        },\n        Id {\n            index: 145,\n            generation: 1,\n        },\n        Id {\n            index: 146,\n            generation: 1,\n        },\n        Id {\n            index: 147,\n            generation: 1,\n        },\n        Id {\n            index: 153,\n            generation: 1,\n        },\n        Id {\n            index: 154,\n            generation: 1,\n        },\n        Id {\n            index: 159,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -561,22 +561,14 @@
     },
     {
       "id": 4294967453,
-      "node": "Expr(\n    ExprStmt {\n        span: 4826..4828,\n        expr: Id {\n            index: 251,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 4826..4856,\n        expr: Id {\n            index: 253,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967454,
-      "node": "Expr(\n    ExprStmt {\n        span: 4827..4833,\n        expr: Id {\n            index: 253,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967455,
-      "node": "Expr(\n    ExprStmt {\n        span: 4829..4856,\n        expr: Id {\n            index: 254,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Switch(\n    SwitchStmt {\n        span: 4749..4858,\n        discriminant: Id {\n            index: 248,\n            generation: 1,\n        },\n        cases: [\n            SwitchCase {\n                span: 4771..4791,\n                test: Some(\n                    Id {\n                        index: 249,\n                        generation: 1,\n                    },\n                ),\n                cons: [],\n            },\n            SwitchCase {\n                span: 4787..4818,\n                test: Some(\n                    Id {\n                        index: 250,\n                        generation: 1,\n                    },\n                ),\n                cons: [\n                    Id {\n                        index: 155,\n                        generation: 1,\n                    },\n                ],\n            },\n            SwitchCase {\n                span: 4811..4856,\n                test: None,\n                cons: [\n                    Id {\n                        index: 156,\n                        generation: 1,\n                    },\n                ],\n            },\n        ],\n    },\n)"
     },
     {
       "id": 4294967456,
-      "node": "Switch(\n    SwitchStmt {\n        span: 4749..4858,\n        discriminant: Id {\n            index: 248,\n            generation: 1,\n        },\n        cases: [\n            SwitchCase {\n                span: 4771..4791,\n                test: Some(\n                    Id {\n                        index: 249,\n                        generation: 1,\n                    },\n                ),\n                cons: [],\n            },\n            SwitchCase {\n                span: 4787..4818,\n                test: Some(\n                    Id {\n                        index: 250,\n                        generation: 1,\n                    },\n                ),\n                cons: [\n                    Id {\n                        index: 155,\n                        generation: 1,\n                    },\n                ],\n            },\n            SwitchCase {\n                span: 4811..4856,\n                test: None,\n                cons: [\n                    Id {\n                        index: 156,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 157,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 158,\n                        generation: 1,\n                    },\n                ],\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967458,
       "node": "Decl(\n    Id {\n        index: 42,\n        generation: 1,\n    },\n)"
     }
   ],
@@ -751,7 +743,7 @@
     },
     {
       "id": 4294967339,
-      "node": "Fn(\n    FnDecl {\n        span: 4723..4858,\n        ident: Ident {\n            span: 4732..4738,\n            sym: \"f35431\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 48,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 159,\n                generation: 1,\n            },\n        ],\n    },\n)"
+      "node": "Fn(\n    FnDecl {\n        span: 4723..4858,\n        ident: Ident {\n            span: 4732..4738,\n            sym: \"f35431\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 48,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 157,\n                generation: 1,\n            },\n        ],\n    },\n)"
     }
   ],
   "pats": [
@@ -1895,15 +1887,11 @@
     },
     {
       "id": 4294967549,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 4827..4829,\n        expr: Id {\n            index: 251,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967550,
-      "node": "Unary(\n    UnaryExpr {\n        span: 4827..4833,\n        op: Bang,\n        arg: Id {\n            index: 252,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967551,
-      "node": "Ident(\n    Ident {\n        span: 4829..4833,\n        sym: \"kind\",\n    },\n)"
+      "node": "Member(\n    MemberExpr {\n        span: 4828..4834,\n        obj: Id {\n            index: 252,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 4829..4833,\n                sym: \"kind\",\n            },\n        ),\n    },\n)"
     }
   ],
   "module_decls": [],

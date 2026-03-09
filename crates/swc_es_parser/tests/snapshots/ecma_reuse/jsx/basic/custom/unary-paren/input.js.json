@@ -93,7 +93,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..37,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..13,\n                        sym: \"React\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 19..26,\n            value: \"react\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..37,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..13,\n                        sym: \"React\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 19..26,\n            value: \"react\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,

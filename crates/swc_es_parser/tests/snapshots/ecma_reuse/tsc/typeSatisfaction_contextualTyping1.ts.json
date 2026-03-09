@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 1..155,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 1..155,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -14,14 +14,6 @@
     {
       "id": 4294967298,
       "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 133..153,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 143..155,\n        expr: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "decls": [
@@ -31,7 +23,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 61..142,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 61..142,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
+      "node": "Var(\n    VarDecl {\n        span: 61..155,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 61..154,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
     }
   ],
   "pats": [
@@ -49,7 +41,7 @@
     },
     {
       "id": 4294967300,
-      "node": "Assign(\n    AssignPat {\n        span: 69..142,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Assign(\n    AssignPat {\n        span: 69..154,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "exprs": [
@@ -107,11 +99,7 @@
     },
     {
       "id": 4294967310,
-      "node": "Ident(\n    Ident {\n        span: 133..142,\n        sym: \"satisfies\",\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Ident(\n    Ident {\n        span: 143..153,\n        sym: \"Predicates\",\n    },\n)"
+      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 133..154,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n        ty: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "module_decls": [],
@@ -139,6 +127,10 @@
     {
       "id": 4294967301,
       "node": "TypeLit(\n    TsTypeLit {\n        span: 19..59,\n        members: [\n            TsTypeMember {\n                span: 21..58,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 22..23,\n                        name: Some(\n                            Ident {\n                                span: 22..23,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 0,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967302,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 143..154,\n        name: Ident {\n            span: 143..154,\n            sym: \"Predicates\",\n        },\n        type_args: [],\n    },\n)"
     }
   ]
 }

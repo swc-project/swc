@@ -44,7 +44,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 61..94,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 61..94,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 75..76,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 75..76,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 84..89,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

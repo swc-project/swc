@@ -61,7 +61,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 199..245,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 218..222,\n                        sym: \"Fooa\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 207..214,\n                            sym: \"default\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 229..236,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 199..245,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 218..222,\n                        sym: \"Fooa\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 207..214,\n                            sym: \"default\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 229..236,\n            value: \"./cls\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
@@ -69,7 +69,7 @@
     },
     {
       "id": 4294967299,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 269..308,\n        src: Some(\n            StrLit {\n                span: 299..306,\n                value: \"./cls\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 277..284,\n                    sym: \"default\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 288..292,\n                        sym: \"Foob\",\n                    },\n                ),\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 269..308,\n        src: Some(\n            StrLit {\n                span: 299..306,\n                value: \"./cls\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 277..284,\n                    sym: \"default\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 288..292,\n                        sym: \"Foob\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

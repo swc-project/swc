@@ -85,7 +85,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 178..234,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 185..191,\n                        sym: \"MyEnum\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 197..204,\n            value: \"./def\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 178..234,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 185..191,\n                        sym: \"MyEnum\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 197..204,\n            value: \"./def\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

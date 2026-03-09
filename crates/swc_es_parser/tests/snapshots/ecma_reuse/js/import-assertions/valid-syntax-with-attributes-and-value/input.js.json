@@ -18,7 +18,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..40,\n        specifiers: [],\n        src: StrLit {\n            span: 8..11,\n            value: \"x\",\n        },\n        with: [\n            ImportAttribute {\n                span: 21..35,\n                key: Ident(\n                    Ident {\n                        span: 21..25,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 27..33,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..40,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 8..11,\n            value: \"x\",\n        },\n        with: [\n            ImportAttribute {\n                span: 21..35,\n                key: Ident(\n                    Ident {\n                        span: 21..25,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 27..33,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)"
     }
   ],
   "functions": [],

@@ -121,7 +121,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 126..145,\n        src: None,\n        specifiers: [],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 126..145,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
@@ -129,7 +129,7 @@
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 467..507,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 476..480,\n                        sym: \"Base\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 476..480,\n                            sym: \"Base\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 488..499,\n            value: \"./base.js\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 467..507,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 476..480,\n                        sym: \"Base\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 476..480,\n                            sym: \"Base\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 488..499,\n            value: \"./base.js\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,

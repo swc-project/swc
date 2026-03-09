@@ -69,11 +69,11 @@
     },
     {
       "id": 4294967298,
-      "node": "ExportAll(\n    ExportAllDecl {\n        span: 147..211,\n        src: StrLit {\n            span: 172..181,\n            value: \"./three\",\n        },\n        exported: Some(\n            Ident {\n                span: 159..166,\n                sym: \"default\",\n            },\n        ),\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 147..211,\n        src: StrLit {\n            span: 172..181,\n            value: \"./three\",\n        },\n        type_only: false,\n        exported: Some(\n            Ident {\n                span: 159..166,\n                sym: \"default\",\n            },\n        ),\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 205..233,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 212..214,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 220..227,\n            value: \"./two\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 205..233,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 212..214,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 220..227,\n            value: \"./two\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

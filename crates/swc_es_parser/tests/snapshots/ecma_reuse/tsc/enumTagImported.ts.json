@@ -61,7 +61,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 247..443,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 256..264,\n                        sym: \"TestEnum\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 256..264,\n                            sym: \"TestEnum\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 272..280,\n            value: \"./mod1\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 247..443,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 256..264,\n                        sym: \"TestEnum\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 256..264,\n                            sym: \"TestEnum\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 272..280,\n            value: \"./mod1\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

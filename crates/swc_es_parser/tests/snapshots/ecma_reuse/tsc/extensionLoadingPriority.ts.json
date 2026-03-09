@@ -71,11 +71,11 @@
     },
     {
       "id": 4294967301,
-      "node": "Import(\n    ImportDecl {\n        span: 376..406,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 383..384,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 390..398,\n            value: \"./a.js\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 376..406,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 383..384,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 390..398,\n            value: \"./a.js\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967302,
-      "node": "Import(\n    ImportDecl {\n        span: 400..425,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 407..410,\n                        sym: \"dir\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 416..423,\n            value: \"./dir\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 400..425,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 407..410,\n                        sym: \"dir\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 416..423,\n            value: \"./dir\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

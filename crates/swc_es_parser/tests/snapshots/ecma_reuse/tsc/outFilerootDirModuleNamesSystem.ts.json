@@ -84,7 +84,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 99..128,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 106..109,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 115..120,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 99..128,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 106..109,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 115..120,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
@@ -92,7 +92,7 @@
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 181..210,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 188..191,\n                        sym: \"Foo\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 197..202,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 181..210,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 188..191,\n                        sym: \"Foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 197..202,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,

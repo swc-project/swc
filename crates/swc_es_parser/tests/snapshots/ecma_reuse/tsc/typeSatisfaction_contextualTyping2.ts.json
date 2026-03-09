@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 19..313,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 19..313,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -12,38 +12,14 @@
       "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
     },
     {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 145..156,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
       "id": 4294967301,
-      "node": "Block(\n    BlockStmt {\n        span: 155..179,\n        stmts: [],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Expr(\n    ExprStmt {\n        span: 178..186,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Expr(\n    ExprStmt {\n        span: 180..288,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 279..290,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Block(\n    BlockStmt {\n        span: 289..312,\n        stmts: [],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Empty(\n    EmptyStmt {\n        span: 311..312,\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 264..313,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "decls": [
     {
       "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 19..154,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 19..154,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+      "node": "Var(\n    VarDecl {\n        span: 19..265,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 19..204,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
     }
   ],
   "pats": [
@@ -79,55 +55,23 @@
     },
     {
       "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 145..154,\n        sym: \"satisfies\",\n    },\n)"
+      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 145..204,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n        ty: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
     },
     {
-      "id": 4294967303,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 180..186,\n        sym: \"Record\",\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 187..193,\n        sym: \"string\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Binary(\n    BinaryExpr {\n        span: 186..194,\n        op: Lt,\n        left: Id {\n            index: 7,\n            generation: 1,\n        },\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Ident(\n    Ident {\n        span: 195..202,\n        sym: \"unknown\",\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967309,
+      "id": 4294967301,
       "node": "Function(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
     },
     {
-      "id": 4294967310,
-      "node": "Object(\n    ObjectExpr {\n        span: 265..278,\n        props: [\n            KeyValueProp {\n                span: 267..277,\n                key: Ident(\n                    Ident {\n                        span: 267..268,\n                        sym: \"f\",\n                    },\n                ),\n                value: Id {\n                    index: 12,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+      "id": 4294967302,
+      "node": "Object(\n    ObjectExpr {\n        span: 265..278,\n        props: [\n            KeyValueProp {\n                span: 267..277,\n                key: Ident(\n                    Ident {\n                        span: 267..268,\n                        sym: \"f\",\n                    },\n                ),\n                value: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
     },
     {
-      "id": 4294967311,
-      "node": "Call(\n    CallExpr {\n        span: 264..288,\n        callee: Id {\n            index: 11,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 13,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+      "id": 4294967303,
+      "node": "Paren(\n    ParenExpr {\n        span: 264..288,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
     },
     {
-      "id": 4294967312,
-      "node": "Binary(\n    BinaryExpr {\n        span: 202..288,\n        op: Gt,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        right: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Seq(\n    SeqExpr {\n        span: 180..288,\n        exprs: [\n            Id {\n                index: 9,\n                generation: 1,\n            },\n            Id {\n                index: 15,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Ident(\n    Ident {\n        span: 279..288,\n        sym: \"satisfies\",\n    },\n)"
+      "id": 4294967304,
+      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 279..312,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n        ty: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "module_decls": [],
@@ -148,5 +92,46 @@
   "classes": [],
   "class_members": [],
   "jsx_elements": [],
-  "ts_types": []
+  "ts_types": [
+    {
+      "id": 4294967304,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967305,
+      "node": "Keyword(\n    Void,\n)"
+    },
+    {
+      "id": 4294967306,
+      "node": "TypeLit(\n    TsTypeLit {\n        span: 155..179,\n        members: [\n            TsTypeMember {\n                span: 157..177,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 157..158,\n                            sym: \"g\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 159..169,\n                        name: Some(\n                            Ident {\n                                span: 159..160,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 7,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967307,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967308,
+      "node": "Keyword(\n    Unknown,\n)"
+    },
+    {
+      "id": 4294967309,
+      "node": "TypeRef(\n    TsTypeRef {\n        span: 180..204,\n        name: Ident {\n            span: 180..187,\n            sym: \"Record\",\n        },\n        type_args: [\n            Id {\n                index: 10,\n                generation: 1,\n            },\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967310,
+      "node": "Intersection(\n    TsIntersectionType {\n        span: 155..204,\n        types: [\n            Id {\n                index: 9,\n                generation: 1,\n            },\n            Id {\n                index: 12,\n                generation: 1,\n            },\n        ],\n    },\n)"
+    },
+    {
+      "id": 4294967311,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967312,
+      "node": "Keyword(\n    Void,\n)"
+    },
+    {
+      "id": 4294967313,
+      "node": "TypeLit(\n    TsTypeLit {\n        span: 289..312,\n        members: [\n            TsTypeMember {\n                span: 291..311,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 291..292,\n                            sym: \"f\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 293..303,\n                        name: Some(\n                            Ident {\n                                span: 293..294,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 14,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 15,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
+    }
+  ]
 }

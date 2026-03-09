@@ -89,7 +89,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 80..109,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 80..109,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 92..93,\n                        sym: \"A\",\n                    },\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 99..104,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

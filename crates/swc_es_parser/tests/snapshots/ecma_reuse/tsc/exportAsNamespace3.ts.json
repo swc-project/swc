@@ -165,11 +165,11 @@
     },
     {
       "id": 4294967299,
-      "node": "ExportAll(\n    ExportAllDecl {\n        span: 183..212,\n        src: StrLit {\n            span: 203..208,\n            value: \"./0\",\n        },\n        exported: Some(\n            Ident {\n                span: 195..197,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 183..212,\n        src: StrLit {\n            span: 203..208,\n            value: \"./0\",\n        },\n        type_only: false,\n        exported: Some(\n            Ident {\n                span: 195..197,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
-      "node": "Import(\n    ImportDecl {\n        span: 276..317,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 288..291,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 297..302,\n            value: \"./1\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 276..317,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 288..291,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 297..302,\n            value: \"./1\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

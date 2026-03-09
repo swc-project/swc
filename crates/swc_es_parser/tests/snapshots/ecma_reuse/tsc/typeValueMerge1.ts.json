@@ -109,7 +109,7 @@
     },
     {
       "id": 4294967298,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 82..103,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 91..92,\n                    sym: \"A\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 82..103,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 91..92,\n                    sym: \"A\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,
@@ -117,11 +117,11 @@
     },
     {
       "id": 4294967300,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 133..176,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 142..143,\n                    sym: \"B\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 133..176,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 142..143,\n                    sym: \"B\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967301,
-      "node": "Import(\n    ImportDecl {\n        span: 170..204,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 179..180,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 179..180,\n                            sym: \"A\",\n                        },\n                    ),\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 182..183,\n                        sym: \"B\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 182..183,\n                            sym: \"B\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 191..200,\n            value: \"./other\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 170..204,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 179..180,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 179..180,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 182..183,\n                        sym: \"B\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 182..183,\n                            sym: \"B\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 191..200,\n            value: \"./other\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967302,

@@ -18,7 +18,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..37,\n        specifiers: [],\n        src: StrLit {\n            span: 16..36,\n            value: \"module-not-existed\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..37,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 16..36,\n            value: \"module-not-existed\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

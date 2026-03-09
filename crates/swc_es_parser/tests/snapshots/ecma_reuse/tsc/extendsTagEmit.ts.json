@@ -31,7 +31,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 137..215,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 146..147,\n                        sym: \"B\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 146..147,\n                            sym: \"B\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 155..164,\n            value: \"./super\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 137..215,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 146..147,\n                        sym: \"B\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 146..147,\n                            sym: \"B\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 155..164,\n            value: \"./super\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

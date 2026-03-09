@@ -71,7 +71,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 39..77,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 39..77,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 53..56,\n                        sym: \"ns2\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 53..56,\n                            sym: \"ns2\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 64..69,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967298,
@@ -87,7 +87,7 @@
     },
     {
       "id": 4294967301,
-      "node": "Import(\n    ImportDecl {\n        span: 183..221,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 183..221,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 197..200,\n                        sym: \"ns1\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 197..200,\n                            sym: \"ns1\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 208..213,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967302,

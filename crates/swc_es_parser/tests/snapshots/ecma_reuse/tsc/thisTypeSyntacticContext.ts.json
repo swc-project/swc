@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 1..193,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 1..193,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -37,27 +37,23 @@
     },
     {
       "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 132..134,\n        expr: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 132..144,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967306,
-      "node": "Expr(\n    ExprStmt {\n        span: 133..139,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 143..155,\n        expr: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967307,
-      "node": "Expr(\n    ExprStmt {\n        span: 135..144,\n        expr: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 154..168,\n        expr: Id {\n            index: 28,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 143..150,\n        expr: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 167..181,\n        expr: Id {\n            index: 33,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967309,
-      "node": "Expr(\n    ExprStmt {\n        span: 154..161,\n        expr: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Expr(\n    ExprStmt {\n        span: 180..193,\n        expr: Id {\n            index: 31,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 180..193,\n        expr: Id {\n            index: 37,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "decls": [
@@ -147,27 +143,31 @@
     },
     {
       "id": 4294967313,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 133..135,\n        expr: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967314,
-      "node": "Unary(\n    UnaryExpr {\n        span: 133..139,\n        op: Bang,\n        arg: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Member(\n    MemberExpr {\n        span: 134..140,\n        obj: Id {\n            index: 16,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 135..139,\n                sym: \"test\",\n            },\n        ),\n    },\n)"
     },
     {
       "id": 4294967315,
-      "node": "Ident(\n    Ident {\n        span: 135..139,\n        sym: \"test\",\n    },\n)"
+      "node": "Call(\n    CallExpr {\n        span: 139..142,\n        callee: Id {\n            index: 17,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
     },
     {
       "id": 4294967316,
-      "node": "Call(\n    CallExpr {\n        span: 139..142,\n        callee: Id {\n            index: 18,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967317,
       "node": "Ident(\n    Ident {\n        span: 143..144,\n        sym: \"o\",\n    },\n)"
     },
     {
+      "id": 4294967317,
+      "node": "Member(\n    MemberExpr {\n        span: 144..150,\n        obj: Id {\n            index: 19,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 145..149,\n                sym: \"test\",\n            },\n        ),\n    },\n)"
+    },
+    {
       "id": 4294967318,
-      "node": "Member(\n    MemberExpr {\n        span: 144..150,\n        obj: Id {\n            index: 20,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 145..149,\n                sym: \"test\",\n            },\n        ),\n    },\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 149..151,\n        expr: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967319,
+      "node": "Call(\n    CallExpr {\n        span: 150..153,\n        callee: Id {\n            index: 21,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
     },
     {
       "id": 4294967320,
@@ -178,20 +178,56 @@
       "node": "Member(\n    MemberExpr {\n        span: 155..161,\n        obj: Id {\n            index: 23,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 156..160,\n                sym: \"test\",\n            },\n        ),\n    },\n)"
     },
     {
+      "id": 4294967322,
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 160..162,\n        expr: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967323,
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 161..163,\n        expr: Id {\n            index: 25,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967324,
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 162..164,\n        expr: Id {\n            index: 26,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
       "id": 4294967325,
-      "node": "Ident(\n    Ident {\n        span: 181..182,\n        sym: \"o\",\n    },\n)"
+      "node": "Call(\n    CallExpr {\n        span: 163..166,\n        callee: Id {\n            index: 27,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
     },
     {
       "id": 4294967326,
-      "node": "Member(\n    MemberExpr {\n        span: 182..188,\n        obj: Id {\n            index: 28,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 183..187,\n                sym: \"test\",\n            },\n        ),\n    },\n)"
+      "node": "Ident(\n    Ident {\n        span: 168..169,\n        sym: \"o\",\n    },\n)"
     },
     {
       "id": 4294967327,
-      "node": "Paren(\n    ParenExpr {\n        span: 180..189,\n        expr: Id {\n            index: 29,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Member(\n    MemberExpr {\n        span: 169..175,\n        obj: Id {\n            index: 29,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 170..174,\n                sym: \"test\",\n            },\n        ),\n    },\n)"
     },
     {
       "id": 4294967328,
-      "node": "Call(\n    CallExpr {\n        span: 188..191,\n        callee: Id {\n            index: 30,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 174..176,\n        expr: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967329,
+      "node": "Paren(\n    ParenExpr {\n        span: 167..177,\n        expr: Id {\n            index: 31,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967330,
+      "node": "Call(\n    CallExpr {\n        span: 176..179,\n        callee: Id {\n            index: 32,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
+    },
+    {
+      "id": 4294967331,
+      "node": "Ident(\n    Ident {\n        span: 181..182,\n        sym: \"o\",\n    },\n)"
+    },
+    {
+      "id": 4294967332,
+      "node": "Member(\n    MemberExpr {\n        span: 182..188,\n        obj: Id {\n            index: 34,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 183..187,\n                sym: \"test\",\n            },\n        ),\n    },\n)"
+    },
+    {
+      "id": 4294967333,
+      "node": "Paren(\n    ParenExpr {\n        span: 180..189,\n        expr: Id {\n            index: 35,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967334,
+      "node": "Call(\n    CallExpr {\n        span: 188..191,\n        callee: Id {\n            index: 36,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
     }
   ],
   "module_decls": [],

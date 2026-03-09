@@ -181,7 +181,7 @@
     },
     {
       "id": 4294967302,
-      "node": "Import(\n    ImportDecl {\n        span: 247..277,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 247..277,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 259..261,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 267..273,\n            value: \"./ns\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

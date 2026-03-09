@@ -141,7 +141,7 @@
     },
     {
       "id": 4294967299,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 553..576,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 562..567,\n                    sym: \"thing\",\n                },\n                exported: None,\n            },\n        ],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 553..576,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 562..567,\n                    sym: \"thing\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,

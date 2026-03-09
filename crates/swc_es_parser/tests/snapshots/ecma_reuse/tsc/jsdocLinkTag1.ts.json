@@ -39,7 +39,7 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 89..143,\n        specifiers: [],\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 89..143,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 103..104,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 103..104,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 112..117,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,

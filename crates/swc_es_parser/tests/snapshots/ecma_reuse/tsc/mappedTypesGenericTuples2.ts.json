@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 109..320,\n    kind: Script,\n    body: [\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 109..320,\n    kind: Script,\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -17,15 +17,11 @@
     },
     {
       "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 285..299,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 285..317,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
     },
     {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 290..306,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Expr(\n    ExprStmt {\n        span: 141..320,\n        expr: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
+      "id": 4294967301,
+      "node": "Expr(\n    ExprStmt {\n        span: 141..320,\n        expr: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "decls": [
@@ -131,15 +127,15 @@
     },
     {
       "id": 4294967314,
-      "node": "Ident(\n    Ident {\n        span: 290..299,\n        sym: \"satisfies\",\n    },\n)"
+      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 290..309,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n        ty: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
     },
     {
-      "id": 4294967317,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 192..318,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n        body: Block(\n            [\n                Id {\n                    index: 0,\n                    generation: 1,\n                },\n                Id {\n                    index: 1,\n                    generation: 1,\n                },\n                Id {\n                    index: 2,\n                    generation: 1,\n                },\n                Id {\n                    index: 3,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: false,\n    },\n)"
+      "id": 4294967315,
+      "node": "Arrow(\n    ArrowExpr {\n        span: 192..318,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n        body: Block(\n            [\n                Id {\n                    index: 0,\n                    generation: 1,\n                },\n                Id {\n                    index: 1,\n                    generation: 1,\n                },\n                Id {\n                    index: 2,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: false,\n    },\n)"
     },
     {
-      "id": 4294967318,
-      "node": "Call(\n    CallExpr {\n        span: 191..319,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 20,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+      "id": 4294967316,
+      "node": "Call(\n    CallExpr {\n        span: 191..319,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 18,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
     }
   ],
   "module_decls": [],
@@ -147,5 +143,14 @@
   "classes": [],
   "class_members": [],
   "jsx_elements": [],
-  "ts_types": []
+  "ts_types": [
+    {
+      "id": 4294967299,
+      "node": "Keyword(\n    String,\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Array(\n    TsArrayType {\n        span: 300..309,\n        elem_type: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
+    }
+  ]
 }

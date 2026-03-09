@@ -18,7 +18,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..96,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..14,\n                        sym: \"assert\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 20..29,\n            value: \"./index\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 1..96,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..14,\n                        sym: \"assert\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 20..29,\n            value: \"./index\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

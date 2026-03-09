@@ -43,7 +43,7 @@
   "module_decls": [
     {
       "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 155..191,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 164..168,\n                        sym: \"Task\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 164..168,\n                            sym: \"Task\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 176..184,\n            value: \"./task\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 155..191,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 164..168,\n                        sym: \"Task\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 164..168,\n                            sym: \"Task\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 176..184,\n            value: \"./task\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 19..493,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 19..493,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -49,19 +49,7 @@
     },
     {
       "id": 4294967307,
-      "node": "Expr(\n    ExprStmt {\n        span: 473..480,\n        expr: Id {\n            index: 46,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 479..482,\n        expr: Id {\n            index: 48,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Expr(\n    ExprStmt {\n        span: 481..483,\n        expr: Id {\n            index: 49,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Expr(\n    ExprStmt {\n        span: 482..493,\n        expr: Id {\n            index: 53,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Expr(\n    ExprStmt {\n        span: 473..493,\n        expr: Id {\n            index: 52,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "decls": [
@@ -299,35 +287,31 @@
     },
     {
       "id": 4294967343,
-      "node": "Assign(\n    AssignExpr {\n        span: 476..480,\n        left: Id {\n            index: 7,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 479..481,\n        expr: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967344,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+      "node": "Member(\n    MemberExpr {\n        span: 480..483,\n        obj: Id {\n            index: 46,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 481..482,\n                sym: \"m\",\n            },\n        ),\n    },\n)"
     },
     {
       "id": 4294967345,
-      "node": "Unary(\n    UnaryExpr {\n        span: 479..482,\n        op: Bang,\n        arg: Id {\n            index: 47,\n            generation: 1,\n        },\n    },\n)"
+      "node": "TsNonNull(\n    TsNonNullExpr {\n        span: 482..484,\n        expr: Id {\n            index: 47,\n            generation: 1,\n        },\n    },\n)"
     },
     {
       "id": 4294967346,
-      "node": "Ident(\n    Ident {\n        span: 481..482,\n        sym: \"m\",\n    },\n)"
-    },
-    {
-      "id": 4294967347,
       "node": "Lit(\n    Num(\n        NumberLit {\n            span: 488..490,\n            value: 12.0,\n        },\n    ),\n)"
     },
     {
+      "id": 4294967347,
+      "node": "Object(\n    ObjectExpr {\n        span: 484..492,\n        props: [\n            KeyValueProp {\n                span: 485..491,\n                key: Ident(\n                    Ident {\n                        span: 485..486,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 49,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+    },
+    {
       "id": 4294967348,
-      "node": "Object(\n    ObjectExpr {\n        span: 484..492,\n        props: [\n            KeyValueProp {\n                span: 485..491,\n                key: Ident(\n                    Ident {\n                        span: 485..486,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 50,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
+      "node": "Call(\n    CallExpr {\n        span: 483..493,\n        callee: Id {\n            index: 48,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 50,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
     },
     {
       "id": 4294967349,
-      "node": "Paren(\n    ParenExpr {\n        span: 483..493,\n        expr: Id {\n            index: 51,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Unary(\n    UnaryExpr {\n        span: 482..493,\n        op: Bang,\n        arg: Id {\n            index: 52,\n            generation: 1,\n        },\n    },\n)"
+      "node": "Assign(\n    AssignExpr {\n        span: 476..493,\n        left: Id {\n            index: 7,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 51,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
   "module_decls": [],

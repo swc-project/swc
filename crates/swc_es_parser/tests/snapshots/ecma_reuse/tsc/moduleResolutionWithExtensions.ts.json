@@ -65,11 +65,11 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 124..229,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 131..132,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 138..143,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 124..229,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 131..132,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 138..143,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 223..286,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 230..231,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 237..245,\n            value: \"./a.js\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 223..286,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 230..231,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 237..245,\n            value: \"./a.js\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967300,
@@ -77,11 +77,11 @@
     },
     {
       "id": 4294967301,
-      "node": "Import(\n    ImportDecl {\n        span: 388..512,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 395..396,\n                        sym: \"j\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 402..412,\n            value: \"./jquery\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 388..512,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 395..396,\n                        sym: \"j\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 402..412,\n            value: \"./jquery\",\n        },\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967302,
-      "node": "Import(\n    ImportDecl {\n        span: 506..534,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 513..514,\n                        sym: \"j\",\n                    },\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 520..533,\n            value: \"./jquery.js\",\n        },\n        with: [],\n    },\n)"
+      "node": "Import(\n    ImportDecl {\n        span: 506..534,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 513..514,\n                        sym: \"j\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 520..533,\n            value: \"./jquery.js\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

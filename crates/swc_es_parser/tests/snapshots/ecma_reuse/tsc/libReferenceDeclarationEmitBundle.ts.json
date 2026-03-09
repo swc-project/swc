@@ -48,7 +48,7 @@
     },
     {
       "id": 4294967298,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 272..289,\n        src: None,\n        specifiers: [],\n        decl: None,\n        with: [],\n    },\n)"
+      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 272..289,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],

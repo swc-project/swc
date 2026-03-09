@@ -3,7 +3,7 @@
   "programs": [
     {
       "id": 4294967297,
-      "node": "Program {\n    span: 43..259,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}"
+      "node": "Program {\n    span: 43..259,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}"
     }
   ],
   "stmts": [
@@ -17,14 +17,22 @@
     },
     {
       "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 204..233,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
       "node": "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
     },
     {
+      "id": 4294967301,
+      "node": "ModuleDecl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
+    },
+    {
       "id": 4294967302,
+      "node": "Expr(\n    ExprStmt {\n        span: 204..233,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
+    },
+    {
+      "id": 4294967303,
+      "node": "ModuleDecl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
+    },
+    {
+      "id": 4294967304,
       "node": "Expr(\n    ExprStmt {\n        span: 253..259,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
     }
   ],
@@ -56,11 +64,19 @@
     },
     {
       "id": 4294967298,
-      "node": "Import(\n    ImportDecl {\n        span: 179..205,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 188..189,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 188..189,\n                            sym: \"A\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 197..202,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 81..133,\n        src: StrLit {\n            span: 100..105,\n            value: \"./a\",\n        },\n        type_only: true,\n        exported: None,\n        with: [],\n    },\n)"
     },
     {
       "id": 4294967299,
-      "node": "Import(\n    ImportDecl {\n        span: 227..255,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 236..238,\n                        sym: \"ns\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 236..238,\n                            sym: \"ns\",\n                        },\n                    ),\n                },\n            ),\n        ],\n        src: StrLit {\n            span: 246..251,\n            value: \"./c\",\n        },\n        with: [],\n    },\n)"
+      "node": "ExportAll(\n    ExportAllDecl {\n        span: 127..185,\n        src: StrLit {\n            span: 152..157,\n            value: \"./a\",\n        },\n        type_only: true,\n        exported: Some(\n            Ident {\n                span: 144..146,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967300,
+      "node": "Import(\n    ImportDecl {\n        span: 179..205,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 188..189,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 188..189,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 197..202,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)"
+    },
+    {
+      "id": 4294967301,
+      "node": "Import(\n    ImportDecl {\n        span: 227..255,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 236..238,\n                        sym: \"ns\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 236..238,\n                            sym: \"ns\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 246..251,\n            value: \"./c\",\n        },\n        with: [],\n    },\n)"
     }
   ],
   "functions": [],
