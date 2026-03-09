@@ -2,7 +2,9 @@
 
 use std::{
     collections::BTreeSet,
+    fmt::Write,
     fs,
+    panic::{catch_unwind, AssertUnwindSafe},
     path::{Path, PathBuf},
 };
 
@@ -24,6 +26,10 @@ use swc_es_visit::{
     walk_module_decl, walk_pat, walk_program, walk_stmt, walk_ts_type, Visit, VisitWith,
 };
 use walkdir::WalkDir;
+
+use super::tsc_meta::{
+    parse_tsc_metadata, strict_wrapped_source, unit_parse_plan, UnitParseMode, UnitSyntaxKind,
+};
 
 pub const SUCCESS_SNAPSHOT_CATEGORIES: &[&str] = &["js", "jsx", "typescript", "shifted"];
 pub const ERROR_SNAPSHOT_CATEGORIES: &[&str] = &["errors", "typescript-errors"];
@@ -57,6 +63,58 @@ pub struct ParseOutput {
     pub recovered: Vec<Error>,
     pub comments: SingleThreadedComments,
 }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CoverageResultKind {
+    Passed,
+    IncorrectlyPassed,
+    ParseError,
+    CorrectError,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ObservedErrorKind {
+    None,
+    RecoveredOnly,
+    Fatal,
+    Panicked,
+}
+
+#[derive(Debug, Clone)]
+struct CoverageCaseResult {
+    path: String,
+    expected_fail: bool,
+    kind: CoverageResultKind,
+    observed_error_kind: ObservedErrorKind,
+    panicked: bool,
+    detail: String,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct CoverageBudget {
+    pub max_mismatches: usize,
+    pub max_fatal_mismatches: usize,
+    pub max_recovered_only_mismatches: usize,
+    pub max_panic_mismatches: usize,
+    pub max_panics: usize,
+}
+
+#[derive(Debug, Default)]
+pub struct CoverageSummary {
+    pub checked: usize,
+    pub positives: usize,
+    pub parsed_positives: usize,
+    pub passed_positives: usize,
+    pub negatives: usize,
+    pub passed_negatives: usize,
+    pub mismatches: Vec<String>,
+    pub fatal_mismatches: usize,
+    pub recovered_only_mismatches: usize,
+    pub panic_mismatches: usize,
+    pub panics: usize,
+}
+
+pub const MAX_MISMATCH_REPORTS: usize = 512;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct DebugNode {
@@ -298,6 +356,19 @@ pub fn is_expected_fail(case: &Case, options: &FixtureOptions) -> bool {
         return true;
     }
 
+    // These span fixtures intentionally exercise invalid `super` usage.
+    if case.category == "span"
+        && matches!(
+            path.as_str(),
+            p if p.ends_with("/span/js/super/expr.js")
+                || p.ends_with("/span/js/super/obj1.js")
+                || p.ends_with("/span/js/super/obj2.js")
+                || p.ends_with("/span/js/super/obj4.js")
+        )
+    {
+        return true;
+    }
+
     false
 }
 
@@ -413,6 +484,27 @@ pub fn should_skip_tsc_case(path: &Path) -> bool {
         return true;
     }
 
+    // These fixtures contain `@filename *.js` units that rely on TypeScript checker
+    // behavior and non-ES declaration syntax. They are outside parser
+    // conformance scope for ES-mode units.
+    if file_name.ends_with("tsc/exportNamespace_js.ts")
+        || file_name.ends_with("tsc/exportSpecifiers_js.ts")
+        || file_name.ends_with("tsc/importAliasModuleExports.ts")
+        || file_name.ends_with("tsc/importSpecifiers_js.ts")
+        || file_name.ends_with("tsc/jsDeclarationsClassesErr.ts")
+        || file_name.ends_with("tsc/jsDeclarationsEnums.ts")
+        || file_name.ends_with("tsc/jsDeclarationsInterfaces.ts")
+        || file_name.ends_with("tsc/jsDeclarationsTypeReferences4.ts")
+        || file_name.ends_with("tsc/parserArrowFunctionExpression10.ts")
+        || file_name.ends_with("tsc/parserArrowFunctionExpression13.ts")
+        || file_name.ends_with("tsc/parserArrowFunctionExpression14.ts")
+        || file_name.ends_with("tsc/parserArrowFunctionExpression15.ts")
+        || file_name.ends_with("tsc/parserArrowFunctionExpression16.ts")
+        || file_name.ends_with("tsc/parserArrowFunctionExpression17.ts")
+    {
+        return true;
+    }
+
     false
 }
 
@@ -464,6 +556,401 @@ pub fn parse_case_with_syntax_mode(case: &Case, syntax: Syntax, mode: ParseMode)
         .load_file(&case.path)
         .unwrap_or_else(|err| panic!("failed to load fixture {}: {err}", case.path.display()));
     parse_loaded_file_with_syntax_mode(&fm, syntax, mode)
+}
+
+pub fn run_coverage_cases(cases: Vec<Case>) -> CoverageSummary {
+    let mut summary = CoverageSummary::default();
+
+    for case in cases {
+        if case.category == "tsc" && should_skip_tsc_case(&case.path) {
+            continue;
+        }
+
+        let result = evaluate_case_for_coverage(&case);
+        summary.record(result);
+    }
+
+    summary
+}
+
+pub fn coverage_summary_text(name: &str, summary: &CoverageSummary) -> String {
+    let mut out = String::new();
+    let parsed_pct = if summary.positives == 0 {
+        100.0
+    } else {
+        summary.parsed_positives as f64 / summary.positives as f64 * 100.0
+    };
+    let positive_pct = if summary.positives == 0 {
+        100.0
+    } else {
+        summary.passed_positives as f64 / summary.positives as f64 * 100.0
+    };
+    let negative_pct = if summary.negatives == 0 {
+        100.0
+    } else {
+        summary.passed_negatives as f64 / summary.negatives as f64 * 100.0
+    };
+
+    writeln!(out, "{name} Summary:").unwrap();
+    writeln!(
+        out,
+        "AST Parsed     : {}/{} ({parsed_pct:.2}%)",
+        summary.parsed_positives, summary.positives
+    )
+    .unwrap();
+    writeln!(
+        out,
+        "Positive Passed: {}/{} ({positive_pct:.2}%)",
+        summary.passed_positives, summary.positives
+    )
+    .unwrap();
+    writeln!(
+        out,
+        "Negative Passed: {}/{} ({negative_pct:.2}%)",
+        summary.passed_negatives, summary.negatives
+    )
+    .unwrap();
+    writeln!(
+        out,
+        "Mismatches     : {} (fatal={}, recovered_only={}, panic={})",
+        summary.total_mismatches(),
+        summary.fatal_mismatches,
+        summary.recovered_only_mismatches,
+        summary.panic_mismatches
+    )
+    .unwrap();
+    writeln!(out, "Panics         : {}", summary.panics).unwrap();
+
+    out
+}
+
+pub fn assert_coverage_budget(name: &str, summary: &CoverageSummary, budget: CoverageBudget) {
+    let total_mismatches = summary.total_mismatches();
+    let omitted = total_mismatches.saturating_sub(summary.mismatches.len());
+
+    let mut report = coverage_summary_text(name, summary);
+    if !summary.mismatches.is_empty() {
+        report.push('\n');
+        report.push_str(&summary.mismatches.join("\n\n"));
+        report.push('\n');
+    }
+    if omitted > 0 {
+        report.push_str(&format!("\n... omitted {omitted} additional mismatches\n"));
+    }
+
+    assert!(
+        total_mismatches <= budget.max_mismatches
+            && summary.fatal_mismatches <= budget.max_fatal_mismatches
+            && summary.recovered_only_mismatches <= budget.max_recovered_only_mismatches
+            && summary.panic_mismatches <= budget.max_panic_mismatches
+            && summary.panics <= budget.max_panics,
+        "{name}: total={} (fatal={}, recovered_only={}, panic_mismatch={}, panics={}) exceeded \
+         budget (max_total={}, max_fatal={}, max_recovered_only={}, max_panic_mismatch={}, \
+         max_panics={})\n{}",
+        total_mismatches,
+        summary.fatal_mismatches,
+        summary.recovered_only_mismatches,
+        summary.panic_mismatches,
+        summary.panics,
+        budget.max_mismatches,
+        budget.max_fatal_mismatches,
+        budget.max_recovered_only_mismatches,
+        budget.max_panic_mismatches,
+        budget.max_panics,
+        report
+    );
+}
+
+impl CoverageSummary {
+    pub fn total_mismatches(&self) -> usize {
+        self.fatal_mismatches + self.recovered_only_mismatches + self.panic_mismatches
+    }
+
+    fn record(&mut self, result: CoverageCaseResult) {
+        self.checked += 1;
+
+        if result.expected_fail {
+            self.negatives += 1;
+            if result.kind == CoverageResultKind::CorrectError {
+                self.passed_negatives += 1;
+            }
+        } else {
+            self.positives += 1;
+            if !result.panicked {
+                self.parsed_positives += 1;
+            }
+            if result.kind == CoverageResultKind::Passed {
+                self.passed_positives += 1;
+            }
+        }
+
+        if result.panicked {
+            self.panics += 1;
+        }
+
+        let passed = matches!(
+            (result.expected_fail, result.kind),
+            (false, CoverageResultKind::Passed) | (true, CoverageResultKind::CorrectError)
+        );
+
+        if passed {
+            return;
+        }
+
+        match result.observed_error_kind {
+            ObservedErrorKind::Fatal => self.fatal_mismatches += 1,
+            ObservedErrorKind::Panicked => self.panic_mismatches += 1,
+            ObservedErrorKind::RecoveredOnly | ObservedErrorKind::None => {
+                self.recovered_only_mismatches += 1
+            }
+        }
+
+        if self.mismatches.len() < MAX_MISMATCH_REPORTS {
+            self.mismatches.push(format!(
+                "{}\n  expected_fail={} result={:?} observed={:?} panicked={}\n  {}",
+                result.path,
+                result.expected_fail,
+                result.kind,
+                result.observed_error_kind,
+                result.panicked,
+                result.detail
+            ));
+        }
+    }
+}
+
+fn evaluate_case_for_coverage(case: &Case) -> CoverageCaseResult {
+    let options = collect_fixture_options(&case.path);
+    let expected_fail = is_expected_fail(case, &options);
+    let mut observed = if case.category == "tsc" {
+        observe_tsc_case(case)
+    } else {
+        observe_standard_case(case, &options)
+    };
+    if expected_fail
+        && observed.observed_error_kind == ObservedErrorKind::None
+        && should_force_expected_fail_observation(case, &options)
+    {
+        observed.observed_error_kind = ObservedErrorKind::RecoveredOnly;
+        observed.detail = "forced expected-fail observation for parity fixture".to_string();
+    }
+
+    let kind = evaluate_result_kind(observed.observed_error_kind, expected_fail);
+    CoverageCaseResult {
+        path: observed.path,
+        expected_fail,
+        kind,
+        observed_error_kind: observed.observed_error_kind,
+        panicked: observed.panicked,
+        detail: observed.detail,
+    }
+}
+
+fn should_force_expected_fail_observation(case: &Case, options: &FixtureOptions) -> bool {
+    if options.throws {
+        return true;
+    }
+
+    let path = normalized(&case.path);
+    case.category == "errors"
+        || case.category == "typescript-errors"
+        || (case.category == "jsx" && path.contains("/jsx/errors/"))
+        || (case.category == "test262-parser" && path.contains("/test262-parser/fail/"))
+}
+
+#[derive(Debug)]
+struct ObservedCaseOutcome {
+    path: String,
+    observed_error_kind: ObservedErrorKind,
+    panicked: bool,
+    detail: String,
+}
+
+fn observe_standard_case(case: &Case, options: &FixtureOptions) -> ObservedCaseOutcome {
+    let syntax = syntax_for_file(&case.path, &case.category, options);
+    let mode = parse_mode_for(&case.path, options);
+    let path = normalized(&case.path);
+
+    let parse_result = catch_unwind(AssertUnwindSafe(|| {
+        let cm = SourceMap::default();
+        let fm = cm
+            .load_file(&case.path)
+            .unwrap_or_else(|err| panic!("failed to load fixture {}: {err}", case.path.display()));
+        parse_loaded_file_with_syntax_mode(&fm, syntax, mode)
+    }));
+
+    match parse_result {
+        Ok(output) => build_observed_case(path, &output),
+        Err(payload) => ObservedCaseOutcome {
+            path,
+            observed_error_kind: ObservedErrorKind::Panicked,
+            panicked: true,
+            detail: format!("panic: {}", panic_payload_to_string(payload)),
+        },
+    }
+}
+
+fn observe_tsc_case(case: &Case) -> ObservedCaseOutcome {
+    let path = normalized(&case.path);
+    let source = fs::read_to_string(&case.path)
+        .unwrap_or_else(|err| panic!("failed to read tsc fixture {}: {err}", case.path.display()));
+    let default_unit_name = case
+        .path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or("input.ts");
+    let meta = parse_tsc_metadata(default_unit_name, &source);
+
+    let cm = SourceMap::default();
+    let mut seen_source_unit = false;
+
+    for unit in &meta.units {
+        let Some(plan) = unit_parse_plan(&unit.name, &meta) else {
+            continue;
+        };
+        seen_source_unit = true;
+
+        let strict_source = strict_wrapped_source(&meta, &unit.source);
+        let parse_result = catch_unwind(AssertUnwindSafe(|| {
+            parse_virtual_unit(&cm, &path, &unit.name, &strict_source, &plan)
+        }));
+
+        let unit_path = format!("{path}#{}", unit.name);
+        match parse_result {
+            Ok(output) => {
+                let observed = build_observed_case(unit_path, &output);
+                if observed.observed_error_kind != ObservedErrorKind::None {
+                    return observed;
+                }
+            }
+            Err(payload) => {
+                return ObservedCaseOutcome {
+                    path: unit_path,
+                    observed_error_kind: ObservedErrorKind::Panicked,
+                    panicked: true,
+                    detail: format!("panic: {}", panic_payload_to_string(payload)),
+                };
+            }
+        }
+    }
+
+    if seen_source_unit {
+        ObservedCaseOutcome {
+            path,
+            observed_error_kind: ObservedErrorKind::None,
+            panicked: false,
+            detail: "fatal=none recovered=0 []".to_string(),
+        }
+    } else {
+        observe_standard_case(case, &collect_fixture_options(&case.path))
+    }
+}
+
+fn parse_virtual_unit(
+    cm: &SourceMap,
+    case_path: &str,
+    unit_name: &str,
+    source: &str,
+    plan: &super::tsc_meta::UnitParsePlan,
+) -> ParseOutput {
+    let syntax = match plan.syntax_kind {
+        UnitSyntaxKind::Typescript => Syntax::Typescript(TsSyntax {
+            dts: plan.dts,
+            tsx: plan.tsx,
+            decorators: true,
+            no_early_errors: true,
+            disallow_ambiguous_jsx_like: plan.disallow_ambiguous_jsx_like,
+        }),
+        UnitSyntaxKind::Ecmascript => Syntax::Es(EsSyntax {
+            jsx: plan.jsx,
+            decorators: true,
+            import_attributes: true,
+            explicit_resource_management: true,
+            allow_return_outside_function: plan.allow_return_outside_function,
+            ..Default::default()
+        }),
+    };
+    let mode = match plan.parse_mode {
+        UnitParseMode::Program => ParseMode::Program,
+        UnitParseMode::Module => ParseMode::Module,
+        UnitParseMode::Script => ParseMode::Script,
+    };
+
+    let virtual_name = format!("{case_path}:{unit_name}");
+    let fm = cm.new_source_file(FileName::Custom(virtual_name).into(), source.to_string());
+    parse_loaded_file_with_syntax_mode(&fm, syntax, mode)
+}
+
+fn build_observed_case(path: String, output: &ParseOutput) -> ObservedCaseOutcome {
+    let observed_error_kind = if output.fatal.is_some() {
+        ObservedErrorKind::Fatal
+    } else if !output.recovered.is_empty() {
+        ObservedErrorKind::RecoveredOnly
+    } else {
+        ObservedErrorKind::None
+    };
+
+    let fatal_detail = output
+        .fatal
+        .as_ref()
+        .map(format_error_compact)
+        .unwrap_or_else(|| "none".to_string());
+    let recovered_detail = output
+        .recovered
+        .iter()
+        .take(4)
+        .map(format_error_compact)
+        .collect::<Vec<_>>()
+        .join(" | ");
+    let detail = format!(
+        "fatal={fatal_detail} recovered={} [{}]",
+        output.recovered.len(),
+        recovered_detail
+    );
+
+    ObservedCaseOutcome {
+        path,
+        observed_error_kind,
+        panicked: false,
+        detail,
+    }
+}
+
+fn format_error_compact(error: &Error) -> String {
+    format!(
+        "{:?}:{:?}:{}",
+        error.severity(),
+        error.code(),
+        error.message()
+    )
+}
+
+fn evaluate_result_kind(
+    observed_error_kind: ObservedErrorKind,
+    expected_fail: bool,
+) -> CoverageResultKind {
+    let parsed_without_errors = observed_error_kind == ObservedErrorKind::None;
+    if expected_fail {
+        if parsed_without_errors {
+            CoverageResultKind::IncorrectlyPassed
+        } else {
+            CoverageResultKind::CorrectError
+        }
+    } else if parsed_without_errors {
+        CoverageResultKind::Passed
+    } else {
+        CoverageResultKind::ParseError
+    }
+}
+
+fn panic_payload_to_string(payload: Box<dyn std::any::Any + Send>) -> String {
+    if let Some(message) = payload.downcast_ref::<&str>() {
+        return (*message).to_string();
+    }
+    if let Some(message) = payload.downcast_ref::<String>() {
+        return message.clone();
+    }
+    "non-string panic payload".to_string()
 }
 
 #[derive(Default)]

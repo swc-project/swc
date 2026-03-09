@@ -13,7 +13,12 @@
 
 - Script/module/program entry points are available.
 - Core statements, expressions, module declarations, JSX, and TypeScript constructs are parsed.
-- Parity pass/fail behavior is continuously validated against reused `swc_ecma_parser` fixture corpora.
+- Parity behavior is continuously validated against reused `swc_ecma_parser` fixture corpora
+  with Oxc-style result classification:
+  - `Passed`
+  - `IncorrectlyPassed`
+  - `ParseError`
+  - `CorrectError`
 - Syntax options wired in parser logic include:
   - `EsSyntax`: `decorators_before_export`, `export_default_from`, `allow_super_outside_method`.
   - `TsSyntax`: `dts`, `disallow_ambiguous_jsx_like`.
@@ -21,7 +26,15 @@
 ## Parity Harness
 
 - `swc_ecma_parser` inputs are reused from `crates/swc_ecma_parser/tests`.
+- `tsc` fixtures honor TypeScript-style `@filename` multi-unit splitting.
+- `@module`, `@jsx`, and `@alwaysStrict` metadata are applied for `tsc` units.
 - Fixture reuse is test-only; importing `swc_ecma_parser` crate at runtime is disallowed and enforced by tests.
+- The parity gate is strict:
+  - total mismatches = `0`
+  - fatal mismatches = `0`
+  - recovered-only mismatches = `0`
+  - panic mismatches = `0`
+  - panic cases = `0`
 - Run parity checks with:
 
 ```bash

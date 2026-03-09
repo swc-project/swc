@@ -22,8 +22,23 @@
 ## Fixture Parity Contract
 
 - `swc_es_parser/tests/parity_suite.rs` reuses the `swc_ecma_parser/tests` fixture corpus.
-- The suite enforces pass/fail parity only (not diagnostic-text parity).
-- The suite mirrors `swc_ecma_parser` fixture skip rules for `typescript/tsc` and `test262` pass ignores.
+- The suite classifies outcomes as:
+  - `Passed`
+  - `IncorrectlyPassed`
+  - `ParseError`
+  - `CorrectError`
+- `typescript/tsc` fixtures are parsed with TypeScript-style `@filename` multi-unit splitting.
+- The `tsc` metadata subset used by parity is:
+  - `@module`
+  - `@jsx`
+  - `@alwaysStrict`
+- The suite mirrors `swc_ecma_parser` fixture skip rules for `typescript/tsc`.
+- The suite enforces a strong gate:
+  - `mismatches = 0`
+  - `fatal mismatches = 0`
+  - `recovered-only mismatches = 0`
+  - `panic mismatches = 0`
+  - `panic cases = 0`
 
 ## Syntax Option Coverage
 
