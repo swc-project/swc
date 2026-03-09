@@ -25,8 +25,8 @@ use swc_es_visit::{
 };
 use walkdir::WalkDir;
 
-pub const SUCCESS_SNAPSHOT_CATEGORIES: &[&str] = &["js", "jsx", "typescript", "shifted"];
-pub const ERROR_SNAPSHOT_CATEGORIES: &[&str] = &["errors", "typescript-errors"];
+pub const PARSE_FIXTURE_EXTENSIONS: &[&str] =
+    &["js", "jsx", "cjs", "mjs", "ts", "tsx", "mts", "cts"];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ParseMode {
@@ -297,29 +297,97 @@ pub fn is_expected_fail(case: &Case, options: &FixtureOptions) -> bool {
     if case.category == "test262-parser" && path.contains("/test262-parser/fail/") {
         return true;
     }
+    if case.category == "span"
+        && matches!(
+            path.as_str(),
+            p if p.ends_with("/span/js/super/expr.js")
+                || p.ends_with("/span/js/super/obj1.js")
+                || p.ends_with("/span/js/super/obj2.js")
+                || p.ends_with("/span/js/super/obj4.js")
+        )
+    {
+        return true;
+    }
 
     false
 }
 
+fn is_parse_fixture_file(path: &Path) -> bool {
+    let Some(ext) = path.extension().and_then(|ext| ext.to_str()) else {
+        return false;
+    };
+
+    PARSE_FIXTURE_EXTENSIONS.contains(&ext)
+}
+
+fn should_include_parse_fixture(path: &Path) -> bool {
+    let path = normalized(path);
+    if path.contains("/binding-pattern/") || path.contains("/test262-error-references/") {
+        return false;
+    }
+
+    if path.contains("/test262-parser/") {
+        return path.contains("/test262-parser/pass/") || path.contains("/test262-parser/fail/");
+    }
+
+    true
+}
+
+fn count_parse_fixtures(root: &Path) -> usize {
+    WalkDir::new(root)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry.file_type().is_file()
+                && is_parse_fixture_file(entry.path())
+                && should_include_parse_fixture(entry.path())
+        })
+        .count()
+}
+
+pub fn ensure_test262_fixture_corpus() {
+    let root = ecma_fixture_root().join("test262-parser");
+    let pass = root.join("pass");
+    let fail = root.join("fail");
+
+    if !pass.is_dir() || !fail.is_dir() {
+        panic!(
+            "test262 fixture corpus is not initialized at {}. Run `git submodule update --init \
+             --recursive`.",
+            root.display()
+        );
+    }
+
+    let pass_count = count_parse_fixtures(&pass);
+    let fail_count = count_parse_fixtures(&fail);
+
+    if pass_count == 0 || fail_count == 0 {
+        panic!(
+            "test262 fixture corpus is incomplete at {} (pass files: {}, fail files: {}). Run \
+             `git submodule update --init --recursive`.",
+            root.display(),
+            pass_count,
+            fail_count
+        );
+    }
+}
+
 pub fn collect_files_for_category(category: &str) -> Vec<PathBuf> {
+    if category == "test262-parser" {
+        ensure_test262_fixture_corpus();
+    }
+
     let root = ecma_fixture_root().join(category);
     let mut files = Vec::new();
 
     for entry in WalkDir::new(&root).into_iter().filter_map(Result::ok) {
-        if !entry.file_type().is_file() {
+        if !entry.file_type().is_file()
+            || !is_parse_fixture_file(entry.path())
+            || !should_include_parse_fixture(entry.path())
+        {
             continue;
         }
-        let path = entry.path();
-        let Some(ext) = path.extension().and_then(|ext| ext.to_str()) else {
-            continue;
-        };
-        if !matches!(
-            ext,
-            "js" | "jsx" | "cjs" | "mjs" | "ts" | "tsx" | "mts" | "cts"
-        ) {
-            continue;
-        }
-        files.push(path.to_path_buf());
+        files.push(entry.path().to_path_buf());
     }
 
     files.sort();
@@ -345,75 +413,34 @@ pub fn collect_cases_for_categories(categories: &[&str]) -> Vec<Case> {
     cases
 }
 
-/// Mirrors skip rules from `swc_ecma_parser/tests/typescript.rs::tsc_spec`.
-pub fn should_skip_tsc_case(path: &Path) -> bool {
-    let file_name = normalized(path);
+pub fn collect_all_fixture_files() -> Vec<PathBuf> {
+    ensure_test262_fixture_corpus();
 
-    // `#[testing::fixture(..., exclude(...))]` exclusions.
-    if file_name.contains("for-of51.ts")
-        || file_name.contains("parserArrowFunctionExpression11")
-        || file_name.contains("esDecorators-decoratorExpression.1")
-    {
-        return true;
+    let root = ecma_fixture_root();
+    let mut files = Vec::new();
+
+    for entry in WalkDir::new(&root).into_iter().filter_map(Result::ok) {
+        if !entry.file_type().is_file()
+            || !is_parse_fixture_file(entry.path())
+            || !should_include_parse_fixture(entry.path())
+        {
+            continue;
+        }
+        files.push(entry.path().to_path_buf());
     }
 
-    // Ignore some useless tests.
-    if file_name.contains("tsc/FunctionDeclaration7_es6")
-        || file_name.contains("unicodeExtendedEscapesInStrings11_ES5")
-        || file_name.contains("tsc/unicodeExtendedEscapesInStrings10_ES5")
-        || file_name.contains("tsc/unicodeExtendedEscapesInStrings11_ES6")
-        || file_name.contains("tsc/unicodeExtendedEscapesInStrings10_ES6")
-        || file_name.contains("tsc/propertyNamesOfReservedWords")
-        || file_name.contains("unicodeExtendedEscapesInTemplates10_ES5")
-        || file_name.contains("unicodeExtendedEscapesInTemplates10_ES6")
-        || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES5")
-        || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES6")
-        || file_name.contains("tsc/parser.numericSeparators.decimal")
-    {
-        return true;
-    }
+    files.sort();
+    files
+}
 
-    // Useful only for error reporting.
-    if file_name.contains("tsc/callSignaturesWithParameterInitializers")
-        || file_name.contains("tsc/errorSuperCalls")
-        || file_name.contains("tsc/restElementMustBeLast")
-        || file_name.contains("tsc/parserRegularExpressionDivideAmbiguity3")
-    {
-        return true;
-    }
-
-    // Postponed.
-    if file_name.contains("tsc/importDefaultNamedType")
-        || file_name.contains("tsc/emitCompoundExponentiationAssignmentWithIndexingOnLHS3")
-        || file_name.contains("tsc/objectLiteralGettersAndSetters")
-        || file_name.contains("tsc/restElementMustBeLast")
-        || file_name.contains("tsc/FunctionDeclaration6_es6")
-        || file_name.contains("tsc/classExtendingOptionalChain")
-        || file_name.contains("tsc/inlineJsxFactoryDeclarations")
-        || file_name.contains("tsc/interfaceExtendingOptionalChain")
-        || file_name.contains("tsc/interfacesWithPredefinedTypesAsNames")
-        || file_name.contains("tsc/parserForOfStatement23")
-        || file_name.contains("tsc/topLevelAwait.2")
-        || file_name.contains("tsc/tsxAttributeResolution5")
-        || file_name.contains("tsc/tsxErrorRecovery2")
-        || file_name.contains("tsc/tsxErrorRecovery3")
-        || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutput")
-        || file_name.contains("tsc/propertyAccessNumericLiterals")
-        || file_name.contains("tsc/parserAssignmentExpression1")
-        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity11")
-        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity15")
-        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity16")
-        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity20")
-        || file_name.contains("tsc/awaitUsingDeclarationsInFor")
-        || file_name.ends_with("tsc/usingDeclarationsInFor.ts")
-        || file_name.ends_with("tsc/decoratorOnClassMethod12.ts")
-        || file_name.ends_with("tsc/esDecorators-preservesThis.ts")
-        || file_name.ends_with("tsc/topLevelVarHoistingCommonJS.ts")
-    {
-        return true;
-    }
-
-    false
+pub fn collect_all_parse_cases() -> Vec<Case> {
+    collect_all_fixture_files()
+        .into_iter()
+        .map(|path| {
+            let category = category_for_path(&path);
+            Case { path, category }
+        })
+        .collect()
 }
 
 pub fn parse_loaded_file(fm: &SourceFile, case: &Case) -> ParseOutput {
