@@ -1,377 +1,109 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 40..732,\n    kind: Script,\n    body: [\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 40..732,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Return(\n    ReturnStmt {\n        span: 125..187,\n        arg: Some(\n            Id {\n                index: 8,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Return(\n    ReturnStmt {\n        span: 248..413,\n        arg: Some(\n            Id {\n                index: 33,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 471..514,\n        expr: Id {\n            index: 39,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Return(\n    ReturnStmt {\n        span: 508..728,\n        arg: Some(\n            Id {\n                index: 71,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Return(\n    ReturnStmt {\n        span: 125..187,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 248..413,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 471..514,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 508..728,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Class(\n    ClassDecl {\n        span: 40..732,\n        ident: Ident {\n            span: 46..59,\n            sym: \"CharacterInfo\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Class(\n    ClassDecl {\n        span: 40..732,\n        ident: Ident {\n            span: 46..59,\n            sym: \"CharacterInfo\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 95..96,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 218..219,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 442..443,\n        sym: \"c\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 95..96,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 218..219,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 442..443,\n        sym: \"c\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 132..133,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 137..151,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Member(\n    MemberExpr {\n        span: 151..157,\n        obj: Id {\n            index: 1,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 152..154,\n                sym: \"_0\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Binary(\n    BinaryExpr {\n        span: 134..157,\n        op: GtEq,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 158..159,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 163..177,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Member(\n    MemberExpr {\n        span: 177..181,\n        obj: Id {\n            index: 5,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 178..180,\n                sym: \"_9\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Binary(\n    BinaryExpr {\n        span: 160..181,\n        op: LtEq,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Binary(\n    BinaryExpr {\n        span: 155..181,\n        op: LogicalAnd,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        right: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Ident(\n    Ident {\n        span: 255..269,\n        sym: \"isDecimalDigit\",\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Ident(\n    Ident {\n        span: 270..271,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Call(\n    CallExpr {\n        span: 269..275,\n        callee: Id {\n            index: 9,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 10,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Ident(\n    Ident {\n        span: 292..293,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Ident(\n    Ident {\n        span: 297..311,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Member(\n    MemberExpr {\n        span: 311..316,\n        obj: Id {\n            index: 13,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 312..313,\n                sym: \"A\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Binary(\n    BinaryExpr {\n        span: 294..316,\n        op: GtEq,\n        left: Id {\n            index: 12,\n            generation: 1,\n        },\n        right: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Ident(\n    Ident {\n        span: 317..318,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Ident(\n    Ident {\n        span: 322..336,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Member(\n    MemberExpr {\n        span: 336..339,\n        obj: Id {\n            index: 17,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 337..338,\n                sym: \"F\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Binary(\n    BinaryExpr {\n        span: 319..339,\n        op: LtEq,\n        left: Id {\n            index: 16,\n            generation: 1,\n        },\n        right: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Binary(\n    BinaryExpr {\n        span: 314..339,\n        op: LogicalAnd,\n        left: Id {\n            index: 15,\n            generation: 1,\n        },\n        right: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Paren(\n    ParenExpr {\n        span: 291..342,\n        expr: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Binary(\n    BinaryExpr {\n        span: 273..342,\n        op: LogicalOr,\n        left: Id {\n            index: 11,\n            generation: 1,\n        },\n        right: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Ident(\n    Ident {\n        span: 359..360,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Ident(\n    Ident {\n        span: 364..378,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Member(\n    MemberExpr {\n        span: 378..383,\n        obj: Id {\n            index: 24,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 379..380,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Binary(\n    BinaryExpr {\n        span: 361..383,\n        op: GtEq,\n        left: Id {\n            index: 23,\n            generation: 1,\n        },\n        right: Id {\n            index: 25,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Ident(\n    Ident {\n        span: 384..385,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Ident(\n    Ident {\n        span: 389..403,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Member(\n    MemberExpr {\n        span: 403..406,\n        obj: Id {\n            index: 28,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 404..405,\n                sym: \"f\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Binary(\n    BinaryExpr {\n        span: 386..406,\n        op: LtEq,\n        left: Id {\n            index: 27,\n            generation: 1,\n        },\n        right: Id {\n            index: 29,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Binary(\n    BinaryExpr {\n        span: 381..406,\n        op: LogicalAnd,\n        left: Id {\n            index: 26,\n            generation: 1,\n        },\n        right: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Paren(\n    ParenExpr {\n        span: 358..407,\n        expr: Id {\n            index: 31,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Binary(\n    BinaryExpr {\n        span: 340..407,\n        op: LogicalOr,\n        left: Id {\n            index: 22,\n            generation: 1,\n        },\n        right: Id {\n            index: 32,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Ident(\n    Ident {\n        span: 471..476,\n        sym: \"Debug\",\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Member(\n    MemberExpr {\n        span: 476..484,\n        obj: Id {\n            index: 34,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 477..483,\n                sym: \"assert\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Ident(\n    Ident {\n        span: 484..494,\n        sym: \"isHexDigit\",\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Ident(\n    Ident {\n        span: 495..496,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Call(\n    CallExpr {\n        span: 494..498,\n        callee: Id {\n            index: 36,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 37,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Call(\n    CallExpr {\n        span: 483..499,\n        callee: Id {\n            index: 35,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 38,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Ident(\n    Ident {\n        span: 515..529,\n        sym: \"isDecimalDigit\",\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Ident(\n    Ident {\n        span: 530..531,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967339,
-      "node": "Call(\n    CallExpr {\n        span: 529..546,\n        callee: Id {\n            index: 40,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 41,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Ident(\n    Ident {\n        span: 548..549,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Ident(\n    Ident {\n        span: 552..566,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Member(\n    MemberExpr {\n        span: 566..570,\n        obj: Id {\n            index: 44,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 567..569,\n                sym: \"_0\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967343,
-      "node": "Binary(\n    BinaryExpr {\n        span: 550..570,\n        op: Sub,\n        left: Id {\n            index: 43,\n            generation: 1,\n        },\n        right: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Paren(\n    ParenExpr {\n        span: 547..584,\n        expr: Id {\n            index: 46,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967345,
-      "node": "Ident(\n    Ident {\n        span: 586..587,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Ident(\n    Ident {\n        span: 591..605,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967347,
-      "node": "Member(\n    MemberExpr {\n        span: 605..610,\n        obj: Id {\n            index: 49,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 606..607,\n                sym: \"A\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Binary(\n    BinaryExpr {\n        span: 588..610,\n        op: GtEq,\n        left: Id {\n            index: 48,\n            generation: 1,\n        },\n        right: Id {\n            index: 50,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967349,
-      "node": "Ident(\n    Ident {\n        span: 611..612,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Ident(\n    Ident {\n        span: 616..630,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967351,
-      "node": "Member(\n    MemberExpr {\n        span: 630..633,\n        obj: Id {\n            index: 53,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 631..632,\n                sym: \"F\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967352,
-      "node": "Binary(\n    BinaryExpr {\n        span: 613..633,\n        op: LtEq,\n        left: Id {\n            index: 52,\n            generation: 1,\n        },\n        right: Id {\n            index: 54,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "Binary(\n    BinaryExpr {\n        span: 608..633,\n        op: LogicalAnd,\n        left: Id {\n            index: 51,\n            generation: 1,\n        },\n        right: Id {\n            index: 55,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967354,
-      "node": "Paren(\n    ParenExpr {\n        span: 585..651,\n        expr: Id {\n            index: 56,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967355,
-      "node": "Ident(\n    Ident {\n        span: 652..653,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967356,
-      "node": "Ident(\n    Ident {\n        span: 656..670,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967357,
-      "node": "Member(\n    MemberExpr {\n        span: 670..674,\n        obj: Id {\n            index: 59,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 671..672,\n                sym: \"A\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967358,
-      "node": "Binary(\n    BinaryExpr {\n        span: 654..674,\n        op: Sub,\n        left: Id {\n            index: 58,\n            generation: 1,\n        },\n        right: Id {\n            index: 60,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967359,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 675..677,\n            value: 10.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967360,
-      "node": "Binary(\n    BinaryExpr {\n        span: 673..695,\n        op: Add,\n        left: Id {\n            index: 61,\n            generation: 1,\n        },\n        right: Id {\n            index: 62,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967361,
-      "node": "Ident(\n    Ident {\n        span: 696..697,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967362,
-      "node": "Ident(\n    Ident {\n        span: 700..714,\n        sym: \"CharacterCodes\",\n    },\n)"
-    },
-    {
-      "id": 4294967363,
-      "node": "Member(\n    MemberExpr {\n        span: 714..718,\n        obj: Id {\n            index: 65,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 715..716,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967364,
-      "node": "Binary(\n    BinaryExpr {\n        span: 698..718,\n        op: Sub,\n        left: Id {\n            index: 64,\n            generation: 1,\n        },\n        right: Id {\n            index: 66,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967365,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 719..721,\n            value: 10.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967366,
-      "node": "Binary(\n    BinaryExpr {\n        span: 717..722,\n        op: Add,\n        left: Id {\n            index: 67,\n            generation: 1,\n        },\n        right: Id {\n            index: 68,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967367,
-      "node": "Cond(\n    CondExpr {\n        span: 650..722,\n        test: Id {\n            index: 57,\n            generation: 1,\n        },\n        cons: Id {\n            index: 63,\n            generation: 1,\n        },\n        alt: Id {\n            index: 69,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967368,
-      "node": "Cond(\n    CondExpr {\n        span: 545..722,\n        test: Id {\n            index: 42,\n            generation: 1,\n        },\n        cons: Id {\n            index: 47,\n            generation: 1,\n        },\n        alt: Id {\n            index: 70,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 132..133,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..151,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 151..157,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 152..154,\n                sym: \"_0\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 134..157,\n        op: GtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 158..159,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 163..177,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 177..181,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 178..180,\n                sym: \"_9\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 160..181,\n        op: LtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 155..181,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 255..269,\n        sym: \"isDecimalDigit\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 270..271,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 269..275,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 292..293,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 297..311,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 311..316,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 312..313,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 294..316,\n        op: GtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 317..318,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 322..336,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 336..339,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 337..338,\n                sym: \"F\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 319..339,\n        op: LtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 314..339,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 291..342,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 273..342,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 359..360,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 364..378,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 378..383,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 379..380,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 361..383,\n        op: GtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 384..385,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 389..403,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 403..406,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 404..405,\n                sym: \"f\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 386..406,\n        op: LtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 381..406,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 358..407,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 340..407,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 471..476,\n        sym: \"Debug\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 476..484,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 477..483,\n                sym: \"assert\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 484..494,\n        sym: \"isHexDigit\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 495..496,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 494..498,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 483..499,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 515..529,\n        sym: \"isDecimalDigit\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 530..531,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 529..546,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 548..549,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 552..566,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 566..570,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 567..569,\n                sym: \"_0\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 550..570,\n        op: Sub,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 547..584,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 586..587,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 591..605,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 605..610,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 606..607,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 588..610,\n        op: GtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 611..612,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 616..630,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 630..633,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 631..632,\n                sym: \"F\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 613..633,\n        op: LtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 608..633,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 585..651,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 652..653,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 656..670,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 670..674,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 671..672,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 654..674,\n        op: Sub,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 675..677,\n            value: 10.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 673..695,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 696..697,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 700..714,\n        sym: \"CharacterCodes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 714..718,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 715..716,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 698..718,\n        op: Sub,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 719..721,\n            value: 10.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 717..722,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 650..722,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 545..722,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 66..199,\n    params: [\n        Param {\n            span: 95..105,\n            decorators: [],\n            pat: Id {\n                index: 0,\n                generation: 1,\n            },\n        },\n    ],\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "Function {\n    span: 193..425,\n    params: [\n        Param {\n            span: 218..228,\n            decorators: [],\n            pat: Id {\n                index: 1,\n                generation: 1,\n            },\n        },\n    ],\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967299,
-      "node": "Function {\n    span: 419..730,\n    params: [\n        Param {\n            span: 442..452,\n            decorators: [],\n            pat: Id {\n                index: 2,\n                generation: 1,\n            },\n        },\n    ],\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 66..199,\n    params: [\n        Param {\n            span: 95..105,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 193..425,\n    params: [\n        Param {\n            span: 218..228,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 419..730,\n    params: [\n        Param {\n            span: 442..452,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 40..732,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 46..59,\n            sym: \"CharacterInfo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 40..732,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 46..59,\n            sym: \"CharacterInfo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Method(\n    ClassMethod {\n        span: 66..199,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 80..94,\n                sym: \"isDecimalDigit\",\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Method(\n    ClassMethod {\n        span: 193..425,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 207..217,\n                sym: \"isHexDigit\",\n            },\n        ),\n        function: Id {\n            index: 1,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Method(\n    ClassMethod {\n        span: 419..730,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 433..441,\n                sym: \"hexValue\",\n            },\n        ),\n        function: Id {\n            index: 2,\n            generation: 1,\n        },\n        is_static: true,\n        kind: Method,\n    },\n)"
-    }
+    "Method(\n    ClassMethod {\n        span: 66..199,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 80..94,\n                sym: \"isDecimalDigit\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 193..425,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 207..217,\n                sym: \"isHexDigit\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 419..730,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 433..441,\n                sym: \"hexValue\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

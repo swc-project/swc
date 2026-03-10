@@ -1,58 +1,24 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..84,\n    kind: Script,\n    body: [\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..84,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Return(\n    ReturnStmt {\n        span: 38..51,\n        arg: None,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Block(\n    BlockStmt {\n        span: 28..56,\n        stmts: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Return(\n    ReturnStmt {\n        span: 67..82,\n        arg: Some(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Block(\n    BlockStmt {\n        span: 57..84,\n        stmts: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "If(\n    IfStmt {\n        span: 21..84,\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n        cons: Id {\n            index: 1,\n            generation: 1,\n        },\n        alt: Some(\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Return(\n    ReturnStmt {\n        span: 38..51,\n        arg: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 28..56,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 67..82,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 57..84,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 21..84,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Fn(\n    FnDecl {\n        span: 1..84,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Fn(\n    FnDecl {\n        span: 1..84,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"b\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"b\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 74..75,\n            value: 1.0,\n        },\n    ),\n)"
-    }
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 74..75,\n            value: 1.0,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

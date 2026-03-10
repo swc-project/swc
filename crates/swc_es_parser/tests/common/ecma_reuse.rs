@@ -2,6 +2,7 @@
 
 use std::{
     collections::BTreeSet,
+    fmt::Debug,
     fs,
     path::{Path, PathBuf},
 };
@@ -59,25 +60,18 @@ pub struct ParseOutput {
 }
 
 #[derive(Debug, Clone, Serialize)]
-pub struct DebugNode {
-    pub id: u64,
-    pub node: String,
-}
-
-#[derive(Debug, Clone, Serialize)]
 pub struct ProgramArenaSnapshot {
-    pub root_program: u64,
-    pub programs: Vec<DebugNode>,
-    pub stmts: Vec<DebugNode>,
-    pub decls: Vec<DebugNode>,
-    pub pats: Vec<DebugNode>,
-    pub exprs: Vec<DebugNode>,
-    pub module_decls: Vec<DebugNode>,
-    pub functions: Vec<DebugNode>,
-    pub classes: Vec<DebugNode>,
-    pub class_members: Vec<DebugNode>,
-    pub jsx_elements: Vec<DebugNode>,
-    pub ts_types: Vec<DebugNode>,
+    pub programs: Vec<String>,
+    pub stmts: Vec<String>,
+    pub decls: Vec<String>,
+    pub pats: Vec<String>,
+    pub exprs: Vec<String>,
+    pub module_decls: Vec<String>,
+    pub functions: Vec<String>,
+    pub classes: Vec<String>,
+    pub class_members: Vec<String>,
+    pub jsx_elements: Vec<String>,
+    pub ts_types: Vec<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -507,48 +501,103 @@ struct ReachableArenaCollector {
     jsx_elements_seen: BTreeSet<u64>,
     ts_types_seen: BTreeSet<u64>,
 
-    programs: Vec<DebugNode>,
-    stmts: Vec<DebugNode>,
-    decls: Vec<DebugNode>,
-    pats: Vec<DebugNode>,
-    exprs: Vec<DebugNode>,
-    module_decls: Vec<DebugNode>,
-    functions: Vec<DebugNode>,
-    classes: Vec<DebugNode>,
-    class_members: Vec<DebugNode>,
-    jsx_elements: Vec<DebugNode>,
-    ts_types: Vec<DebugNode>,
+    programs: Vec<(u64, String)>,
+    stmts: Vec<(u64, String)>,
+    decls: Vec<(u64, String)>,
+    pats: Vec<(u64, String)>,
+    exprs: Vec<(u64, String)>,
+    module_decls: Vec<(u64, String)>,
+    functions: Vec<(u64, String)>,
+    classes: Vec<(u64, String)>,
+    class_members: Vec<(u64, String)>,
+    jsx_elements: Vec<(u64, String)>,
+    ts_types: Vec<(u64, String)>,
 }
 
 impl ReachableArenaCollector {
-    fn finish(mut self, root_program: ProgramId) -> ProgramArenaSnapshot {
-        self.programs.sort_by_key(|entry| entry.id);
-        self.stmts.sort_by_key(|entry| entry.id);
-        self.decls.sort_by_key(|entry| entry.id);
-        self.pats.sort_by_key(|entry| entry.id);
-        self.exprs.sort_by_key(|entry| entry.id);
-        self.module_decls.sort_by_key(|entry| entry.id);
-        self.functions.sort_by_key(|entry| entry.id);
-        self.classes.sort_by_key(|entry| entry.id);
-        self.class_members.sort_by_key(|entry| entry.id);
-        self.jsx_elements.sort_by_key(|entry| entry.id);
-        self.ts_types.sort_by_key(|entry| entry.id);
+    fn finish(mut self) -> ProgramArenaSnapshot {
+        self.programs.sort_by_key(|(id, _)| *id);
+        self.stmts.sort_by_key(|(id, _)| *id);
+        self.decls.sort_by_key(|(id, _)| *id);
+        self.pats.sort_by_key(|(id, _)| *id);
+        self.exprs.sort_by_key(|(id, _)| *id);
+        self.module_decls.sort_by_key(|(id, _)| *id);
+        self.functions.sort_by_key(|(id, _)| *id);
+        self.classes.sort_by_key(|(id, _)| *id);
+        self.class_members.sort_by_key(|(id, _)| *id);
+        self.jsx_elements.sort_by_key(|(id, _)| *id);
+        self.ts_types.sort_by_key(|(id, _)| *id);
 
         ProgramArenaSnapshot {
-            root_program: root_program.as_raw(),
-            programs: self.programs,
-            stmts: self.stmts,
-            decls: self.decls,
-            pats: self.pats,
-            exprs: self.exprs,
-            module_decls: self.module_decls,
-            functions: self.functions,
-            classes: self.classes,
-            class_members: self.class_members,
-            jsx_elements: self.jsx_elements,
-            ts_types: self.ts_types,
+            programs: into_nodes(self.programs),
+            stmts: into_nodes(self.stmts),
+            decls: into_nodes(self.decls),
+            pats: into_nodes(self.pats),
+            exprs: into_nodes(self.exprs),
+            module_decls: into_nodes(self.module_decls),
+            functions: into_nodes(self.functions),
+            classes: into_nodes(self.classes),
+            class_members: into_nodes(self.class_members),
+            jsx_elements: into_nodes(self.jsx_elements),
+            ts_types: into_nodes(self.ts_types),
         }
     }
+}
+
+fn into_nodes(entries: Vec<(u64, String)>) -> Vec<String> {
+    entries.into_iter().map(|(_, node)| node).collect()
+}
+
+/// Scrubs arena-handle debug blocks (`Id { index: .., generation: .. }`) from
+/// node dumps.
+fn scrub_arena_handles(debug: &str) -> String {
+    let mut out = String::with_capacity(debug.len());
+    let mut pos = 0usize;
+
+    while let Some(rel_start) = debug[pos..].find("Id {") {
+        let start = pos + rel_start;
+        out.push_str(&debug[pos..start]);
+
+        let block_start = start + "Id {".len();
+        let mut depth = 1usize;
+        let mut cursor = block_start;
+        let bytes = debug.as_bytes();
+        while cursor < bytes.len() {
+            match bytes[cursor] {
+                b'{' => depth += 1,
+                b'}' => {
+                    depth -= 1;
+                    if depth == 0 {
+                        break;
+                    }
+                }
+                _ => {}
+            }
+            cursor += 1;
+        }
+
+        if depth != 0 {
+            out.push_str(&debug[start..]);
+            return out;
+        }
+
+        let end = cursor;
+        let block = &debug[start..=end];
+        if block.contains("index:") && block.contains("generation:") {
+            out.push('_');
+        } else {
+            out.push_str(block);
+        }
+
+        pos = end + 1;
+    }
+
+    out.push_str(&debug[pos..]);
+    out
+}
+
+fn normalized_debug_node<T: Debug>(node: &T) -> String {
+    scrub_arena_handles(&format!("{node:#?}"))
 }
 
 impl Visit for ReachableArenaCollector {
@@ -559,10 +608,8 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.program(id) else {
             return;
         };
-        self.programs.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.programs
+            .push((id.as_raw(), normalized_debug_node(node)));
         walk_program(self, store, id);
     }
 
@@ -573,10 +620,7 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.stmt(id) else {
             return;
         };
-        self.stmts.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.stmts.push((id.as_raw(), normalized_debug_node(node)));
         walk_stmt(self, store, id);
     }
 
@@ -587,10 +631,7 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.decl(id) else {
             return;
         };
-        self.decls.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.decls.push((id.as_raw(), normalized_debug_node(node)));
         walk_decl(self, store, id);
     }
 
@@ -601,10 +642,7 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.pat(id) else {
             return;
         };
-        self.pats.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.pats.push((id.as_raw(), normalized_debug_node(node)));
         walk_pat(self, store, id);
     }
 
@@ -615,10 +653,7 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.expr(id) else {
             return;
         };
-        self.exprs.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.exprs.push((id.as_raw(), normalized_debug_node(node)));
         walk_expr(self, store, id);
     }
 
@@ -629,10 +664,8 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.module_decl(id) else {
             return;
         };
-        self.module_decls.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.module_decls
+            .push((id.as_raw(), normalized_debug_node(node)));
         walk_module_decl(self, store, id);
     }
 
@@ -643,10 +676,8 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.function(id) else {
             return;
         };
-        self.functions.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.functions
+            .push((id.as_raw(), normalized_debug_node(node)));
         walk_function(self, store, id);
     }
 
@@ -657,10 +688,8 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.class(id) else {
             return;
         };
-        self.classes.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.classes
+            .push((id.as_raw(), normalized_debug_node(node)));
         walk_class(self, store, id);
     }
 
@@ -671,10 +700,8 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.class_member(id) else {
             return;
         };
-        self.class_members.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.class_members
+            .push((id.as_raw(), normalized_debug_node(node)));
         walk_class_member(self, store, id);
     }
 
@@ -685,10 +712,8 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.jsx_element(id) else {
             return;
         };
-        self.jsx_elements.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.jsx_elements
+            .push((id.as_raw(), normalized_debug_node(node)));
         walk_jsx_element(self, store, id);
     }
 
@@ -699,10 +724,8 @@ impl Visit for ReachableArenaCollector {
         let Some(node) = store.ts_type(id) else {
             return;
         };
-        self.ts_types.push(DebugNode {
-            id: id.as_raw(),
-            node: format!("{node:#?}"),
-        });
+        self.ts_types
+            .push((id.as_raw(), normalized_debug_node(node)));
         walk_ts_type(self, store, id);
     }
 }
@@ -710,7 +733,7 @@ impl Visit for ReachableArenaCollector {
 fn collect_program_snapshot(parsed: &ParsedProgram) -> ProgramArenaSnapshot {
     let mut collector = ReachableArenaCollector::default();
     parsed.program.visit_with(&parsed.store, &mut collector);
-    collector.finish(parsed.program)
+    collector.finish()
 }
 
 pub fn build_program_json_snapshot(parsed: &ParsedProgram) -> String {
@@ -778,58 +801,58 @@ pub fn build_program_canonical_json(parsed: &ParsedProgram) -> Value {
         programs: snapshot
             .programs
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
         stmts: snapshot
             .stmts
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
         decls: snapshot
             .decls
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
         pats: snapshot
             .pats
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
         exprs: snapshot
             .exprs
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .filter(|node| !should_drop_canonical_expr(node))
             .collect(),
         module_decls: snapshot
             .module_decls
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
         functions: snapshot
             .functions
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
         classes: snapshot
             .classes
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
         class_members: snapshot
             .class_members
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
         jsx_elements: snapshot
             .jsx_elements
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
         ts_types: snapshot
             .ts_types
             .into_iter()
-            .map(|entry| normalize_debug_node_for_canonical(&entry.node))
+            .map(|entry| normalize_debug_node_for_canonical(&entry))
             .collect(),
     };
 

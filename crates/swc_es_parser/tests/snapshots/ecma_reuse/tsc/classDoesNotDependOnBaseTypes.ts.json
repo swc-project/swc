@@ -1,165 +1,56 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..281,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..281,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 112..120,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 232..248,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Expr(\n    ExprStmt {\n        span: 247..281,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Block(\n    BlockStmt {\n        span: 226..281,\n        stmts: [\n            Id {\n                index: 4,\n                generation: 1,\n            },\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "If(\n    IfStmt {\n        span: 199..281,\n        test: Id {\n            index: 7,\n            generation: 1,\n        },\n        cons: Id {\n            index: 6,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 112..120,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 232..248,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 247..281,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 226..281,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 199..281,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..55,\n        ident: Ident {\n            span: 6..16,\n            sym: \"StringTree\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Class(\n    ClassDecl {\n        span: 115..183,\n        ident: Ident {\n            span: 121..141,\n            sym: \"StringTreeCollection\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Var(\n    VarDecl {\n        span: 180..201,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 180..198,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..55,\n        ident: Ident {\n            span: 6..16,\n            sym: \"StringTree\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 115..183,\n        ident: Ident {\n            span: 121..141,\n            sym: \"StringTreeCollection\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 180..201,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 180..198,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 184..185,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    Id {\n        index: 15,\n        generation: 1,\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 184..185,\n        sym: \"x\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 150..174,\n        sym: \"StringTreeCollectionBase\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 210..211,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Unary(\n    UnaryExpr {\n        span: 203..215,\n        op: TypeOf,\n        arg: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 216..224,\n            value: \"string\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Binary(\n    BinaryExpr {\n        span: 212..225,\n        op: NotEqEq,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 232..233,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 234..235,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Member(\n    MemberExpr {\n        span: 233..238,\n        obj: Id {\n            index: 8,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 9,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 239..241,\n            value: \"\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Assign(\n    AssignExpr {\n        span: 237..242,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Ident(\n    Ident {\n        span: 247..248,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 249..250,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Member(\n    MemberExpr {\n        span: 248..253,\n        obj: Id {\n            index: 13,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 14,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Ident(\n    Ident {\n        span: 258..278,\n        sym: \"StringTreeCollection\",\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "New(\n    NewExpr {\n        span: 254..279,\n        callee: Id {\n            index: 16,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Assign(\n    AssignExpr {\n        span: 252..279,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 150..174,\n        sym: \"StringTreeCollectionBase\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 210..211,\n        sym: \"x\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 203..215,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 216..224,\n            value: \"string\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 212..225,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 232..233,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 234..235,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 233..238,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 239..241,\n            value: \"\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 237..242,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 247..248,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 249..250,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 248..253,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 258..278,\n        sym: \"StringTreeCollection\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 254..279,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 252..279,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 115..183,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 121..141,\n            sym: \"StringTreeCollection\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ),\n    body: [],\n}"
-    }
+    "Class {\n    span: 115..183,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 121..141,\n            sym: \"StringTreeCollection\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
   ],
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 28..49,\n        name: Ident {\n            span: 28..49,\n            sym: \"StringTreeCollection\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Union(\n    TsUnionType {\n        span: 19..49,\n        types: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 28..49,\n        name: Ident {\n            span: 28..49,\n            sym: \"StringTreeCollection\",\n        },\n        type_args: [],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 19..49,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
   ]
 }

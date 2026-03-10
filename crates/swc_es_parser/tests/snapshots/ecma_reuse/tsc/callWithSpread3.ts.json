@@ -1,458 +1,124 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..1224,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n        Id {\n            index: 22,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..1224,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Expr(\n    ExprStmt {\n        span: 517..555,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Expr(\n    ExprStmt {\n        span: 552..608,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 605..661,\n        expr: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Expr(\n    ExprStmt {\n        span: 658..724,\n        expr: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Expr(\n    ExprStmt {\n        span: 721..757,\n        expr: Id {\n            index: 26,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 754..788,\n        expr: Id {\n            index: 29,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Expr(\n    ExprStmt {\n        span: 784..819,\n        expr: Id {\n            index: 32,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Expr(\n    ExprStmt {\n        span: 815..854,\n        expr: Id {\n            index: 35,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Expr(\n    ExprStmt {\n        span: 850..892,\n        expr: Id {\n            index: 39,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Expr(\n    ExprStmt {\n        span: 888..1005,\n        expr: Id {\n            index: 44,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Expr(\n    ExprStmt {\n        span: 1000..1045,\n        expr: Id {\n            index: 47,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Expr(\n    ExprStmt {\n        span: 1041..1059,\n        expr: Id {\n            index: 50,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Expr(\n    ExprStmt {\n        span: 1055..1080,\n        expr: Id {\n            index: 54,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Expr(\n    ExprStmt {\n        span: 1076..1102,\n        expr: Id {\n            index: 58,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Expr(\n    ExprStmt {\n        span: 1098..1124,\n        expr: Id {\n            index: 62,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Expr(\n    ExprStmt {\n        span: 1119..1140,\n        expr: Id {\n            index: 65,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Expr(\n    ExprStmt {\n        span: 1135..1201,\n        expr: Id {\n            index: 68,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Expr(\n    ExprStmt {\n        span: 1198..1224,\n        expr: Id {\n            index: 73,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 517..555,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 552..608,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 605..661,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 658..724,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 721..757,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 754..788,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 784..819,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 815..854,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 850..892,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 888..1005,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1000..1045,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1041..1059,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1055..1080,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1076..1102,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1098..1124,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1119..1140,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1135..1201,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1198..1224,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 9..44,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 9..36,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 45..88,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 45..80,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Var(\n    VarDecl {\n        span: 89..138,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 89..130,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Var(\n    VarDecl {\n        span: 139..166,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 139..158,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Var(\n    VarDecl {\n        span: 167..194,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 167..186,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Var(\n    VarDecl {\n        span: 195..246,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 195..237,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 9..44,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 9..36,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 45..88,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 45..80,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 89..138,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 89..130,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 139..166,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 139..158,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 167..194,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 167..186,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 195..246,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 195..237,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 15..17,\n        sym: \"s2\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 51..53,\n        sym: \"s3\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 95..98,\n        sym: \"s2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 145..147,\n        sym: \"s_\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 173..175,\n        sym: \"n_\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 201..205,\n        sym: \"s2n_\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 15..17,\n        sym: \"s2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 51..53,\n        sym: \"s3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 95..98,\n        sym: \"s2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 145..147,\n        sym: \"s_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 173..175,\n        sym: \"n_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 201..205,\n        sym: \"s2n_\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 517..520,\n        sym: \"fs2\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 521..524,\n            value: \"a\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 529..531,\n        sym: \"s2\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Call(\n    CallExpr {\n        span: 520..533,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 552..555,\n        sym: \"fs2\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 556..559,\n            value: \"a\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 561..564,\n            value: \"b\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 566..569,\n            value: \"c\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 574..576,\n        sym: \"s2\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Call(\n    CallExpr {\n        span: 555..578,\n        callee: Id {\n            index: 4,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 5,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 6,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 7,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 8,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Ident(\n    Ident {\n        span: 605..608,\n        sym: \"fs2\",\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 609..612,\n            value: \"a\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 614..617,\n            value: \"b\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Ident(\n    Ident {\n        span: 622..624,\n        sym: \"s2\",\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 626..629,\n            value: \"c\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Call(\n    CallExpr {\n        span: 608..631,\n        callee: Id {\n            index: 10,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 11,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 12,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 13,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 14,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Ident(\n    Ident {\n        span: 658..661,\n        sym: \"fs2\",\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 662..665,\n            value: \"a\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 667..670,\n            value: \"b\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 672..675,\n            value: \"c\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Ident(\n    Ident {\n        span: 680..682,\n        sym: \"s2\",\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 684..687,\n            value: \"d\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Call(\n    CallExpr {\n        span: 661..689,\n        callee: Id {\n            index: 16,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 17,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 18,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 19,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 20,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 21,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Ident(\n    Ident {\n        span: 721..724,\n        sym: \"fs2\",\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Ident(\n    Ident {\n        span: 728..730,\n        sym: \"s2\",\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 732..735,\n            value: \"a\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Call(\n    CallExpr {\n        span: 724..737,\n        callee: Id {\n            index: 23,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 24,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 25,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Ident(\n    Ident {\n        span: 754..757,\n        sym: \"fs2\",\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Ident(\n    Ident {\n        span: 761..763,\n        sym: \"s3\",\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Call(\n    CallExpr {\n        span: 757..765,\n        callee: Id {\n            index: 27,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 28,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Ident(\n    Ident {\n        span: 784..788,\n        sym: \"fs2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Ident(\n    Ident {\n        span: 792..794,\n        sym: \"s_\",\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Call(\n    CallExpr {\n        span: 788..796,\n        callee: Id {\n            index: 30,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 31,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Ident(\n    Ident {\n        span: 815..819,\n        sym: \"fs2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Ident(\n    Ident {\n        span: 823..827,\n        sym: \"s2n_\",\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Call(\n    CallExpr {\n        span: 819..829,\n        callee: Id {\n            index: 33,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 34,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Ident(\n    Ident {\n        span: 850..854,\n        sym: \"fs2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Ident(\n    Ident {\n        span: 858..860,\n        sym: \"s_\",\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Ident(\n    Ident {\n        span: 865..867,\n        sym: \"s_\",\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Call(\n    CallExpr {\n        span: 854..869,\n        callee: Id {\n            index: 36,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 37,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 38,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Ident(\n    Ident {\n        span: 888..892,\n        sym: \"fs2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Ident(\n    Ident {\n        span: 896..898,\n        sym: \"s_\",\n    },\n)"
-    },
-    {
-      "id": 4294967339,
-      "node": "Ident(\n    Ident {\n        span: 903..905,\n        sym: \"s_\",\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Ident(\n    Ident {\n        span: 910..912,\n        sym: \"s_\",\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Call(\n    CallExpr {\n        span: 892..914,\n        callee: Id {\n            index: 40,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 41,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 42,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 43,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Ident(\n    Ident {\n        span: 1000..1005,\n        sym: \"fs2n_\",\n    },\n)"
-    },
-    {
-      "id": 4294967343,
-      "node": "Ident(\n    Ident {\n        span: 1009..1012,\n        sym: \"s2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Call(\n    CallExpr {\n        span: 1005..1014,\n        callee: Id {\n            index: 45,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 46,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967345,
-      "node": "Ident(\n    Ident {\n        span: 1041..1045,\n        sym: \"fs2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Ident(\n    Ident {\n        span: 1049..1052,\n        sym: \"s2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967347,
-      "node": "Call(\n    CallExpr {\n        span: 1045..1054,\n        callee: Id {\n            index: 48,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 49,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Ident(\n    Ident {\n        span: 1055..1059,\n        sym: \"fs2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967349,
-      "node": "Ident(\n    Ident {\n        span: 1063..1066,\n        sym: \"s2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Ident(\n    Ident {\n        span: 1071..1073,\n        sym: \"s_\",\n    },\n)"
-    },
-    {
-      "id": 4294967351,
-      "node": "Call(\n    CallExpr {\n        span: 1059..1075,\n        callee: Id {\n            index: 51,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 52,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 53,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967352,
-      "node": "Ident(\n    Ident {\n        span: 1076..1080,\n        sym: \"fs2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "Ident(\n    Ident {\n        span: 1084..1087,\n        sym: \"s2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967354,
-      "node": "Ident(\n    Ident {\n        span: 1092..1095,\n        sym: \"s2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967355,
-      "node": "Call(\n    CallExpr {\n        span: 1080..1097,\n        callee: Id {\n            index: 55,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 56,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 57,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967356,
-      "node": "Ident(\n    Ident {\n        span: 1098..1102,\n        sym: \"fs2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967357,
-      "node": "Ident(\n    Ident {\n        span: 1106..1108,\n        sym: \"s_\",\n    },\n)"
-    },
-    {
-      "id": 4294967358,
-      "node": "Ident(\n    Ident {\n        span: 1113..1116,\n        sym: \"s2_\",\n    },\n)"
-    },
-    {
-      "id": 4294967359,
-      "node": "Call(\n    CallExpr {\n        span: 1102..1118,\n        callee: Id {\n            index: 59,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 60,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 61,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967360,
-      "node": "Ident(\n    Ident {\n        span: 1119..1124,\n        sym: \"fs2n_\",\n    },\n)"
-    },
-    {
-      "id": 4294967361,
-      "node": "Ident(\n    Ident {\n        span: 1128..1132,\n        sym: \"s2n_\",\n    },\n)"
-    },
-    {
-      "id": 4294967362,
-      "node": "Call(\n    CallExpr {\n        span: 1124..1134,\n        callee: Id {\n            index: 63,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 64,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967363,
-      "node": "Ident(\n    Ident {\n        span: 1135..1140,\n        sym: \"fs2n_\",\n    },\n)"
-    },
-    {
-      "id": 4294967364,
-      "node": "Ident(\n    Ident {\n        span: 1144..1146,\n        sym: \"s2\",\n    },\n)"
-    },
-    {
-      "id": 4294967365,
-      "node": "Call(\n    CallExpr {\n        span: 1140..1148,\n        callee: Id {\n            index: 66,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 67,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967366,
-      "node": "Ident(\n    Ident {\n        span: 1198..1201,\n        sym: \"fs5\",\n    },\n)"
-    },
-    {
-      "id": 4294967367,
-      "node": "Ident(\n    Ident {\n        span: 1205..1207,\n        sym: \"s2\",\n    },\n)"
-    },
-    {
-      "id": 4294967368,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1209..1214,\n            value: \"foo\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967369,
-      "node": "Ident(\n    Ident {\n        span: 1219..1221,\n        sym: \"s2\",\n    },\n)"
-    },
-    {
-      "id": 4294967370,
-      "node": "Call(\n    CallExpr {\n        span: 1201..1223,\n        callee: Id {\n            index: 69,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 70,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 71,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: Id {\n                    index: 72,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 517..520,\n        sym: \"fs2\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 521..524,\n            value: \"a\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 529..531,\n        sym: \"s2\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 520..533,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 552..555,\n        sym: \"fs2\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 556..559,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 561..564,\n            value: \"b\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 566..569,\n            value: \"c\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 574..576,\n        sym: \"s2\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 555..578,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 605..608,\n        sym: \"fs2\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 609..612,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 614..617,\n            value: \"b\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 622..624,\n        sym: \"s2\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 626..629,\n            value: \"c\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 608..631,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 658..661,\n        sym: \"fs2\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 662..665,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 667..670,\n            value: \"b\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 672..675,\n            value: \"c\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 680..682,\n        sym: \"s2\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 684..687,\n            value: \"d\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 661..689,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 721..724,\n        sym: \"fs2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 728..730,\n        sym: \"s2\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 732..735,\n            value: \"a\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 724..737,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 754..757,\n        sym: \"fs2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 761..763,\n        sym: \"s3\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 757..765,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 784..788,\n        sym: \"fs2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 792..794,\n        sym: \"s_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 788..796,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 815..819,\n        sym: \"fs2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 823..827,\n        sym: \"s2n_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 819..829,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 850..854,\n        sym: \"fs2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 858..860,\n        sym: \"s_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 865..867,\n        sym: \"s_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 854..869,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 888..892,\n        sym: \"fs2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 896..898,\n        sym: \"s_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 903..905,\n        sym: \"s_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 910..912,\n        sym: \"s_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 892..914,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1000..1005,\n        sym: \"fs2n_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1009..1012,\n        sym: \"s2_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1005..1014,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1041..1045,\n        sym: \"fs2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1049..1052,\n        sym: \"s2_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1045..1054,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1055..1059,\n        sym: \"fs2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1063..1066,\n        sym: \"s2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1071..1073,\n        sym: \"s_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1059..1075,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1076..1080,\n        sym: \"fs2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1084..1087,\n        sym: \"s2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1092..1095,\n        sym: \"s2_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1080..1097,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1098..1102,\n        sym: \"fs2_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1106..1108,\n        sym: \"s_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1113..1116,\n        sym: \"s2_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1102..1118,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1119..1124,\n        sym: \"fs2n_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1128..1132,\n        sym: \"s2n_\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1124..1134,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1135..1140,\n        sym: \"fs2n_\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1144..1146,\n        sym: \"s2\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1140..1148,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1198..1201,\n        sym: \"fs5\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1205..1207,\n        sym: \"s2\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 1209..1214,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1219..1221,\n        sym: \"s2\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1201..1223,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

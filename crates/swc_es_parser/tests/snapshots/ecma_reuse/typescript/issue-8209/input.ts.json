@@ -1,62 +1,25 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..125,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..125,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 36..49,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 44..56,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 36..49,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 44..56,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 1..43,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..43,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 1..43,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..43,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 7..14,\n        sym: \"Context\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 15..43,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 7..14,\n        sym: \"Context\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 15..43,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 17..30,\n        sym: \"createContext\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 32..35,\n        sym: \"Key\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Binary(\n    BinaryExpr {\n        span: 30..43,\n        op: LShift,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 44..49,\n        sym: \"keyof\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 17..30,\n        sym: \"createContext\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 32..35,\n        sym: \"Key\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 30..43,\n        op: LShift,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 44..49,\n        sym: \"keyof\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

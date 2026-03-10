@@ -1,43 +1,24 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 17..44,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 17..44,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Class(\n    ClassDecl {\n        span: 17..44,\n        ident: Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Class(\n    ClassDecl {\n        span: 17..44,\n        ident: Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
   "module_decls": [],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 29..44,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 29..44,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 17..44,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 17..44,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Method(\n    ClassMethod {\n        span: 29..44,\n        decorators: [],\n        key: Str(\n            StrLit {\n                span: 33..36,\n                value: \"b\",\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Getter,\n    },\n)"
-    }
+    "Method(\n    ClassMethod {\n        span: 29..44,\n        decorators: [],\n        key: Str(\n            StrLit {\n                span: 33..36,\n                value: \"b\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

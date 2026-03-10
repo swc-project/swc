@@ -1,50 +1,22 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 17..89,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 17..89,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Empty(\n    EmptyStmt {\n        span: 61..88,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 69..89,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 61..88,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 69..89,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Fn(\n    FnDecl {\n        span: 17..68,\n        ident: Ident {\n            span: 26..33,\n            sym: \"declare\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    }
+    "Fn(\n    FnDecl {\n        span: 17..68,\n        ident: Ident {\n            span: 26..33,\n            sym: \"declare\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 34..35,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 45..47,\n        sym: \"ys\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Rest(\n    RestPat {\n        span: 42..48,\n        arg: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 34..35,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 45..47,\n        sym: \"ys\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 42..48,\n        arg: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Template(\n    TemplateExpr {\n        span: 69..88,\n        quasis: [\n            StrLit {\n                span: 69..88,\n                value: \"Hello ${0} world!\",\n            },\n        ],\n        exprs: [],\n    },\n)"
-    }
+    "Template(\n    TemplateExpr {\n        span: 69..88,\n        quasis: [\n            StrLit {\n                span: 69..88,\n                value: \"Hello ${0} world!\",\n            },\n        ],\n        exprs: [],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

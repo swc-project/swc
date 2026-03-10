@@ -1,63 +1,29 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 116..155,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 116..155,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 116..155,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 116..155,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 118..119,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 120..145,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 118..119,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 120..145,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 141..142,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Class(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 117..152,\n        params: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Paren(\n    ParenExpr {\n        span: 116..153,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Call(\n    CallExpr {\n        span: 152..155,\n        callee: Id {\n            index: 3,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 141..142,\n            value: 1.0,\n        },\n    ),\n)",
+    "Class(\n    _,\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 117..152,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 116..153,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 152..155,\n        callee: _,\n        args: [],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 122..145,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 122..145,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Prop(\n    ClassProp {\n        span: 130..144,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 137..138,\n                sym: \"x\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
-    }
+    "Prop(\n    ClassProp {\n        span: 130..144,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 137..138,\n                sym: \"x\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

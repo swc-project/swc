@@ -1,78 +1,29 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 25..97,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 25..97,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Block(\n    BlockStmt {\n        span: 60..97,\n        stmts: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "For(\n    ForStmt {\n        span: 41..97,\n        head: In(\n            ForInHead {\n                left: Decl(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 0,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 60..97,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 41..97,\n        head: In(\n            ForInHead {\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 25..44,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 25..39,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 46..56,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 46..56,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Var(\n    VarDecl {\n        span: 66..96,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 66..85,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 25..44,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 25..39,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 46..56,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 46..56,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 66..96,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 66..85,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 50..53,\n        sym: \"key\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 70..75,\n        sym: \"value\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Assign(\n    AssignPat {\n        span: 76..85,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..53,\n        sym: \"key\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 70..75,\n        sym: \"value\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 76..85,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 80..83,\n        sym: \"key\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Member(\n    MemberExpr {\n        span: 79..85,\n        obj: Id {\n            index: 1,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..83,\n        sym: \"key\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 79..85,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

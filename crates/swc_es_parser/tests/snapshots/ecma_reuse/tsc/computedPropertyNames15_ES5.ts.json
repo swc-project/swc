@@ -1,109 +1,42 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 17..151,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 17..151,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 17..45,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 17..41,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 42..72,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 42..68,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Var(\n    VarDecl {\n        span: 69..100,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 69..94,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Class(\n    ClassDecl {\n        span: 95..151,\n        ident: Ident {\n            span: 101..102,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 17..45,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 17..41,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 42..72,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 42..68,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 69..100,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 69..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 95..151,\n        ident: Ident {\n            span: 101..102,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 21..23,\n        sym: \"p1\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 46..48,\n        sym: \"p2\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 73..75,\n        sym: \"p3\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 21..23,\n        sym: \"p1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 46..48,\n        sym: \"p2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 73..75,\n        sym: \"p3\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 110..112,\n        sym: \"p1\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 125..127,\n        sym: \"p2\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 140..142,\n        sym: \"p3\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 110..112,\n        sym: \"p1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 125..127,\n        sym: \"p2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 140..142,\n        sym: \"p3\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 109..125,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "Function {\n    span: 124..140,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967299,
-      "node": "Function {\n    span: 139..151,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 109..125,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 124..140,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 139..151,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 95..151,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 101..102,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 95..151,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 101..102,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Method(\n    ClassMethod {\n        span: 109..125,\n        decorators: [],\n        key: Computed(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Method(\n    ClassMethod {\n        span: 124..140,\n        decorators: [],\n        key: Computed(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n        function: Id {\n            index: 1,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Method(\n    ClassMethod {\n        span: 139..151,\n        decorators: [],\n        key: Computed(\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ),\n        function: Id {\n            index: 2,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    }
+    "Method(\n    ClassMethod {\n        span: 109..125,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 124..140,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 139..151,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

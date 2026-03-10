@@ -1,66 +1,29 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 109..157,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 109..157,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 121..157,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 121..157,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 121..157,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 121..157,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 127..128,\n        sym: \"_\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 129..157,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 127..128,\n        sym: \"_\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 129..157,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 134..140,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Member(\n    MemberExpr {\n        span: 140..149,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 141..148,\n                sym: \"dispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Object(\n    ObjectExpr {\n        span: 131..157,\n        props: [\n            KeyValueProp {\n                span: 133..156,\n                key: Computed(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 134..140,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 140..149,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 141..148,\n                sym: \"dispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 131..157,\n        props: [\n            KeyValueProp {\n                span: 133..156,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 109..126,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
-    }
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 109..126,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
   ],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 133..156,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 133..156,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [],
   "class_members": [],

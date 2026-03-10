@@ -1,207 +1,68 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 29..360,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 29..360,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 79..100,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 124..169,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Expr(\n    ExprStmt {\n        span: 261..286,\n        expr: Id {\n            index: 23,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Expr(\n    ExprStmt {\n        span: 307..336,\n        expr: Id {\n            index: 31,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 79..100,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 124..169,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 261..286,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 307..336,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Class(\n    ClassDecl {\n        span: 29..60,\n        ident: Ident {\n            span: 35..38,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 55..80,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 55..77,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Class(\n    ClassDecl {\n        span: 29..60,\n        ident: Ident {\n            span: 35..38,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 55..80,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 55..77,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 61..64,\n        sym: \"foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 65..77,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 61..64,\n        sym: \"foo\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 65..77,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 71..74,\n        sym: \"Foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Call(\n    CallExpr {\n        span: 74..77,\n        callee: Id {\n            index: 1,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "New(\n    NewExpr {\n        span: 67..77,\n        callee: Id {\n            index: 2,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 80..83,\n        sym: \"foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Member(\n    MemberExpr {\n        span: 83..88,\n        obj: Id {\n            index: 4,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 84..85,\n                sym: \"m\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 86..93,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n        ty: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Paren(\n    ParenExpr {\n        span: 79..95,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Call(\n    CallExpr {\n        span: 93..98,\n        callee: Id {\n            index: 7,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 93..98,\n        base: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Ident(\n    Ident {\n        span: 131..134,\n        sym: \"foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Member(\n    MemberExpr {\n        span: 134..139,\n        obj: Id {\n            index: 11,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 135..136,\n                sym: \"m\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 137..150,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n        ty: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Paren(\n    ParenExpr {\n        span: 124..158,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Call(\n    CallExpr {\n        span: 156..161,\n        callee: Id {\n            index: 14,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 156..161,\n        base: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Ident(\n    Ident {\n        span: 262..265,\n        sym: \"foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Member(\n    MemberExpr {\n        span: 265..271,\n        obj: Id {\n            index: 18,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 267..268,\n                sym: \"m\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 265..271,\n        base: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 269..276,\n        expr: Id {\n            index: 20,\n            generation: 1,\n        },\n        ty: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Paren(\n    ParenExpr {\n        span: 261..277,\n        expr: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Member(\n    MemberExpr {\n        span: 276..284,\n        obj: Id {\n            index: 22,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 277..283,\n                sym: \"length\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Ident(\n    Ident {\n        span: 308..311,\n        sym: \"foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 314..317,\n            value: \"m\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Member(\n    MemberExpr {\n        span: 311..321,\n        obj: Id {\n            index: 25,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 26,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 311..321,\n        base: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 319..326,\n        expr: Id {\n            index: 28,\n            generation: 1,\n        },\n        ty: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Paren(\n    ParenExpr {\n        span: 307..327,\n        expr: Id {\n            index: 29,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Member(\n    MemberExpr {\n        span: 326..334,\n        obj: Id {\n            index: 30,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 327..333,\n                sym: \"length\",\n            },\n        ),\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 71..74,\n        sym: \"Foo\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 74..77,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 67..77,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..83,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 83..88,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 84..85,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 86..93,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 79..95,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 93..98,\n        callee: _,\n        args: [],\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 93..98,\n        base: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 131..134,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 134..139,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 135..136,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 137..150,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 124..158,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 156..161,\n        callee: _,\n        args: [],\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 156..161,\n        base: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 262..265,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 265..271,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 267..268,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 265..271,\n        base: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 269..276,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 261..277,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 276..284,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 277..283,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 308..311,\n        sym: \"foo\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 314..317,\n            value: \"m\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 311..321,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 311..321,\n        base: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 319..326,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 307..327,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 326..334,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 327..333,\n                sym: \"length\",\n            },\n        ),\n    },\n)"
   ],
   "module_decls": [],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 45..53,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 45..53,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 29..60,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 35..38,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 29..60,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 35..38,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Method(\n    ClassMethod {\n        span: 45..53,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 45..46,\n                sym: \"m\",\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    }
+    "Method(\n    ClassMethod {\n        span: 45..53,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 45..46,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Keyword(\n    Any,\n)"
-    }
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)"
   ]
 }

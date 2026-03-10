@@ -1,141 +1,44 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..165,\n    kind: Script,\n    body: [\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..165,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Return(\n    ReturnStmt {\n        span: 27..40,\n        arg: None,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "If(\n    IfStmt {\n        span: 20..40,\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n        cons: Id {\n            index: 0,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 39..49,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 48..54,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Return(\n    ReturnStmt {\n        span: 81..95,\n        arg: None,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "If(\n    IfStmt {\n        span: 74..95,\n        test: Id {\n            index: 5,\n            generation: 1,\n        },\n        cons: Id {\n            index: 6,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Return(\n    ReturnStmt {\n        span: 100..114,\n        arg: None,\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "If(\n    IfStmt {\n        span: 93..114,\n        test: Id {\n            index: 6,\n            generation: 1,\n        },\n        cons: Id {\n            index: 8,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Return(\n    ReturnStmt {\n        span: 119..133,\n        arg: None,\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "If(\n    IfStmt {\n        span: 112..133,\n        test: Id {\n            index: 7,\n            generation: 1,\n        },\n        cons: Id {\n            index: 10,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Return(\n    ReturnStmt {\n        span: 138..151,\n        arg: None,\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "If(\n    IfStmt {\n        span: 131..151,\n        test: Id {\n            index: 8,\n            generation: 1,\n        },\n        cons: Id {\n            index: 12,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Expr(\n    ExprStmt {\n        span: 150..160,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Expr(\n    ExprStmt {\n        span: 159..165,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    }
+    "Return(\n    ReturnStmt {\n        span: 27..40,\n        arg: None,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 20..40,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 39..49,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 48..54,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 81..95,\n        arg: None,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 74..95,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 100..114,\n        arg: None,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 93..114,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 119..133,\n        arg: None,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 112..133,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 138..151,\n        arg: None,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 131..151,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 150..160,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 159..165,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Fn(\n    FnDecl {\n        span: 1..63,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Fn(\n    FnDecl {\n        span: 55..165,\n        ident: Ident {\n            span: 64..65,\n            sym: \"e\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 7,\n                generation: 1,\n            },\n            Id {\n                index: 9,\n                generation: 1,\n            },\n            Id {\n                index: 11,\n                generation: 1,\n            },\n            Id {\n                index: 13,\n                generation: 1,\n            },\n            Id {\n                index: 14,\n                generation: 1,\n            },\n            Id {\n                index: 15,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Fn(\n    FnDecl {\n        span: 1..63,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 55..165,\n        ident: Ident {\n            span: 64..65,\n            sym: \"e\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 39..40,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Call(\n    CallExpr {\n        span: 40..43,\n        callee: Id {\n            index: 1,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"d\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Call(\n    CallExpr {\n        span: 49..52,\n        callee: Id {\n            index: 3,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Ident(\n    Ident {\n        span: 97..98,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 116..117,\n        sym: \"d\",\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"f\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Ident(\n    Ident {\n        span: 150..151,\n        sym: \"g\",\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Call(\n    CallExpr {\n        span: 151..154,\n        callee: Id {\n            index: 9,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Ident(\n    Ident {\n        span: 159..160,\n        sym: \"h\",\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Call(\n    CallExpr {\n        span: 160..163,\n        callee: Id {\n            index: 11,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 39..40,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 40..43,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"d\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 49..52,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..98,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 116..117,\n        sym: \"d\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 150..151,\n        sym: \"g\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 151..154,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 159..160,\n        sym: \"h\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 160..163,\n        callee: _,\n        args: [],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

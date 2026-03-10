@@ -1,120 +1,38 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 16..212,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 16..212,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 16..50,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 44..73,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 72..183,\n        expr: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 177..212,\n        expr: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 16..50,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 44..73,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 72..183,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 177..212,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 16..22,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Call(\n    CallExpr {\n        span: 22..35,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 36..42,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Binary(\n    BinaryExpr {\n        span: 25..43,\n        op: InstanceOf,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 44..50,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 62..68,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Call(\n    CallExpr {\n        span: 68..71,\n        callee: Id {\n            index: 5,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Binary(\n    BinaryExpr {\n        span: 51..71,\n        op: InstanceOf,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 73..79,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Call(\n    CallExpr {\n        span: 79..84,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Object(\n    ObjectExpr {\n        span: 85..88,\n        props: [],\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Binary(\n    BinaryExpr {\n        span: 82..88,\n        op: LogicalOr,\n        left: Id {\n            index: 9,\n            generation: 1,\n        },\n        right: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Paren(\n    ParenExpr {\n        span: 72..99,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Ident(\n    Ident {\n        span: 100..106,\n        sym: \"Object\",\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Binary(\n    BinaryExpr {\n        span: 89..107,\n        op: InstanceOf,\n        left: Id {\n            index: 12,\n            generation: 1,\n        },\n        right: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Ident(\n    Ident {\n        span: 177..183,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Ident(\n    Ident {\n        span: 196..202,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Call(\n    CallExpr {\n        span: 202..207,\n        callee: Id {\n            index: 16,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Object(\n    ObjectExpr {\n        span: 208..211,\n        props: [],\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Binary(\n    BinaryExpr {\n        span: 205..211,\n        op: LogicalOr,\n        left: Id {\n            index: 17,\n            generation: 1,\n        },\n        right: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Paren(\n    ParenExpr {\n        span: 195..212,\n        expr: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Binary(\n    BinaryExpr {\n        span: 184..212,\n        op: InstanceOf,\n        left: Id {\n            index: 15,\n            generation: 1,\n        },\n        right: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 16..22,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 22..35,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..42,\n        sym: \"Symbol\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 25..43,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 44..50,\n        sym: \"Symbol\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 62..68,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 68..71,\n        callee: _,\n        args: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 51..71,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 73..79,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 79..84,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 85..88,\n        props: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 82..88,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 72..99,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 100..106,\n        sym: \"Object\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 89..107,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 177..183,\n        sym: \"Symbol\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 196..202,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 202..207,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 208..211,\n        props: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 205..211,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 195..212,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 184..212,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

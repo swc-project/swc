@@ -1,42 +1,20 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 2..28,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 2..28,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 2..28,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2..28,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 2..28,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2..28,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 12..14,\n        sym: \"as\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Object(\n    ObjectPat {\n        span: 6..18,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 8..16,\n                    key: Ident(\n                        Ident {\n                            span: 8..10,\n                            sym: \"as\",\n                        },\n                    ),\n                    value: Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 12..14,\n        sym: \"as\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 6..18,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 8..16,\n                    key: Ident(\n                        Ident {\n                            span: 8..10,\n                            sym: \"as\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 25..26,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Object(\n    ObjectExpr {\n        span: 19..28,\n        props: [\n            KeyValueProp {\n                span: 21..28,\n                key: Ident(\n                    Ident {\n                        span: 21..23,\n                        sym: \"as\",\n                    },\n                ),\n                value: Id {\n                    index: 0,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 25..26,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 19..28,\n        props: [\n            KeyValueProp {\n                span: 21..28,\n                key: Ident(\n                    Ident {\n                        span: 21..23,\n                        sym: \"as\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

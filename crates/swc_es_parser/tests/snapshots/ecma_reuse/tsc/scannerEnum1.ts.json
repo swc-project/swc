@@ -1,39 +1,20 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 5..72,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 5..72,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsEnum(\n    TsEnumDecl {\n        span: 12..72,\n        ident: Ident {\n            span: 17..30,\n            sym: \"CodeGenTarget\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 41..49,\n                name: Ident(\n                    Ident {\n                        span: 41..44,\n                        sym: \"ES3\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 58..66,\n                name: Ident(\n                    Ident {\n                        span: 58..61,\n                        sym: \"ES5\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "TsEnum(\n    TsEnumDecl {\n        span: 12..72,\n        ident: Ident {\n            span: 17..30,\n            sym: \"CodeGenTarget\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 41..49,\n                name: Ident(\n                    Ident {\n                        span: 41..44,\n                        sym: \"ES3\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 58..66,\n                name: Ident(\n                    Ident {\n                        span: 58..61,\n                        sym: \"ES5\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 47..48,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 64..65,\n            value: 1.0,\n        },\n    ),\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 47..48,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 64..65,\n            value: 1.0,\n        },\n    ),\n)"
   ],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportDecl(\n    ExportDecl {\n        span: 5..72,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "ExportDecl(\n    ExportDecl {\n        span: 5..72,\n        decl: _,\n    },\n)"
   ],
   "functions": [],
   "classes": [],

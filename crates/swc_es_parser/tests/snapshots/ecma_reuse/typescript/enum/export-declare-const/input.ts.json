@@ -1,30 +1,17 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..32,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..32,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsEnum(\n    TsEnumDecl {\n        span: 16..32,\n        ident: Ident {\n            span: 27..28,\n            sym: \"E\",\n        },\n        declare: true,\n        is_const: true,\n        members: [],\n    },\n)"
-    }
+    "TsEnum(\n    TsEnumDecl {\n        span: 16..32,\n        ident: Ident {\n            span: 27..28,\n            sym: \"E\",\n        },\n        declare: true,\n        is_const: true,\n        members: [],\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportDecl(\n    ExportDecl {\n        span: 1..32,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "ExportDecl(\n    ExportDecl {\n        span: 1..32,\n        decl: _,\n    },\n)"
   ],
   "functions": [],
   "classes": [],

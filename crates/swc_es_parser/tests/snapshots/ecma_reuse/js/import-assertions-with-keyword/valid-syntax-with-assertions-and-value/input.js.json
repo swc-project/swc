@@ -1,25 +1,15 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..38,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..38,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "Import(\n    ImportDecl {\n        span: 1..38,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 8..11,\n            value: \"x\",\n        },\n        with: [\n            ImportAttribute {\n                span: 19..33,\n                key: Ident(\n                    Ident {\n                        span: 19..23,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 25..31,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Import(\n    ImportDecl {\n        span: 1..38,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 8..11,\n            value: \"x\",\n        },\n        with: [\n            ImportAttribute {\n                span: 19..33,\n                key: Ident(\n                    Ident {\n                        span: 19..23,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 25..31,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)"
   ],
   "functions": [],
   "classes": [],

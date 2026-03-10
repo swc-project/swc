@@ -1,50 +1,22 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 16..100,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 16..100,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 82..100,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 82..100,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 16..68,\n        ident: Ident {\n            span: 26..32,\n            sym: \"Symbol\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 39..63,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 39..52,\n                            sym: \"newSymbolProp\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 65..85,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 65..81,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 16..68,\n        ident: Ident {\n            span: 26..32,\n            sym: \"Symbol\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 39..63,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 39..52,\n                            sym: \"newSymbolProp\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 65..85,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 65..81,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 69..72,\n        sym: \"sym\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 69..72,\n        sym: \"sym\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 82..85,\n        sym: \"sym\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Member(\n    MemberExpr {\n        span: 85..100,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 86..99,\n                sym: \"newSymbolProp\",\n            },\n        ),\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 82..85,\n        sym: \"sym\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 85..100,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 86..99,\n                sym: \"newSymbolProp\",\n            },\n        ),\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
@@ -52,9 +24,6 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    Number,\n)"
-    }
+    "Keyword(\n    Number,\n)"
   ]
 }

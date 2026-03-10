@@ -1,138 +1,44 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 93..639,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 93..639,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Decl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Decl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 93..153,\n        ident: Ident {\n            span: 98..99,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 100..101,\n                sym: \"S\",\n            },\n        ],\n        ty: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 150..183,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 150..171,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 179..246,\n        ident: Ident {\n            span: 184..185,\n            sym: \"B\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 186..187,\n                sym: \"S\",\n            },\n        ],\n        ty: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Var(\n    VarDecl {\n        span: 243..276,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 243..264,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Var(\n    VarDecl {\n        span: 341..374,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 341..362,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Var(\n    VarDecl {\n        span: 445..478,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 445..466,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 474..538,\n        ident: Ident {\n            span: 479..480,\n            sym: \"E\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 481..482,\n                sym: \"S\",\n            },\n        ],\n        ty: Id {\n            index: 32,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 534..579,\n        ident: Ident {\n            span: 539..540,\n            sym: \"F\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 38,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 575..617,\n        ident: Ident {\n            span: 580..581,\n            sym: \"G\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 582..583,\n                sym: \"S\",\n            },\n        ],\n        ty: Id {\n            index: 44,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Var(\n    VarDecl {\n        span: 614..639,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 614..632,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 93..153,\n        ident: Ident {\n            span: 98..99,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 100..101,\n                sym: \"S\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 150..183,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 150..171,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 179..246,\n        ident: Ident {\n            span: 184..185,\n            sym: \"B\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 186..187,\n                sym: \"S\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 243..276,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 243..264,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 341..374,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 341..362,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 445..478,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 445..466,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 474..538,\n        ident: Ident {\n            span: 479..480,\n            sym: \"E\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 481..482,\n                sym: \"S\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 534..579,\n        ident: Ident {\n            span: 539..540,\n            sym: \"F\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 575..617,\n        ident: Ident {\n            span: 580..581,\n            sym: \"G\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 582..583,\n                sym: \"S\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 614..639,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 614..632,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 154..156,\n        sym: \"x1\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 247..249,\n        sym: \"x2\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 345..347,\n        sym: \"x3\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 449..451,\n        sym: \"x4\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 618..620,\n        sym: \"x5\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 154..156,\n        sym: \"x1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 247..249,\n        sym: \"x2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 345..347,\n        sym: \"x3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 449..451,\n        sym: \"x4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 618..620,\n        sym: \"x5\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 169..170,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 262..263,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 360..361,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 464..465,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 630..631,\n            value: 1.0,\n        },\n    ),\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 169..170,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 262..263,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 360..361,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 464..465,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 630..631,\n            value: 1.0,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],
@@ -140,133 +46,37 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 115..118,\n        name: Ident {\n            span: 115..118,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Intersection(\n    TsIntersectionType {\n        span: 115..126,\n        types: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 105..134,\n        name: Ident {\n            span: 105..115,\n            sym: \"Lowercase\",\n        },\n        type_args: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 135..140,\n            value: \"foo\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 143..144,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 147..148,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 105..149,\n        check_type: Id {\n            index: 3,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 4,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 5,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 201..204,\n        name: Ident {\n            span: 201..204,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Intersection(\n    TsIntersectionType {\n        span: 201..212,\n        types: [\n            Id {\n                index: 10,\n                generation: 1,\n            },\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 191..220,\n        name: Ident {\n            span: 191..201,\n            sym: \"Lowercase\",\n        },\n        type_args: [\n            Id {\n                index: 12,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 236..237,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 240..241,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 191..242,\n        check_type: Id {\n            index: 13,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 14,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 15,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Intersection(\n    TsIntersectionType {\n        span: 496..532,\n        types: [\n            Id {\n                index: 29,\n                generation: 1,\n            },\n            Id {\n                index: 30,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 486..533,\n        name: Ident {\n            span: 486..496,\n            sym: \"Lowercase\",\n        },\n        type_args: [\n            Id {\n                index: 31,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 545..547,\n            value: \"\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 543..556,\n        name: Ident {\n            span: 543..545,\n            sym: \"E\",\n        },\n        type_args: [\n            Id {\n                index: 33,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 557..560,\n            value: \"f\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 563..564,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 567..568,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 543..569,\n        check_type: Id {\n            index: 34,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 35,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 36,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 37,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 589..591,\n        name: Ident {\n            span: 589..591,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 587..599,\n        name: Ident {\n            span: 587..589,\n            sym: \"E\",\n        },\n        type_args: [\n            Id {\n                index: 39,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 600..603,\n            value: \"f\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967339,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 606..607,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 610..611,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 587..612,\n        check_type: Id {\n            index: 40,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 41,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 42,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 43,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "TypeRef(\n    TsTypeRef {\n        span: 115..118,\n        name: Ident {\n            span: 115..118,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 115..126,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 105..134,\n        name: Ident {\n            span: 105..115,\n            sym: \"Lowercase\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 135..140,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 143..144,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 147..148,\n            value: 0.0,\n        },\n    ),\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 105..149,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 201..204,\n        name: Ident {\n            span: 201..204,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 201..212,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 191..220,\n        name: Ident {\n            span: 191..201,\n            sym: \"Lowercase\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 236..237,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 240..241,\n            value: 0.0,\n        },\n    ),\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 191..242,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 496..532,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 486..533,\n        name: Ident {\n            span: 486..496,\n            sym: \"Lowercase\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 545..547,\n            value: \"\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 543..556,\n        name: Ident {\n            span: 543..545,\n            sym: \"E\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 557..560,\n            value: \"f\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 563..564,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 567..568,\n            value: 0.0,\n        },\n    ),\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 543..569,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 589..591,\n        name: Ident {\n            span: 589..591,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 587..599,\n        name: Ident {\n            span: 587..589,\n            sym: \"E\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 600..603,\n            value: \"f\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 606..607,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 610..611,\n            value: 0.0,\n        },\n    ),\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 587..612,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)"
   ]
 }

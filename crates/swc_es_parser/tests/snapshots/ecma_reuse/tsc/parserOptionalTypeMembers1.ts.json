@@ -1,22 +1,12 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..170,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..170,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 1..170,\n        ident: Ident {\n            span: 11..30,\n            sym: \"PropertyDescriptor2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 37..75,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 37..49,\n                            sym: \"configurable\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 65..96,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 65..75,\n                            sym: \"enumerable\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 91..116,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 91..96,\n                            sym: \"value\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 108..135,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 108..116,\n                            sym: \"writable\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 132..152,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 132..135,\n                            sym: \"get\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 149..170,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 149..152,\n                            sym: \"set\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 154..161,\n                        name: Some(\n                            Ident {\n                                span: 154..155,\n                                sym: \"v\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 5,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..170,\n        ident: Ident {\n            span: 11..30,\n            sym: \"PropertyDescriptor2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 37..75,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 37..49,\n                            sym: \"configurable\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 65..96,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 65..75,\n                            sym: \"enumerable\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 91..116,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 91..96,\n                            sym: \"value\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 108..135,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 108..116,\n                            sym: \"writable\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 132..152,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 132..135,\n                            sym: \"get\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 149..170,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 149..152,\n                            sym: \"set\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 154..161,\n                        name: Some(\n                            Ident {\n                                span: 154..155,\n                                sym: \"v\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
@@ -26,33 +16,12 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    Boolean,\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Keyword(\n    Boolean,\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Keyword(\n    Boolean,\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Keyword(\n    Void,\n)"
-    }
+    "Keyword(\n    Boolean,\n)",
+    "Keyword(\n    Boolean,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Boolean,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Void,\n)"
   ]
 }

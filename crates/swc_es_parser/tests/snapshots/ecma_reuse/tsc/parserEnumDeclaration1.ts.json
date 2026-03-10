@@ -1,29 +1,16 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..28,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..28,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsEnum(\n    TsEnumDecl {\n        span: 1..28,\n        ident: Ident {\n            span: 6..7,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 12..20,\n                name: Ident(\n                    Ident {\n                        span: 12..15,\n                        sym: \"Foo\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 23..28,\n                name: Ident(\n                    Ident {\n                        span: 23..26,\n                        sym: \"Bar\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "TsEnum(\n    TsEnumDecl {\n        span: 1..28,\n        ident: Ident {\n            span: 6..7,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 12..20,\n                name: Ident(\n                    Ident {\n                        span: 12..15,\n                        sym: \"Foo\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 23..28,\n                name: Ident(\n                    Ident {\n                        span: 23..26,\n                        sym: \"Bar\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 18..19,\n            value: 1.0,\n        },\n    ),\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 18..19,\n            value: 1.0,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

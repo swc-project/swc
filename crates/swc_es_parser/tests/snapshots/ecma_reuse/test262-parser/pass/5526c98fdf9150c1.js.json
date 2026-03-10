@@ -1,88 +1,33 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..145,\n    kind: Script,\n    body: [\n        Id {\n            index: 8,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..145,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Throw(\n    ThrowStmt {\n        span: 33..49,\n        arg: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Block(\n    BlockStmt {\n        span: 23..55,\n        stmts: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Block(\n    BlockStmt {\n        span: 60..75,\n        stmts: [],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Return(\n    ReturnStmt {\n        span: 86..101,\n        arg: Some(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Block(\n    BlockStmt {\n        span: 76..107,\n        stmts: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Try(\n    TryStmt {\n        span: 19..107,\n        block: Id {\n            index: 1,\n            generation: 1,\n        },\n        handler: Some(\n            CatchClause {\n                span: 50..75,\n                param: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                body: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ),\n        finalizer: Some(\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Expr(\n    ExprStmt {\n        span: 106..140,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..145,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Throw(\n    ThrowStmt {\n        span: 33..49,\n        arg: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 23..55,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 60..75,\n        stmts: [],\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 86..101,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 76..107,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 19..107,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 50..75,\n                param: Some(\n                    _,\n                ),\n                body: _,\n            },\n        ),\n        finalizer: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 106..140,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1..145,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"b\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"b\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 39..42,\n            value: \"a\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 93..94,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 106..107,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Call(\n    CallExpr {\n        span: 107..110,\n        callee: Id {\n            index: 2,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Call(\n    CallExpr {\n        span: 140..143,\n        callee: Id {\n            index: 4,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Paren(\n    ParenExpr {\n        span: 1..144,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Lit(\n    Str(\n        StrLit {\n            span: 39..42,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 93..94,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 106..107,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 107..110,\n        callee: _,\n        args: [],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 140..143,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..144,\n        expr: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 2..141,\n    params: [],\n    body: [\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 2..141,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [],
   "class_members": [],

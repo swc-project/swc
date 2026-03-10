@@ -1,73 +1,27 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..271,\n    kind: Script,\n    body: [\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..271,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 97..145,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 136..180,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..271,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 97..145,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 136..180,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1..271,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 45..53,\n        sym: \"duration\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 55..64,\n        sym: \"subtitles\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 66..70,\n        sym: \"type\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 72..82,\n        sym: \"attributes\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 45..53,\n        sym: \"duration\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 55..64,\n        sym: \"subtitles\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 66..70,\n        sym: \"type\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 72..82,\n        sym: \"attributes\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 1..7,\n        sym: \"avplay\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Member(\n    MemberExpr {\n        span: 7..20,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 8..19,\n                sym: \"setListener\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 97..105,\n        sym: \"duration\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 136..145,\n        sym: \"subtitles\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 44..270,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n        body: Block(\n            [\n                Id {\n                    index: 0,\n                    generation: 1,\n                },\n                Id {\n                    index: 1,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: false,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Object(\n    ObjectExpr {\n        span: 20..271,\n        props: [\n            KeyValueProp {\n                span: 26..270,\n                key: Ident(\n                    Ident {\n                        span: 26..42,\n                        sym: \"onsubtitlechange\",\n                    },\n                ),\n                value: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Call(\n    CallExpr {\n        span: 19..271,\n        callee: Id {\n            index: 1,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 5,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 1..7,\n        sym: \"avplay\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 7..20,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 8..19,\n                sym: \"setListener\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..105,\n        sym: \"duration\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 136..145,\n        sym: \"subtitles\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 44..270,\n        params: [\n            _,\n            _,\n            _,\n            _,\n        ],\n        body: Block(\n            [\n                _,\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 20..271,\n        props: [\n            KeyValueProp {\n                span: 26..270,\n                key: Ident(\n                    Ident {\n                        span: 26..42,\n                        sym: \"onsubtitlechange\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 19..271,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

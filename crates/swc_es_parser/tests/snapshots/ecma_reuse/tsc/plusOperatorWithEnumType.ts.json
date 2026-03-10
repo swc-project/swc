@@ -1,234 +1,68 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 29..322,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 29..322,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Empty(\n    EmptyStmt {\n        span: 42..43,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Empty(\n    EmptyStmt {\n        span: 67..68,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 284..292,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Expr(\n    ExprStmt {\n        span: 291..300,\n        expr: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Expr(\n    ExprStmt {\n        span: 299..310,\n        expr: Id {\n            index: 23,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 309..322,\n        expr: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 42..43,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 67..68,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 284..292,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 291..300,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 299..310,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 309..322,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsEnum(\n    TsEnumDecl {\n        span: 29..43,\n        ident: Ident {\n            span: 34..38,\n            sym: \"ENUM\",\n        },\n        declare: false,\n        is_const: false,\n        members: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TsEnum(\n    TsEnumDecl {\n        span: 44..68,\n        ident: Ident {\n            span: 49..54,\n            sym: \"ENUM1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 57..59,\n                name: Ident(\n                    Ident {\n                        span: 57..58,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 60..62,\n                name: Ident(\n                    Ident {\n                        span: 60..61,\n                        sym: \"B\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 63..67,\n                name: Str(\n                    StrLit {\n                        span: 63..65,\n                        value: \"\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Var(\n    VarDecl {\n        span: 87..119,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 87..115,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Var(\n    VarDecl {\n        span: 116..175,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 116..145,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Var(\n    VarDecl {\n        span: 172..210,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 172..206,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Var(\n    VarDecl {\n        span: 207..285,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 207..253,\n                name: Id {\n                    index: 7,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "TsEnum(\n    TsEnumDecl {\n        span: 29..43,\n        ident: Ident {\n            span: 34..38,\n            sym: \"ENUM\",\n        },\n        declare: false,\n        is_const: false,\n        members: [],\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 44..68,\n        ident: Ident {\n            span: 49..54,\n            sym: \"ENUM1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 57..59,\n                name: Ident(\n                    Ident {\n                        span: 57..58,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 60..62,\n                name: Ident(\n                    Ident {\n                        span: 60..61,\n                        sym: \"B\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 63..67,\n                name: Str(\n                    StrLit {\n                        span: 63..65,\n                        value: \"\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 87..119,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 87..115,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 116..175,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 116..145,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 172..210,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 172..206,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 207..285,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 207..253,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 91..106,\n        sym: \"ResultIsNumber1\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 107..115,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 120..135,\n        sym: \"ResultIsNumber2\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Assign(\n    AssignPat {\n        span: 136..145,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 176..191,\n        sym: \"ResultIsNumber3\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Assign(\n    AssignPat {\n        span: 192..206,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        right: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Ident(\n    Ident {\n        span: 211..226,\n        sym: \"ResultIsNumber4\",\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Assign(\n    AssignPat {\n        span: 227..253,\n        left: Id {\n            index: 6,\n            generation: 1,\n        },\n        right: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 91..106,\n        sym: \"ResultIsNumber1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 107..115,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 120..135,\n        sym: \"ResultIsNumber2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 136..145,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 176..191,\n        sym: \"ResultIsNumber3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 192..206,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 211..226,\n        sym: \"ResultIsNumber4\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 227..253,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 110..114,\n        sym: \"ENUM\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Unary(\n    UnaryExpr {\n        span: 109..115,\n        op: Plus,\n        arg: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 139..144,\n        sym: \"ENUM1\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Unary(\n    UnaryExpr {\n        span: 138..145,\n        op: Plus,\n        arg: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 195..200,\n        sym: \"ENUM1\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 201..204,\n            value: \"A\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Member(\n    MemberExpr {\n        span: 200..206,\n        obj: Id {\n            index: 4,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Unary(\n    UnaryExpr {\n        span: 194..206,\n        op: Plus,\n        arg: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 231..235,\n        sym: \"ENUM\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 236..237,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Member(\n    MemberExpr {\n        span: 235..240,\n        obj: Id {\n            index: 8,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 9,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Ident(\n    Ident {\n        span: 241..246,\n        sym: \"ENUM1\",\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 247..250,\n            value: \"B\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Member(\n    MemberExpr {\n        span: 246..252,\n        obj: Id {\n            index: 11,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 12,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Binary(\n    BinaryExpr {\n        span: 239..252,\n        op: Add,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        right: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Paren(\n    ParenExpr {\n        span: 230..253,\n        expr: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Unary(\n    UnaryExpr {\n        span: 229..253,\n        op: Plus,\n        arg: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Ident(\n    Ident {\n        span: 285..289,\n        sym: \"ENUM\",\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Unary(\n    UnaryExpr {\n        span: 284..290,\n        op: Plus,\n        arg: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Ident(\n    Ident {\n        span: 292..297,\n        sym: \"ENUM1\",\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Unary(\n    UnaryExpr {\n        span: 291..298,\n        op: Plus,\n        arg: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Ident(\n    Ident {\n        span: 300..305,\n        sym: \"ENUM1\",\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Member(\n    MemberExpr {\n        span: 305..308,\n        obj: Id {\n            index: 21,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 306..307,\n                sym: \"B\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Unary(\n    UnaryExpr {\n        span: 299..308,\n        op: Plus,\n        arg: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Ident(\n    Ident {\n        span: 310..314,\n        sym: \"ENUM\",\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Unary(\n    UnaryExpr {\n        span: 309..315,\n        op: Plus,\n        arg: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Ident(\n    Ident {\n        span: 316..321,\n        sym: \"ENUM1\",\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Seq(\n    SeqExpr {\n        span: 309..322,\n        exprs: [\n            Id {\n                index: 25,\n                generation: 1,\n            },\n            Id {\n                index: 26,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 110..114,\n        sym: \"ENUM\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 109..115,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 139..144,\n        sym: \"ENUM1\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 138..145,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 195..200,\n        sym: \"ENUM1\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 201..204,\n            value: \"A\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 200..206,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 194..206,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 231..235,\n        sym: \"ENUM\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 236..237,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 235..240,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 241..246,\n        sym: \"ENUM1\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 247..250,\n            value: \"B\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 246..252,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 239..252,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 230..253,\n        expr: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 229..253,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 285..289,\n        sym: \"ENUM\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 284..290,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 292..297,\n        sym: \"ENUM1\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 291..298,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 300..305,\n        sym: \"ENUM1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 305..308,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 306..307,\n                sym: \"B\",\n            },\n        ),\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 299..308,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 310..314,\n        sym: \"ENUM\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 309..315,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 316..321,\n        sym: \"ENUM1\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 309..322,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

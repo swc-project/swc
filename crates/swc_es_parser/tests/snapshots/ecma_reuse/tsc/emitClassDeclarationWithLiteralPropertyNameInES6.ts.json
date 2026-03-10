@@ -1,132 +1,47 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 17..287,\n    kind: Script,\n    body: [\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 17..287,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Class(\n    ClassDecl {\n        span: 17..287,\n        ident: Ident {\n            span: 23..24,\n            sym: \"B\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Class(\n    ClassDecl {\n        span: 17..287,\n        ident: Ident {\n            span: 23..24,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 41..43,\n            value: 10.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 57..64,\n            value: \"world\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 80..87,\n            value: \"WORLD\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 98..106,\n            value: \"twenty\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 191..196,\n            value: 10000.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 214..226,\n            value: \"twenty-two\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 247..255,\n            value: \"binary\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 277..284,\n            value: \"octal\",\n        },\n    ),\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 41..43,\n            value: 10.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 57..64,\n            value: \"world\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 80..87,\n            value: \"WORLD\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 98..106,\n            value: \"twenty\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 191..196,\n            value: 10000.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 214..226,\n            value: \"twenty-two\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 247..255,\n            value: \"binary\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 277..284,\n            value: \"octal\",\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 112..134,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "Function {\n    span: 128..146,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967299,
-      "node": "Function {\n    span: 144..166,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967300,
-      "node": "Function {\n    span: 157..183,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 112..134,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 128..146,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 144..166,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 157..183,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 17..287,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..24,\n            sym: \"B\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 17..287,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..24,\n            sym: \"B\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Prop(\n    ClassProp {\n        span: 31..54,\n        decorators: [],\n        key: Str(\n            StrLit {\n                span: 31..38,\n                value: \"hello\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Prop(\n    ClassProp {\n        span: 49..77,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 49..54,\n                value: 6.0,\n            },\n        ),\n        value: Some(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Prop(\n    ClassProp {\n        span: 70..95,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 70..77,\n                value: 10076.0,\n            },\n        ),\n        value: Some(\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Prop(\n    ClassProp {\n        span: 93..117,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 93..95,\n                value: 20.0,\n            },\n        ),\n        value: Some(\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Method(\n    ClassMethod {\n        span: 112..134,\n        decorators: [],\n        key: Str(\n            StrLit {\n                span: 112..117,\n                value: \"foo\",\n            },\n        ),\n        function: Id {\n            index: 0,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Method(\n    ClassMethod {\n        span: 128..146,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 128..134,\n                value: 14.0,\n            },\n        ),\n        function: Id {\n            index: 1,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Method(\n    ClassMethod {\n        span: 144..166,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 144..146,\n                value: 11.0,\n            },\n        ),\n        function: Id {\n            index: 2,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Method(\n    ClassMethod {\n        span: 157..183,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 157..166,\n                sym: \"interface\",\n            },\n        ),\n        function: Id {\n            index: 3,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Prop(\n    ClassProp {\n        span: 177..208,\n        decorators: [],\n        key: Str(\n            StrLit {\n                span: 184..188,\n                value: \"hi\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Prop(\n    ClassProp {\n        span: 202..238,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 209..211,\n                value: 22.0,\n            },\n        ),\n        value: Some(\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Prop(\n    ClassProp {\n        span: 232..267,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 239..244,\n                value: 5.0,\n            },\n        ),\n        value: Some(\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Prop(\n    ClassProp {\n        span: 261..287,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 268..274,\n                value: 1693.0,\n            },\n        ),\n        value: Some(\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
-    }
+    "Prop(\n    ClassProp {\n        span: 31..54,\n        decorators: [],\n        key: Str(\n            StrLit {\n                span: 31..38,\n                value: \"hello\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 49..77,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 49..54,\n                value: 6.0,\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 70..95,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 70..77,\n                value: 10076.0,\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 93..117,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 93..95,\n                value: 20.0,\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 112..134,\n        decorators: [],\n        key: Str(\n            StrLit {\n                span: 112..117,\n                value: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 128..146,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 128..134,\n                value: 14.0,\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 144..166,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 144..146,\n                value: 11.0,\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 157..183,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 157..166,\n                sym: \"interface\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 177..208,\n        decorators: [],\n        key: Str(\n            StrLit {\n                span: 184..188,\n                value: \"hi\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 202..238,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 209..211,\n                value: 22.0,\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 232..267,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 239..244,\n                value: 5.0,\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 261..287,\n        decorators: [],\n        key: Num(\n            NumberLit {\n                span: 268..274,\n                value: 1693.0,\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

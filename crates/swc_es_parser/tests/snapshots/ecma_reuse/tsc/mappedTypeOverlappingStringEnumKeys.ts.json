@@ -1,170 +1,52 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 12..613,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 12..613,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Empty(\n    EmptyStmt {\n        span: 72..73,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Empty(\n    EmptyStmt {\n        span: 115..116,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 439..445,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Expr(\n    ExprStmt {\n        span: 444..453,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 72..73,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 115..116,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 439..445,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 444..453,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsEnum(\n    TsEnumDecl {\n        span: 12..73,\n        ident: Ident {\n            span: 17..39,\n            sym: \"TerrestrialAnimalTypes\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 44..56,\n                name: Ident(\n                    Ident {\n                        span: 44..47,\n                        sym: \"CAT\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 59..72,\n                name: Ident(\n                    Ident {\n                        span: 59..62,\n                        sym: \"DOG\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TsEnum(\n    TsEnumDecl {\n        span: 75..116,\n        ident: Ident {\n            span: 80..96,\n            sym: \"AlienAnimalTypes\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 101..113,\n                name: Ident(\n                    Ident {\n                        span: 101..104,\n                        sym: \"CAT\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 118..190,\n        ident: Ident {\n            span: 123..134,\n            sym: \"AnimalTypes\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 181..275,\n        ident: Ident {\n            span: 191..205,\n            sym: \"TerrestrialCat\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 210..253,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 210..214,\n                            sym: \"type\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 246..264,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 246..253,\n                            sym: \"address\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 266..341,\n        ident: Ident {\n            span: 276..284,\n            sym: \"AlienCat\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 289..324,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 289..293,\n                            sym: \"type\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 318..335,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 318..324,\n                            sym: \"planet\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 337..381,\n        ident: Ident {\n            span: 342..346,\n            sym: \"Cats\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Var(\n    VarDecl {\n        span: 448..613,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 448..612,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 18,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "TsEnum(\n    TsEnumDecl {\n        span: 12..73,\n        ident: Ident {\n            span: 17..39,\n            sym: \"TerrestrialAnimalTypes\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 44..56,\n                name: Ident(\n                    Ident {\n                        span: 44..47,\n                        sym: \"CAT\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 59..72,\n                name: Ident(\n                    Ident {\n                        span: 59..62,\n                        sym: \"DOG\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 75..116,\n        ident: Ident {\n            span: 80..96,\n            sym: \"AlienAnimalTypes\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 101..113,\n                name: Ident(\n                    Ident {\n                        span: 101..104,\n                        sym: \"CAT\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 118..190,\n        ident: Ident {\n            span: 123..134,\n            sym: \"AnimalTypes\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 181..275,\n        ident: Ident {\n            span: 191..205,\n            sym: \"TerrestrialCat\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 210..253,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 210..214,\n                            sym: \"type\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 246..264,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 246..253,\n                            sym: \"address\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 266..341,\n        ident: Ident {\n            span: 276..284,\n            sym: \"AlienCat\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 289..324,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 289..293,\n                            sym: \"type\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 318..335,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 318..324,\n                            sym: \"planet\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 337..381,\n        ident: Ident {\n            span: 342..346,\n            sym: \"Cats\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 448..613,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 448..612,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 454..460,\n        sym: \"catMap\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 454..460,\n        sym: \"catMap\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 50..55,\n            value: \"cat\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 65..70,\n            value: \"dog\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 107..112,\n            value: \"cat\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Array(\n    ArrayExpr {\n        span: 441..445,\n        elems: [],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Binary(\n    BinaryExpr {\n        span: 440..445,\n        op: Gt,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        right: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 494..516,\n        sym: \"TerrestrialAnimalTypes\",\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Member(\n    MemberExpr {\n        span: 516..521,\n        obj: Id {\n            index: 7,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 517..520,\n                sym: \"CAT\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 531..533,\n            value: \"\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Object(\n    ObjectExpr {\n        span: 486..536,\n        props: [\n            KeyValueProp {\n                span: 488..521,\n                key: Ident(\n                    Ident {\n                        span: 488..492,\n                        sym: \"type\",\n                    },\n                ),\n                value: Id {\n                    index: 8,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 522..535,\n                key: Ident(\n                    Ident {\n                        span: 522..529,\n                        sym: \"address\",\n                    },\n                ),\n                value: Id {\n                    index: 9,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Ident(\n    Ident {\n        span: 549..565,\n        sym: \"AlienAnimalTypes\",\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Member(\n    MemberExpr {\n        span: 565..570,\n        obj: Id {\n            index: 11,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 566..569,\n                sym: \"CAT\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 579..581,\n            value: \"\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Object(\n    ObjectExpr {\n        span: 541..587,\n        props: [\n            KeyValueProp {\n                span: 543..570,\n                key: Ident(\n                    Ident {\n                        span: 543..547,\n                        sym: \"type\",\n                    },\n                ),\n                value: Id {\n                    index: 12,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 571..583,\n                key: Ident(\n                    Ident {\n                        span: 571..577,\n                        sym: \"planet\",\n                    },\n                ),\n                value: Id {\n                    index: 13,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Array(\n    ArrayExpr {\n        span: 480..588,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 14,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Array(\n    ArrayExpr {\n        span: 596..601,\n        elems: [],\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 599..611,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n        ty: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Object(\n    ObjectExpr {\n        span: 471..612,\n        props: [\n            KeyValueProp {\n                span: 475..588,\n                key: Ident(\n                    Ident {\n                        span: 475..478,\n                        sym: \"cat\",\n                    },\n                ),\n                value: Id {\n                    index: 15,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 591..611,\n                key: Ident(\n                    Ident {\n                        span: 591..594,\n                        sym: \"dog\",\n                    },\n                ),\n                value: Id {\n                    index: 17,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Lit(\n    Str(\n        StrLit {\n            span: 50..55,\n            value: \"cat\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 65..70,\n            value: \"dog\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 107..112,\n            value: \"cat\",\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 441..445,\n        elems: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 440..445,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 494..516,\n        sym: \"TerrestrialAnimalTypes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 516..521,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 517..520,\n                sym: \"CAT\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 531..533,\n            value: \"\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 486..536,\n        props: [\n            KeyValueProp {\n                span: 488..521,\n                key: Ident(\n                    Ident {\n                        span: 488..492,\n                        sym: \"type\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 522..535,\n                key: Ident(\n                    Ident {\n                        span: 522..529,\n                        sym: \"address\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 549..565,\n        sym: \"AlienAnimalTypes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 565..570,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 566..569,\n                sym: \"CAT\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 579..581,\n            value: \"\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 541..587,\n        props: [\n            KeyValueProp {\n                span: 543..570,\n                key: Ident(\n                    Ident {\n                        span: 543..547,\n                        sym: \"type\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 571..583,\n                key: Ident(\n                    Ident {\n                        span: 571..577,\n                        sym: \"planet\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 480..588,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 596..601,\n        elems: [],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 599..611,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 471..612,\n        props: [\n            KeyValueProp {\n                span: 475..588,\n                key: Ident(\n                    Ident {\n                        span: 475..478,\n                        sym: \"cat\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 591..611,\n                key: Ident(\n                    Ident {\n                        span: 591..594,\n                        sym: \"dog\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
@@ -172,53 +54,17 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 137..161,\n        name: Ident {\n            span: 137..161,\n            sym: \"TerrestrialAnimalTypes\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 162..179,\n        name: Ident {\n            span: 162..179,\n            sym: \"AlienAnimalTypes\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Union(\n    TsUnionType {\n        span: 137..179,\n        types: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 216..243,\n        name: Ident {\n            span: 216..243,\n            sym: \"TerrestrialAnimalTypes.CAT\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 295..324,\n        name: Ident {\n            span: 295..324,\n            sym: \"AlienAnimalTypes.CAT\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 349..365,\n        name: Ident {\n            span: 349..365,\n            sym: \"TerrestrialCat\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 366..375,\n        name: Ident {\n            span: 366..375,\n            sym: \"AlienCat\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Union(\n    TsUnionType {\n        span: 349..375,\n        types: [\n            Id {\n                index: 7,\n                generation: 1,\n            },\n            Id {\n                index: 8,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Keyword(\n    Never,\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Array(\n    TsArrayType {\n        span: 602..611,\n        elem_type: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "TypeRef(\n    TsTypeRef {\n        span: 137..161,\n        name: Ident {\n            span: 137..161,\n            sym: \"TerrestrialAnimalTypes\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 162..179,\n        name: Ident {\n            span: 162..179,\n            sym: \"AlienAnimalTypes\",\n        },\n        type_args: [],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 137..179,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 216..243,\n        name: Ident {\n            span: 216..243,\n            sym: \"TerrestrialAnimalTypes.CAT\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 295..324,\n        name: Ident {\n            span: 295..324,\n            sym: \"AlienAnimalTypes.CAT\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 349..365,\n        name: Ident {\n            span: 349..365,\n            sym: \"TerrestrialCat\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 366..375,\n        name: Ident {\n            span: 366..375,\n            sym: \"AlienCat\",\n        },\n        type_args: [],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 349..375,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Array(\n    TsArrayType {\n        span: 602..611,\n        elem_type: _,\n    },\n)"
   ]
 }

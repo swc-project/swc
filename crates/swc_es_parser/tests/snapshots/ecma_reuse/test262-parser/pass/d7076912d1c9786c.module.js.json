@@ -1,30 +1,17 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..20,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..20,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Array(\n    ArrayExpr {\n        span: 16..19,\n        elems: [],\n    },\n)"
-    }
+    "Array(\n    ArrayExpr {\n        span: 16..19,\n        elems: [],\n    },\n)"
   ],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 1..20,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 1..20,\n        expr: _,\n    },\n)"
   ],
   "functions": [],
   "classes": [],

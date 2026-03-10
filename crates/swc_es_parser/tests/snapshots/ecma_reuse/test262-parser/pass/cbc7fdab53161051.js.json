@@ -1,32 +1,16 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..27,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..27,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Debugger(\n    DebuggerStmt {\n        span: 1..9,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Debugger(\n    DebuggerStmt {\n        span: 18..26,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "If(\n    IfStmt {\n        span: 11..27,\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n        cons: Id {\n            index: 1,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    }
+    "Debugger(\n    DebuggerStmt {\n        span: 1..9,\n    },\n)",
+    "Debugger(\n    DebuggerStmt {\n        span: 18..26,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 11..27,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 15..16,\n        sym: \"a\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 15..16,\n        sym: \"a\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

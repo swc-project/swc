@@ -1,86 +1,34 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 69..202,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 69..202,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 124..138,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 124..138,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Class(\n    ClassDecl {\n        span: 77..96,\n        ident: Ident {\n            span: 83..84,\n            sym: \"C\",\n        },\n        declare: true,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 97..129,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 97..122,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Class(\n    ClassDecl {\n        span: 167..202,\n        ident: Ident {\n            span: 173..174,\n            sym: \"D\",\n        },\n        declare: false,\n        class: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Fn(\n    FnDecl {\n        span: 130..202,\n        ident: Ident {\n            span: 139..143,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Class(\n    ClassDecl {\n        span: 77..96,\n        ident: Ident {\n            span: 83..84,\n            sym: \"C\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 97..129,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 97..122,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 167..202,\n        ident: Ident {\n            span: 173..174,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 130..202,\n        ident: Ident {\n            span: 139..143,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 101..102,\n        sym: \"p\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 101..102,\n        sym: \"p\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 124..129,\n        sym: \"async\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 190..191,\n        sym: \"p\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Await(\n    AwaitExpr {\n        span: 184..192,\n        arg: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Paren(\n    ParenExpr {\n        span: 183..194,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 124..129,\n        sym: \"async\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 190..191,\n        sym: \"p\",\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 184..192,\n        arg: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 183..194,\n        expr: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 77..96,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 83..84,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "Class {\n    span: 167..202,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 173..174,\n            sym: \"D\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ),\n    body: [],\n}"
-    }
+    "Class {\n    span: 77..96,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 83..84,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 167..202,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 173..174,\n            sym: \"D\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
   ],
   "class_members": [],
   "jsx_elements": [],

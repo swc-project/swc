@@ -1,86 +1,31 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..61,\n    kind: Script,\n    body: [\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..61,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 50..58,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 57..61,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Block(\n    BlockStmt {\n        span: 44..61,\n        stmts: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "For(\n    ForStmt {\n        span: 1..61,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 6,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 50..58,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 57..61,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 44..61,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..61,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 6..35,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 6..35,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 6..35,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 6..35,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 18..25,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Object(\n    ObjectPat {\n        span: 12..35,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 13..25,\n                    key: Ident(\n                        Ident {\n                            span: 13..14,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 26..32,\n                    key: Ident {\n                        span: 26..27,\n                        sym: \"b\",\n                    },\n                    value: Some(\n                        Id {\n                            index: 3,\n                            generation: 1,\n                        },\n                    ),\n                },\n            ),\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 18..25,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 12..35,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 13..25,\n                    key: Ident(\n                        Ident {\n                            span: 13..14,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 26..32,\n                    key: Ident {\n                        span: 26..27,\n                        sym: \"b\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 20..21,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 23..24,\n        sym: \"y\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Seq(\n    SeqExpr {\n        span: 20..25,\n        exprs: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 30..31,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 37..38,\n            value: 2.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 40..41,\n            value: 3.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Array(\n    ArrayExpr {\n        span: 36..43,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"b\",\n    },\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 20..21,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 23..24,\n        sym: \"y\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 20..25,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 30..31,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 37..38,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 40..41,\n            value: 3.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 36..43,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"b\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

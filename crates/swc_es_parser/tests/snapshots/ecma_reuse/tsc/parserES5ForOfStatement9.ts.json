@@ -1,38 +1,19 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 16..36,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 16..36,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Block(\n    BlockStmt {\n        span: 33..36,\n        stmts: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "For(\n    ForStmt {\n        span: 16..36,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 0,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Block(\n    BlockStmt {\n        span: 33..36,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 16..36,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 21..29,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 21..29,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 21..29,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 21..29,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"v\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"v\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 30..31,\n        sym: \"X\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 30..31,\n        sym: \"X\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

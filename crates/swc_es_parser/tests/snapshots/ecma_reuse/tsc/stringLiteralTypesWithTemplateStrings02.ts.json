@@ -1,50 +1,22 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 24..94,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 24..94,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 24..56,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..52,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 53..94,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 53..94,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 24..56,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..52,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 53..94,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 53..94,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 28..31,\n        sym: \"abc\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 57..69,\n        sym: \"de_NEWLINE_f\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 28..31,\n        sym: \"abc\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 57..69,\n        sym: \"de_NEWLINE_f\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Template(\n    TemplateExpr {\n        span: 45..51,\n        quasis: [\n            StrLit {\n                span: 45..51,\n                value: \"AB\\nC\",\n            },\n        ],\n        exprs: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Template(\n    TemplateExpr {\n        span: 81..93,\n        quasis: [\n            StrLit {\n                span: 81..93,\n                value: \"DE${\\\"\\n\\\"}F\",\n            },\n        ],\n        exprs: [],\n    },\n)"
-    }
+    "Template(\n    TemplateExpr {\n        span: 45..51,\n        quasis: [\n            StrLit {\n                span: 45..51,\n                value: \"AB\\nC\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 81..93,\n        quasis: [\n            StrLit {\n                span: 81..93,\n                value: \"DE${\\\"\\n\\\"}F\",\n            },\n        ],\n        exprs: [],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

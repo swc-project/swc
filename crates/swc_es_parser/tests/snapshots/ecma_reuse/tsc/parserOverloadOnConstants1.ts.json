@@ -1,22 +1,12 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..233,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..233,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 1..233,\n        ident: Ident {\n            span: 11..19,\n            sym: \"Document\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 26..88,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 26..39,\n                            sym: \"createElement\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 40..56,\n                        name: Some(\n                            Ident {\n                                span: 40..47,\n                                sym: \"tagName\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 0,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 75..145,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 75..88,\n                            sym: \"createElement\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 89..107,\n                        name: Some(\n                            Ident {\n                                span: 89..96,\n                                sym: \"tagName\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 2,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 132..196,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 132..145,\n                            sym: \"createElement\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 146..161,\n                        name: Some(\n                            Ident {\n                                span: 146..153,\n                                sym: \"tagName\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 4,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 183..233,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 183..196,\n                            sym: \"createElement\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 197..213,\n                        name: Some(\n                            Ident {\n                                span: 197..204,\n                                sym: \"tagName\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 6,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..233,\n        ident: Ident {\n            span: 11..19,\n            sym: \"Document\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 26..88,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 26..39,\n                            sym: \"createElement\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 40..56,\n                        name: Some(\n                            Ident {\n                                span: 40..47,\n                                sym: \"tagName\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 75..145,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 75..88,\n                            sym: \"createElement\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 89..107,\n                        name: Some(\n                            Ident {\n                                span: 89..96,\n                                sym: \"tagName\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 132..196,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 132..145,\n                            sym: \"createElement\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 146..161,\n                        name: Some(\n                            Ident {\n                                span: 146..153,\n                                sym: \"tagName\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 183..233,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 183..196,\n                            sym: \"createElement\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 197..213,\n                        name: Some(\n                            Ident {\n                                span: 197..204,\n                                sym: \"tagName\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
@@ -26,37 +16,13 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 58..70,\n        name: Ident {\n            span: 58..70,\n            sym: \"HTMLElement\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 98..106,\n            value: \"canvas\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 109..127,\n        name: Ident {\n            span: 109..127,\n            sym: \"HTMLCanvasElement\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 155..160,\n            value: \"div\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 163..178,\n        name: Ident {\n            span: 163..178,\n            sym: \"HTMLDivElement\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 206..212,\n            value: \"span\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 215..231,\n        name: Ident {\n            span: 215..231,\n            sym: \"HTMLSpanElement\",\n        },\n        type_args: [],\n    },\n)"
-    }
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 58..70,\n        name: Ident {\n            span: 58..70,\n            sym: \"HTMLElement\",\n        },\n        type_args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 98..106,\n            value: \"canvas\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 109..127,\n        name: Ident {\n            span: 109..127,\n            sym: \"HTMLCanvasElement\",\n        },\n        type_args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 155..160,\n            value: \"div\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 163..178,\n        name: Ident {\n            span: 163..178,\n            sym: \"HTMLDivElement\",\n        },\n        type_args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 206..212,\n            value: \"span\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 215..231,\n        name: Ident {\n            span: 215..231,\n            sym: \"HTMLSpanElement\",\n        },\n        type_args: [],\n    },\n)"
   ]
 }

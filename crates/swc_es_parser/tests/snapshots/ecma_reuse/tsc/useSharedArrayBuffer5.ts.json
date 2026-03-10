@@ -1,114 +1,38 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 51..168,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 51..168,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 51..94,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 51..90,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 91..130,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..126,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Var(\n    VarDecl {\n        span: 127..168,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 127..168,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 51..94,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 51..90,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 91..130,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..126,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 127..168,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 127..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 55..59,\n        sym: \"foge\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 60..90,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 95..102,\n        sym: \"species\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Assign(\n    AssignPat {\n        span: 103..126,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 131..140,\n        sym: \"stringTag\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Assign(\n    AssignPat {\n        span: 141..168,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        right: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 55..59,\n        sym: \"foge\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 60..90,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 95..102,\n        sym: \"species\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 103..126,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 131..140,\n        sym: \"stringTag\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 141..168,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 66..83,\n        sym: \"SharedArrayBuffer\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 84..88,\n            value: 1024.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Call(\n    CallExpr {\n        span: 83..90,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "New(\n    NewExpr {\n        span: 62..90,\n        callee: Id {\n            index: 2,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 105..109,\n        sym: \"foge\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 110..116,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Member(\n    MemberExpr {\n        span: 116..125,\n        obj: Id {\n            index: 5,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 117..124,\n                sym: \"species\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Member(\n    MemberExpr {\n        span: 109..126,\n        obj: Id {\n            index: 4,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 6,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 143..147,\n        sym: \"foge\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Ident(\n    Ident {\n        span: 148..154,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Member(\n    MemberExpr {\n        span: 154..167,\n        obj: Id {\n            index: 9,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 155..166,\n                sym: \"toStringTag\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Member(\n    MemberExpr {\n        span: 147..168,\n        obj: Id {\n            index: 8,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 10,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 66..83,\n        sym: \"SharedArrayBuffer\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 84..88,\n            value: 1024.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 83..90,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 62..90,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 105..109,\n        sym: \"foge\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 110..116,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 116..125,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 117..124,\n                sym: \"species\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 109..126,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 143..147,\n        sym: \"foge\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..154,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 154..167,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 155..166,\n                sym: \"toStringTag\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 147..168,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

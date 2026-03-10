@@ -1,30 +1,14 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..268,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..268,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 1..117,\n        ident: Ident {\n            span: 11..15,\n            sym: \"Base\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 22..65,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 23..24,\n                        name: Some(\n                            Ident {\n                                span: 23..24,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 0,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 64..106,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 64..65,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 108..268,\n        ident: Ident {\n            span: 118..125,\n            sym: \"Derived\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 134..140,\n                sym: \"Base\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 145..191,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 146..147,\n                        name: Some(\n                            Ident {\n                                span: 146..147,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 7,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 9,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 190..238,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 190..191,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 11,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 237..268,\n                kind: Property,\n                name: Some(\n                    Num(\n                        NumberLit {\n                            span: 237..238,\n                            value: 1.0,\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 13,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..117,\n        ident: Ident {\n            span: 11..15,\n            sym: \"Base\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 22..65,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 23..24,\n                        name: Some(\n                            Ident {\n                                span: 23..24,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 64..106,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 64..65,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 108..268,\n        ident: Ident {\n            span: 118..125,\n            sym: \"Derived\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 134..140,\n                sym: \"Base\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 145..191,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 146..147,\n                        name: Some(\n                            Ident {\n                                span: 146..147,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 190..238,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 190..191,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 237..268,\n                kind: Property,\n                name: Some(\n                    Num(\n                        NumberLit {\n                            span: 237..238,\n                            value: 1.0,\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
@@ -34,61 +18,19 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 35..65,\n        members: [\n            TsTypeMember {\n                span: 37..49,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 37..38,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 48..59,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 48..49,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 67..106,\n        members: [\n            TsTypeMember {\n                span: 77..89,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 77..78,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 88..104,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 88..89,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 158..184,\n        members: [\n            TsTypeMember {\n                span: 168..183,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 168..169,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 193..238,\n        members: [\n            TsTypeMember {\n                span: 203..219,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 203..204,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 240..268,\n        members: [\n            TsTypeMember {\n                span: 250..266,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 250..251,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 12,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 35..65,\n        members: [\n            TsTypeMember {\n                span: 37..49,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 37..38,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 48..59,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 48..49,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 67..106,\n        members: [\n            TsTypeMember {\n                span: 77..89,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 77..78,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 88..104,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 88..89,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 158..184,\n        members: [\n            TsTypeMember {\n                span: 168..183,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 168..169,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 193..238,\n        members: [\n            TsTypeMember {\n                span: 203..219,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 203..204,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 240..268,\n        members: [\n            TsTypeMember {\n                span: 250..266,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 250..251,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ]
 }

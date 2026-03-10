@@ -1,111 +1,38 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..157,\n    kind: Script,\n    body: [\n        Id {\n            index: 12,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..157,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Break(\n    BreakStmt {\n        span: 51..70,\n        label: Some(\n            Ident {\n                span: 57..58,\n                sym: \"b\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "If(\n    IfStmt {\n        span: 44..70,\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n        cons: Id {\n            index: 0,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Break(\n    BreakStmt {\n        span: 75..94,\n        label: Some(\n            Ident {\n                span: 81..82,\n                sym: \"b\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "If(\n    IfStmt {\n        span: 68..94,\n        test: Id {\n            index: 1,\n            generation: 1,\n        },\n        cons: Id {\n            index: 2,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Break(\n    BreakStmt {\n        span: 99..118,\n        label: Some(\n            Ident {\n                span: 105..106,\n                sym: \"b\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "If(\n    IfStmt {\n        span: 92..118,\n        test: Id {\n            index: 2,\n            generation: 1,\n        },\n        cons: Id {\n            index: 4,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Break(\n    BreakStmt {\n        span: 123..137,\n        label: Some(\n            Ident {\n                span: 129..130,\n                sym: \"b\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "If(\n    IfStmt {\n        span: 116..137,\n        test: Id {\n            index: 3,\n            generation: 1,\n        },\n        cons: Id {\n            index: 6,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Block(\n    BlockStmt {\n        span: 34..146,\n        stmts: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n            Id {\n                index: 3,\n                generation: 1,\n            },\n            Id {\n                index: 5,\n                generation: 1,\n            },\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 31..146,\n        label: Ident {\n            span: 31..32,\n            sym: \"b\",\n        },\n        body: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Expr(\n    ExprStmt {\n        span: 142..152,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..157,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Break(\n    BreakStmt {\n        span: 51..70,\n        label: Some(\n            Ident {\n                span: 57..58,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 44..70,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 75..94,\n        label: Some(\n            Ident {\n                span: 81..82,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 68..94,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 99..118,\n        label: Some(\n            Ident {\n                span: 105..106,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 92..118,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 123..137,\n        label: Some(\n            Ident {\n                span: 129..130,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 116..137,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 34..146,\n        stmts: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 31..146,\n        label: Ident {\n            span: 31..32,\n            sym: \"b\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 142..152,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1..157,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 72..73,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 120..121,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 142..146,\n        sym: \"eval\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 147..148,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Call(\n    CallExpr {\n        span: 146..150,\n        callee: Id {\n            index: 4,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 5,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Call(\n    CallExpr {\n        span: 152..155,\n        callee: Id {\n            index: 7,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Paren(\n    ParenExpr {\n        span: 1..156,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 72..73,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 120..121,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 142..146,\n        sym: \"eval\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 147..148,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 146..150,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 152..155,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..156,\n        expr: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 2..153,\n    params: [],\n    body: [\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n    ],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 2..153,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [],
   "class_members": [],

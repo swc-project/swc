@@ -1,22 +1,12 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..68,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..68,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 1..68,\n        ident: Ident {\n            span: 11..12,\n            sym: \"X\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..26,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 19..22,\n                            sym: \"get\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 23..41,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 23..26,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 38..45,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 38..41,\n                            sym: \"set\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 42..68,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 42..45,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 46..65,\n                        name: Some(\n                            Ident {\n                                span: 46..47,\n                                sym: \"v\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 3,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: None,\n            },\n        ],\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..68,\n        ident: Ident {\n            span: 11..12,\n            sym: \"X\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..26,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 19..22,\n                            sym: \"get\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 23..41,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 23..26,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 38..45,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 38..41,\n                            sym: \"set\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 42..68,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 42..45,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 46..65,\n                        name: Some(\n                            Ident {\n                                span: 46..47,\n                                sym: \"v\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
@@ -26,21 +16,9 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Union(\n    TsUnionType {\n        span: 49..65,\n        types: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Union(\n    TsUnionType {\n        span: 49..65,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
   ]
 }

@@ -1,25 +1,15 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..35,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..35,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1..35,\n        src: Some(\n            StrLit {\n                span: 28..33,\n                value: \"foo\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 9..10,\n                    sym: \"a\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 14..21,\n                        sym: \"default\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
-    }
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 1..35,\n        src: Some(\n            StrLit {\n                span: 28..33,\n                value: \"foo\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 9..10,\n                    sym: \"a\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 14..21,\n                        sym: \"default\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
   ],
   "functions": [],
   "classes": [],

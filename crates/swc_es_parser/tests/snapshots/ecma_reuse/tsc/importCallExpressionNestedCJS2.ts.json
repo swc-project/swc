@@ -1,87 +1,32 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 95..225,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 95..225,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 143..157,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Return(\n    ReturnStmt {\n        span: 170..225,\n        arg: Some(\n            Id {\n                index: 10,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 143..157,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 170..225,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Fn(\n    FnDecl {\n        span: 149..225,\n        ident: Ident {\n            span: 158..161,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Fn(\n    FnDecl {\n        span: 149..225,\n        ident: Ident {\n            span: 158..161,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 110..117,\n            value: \"./foo\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 143..148,\n        sym: \"async\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 183..189,\n        sym: \"import\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 197..203,\n        sym: \"import\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 204..211,\n            value: \"./foo\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Call(\n    CallExpr {\n        span: 203..213,\n        callee: Id {\n            index: 3,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Await(\n    AwaitExpr {\n        span: 191..213,\n        arg: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Paren(\n    ParenExpr {\n        span: 190..214,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Member(\n    MemberExpr {\n        span: 213..222,\n        obj: Id {\n            index: 7,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 214..221,\n                sym: \"default\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Call(\n    CallExpr {\n        span: 189..223,\n        callee: Id {\n            index: 2,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 8,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Await(\n    AwaitExpr {\n        span: 177..223,\n        arg: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Lit(\n    Str(\n        StrLit {\n            span: 110..117,\n            value: \"./foo\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 143..148,\n        sym: \"async\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 183..189,\n        sym: \"import\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 197..203,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 204..211,\n            value: \"./foo\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 203..213,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 191..213,\n        arg: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 190..214,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 213..222,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 214..221,\n                sym: \"default\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 189..223,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 177..223,\n        arg: _,\n    },\n)"
   ],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 95..148,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 95..148,\n        expr: _,\n    },\n)"
   ],
   "functions": [],
   "classes": [],

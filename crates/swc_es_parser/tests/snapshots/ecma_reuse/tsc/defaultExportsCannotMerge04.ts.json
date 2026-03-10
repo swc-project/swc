@@ -1,75 +1,29 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 39..154,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 39..154,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Fn(\n    FnDecl {\n        span: 54..83,\n        ident: Ident {\n            span: 63..66,\n            sym: \"Foo\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 101..109,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 101..107,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "TsModule(\n    TsModuleDecl {\n        span: 74..120,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 84..87,\n                sym: \"Foo\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 111..136,\n        ident: Ident {\n            span: 121..124,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 137..154,\n        ident: Ident {\n            span: 147..150,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
-    }
+    "Fn(\n    FnDecl {\n        span: 54..83,\n        ident: Ident {\n            span: 63..66,\n            sym: \"Foo\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 101..109,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 101..107,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 74..120,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 84..87,\n                sym: \"Foo\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 111..136,\n        ident: Ident {\n            span: 121..124,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 137..154,\n        ident: Ident {\n            span: 147..150,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"x\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"x\",\n    },\n)"
   ],
   "exprs": [],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 39..83,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "ExportDecl(\n    ExportDecl {\n        span: 94..109,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "ExportDecl(\n    ExportDecl {\n        span: 130..154,\n        decl: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 39..83,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 94..109,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 130..154,\n        decl: _,\n    },\n)"
   ],
   "functions": [],
   "classes": [],

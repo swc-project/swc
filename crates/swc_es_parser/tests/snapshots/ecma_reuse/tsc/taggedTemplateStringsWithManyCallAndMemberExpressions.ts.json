@@ -1,102 +1,35 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..288,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..288,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 1..212,\n        ident: Ident {\n            span: 11..12,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..81,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 20..47,\n                        name: Some(\n                            Ident {\n                                span: 20..24,\n                                sym: \"strs\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 0,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                    TsFnParam {\n                        span: 48..66,\n                        name: Some(\n                            Ident {\n                                span: 51..55,\n                                sym: \"subs\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 2,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: true,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 75..208,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 75..81,\n                            sym: \"member\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 9,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 209..223,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 209..218,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Var(\n    VarDecl {\n        span: 220..288,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 220..286,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..212,\n        ident: Ident {\n            span: 11..12,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..81,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 20..47,\n                        name: Some(\n                            Ident {\n                                span: 20..24,\n                                sym: \"strs\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                    TsFnParam {\n                        span: 48..66,\n                        name: Some(\n                            Ident {\n                                span: 51..55,\n                                sym: \"subs\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: true,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 75..208,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 75..81,\n                            sym: \"member\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 209..223,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 209..218,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 220..288,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 220..286,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 213..214,\n        sym: \"f\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 224..225,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Assign(\n    AssignPat {\n        span: 226..286,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 213..214,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..225,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 226..286,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 240..241,\n        sym: \"f\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 242..257,\n        tag: Id {\n            index: 0,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 242..256,\n            quasis: [\n                StrLit {\n                    span: 242..256,\n                    value: \"abc${ 0 }def\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Member(\n    MemberExpr {\n        span: 256..264,\n        obj: Id {\n            index: 1,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 257..263,\n                sym: \"member\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 264..271,\n            value: \"hello\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Call(\n    CallExpr {\n        span: 263..273,\n        callee: Id {\n            index: 2,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 3,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 273..275,\n            value: 42.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Call(\n    CallExpr {\n        span: 272..280,\n        callee: Id {\n            index: 4,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 5,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "New(\n    NewExpr {\n        span: 236..280,\n        callee: Id {\n            index: 6,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "New(\n    NewExpr {\n        span: 232..280,\n        callee: Id {\n            index: 7,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "New(\n    NewExpr {\n        span: 228..280,\n        callee: Id {\n            index: 8,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 281..285,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Binary(\n    BinaryExpr {\n        span: 277..286,\n        op: EqEqEq,\n        left: Id {\n            index: 9,\n            generation: 1,\n        },\n        right: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 240..241,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 242..257,\n        tag: _,\n        template: TemplateExpr {\n            span: 242..256,\n            quasis: [\n                StrLit {\n                    span: 242..256,\n                    value: \"abc${ 0 }def\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 256..264,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 257..263,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 264..271,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 263..273,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 273..275,\n            value: 42.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 272..280,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 236..280,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 232..280,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 228..280,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 281..285,\n            value: true,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 277..286,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
@@ -104,45 +37,15 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 26..47,\n        name: Ident {\n            span: 26..47,\n            sym: \"TemplateStringsArray\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Array(\n    TsArrayType {\n        span: 57..66,\n        elem_type: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 68..70,\n        name: Ident {\n            span: 68..70,\n            sym: \"I\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Keyword(\n    Boolean,\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 141..199,\n        members: [\n            TsTypeMember {\n                span: 159..189,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 110..205,\n        members: [\n            TsTypeMember {\n                span: 124..199,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 129..139,\n                        name: Some(\n                            Ident {\n                                span: 129..130,\n                                sym: \"n\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 5,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 83..206,\n        members: [\n            TsTypeMember {\n                span: 93..205,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 98..108,\n                        name: Some(\n                            Ident {\n                                span: 98..99,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 4,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "TypeRef(\n    TsTypeRef {\n        span: 26..47,\n        name: Ident {\n            span: 26..47,\n            sym: \"TemplateStringsArray\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Array(\n    TsArrayType {\n        span: 57..66,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 68..70,\n        name: Ident {\n            span: 68..70,\n            sym: \"I\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Boolean,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 141..199,\n        members: [\n            TsTypeMember {\n                span: 159..189,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 110..205,\n        members: [\n            TsTypeMember {\n                span: 124..199,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 129..139,\n                        name: Some(\n                            Ident {\n                                span: 129..130,\n                                sym: \"n\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 83..206,\n        members: [\n            TsTypeMember {\n                span: 93..205,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 98..108,\n                        name: Some(\n                            Ident {\n                                span: 98..99,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ]
 }

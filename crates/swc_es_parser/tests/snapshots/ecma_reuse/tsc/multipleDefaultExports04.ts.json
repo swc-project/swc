@@ -1,42 +1,20 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 39..103,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 39..103,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Fn(\n    FnDecl {\n        span: 54..78,\n        ident: Ident {\n            span: 63..64,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Fn(\n    FnDecl {\n        span: 87..103,\n        ident: Ident {\n            span: 96..97,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
-    }
+    "Fn(\n    FnDecl {\n        span: 54..78,\n        ident: Ident {\n            span: 63..64,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 87..103,\n        ident: Ident {\n            span: 96..97,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 39..78,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 72..103,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 39..78,\n        decl: _,\n    },\n)",
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 72..103,\n        decl: _,\n    },\n)"
   ],
   "functions": [],
   "classes": [],

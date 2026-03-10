@@ -1,44 +1,19 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..17,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..17,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Empty(\n    EmptyStmt {\n        span: 15..16,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "If(\n    IfStmt {\n        span: 1..17,\n        test: Id {\n            index: 4,\n            generation: 1,\n        },\n        cons: Id {\n            index: 0,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    }
+    "Empty(\n    EmptyStmt {\n        span: 15..16,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 1..17,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Unary(\n    UnaryExpr {\n        span: 5..10,\n        op: Bang,\n        arg: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Call(\n    CallExpr {\n        span: 12..15,\n        callee: Id {\n            index: 2,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Binary(\n    BinaryExpr {\n        span: 8..15,\n        op: LogicalOr,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"a\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 5..10,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 12..15,\n        callee: _,\n        args: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 8..15,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

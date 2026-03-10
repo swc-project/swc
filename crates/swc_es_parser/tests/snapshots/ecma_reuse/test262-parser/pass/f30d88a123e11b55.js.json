@@ -1,46 +1,21 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..24,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..24,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Empty(\n    EmptyStmt {\n        span: 22..23,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "For(\n    ForStmt {\n        span: 1..24,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 0,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Empty(\n    EmptyStmt {\n        span: 22..23,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..24,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 6..19,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 6..19,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 6..19,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 6..19,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Array(\n    ArrayPat {\n        span: 10..19,\n        elems: [\n            Some(\n                Id {\n                    index: 0,\n                    generation: 1,\n                },\n            ),\n            Some(\n                Id {\n                    index: 1,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"b\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 10..19,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"c\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"c\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

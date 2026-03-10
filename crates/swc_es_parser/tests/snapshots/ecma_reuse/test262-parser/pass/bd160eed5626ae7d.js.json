@@ -1,84 +1,29 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..69,\n    kind: Script,\n    body: [\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..69,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 20..30,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 29..46,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Continue(\n    ContinueStmt {\n        span: 38..55,\n        label: Some(\n            Ident {\n                span: 47..48,\n                sym: \"d\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 54..64,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 63..69,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Block(\n    BlockStmt {\n        span: 14..69,\n        stmts: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n            Id {\n                index: 3,\n                generation: 1,\n            },\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "While(\n    WhileStmt {\n        span: 4..69,\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n        body: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 1..69,\n        label: Ident {\n            span: 1..2,\n            sym: \"d\",\n        },\n        body: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 20..30,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 29..46,\n        expr: _,\n    },\n)",
+    "Continue(\n    ContinueStmt {\n        span: 38..55,\n        label: Some(\n            Ident {\n                span: 47..48,\n                sym: \"d\",\n            },\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 54..64,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 63..69,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 14..69,\n        stmts: [\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 4..69,\n        test: _,\n        body: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 1..69,\n        label: Ident {\n            span: 1..2,\n            sym: \"d\",\n        },\n        body: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Call(\n    CallExpr {\n        span: 21..24,\n        callee: Id {\n            index: 1,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"c\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Call(\n    CallExpr {\n        span: 30..33,\n        callee: Id {\n            index: 3,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 54..55,\n        sym: \"e\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Call(\n    CallExpr {\n        span: 55..58,\n        callee: Id {\n            index: 5,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 63..64,\n        sym: \"f\",\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Call(\n    CallExpr {\n        span: 64..67,\n        callee: Id {\n            index: 7,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 21..24,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 30..33,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 54..55,\n        sym: \"e\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 55..58,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 63..64,\n        sym: \"f\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 64..67,\n        callee: _,\n        args: [],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

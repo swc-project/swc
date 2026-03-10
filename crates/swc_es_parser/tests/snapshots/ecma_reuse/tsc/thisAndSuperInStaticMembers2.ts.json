@@ -1,1093 +1,282 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 100..1073,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 20,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n        Id {\n            index: 22,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 24,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n        Id {\n            index: 26,\n            generation: 1,\n        },\n        Id {\n            index: 27,\n            generation: 1,\n        },\n        Id {\n            index: 28,\n            generation: 1,\n        },\n        Id {\n            index: 29,\n            generation: 1,\n        },\n        Id {\n            index: 30,\n            generation: 1,\n        },\n        Id {\n            index: 31,\n            generation: 1,\n        },\n        Id {\n            index: 32,\n            generation: 1,\n        },\n        Id {\n            index: 35,\n            generation: 1,\n        },\n        Id {\n            index: 36,\n            generation: 1,\n        },\n        Id {\n            index: 37,\n            generation: 1,\n        },\n        Id {\n            index: 38,\n            generation: 1,\n        },\n        Id {\n            index: 39,\n            generation: 1,\n        },\n        Id {\n            index: 40,\n            generation: 1,\n        },\n        Id {\n            index: 41,\n            generation: 1,\n        },\n        Id {\n            index: 42,\n            generation: 1,\n        },\n        Id {\n            index: 43,\n            generation: 1,\n        },\n        Id {\n            index: 44,\n            generation: 1,\n        },\n        Id {\n            index: 45,\n            generation: 1,\n        },\n        Id {\n            index: 46,\n            generation: 1,\n        },\n        Id {\n            index: 47,\n            generation: 1,\n        },\n        Id {\n            index: 48,\n            generation: 1,\n        },\n        Id {\n            index: 49,\n            generation: 1,\n        },\n        Id {\n            index: 50,\n            generation: 1,\n        },\n        Id {\n            index: 51,\n            generation: 1,\n        },\n        Id {\n            index: 52,\n            generation: 1,\n        },\n        Id {\n            index: 53,\n            generation: 1,\n        },\n        Id {\n            index: 54,\n            generation: 1,\n        },\n        Id {\n            index: 55,\n            generation: 1,\n        },\n        Id {\n            index: 56,\n            generation: 1,\n        },\n        Id {\n            index: 57,\n            generation: 1,\n        },\n        Id {\n            index: 58,\n            generation: 1,\n        },\n        Id {\n            index: 59,\n            generation: 1,\n        },\n        Id {\n            index: 60,\n            generation: 1,\n        },\n        Id {\n            index: 61,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 100..1073,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 141..149,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 148..152,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 151..159,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 153..166,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 168..181,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 165..181,\n        label: Ident {\n            span: 165..166,\n            sym: \"a\",\n        },\n        body: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Expr(\n    ExprStmt {\n        span: 180..184,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Expr(\n    ExprStmt {\n        span: 183..191,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 185..194,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Expr(\n    ExprStmt {\n        span: 193..201,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Expr(\n    ExprStmt {\n        span: 252..261,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 259..282,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Expr(\n    ExprStmt {\n        span: 276..285,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Expr(\n    ExprStmt {\n        span: 283..308,\n        expr: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Expr(\n    ExprStmt {\n        span: 302..311,\n        expr: Id {\n            index: 23,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Expr(\n    ExprStmt {\n        span: 309..335,\n        expr: Id {\n            index: 29,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Expr(\n    ExprStmt {\n        span: 329..338,\n        expr: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Expr(\n    ExprStmt {\n        span: 336..366,\n        expr: Id {\n            index: 37,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Expr(\n    ExprStmt {\n        span: 360..369,\n        expr: Id {\n            index: 38,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Expr(\n    ExprStmt {\n        span: 367..399,\n        expr: Id {\n            index: 46,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Expr(\n    ExprStmt {\n        span: 393..402,\n        expr: Id {\n            index: 47,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Expr(\n    ExprStmt {\n        span: 400..424,\n        expr: Id {\n            index: 51,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Expr(\n    ExprStmt {\n        span: 418..427,\n        expr: Id {\n            index: 52,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Expr(\n    ExprStmt {\n        span: 425..452,\n        expr: Id {\n            index: 57,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Expr(\n    ExprStmt {\n        span: 446..455,\n        expr: Id {\n            index: 58,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Expr(\n    ExprStmt {\n        span: 453..479,\n        expr: Id {\n            index: 63,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Expr(\n    ExprStmt {\n        span: 473..482,\n        expr: Id {\n            index: 64,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Expr(\n    ExprStmt {\n        span: 480..509,\n        expr: Id {\n            index: 70,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Expr(\n    ExprStmt {\n        span: 503..512,\n        expr: Id {\n            index: 71,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Expr(\n    ExprStmt {\n        span: 510..538,\n        expr: Id {\n            index: 77,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Expr(\n    ExprStmt {\n        span: 532..541,\n        expr: Id {\n            index: 78,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Expr(\n    ExprStmt {\n        span: 539..568,\n        expr: Id {\n            index: 84,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Expr(\n    ExprStmt {\n        span: 562..571,\n        expr: Id {\n            index: 85,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Expr(\n    ExprStmt {\n        span: 583..597,\n        expr: Id {\n            index: 90,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Expr(\n    ExprStmt {\n        span: 569..612,\n        expr: Id {\n            index: 94,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Expr(\n    ExprStmt {\n        span: 606..615,\n        expr: Id {\n            index: 95,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Expr(\n    ExprStmt {\n        span: 613..645,\n        expr: Id {\n            index: 103,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Expr(\n    ExprStmt {\n        span: 639..648,\n        expr: Id {\n            index: 104,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Expr(\n    ExprStmt {\n        span: 646..682,\n        expr: Id {\n            index: 114,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Expr(\n    ExprStmt {\n        span: 676..686,\n        expr: Id {\n            index: 115,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Expr(\n    ExprStmt {\n        span: 683..719,\n        expr: Id {\n            index: 123,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967339,
-      "node": "Expr(\n    ExprStmt {\n        span: 713..723,\n        expr: Id {\n            index: 124,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Expr(\n    ExprStmt {\n        span: 720..763,\n        expr: Id {\n            index: 132,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Expr(\n    ExprStmt {\n        span: 757..767,\n        expr: Id {\n            index: 133,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Expr(\n    ExprStmt {\n        span: 764..811,\n        expr: Id {\n            index: 143,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967343,
-      "node": "Expr(\n    ExprStmt {\n        span: 805..815,\n        expr: Id {\n            index: 144,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Expr(\n    ExprStmt {\n        span: 812..855,\n        expr: Id {\n            index: 152,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967345,
-      "node": "Expr(\n    ExprStmt {\n        span: 849..859,\n        expr: Id {\n            index: 153,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Expr(\n    ExprStmt {\n        span: 856..883,\n        expr: Id {\n            index: 158,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967347,
-      "node": "Expr(\n    ExprStmt {\n        span: 877..887,\n        expr: Id {\n            index: 159,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Expr(\n    ExprStmt {\n        span: 884..911,\n        expr: Id {\n            index: 164,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967349,
-      "node": "Expr(\n    ExprStmt {\n        span: 905..915,\n        expr: Id {\n            index: 165,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Expr(\n    ExprStmt {\n        span: 912..944,\n        expr: Id {\n            index: 172,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967351,
-      "node": "Expr(\n    ExprStmt {\n        span: 938..948,\n        expr: Id {\n            index: 173,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967352,
-      "node": "Expr(\n    ExprStmt {\n        span: 945..972,\n        expr: Id {\n            index: 178,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "Expr(\n    ExprStmt {\n        span: 966..976,\n        expr: Id {\n            index: 179,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967354,
-      "node": "Expr(\n    ExprStmt {\n        span: 973..1030,\n        expr: Id {\n            index: 184,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967355,
-      "node": "Expr(\n    ExprStmt {\n        span: 1029..1041,\n        expr: Id {\n            index: 187,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967356,
-      "node": "Expr(\n    ExprStmt {\n        span: 1040..1057,\n        expr: Id {\n            index: 191,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967357,
-      "node": "Expr(\n    ExprStmt {\n        span: 1056..1072,\n        expr: Id {\n            index: 196,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967358,
-      "node": "Expr(\n    ExprStmt {\n        span: 1071..1073,\n        expr: Id {\n            index: 197,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 141..149,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 148..152,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 151..159,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 153..166,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 168..181,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 165..181,\n        label: Ident {\n            span: 165..166,\n            sym: \"a\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 180..184,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 183..191,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 185..194,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 193..201,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 252..261,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 259..282,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 276..285,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 283..308,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 302..311,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 309..335,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 329..338,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 336..366,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 360..369,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 367..399,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 393..402,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 400..424,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 418..427,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 425..452,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 446..455,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 453..479,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 473..482,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 480..509,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 503..512,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 510..538,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 532..541,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 539..568,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 562..571,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 583..597,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 569..612,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 606..615,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 613..645,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 639..648,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 646..682,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 676..686,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 683..719,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 713..723,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 720..763,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 757..767,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 764..811,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 805..815,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 812..855,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 849..859,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 856..883,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 877..887,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 884..911,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 905..915,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 912..944,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 938..948,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 945..972,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 966..976,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 973..1030,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1029..1041,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1040..1057,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1056..1072,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1071..1073,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 259..261,\n        sym: \"y1\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 283..285,\n        sym: \"y2\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 309..311,\n        sym: \"y3\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 336..338,\n        sym: \"y4\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 367..369,\n        sym: \"y5\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 400..402,\n        sym: \"z1\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Ident(\n    Ident {\n        span: 425..427,\n        sym: \"z2\",\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 453..455,\n        sym: \"z3\",\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 480..482,\n        sym: \"z4\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Expr(\n    Id {\n        index: 74,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Ident(\n    Ident {\n        span: 510..512,\n        sym: \"z5\",\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Expr(\n    Id {\n        index: 81,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Ident(\n    Ident {\n        span: 539..541,\n        sym: \"z6\",\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Expr(\n    Id {\n        index: 88,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Ident(\n    Ident {\n        span: 569..571,\n        sym: \"z7\",\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Expr(\n    Id {\n        index: 99,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Ident(\n    Ident {\n        span: 613..615,\n        sym: \"z8\",\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Expr(\n    Id {\n        index: 107,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Expr(\n    Id {\n        index: 110,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Ident(\n    Ident {\n        span: 646..648,\n        sym: \"z9\",\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Expr(\n    Id {\n        index: 119,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Ident(\n    Ident {\n        span: 683..686,\n        sym: \"z10\",\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Expr(\n    Id {\n        index: 128,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Ident(\n    Ident {\n        span: 720..723,\n        sym: \"z11\",\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Expr(\n    Id {\n        index: 136,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Expr(\n    Id {\n        index: 139,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Ident(\n    Ident {\n        span: 764..767,\n        sym: \"z12\",\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Expr(\n    Id {\n        index: 148,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Ident(\n    Ident {\n        span: 812..815,\n        sym: \"z13\",\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Ident(\n    Ident {\n        span: 856..859,\n        sym: \"z14\",\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Ident(\n    Ident {\n        span: 884..887,\n        sym: \"z15\",\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Ident(\n    Ident {\n        span: 912..915,\n        sym: \"z16\",\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Ident(\n    Ident {\n        span: 945..948,\n        sym: \"z17\",\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Ident(\n    Ident {\n        span: 973..976,\n        sym: \"z18\",\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Ident(\n    Ident {\n        span: 1029..1030,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Ident(\n    Ident {\n        span: 1040..1041,\n        sym: \"y\",\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Ident(\n    Ident {\n        span: 1056..1057,\n        sym: \"z\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 259..261,\n        sym: \"y1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 283..285,\n        sym: \"y2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 309..311,\n        sym: \"y3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 336..338,\n        sym: \"y4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 367..369,\n        sym: \"y5\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 400..402,\n        sym: \"z1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 425..427,\n        sym: \"z2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 453..455,\n        sym: \"z3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 480..482,\n        sym: \"z4\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 510..512,\n        sym: \"z5\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 539..541,\n        sym: \"z6\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 569..571,\n        sym: \"z7\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 613..615,\n        sym: \"z8\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 646..648,\n        sym: \"z9\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 683..686,\n        sym: \"z10\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 720..723,\n        sym: \"z11\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 764..767,\n        sym: \"z12\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 812..815,\n        sym: \"z13\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 856..859,\n        sym: \"z14\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 884..887,\n        sym: \"z15\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 912..915,\n        sym: \"z16\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 945..948,\n        sym: \"z17\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 973..976,\n        sym: \"z18\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1029..1030,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1040..1041,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1056..1057,\n        sym: \"z\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 141..147,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"f\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Call(\n    CallExpr {\n        span: 149..152,\n        callee: Id {\n            index: 1,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 153..159,\n        sym: \"number\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 168..174,\n        sym: \"number\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Ident(\n    Ident {\n        span: 180..181,\n        sym: \"f\",\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Call(\n    CallExpr {\n        span: 181..184,\n        callee: Id {\n            index: 6,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Ident(\n    Ident {\n        span: 185..191,\n        sym: \"number\",\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Ident(\n    Ident {\n        span: 252..258,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Ident(\n    Ident {\n        span: 264..268,\n        sym: \"this\",\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Member(\n    MemberExpr {\n        span: 268..271,\n        obj: Id {\n            index: 14,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 269..270,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Assign(\n    AssignExpr {\n        span: 262..271,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Ident(\n    Ident {\n        span: 276..282,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Ident(\n    Ident {\n        span: 288..292,\n        sym: \"this\",\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Member(\n    MemberExpr {\n        span: 292..295,\n        obj: Id {\n            index: 19,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 293..294,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Call(\n    CallExpr {\n        span: 294..297,\n        callee: Id {\n            index: 20,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Assign(\n    AssignExpr {\n        span: 286..297,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 21,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Ident(\n    Ident {\n        span: 302..308,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Ident(\n    Ident {\n        span: 314..318,\n        sym: \"this\",\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Member(\n    MemberExpr {\n        span: 318..322,\n        obj: Id {\n            index: 25,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 320..321,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 318..322,\n        base: Id {\n            index: 26,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Call(\n    CallExpr {\n        span: 321..324,\n        callee: Id {\n            index: 27,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Assign(\n    AssignExpr {\n        span: 312..324,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 28,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Ident(\n    Ident {\n        span: 329..335,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Ident(\n    Ident {\n        span: 341..345,\n        sym: \"this\",\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 347..350,\n            value: \"x\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Paren(\n    ParenExpr {\n        span: 346..352,\n        expr: Id {\n            index: 33,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Member(\n    MemberExpr {\n        span: 345..353,\n        obj: Id {\n            index: 32,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 34,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Call(\n    CallExpr {\n        span: 352..355,\n        callee: Id {\n            index: 35,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Assign(\n    AssignExpr {\n        span: 339..355,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 36,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Ident(\n    Ident {\n        span: 360..366,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Ident(\n    Ident {\n        span: 372..376,\n        sym: \"this\",\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 380..383,\n            value: \"x\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967339,
-      "node": "Paren(\n    ParenExpr {\n        span: 379..385,\n        expr: Id {\n            index: 41,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Member(\n    MemberExpr {\n        span: 376..386,\n        obj: Id {\n            index: 40,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 42,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 376..386,\n        base: Id {\n            index: 43,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Call(\n    CallExpr {\n        span: 385..388,\n        callee: Id {\n            index: 44,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967343,
-      "node": "Assign(\n    AssignExpr {\n        span: 370..388,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 45,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Ident(\n    Ident {\n        span: 393..399,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Ident(\n    Ident {\n        span: 405..410,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967347,
-      "node": "Member(\n    MemberExpr {\n        span: 410..413,\n        obj: Id {\n            index: 49,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 411..412,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Assign(\n    AssignExpr {\n        span: 403..413,\n        left: Id {\n            index: 5,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 50,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967349,
-      "node": "Ident(\n    Ident {\n        span: 418..424,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967351,
-      "node": "Ident(\n    Ident {\n        span: 430..435,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967352,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 436..439,\n            value: \"a\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "Member(\n    MemberExpr {\n        span: 435..441,\n        obj: Id {\n            index: 54,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 55,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967354,
-      "node": "Assign(\n    AssignExpr {\n        span: 428..441,\n        left: Id {\n            index: 6,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 56,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967355,
-      "node": "Ident(\n    Ident {\n        span: 446..452,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967357,
-      "node": "Ident(\n    Ident {\n        span: 458..463,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967358,
-      "node": "Member(\n    MemberExpr {\n        span: 463..466,\n        obj: Id {\n            index: 60,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 464..465,\n                sym: \"f\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967359,
-      "node": "Call(\n    CallExpr {\n        span: 465..468,\n        callee: Id {\n            index: 61,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967360,
-      "node": "Assign(\n    AssignExpr {\n        span: 456..468,\n        left: Id {\n            index: 7,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 62,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967361,
-      "node": "Ident(\n    Ident {\n        span: 473..479,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967363,
-      "node": "Ident(\n    Ident {\n        span: 485..490,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967364,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 491..494,\n            value: \"f\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967365,
-      "node": "Member(\n    MemberExpr {\n        span: 490..496,\n        obj: Id {\n            index: 66,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 67,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967366,
-      "node": "Call(\n    CallExpr {\n        span: 495..498,\n        callee: Id {\n            index: 68,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967367,
-      "node": "Assign(\n    AssignExpr {\n        span: 483..498,\n        left: Id {\n            index: 8,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 69,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967368,
-      "node": "Ident(\n    Ident {\n        span: 503..509,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967370,
-      "node": "Ident(\n    Ident {\n        span: 515..520,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967371,
-      "node": "Member(\n    MemberExpr {\n        span: 520..524,\n        obj: Id {\n            index: 73,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 521..522,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967372,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 525..526,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967373,
-      "node": "Assign(\n    AssignExpr {\n        span: 523..527,\n        left: Id {\n            index: 9,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 75,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967374,
-      "node": "Assign(\n    AssignExpr {\n        span: 513..527,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 76,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967375,
-      "node": "Ident(\n    Ident {\n        span: 532..538,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967377,
-      "node": "Ident(\n    Ident {\n        span: 544..549,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967378,
-      "node": "Member(\n    MemberExpr {\n        span: 549..554,\n        obj: Id {\n            index: 80,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 550..551,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967379,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 555..556,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967380,
-      "node": "Assign(\n    AssignExpr {\n        span: 552..557,\n        left: Id {\n            index: 11,\n            generation: 1,\n        },\n        op: AddAssign,\n        right: Id {\n            index: 82,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967381,
-      "node": "Assign(\n    AssignExpr {\n        span: 542..557,\n        left: Id {\n            index: 12,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 83,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967382,
-      "node": "Ident(\n    Ident {\n        span: 562..568,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967384,
-      "node": "Ident(\n    Ident {\n        span: 583..588,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967385,
-      "node": "Member(\n    MemberExpr {\n        span: 588..592,\n        obj: Id {\n            index: 87,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 589..590,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967386,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 593..594,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967387,
-      "node": "Assign(\n    AssignExpr {\n        span: 591..595,\n        left: Id {\n            index: 13,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 89,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967388,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 575..598,\n        params: [],\n        body: Block(\n            [\n                Id {\n                    index: 33,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: false,\n    },\n)"
-    },
-    {
-      "id": 4294967389,
-      "node": "Paren(\n    ParenExpr {\n        span: 574..599,\n        expr: Id {\n            index: 91,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967390,
-      "node": "Call(\n    CallExpr {\n        span: 598..601,\n        callee: Id {\n            index: 92,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967391,
-      "node": "Assign(\n    AssignExpr {\n        span: 572..601,\n        left: Id {\n            index: 14,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 93,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967392,
-      "node": "Ident(\n    Ident {\n        span: 606..612,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967394,
-      "node": "Ident(\n    Ident {\n        span: 619..624,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967395,
-      "node": "Member(\n    MemberExpr {\n        span: 624..627,\n        obj: Id {\n            index: 97,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 625..626,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967396,
-      "node": "Array(\n    ArrayExpr {\n        span: 618..629,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 98,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967397,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 631..632,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967398,
-      "node": "Array(\n    ArrayExpr {\n        span: 630..634,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 100,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967399,
-      "node": "Assign(\n    AssignExpr {\n        span: 628..634,\n        left: Id {\n            index: 15,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 101,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967400,
-      "node": "Assign(\n    AssignExpr {\n        span: 616..634,\n        left: Id {\n            index: 16,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 102,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967401,
-      "node": "Ident(\n    Ident {\n        span: 639..645,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967403,
-      "node": "Ident(\n    Ident {\n        span: 652..657,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967404,
-      "node": "Member(\n    MemberExpr {\n        span: 657..661,\n        obj: Id {\n            index: 106,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 658..659,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967405,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 662..663,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967406,
-      "node": "Assign(\n    AssignExpr {\n        span: 660..664,\n        left: Id {\n            index: 17,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 108,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967407,
-      "node": "Array(\n    ArrayExpr {\n        span: 651..666,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 109,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967408,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 668..669,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967409,
-      "node": "Array(\n    ArrayExpr {\n        span: 667..671,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 111,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967410,
-      "node": "Assign(\n    AssignExpr {\n        span: 665..671,\n        left: Id {\n            index: 18,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 112,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967411,
-      "node": "Assign(\n    AssignExpr {\n        span: 649..671,\n        left: Id {\n            index: 19,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 113,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967412,
-      "node": "Ident(\n    Ident {\n        span: 676..682,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967414,
-      "node": "Ident(\n    Ident {\n        span: 693..698,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967415,
-      "node": "Member(\n    MemberExpr {\n        span: 698..701,\n        obj: Id {\n            index: 117,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 699..700,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967416,
-      "node": "Array(\n    ArrayExpr {\n        span: 689..703,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: true,\n                    expr: Id {\n                        index: 118,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967417,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 705..706,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967418,
-      "node": "Array(\n    ArrayExpr {\n        span: 704..708,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 120,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967419,
-      "node": "Assign(\n    AssignExpr {\n        span: 702..708,\n        left: Id {\n            index: 20,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 121,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967420,
-      "node": "Assign(\n    AssignExpr {\n        span: 687..708,\n        left: Id {\n            index: 21,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 122,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967421,
-      "node": "Ident(\n    Ident {\n        span: 713..719,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967423,
-      "node": "Ident(\n    Ident {\n        span: 731..736,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967424,
-      "node": "Member(\n    MemberExpr {\n        span: 736..740,\n        obj: Id {\n            index: 126,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 737..738,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967425,
-      "node": "Object(\n    ObjectExpr {\n        span: 726..742,\n        props: [\n            KeyValueProp {\n                span: 728..740,\n                key: Ident(\n                    Ident {\n                        span: 728..729,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 127,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967426,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 748..749,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967427,
-      "node": "Object(\n    ObjectExpr {\n        span: 743..752,\n        props: [\n            KeyValueProp {\n                span: 745..751,\n                key: Ident(\n                    Ident {\n                        span: 745..746,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 129,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967428,
-      "node": "Assign(\n    AssignExpr {\n        span: 741..752,\n        left: Id {\n            index: 22,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 130,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967429,
-      "node": "Assign(\n    AssignExpr {\n        span: 724..752,\n        left: Id {\n            index: 23,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 131,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967430,
-      "node": "Ident(\n    Ident {\n        span: 757..763,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967432,
-      "node": "Ident(\n    Ident {\n        span: 775..780,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967433,
-      "node": "Member(\n    MemberExpr {\n        span: 780..784,\n        obj: Id {\n            index: 135,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 781..782,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967434,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 785..786,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967435,
-      "node": "Assign(\n    AssignExpr {\n        span: 783..788,\n        left: Id {\n            index: 24,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 137,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967436,
-      "node": "Object(\n    ObjectExpr {\n        span: 770..790,\n        props: [\n            KeyValueProp {\n                span: 772..788,\n                key: Ident(\n                    Ident {\n                        span: 772..773,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 138,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967437,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 796..797,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967438,
-      "node": "Object(\n    ObjectExpr {\n        span: 791..800,\n        props: [\n            KeyValueProp {\n                span: 793..799,\n                key: Ident(\n                    Ident {\n                        span: 793..794,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 140,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967439,
-      "node": "Assign(\n    AssignExpr {\n        span: 789..800,\n        left: Id {\n            index: 25,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 141,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967440,
-      "node": "Assign(\n    AssignExpr {\n        span: 768..800,\n        left: Id {\n            index: 26,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 142,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967441,
-      "node": "Ident(\n    Ident {\n        span: 805..811,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967443,
-      "node": "Ident(\n    Ident {\n        span: 823..828,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967444,
-      "node": "Member(\n    MemberExpr {\n        span: 828..832,\n        obj: Id {\n            index: 146,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 829..830,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967445,
-      "node": "Object(\n    ObjectExpr {\n        span: 818..834,\n        props: [\n            KeyValueProp {\n                span: 820..832,\n                key: Ident(\n                    Ident {\n                        span: 820..820,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 147,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967446,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 840..841,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967447,
-      "node": "Object(\n    ObjectExpr {\n        span: 835..844,\n        props: [\n            KeyValueProp {\n                span: 837..843,\n                key: Ident(\n                    Ident {\n                        span: 837..838,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 149,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967448,
-      "node": "Assign(\n    AssignExpr {\n        span: 833..844,\n        left: Id {\n            index: 27,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 150,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967449,
-      "node": "Assign(\n    AssignExpr {\n        span: 816..844,\n        left: Id {\n            index: 28,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 151,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967450,
-      "node": "Ident(\n    Ident {\n        span: 849..855,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967452,
-      "node": "Ident(\n    Ident {\n        span: 864..869,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967453,
-      "node": "Member(\n    MemberExpr {\n        span: 869..872,\n        obj: Id {\n            index: 155,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 870..871,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967454,
-      "node": "Update(\n    UpdateExpr {\n        span: 862..872,\n        op: PlusPlus,\n        arg: Id {\n            index: 156,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
-    },
-    {
-      "id": 4294967455,
-      "node": "Assign(\n    AssignExpr {\n        span: 860..872,\n        left: Id {\n            index: 29,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 157,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967456,
-      "node": "Ident(\n    Ident {\n        span: 877..883,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967458,
-      "node": "Ident(\n    Ident {\n        span: 892..897,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967459,
-      "node": "Member(\n    MemberExpr {\n        span: 897..900,\n        obj: Id {\n            index: 161,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 898..899,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967460,
-      "node": "Update(\n    UpdateExpr {\n        span: 890..900,\n        op: MinusMinus,\n        arg: Id {\n            index: 162,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
-    },
-    {
-      "id": 4294967461,
-      "node": "Assign(\n    AssignExpr {\n        span: 888..900,\n        left: Id {\n            index: 30,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 163,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967462,
-      "node": "Ident(\n    Ident {\n        span: 905..911,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967464,
-      "node": "Ident(\n    Ident {\n        span: 920..925,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967465,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 927..930,\n            value: \"a\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967466,
-      "node": "Paren(\n    ParenExpr {\n        span: 926..932,\n        expr: Id {\n            index: 168,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967467,
-      "node": "Member(\n    MemberExpr {\n        span: 925..933,\n        obj: Id {\n            index: 167,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 169,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967468,
-      "node": "Update(\n    UpdateExpr {\n        span: 918..933,\n        op: PlusPlus,\n        arg: Id {\n            index: 170,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
-    },
-    {
-      "id": 4294967469,
-      "node": "Assign(\n    AssignExpr {\n        span: 916..933,\n        left: Id {\n            index: 31,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 171,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967470,
-      "node": "Ident(\n    Ident {\n        span: 938..944,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967472,
-      "node": "Ident(\n    Ident {\n        span: 951..956,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967473,
-      "node": "Member(\n    MemberExpr {\n        span: 956..960,\n        obj: Id {\n            index: 175,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 957..958,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967474,
-      "node": "Update(\n    UpdateExpr {\n        span: 958..961,\n        op: PlusPlus,\n        arg: Id {\n            index: 176,\n            generation: 1,\n        },\n        prefix: false,\n    },\n)"
-    },
-    {
-      "id": 4294967475,
-      "node": "Assign(\n    AssignExpr {\n        span: 949..961,\n        left: Id {\n            index: 32,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 177,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967476,
-      "node": "Ident(\n    Ident {\n        span: 966..972,\n        sym: \"static\",\n    },\n)"
-    },
-    {
-      "id": 4294967478,
-      "node": "Ident(\n    Ident {\n        span: 979..984,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967479,
-      "node": "Member(\n    MemberExpr {\n        span: 984..988,\n        obj: Id {\n            index: 181,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 985..986,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967480,
-      "node": "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 986..989,\n        tag: Id {\n            index: 182,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 986..988,\n            quasis: [\n                StrLit {\n                    span: 986..988,\n                    value: \"\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967481,
-      "node": "Assign(\n    AssignExpr {\n        span: 977..989,\n        left: Id {\n            index: 33,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 183,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967483,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1033..1034,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967484,
-      "node": "Assign(\n    AssignExpr {\n        span: 1031..1035,\n        left: Id {\n            index: 34,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 186,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967486,
-      "node": "Ident(\n    Ident {\n        span: 1044..1048,\n        sym: \"this\",\n    },\n)"
-    },
-    {
-      "id": 4294967487,
-      "node": "Member(\n    MemberExpr {\n        span: 1048..1051,\n        obj: Id {\n            index: 189,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1049..1050,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967488,
-      "node": "Assign(\n    AssignExpr {\n        span: 1042..1051,\n        left: Id {\n            index: 35,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 190,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967490,
-      "node": "Ident(\n    Ident {\n        span: 1060..1065,\n        sym: \"super\",\n    },\n)"
-    },
-    {
-      "id": 4294967491,
-      "node": "Member(\n    MemberExpr {\n        span: 1065..1068,\n        obj: Id {\n            index: 193,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1066..1067,\n                sym: \"f\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967492,
-      "node": "Call(\n    CallExpr {\n        span: 1067..1070,\n        callee: Id {\n            index: 194,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967493,
-      "node": "Assign(\n    AssignExpr {\n        span: 1058..1070,\n        left: Id {\n            index: 36,\n            generation: 1,\n        },\n        op: Assign,\n        right: Id {\n            index: 195,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967494,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    }
+    "Ident(\n    Ident {\n        span: 141..147,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"f\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 149..152,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 153..159,\n        sym: \"number\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 168..174,\n        sym: \"number\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 180..181,\n        sym: \"f\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 181..184,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 185..191,\n        sym: \"number\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 252..258,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 264..268,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 268..271,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 269..270,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 262..271,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 276..282,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 288..292,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 292..295,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 293..294,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 294..297,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 286..297,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 302..308,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 314..318,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 318..322,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 320..321,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 318..322,\n        base: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 321..324,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 312..324,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 329..335,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 341..345,\n        sym: \"this\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 347..350,\n            value: \"x\",\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 346..352,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 345..353,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 352..355,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 339..355,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 360..366,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 372..376,\n        sym: \"this\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 380..383,\n            value: \"x\",\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 379..385,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 376..386,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 376..386,\n        base: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 385..388,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 370..388,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 393..399,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 405..410,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 410..413,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 411..412,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 403..413,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 418..424,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 430..435,\n        sym: \"super\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 436..439,\n            value: \"a\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 435..441,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 428..441,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 446..452,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 458..463,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 463..466,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 464..465,\n                sym: \"f\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 465..468,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 456..468,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 473..479,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 485..490,\n        sym: \"super\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 491..494,\n            value: \"f\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 490..496,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 495..498,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 483..498,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 503..509,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 515..520,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 520..524,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 521..522,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 525..526,\n            value: 0.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 523..527,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 513..527,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 532..538,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 544..549,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 549..554,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 550..551,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 555..556,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 552..557,\n        left: _,\n        op: AddAssign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 542..557,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 562..568,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 583..588,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 588..592,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 589..590,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 593..594,\n            value: 0.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 591..595,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 575..598,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 574..599,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 598..601,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 572..601,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 606..612,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 619..624,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 624..627,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 625..626,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 618..629,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 631..632,\n            value: 0.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 630..634,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 628..634,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 616..634,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 639..645,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 652..657,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 657..661,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 658..659,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 662..663,\n            value: 0.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 660..664,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 651..666,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 668..669,\n            value: 0.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 667..671,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 665..671,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 649..671,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 676..682,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 693..698,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 698..701,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 699..700,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 689..703,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: true,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 705..706,\n            value: 0.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 704..708,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 702..708,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 687..708,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 713..719,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 731..736,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 736..740,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 737..738,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 726..742,\n        props: [\n            KeyValueProp {\n                span: 728..740,\n                key: Ident(\n                    Ident {\n                        span: 728..729,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 748..749,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 743..752,\n        props: [\n            KeyValueProp {\n                span: 745..751,\n                key: Ident(\n                    Ident {\n                        span: 745..746,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 741..752,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 724..752,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 757..763,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 775..780,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 780..784,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 781..782,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 785..786,\n            value: 0.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 783..788,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 770..790,\n        props: [\n            KeyValueProp {\n                span: 772..788,\n                key: Ident(\n                    Ident {\n                        span: 772..773,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 796..797,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 791..800,\n        props: [\n            KeyValueProp {\n                span: 793..799,\n                key: Ident(\n                    Ident {\n                        span: 793..794,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 789..800,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 768..800,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 805..811,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 823..828,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 828..832,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 829..830,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 818..834,\n        props: [\n            KeyValueProp {\n                span: 820..832,\n                key: Ident(\n                    Ident {\n                        span: 820..820,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 840..841,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 835..844,\n        props: [\n            KeyValueProp {\n                span: 837..843,\n                key: Ident(\n                    Ident {\n                        span: 837..838,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 833..844,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 816..844,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 849..855,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 864..869,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 869..872,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 870..871,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 862..872,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 860..872,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 877..883,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 892..897,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 897..900,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 898..899,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 890..900,\n        op: MinusMinus,\n        arg: _,\n        prefix: true,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 888..900,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 905..911,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 920..925,\n        sym: \"super\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 927..930,\n            value: \"a\",\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 926..932,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 925..933,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 918..933,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 916..933,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 938..944,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 951..956,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 956..960,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 957..958,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 958..961,\n        op: PlusPlus,\n        arg: _,\n        prefix: false,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 949..961,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 966..972,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 979..984,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 984..988,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 985..986,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 986..989,\n        tag: _,\n        template: TemplateExpr {\n            span: 986..988,\n            quasis: [\n                StrLit {\n                    span: 986..988,\n                    value: \"\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 977..989,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1033..1034,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 1031..1035,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1044..1048,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1048..1051,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1049..1050,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 1042..1051,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1060..1065,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1065..1068,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1066..1067,\n                sym: \"f\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1067..1070,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 1058..1070,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

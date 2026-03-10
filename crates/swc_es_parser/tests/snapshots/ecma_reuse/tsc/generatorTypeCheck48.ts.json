@@ -1,53 +1,22 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 40..109,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 40..109,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 60..68,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 90..108,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 60..68,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 90..108,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Fn(\n    FnDecl {\n        span: 40..78,\n        ident: Ident {\n            span: 50..51,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Fn(\n    FnDecl {\n        span: 70..109,\n        ident: Ident {\n            span: 80..81,\n            sym: \"h\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Fn(\n    FnDecl {\n        span: 40..78,\n        ident: Ident {\n            span: 50..51,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 70..109,\n        ident: Ident {\n            span: 80..81,\n            sym: \"h\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Yield(\n    YieldExpr {\n        span: 60..66,\n        arg: None,\n        delegate: false,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 96..105,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Yield(\n    YieldExpr {\n        span: 90..106,\n        arg: Some(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n        delegate: false,\n    },\n)"
-    }
+    "Yield(\n    YieldExpr {\n        span: 60..66,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 96..105,\n        sym: \"undefined\",\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 90..106,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

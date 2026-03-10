@@ -1,38 +1,22 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..10,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..10,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..10,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 1..10,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 5..6,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "JSXElement(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Lit(\n    Null(\n        NullLit {\n            span: 5..6,\n        },\n    ),\n)",
+    "JSXElement(\n    _,\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [],
   "class_members": [],
   "jsx_elements": [
-    {
-      "id": 4294967297,
-      "node": "JSXElement {\n    span: 1..10,\n    opening: JSXOpeningElement {\n        span: 1..10,\n        name: Ident(\n            Ident {\n                span: 2..4,\n                sym: \"a\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Expr(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 8..10,\n                sym: \"a\",\n            },\n        ),\n    ),\n}"
-    }
+    "JSXElement {\n    span: 1..10,\n    opening: JSXOpeningElement {\n        span: 1..10,\n        name: Ident(\n            Ident {\n                span: 2..4,\n                sym: \"a\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Expr(\n            _,\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 8..10,\n                sym: \"a\",\n            },\n        ),\n    ),\n}"
   ],
   "ts_types": []
 }

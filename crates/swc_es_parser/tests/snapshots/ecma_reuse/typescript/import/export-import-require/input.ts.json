@@ -1,10 +1,6 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..33,\n    kind: Module,\n    body: [],\n}"
-    }
+    "Program {\n    span: 1..33,\n    kind: Module,\n    body: [],\n}"
   ],
   "stmts": [],
   "decls": [],

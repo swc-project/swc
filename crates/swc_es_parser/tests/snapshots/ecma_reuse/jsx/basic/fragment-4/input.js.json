@@ -1,42 +1,23 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..51,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..51,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..51,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 1..51,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967299,
-      "node": "JSXElement(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    }
+    "JSXElement(\n    _,\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [],
   "class_members": [],
   "jsx_elements": [
-    {
-      "id": 4294967297,
-      "node": "JSXElement {\n    span: 13..44,\n    opening: JSXOpeningElement {\n        span: 13..44,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"super\",\n        ),\n        Text(\n            \"deep\",\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "JSXElement {\n    span: 6..48,\n    opening: JSXOpeningElement {\n        span: 6..48,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}"
-    },
-    {
-      "id": 4294967299,
-      "node": "JSXElement {\n    span: 1..51,\n    opening: JSXOpeningElement {\n        span: 1..51,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}"
-    }
+    "JSXElement {\n    span: 13..44,\n    opening: JSXOpeningElement {\n        span: 13..44,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"super\",\n        ),\n        Text(\n            \"deep\",\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}",
+    "JSXElement {\n    span: 6..48,\n    opening: JSXOpeningElement {\n        span: 6..48,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            _,\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}",
+    "JSXElement {\n    span: 1..51,\n    opening: JSXOpeningElement {\n        span: 1..51,\n        name: Qualified(\n            \"\",\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            _,\n        ),\n    ],\n    closing: Some(\n        Qualified(\n            \"\",\n        ),\n    ),\n}"
   ],
   "ts_types": []
 }

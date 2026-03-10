@@ -1,38 +1,22 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..32,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..32,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Class(\n    ClassDecl {\n        span: 1..32,\n        ident: Ident {\n            span: 7..12,\n            sym: \"Outer\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Class(\n    ClassDecl {\n        span: 1..32,\n        ident: Ident {\n            span: 7..12,\n            sym: \"Outer\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 1..32,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..12,\n            sym: \"Outer\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 1..32,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..12,\n            sym: \"Outer\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Prop(\n    ClassProp {\n        span: 15..31,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 22..28,\n                sym: \"public\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
-    }
+    "Prop(\n    ClassProp {\n        span: 15..31,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 22..28,\n                sym: \"public\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

@@ -1,405 +1,116 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 45..2275,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 9,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n        Id {\n            index: 15,\n            generation: 1,\n        },\n        Id {\n            index: 17,\n            generation: 1,\n        },\n        Id {\n            index: 19,\n            generation: 1,\n        },\n        Id {\n            index: 21,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 25,\n            generation: 1,\n        },\n        Id {\n            index: 27,\n            generation: 1,\n        },\n        Id {\n            index: 29,\n            generation: 1,\n        },\n        Id {\n            index: 31,\n            generation: 1,\n        },\n        Id {\n            index: 33,\n            generation: 1,\n        },\n        Id {\n            index: 35,\n            generation: 1,\n        },\n        Id {\n            index: 37,\n            generation: 1,\n        },\n        Id {\n            index: 39,\n            generation: 1,\n        },\n        Id {\n            index: 41,\n            generation: 1,\n        },\n        Id {\n            index: 43,\n            generation: 1,\n        },\n        Id {\n            index: 45,\n            generation: 1,\n        },\n        Id {\n            index: 47,\n            generation: 1,\n        },\n        Id {\n            index: 49,\n            generation: 1,\n        },\n        Id {\n            index: 51,\n            generation: 1,\n        },\n        Id {\n            index: 53,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 45..2275,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 80..88,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 118..126,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 154..166,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Decl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Decl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Decl(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Decl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Decl(\n    Id {\n        index: 12,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Decl(\n    Id {\n        index: 13,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Decl(\n    Id {\n        index: 14,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Decl(\n    Id {\n        index: 15,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Decl(\n    Id {\n        index: 16,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Decl(\n    Id {\n        index: 17,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Decl(\n    Id {\n        index: 18,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Decl(\n    Id {\n        index: 19,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Decl(\n    Id {\n        index: 20,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Decl(\n    Id {\n        index: 21,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Decl(\n    Id {\n        index: 22,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Decl(\n    Id {\n        index: 23,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Decl(\n    Id {\n        index: 24,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Decl(\n    Id {\n        index: 25,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Decl(\n    Id {\n        index: 26,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Decl(\n    Id {\n        index: 27,\n        generation: 1,\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 80..88,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 118..126,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 154..166,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 157..196,\n        ident: Ident {\n            span: 167..168,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 175..189,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 175..178,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Class(\n    ClassDecl {\n        span: 191..220,\n        ident: Ident {\n            span: 197..199,\n            sym: \"PA\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Class(\n    ClassDecl {\n        span: 215..242,\n        ident: Ident {\n            span: 221..223,\n            sym: \"PB\",\n        },\n        declare: false,\n        class: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Var(\n    VarDecl {\n        span: 239..266,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 239..266,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Var(\n    VarDecl {\n        span: 263..293,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 263..283,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Fn(\n    FnDecl {\n        span: 336..371,\n        ident: Ident {\n            span: 345..349,\n            sym: \"foo1\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Fn(\n    FnDecl {\n        span: 416..452,\n        ident: Ident {\n            span: 425..430,\n            sym: \"foo1b\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 8,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Fn(\n    FnDecl {\n        span: 513..549,\n        ident: Ident {\n            span: 522..527,\n            sym: \"foo1c\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Fn(\n    FnDecl {\n        span: 592..627,\n        ident: Ident {\n            span: 601..605,\n            sym: \"foo2\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 14,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Fn(\n    FnDecl {\n        span: 684..719,\n        ident: Ident {\n            span: 693..697,\n            sym: \"foo3\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 17,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Fn(\n    FnDecl {\n        span: 776..811,\n        ident: Ident {\n            span: 785..789,\n            sym: \"foo4\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 20,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Fn(\n    FnDecl {\n        span: 857..892,\n        ident: Ident {\n            span: 866..870,\n            sym: \"foo5\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 23,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Fn(\n    FnDecl {\n        span: 948..984,\n        ident: Ident {\n            span: 957..962,\n            sym: \"foo5b\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 26,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Fn(\n    FnDecl {\n        span: 1030..1066,\n        ident: Ident {\n            span: 1039..1044,\n            sym: \"foo5c\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 29,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Fn(\n    FnDecl {\n        span: 1115..1151,\n        ident: Ident {\n            span: 1124..1129,\n            sym: \"foo5d\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 32,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Fn(\n    FnDecl {\n        span: 1197..1232,\n        ident: Ident {\n            span: 1206..1210,\n            sym: \"foo6\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 35,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Fn(\n    FnDecl {\n        span: 1285..1320,\n        ident: Ident {\n            span: 1294..1298,\n            sym: \"foo7\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 38,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Fn(\n    FnDecl {\n        span: 1366..1401,\n        ident: Ident {\n            span: 1375..1379,\n            sym: \"foo8\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 41,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Fn(\n    FnDecl {\n        span: 1455..1490,\n        ident: Ident {\n            span: 1464..1468,\n            sym: \"foo9\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 44,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Fn(\n    FnDecl {\n        span: 1545..1581,\n        ident: Ident {\n            span: 1554..1559,\n            sym: \"foo10\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 47,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Fn(\n    FnDecl {\n        span: 1636..1672,\n        ident: Ident {\n            span: 1645..1650,\n            sym: \"foo11\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 50,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Fn(\n    FnDecl {\n        span: 1723..1760,\n        ident: Ident {\n            span: 1732..1738,\n            sym: \"foo11b\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 53,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Fn(\n    FnDecl {\n        span: 1808..1845,\n        ident: Ident {\n            span: 1817..1823,\n            sym: \"foo11c\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 56,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Fn(\n    FnDecl {\n        span: 1901..1937,\n        ident: Ident {\n            span: 1910..1915,\n            sym: \"foo12\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 59,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Fn(\n    FnDecl {\n        span: 1989..2025,\n        ident: Ident {\n            span: 1998..2003,\n            sym: \"foo13\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 62,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Fn(\n    FnDecl {\n        span: 2077..2113,\n        ident: Ident {\n            span: 2086..2091,\n            sym: \"foo14\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 65,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Fn(\n    FnDecl {\n        span: 2162..2198,\n        ident: Ident {\n            span: 2171..2176,\n            sym: \"foo15\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 68,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Fn(\n    FnDecl {\n        span: 2247..2275,\n        ident: Ident {\n            span: 2256..2261,\n            sym: \"foo16\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 71,\n                generation: 1,\n            },\n        ],\n        body: [],\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 157..196,\n        ident: Ident {\n            span: 167..168,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 175..189,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 175..178,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 191..220,\n        ident: Ident {\n            span: 197..199,\n            sym: \"PA\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 215..242,\n        ident: Ident {\n            span: 221..223,\n            sym: \"PB\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 239..266,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 239..266,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 263..293,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 263..283,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 336..371,\n        ident: Ident {\n            span: 345..349,\n            sym: \"foo1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 416..452,\n        ident: Ident {\n            span: 425..430,\n            sym: \"foo1b\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 513..549,\n        ident: Ident {\n            span: 522..527,\n            sym: \"foo1c\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 592..627,\n        ident: Ident {\n            span: 601..605,\n            sym: \"foo2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 684..719,\n        ident: Ident {\n            span: 693..697,\n            sym: \"foo3\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 776..811,\n        ident: Ident {\n            span: 785..789,\n            sym: \"foo4\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 857..892,\n        ident: Ident {\n            span: 866..870,\n            sym: \"foo5\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 948..984,\n        ident: Ident {\n            span: 957..962,\n            sym: \"foo5b\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1030..1066,\n        ident: Ident {\n            span: 1039..1044,\n            sym: \"foo5c\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1115..1151,\n        ident: Ident {\n            span: 1124..1129,\n            sym: \"foo5d\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1197..1232,\n        ident: Ident {\n            span: 1206..1210,\n            sym: \"foo6\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1285..1320,\n        ident: Ident {\n            span: 1294..1298,\n            sym: \"foo7\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1366..1401,\n        ident: Ident {\n            span: 1375..1379,\n            sym: \"foo8\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1455..1490,\n        ident: Ident {\n            span: 1464..1468,\n            sym: \"foo9\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1545..1581,\n        ident: Ident {\n            span: 1554..1559,\n            sym: \"foo10\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1636..1672,\n        ident: Ident {\n            span: 1645..1650,\n            sym: \"foo11\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1723..1760,\n        ident: Ident {\n            span: 1732..1738,\n            sym: \"foo11b\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1808..1845,\n        ident: Ident {\n            span: 1817..1823,\n            sym: \"foo11c\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1901..1937,\n        ident: Ident {\n            span: 1910..1915,\n            sym: \"foo12\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1989..2025,\n        ident: Ident {\n            span: 1998..2003,\n            sym: \"foo13\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 2077..2113,\n        ident: Ident {\n            span: 2086..2091,\n            sym: \"foo14\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 2162..2198,\n        ident: Ident {\n            span: 2171..2176,\n            sym: \"foo15\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 2247..2275,\n        ident: Ident {\n            span: 2256..2261,\n            sym: \"foo16\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 243..244,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 267..268,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Assign(\n    AssignPat {\n        span: 269..283,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 350..351,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 431..432,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Ident(\n    Ident {\n        span: 528..529,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Ident(\n    Ident {\n        span: 606..607,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Ident(\n    Ident {\n        span: 698..699,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Ident(\n    Ident {\n        span: 790..791,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Ident(\n    Ident {\n        span: 871..872,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Ident(\n    Ident {\n        span: 963..964,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Ident(\n    Ident {\n        span: 1045..1046,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Ident(\n    Ident {\n        span: 1130..1131,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Ident(\n    Ident {\n        span: 1211..1212,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Ident(\n    Ident {\n        span: 1299..1300,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Ident(\n    Ident {\n        span: 1380..1381,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Ident(\n    Ident {\n        span: 1469..1470,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Ident(\n    Ident {\n        span: 1560..1561,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967347,
-      "node": "Ident(\n    Ident {\n        span: 1651..1652,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Ident(\n    Ident {\n        span: 1739..1740,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "Ident(\n    Ident {\n        span: 1824..1825,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967356,
-      "node": "Ident(\n    Ident {\n        span: 1916..1917,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967359,
-      "node": "Ident(\n    Ident {\n        span: 2004..2005,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967362,
-      "node": "Ident(\n    Ident {\n        span: 2092..2093,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967365,
-      "node": "Ident(\n    Ident {\n        span: 2177..2178,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967368,
-      "node": "Ident(\n    Ident {\n        span: 2262..2263,\n        sym: \"x\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 243..244,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 267..268,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 269..283,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 350..351,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 431..432,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 528..529,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 606..607,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 698..699,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 790..791,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 871..872,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 963..964,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1045..1046,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1130..1131,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1211..1212,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1299..1300,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1380..1381,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1469..1470,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1560..1561,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1651..1652,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1739..1740,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1824..1825,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1916..1917,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2004..2005,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2092..2093,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2177..2178,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2262..2263,\n        sym: \"x\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 208..209,\n        sym: \"A\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 232..233,\n        sym: \"B\",\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 278..280,\n            value: \"\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Object(\n    ObjectExpr {\n        span: 271..283,\n        props: [\n            KeyValueProp {\n                span: 273..282,\n                key: Ident(\n                    Ident {\n                        span: 273..276,\n                        sym: \"foo\",\n                    },\n                ),\n                value: Id {\n                    index: 7,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 208..209,\n        sym: \"A\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 232..233,\n        sym: \"B\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 278..280,\n            value: \"\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 271..283,\n        props: [\n            KeyValueProp {\n                span: 273..282,\n                key: Ident(\n                    Ident {\n                        span: 273..276,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 191..220,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 197..199,\n            sym: \"PA\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ),\n    body: [],\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "Class {\n    span: 215..242,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 221..223,\n            sym: \"PB\",\n        },\n    ),\n    super_class: Some(\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ),\n    body: [],\n}"
-    }
+    "Class {\n    span: 191..220,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 197..199,\n            sym: \"PA\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 215..242,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 221..223,\n            sym: \"PB\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
   ],
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    String,\n)"
-    }
+    "Keyword(\n    String,\n)"
   ]
 }

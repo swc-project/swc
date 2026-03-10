@@ -1,46 +1,18 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..435,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..435,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 1..63,\n        ident: Ident {\n            span: 11..13,\n            sym: \"I1\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 20..34,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 20..21,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 33..52,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 33..34,\n                            sym: \"f\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 35..43,\n                        name: Some(\n                            Ident {\n                                span: 35..36,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 1,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 54..150,\n        ident: Ident {\n            span: 64..66,\n            sym: \"I2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 73..97,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 74..82,\n                        name: Some(\n                            Ident {\n                                span: 74..75,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 3,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 94..120,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 99..107,\n                        name: Some(\n                            Ident {\n                                span: 99..100,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 5,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 119..139,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 120..121,\n                        name: Some(\n                            Ident {\n                                span: 120..121,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 7,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 141..195,\n        ident: Ident {\n            span: 151..154,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 155..156,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 164..175,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 164..165,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 9,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 174..184,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 174..175,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 186..435,\n        ident: Ident {\n            span: 196..198,\n            sym: \"I3\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 205..221,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 205..206,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 12,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 220..242,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 220..221,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 15,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 241..262,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 241..242,\n                            sym: \"c\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 18,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 261..282,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 261..262,\n                            sym: \"d\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 21,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 281..301,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 281..282,\n                            sym: \"e\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 25,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 300..327,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 300..301,\n                            sym: \"f\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 28,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 326..357,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 326..327,\n                            sym: \"g\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 31,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 356..375,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 356..357,\n                            sym: \"h\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 33,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 374..408,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 374..375,\n                            sym: \"i\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 39,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 407..426,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 407..408,\n                            sym: \"j\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 42,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 424..431,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 424..426,\n                            sym: \"is\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 427..434,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 427..431,\n                            sym: \"this\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n        ],\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..63,\n        ident: Ident {\n            span: 11..13,\n            sym: \"I1\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 20..34,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 20..21,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 33..52,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 33..34,\n                            sym: \"f\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 35..43,\n                        name: Some(\n                            Ident {\n                                span: 35..36,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 54..150,\n        ident: Ident {\n            span: 64..66,\n            sym: \"I2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 73..97,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 74..82,\n                        name: Some(\n                            Ident {\n                                span: 74..75,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 94..120,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 99..107,\n                        name: Some(\n                            Ident {\n                                span: 99..100,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 119..139,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 120..121,\n                        name: Some(\n                            Ident {\n                                span: 120..121,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 141..195,\n        ident: Ident {\n            span: 151..154,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 155..156,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 164..175,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 164..165,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 174..184,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 174..175,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 186..435,\n        ident: Ident {\n            span: 196..198,\n            sym: \"I3\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 205..221,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 205..206,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 220..242,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 220..221,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 241..262,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 241..242,\n                            sym: \"c\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 261..282,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 261..262,\n                            sym: \"d\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 281..301,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 281..282,\n                            sym: \"e\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 300..327,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 300..301,\n                            sym: \"f\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 326..357,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 326..327,\n                            sym: \"g\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 356..375,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 356..357,\n                            sym: \"h\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 374..408,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 374..375,\n                            sym: \"i\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 407..426,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 407..408,\n                            sym: \"j\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 424..431,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 424..426,\n                            sym: \"is\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 427..434,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 427..431,\n                            sym: \"this\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
@@ -50,177 +22,48 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 23..28,\n        name: Ident {\n            span: 23..28,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 38..43,\n        name: Ident {\n            span: 38..43,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 45..50,\n        name: Ident {\n            span: 45..50,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 77..82,\n        name: Ident {\n            span: 77..82,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 84..89,\n        name: Ident {\n            span: 84..89,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 102..107,\n        name: Ident {\n            span: 102..107,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 109..114,\n        name: Ident {\n            span: 109..114,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 132..137,\n        name: Ident {\n            span: 132..137,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 167..169,\n        name: Ident {\n            span: 167..169,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 177..182,\n        name: Ident {\n            span: 177..182,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 208..213,\n        name: Ident {\n            span: 208..213,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Array(\n    TsArrayType {\n        span: 208..215,\n        elem_type: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 224..229,\n        name: Ident {\n            span: 224..229,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 230..235,\n        name: Ident {\n            span: 230..235,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Tuple(\n    TsTupleType {\n        span: 223..236,\n        elem_types: [\n            Id {\n                index: 13,\n                generation: 1,\n            },\n            Id {\n                index: 14,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 244..250,\n        name: Ident {\n            span: 244..250,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 251..256,\n        name: Ident {\n            span: 251..256,\n            sym: \"Date\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Union(\n    TsUnionType {\n        span: 244..256,\n        types: [\n            Id {\n                index: 16,\n                generation: 1,\n            },\n            Id {\n                index: 17,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 264..270,\n        name: Ident {\n            span: 264..270,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 271..276,\n        name: Ident {\n            span: 271..276,\n            sym: \"Date\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Intersection(\n    TsIntersectionType {\n        span: 264..276,\n        types: [\n            Id {\n                index: 19,\n                generation: 1,\n            },\n            Id {\n                index: 20,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 287..292,\n        name: Ident {\n            span: 287..292,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Parenthesized(\n    TsParenthesizedType {\n        span: 286..293,\n        ty: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Parenthesized(\n    TsParenthesizedType {\n        span: 285..294,\n        ty: Id {\n            index: 23,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Parenthesized(\n    TsParenthesizedType {\n        span: 284..295,\n        ty: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 307..312,\n        name: Ident {\n            span: 307..312,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 316..321,\n        name: Ident {\n            span: 316..321,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Fn(\n    TsFnType {\n        span: 303..321,\n        params: [\n            TsFnParam {\n                span: 304..312,\n                name: Some(\n                    Ident {\n                        span: 304..305,\n                        sym: \"x\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 26,\n                        generation: 1,\n                    },\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 337..342,\n        name: Ident {\n            span: 337..342,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 346..351,\n        name: Ident {\n            span: 346..351,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Fn(\n    TsFnType {\n        span: 333..351,\n        params: [\n            TsFnParam {\n                span: 334..342,\n                name: Some(\n                    Ident {\n                        span: 334..335,\n                        sym: \"x\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 29,\n                        generation: 1,\n                    },\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 30,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 363..368,\n        name: Ident {\n            span: 363..368,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 359..369,\n        name: Ident {\n            span: 359..363,\n            sym: \"Foo\",\n        },\n        type_args: [\n            Id {\n                index: 32,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 381..387,\n        name: Ident {\n            span: 381..387,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 395..400,\n        name: Ident {\n            span: 395..400,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Fn(\n    TsFnType {\n        span: 389..400,\n        params: [],\n        return_type: Id {\n            index: 35,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Parenthesized(\n    TsParenthesizedType {\n        span: 388..401,\n        ty: Id {\n            index: 36,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Union(\n    TsUnionType {\n        span: 381..401,\n        types: [\n            Id {\n                index: 34,\n                generation: 1,\n            },\n            Id {\n                index: 37,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 377..402,\n        name: Ident {\n            span: 377..381,\n            sym: \"Foo\",\n        },\n        type_args: [\n            Id {\n                index: 38,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 422..426,\n        name: Ident {\n            span: 422..426,\n            sym: \"x\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967339,
-      "node": "Fn(\n    TsFnType {\n        span: 410..426,\n        params: [\n            TsFnParam {\n                span: 411..418,\n                name: Some(\n                    Ident {\n                        span: 411..412,\n                        sym: \"x\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 40,\n                        generation: 1,\n                    },\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 41,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "TypeRef(\n    TsTypeRef {\n        span: 23..28,\n        name: Ident {\n            span: 23..28,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 38..43,\n        name: Ident {\n            span: 38..43,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 45..50,\n        name: Ident {\n            span: 45..50,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 77..82,\n        name: Ident {\n            span: 77..82,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 84..89,\n        name: Ident {\n            span: 84..89,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 102..107,\n        name: Ident {\n            span: 102..107,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 109..114,\n        name: Ident {\n            span: 109..114,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 132..137,\n        name: Ident {\n            span: 132..137,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 167..169,\n        name: Ident {\n            span: 167..169,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 177..182,\n        name: Ident {\n            span: 177..182,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 208..213,\n        name: Ident {\n            span: 208..213,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "Array(\n    TsArrayType {\n        span: 208..215,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 224..229,\n        name: Ident {\n            span: 224..229,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 230..235,\n        name: Ident {\n            span: 230..235,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 223..236,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 244..250,\n        name: Ident {\n            span: 244..250,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 251..256,\n        name: Ident {\n            span: 251..256,\n            sym: \"Date\",\n        },\n        type_args: [],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 244..256,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 264..270,\n        name: Ident {\n            span: 264..270,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 271..276,\n        name: Ident {\n            span: 271..276,\n            sym: \"Date\",\n        },\n        type_args: [],\n    },\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 264..276,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 287..292,\n        name: Ident {\n            span: 287..292,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 286..293,\n        ty: _,\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 285..294,\n        ty: _,\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 284..295,\n        ty: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 307..312,\n        name: Ident {\n            span: 307..312,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 316..321,\n        name: Ident {\n            span: 316..321,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 303..321,\n        params: [\n            TsFnParam {\n                span: 304..312,\n                name: Some(\n                    Ident {\n                        span: 304..305,\n                        sym: \"x\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 337..342,\n        name: Ident {\n            span: 337..342,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 346..351,\n        name: Ident {\n            span: 346..351,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 333..351,\n        params: [\n            TsFnParam {\n                span: 334..342,\n                name: Some(\n                    Ident {\n                        span: 334..335,\n                        sym: \"x\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 363..368,\n        name: Ident {\n            span: 363..368,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 359..369,\n        name: Ident {\n            span: 359..363,\n            sym: \"Foo\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 381..387,\n        name: Ident {\n            span: 381..387,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 395..400,\n        name: Ident {\n            span: 395..400,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 389..400,\n        params: [],\n        return_type: _,\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 388..401,\n        ty: _,\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 381..401,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 377..402,\n        name: Ident {\n            span: 377..381,\n            sym: \"Foo\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 422..426,\n        name: Ident {\n            span: 422..426,\n            sym: \"x\",\n        },\n        type_args: [],\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 410..426,\n        params: [\n            TsFnParam {\n                span: 411..418,\n                name: Some(\n                    Ident {\n                        span: 411..412,\n                        sym: \"x\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)"
   ]
 }

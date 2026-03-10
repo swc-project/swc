@@ -1,32 +1,16 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..6,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..6,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..6,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 1..6,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Call(\n    CallExpr {\n        span: 2..6,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 4..6,\n        tag: Id {\n            index: 1,\n            generation: 1,\n        },\n        template: TemplateExpr {\n            span: 4..6,\n            quasis: [\n                StrLit {\n                    span: 4..6,\n                    value: \"\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2..6,\n        callee: _,\n        args: [],\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 4..6,\n        tag: _,\n        template: TemplateExpr {\n            span: 4..6,\n            quasis: [\n                StrLit {\n                    span: 4..6,\n                    value: \"\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

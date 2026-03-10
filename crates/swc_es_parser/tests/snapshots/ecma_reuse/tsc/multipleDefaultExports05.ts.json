@@ -1,69 +1,29 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 39..125,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 39..125,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Class(\n    ClassDecl {\n        span: 39..74,\n        ident: Ident {\n            span: 60..63,\n            sym: \"AA1\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Class(\n    ClassDecl {\n        span: 68..103,\n        ident: Ident {\n            span: 89..92,\n            sym: \"BB1\",\n        },\n        declare: false,\n        class: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Class(\n    ClassDecl {\n        span: 97..125,\n        ident: Ident {\n            span: 118..121,\n            sym: \"CC1\",\n        },\n        declare: false,\n        class: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Class(\n    ClassDecl {\n        span: 39..74,\n        ident: Ident {\n            span: 60..63,\n            sym: \"AA1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 68..103,\n        ident: Ident {\n            span: 89..92,\n            sym: \"BB1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 97..125,\n        ident: Ident {\n            span: 118..121,\n            sym: \"CC1\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 39..74,\n        decl: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 68..103,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 97..125,\n        decl: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 39..74,\n        decl: _,\n    },\n)",
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 68..103,\n        decl: _,\n    },\n)",
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 97..125,\n        decl: _,\n    },\n)"
   ],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 54..74,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 60..63,\n            sym: \"AA1\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "Class {\n    span: 83..103,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 89..92,\n            sym: \"BB1\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
-    },
-    {
-      "id": 4294967299,
-      "node": "Class {\n    span: 112..125,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 118..121,\n            sym: \"CC1\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
-    }
+    "Class {\n    span: 54..74,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 60..63,\n            sym: \"AA1\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 83..103,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 89..92,\n            sym: \"BB1\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 112..125,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 118..121,\n            sym: \"CC1\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
   ],
   "class_members": [],
   "jsx_elements": [],

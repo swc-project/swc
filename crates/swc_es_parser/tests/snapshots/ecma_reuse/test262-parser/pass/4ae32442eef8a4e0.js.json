@@ -1,16 +1,9 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 6..7,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 6..7,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Empty(\n    EmptyStmt {\n        span: 6..7,\n    },\n)"
-    }
+    "Empty(\n    EmptyStmt {\n        span: 6..7,\n    },\n)"
   ],
   "decls": [],
   "pats": [],

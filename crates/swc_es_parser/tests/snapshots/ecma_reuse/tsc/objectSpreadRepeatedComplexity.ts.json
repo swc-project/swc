@@ -1,658 +1,174 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 18..1877,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 18..1877,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Return(\n    ReturnStmt {\n        span: 147..1877,\n        arg: Some(\n            Id {\n                index: 155,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Return(\n    ReturnStmt {\n        span: 147..1877,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Fn(\n    FnDecl {\n        span: 18..1877,\n        ident: Ident {\n            span: 27..28,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Fn(\n    FnDecl {\n        span: 18..1877,\n        ident: Ident {\n            span: 27..28,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 29..32,\n        sym: \"cnd\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 29..32,\n        sym: \"cnd\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 218..221,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 222..223,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Member(\n    MemberExpr {\n        span: 221..227,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 240..243,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 244..245,\n            value: 2.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Member(\n    MemberExpr {\n        span: 243..249,\n        obj: Id {\n            index: 3,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 4,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Binary(\n    BinaryExpr {\n        span: 225..249,\n        op: LogicalAnd,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 271..272,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Object(\n    ObjectExpr {\n        span: 250..284,\n        props: [\n            KeyValueProp {\n                span: 264..273,\n                key: Ident(\n                    Ident {\n                        span: 264..269,\n                        sym: \"prop0\",\n                    },\n                ),\n                value: Id {\n                    index: 7,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Binary(\n    BinaryExpr {\n        span: 247..284,\n        op: LogicalAnd,\n        left: Id {\n            index: 6,\n            generation: 1,\n        },\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Paren(\n    ParenExpr {\n        span: 217..285,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Ident(\n    Ident {\n        span: 372..375,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 376..377,\n            value: 3.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Member(\n    MemberExpr {\n        span: 375..381,\n        obj: Id {\n            index: 11,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 12,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 404..405,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 427..428,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Object(\n    ObjectExpr {\n        span: 382..440,\n        props: [\n            KeyValueProp {\n                span: 396..406,\n                key: Ident(\n                    Ident {\n                        span: 396..402,\n                        sym: \"prop3a\",\n                    },\n                ),\n                value: Id {\n                    index: 14,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 419..429,\n                key: Ident(\n                    Ident {\n                        span: 419..425,\n                        sym: \"prop3b\",\n                    },\n                ),\n                value: Id {\n                    index: 15,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Binary(\n    BinaryExpr {\n        span: 379..440,\n        op: LogicalAnd,\n        left: Id {\n            index: 13,\n            generation: 1,\n        },\n        right: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Paren(\n    ParenExpr {\n        span: 371..441,\n        expr: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Ident(\n    Ident {\n        span: 454..457,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 458..459,\n            value: 4.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Member(\n    MemberExpr {\n        span: 457..463,\n        obj: Id {\n            index: 19,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 20,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 486..487,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 509..510,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Object(\n    ObjectExpr {\n        span: 464..522,\n        props: [\n            KeyValueProp {\n                span: 478..488,\n                key: Ident(\n                    Ident {\n                        span: 478..484,\n                        sym: \"prop4a\",\n                    },\n                ),\n                value: Id {\n                    index: 22,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 501..511,\n                key: Ident(\n                    Ident {\n                        span: 501..507,\n                        sym: \"prop4b\",\n                    },\n                ),\n                value: Id {\n                    index: 23,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Binary(\n    BinaryExpr {\n        span: 461..522,\n        op: LogicalAnd,\n        left: Id {\n            index: 21,\n            generation: 1,\n        },\n        right: Id {\n            index: 24,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Paren(\n    ParenExpr {\n        span: 453..523,\n        expr: Id {\n            index: 25,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Ident(\n    Ident {\n        span: 536..539,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 540..541,\n            value: 5.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Member(\n    MemberExpr {\n        span: 539..545,\n        obj: Id {\n            index: 27,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 28,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 568..569,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 591..592,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Object(\n    ObjectExpr {\n        span: 546..604,\n        props: [\n            KeyValueProp {\n                span: 560..570,\n                key: Ident(\n                    Ident {\n                        span: 560..566,\n                        sym: \"prop5a\",\n                    },\n                ),\n                value: Id {\n                    index: 30,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 583..593,\n                key: Ident(\n                    Ident {\n                        span: 583..589,\n                        sym: \"prop5b\",\n                    },\n                ),\n                value: Id {\n                    index: 31,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Binary(\n    BinaryExpr {\n        span: 543..604,\n        op: LogicalAnd,\n        left: Id {\n            index: 29,\n            generation: 1,\n        },\n        right: Id {\n            index: 32,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Paren(\n    ParenExpr {\n        span: 535..605,\n        expr: Id {\n            index: 33,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Ident(\n    Ident {\n        span: 618..621,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 622..623,\n            value: 6.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Member(\n    MemberExpr {\n        span: 621..627,\n        obj: Id {\n            index: 35,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 36,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 650..651,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 673..674,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Object(\n    ObjectExpr {\n        span: 628..686,\n        props: [\n            KeyValueProp {\n                span: 642..652,\n                key: Ident(\n                    Ident {\n                        span: 642..648,\n                        sym: \"prop6a\",\n                    },\n                ),\n                value: Id {\n                    index: 38,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 665..675,\n                key: Ident(\n                    Ident {\n                        span: 665..671,\n                        sym: \"prop6b\",\n                    },\n                ),\n                value: Id {\n                    index: 39,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Binary(\n    BinaryExpr {\n        span: 625..686,\n        op: LogicalAnd,\n        left: Id {\n            index: 37,\n            generation: 1,\n        },\n        right: Id {\n            index: 40,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967339,
-      "node": "Paren(\n    ParenExpr {\n        span: 617..687,\n        expr: Id {\n            index: 41,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Ident(\n    Ident {\n        span: 700..703,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 704..705,\n            value: 7.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Member(\n    MemberExpr {\n        span: 703..709,\n        obj: Id {\n            index: 43,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 44,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967343,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 732..733,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 755..756,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967345,
-      "node": "Object(\n    ObjectExpr {\n        span: 710..768,\n        props: [\n            KeyValueProp {\n                span: 724..734,\n                key: Ident(\n                    Ident {\n                        span: 724..730,\n                        sym: \"prop7a\",\n                    },\n                ),\n                value: Id {\n                    index: 46,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 747..757,\n                key: Ident(\n                    Ident {\n                        span: 747..753,\n                        sym: \"prop7b\",\n                    },\n                ),\n                value: Id {\n                    index: 47,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Binary(\n    BinaryExpr {\n        span: 707..768,\n        op: LogicalAnd,\n        left: Id {\n            index: 45,\n            generation: 1,\n        },\n        right: Id {\n            index: 48,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967347,
-      "node": "Paren(\n    ParenExpr {\n        span: 699..769,\n        expr: Id {\n            index: 49,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Ident(\n    Ident {\n        span: 782..785,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967349,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 786..787,\n            value: 8.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Member(\n    MemberExpr {\n        span: 785..791,\n        obj: Id {\n            index: 51,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 52,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967351,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 814..815,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967352,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 837..838,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "Object(\n    ObjectExpr {\n        span: 792..850,\n        props: [\n            KeyValueProp {\n                span: 806..816,\n                key: Ident(\n                    Ident {\n                        span: 806..812,\n                        sym: \"prop8a\",\n                    },\n                ),\n                value: Id {\n                    index: 54,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 829..839,\n                key: Ident(\n                    Ident {\n                        span: 829..835,\n                        sym: \"prop8b\",\n                    },\n                ),\n                value: Id {\n                    index: 55,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967354,
-      "node": "Binary(\n    BinaryExpr {\n        span: 789..850,\n        op: LogicalAnd,\n        left: Id {\n            index: 53,\n            generation: 1,\n        },\n        right: Id {\n            index: 56,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967355,
-      "node": "Paren(\n    ParenExpr {\n        span: 781..851,\n        expr: Id {\n            index: 57,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967356,
-      "node": "Ident(\n    Ident {\n        span: 864..867,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967357,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 868..869,\n            value: 9.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967358,
-      "node": "Member(\n    MemberExpr {\n        span: 867..873,\n        obj: Id {\n            index: 59,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 60,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967359,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 896..897,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967360,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 919..920,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967361,
-      "node": "Object(\n    ObjectExpr {\n        span: 874..932,\n        props: [\n            KeyValueProp {\n                span: 888..898,\n                key: Ident(\n                    Ident {\n                        span: 888..894,\n                        sym: \"prop9a\",\n                    },\n                ),\n                value: Id {\n                    index: 62,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 911..921,\n                key: Ident(\n                    Ident {\n                        span: 911..917,\n                        sym: \"prop9b\",\n                    },\n                ),\n                value: Id {\n                    index: 63,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967362,
-      "node": "Binary(\n    BinaryExpr {\n        span: 871..932,\n        op: LogicalAnd,\n        left: Id {\n            index: 61,\n            generation: 1,\n        },\n        right: Id {\n            index: 64,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967363,
-      "node": "Paren(\n    ParenExpr {\n        span: 863..933,\n        expr: Id {\n            index: 65,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967364,
-      "node": "Ident(\n    Ident {\n        span: 946..949,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967365,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 950..952,\n            value: 10.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967366,
-      "node": "Member(\n    MemberExpr {\n        span: 949..956,\n        obj: Id {\n            index: 67,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 68,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967367,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 980..981,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967368,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1004..1005,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967369,
-      "node": "Object(\n    ObjectExpr {\n        span: 957..1017,\n        props: [\n            KeyValueProp {\n                span: 971..982,\n                key: Ident(\n                    Ident {\n                        span: 971..978,\n                        sym: \"prop10a\",\n                    },\n                ),\n                value: Id {\n                    index: 70,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 995..1006,\n                key: Ident(\n                    Ident {\n                        span: 995..1002,\n                        sym: \"prop10b\",\n                    },\n                ),\n                value: Id {\n                    index: 71,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967370,
-      "node": "Binary(\n    BinaryExpr {\n        span: 954..1017,\n        op: LogicalAnd,\n        left: Id {\n            index: 69,\n            generation: 1,\n        },\n        right: Id {\n            index: 72,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967371,
-      "node": "Paren(\n    ParenExpr {\n        span: 945..1018,\n        expr: Id {\n            index: 73,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967372,
-      "node": "Ident(\n    Ident {\n        span: 1031..1034,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967373,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1035..1037,\n            value: 11.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967374,
-      "node": "Member(\n    MemberExpr {\n        span: 1034..1041,\n        obj: Id {\n            index: 75,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 76,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967375,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1065..1066,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967376,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1089..1090,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967377,
-      "node": "Object(\n    ObjectExpr {\n        span: 1042..1102,\n        props: [\n            KeyValueProp {\n                span: 1056..1067,\n                key: Ident(\n                    Ident {\n                        span: 1056..1063,\n                        sym: \"prop11a\",\n                    },\n                ),\n                value: Id {\n                    index: 78,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1080..1091,\n                key: Ident(\n                    Ident {\n                        span: 1080..1087,\n                        sym: \"prop11b\",\n                    },\n                ),\n                value: Id {\n                    index: 79,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967378,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1039..1102,\n        op: LogicalAnd,\n        left: Id {\n            index: 77,\n            generation: 1,\n        },\n        right: Id {\n            index: 80,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967379,
-      "node": "Paren(\n    ParenExpr {\n        span: 1030..1103,\n        expr: Id {\n            index: 81,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967380,
-      "node": "Ident(\n    Ident {\n        span: 1116..1119,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967381,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1120..1122,\n            value: 12.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967382,
-      "node": "Member(\n    MemberExpr {\n        span: 1119..1126,\n        obj: Id {\n            index: 83,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 84,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967383,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1150..1151,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967384,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1174..1175,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967385,
-      "node": "Object(\n    ObjectExpr {\n        span: 1127..1187,\n        props: [\n            KeyValueProp {\n                span: 1141..1152,\n                key: Ident(\n                    Ident {\n                        span: 1141..1148,\n                        sym: \"prop12a\",\n                    },\n                ),\n                value: Id {\n                    index: 86,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1165..1176,\n                key: Ident(\n                    Ident {\n                        span: 1165..1172,\n                        sym: \"prop12b\",\n                    },\n                ),\n                value: Id {\n                    index: 87,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967386,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1124..1187,\n        op: LogicalAnd,\n        left: Id {\n            index: 85,\n            generation: 1,\n        },\n        right: Id {\n            index: 88,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967387,
-      "node": "Paren(\n    ParenExpr {\n        span: 1115..1188,\n        expr: Id {\n            index: 89,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967388,
-      "node": "Ident(\n    Ident {\n        span: 1201..1204,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967389,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1205..1207,\n            value: 13.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967390,
-      "node": "Member(\n    MemberExpr {\n        span: 1204..1211,\n        obj: Id {\n            index: 91,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 92,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967391,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1235..1236,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967392,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1259..1260,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967393,
-      "node": "Object(\n    ObjectExpr {\n        span: 1212..1272,\n        props: [\n            KeyValueProp {\n                span: 1226..1237,\n                key: Ident(\n                    Ident {\n                        span: 1226..1233,\n                        sym: \"prop13a\",\n                    },\n                ),\n                value: Id {\n                    index: 94,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1250..1261,\n                key: Ident(\n                    Ident {\n                        span: 1250..1257,\n                        sym: \"prop13b\",\n                    },\n                ),\n                value: Id {\n                    index: 95,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967394,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1209..1272,\n        op: LogicalAnd,\n        left: Id {\n            index: 93,\n            generation: 1,\n        },\n        right: Id {\n            index: 96,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967395,
-      "node": "Paren(\n    ParenExpr {\n        span: 1200..1273,\n        expr: Id {\n            index: 97,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967396,
-      "node": "Ident(\n    Ident {\n        span: 1286..1289,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967397,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1290..1292,\n            value: 14.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967398,
-      "node": "Member(\n    MemberExpr {\n        span: 1289..1296,\n        obj: Id {\n            index: 99,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 100,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967399,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1320..1321,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967400,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1344..1345,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967401,
-      "node": "Object(\n    ObjectExpr {\n        span: 1297..1357,\n        props: [\n            KeyValueProp {\n                span: 1311..1322,\n                key: Ident(\n                    Ident {\n                        span: 1311..1318,\n                        sym: \"prop14a\",\n                    },\n                ),\n                value: Id {\n                    index: 102,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1335..1346,\n                key: Ident(\n                    Ident {\n                        span: 1335..1342,\n                        sym: \"prop14b\",\n                    },\n                ),\n                value: Id {\n                    index: 103,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967402,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1294..1357,\n        op: LogicalAnd,\n        left: Id {\n            index: 101,\n            generation: 1,\n        },\n        right: Id {\n            index: 104,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967403,
-      "node": "Paren(\n    ParenExpr {\n        span: 1285..1358,\n        expr: Id {\n            index: 105,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967404,
-      "node": "Ident(\n    Ident {\n        span: 1371..1374,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967405,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1375..1377,\n            value: 15.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967406,
-      "node": "Member(\n    MemberExpr {\n        span: 1374..1381,\n        obj: Id {\n            index: 107,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 108,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967407,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1405..1406,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967408,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1429..1430,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967409,
-      "node": "Object(\n    ObjectExpr {\n        span: 1382..1442,\n        props: [\n            KeyValueProp {\n                span: 1396..1407,\n                key: Ident(\n                    Ident {\n                        span: 1396..1403,\n                        sym: \"prop15a\",\n                    },\n                ),\n                value: Id {\n                    index: 110,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1420..1431,\n                key: Ident(\n                    Ident {\n                        span: 1420..1427,\n                        sym: \"prop15b\",\n                    },\n                ),\n                value: Id {\n                    index: 111,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967410,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1379..1442,\n        op: LogicalAnd,\n        left: Id {\n            index: 109,\n            generation: 1,\n        },\n        right: Id {\n            index: 112,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967411,
-      "node": "Paren(\n    ParenExpr {\n        span: 1370..1443,\n        expr: Id {\n            index: 113,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967412,
-      "node": "Ident(\n    Ident {\n        span: 1456..1459,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967413,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1460..1462,\n            value: 16.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967414,
-      "node": "Member(\n    MemberExpr {\n        span: 1459..1466,\n        obj: Id {\n            index: 115,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 116,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967415,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1490..1491,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967416,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1514..1515,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967417,
-      "node": "Object(\n    ObjectExpr {\n        span: 1467..1527,\n        props: [\n            KeyValueProp {\n                span: 1481..1492,\n                key: Ident(\n                    Ident {\n                        span: 1481..1488,\n                        sym: \"prop16a\",\n                    },\n                ),\n                value: Id {\n                    index: 118,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1505..1516,\n                key: Ident(\n                    Ident {\n                        span: 1505..1512,\n                        sym: \"prop16b\",\n                    },\n                ),\n                value: Id {\n                    index: 119,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967418,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1464..1527,\n        op: LogicalAnd,\n        left: Id {\n            index: 117,\n            generation: 1,\n        },\n        right: Id {\n            index: 120,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967419,
-      "node": "Paren(\n    ParenExpr {\n        span: 1455..1528,\n        expr: Id {\n            index: 121,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967420,
-      "node": "Ident(\n    Ident {\n        span: 1541..1544,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967421,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1545..1547,\n            value: 17.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967422,
-      "node": "Member(\n    MemberExpr {\n        span: 1544..1551,\n        obj: Id {\n            index: 123,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 124,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967423,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1575..1576,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967424,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1599..1600,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967425,
-      "node": "Object(\n    ObjectExpr {\n        span: 1552..1612,\n        props: [\n            KeyValueProp {\n                span: 1566..1577,\n                key: Ident(\n                    Ident {\n                        span: 1566..1573,\n                        sym: \"prop17a\",\n                    },\n                ),\n                value: Id {\n                    index: 126,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1590..1601,\n                key: Ident(\n                    Ident {\n                        span: 1590..1597,\n                        sym: \"prop17b\",\n                    },\n                ),\n                value: Id {\n                    index: 127,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967426,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1549..1612,\n        op: LogicalAnd,\n        left: Id {\n            index: 125,\n            generation: 1,\n        },\n        right: Id {\n            index: 128,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967427,
-      "node": "Paren(\n    ParenExpr {\n        span: 1540..1613,\n        expr: Id {\n            index: 129,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967428,
-      "node": "Ident(\n    Ident {\n        span: 1626..1629,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967429,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1630..1632,\n            value: 18.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967430,
-      "node": "Member(\n    MemberExpr {\n        span: 1629..1636,\n        obj: Id {\n            index: 131,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 132,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967431,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1660..1661,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967432,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1684..1685,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967433,
-      "node": "Object(\n    ObjectExpr {\n        span: 1637..1697,\n        props: [\n            KeyValueProp {\n                span: 1651..1662,\n                key: Ident(\n                    Ident {\n                        span: 1651..1658,\n                        sym: \"prop18a\",\n                    },\n                ),\n                value: Id {\n                    index: 134,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1675..1686,\n                key: Ident(\n                    Ident {\n                        span: 1675..1682,\n                        sym: \"prop18b\",\n                    },\n                ),\n                value: Id {\n                    index: 135,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967434,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1634..1697,\n        op: LogicalAnd,\n        left: Id {\n            index: 133,\n            generation: 1,\n        },\n        right: Id {\n            index: 136,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967435,
-      "node": "Paren(\n    ParenExpr {\n        span: 1625..1698,\n        expr: Id {\n            index: 137,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967436,
-      "node": "Ident(\n    Ident {\n        span: 1711..1714,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967437,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1715..1717,\n            value: 19.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967438,
-      "node": "Member(\n    MemberExpr {\n        span: 1714..1721,\n        obj: Id {\n            index: 139,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 140,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967439,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1745..1746,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967440,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1769..1770,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967441,
-      "node": "Object(\n    ObjectExpr {\n        span: 1722..1782,\n        props: [\n            KeyValueProp {\n                span: 1736..1747,\n                key: Ident(\n                    Ident {\n                        span: 1736..1743,\n                        sym: \"prop19a\",\n                    },\n                ),\n                value: Id {\n                    index: 142,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1760..1771,\n                key: Ident(\n                    Ident {\n                        span: 1760..1767,\n                        sym: \"prop19b\",\n                    },\n                ),\n                value: Id {\n                    index: 143,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967442,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1719..1782,\n        op: LogicalAnd,\n        left: Id {\n            index: 141,\n            generation: 1,\n        },\n        right: Id {\n            index: 144,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967443,
-      "node": "Paren(\n    ParenExpr {\n        span: 1710..1783,\n        expr: Id {\n            index: 145,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967444,
-      "node": "Ident(\n    Ident {\n        span: 1796..1799,\n        sym: \"cnd\",\n    },\n)"
-    },
-    {
-      "id": 4294967445,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1800..1802,\n            value: 20.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967446,
-      "node": "Member(\n    MemberExpr {\n        span: 1799..1806,\n        obj: Id {\n            index: 147,\n            generation: 1,\n        },\n        prop: Computed(\n            Id {\n                index: 148,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967447,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1830..1831,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967448,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1854..1855,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967449,
-      "node": "Object(\n    ObjectExpr {\n        span: 1807..1867,\n        props: [\n            KeyValueProp {\n                span: 1821..1832,\n                key: Ident(\n                    Ident {\n                        span: 1821..1828,\n                        sym: \"prop20a\",\n                    },\n                ),\n                value: Id {\n                    index: 150,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1845..1856,\n                key: Ident(\n                    Ident {\n                        span: 1845..1852,\n                        sym: \"prop20b\",\n                    },\n                ),\n                value: Id {\n                    index: 151,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967450,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1804..1867,\n        op: LogicalAnd,\n        left: Id {\n            index: 149,\n            generation: 1,\n        },\n        right: Id {\n            index: 152,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967451,
-      "node": "Paren(\n    ParenExpr {\n        span: 1795..1868,\n        expr: Id {\n            index: 153,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967452,
-      "node": "Object(\n    ObjectExpr {\n        span: 154..1875,\n        props: [\n            KeyValueProp {\n                span: 214..285,\n                key: Ident(\n                    Ident {\n                        span: 214..214,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 10,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 368..441,\n                key: Ident(\n                    Ident {\n                        span: 368..368,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 18,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 450..523,\n                key: Ident(\n                    Ident {\n                        span: 450..450,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 26,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 532..605,\n                key: Ident(\n                    Ident {\n                        span: 532..532,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 34,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 614..687,\n                key: Ident(\n                    Ident {\n                        span: 614..614,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 42,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 696..769,\n                key: Ident(\n                    Ident {\n                        span: 696..696,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 50,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 778..851,\n                key: Ident(\n                    Ident {\n                        span: 778..778,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 58,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 860..933,\n                key: Ident(\n                    Ident {\n                        span: 860..860,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 66,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 942..1018,\n                key: Ident(\n                    Ident {\n                        span: 942..942,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 74,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1027..1103,\n                key: Ident(\n                    Ident {\n                        span: 1027..1027,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 82,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1112..1188,\n                key: Ident(\n                    Ident {\n                        span: 1112..1112,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 90,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1197..1273,\n                key: Ident(\n                    Ident {\n                        span: 1197..1197,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 98,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1282..1358,\n                key: Ident(\n                    Ident {\n                        span: 1282..1282,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 106,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1367..1443,\n                key: Ident(\n                    Ident {\n                        span: 1367..1367,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 114,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1452..1528,\n                key: Ident(\n                    Ident {\n                        span: 1452..1452,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 122,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1537..1613,\n                key: Ident(\n                    Ident {\n                        span: 1537..1537,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 130,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1622..1698,\n                key: Ident(\n                    Ident {\n                        span: 1622..1622,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 138,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1707..1783,\n                key: Ident(\n                    Ident {\n                        span: 1707..1707,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 146,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1792..1868,\n                key: Ident(\n                    Ident {\n                        span: 1792..1792,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 154,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 218..221,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 222..223,\n            value: 1.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 221..227,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 240..243,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 244..245,\n            value: 2.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 243..249,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 225..249,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 271..272,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 250..284,\n        props: [\n            KeyValueProp {\n                span: 264..273,\n                key: Ident(\n                    Ident {\n                        span: 264..269,\n                        sym: \"prop0\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 247..284,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 217..285,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 372..375,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 376..377,\n            value: 3.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 375..381,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 404..405,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 427..428,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 382..440,\n        props: [\n            KeyValueProp {\n                span: 396..406,\n                key: Ident(\n                    Ident {\n                        span: 396..402,\n                        sym: \"prop3a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 419..429,\n                key: Ident(\n                    Ident {\n                        span: 419..425,\n                        sym: \"prop3b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 379..440,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 371..441,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 454..457,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 458..459,\n            value: 4.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 457..463,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 486..487,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 509..510,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 464..522,\n        props: [\n            KeyValueProp {\n                span: 478..488,\n                key: Ident(\n                    Ident {\n                        span: 478..484,\n                        sym: \"prop4a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 501..511,\n                key: Ident(\n                    Ident {\n                        span: 501..507,\n                        sym: \"prop4b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 461..522,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 453..523,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 536..539,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 540..541,\n            value: 5.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 539..545,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 568..569,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 591..592,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 546..604,\n        props: [\n            KeyValueProp {\n                span: 560..570,\n                key: Ident(\n                    Ident {\n                        span: 560..566,\n                        sym: \"prop5a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 583..593,\n                key: Ident(\n                    Ident {\n                        span: 583..589,\n                        sym: \"prop5b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 543..604,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 535..605,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 618..621,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 622..623,\n            value: 6.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 621..627,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 650..651,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 673..674,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 628..686,\n        props: [\n            KeyValueProp {\n                span: 642..652,\n                key: Ident(\n                    Ident {\n                        span: 642..648,\n                        sym: \"prop6a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 665..675,\n                key: Ident(\n                    Ident {\n                        span: 665..671,\n                        sym: \"prop6b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 625..686,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 617..687,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 700..703,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 704..705,\n            value: 7.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 703..709,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 732..733,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 755..756,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 710..768,\n        props: [\n            KeyValueProp {\n                span: 724..734,\n                key: Ident(\n                    Ident {\n                        span: 724..730,\n                        sym: \"prop7a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 747..757,\n                key: Ident(\n                    Ident {\n                        span: 747..753,\n                        sym: \"prop7b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 707..768,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 699..769,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 782..785,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 786..787,\n            value: 8.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 785..791,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 814..815,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 837..838,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 792..850,\n        props: [\n            KeyValueProp {\n                span: 806..816,\n                key: Ident(\n                    Ident {\n                        span: 806..812,\n                        sym: \"prop8a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 829..839,\n                key: Ident(\n                    Ident {\n                        span: 829..835,\n                        sym: \"prop8b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 789..850,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 781..851,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 864..867,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 868..869,\n            value: 9.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 867..873,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 896..897,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 919..920,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 874..932,\n        props: [\n            KeyValueProp {\n                span: 888..898,\n                key: Ident(\n                    Ident {\n                        span: 888..894,\n                        sym: \"prop9a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 911..921,\n                key: Ident(\n                    Ident {\n                        span: 911..917,\n                        sym: \"prop9b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 871..932,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 863..933,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 946..949,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 950..952,\n            value: 10.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 949..956,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 980..981,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1004..1005,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 957..1017,\n        props: [\n            KeyValueProp {\n                span: 971..982,\n                key: Ident(\n                    Ident {\n                        span: 971..978,\n                        sym: \"prop10a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 995..1006,\n                key: Ident(\n                    Ident {\n                        span: 995..1002,\n                        sym: \"prop10b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 954..1017,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 945..1018,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1031..1034,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1035..1037,\n            value: 11.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1034..1041,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1065..1066,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1089..1090,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1042..1102,\n        props: [\n            KeyValueProp {\n                span: 1056..1067,\n                key: Ident(\n                    Ident {\n                        span: 1056..1063,\n                        sym: \"prop11a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1080..1091,\n                key: Ident(\n                    Ident {\n                        span: 1080..1087,\n                        sym: \"prop11b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1039..1102,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1030..1103,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1116..1119,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1120..1122,\n            value: 12.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1119..1126,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1150..1151,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1174..1175,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1127..1187,\n        props: [\n            KeyValueProp {\n                span: 1141..1152,\n                key: Ident(\n                    Ident {\n                        span: 1141..1148,\n                        sym: \"prop12a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1165..1176,\n                key: Ident(\n                    Ident {\n                        span: 1165..1172,\n                        sym: \"prop12b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1124..1187,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1115..1188,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1201..1204,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1205..1207,\n            value: 13.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1204..1211,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1235..1236,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1259..1260,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1212..1272,\n        props: [\n            KeyValueProp {\n                span: 1226..1237,\n                key: Ident(\n                    Ident {\n                        span: 1226..1233,\n                        sym: \"prop13a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1250..1261,\n                key: Ident(\n                    Ident {\n                        span: 1250..1257,\n                        sym: \"prop13b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1209..1272,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1200..1273,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1286..1289,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1290..1292,\n            value: 14.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1289..1296,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1320..1321,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1344..1345,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1297..1357,\n        props: [\n            KeyValueProp {\n                span: 1311..1322,\n                key: Ident(\n                    Ident {\n                        span: 1311..1318,\n                        sym: \"prop14a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1335..1346,\n                key: Ident(\n                    Ident {\n                        span: 1335..1342,\n                        sym: \"prop14b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1294..1357,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1285..1358,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1371..1374,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1375..1377,\n            value: 15.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1374..1381,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1405..1406,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1429..1430,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1382..1442,\n        props: [\n            KeyValueProp {\n                span: 1396..1407,\n                key: Ident(\n                    Ident {\n                        span: 1396..1403,\n                        sym: \"prop15a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1420..1431,\n                key: Ident(\n                    Ident {\n                        span: 1420..1427,\n                        sym: \"prop15b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1379..1442,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1370..1443,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1456..1459,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1460..1462,\n            value: 16.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1459..1466,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1490..1491,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1514..1515,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1467..1527,\n        props: [\n            KeyValueProp {\n                span: 1481..1492,\n                key: Ident(\n                    Ident {\n                        span: 1481..1488,\n                        sym: \"prop16a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1505..1516,\n                key: Ident(\n                    Ident {\n                        span: 1505..1512,\n                        sym: \"prop16b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1464..1527,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1455..1528,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1541..1544,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1545..1547,\n            value: 17.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1544..1551,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1575..1576,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1599..1600,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1552..1612,\n        props: [\n            KeyValueProp {\n                span: 1566..1577,\n                key: Ident(\n                    Ident {\n                        span: 1566..1573,\n                        sym: \"prop17a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1590..1601,\n                key: Ident(\n                    Ident {\n                        span: 1590..1597,\n                        sym: \"prop17b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1549..1612,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1540..1613,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1626..1629,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1630..1632,\n            value: 18.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1629..1636,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1660..1661,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1684..1685,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1637..1697,\n        props: [\n            KeyValueProp {\n                span: 1651..1662,\n                key: Ident(\n                    Ident {\n                        span: 1651..1658,\n                        sym: \"prop18a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1675..1686,\n                key: Ident(\n                    Ident {\n                        span: 1675..1682,\n                        sym: \"prop18b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1634..1697,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1625..1698,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1711..1714,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1715..1717,\n            value: 19.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1714..1721,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1745..1746,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1769..1770,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1722..1782,\n        props: [\n            KeyValueProp {\n                span: 1736..1747,\n                key: Ident(\n                    Ident {\n                        span: 1736..1743,\n                        sym: \"prop19a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1760..1771,\n                key: Ident(\n                    Ident {\n                        span: 1760..1767,\n                        sym: \"prop19b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1719..1782,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1710..1783,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1796..1799,\n        sym: \"cnd\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1800..1802,\n            value: 20.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 1799..1806,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1830..1831,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1854..1855,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 1807..1867,\n        props: [\n            KeyValueProp {\n                span: 1821..1832,\n                key: Ident(\n                    Ident {\n                        span: 1821..1828,\n                        sym: \"prop20a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1845..1856,\n                key: Ident(\n                    Ident {\n                        span: 1845..1852,\n                        sym: \"prop20b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1804..1867,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1795..1868,\n        expr: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 154..1875,\n        props: [\n            KeyValueProp {\n                span: 214..285,\n                key: Ident(\n                    Ident {\n                        span: 214..214,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 368..441,\n                key: Ident(\n                    Ident {\n                        span: 368..368,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 450..523,\n                key: Ident(\n                    Ident {\n                        span: 450..450,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 532..605,\n                key: Ident(\n                    Ident {\n                        span: 532..532,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 614..687,\n                key: Ident(\n                    Ident {\n                        span: 614..614,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 696..769,\n                key: Ident(\n                    Ident {\n                        span: 696..696,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 778..851,\n                key: Ident(\n                    Ident {\n                        span: 778..778,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 860..933,\n                key: Ident(\n                    Ident {\n                        span: 860..860,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 942..1018,\n                key: Ident(\n                    Ident {\n                        span: 942..942,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1027..1103,\n                key: Ident(\n                    Ident {\n                        span: 1027..1027,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1112..1188,\n                key: Ident(\n                    Ident {\n                        span: 1112..1112,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1197..1273,\n                key: Ident(\n                    Ident {\n                        span: 1197..1197,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1282..1358,\n                key: Ident(\n                    Ident {\n                        span: 1282..1282,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1367..1443,\n                key: Ident(\n                    Ident {\n                        span: 1367..1367,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1452..1528,\n                key: Ident(\n                    Ident {\n                        span: 1452..1452,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1537..1613,\n                key: Ident(\n                    Ident {\n                        span: 1537..1537,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1622..1698,\n                key: Ident(\n                    Ident {\n                        span: 1622..1622,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1707..1783,\n                key: Ident(\n                    Ident {\n                        span: 1707..1707,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1792..1868,\n                key: Ident(\n                    Ident {\n                        span: 1792..1792,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
