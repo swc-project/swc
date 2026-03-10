@@ -2520,6 +2520,9 @@ impl<'a> Parser<'a> {
         };
 
         if let Some(op) = op {
+            if op == AssignOp::Assign {
+                self.validate_assignment_target_expr(left);
+            }
             if self.expr_is_optional_chain(left) {
                 return Err(Error::new(
                     self.cur.span,
@@ -3773,6 +3776,14 @@ impl<'a> Parser<'a> {
     }
 
     fn can_parse_parenthesized_arrow_head(&mut self) -> bool {
+        if self.try_parse_parenthesized_arrow_head() {
+            return true;
+        }
+
+        self.parenthesized_head_followed_by_arrow()
+    }
+
+    fn try_parse_parenthesized_arrow_head(&mut self) -> bool {
         let checkpoint = self.lexer.checkpoint_save();
         let cur = self.cur.clone();
         let next = self.next.clone();
@@ -3797,6 +3808,26 @@ impl<'a> Parser<'a> {
             Ok(())
         })()
         .is_ok();
+
+        self.lexer.checkpoint_load(checkpoint);
+        self.cur = cur;
+        self.next = next;
+        self.errors.truncate(errors_len);
+        parsed
+    }
+
+    fn parenthesized_head_followed_by_arrow(&mut self) -> bool {
+        let checkpoint = self.lexer.checkpoint_save();
+        let cur = self.cur.clone();
+        let next = self.next.clone();
+        let errors_len = self.errors.len();
+
+        let parsed = if self.cur.kind == TokenKind::LParen {
+            self.skip_balanced(TokenKind::LParen, TokenKind::RParen);
+            self.cur.kind == TokenKind::Arrow
+        } else {
+            false
+        };
 
         self.lexer.checkpoint_load(checkpoint);
         self.cur = cur;
@@ -5440,6 +5471,94 @@ impl<'a> Parser<'a> {
 
             self.bump();
         }
+    }
+
+    fn validate_assignment_target_expr(&mut self, expr: swc_es_ast::ExprId) {
+        match self.store.expr(expr).cloned() {
+            Some(Expr::Array(array)) => {
+                for (index, elem) in array.elems.iter().enumerate() {
+                    let Some(elem) = elem else {
+                        continue;
+                    };
+
+                    if elem.spread && index + 1 < array.elems.len() {
+                        self.errors.push(Error::new(
+                            self.expr_span(elem.expr),
+                            Severity::Error,
+                            ErrorCode::InvalidStatement,
+                            "rest element must be the last element",
+                        ));
+                    }
+
+                    self.validate_assignment_target_expr(elem.expr);
+                }
+            }
+            Some(Expr::Object(object)) => {
+                for (index, prop) in object.props.iter().enumerate() {
+                    if self.is_object_spread_prop(prop) && index + 1 < object.props.len() {
+                        self.errors.push(Error::new(
+                            self.expr_span(prop.value),
+                            Severity::Error,
+                            ErrorCode::InvalidStatement,
+                            "rest element must be the last element",
+                        ));
+                    }
+
+                    self.validate_assignment_target_expr(prop.value);
+                }
+            }
+            Some(Expr::Paren(paren)) => self.validate_assignment_target_expr(paren.expr),
+            Some(Expr::TsAs(expr)) => self.validate_assignment_target_expr(expr.expr),
+            Some(Expr::TsNonNull(expr)) => self.validate_assignment_target_expr(expr.expr),
+            Some(Expr::TsSatisfies(expr)) => self.validate_assignment_target_expr(expr.expr),
+            _ => {}
+        }
+    }
+
+    fn expr_span(&self, expr: swc_es_ast::ExprId) -> Span {
+        match self.store.expr(expr).cloned() {
+            Some(Expr::Ident(ident)) => ident.span,
+            Some(Expr::Lit(lit)) => match lit {
+                Lit::Str(lit) => lit.span,
+                Lit::Bool(lit) => lit.span,
+                Lit::Null(lit) => lit.span,
+                Lit::Num(lit) => lit.span,
+                Lit::BigInt(lit) => lit.span,
+                Lit::Regex(lit) => lit.span,
+            },
+            Some(Expr::TsAs(expr)) => expr.span,
+            Some(Expr::TsNonNull(expr)) => expr.span,
+            Some(Expr::TsSatisfies(expr)) => expr.span,
+            Some(Expr::Array(array)) => array.span,
+            Some(Expr::Object(object)) => object.span,
+            Some(Expr::Unary(expr)) => expr.span,
+            Some(Expr::Binary(expr)) => expr.span,
+            Some(Expr::Assign(expr)) => expr.span,
+            Some(Expr::Call(expr)) => expr.span,
+            Some(Expr::Member(expr)) => expr.span,
+            Some(Expr::Cond(expr)) => expr.span,
+            Some(Expr::Seq(expr)) => expr.span,
+            Some(Expr::New(expr)) => expr.span,
+            Some(Expr::Update(expr)) => expr.span,
+            Some(Expr::Await(expr)) => expr.span,
+            Some(Expr::Arrow(expr)) => expr.span,
+            Some(Expr::Template(expr)) => expr.span,
+            Some(Expr::Yield(expr)) => expr.span,
+            Some(Expr::TaggedTemplate(expr)) => expr.span,
+            Some(Expr::MetaProp(expr)) => expr.span,
+            Some(Expr::OptChain(expr)) => expr.span,
+            Some(Expr::Paren(expr)) => expr.span,
+            Some(Expr::Function(_)) | Some(Expr::Class(_)) | Some(Expr::JSXElement(_)) | None => {
+                DUMMY_SP
+            }
+        }
+    }
+
+    fn is_object_spread_prop(&self, prop: &KeyValueProp) -> bool {
+        matches!(
+            &prop.key,
+            PropName::Ident(ident) if ident.sym.as_ref() == "__spread__"
+        )
     }
 
     fn expr_to_assign_pat(&mut self, expr: swc_es_ast::ExprId) -> swc_es_ast::PatId {

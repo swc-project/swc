@@ -1,7 +1,7 @@
   x rest element must be the last element
    ,-[/swc_ecma_parser/tests/errors/rest-not-last/input.js:1:1]
  1 | [...a, b] = [...spread];
-   :      ^
+   :     ^
  2 | const [...a, b] = [...spread];
    `----
 
