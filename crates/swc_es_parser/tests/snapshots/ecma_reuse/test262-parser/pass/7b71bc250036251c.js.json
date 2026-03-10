@@ -1,28 +1,15 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..23,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..23,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Continue(\n    ContinueStmt {\n        span: 4..19,\n        label: None,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 1..23,\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Continue(\n    ContinueStmt {\n        span: 4..19,\n        label: None,\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 1..23,\n        body: _,\n        test: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 20..21,\n            value: 1.0,\n        },\n    ),\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 20..21,\n            value: 1.0,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

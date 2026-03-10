@@ -1,117 +1,38 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..53,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..53,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..53,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 1..53,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Object(\n    ObjectPat {\n        span: 22..28,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 23..27,\n                    key: Ident {\n                        span: 23..24,\n                        sym: \"a\",\n                    },\n                    value: Some(\n                        Id {\n                            index: 0,\n                            generation: 1,\n                        },\n                    ),\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Array(\n    ArrayPat {\n        span: 21..29,\n        elems: [\n            Some(\n                Id {\n                    index: 0,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Array(\n    ArrayPat {\n        span: 20..30,\n        elems: [\n            Some(\n                Id {\n                    index: 1,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Array(\n    ArrayPat {\n        span: 19..31,\n        elems: [\n            Some(\n                Id {\n                    index: 2,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Array(\n    ArrayPat {\n        span: 18..32,\n        elems: [\n            Some(\n                Id {\n                    index: 3,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Array(\n    ArrayPat {\n        span: 17..33,\n        elems: [\n            Some(\n                Id {\n                    index: 4,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Array(\n    ArrayPat {\n        span: 16..34,\n        elems: [\n            Some(\n                Id {\n                    index: 5,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Array(\n    ArrayPat {\n        span: 15..35,\n        elems: [\n            Some(\n                Id {\n                    index: 6,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Array(\n    ArrayPat {\n        span: 14..36,\n        elems: [\n            Some(\n                Id {\n                    index: 7,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Array(\n    ArrayPat {\n        span: 13..37,\n        elems: [\n            Some(\n                Id {\n                    index: 8,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Array(\n    ArrayPat {\n        span: 12..38,\n        elems: [\n            Some(\n                Id {\n                    index: 9,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Array(\n    ArrayPat {\n        span: 11..39,\n        elems: [\n            Some(\n                Id {\n                    index: 10,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Array(\n    ArrayPat {\n        span: 10..40,\n        elems: [\n            Some(\n                Id {\n                    index: 11,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Array(\n    ArrayPat {\n        span: 9..41,\n        elems: [\n            Some(\n                Id {\n                    index: 12,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Array(\n    ArrayPat {\n        span: 8..42,\n        elems: [\n            Some(\n                Id {\n                    index: 13,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Array(\n    ArrayPat {\n        span: 7..43,\n        elems: [\n            Some(\n                Id {\n                    index: 14,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Array(\n    ArrayPat {\n        span: 6..44,\n        elems: [\n            Some(\n                Id {\n                    index: 15,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Array(\n    ArrayPat {\n        span: 5..45,\n        elems: [\n            Some(\n                Id {\n                    index: 16,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Array(\n    ArrayPat {\n        span: 4..46,\n        elems: [\n            Some(\n                Id {\n                    index: 17,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Array(\n    ArrayPat {\n        span: 3..47,\n        elems: [\n            Some(\n                Id {\n                    index: 18,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Array(\n    ArrayPat {\n        span: 2..48,\n        elems: [\n            Some(\n                Id {\n                    index: 19,\n                    generation: 1,\n                },\n            ),\n        ],\n    },\n)"
-    }
+    "Object(\n    ObjectPat {\n        span: 22..28,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 23..27,\n                    key: Ident {\n                        span: 23..24,\n                        sym: \"a\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 21..29,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 20..30,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 19..31,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 18..32,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 17..33,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 16..34,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 15..35,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 14..36,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 13..37,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 12..38,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 11..39,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 10..40,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 9..41,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 8..42,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 7..43,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 6..44,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 5..45,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 4..46,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 3..47,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 2..48,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 50..51,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 1..52,\n        params: [\n            Id {\n                index: 20,\n                generation: 1,\n            },\n        ],\n        body: Expr(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n        is_async: false,\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 50..51,\n            value: 1.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1..52,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

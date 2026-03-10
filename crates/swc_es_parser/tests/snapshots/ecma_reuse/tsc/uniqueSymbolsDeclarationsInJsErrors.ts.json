@@ -1,46 +1,24 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 239..486,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 239..486,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Class(\n    ClassDecl {\n        span: 239..486,\n        ident: Ident {\n            span: 245..246,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Class(\n    ClassDecl {\n        span: 239..486,\n        ident: Ident {\n            span: 245..246,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 239..486,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 245..246,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 239..486,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 245..246,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Prop(\n    ClassProp {\n        span: 298..398,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 305..324,\n                sym: \"readwriteStaticType\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Prop(\n    ClassProp {\n        span: 392..468,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 399..411,\n                sym: \"readonlyType\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Prop(\n    ClassProp {\n        span: 462..485,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 469..482,\n                sym: \"readwriteType\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
-    }
+    "Prop(\n    ClassProp {\n        span: 298..398,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 305..324,\n                sym: \"readwriteStaticType\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 392..468,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 399..411,\n                sym: \"readonlyType\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 462..485,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 469..482,\n                sym: \"readwriteType\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

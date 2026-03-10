@@ -1,138 +1,44 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..656,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 12,\n            generation: 1,\n        },\n        Id {\n            index: 13,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..656,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 37..44,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 89..101,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 232..242,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Expr(\n    ExprStmt {\n        span: 289..295,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Expr(\n    ExprStmt {\n        span: 394..400,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 549..578,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Expr(\n    ExprStmt {\n        span: 654..656,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 37..44,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 89..101,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 232..242,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 289..295,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 394..400,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 549..578,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 654..656,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 92..143,\n        ident: Ident {\n            span: 102..103,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 104..105,\n                sym: \"U\",\n            },\n            Ident {\n                span: 117..118,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 134..199,\n        ident: Ident {\n            span: 144..146,\n            sym: \"I2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 147..148,\n                sym: \"T\",\n            },\n            Ident {\n                span: 160..161,\n                sym: \"U\",\n            },\n            Ident {\n                span: 173..174,\n                sym: \"V\",\n            },\n        ],\n        extends: [],\n        body: [],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Var(\n    VarDecl {\n        span: 397..444,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 397..444,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Var(\n    VarDecl {\n        span: 441..505,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 441..505,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 574..628,\n        ident: Ident {\n            span: 579..582,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 583..584,\n                sym: \"T\",\n            },\n        ],\n        ty: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 92..143,\n        ident: Ident {\n            span: 102..103,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 104..105,\n                sym: \"U\",\n            },\n            Ident {\n                span: 117..118,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 134..199,\n        ident: Ident {\n            span: 144..146,\n            sym: \"I2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 147..148,\n                sym: \"T\",\n            },\n            Ident {\n                span: 160..161,\n                sym: \"U\",\n            },\n            Ident {\n                span: 173..174,\n                sym: \"V\",\n            },\n        ],\n        extends: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 397..444,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 397..444,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 441..505,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 441..505,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 574..628,\n        ident: Ident {\n            span: 579..582,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 583..584,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 401..402,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Assign(\n    AssignPat {\n        span: 403..444,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 445..447,\n        sym: \"b2\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Assign(\n    AssignPat {\n        span: 448..505,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        right: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 401..402,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 403..444,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 445..447,\n        sym: \"b2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 448..505,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 431..444,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 489..505,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    }
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 431..444,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 489..505,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],
@@ -140,33 +46,12 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967311,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 589..591,\n        name: Ident {\n            span: 589..591,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Tuple(\n    TsTupleType {\n        span: 588..599,\n        elem_types: [\n            Id {\n                index: 14,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Tuple(\n    TsTupleType {\n        span: 600..610,\n        elem_types: [\n            Id {\n                index: 16,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 611..615,\n        members: [],\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 616..619,\n        members: [],\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 588..619,\n        check_type: Id {\n            index: 15,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 17,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 18,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "TypeRef(\n    TsTypeRef {\n        span: 589..591,\n        name: Ident {\n            span: 589..591,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 588..599,\n        elem_types: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Tuple(\n    TsTupleType {\n        span: 600..610,\n        elem_types: [\n            _,\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 611..615,\n        members: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 616..619,\n        members: [],\n    },\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 588..619,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)"
   ]
 }

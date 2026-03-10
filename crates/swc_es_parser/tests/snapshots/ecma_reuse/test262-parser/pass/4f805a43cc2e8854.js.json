@@ -1,24 +1,14 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..9,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..9,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..9,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 1..9,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Regex(\n        RegexLit {\n            span: 1..9,\n            exp: \"[x-z]\",\n            flags: \"i\",\n        },\n    ),\n)"
-    }
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 1..9,\n            exp: \"[x-z]\",\n            flags: \"i\",\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

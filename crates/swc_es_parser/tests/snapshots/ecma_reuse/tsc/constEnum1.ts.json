@@ -1,109 +1,36 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 310..440,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 310..440,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsEnum(\n    TsEnumDecl {\n        span: 310..440,\n        ident: Ident {\n            span: 321..322,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: true,\n        members: [\n            TsEnumMember {\n                span: 329..336,\n                name: Ident(\n                    Ident {\n                        span: 329..330,\n                        sym: \"a\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 341..347,\n                name: Ident(\n                    Ident {\n                        span: 341..342,\n                        sym: \"b\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 352..362,\n                name: Ident(\n                    Ident {\n                        span: 352..353,\n                        sym: \"c\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 367..369,\n                name: Ident(\n                    Ident {\n                        span: 367..368,\n                        sym: \"e\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 374..381,\n                name: Ident(\n                    Ident {\n                        span: 374..375,\n                        sym: \"d\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 386..402,\n                name: Ident(\n                    Ident {\n                        span: 386..387,\n                        sym: \"f\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 12,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 407..424,\n                name: Ident(\n                    Ident {\n                        span: 407..408,\n                        sym: \"g\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 17,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsEnumMember {\n                span: 429..440,\n                name: Ident(\n                    Ident {\n                        span: 429..430,\n                        sym: \"h\",\n                    },\n                ),\n                init: Some(\n                    Id {\n                        index: 20,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "TsEnum(\n    TsEnumDecl {\n        span: 310..440,\n        ident: Ident {\n            span: 321..322,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: true,\n        members: [\n            TsEnumMember {\n                span: 329..336,\n                name: Ident(\n                    Ident {\n                        span: 329..330,\n                        sym: \"a\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 341..347,\n                name: Ident(\n                    Ident {\n                        span: 341..342,\n                        sym: \"b\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 352..362,\n                name: Ident(\n                    Ident {\n                        span: 352..353,\n                        sym: \"c\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 367..369,\n                name: Ident(\n                    Ident {\n                        span: 367..368,\n                        sym: \"e\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 374..381,\n                name: Ident(\n                    Ident {\n                        span: 374..375,\n                        sym: \"d\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 386..402,\n                name: Ident(\n                    Ident {\n                        span: 386..387,\n                        sym: \"f\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 407..424,\n                name: Ident(\n                    Ident {\n                        span: 407..408,\n                        sym: \"g\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 429..440,\n                name: Ident(\n                    Ident {\n                        span: 429..430,\n                        sym: \"h\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 333..335,\n            value: 10.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 345..346,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 357..358,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 359..360,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Binary(\n    BinaryExpr {\n        span: 358..361,\n        op: Add,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Paren(\n    ParenExpr {\n        span: 356..362,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Ident(\n    Ident {\n        span: 379..380,\n        sym: \"e\",\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Unary(\n    UnaryExpr {\n        span: 378..381,\n        op: Tilde,\n        arg: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 390..391,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 395..396,\n            value: 2.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Binary(\n    BinaryExpr {\n        span: 392..399,\n        op: LShift,\n        left: Id {\n            index: 8,\n            generation: 1,\n        },\n        right: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 400..401,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Binary(\n    BinaryExpr {\n        span: 397..402,\n        op: RShift,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        right: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Ident(\n    Ident {\n        span: 411..412,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 416..417,\n            value: 2.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Binary(\n    BinaryExpr {\n        span: 413..421,\n        op: LShift,\n        left: Id {\n            index: 13,\n            generation: 1,\n        },\n        right: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 422..423,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Binary(\n    BinaryExpr {\n        span: 418..424,\n        op: ZeroFillRShift,\n        left: Id {\n            index: 15,\n            generation: 1,\n        },\n        right: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Ident(\n    Ident {\n        span: 433..434,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Ident(\n    Ident {\n        span: 437..438,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Binary(\n    BinaryExpr {\n        span: 435..440,\n        op: BitOr,\n        left: Id {\n            index: 18,\n            generation: 1,\n        },\n        right: Id {\n            index: 19,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 333..335,\n            value: 10.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 345..346,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 357..358,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 359..360,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 358..361,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 356..362,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 379..380,\n        sym: \"e\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 378..381,\n        op: Tilde,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 390..391,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 395..396,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 392..399,\n        op: LShift,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 400..401,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 397..402,\n        op: RShift,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 411..412,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 416..417,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 413..421,\n        op: LShift,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 422..423,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 418..424,\n        op: ZeroFillRShift,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 433..434,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 437..438,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 435..440,\n        op: BitOr,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

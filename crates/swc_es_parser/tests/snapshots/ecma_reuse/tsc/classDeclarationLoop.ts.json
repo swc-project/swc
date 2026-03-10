@@ -1,128 +1,46 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..105,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..105,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 90..104,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Block(\n    BlockStmt {\n        span: 46..105,\n        stmts: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "For(\n    ForStmt {\n        span: 17..105,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Decl(\n                        Id {\n                            index: 1,\n                            generation: 1,\n                        },\n                    ),\n                ),\n                test: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n                update: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ),\n        body: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 90..104,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 46..105,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 17..105,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Decl(\n                        _,\n                    ),\n                ),\n                test: Some(\n                    _,\n                ),\n                update: Some(\n                    _,\n                ),\n            },\n        ),\n        body: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 1..20,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..16,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 22..32,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 22..32,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Class(\n    ClassDecl {\n        span: 52..93,\n        ident: Ident {\n            span: 58..59,\n            sym: \"C\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 1..20,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..16,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 22..32,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 22..32,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 52..93,\n        ident: Ident {\n            span: 58..59,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 7..10,\n        sym: \"arr\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 11..16,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"i\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Assign(\n    AssignPat {\n        span: 28..32,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 7..10,\n        sym: \"arr\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 11..16,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"i\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 28..32,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Array(\n    ArrayExpr {\n        span: 13..16,\n        elems: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 30..31,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 33..34,\n        sym: \"i\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 37..39,\n            value: 10.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Binary(\n    BinaryExpr {\n        span: 35..40,\n        op: Lt,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"i\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Update(\n    UpdateExpr {\n        span: 41..45,\n        op: PlusPlus,\n        arg: Id {\n            index: 5,\n            generation: 1,\n        },\n        prefix: true,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 77..78,\n        sym: \"i\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Ident(\n    Ident {\n        span: 90..93,\n        sym: \"arr\",\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Member(\n    MemberExpr {\n        span: 93..99,\n        obj: Id {\n            index: 9,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 94..98,\n                sym: \"push\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"C\",\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Call(\n    CallExpr {\n        span: 98..102,\n        callee: Id {\n            index: 10,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 11,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Array(\n    ArrayExpr {\n        span: 13..16,\n        elems: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 30..31,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 33..34,\n        sym: \"i\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 37..39,\n            value: 10.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 35..40,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"i\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 41..45,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 77..78,\n        sym: \"i\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 90..93,\n        sym: \"arr\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 93..99,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 94..98,\n                sym: \"push\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"C\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 98..102,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 52..93,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 58..59,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 52..93,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 58..59,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Prop(\n    ClassProp {\n        span: 70..85,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 70..74,\n                sym: \"prop\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
-    }
+    "Prop(\n    ClassProp {\n        span: 70..85,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 70..74,\n                sym: \"prop\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

@@ -1,108 +1,35 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..73,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..73,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..19,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 16..37,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 34..57,\n        expr: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 54..73,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 1..19,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 16..37,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 34..57,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 54..73,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 1..4,\n        sym: \"foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Member(\n    MemberExpr {\n        span: 4..12,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 6..11,\n                sym: \"class\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 4..12,\n        base: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Member(\n    MemberExpr {\n        span: 11..19,\n        obj: Id {\n            index: 2,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 12..15,\n                sym: \"bar\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 16..19,\n        sym: \"foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Member(\n    MemberExpr {\n        span: 19..30,\n        obj: Id {\n            index: 4,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 21..29,\n                sym: \"function\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 19..30,\n        base: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Member(\n    MemberExpr {\n        span: 29..37,\n        obj: Id {\n            index: 6,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 30..33,\n                sym: \"bar\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Ident(\n    Ident {\n        span: 34..37,\n        sym: \"foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Member(\n    MemberExpr {\n        span: 37..44,\n        obj: Id {\n            index: 8,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 39..42,\n                sym: \"bar\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 37..44,\n        base: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Member(\n    MemberExpr {\n        span: 42..50,\n        obj: Id {\n            index: 10,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 44..49,\n                sym: \"class\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 42..50,\n        base: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Member(\n    MemberExpr {\n        span: 49..57,\n        obj: Id {\n            index: 12,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 50..53,\n                sym: \"bar\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Ident(\n    Ident {\n        span: 54..57,\n        sym: \"foo\",\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Member(\n    MemberExpr {\n        span: 57..69,\n        obj: Id {\n            index: 14,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 59..67,\n                sym: \"function\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 57..69,\n        base: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Member(\n    MemberExpr {\n        span: 67..73,\n        obj: Id {\n            index: 16,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 69..72,\n                sym: \"bar\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "OptChain(\n    OptChainExpr {\n        span: 67..73,\n        base: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 1..4,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 4..12,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 6..11,\n                sym: \"class\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 4..12,\n        base: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 11..19,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 12..15,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 16..19,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 19..30,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 21..29,\n                sym: \"function\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 19..30,\n        base: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 29..37,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 30..33,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 34..37,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 37..44,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 39..42,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 37..44,\n        base: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 42..50,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 44..49,\n                sym: \"class\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 42..50,\n        base: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 49..57,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 50..53,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 54..57,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 57..69,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 59..67,\n                sym: \"function\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 57..69,\n        base: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 67..73,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 69..72,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 67..73,\n        base: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

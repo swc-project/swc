@@ -1,62 +1,22 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..1097,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..1097,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..158,\n        ident: Ident {\n            span: 6..8,\n            sym: \"X1\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 9..10,\n                sym: \"T\",\n            },\n        ],\n        ty: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 154..352,\n        ident: Ident {\n            span: 159..161,\n            sym: \"X2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 162..163,\n                sym: \"T\",\n            },\n        ],\n        ty: Id {\n            index: 41,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 348..563,\n        ident: Ident {\n            span: 353..355,\n            sym: \"X3\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 356..357,\n                sym: \"T\",\n            },\n        ],\n        ty: Id {\n            index: 68,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 559..800,\n        ident: Ident {\n            span: 564..566,\n            sym: \"X4\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 567..568,\n                sym: \"T\",\n            },\n        ],\n        ty: Id {\n            index: 97,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 796..953,\n        ident: Ident {\n            span: 801..803,\n            sym: \"X5\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 804..805,\n                sym: \"T\",\n            },\n        ],\n        ty: Id {\n            index: 114,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 949..1097,\n        ident: Ident {\n            span: 954..956,\n            sym: \"X6\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 957..958,\n                sym: \"T\",\n            },\n        ],\n        ty: Id {\n            index: 131,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..158,\n        ident: Ident {\n            span: 6..8,\n            sym: \"X1\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 9..10,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 154..352,\n        ident: Ident {\n            span: 159..161,\n            sym: \"X2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 162..163,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 348..563,\n        ident: Ident {\n            span: 353..355,\n            sym: \"X3\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 356..357,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 559..800,\n        ident: Ident {\n            span: 564..566,\n            sym: \"X4\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 567..568,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 796..953,\n        ident: Ident {\n            span: 801..803,\n            sym: \"X5\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 804..805,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 949..1097,\n        ident: Ident {\n            span: 954..956,\n            sym: \"X6\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 957..958,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
@@ -66,421 +26,109 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967299,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 32..41,\n        name: Ident {\n            span: 32..41,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Infer(\n    TsInferType {\n        span: 43..58,\n        type_param: Ident {\n            span: 49..50,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Tuple(\n    TsTupleType {\n        span: 42..68,\n        elem_types: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 70..78,\n            value: \"string\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 80..82,\n        name: Ident {\n            span: 80..82,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Tuple(\n    TsTupleType {\n        span: 69..84,\n        elem_types: [\n            Id {\n                index: 6,\n                generation: 1,\n            },\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 89..98,\n        name: Ident {\n            span: 89..98,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Infer(\n    TsInferType {\n        span: 100..115,\n        type_param: Ident {\n            span: 106..107,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Tuple(\n    TsTupleType {\n        span: 99..125,\n        elem_types: [\n            Id {\n                index: 10,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 127..135,\n            value: \"number\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 137..139,\n        name: Ident {\n            span: 137..139,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Tuple(\n    TsTupleType {\n        span: 126..141,\n        elem_types: [\n            Id {\n                index: 13,\n                generation: 1,\n            },\n            Id {\n                index: 14,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Keyword(\n    Never,\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 89..152,\n        check_type: Id {\n            index: 9,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 12,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 15,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 32..152,\n        check_type: Id {\n            index: 2,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 5,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 8,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 204..213,\n        name: Ident {\n            span: 204..213,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Infer(\n    TsInferType {\n        span: 218..233,\n        type_param: Ident {\n            span: 224..225,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Keyword(\n    Void,\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Fn(\n    TsFnType {\n        span: 214..251,\n        params: [\n            TsFnParam {\n                span: 215..241,\n                name: Some(\n                    Ident {\n                        span: 215..216,\n                        sym: \"a\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 24,\n                        generation: 1,\n                    },\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 26,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 253..261,\n            value: \"string\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 263..265,\n        name: Ident {\n            span: 263..265,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Tuple(\n    TsTupleType {\n        span: 252..267,\n        elem_types: [\n            Id {\n                index: 28,\n                generation: 1,\n            },\n            Id {\n                index: 29,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 272..281,\n        name: Ident {\n            span: 272..281,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Infer(\n    TsInferType {\n        span: 286..301,\n        type_param: Ident {\n            span: 292..293,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Keyword(\n    Void,\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Fn(\n    TsFnType {\n        span: 282..319,\n        params: [\n            TsFnParam {\n                span: 283..309,\n                name: Some(\n                    Ident {\n                        span: 283..284,\n                        sym: \"a\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 32,\n                        generation: 1,\n                    },\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 34,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 321..329,\n            value: \"number\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 331..333,\n        name: Ident {\n            span: 331..333,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Tuple(\n    TsTupleType {\n        span: 320..335,\n        elem_types: [\n            Id {\n                index: 36,\n                generation: 1,\n            },\n            Id {\n                index: 37,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Keyword(\n    Never,\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 272..346,\n        check_type: Id {\n            index: 31,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 35,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 38,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 39,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 204..346,\n        check_type: Id {\n            index: 23,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 27,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 30,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 40,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967343,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 397..406,\n        name: Ident {\n            span: 397..406,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967345,
-      "node": "Array(\n    TsArrayType {\n        span: 417..423,\n        elem_type: Id {\n            index: 47,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Infer(\n    TsInferType {\n        span: 428..443,\n        type_param: Ident {\n            span: 434..435,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Parenthesized(\n    TsParenthesizedType {\n        span: 427..453,\n        ty: Id {\n            index: 49,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967349,
-      "node": "Fn(\n    TsFnType {\n        span: 407..453,\n        params: [\n            TsFnParam {\n                span: 408..423,\n                name: Some(\n                    Ident {\n                        span: 411..415,\n                        sym: \"args\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 48,\n                        generation: 1,\n                    },\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 51,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 455..463,\n            value: \"string\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967351,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 465..467,\n        name: Ident {\n            span: 465..467,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967352,
-      "node": "Tuple(\n    TsTupleType {\n        span: 454..469,\n        elem_types: [\n            Id {\n                index: 53,\n                generation: 1,\n            },\n            Id {\n                index: 54,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 474..483,\n        name: Ident {\n            span: 474..483,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967354,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967355,
-      "node": "Array(\n    TsArrayType {\n        span: 494..500,\n        elem_type: Id {\n            index: 57,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967356,
-      "node": "Infer(\n    TsInferType {\n        span: 505..520,\n        type_param: Ident {\n            span: 511..512,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967358,
-      "node": "Parenthesized(\n    TsParenthesizedType {\n        span: 504..530,\n        ty: Id {\n            index: 59,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967359,
-      "node": "Fn(\n    TsFnType {\n        span: 484..530,\n        params: [\n            TsFnParam {\n                span: 485..500,\n                name: Some(\n                    Ident {\n                        span: 488..492,\n                        sym: \"args\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 58,\n                        generation: 1,\n                    },\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 61,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967360,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 532..540,\n            value: \"number\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967361,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 542..544,\n        name: Ident {\n            span: 542..544,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967362,
-      "node": "Tuple(\n    TsTupleType {\n        span: 531..546,\n        elem_types: [\n            Id {\n                index: 63,\n                generation: 1,\n            },\n            Id {\n                index: 64,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967363,
-      "node": "Keyword(\n    Never,\n)"
-    },
-    {
-      "id": 4294967364,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 474..557,\n        check_type: Id {\n            index: 56,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 62,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 65,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 66,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967365,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 397..557,\n        check_type: Id {\n            index: 46,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 52,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 55,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 67,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967370,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 612..621,\n        name: Ident {\n            span: 612..621,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967371,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967372,
-      "node": "Array(\n    TsArrayType {\n        span: 636..642,\n        elem_type: Id {\n            index: 74,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967373,
-      "node": "Infer(\n    TsInferType {\n        span: 647..662,\n        type_param: Ident {\n            span: 653..654,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967376,
-      "node": "Parenthesized(\n    TsParenthesizedType {\n        span: 646..679,\n        ty: Id {\n            index: 76,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967377,
-      "node": "Fn(\n    TsFnType {\n        span: 626..679,\n        params: [\n            TsFnParam {\n                span: 627..642,\n                name: Some(\n                    Ident {\n                        span: 630..634,\n                        sym: \"args\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 75,\n                        generation: 1,\n                    },\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 79,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967378,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 681..689,\n            value: \"string\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967379,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 691..693,\n        name: Ident {\n            span: 691..693,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967380,
-      "node": "Tuple(\n    TsTupleType {\n        span: 680..695,\n        elem_types: [\n            Id {\n                index: 81,\n                generation: 1,\n            },\n            Id {\n                index: 82,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967381,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 700..709,\n        name: Ident {\n            span: 700..709,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967382,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967383,
-      "node": "Array(\n    TsArrayType {\n        span: 724..730,\n        elem_type: Id {\n            index: 85,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967384,
-      "node": "Infer(\n    TsInferType {\n        span: 735..750,\n        type_param: Ident {\n            span: 741..742,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967387,
-      "node": "Parenthesized(\n    TsParenthesizedType {\n        span: 734..767,\n        ty: Id {\n            index: 87,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967388,
-      "node": "Fn(\n    TsFnType {\n        span: 714..767,\n        params: [\n            TsFnParam {\n                span: 715..730,\n                name: Some(\n                    Ident {\n                        span: 718..722,\n                        sym: \"args\",\n                    },\n                ),\n                ty: Some(\n                    Id {\n                        index: 86,\n                        generation: 1,\n                    },\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: Id {\n            index: 90,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967389,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 769..777,\n            value: \"number\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967390,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 779..781,\n        name: Ident {\n            span: 779..781,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967391,
-      "node": "Tuple(\n    TsTupleType {\n        span: 768..783,\n        elem_types: [\n            Id {\n                index: 92,\n                generation: 1,\n            },\n            Id {\n                index: 93,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967392,
-      "node": "Keyword(\n    Never,\n)"
-    },
-    {
-      "id": 4294967393,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 700..794,\n        check_type: Id {\n            index: 84,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 91,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 94,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 95,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967394,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 612..794,\n        check_type: Id {\n            index: 73,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 80,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 83,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 96,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967395,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 813..822,\n        name: Ident {\n            span: 813..822,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967396,
-      "node": "Infer(\n    TsInferType {\n        span: 831..846,\n        type_param: Ident {\n            span: 837..838,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967398,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 823..856,\n        name: Ident {\n            span: 823..831,\n            sym: \"Promise\",\n        },\n        type_args: [\n            Id {\n                index: 99,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967399,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 858..866,\n            value: \"string\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967400,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 868..870,\n        name: Ident {\n            span: 868..870,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967401,
-      "node": "Tuple(\n    TsTupleType {\n        span: 857..872,\n        elem_types: [\n            Id {\n                index: 102,\n                generation: 1,\n            },\n            Id {\n                index: 103,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967402,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 877..886,\n        name: Ident {\n            span: 877..886,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967403,
-      "node": "Infer(\n    TsInferType {\n        span: 895..910,\n        type_param: Ident {\n            span: 901..902,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967405,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 887..920,\n        name: Ident {\n            span: 887..895,\n            sym: \"Promise\",\n        },\n        type_args: [\n            Id {\n                index: 106,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967406,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 922..930,\n            value: \"number\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967407,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 932..934,\n        name: Ident {\n            span: 932..934,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967408,
-      "node": "Tuple(\n    TsTupleType {\n        span: 921..936,\n        elem_types: [\n            Id {\n                index: 109,\n                generation: 1,\n            },\n            Id {\n                index: 110,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967409,
-      "node": "Keyword(\n    Never,\n)"
-    },
-    {
-      "id": 4294967410,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 877..947,\n        check_type: Id {\n            index: 105,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 108,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 111,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 112,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967411,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 813..947,\n        check_type: Id {\n            index: 98,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 101,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 104,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 113,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967412,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 966..975,\n        name: Ident {\n            span: 966..975,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967413,
-      "node": "Infer(\n    TsInferType {\n        span: 981..996,\n        type_param: Ident {\n            span: 987..988,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967415,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 976..1007,\n        members: [\n            TsTypeMember {\n                span: 978..1005,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 978..979,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 116,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967416,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1009..1017,\n            value: \"string\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967417,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 1019..1021,\n        name: Ident {\n            span: 1019..1021,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967418,
-      "node": "Tuple(\n    TsTupleType {\n        span: 1008..1023,\n        elem_types: [\n            Id {\n                index: 119,\n                generation: 1,\n            },\n            Id {\n                index: 120,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967419,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 1028..1037,\n        name: Ident {\n            span: 1028..1037,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967420,
-      "node": "Infer(\n    TsInferType {\n        span: 1043..1058,\n        type_param: Ident {\n            span: 1049..1050,\n            sym: \"U\",\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967422,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 1038..1069,\n        members: [\n            TsTypeMember {\n                span: 1040..1067,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 1040..1041,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 123,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967423,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 1071..1079,\n            value: \"number\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967424,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 1081..1083,\n        name: Ident {\n            span: 1081..1083,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967425,
-      "node": "Tuple(\n    TsTupleType {\n        span: 1070..1085,\n        elem_types: [\n            Id {\n                index: 126,\n                generation: 1,\n            },\n            Id {\n                index: 127,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967426,
-      "node": "Keyword(\n    Never,\n)"
-    },
-    {
-      "id": 4294967427,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 1028..1096,\n        check_type: Id {\n            index: 122,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 125,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 128,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 129,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967428,
-      "node": "Conditional(\n    TsConditionalType {\n        span: 966..1096,\n        check_type: Id {\n            index: 115,\n            generation: 1,\n        },\n        extends_type: Id {\n            index: 118,\n            generation: 1,\n        },\n        true_type: Id {\n            index: 121,\n            generation: 1,\n        },\n        false_type: Id {\n            index: 130,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "TypeRef(\n    TsTypeRef {\n        span: 32..41,\n        name: Ident {\n            span: 32..41,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 43..58,\n        type_param: Ident {\n            span: 49..50,\n            sym: \"U\",\n        },\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 42..68,\n        elem_types: [\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 70..78,\n            value: \"string\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 80..82,\n        name: Ident {\n            span: 80..82,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 69..84,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 89..98,\n        name: Ident {\n            span: 89..98,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 100..115,\n        type_param: Ident {\n            span: 106..107,\n            sym: \"U\",\n        },\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 99..125,\n        elem_types: [\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 127..135,\n            value: \"number\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 137..139,\n        name: Ident {\n            span: 137..139,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 126..141,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 89..152,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 32..152,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 204..213,\n        name: Ident {\n            span: 204..213,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 218..233,\n        type_param: Ident {\n            span: 224..225,\n            sym: \"U\",\n        },\n    },\n)",
+    "Keyword(\n    Void,\n)",
+    "Fn(\n    TsFnType {\n        span: 214..251,\n        params: [\n            TsFnParam {\n                span: 215..241,\n                name: Some(\n                    Ident {\n                        span: 215..216,\n                        sym: \"a\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 253..261,\n            value: \"string\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 263..265,\n        name: Ident {\n            span: 263..265,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 252..267,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 272..281,\n        name: Ident {\n            span: 272..281,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 286..301,\n        type_param: Ident {\n            span: 292..293,\n            sym: \"U\",\n        },\n    },\n)",
+    "Keyword(\n    Void,\n)",
+    "Fn(\n    TsFnType {\n        span: 282..319,\n        params: [\n            TsFnParam {\n                span: 283..309,\n                name: Some(\n                    Ident {\n                        span: 283..284,\n                        sym: \"a\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 321..329,\n            value: \"number\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 331..333,\n        name: Ident {\n            span: 331..333,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 320..335,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 272..346,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 204..346,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 397..406,\n        name: Ident {\n            span: 397..406,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "Array(\n    TsArrayType {\n        span: 417..423,\n        elem_type: _,\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 428..443,\n        type_param: Ident {\n            span: 434..435,\n            sym: \"U\",\n        },\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 427..453,\n        ty: _,\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 407..453,\n        params: [\n            TsFnParam {\n                span: 408..423,\n                name: Some(\n                    Ident {\n                        span: 411..415,\n                        sym: \"args\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 455..463,\n            value: \"string\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 465..467,\n        name: Ident {\n            span: 465..467,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 454..469,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 474..483,\n        name: Ident {\n            span: 474..483,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "Array(\n    TsArrayType {\n        span: 494..500,\n        elem_type: _,\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 505..520,\n        type_param: Ident {\n            span: 511..512,\n            sym: \"U\",\n        },\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 504..530,\n        ty: _,\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 484..530,\n        params: [\n            TsFnParam {\n                span: 485..500,\n                name: Some(\n                    Ident {\n                        span: 488..492,\n                        sym: \"args\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 532..540,\n            value: \"number\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 542..544,\n        name: Ident {\n            span: 542..544,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 531..546,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 474..557,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 397..557,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 612..621,\n        name: Ident {\n            span: 612..621,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "Array(\n    TsArrayType {\n        span: 636..642,\n        elem_type: _,\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 647..662,\n        type_param: Ident {\n            span: 653..654,\n            sym: \"U\",\n        },\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 646..679,\n        ty: _,\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 626..679,\n        params: [\n            TsFnParam {\n                span: 627..642,\n                name: Some(\n                    Ident {\n                        span: 630..634,\n                        sym: \"args\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 681..689,\n            value: \"string\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 691..693,\n        name: Ident {\n            span: 691..693,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 680..695,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 700..709,\n        name: Ident {\n            span: 700..709,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "Array(\n    TsArrayType {\n        span: 724..730,\n        elem_type: _,\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 735..750,\n        type_param: Ident {\n            span: 741..742,\n            sym: \"U\",\n        },\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 734..767,\n        ty: _,\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 714..767,\n        params: [\n            TsFnParam {\n                span: 715..730,\n                name: Some(\n                    Ident {\n                        span: 718..722,\n                        sym: \"args\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 769..777,\n            value: \"number\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 779..781,\n        name: Ident {\n            span: 779..781,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 768..783,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 700..794,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 612..794,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 813..822,\n        name: Ident {\n            span: 813..822,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 831..846,\n        type_param: Ident {\n            span: 837..838,\n            sym: \"U\",\n        },\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 823..856,\n        name: Ident {\n            span: 823..831,\n            sym: \"Promise\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 858..866,\n            value: \"string\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 868..870,\n        name: Ident {\n            span: 868..870,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 857..872,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 877..886,\n        name: Ident {\n            span: 877..886,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 895..910,\n        type_param: Ident {\n            span: 901..902,\n            sym: \"U\",\n        },\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 887..920,\n        name: Ident {\n            span: 887..895,\n            sym: \"Promise\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 922..930,\n            value: \"number\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 932..934,\n        name: Ident {\n            span: 932..934,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 921..936,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 877..947,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 813..947,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 966..975,\n        name: Ident {\n            span: 966..975,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 981..996,\n        type_param: Ident {\n            span: 987..988,\n            sym: \"U\",\n        },\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 976..1007,\n        members: [\n            TsTypeMember {\n                span: 978..1005,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 978..979,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 1009..1017,\n            value: \"string\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 1019..1021,\n        name: Ident {\n            span: 1019..1021,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 1008..1023,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 1028..1037,\n        name: Ident {\n            span: 1028..1037,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 1043..1058,\n        type_param: Ident {\n            span: 1049..1050,\n            sym: \"U\",\n        },\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 1038..1069,\n        members: [\n            TsTypeMember {\n                span: 1040..1067,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 1040..1041,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 1071..1079,\n            value: \"number\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 1081..1083,\n        name: Ident {\n            span: 1081..1083,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 1070..1085,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 1028..1096,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 966..1096,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)"
   ]
 }

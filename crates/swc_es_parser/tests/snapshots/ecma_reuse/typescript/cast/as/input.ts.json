@@ -1,84 +1,29 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..108,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..108,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..10,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 9..51,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 50..94,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 93..108,\n        expr: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 1..10,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 9..51,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 50..94,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 93..108,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 3..8,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n        ty: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"y\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Binary(\n    BinaryExpr {\n        span: 11..17,\n        op: Lt,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 15..26,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n        ty: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 56..57,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Binary(\n    BinaryExpr {\n        span: 52..60,\n        op: EqEqEq,\n        left: Id {\n            index: 6,\n            generation: 1,\n        },\n        right: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 58..68,\n        expr: Id {\n            index: 8,\n            generation: 1,\n        },\n        ty: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Ident(\n    Ident {\n        span: 93..94,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 95..104,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n        ty: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 102..107,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n        ty: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"x\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 3..8,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 11..17,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 15..26,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 56..57,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 52..60,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 58..68,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 93..94,\n        sym: \"x\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 95..104,\n        expr: _,\n        ty: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 102..107,\n        expr: _,\n        ty: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
@@ -86,25 +31,10 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 6..8,\n        name: Ident {\n            span: 6..8,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Keyword(\n    Boolean,\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 105..107,\n        name: Ident {\n            span: 105..107,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
-    }
+    "TypeRef(\n    TsTypeRef {\n        span: 6..8,\n        name: Ident {\n            span: 6..8,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Boolean,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Any,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 105..107,\n        name: Ident {\n            span: 105..107,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
   ]
 }

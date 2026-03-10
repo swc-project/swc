@@ -1,221 +1,67 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 61..464,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 28,\n            generation: 1,\n        },\n        Id {\n            index: 34,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 61..464,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Break(\n    BreakStmt {\n        span: 70..78,\n        label: None,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Block(\n    BlockStmt {\n        span: 64..84,\n        stmts: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 61..95,\n        body: Id {\n            index: 1,\n            generation: 1,\n        },\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Break(\n    BreakStmt {\n        span: 106..118,\n        label: Some(\n            Ident {\n                span: 112..115,\n                sym: \"ONE\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Block(\n    BlockStmt {\n        span: 100..124,\n        stmts: [\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 97..136,\n        body: Id {\n            index: 4,\n            generation: 1,\n        },\n        test: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 92..136,\n        label: Ident {\n            span: 92..95,\n            sym: \"ONE\",\n        },\n        body: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Break(\n    BreakStmt {\n        span: 154..168,\n        label: Some(\n            Ident {\n                span: 160..165,\n                sym: \"THREE\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Block(\n    BlockStmt {\n        span: 148..173,\n        stmts: [\n            Id {\n                index: 7,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 145..186,\n        body: Id {\n            index: 8,\n            generation: 1,\n        },\n        test: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 138..186,\n        label: Ident {\n            span: 138..143,\n            sym: \"THREE\",\n        },\n        body: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 133..186,\n        label: Ident {\n            span: 133..136,\n            sym: \"TWO\",\n        },\n        body: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Break(\n    BreakStmt {\n        span: 220..237,\n        label: Some(\n            Ident {\n                span: 226..230,\n                sym: \"FOUR\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Block(\n    BlockStmt {\n        span: 210..242,\n        stmts: [\n            Id {\n                index: 12,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 207..251,\n        body: Id {\n            index: 13,\n            generation: 1,\n        },\n        test: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 197..251,\n        label: Ident {\n            span: 197..201,\n            sym: \"FIVE\",\n        },\n        body: Id {\n            index: 14,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Block(\n    BlockStmt {\n        span: 191..256,\n        stmts: [\n            Id {\n                index: 15,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 188..267,\n        body: Id {\n            index: 16,\n            generation: 1,\n        },\n        test: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 182..267,\n        label: Ident {\n            span: 182..186,\n            sym: \"FOUR\",\n        },\n        body: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Break(\n    BreakStmt {\n        span: 286..302,\n        label: Some(\n            Ident {\n                span: 292..295,\n                sym: \"SIX\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 283..310,\n        body: Id {\n            index: 19,\n            generation: 1,\n        },\n        test: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 274..310,\n        label: Ident {\n            span: 274..277,\n            sym: \"SIX\",\n        },\n        body: Id {\n            index: 20,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Block(\n    BlockStmt {\n        span: 268..315,\n        stmts: [\n            Id {\n                index: 21,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 265..329,\n        body: Id {\n            index: 22,\n            generation: 1,\n        },\n        test: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Break(\n    BreakStmt {\n        span: 340..358,\n        label: Some(\n            Ident {\n                span: 346..351,\n                sym: \"SEVEN\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 337..371,\n        body: Id {\n            index: 24,\n            generation: 1,\n        },\n        test: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 334..385,\n        body: Id {\n            index: 25,\n            generation: 1,\n        },\n        test: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 331..399,\n        body: Id {\n            index: 26,\n            generation: 1,\n        },\n        test: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 324..399,\n        label: Ident {\n            span: 324..329,\n            sym: \"SEVEN\",\n        },\n        body: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Break(\n    BreakStmt {\n        span: 438..452,\n        label: Some(\n            Ident {\n                span: 444..449,\n                sym: \"EIGHT\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Block(\n    BlockStmt {\n        span: 403..457,\n        stmts: [\n            Id {\n                index: 30,\n                generation: 1,\n            },\n            Id {\n                index: 31,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 401..464,\n        body: Id {\n            index: 32,\n            generation: 1,\n        },\n        test: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 394..464,\n        label: Ident {\n            span: 394..399,\n            sym: \"EIGHT\",\n        },\n        body: Id {\n            index: 33,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Break(\n    BreakStmt {\n        span: 70..78,\n        label: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 64..84,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 61..95,\n        body: _,\n        test: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 106..118,\n        label: Some(\n            Ident {\n                span: 112..115,\n                sym: \"ONE\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 100..124,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 97..136,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 92..136,\n        label: Ident {\n            span: 92..95,\n            sym: \"ONE\",\n        },\n        body: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 154..168,\n        label: Some(\n            Ident {\n                span: 160..165,\n                sym: \"THREE\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 148..173,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 145..186,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 138..186,\n        label: Ident {\n            span: 138..143,\n            sym: \"THREE\",\n        },\n        body: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 133..186,\n        label: Ident {\n            span: 133..136,\n            sym: \"TWO\",\n        },\n        body: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 220..237,\n        label: Some(\n            Ident {\n                span: 226..230,\n                sym: \"FOUR\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 210..242,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 207..251,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 197..251,\n        label: Ident {\n            span: 197..201,\n            sym: \"FIVE\",\n        },\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 191..256,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 188..267,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 182..267,\n        label: Ident {\n            span: 182..186,\n            sym: \"FOUR\",\n        },\n        body: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 286..302,\n        label: Some(\n            Ident {\n                span: 292..295,\n                sym: \"SIX\",\n            },\n        ),\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 283..310,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 274..310,\n        label: Ident {\n            span: 274..277,\n            sym: \"SIX\",\n        },\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 268..315,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 265..329,\n        body: _,\n        test: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 340..358,\n        label: Some(\n            Ident {\n                span: 346..351,\n                sym: \"SEVEN\",\n            },\n        ),\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 337..371,\n        body: _,\n        test: _,\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 334..385,\n        body: _,\n        test: _,\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 331..399,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 324..399,\n        label: Ident {\n            span: 324..329,\n            sym: \"SEVEN\",\n        },\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Break(\n    BreakStmt {\n        span: 438..452,\n        label: Some(\n            Ident {\n                span: 444..449,\n                sym: \"EIGHT\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 403..457,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 401..464,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 394..464,\n        label: Ident {\n            span: 394..399,\n            sym: \"EIGHT\",\n        },\n        body: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 409..443,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 409..443,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 409..443,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 409..443,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 413..415,\n        sym: \"fn\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 416..443,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 413..415,\n        sym: \"fn\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 416..443,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 85..89,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 126..130,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 175..179,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 244..248,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 258..262,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 303..307,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 317..321,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 360..364,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 373..377,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 387..391,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 458..462,\n            value: true,\n        },\n    ),\n)"
-    }
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 85..89,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 126..130,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 175..179,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 244..248,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 258..262,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 303..307,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 317..321,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 360..364,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 373..377,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 387..391,\n            value: true,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 458..462,\n            value: true,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 418..443,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 418..443,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [],
   "class_members": [],

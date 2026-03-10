@@ -1,40 +1,18 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 17..67,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 17..67,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 17..67,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 17..67,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Template(\n    TemplateExpr {\n        span: 17..29,\n        quasis: [\n            StrLit {\n                span: 17..29,\n                value: \"abc${0}abc\",\n            },\n        ],\n        exprs: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Template(\n    TemplateExpr {\n        span: 30..48,\n        quasis: [\n            StrLit {\n                span: 30..48,\n                value: \"hello ${0} world\",\n            },\n        ],\n        exprs: [],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Template(\n    TemplateExpr {\n        span: 50..55,\n        quasis: [\n            StrLit {\n                span: 50..55,\n                value: \"   \",\n            },\n        ],\n        exprs: [],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Template(\n    TemplateExpr {\n        span: 57..65,\n        quasis: [\n            StrLit {\n                span: 57..65,\n                value: \"1${2}3\",\n            },\n        ],\n        exprs: [],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Call(\n    CallExpr {\n        span: 29..67,\n        callee: Id {\n            index: 0,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 3,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Template(\n    TemplateExpr {\n        span: 17..29,\n        quasis: [\n            StrLit {\n                span: 17..29,\n                value: \"abc${0}abc\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 30..48,\n        quasis: [\n            StrLit {\n                span: 30..48,\n                value: \"hello ${0} world\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 50..55,\n        quasis: [\n            StrLit {\n                span: 50..55,\n                value: \"   \",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 57..65,\n        quasis: [\n            StrLit {\n                span: 57..65,\n                value: \"1${2}3\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 29..67,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

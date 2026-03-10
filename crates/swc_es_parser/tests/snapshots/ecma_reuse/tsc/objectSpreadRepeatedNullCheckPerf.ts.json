@@ -1,1114 +1,288 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 18..2478,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 18..2478,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Return(\n    ReturnStmt {\n        span: 733..2438,\n        arg: Some(\n            Id {\n                index: 260,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 2440..2478,\n        expr: Id {\n            index: 266,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 733..2438,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 2440..2478,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsInterface(\n    TsInterfaceDecl {\n        span: 18..671,\n        ident: Ident {\n            span: 28..33,\n            sym: \"Props\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 40..72,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 49..50,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 64..96,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 73..74,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 88..120,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 97..98,\n                            sym: \"c\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 112..144,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 121..122,\n                            sym: \"d\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 136..168,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 145..146,\n                            sym: \"e\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 160..192,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 169..170,\n                            sym: \"f\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 184..216,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 193..194,\n                            sym: \"g\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 208..240,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 217..218,\n                            sym: \"h\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 232..264,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 241..242,\n                            sym: \"i\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 256..288,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 265..266,\n                            sym: \"j\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 9,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 280..312,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 289..290,\n                            sym: \"k\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 10,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 304..336,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 313..314,\n                            sym: \"l\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 11,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 328..360,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 337..338,\n                            sym: \"m\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 12,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 352..384,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 361..362,\n                            sym: \"n\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 13,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 376..408,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 385..386,\n                            sym: \"o\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 14,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 400..432,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 409..410,\n                            sym: \"p\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 15,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 424..456,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 433..434,\n                            sym: \"q\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 16,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 448..480,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 457..458,\n                            sym: \"r\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 17,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 472..504,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 481..482,\n                            sym: \"s\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 18,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 496..528,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 505..506,\n                            sym: \"t\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 19,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 520..552,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 529..530,\n                            sym: \"u\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 20,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 544..576,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 553..554,\n                            sym: \"v\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 21,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 568..600,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 577..578,\n                            sym: \"w\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 22,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 592..624,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 601..602,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 23,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 616..648,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 625..626,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 24,\n                        generation: 1,\n                    },\n                ),\n            },\n            TsTypeMember {\n                span: 640..661,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 649..650,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    Id {\n                        index: 25,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Fn(\n    FnDecl {\n        span: 663..2455,\n        ident: Ident {\n            span: 672..687,\n            sym: \"parseWithSpread\",\n        },\n        declare: false,\n        params: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ],\n        body: [\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 18..671,\n        ident: Ident {\n            span: 28..33,\n            sym: \"Props\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 40..72,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 49..50,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 64..96,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 73..74,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 88..120,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 97..98,\n                            sym: \"c\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 112..144,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 121..122,\n                            sym: \"d\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 136..168,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 145..146,\n                            sym: \"e\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 160..192,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 169..170,\n                            sym: \"f\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 184..216,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 193..194,\n                            sym: \"g\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 208..240,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 217..218,\n                            sym: \"h\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 232..264,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 241..242,\n                            sym: \"i\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 256..288,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 265..266,\n                            sym: \"j\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 280..312,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 289..290,\n                            sym: \"k\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 304..336,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 313..314,\n                            sym: \"l\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 328..360,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 337..338,\n                            sym: \"m\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 352..384,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 361..362,\n                            sym: \"n\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 376..408,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 385..386,\n                            sym: \"o\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 400..432,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 409..410,\n                            sym: \"p\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 424..456,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 433..434,\n                            sym: \"q\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 448..480,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 457..458,\n                            sym: \"r\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 472..504,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 481..482,\n                            sym: \"s\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 496..528,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 505..506,\n                            sym: \"t\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 520..552,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 529..530,\n                            sym: \"u\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 544..576,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 553..554,\n                            sym: \"v\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 568..600,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 577..578,\n                            sym: \"w\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 592..624,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 601..602,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 616..648,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 625..626,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 640..661,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 649..650,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 663..2455,\n        ident: Ident {\n            span: 672..687,\n            sym: \"parseWithSpread\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 688..694,\n        sym: \"config\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 688..694,\n        sym: \"config\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 753..759,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Member(\n    MemberExpr {\n        span: 759..765,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 760..761,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 766..775,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Binary(\n    BinaryExpr {\n        span: 762..778,\n        op: NotEqEq,\n        left: Id {\n            index: 1,\n            generation: 1,\n        },\n        right: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 784..790,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Member(\n    MemberExpr {\n        span: 790..793,\n        obj: Id {\n            index: 4,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 791..792,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Member(\n    MemberExpr {\n        span: 792..802,\n        obj: Id {\n            index: 5,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 793..801,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Call(\n    CallExpr {\n        span: 801..805,\n        callee: Id {\n            index: 6,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Object(\n    ObjectExpr {\n        span: 779..806,\n        props: [\n            KeyValueProp {\n                span: 781..805,\n                key: Ident(\n                    Ident {\n                        span: 781..782,\n                        sym: \"a\",\n                    },\n                ),\n                value: Id {\n                    index: 7,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Binary(\n    BinaryExpr {\n        span: 776..806,\n        op: LogicalAnd,\n        left: Id {\n            index: 3,\n            generation: 1,\n        },\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Ident(\n    Ident {\n        span: 818..824,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Member(\n    MemberExpr {\n        span: 824..830,\n        obj: Id {\n            index: 10,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 825..826,\n                sym: \"b\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Ident(\n    Ident {\n        span: 831..840,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Binary(\n    BinaryExpr {\n        span: 827..843,\n        op: NotEqEq,\n        left: Id {\n            index: 11,\n            generation: 1,\n        },\n        right: Id {\n            index: 12,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Ident(\n    Ident {\n        span: 849..855,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Member(\n    MemberExpr {\n        span: 855..858,\n        obj: Id {\n            index: 14,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 856..857,\n                sym: \"b\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Member(\n    MemberExpr {\n        span: 857..867,\n        obj: Id {\n            index: 15,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 858..866,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Call(\n    CallExpr {\n        span: 866..870,\n        callee: Id {\n            index: 16,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Object(\n    ObjectExpr {\n        span: 844..871,\n        props: [\n            KeyValueProp {\n                span: 846..870,\n                key: Ident(\n                    Ident {\n                        span: 846..847,\n                        sym: \"b\",\n                    },\n                ),\n                value: Id {\n                    index: 17,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Binary(\n    BinaryExpr {\n        span: 841..871,\n        op: LogicalAnd,\n        left: Id {\n            index: 13,\n            generation: 1,\n        },\n        right: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Ident(\n    Ident {\n        span: 883..889,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Member(\n    MemberExpr {\n        span: 889..895,\n        obj: Id {\n            index: 20,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 890..891,\n                sym: \"c\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Ident(\n    Ident {\n        span: 896..905,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Binary(\n    BinaryExpr {\n        span: 892..908,\n        op: NotEqEq,\n        left: Id {\n            index: 21,\n            generation: 1,\n        },\n        right: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Ident(\n    Ident {\n        span: 914..920,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Member(\n    MemberExpr {\n        span: 920..923,\n        obj: Id {\n            index: 24,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 921..922,\n                sym: \"c\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Member(\n    MemberExpr {\n        span: 922..932,\n        obj: Id {\n            index: 25,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 923..931,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Call(\n    CallExpr {\n        span: 931..935,\n        callee: Id {\n            index: 26,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Object(\n    ObjectExpr {\n        span: 909..936,\n        props: [\n            KeyValueProp {\n                span: 911..935,\n                key: Ident(\n                    Ident {\n                        span: 911..912,\n                        sym: \"c\",\n                    },\n                ),\n                value: Id {\n                    index: 27,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Binary(\n    BinaryExpr {\n        span: 906..936,\n        op: LogicalAnd,\n        left: Id {\n            index: 23,\n            generation: 1,\n        },\n        right: Id {\n            index: 28,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Ident(\n    Ident {\n        span: 948..954,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Member(\n    MemberExpr {\n        span: 954..960,\n        obj: Id {\n            index: 30,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 955..956,\n                sym: \"d\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Ident(\n    Ident {\n        span: 961..970,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Binary(\n    BinaryExpr {\n        span: 957..973,\n        op: NotEqEq,\n        left: Id {\n            index: 31,\n            generation: 1,\n        },\n        right: Id {\n            index: 32,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Ident(\n    Ident {\n        span: 979..985,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Member(\n    MemberExpr {\n        span: 985..988,\n        obj: Id {\n            index: 34,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 986..987,\n                sym: \"d\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Member(\n    MemberExpr {\n        span: 987..997,\n        obj: Id {\n            index: 35,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 988..996,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Call(\n    CallExpr {\n        span: 996..1000,\n        callee: Id {\n            index: 36,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Object(\n    ObjectExpr {\n        span: 974..1001,\n        props: [\n            KeyValueProp {\n                span: 976..1000,\n                key: Ident(\n                    Ident {\n                        span: 976..977,\n                        sym: \"d\",\n                    },\n                ),\n                value: Id {\n                    index: 37,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Binary(\n    BinaryExpr {\n        span: 971..1001,\n        op: LogicalAnd,\n        left: Id {\n            index: 33,\n            generation: 1,\n        },\n        right: Id {\n            index: 38,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Ident(\n    Ident {\n        span: 1013..1019,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Member(\n    MemberExpr {\n        span: 1019..1025,\n        obj: Id {\n            index: 40,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1020..1021,\n                sym: \"e\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967339,
-      "node": "Ident(\n    Ident {\n        span: 1026..1035,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1022..1038,\n        op: NotEqEq,\n        left: Id {\n            index: 41,\n            generation: 1,\n        },\n        right: Id {\n            index: 42,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Ident(\n    Ident {\n        span: 1044..1050,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Member(\n    MemberExpr {\n        span: 1050..1053,\n        obj: Id {\n            index: 44,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1051..1052,\n                sym: \"e\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967343,
-      "node": "Member(\n    MemberExpr {\n        span: 1052..1062,\n        obj: Id {\n            index: 45,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1053..1061,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Call(\n    CallExpr {\n        span: 1061..1065,\n        callee: Id {\n            index: 46,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967345,
-      "node": "Object(\n    ObjectExpr {\n        span: 1039..1066,\n        props: [\n            KeyValueProp {\n                span: 1041..1065,\n                key: Ident(\n                    Ident {\n                        span: 1041..1042,\n                        sym: \"e\",\n                    },\n                ),\n                value: Id {\n                    index: 47,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1036..1066,\n        op: LogicalAnd,\n        left: Id {\n            index: 43,\n            generation: 1,\n        },\n        right: Id {\n            index: 48,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967347,
-      "node": "Ident(\n    Ident {\n        span: 1078..1084,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Member(\n    MemberExpr {\n        span: 1084..1090,\n        obj: Id {\n            index: 50,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1085..1086,\n                sym: \"f\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967349,
-      "node": "Ident(\n    Ident {\n        span: 1091..1100,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1087..1103,\n        op: NotEqEq,\n        left: Id {\n            index: 51,\n            generation: 1,\n        },\n        right: Id {\n            index: 52,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967351,
-      "node": "Ident(\n    Ident {\n        span: 1109..1115,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967352,
-      "node": "Member(\n    MemberExpr {\n        span: 1115..1118,\n        obj: Id {\n            index: 54,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1116..1117,\n                sym: \"f\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "Member(\n    MemberExpr {\n        span: 1117..1127,\n        obj: Id {\n            index: 55,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1118..1126,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967354,
-      "node": "Call(\n    CallExpr {\n        span: 1126..1130,\n        callee: Id {\n            index: 56,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967355,
-      "node": "Object(\n    ObjectExpr {\n        span: 1104..1131,\n        props: [\n            KeyValueProp {\n                span: 1106..1130,\n                key: Ident(\n                    Ident {\n                        span: 1106..1107,\n                        sym: \"f\",\n                    },\n                ),\n                value: Id {\n                    index: 57,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967356,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1101..1131,\n        op: LogicalAnd,\n        left: Id {\n            index: 53,\n            generation: 1,\n        },\n        right: Id {\n            index: 58,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967357,
-      "node": "Ident(\n    Ident {\n        span: 1143..1149,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967358,
-      "node": "Member(\n    MemberExpr {\n        span: 1149..1155,\n        obj: Id {\n            index: 60,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1150..1151,\n                sym: \"g\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967359,
-      "node": "Ident(\n    Ident {\n        span: 1156..1165,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967360,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1152..1168,\n        op: NotEqEq,\n        left: Id {\n            index: 61,\n            generation: 1,\n        },\n        right: Id {\n            index: 62,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967361,
-      "node": "Ident(\n    Ident {\n        span: 1174..1180,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967362,
-      "node": "Member(\n    MemberExpr {\n        span: 1180..1183,\n        obj: Id {\n            index: 64,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1181..1182,\n                sym: \"g\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967363,
-      "node": "Member(\n    MemberExpr {\n        span: 1182..1192,\n        obj: Id {\n            index: 65,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1183..1191,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967364,
-      "node": "Call(\n    CallExpr {\n        span: 1191..1195,\n        callee: Id {\n            index: 66,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967365,
-      "node": "Object(\n    ObjectExpr {\n        span: 1169..1196,\n        props: [\n            KeyValueProp {\n                span: 1171..1195,\n                key: Ident(\n                    Ident {\n                        span: 1171..1172,\n                        sym: \"g\",\n                    },\n                ),\n                value: Id {\n                    index: 67,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967366,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1166..1196,\n        op: LogicalAnd,\n        left: Id {\n            index: 63,\n            generation: 1,\n        },\n        right: Id {\n            index: 68,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967367,
-      "node": "Ident(\n    Ident {\n        span: 1208..1214,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967368,
-      "node": "Member(\n    MemberExpr {\n        span: 1214..1220,\n        obj: Id {\n            index: 70,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1215..1216,\n                sym: \"h\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967369,
-      "node": "Ident(\n    Ident {\n        span: 1221..1230,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967370,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1217..1233,\n        op: NotEqEq,\n        left: Id {\n            index: 71,\n            generation: 1,\n        },\n        right: Id {\n            index: 72,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967371,
-      "node": "Ident(\n    Ident {\n        span: 1239..1245,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967372,
-      "node": "Member(\n    MemberExpr {\n        span: 1245..1248,\n        obj: Id {\n            index: 74,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1246..1247,\n                sym: \"h\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967373,
-      "node": "Member(\n    MemberExpr {\n        span: 1247..1257,\n        obj: Id {\n            index: 75,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1248..1256,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967374,
-      "node": "Call(\n    CallExpr {\n        span: 1256..1260,\n        callee: Id {\n            index: 76,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967375,
-      "node": "Object(\n    ObjectExpr {\n        span: 1234..1261,\n        props: [\n            KeyValueProp {\n                span: 1236..1260,\n                key: Ident(\n                    Ident {\n                        span: 1236..1237,\n                        sym: \"h\",\n                    },\n                ),\n                value: Id {\n                    index: 77,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967376,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1231..1261,\n        op: LogicalAnd,\n        left: Id {\n            index: 73,\n            generation: 1,\n        },\n        right: Id {\n            index: 78,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967377,
-      "node": "Ident(\n    Ident {\n        span: 1273..1279,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967378,
-      "node": "Member(\n    MemberExpr {\n        span: 1279..1285,\n        obj: Id {\n            index: 80,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1280..1281,\n                sym: \"i\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967379,
-      "node": "Ident(\n    Ident {\n        span: 1286..1295,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967380,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1282..1298,\n        op: NotEqEq,\n        left: Id {\n            index: 81,\n            generation: 1,\n        },\n        right: Id {\n            index: 82,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967381,
-      "node": "Ident(\n    Ident {\n        span: 1304..1310,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967382,
-      "node": "Member(\n    MemberExpr {\n        span: 1310..1313,\n        obj: Id {\n            index: 84,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1311..1312,\n                sym: \"i\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967383,
-      "node": "Member(\n    MemberExpr {\n        span: 1312..1322,\n        obj: Id {\n            index: 85,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1313..1321,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967384,
-      "node": "Call(\n    CallExpr {\n        span: 1321..1325,\n        callee: Id {\n            index: 86,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967385,
-      "node": "Object(\n    ObjectExpr {\n        span: 1299..1326,\n        props: [\n            KeyValueProp {\n                span: 1301..1325,\n                key: Ident(\n                    Ident {\n                        span: 1301..1302,\n                        sym: \"i\",\n                    },\n                ),\n                value: Id {\n                    index: 87,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967386,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1296..1326,\n        op: LogicalAnd,\n        left: Id {\n            index: 83,\n            generation: 1,\n        },\n        right: Id {\n            index: 88,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967387,
-      "node": "Ident(\n    Ident {\n        span: 1338..1344,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967388,
-      "node": "Member(\n    MemberExpr {\n        span: 1344..1350,\n        obj: Id {\n            index: 90,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1345..1346,\n                sym: \"j\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967389,
-      "node": "Ident(\n    Ident {\n        span: 1351..1360,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967390,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1347..1363,\n        op: NotEqEq,\n        left: Id {\n            index: 91,\n            generation: 1,\n        },\n        right: Id {\n            index: 92,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967391,
-      "node": "Ident(\n    Ident {\n        span: 1369..1375,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967392,
-      "node": "Member(\n    MemberExpr {\n        span: 1375..1378,\n        obj: Id {\n            index: 94,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1376..1377,\n                sym: \"j\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967393,
-      "node": "Member(\n    MemberExpr {\n        span: 1377..1387,\n        obj: Id {\n            index: 95,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1378..1386,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967394,
-      "node": "Call(\n    CallExpr {\n        span: 1386..1390,\n        callee: Id {\n            index: 96,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967395,
-      "node": "Object(\n    ObjectExpr {\n        span: 1364..1391,\n        props: [\n            KeyValueProp {\n                span: 1366..1390,\n                key: Ident(\n                    Ident {\n                        span: 1366..1367,\n                        sym: \"j\",\n                    },\n                ),\n                value: Id {\n                    index: 97,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967396,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1361..1391,\n        op: LogicalAnd,\n        left: Id {\n            index: 93,\n            generation: 1,\n        },\n        right: Id {\n            index: 98,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967397,
-      "node": "Ident(\n    Ident {\n        span: 1403..1409,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967398,
-      "node": "Member(\n    MemberExpr {\n        span: 1409..1415,\n        obj: Id {\n            index: 100,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1410..1411,\n                sym: \"k\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967399,
-      "node": "Ident(\n    Ident {\n        span: 1416..1425,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967400,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1412..1428,\n        op: NotEqEq,\n        left: Id {\n            index: 101,\n            generation: 1,\n        },\n        right: Id {\n            index: 102,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967401,
-      "node": "Ident(\n    Ident {\n        span: 1434..1440,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967402,
-      "node": "Member(\n    MemberExpr {\n        span: 1440..1443,\n        obj: Id {\n            index: 104,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1441..1442,\n                sym: \"k\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967403,
-      "node": "Member(\n    MemberExpr {\n        span: 1442..1452,\n        obj: Id {\n            index: 105,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1443..1451,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967404,
-      "node": "Call(\n    CallExpr {\n        span: 1451..1455,\n        callee: Id {\n            index: 106,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967405,
-      "node": "Object(\n    ObjectExpr {\n        span: 1429..1456,\n        props: [\n            KeyValueProp {\n                span: 1431..1455,\n                key: Ident(\n                    Ident {\n                        span: 1431..1432,\n                        sym: \"k\",\n                    },\n                ),\n                value: Id {\n                    index: 107,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967406,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1426..1456,\n        op: LogicalAnd,\n        left: Id {\n            index: 103,\n            generation: 1,\n        },\n        right: Id {\n            index: 108,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967407,
-      "node": "Ident(\n    Ident {\n        span: 1468..1474,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967408,
-      "node": "Member(\n    MemberExpr {\n        span: 1474..1480,\n        obj: Id {\n            index: 110,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1475..1476,\n                sym: \"l\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967409,
-      "node": "Ident(\n    Ident {\n        span: 1481..1490,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967410,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1477..1493,\n        op: NotEqEq,\n        left: Id {\n            index: 111,\n            generation: 1,\n        },\n        right: Id {\n            index: 112,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967411,
-      "node": "Ident(\n    Ident {\n        span: 1499..1505,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967412,
-      "node": "Member(\n    MemberExpr {\n        span: 1505..1508,\n        obj: Id {\n            index: 114,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1506..1507,\n                sym: \"l\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967413,
-      "node": "Member(\n    MemberExpr {\n        span: 1507..1517,\n        obj: Id {\n            index: 115,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1508..1516,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967414,
-      "node": "Call(\n    CallExpr {\n        span: 1516..1520,\n        callee: Id {\n            index: 116,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967415,
-      "node": "Object(\n    ObjectExpr {\n        span: 1494..1521,\n        props: [\n            KeyValueProp {\n                span: 1496..1520,\n                key: Ident(\n                    Ident {\n                        span: 1496..1497,\n                        sym: \"l\",\n                    },\n                ),\n                value: Id {\n                    index: 117,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967416,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1491..1521,\n        op: LogicalAnd,\n        left: Id {\n            index: 113,\n            generation: 1,\n        },\n        right: Id {\n            index: 118,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967417,
-      "node": "Ident(\n    Ident {\n        span: 1533..1539,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967418,
-      "node": "Member(\n    MemberExpr {\n        span: 1539..1545,\n        obj: Id {\n            index: 120,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1540..1541,\n                sym: \"m\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967419,
-      "node": "Ident(\n    Ident {\n        span: 1546..1555,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967420,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1542..1558,\n        op: NotEqEq,\n        left: Id {\n            index: 121,\n            generation: 1,\n        },\n        right: Id {\n            index: 122,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967421,
-      "node": "Ident(\n    Ident {\n        span: 1564..1570,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967422,
-      "node": "Member(\n    MemberExpr {\n        span: 1570..1573,\n        obj: Id {\n            index: 124,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1571..1572,\n                sym: \"m\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967423,
-      "node": "Member(\n    MemberExpr {\n        span: 1572..1582,\n        obj: Id {\n            index: 125,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1573..1581,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967424,
-      "node": "Call(\n    CallExpr {\n        span: 1581..1585,\n        callee: Id {\n            index: 126,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967425,
-      "node": "Object(\n    ObjectExpr {\n        span: 1559..1586,\n        props: [\n            KeyValueProp {\n                span: 1561..1585,\n                key: Ident(\n                    Ident {\n                        span: 1561..1562,\n                        sym: \"m\",\n                    },\n                ),\n                value: Id {\n                    index: 127,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967426,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1556..1586,\n        op: LogicalAnd,\n        left: Id {\n            index: 123,\n            generation: 1,\n        },\n        right: Id {\n            index: 128,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967427,
-      "node": "Ident(\n    Ident {\n        span: 1598..1604,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967428,
-      "node": "Member(\n    MemberExpr {\n        span: 1604..1610,\n        obj: Id {\n            index: 130,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1605..1606,\n                sym: \"n\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967429,
-      "node": "Ident(\n    Ident {\n        span: 1611..1620,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967430,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1607..1623,\n        op: NotEqEq,\n        left: Id {\n            index: 131,\n            generation: 1,\n        },\n        right: Id {\n            index: 132,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967431,
-      "node": "Ident(\n    Ident {\n        span: 1629..1635,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967432,
-      "node": "Member(\n    MemberExpr {\n        span: 1635..1638,\n        obj: Id {\n            index: 134,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1636..1637,\n                sym: \"n\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967433,
-      "node": "Member(\n    MemberExpr {\n        span: 1637..1647,\n        obj: Id {\n            index: 135,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1638..1646,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967434,
-      "node": "Call(\n    CallExpr {\n        span: 1646..1650,\n        callee: Id {\n            index: 136,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967435,
-      "node": "Object(\n    ObjectExpr {\n        span: 1624..1651,\n        props: [\n            KeyValueProp {\n                span: 1626..1650,\n                key: Ident(\n                    Ident {\n                        span: 1626..1627,\n                        sym: \"n\",\n                    },\n                ),\n                value: Id {\n                    index: 137,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967436,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1621..1651,\n        op: LogicalAnd,\n        left: Id {\n            index: 133,\n            generation: 1,\n        },\n        right: Id {\n            index: 138,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967437,
-      "node": "Ident(\n    Ident {\n        span: 1663..1669,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967438,
-      "node": "Member(\n    MemberExpr {\n        span: 1669..1675,\n        obj: Id {\n            index: 140,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1670..1671,\n                sym: \"o\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967439,
-      "node": "Ident(\n    Ident {\n        span: 1676..1685,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967440,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1672..1688,\n        op: NotEqEq,\n        left: Id {\n            index: 141,\n            generation: 1,\n        },\n        right: Id {\n            index: 142,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967441,
-      "node": "Ident(\n    Ident {\n        span: 1694..1700,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967442,
-      "node": "Member(\n    MemberExpr {\n        span: 1700..1703,\n        obj: Id {\n            index: 144,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1701..1702,\n                sym: \"o\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967443,
-      "node": "Member(\n    MemberExpr {\n        span: 1702..1712,\n        obj: Id {\n            index: 145,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1703..1711,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967444,
-      "node": "Call(\n    CallExpr {\n        span: 1711..1715,\n        callee: Id {\n            index: 146,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967445,
-      "node": "Object(\n    ObjectExpr {\n        span: 1689..1716,\n        props: [\n            KeyValueProp {\n                span: 1691..1715,\n                key: Ident(\n                    Ident {\n                        span: 1691..1692,\n                        sym: \"o\",\n                    },\n                ),\n                value: Id {\n                    index: 147,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967446,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1686..1716,\n        op: LogicalAnd,\n        left: Id {\n            index: 143,\n            generation: 1,\n        },\n        right: Id {\n            index: 148,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967447,
-      "node": "Ident(\n    Ident {\n        span: 1728..1734,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967448,
-      "node": "Member(\n    MemberExpr {\n        span: 1734..1740,\n        obj: Id {\n            index: 150,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1735..1736,\n                sym: \"p\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967449,
-      "node": "Ident(\n    Ident {\n        span: 1741..1750,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967450,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1737..1753,\n        op: NotEqEq,\n        left: Id {\n            index: 151,\n            generation: 1,\n        },\n        right: Id {\n            index: 152,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967451,
-      "node": "Ident(\n    Ident {\n        span: 1759..1765,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967452,
-      "node": "Member(\n    MemberExpr {\n        span: 1765..1768,\n        obj: Id {\n            index: 154,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1766..1767,\n                sym: \"p\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967453,
-      "node": "Member(\n    MemberExpr {\n        span: 1767..1777,\n        obj: Id {\n            index: 155,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1768..1776,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967454,
-      "node": "Call(\n    CallExpr {\n        span: 1776..1780,\n        callee: Id {\n            index: 156,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967455,
-      "node": "Object(\n    ObjectExpr {\n        span: 1754..1781,\n        props: [\n            KeyValueProp {\n                span: 1756..1780,\n                key: Ident(\n                    Ident {\n                        span: 1756..1757,\n                        sym: \"p\",\n                    },\n                ),\n                value: Id {\n                    index: 157,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967456,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1751..1781,\n        op: LogicalAnd,\n        left: Id {\n            index: 153,\n            generation: 1,\n        },\n        right: Id {\n            index: 158,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967457,
-      "node": "Ident(\n    Ident {\n        span: 1793..1799,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967458,
-      "node": "Member(\n    MemberExpr {\n        span: 1799..1805,\n        obj: Id {\n            index: 160,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1800..1801,\n                sym: \"q\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967459,
-      "node": "Ident(\n    Ident {\n        span: 1806..1815,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967460,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1802..1818,\n        op: NotEqEq,\n        left: Id {\n            index: 161,\n            generation: 1,\n        },\n        right: Id {\n            index: 162,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967461,
-      "node": "Ident(\n    Ident {\n        span: 1824..1830,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967462,
-      "node": "Member(\n    MemberExpr {\n        span: 1830..1833,\n        obj: Id {\n            index: 164,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1831..1832,\n                sym: \"q\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967463,
-      "node": "Member(\n    MemberExpr {\n        span: 1832..1842,\n        obj: Id {\n            index: 165,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1833..1841,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967464,
-      "node": "Call(\n    CallExpr {\n        span: 1841..1845,\n        callee: Id {\n            index: 166,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967465,
-      "node": "Object(\n    ObjectExpr {\n        span: 1819..1846,\n        props: [\n            KeyValueProp {\n                span: 1821..1845,\n                key: Ident(\n                    Ident {\n                        span: 1821..1822,\n                        sym: \"q\",\n                    },\n                ),\n                value: Id {\n                    index: 167,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967466,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1816..1846,\n        op: LogicalAnd,\n        left: Id {\n            index: 163,\n            generation: 1,\n        },\n        right: Id {\n            index: 168,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967467,
-      "node": "Ident(\n    Ident {\n        span: 1858..1864,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967468,
-      "node": "Member(\n    MemberExpr {\n        span: 1864..1870,\n        obj: Id {\n            index: 170,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1865..1866,\n                sym: \"r\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967469,
-      "node": "Ident(\n    Ident {\n        span: 1871..1880,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967470,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1867..1883,\n        op: NotEqEq,\n        left: Id {\n            index: 171,\n            generation: 1,\n        },\n        right: Id {\n            index: 172,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967471,
-      "node": "Ident(\n    Ident {\n        span: 1889..1895,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967472,
-      "node": "Member(\n    MemberExpr {\n        span: 1895..1898,\n        obj: Id {\n            index: 174,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1896..1897,\n                sym: \"r\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967473,
-      "node": "Member(\n    MemberExpr {\n        span: 1897..1907,\n        obj: Id {\n            index: 175,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1898..1906,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967474,
-      "node": "Call(\n    CallExpr {\n        span: 1906..1910,\n        callee: Id {\n            index: 176,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967475,
-      "node": "Object(\n    ObjectExpr {\n        span: 1884..1911,\n        props: [\n            KeyValueProp {\n                span: 1886..1910,\n                key: Ident(\n                    Ident {\n                        span: 1886..1887,\n                        sym: \"r\",\n                    },\n                ),\n                value: Id {\n                    index: 177,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967476,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1881..1911,\n        op: LogicalAnd,\n        left: Id {\n            index: 173,\n            generation: 1,\n        },\n        right: Id {\n            index: 178,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967477,
-      "node": "Ident(\n    Ident {\n        span: 1923..1929,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967478,
-      "node": "Member(\n    MemberExpr {\n        span: 1929..1935,\n        obj: Id {\n            index: 180,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1930..1931,\n                sym: \"s\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967479,
-      "node": "Ident(\n    Ident {\n        span: 1936..1945,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967480,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1932..1948,\n        op: NotEqEq,\n        left: Id {\n            index: 181,\n            generation: 1,\n        },\n        right: Id {\n            index: 182,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967481,
-      "node": "Ident(\n    Ident {\n        span: 1954..1960,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967482,
-      "node": "Member(\n    MemberExpr {\n        span: 1960..1963,\n        obj: Id {\n            index: 184,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1961..1962,\n                sym: \"s\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967483,
-      "node": "Member(\n    MemberExpr {\n        span: 1962..1972,\n        obj: Id {\n            index: 185,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1963..1971,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967484,
-      "node": "Call(\n    CallExpr {\n        span: 1971..1975,\n        callee: Id {\n            index: 186,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967485,
-      "node": "Object(\n    ObjectExpr {\n        span: 1949..1976,\n        props: [\n            KeyValueProp {\n                span: 1951..1975,\n                key: Ident(\n                    Ident {\n                        span: 1951..1952,\n                        sym: \"s\",\n                    },\n                ),\n                value: Id {\n                    index: 187,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967486,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1946..1976,\n        op: LogicalAnd,\n        left: Id {\n            index: 183,\n            generation: 1,\n        },\n        right: Id {\n            index: 188,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967487,
-      "node": "Ident(\n    Ident {\n        span: 1988..1994,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967488,
-      "node": "Member(\n    MemberExpr {\n        span: 1994..2000,\n        obj: Id {\n            index: 190,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1995..1996,\n                sym: \"t\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967489,
-      "node": "Ident(\n    Ident {\n        span: 2001..2010,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967490,
-      "node": "Binary(\n    BinaryExpr {\n        span: 1997..2013,\n        op: NotEqEq,\n        left: Id {\n            index: 191,\n            generation: 1,\n        },\n        right: Id {\n            index: 192,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967491,
-      "node": "Ident(\n    Ident {\n        span: 2019..2025,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967492,
-      "node": "Member(\n    MemberExpr {\n        span: 2025..2028,\n        obj: Id {\n            index: 194,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2026..2027,\n                sym: \"t\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967493,
-      "node": "Member(\n    MemberExpr {\n        span: 2027..2037,\n        obj: Id {\n            index: 195,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2028..2036,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967494,
-      "node": "Call(\n    CallExpr {\n        span: 2036..2040,\n        callee: Id {\n            index: 196,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967495,
-      "node": "Object(\n    ObjectExpr {\n        span: 2014..2041,\n        props: [\n            KeyValueProp {\n                span: 2016..2040,\n                key: Ident(\n                    Ident {\n                        span: 2016..2017,\n                        sym: \"t\",\n                    },\n                ),\n                value: Id {\n                    index: 197,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967496,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2011..2041,\n        op: LogicalAnd,\n        left: Id {\n            index: 193,\n            generation: 1,\n        },\n        right: Id {\n            index: 198,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967497,
-      "node": "Ident(\n    Ident {\n        span: 2053..2059,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967498,
-      "node": "Member(\n    MemberExpr {\n        span: 2059..2065,\n        obj: Id {\n            index: 200,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2060..2061,\n                sym: \"u\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967499,
-      "node": "Ident(\n    Ident {\n        span: 2066..2075,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967500,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2062..2078,\n        op: NotEqEq,\n        left: Id {\n            index: 201,\n            generation: 1,\n        },\n        right: Id {\n            index: 202,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967501,
-      "node": "Ident(\n    Ident {\n        span: 2084..2090,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967502,
-      "node": "Member(\n    MemberExpr {\n        span: 2090..2093,\n        obj: Id {\n            index: 204,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2091..2092,\n                sym: \"u\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967503,
-      "node": "Member(\n    MemberExpr {\n        span: 2092..2102,\n        obj: Id {\n            index: 205,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2093..2101,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967504,
-      "node": "Call(\n    CallExpr {\n        span: 2101..2105,\n        callee: Id {\n            index: 206,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967505,
-      "node": "Object(\n    ObjectExpr {\n        span: 2079..2106,\n        props: [\n            KeyValueProp {\n                span: 2081..2105,\n                key: Ident(\n                    Ident {\n                        span: 2081..2082,\n                        sym: \"u\",\n                    },\n                ),\n                value: Id {\n                    index: 207,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967506,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2076..2106,\n        op: LogicalAnd,\n        left: Id {\n            index: 203,\n            generation: 1,\n        },\n        right: Id {\n            index: 208,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967507,
-      "node": "Ident(\n    Ident {\n        span: 2118..2124,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967508,
-      "node": "Member(\n    MemberExpr {\n        span: 2124..2130,\n        obj: Id {\n            index: 210,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2125..2126,\n                sym: \"v\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967509,
-      "node": "Ident(\n    Ident {\n        span: 2131..2140,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967510,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2127..2143,\n        op: NotEqEq,\n        left: Id {\n            index: 211,\n            generation: 1,\n        },\n        right: Id {\n            index: 212,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967511,
-      "node": "Ident(\n    Ident {\n        span: 2149..2155,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967512,
-      "node": "Member(\n    MemberExpr {\n        span: 2155..2158,\n        obj: Id {\n            index: 214,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2156..2157,\n                sym: \"v\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967513,
-      "node": "Member(\n    MemberExpr {\n        span: 2157..2167,\n        obj: Id {\n            index: 215,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2158..2166,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967514,
-      "node": "Call(\n    CallExpr {\n        span: 2166..2170,\n        callee: Id {\n            index: 216,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967515,
-      "node": "Object(\n    ObjectExpr {\n        span: 2144..2171,\n        props: [\n            KeyValueProp {\n                span: 2146..2170,\n                key: Ident(\n                    Ident {\n                        span: 2146..2147,\n                        sym: \"v\",\n                    },\n                ),\n                value: Id {\n                    index: 217,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967516,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2141..2171,\n        op: LogicalAnd,\n        left: Id {\n            index: 213,\n            generation: 1,\n        },\n        right: Id {\n            index: 218,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967517,
-      "node": "Ident(\n    Ident {\n        span: 2183..2189,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967518,
-      "node": "Member(\n    MemberExpr {\n        span: 2189..2195,\n        obj: Id {\n            index: 220,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2190..2191,\n                sym: \"w\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967519,
-      "node": "Ident(\n    Ident {\n        span: 2196..2205,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967520,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2192..2208,\n        op: NotEqEq,\n        left: Id {\n            index: 221,\n            generation: 1,\n        },\n        right: Id {\n            index: 222,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967521,
-      "node": "Ident(\n    Ident {\n        span: 2214..2220,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967522,
-      "node": "Member(\n    MemberExpr {\n        span: 2220..2223,\n        obj: Id {\n            index: 224,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2221..2222,\n                sym: \"w\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967523,
-      "node": "Member(\n    MemberExpr {\n        span: 2222..2232,\n        obj: Id {\n            index: 225,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2223..2231,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967524,
-      "node": "Call(\n    CallExpr {\n        span: 2231..2235,\n        callee: Id {\n            index: 226,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967525,
-      "node": "Object(\n    ObjectExpr {\n        span: 2209..2236,\n        props: [\n            KeyValueProp {\n                span: 2211..2235,\n                key: Ident(\n                    Ident {\n                        span: 2211..2212,\n                        sym: \"w\",\n                    },\n                ),\n                value: Id {\n                    index: 227,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967526,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2206..2236,\n        op: LogicalAnd,\n        left: Id {\n            index: 223,\n            generation: 1,\n        },\n        right: Id {\n            index: 228,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967527,
-      "node": "Ident(\n    Ident {\n        span: 2248..2254,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967528,
-      "node": "Member(\n    MemberExpr {\n        span: 2254..2260,\n        obj: Id {\n            index: 230,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2255..2256,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967529,
-      "node": "Ident(\n    Ident {\n        span: 2261..2270,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967530,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2257..2273,\n        op: NotEqEq,\n        left: Id {\n            index: 231,\n            generation: 1,\n        },\n        right: Id {\n            index: 232,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967531,
-      "node": "Ident(\n    Ident {\n        span: 2279..2285,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967532,
-      "node": "Member(\n    MemberExpr {\n        span: 2285..2288,\n        obj: Id {\n            index: 234,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2286..2287,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967533,
-      "node": "Member(\n    MemberExpr {\n        span: 2287..2297,\n        obj: Id {\n            index: 235,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2288..2296,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967534,
-      "node": "Call(\n    CallExpr {\n        span: 2296..2300,\n        callee: Id {\n            index: 236,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967535,
-      "node": "Object(\n    ObjectExpr {\n        span: 2274..2301,\n        props: [\n            KeyValueProp {\n                span: 2276..2300,\n                key: Ident(\n                    Ident {\n                        span: 2276..2277,\n                        sym: \"x\",\n                    },\n                ),\n                value: Id {\n                    index: 237,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967536,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2271..2301,\n        op: LogicalAnd,\n        left: Id {\n            index: 233,\n            generation: 1,\n        },\n        right: Id {\n            index: 238,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967537,
-      "node": "Ident(\n    Ident {\n        span: 2313..2319,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967538,
-      "node": "Member(\n    MemberExpr {\n        span: 2319..2325,\n        obj: Id {\n            index: 240,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2320..2321,\n                sym: \"y\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967539,
-      "node": "Ident(\n    Ident {\n        span: 2326..2335,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967540,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2322..2338,\n        op: NotEqEq,\n        left: Id {\n            index: 241,\n            generation: 1,\n        },\n        right: Id {\n            index: 242,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967541,
-      "node": "Ident(\n    Ident {\n        span: 2344..2350,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967542,
-      "node": "Member(\n    MemberExpr {\n        span: 2350..2353,\n        obj: Id {\n            index: 244,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2351..2352,\n                sym: \"y\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967543,
-      "node": "Member(\n    MemberExpr {\n        span: 2352..2362,\n        obj: Id {\n            index: 245,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2353..2361,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967544,
-      "node": "Call(\n    CallExpr {\n        span: 2361..2365,\n        callee: Id {\n            index: 246,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967545,
-      "node": "Object(\n    ObjectExpr {\n        span: 2339..2366,\n        props: [\n            KeyValueProp {\n                span: 2341..2365,\n                key: Ident(\n                    Ident {\n                        span: 2341..2342,\n                        sym: \"y\",\n                    },\n                ),\n                value: Id {\n                    index: 247,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967546,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2336..2366,\n        op: LogicalAnd,\n        left: Id {\n            index: 243,\n            generation: 1,\n        },\n        right: Id {\n            index: 248,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967547,
-      "node": "Ident(\n    Ident {\n        span: 2378..2384,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967548,
-      "node": "Member(\n    MemberExpr {\n        span: 2384..2390,\n        obj: Id {\n            index: 250,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2385..2386,\n                sym: \"z\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967549,
-      "node": "Ident(\n    Ident {\n        span: 2391..2400,\n        sym: \"undefined\",\n    },\n)"
-    },
-    {
-      "id": 4294967550,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2387..2403,\n        op: NotEqEq,\n        left: Id {\n            index: 251,\n            generation: 1,\n        },\n        right: Id {\n            index: 252,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967551,
-      "node": "Ident(\n    Ident {\n        span: 2409..2415,\n        sym: \"config\",\n    },\n)"
-    },
-    {
-      "id": 4294967552,
-      "node": "Member(\n    MemberExpr {\n        span: 2415..2418,\n        obj: Id {\n            index: 254,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2416..2417,\n                sym: \"z\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967553,
-      "node": "Member(\n    MemberExpr {\n        span: 2417..2427,\n        obj: Id {\n            index: 255,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 2418..2426,\n                sym: \"toString\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967554,
-      "node": "Call(\n    CallExpr {\n        span: 2426..2430,\n        callee: Id {\n            index: 256,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967555,
-      "node": "Object(\n    ObjectExpr {\n        span: 2404..2436,\n        props: [\n            KeyValueProp {\n                span: 2406..2430,\n                key: Ident(\n                    Ident {\n                        span: 2406..2407,\n                        sym: \"z\",\n                    },\n                ),\n                value: Id {\n                    index: 257,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967556,
-      "node": "Binary(\n    BinaryExpr {\n        span: 2401..2436,\n        op: LogicalAnd,\n        left: Id {\n            index: 253,\n            generation: 1,\n        },\n        right: Id {\n            index: 258,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967557,
-      "node": "Object(\n    ObjectExpr {\n        span: 740..2438,\n        props: [\n            KeyValueProp {\n                span: 750..806,\n                key: Ident(\n                    Ident {\n                        span: 750..750,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 9,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 815..871,\n                key: Ident(\n                    Ident {\n                        span: 815..815,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 19,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 880..936,\n                key: Ident(\n                    Ident {\n                        span: 880..880,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 29,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 945..1001,\n                key: Ident(\n                    Ident {\n                        span: 945..945,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 39,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1010..1066,\n                key: Ident(\n                    Ident {\n                        span: 1010..1010,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 49,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1075..1131,\n                key: Ident(\n                    Ident {\n                        span: 1075..1075,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 59,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1140..1196,\n                key: Ident(\n                    Ident {\n                        span: 1140..1140,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 69,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1205..1261,\n                key: Ident(\n                    Ident {\n                        span: 1205..1205,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 79,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1270..1326,\n                key: Ident(\n                    Ident {\n                        span: 1270..1270,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 89,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1335..1391,\n                key: Ident(\n                    Ident {\n                        span: 1335..1335,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 99,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1400..1456,\n                key: Ident(\n                    Ident {\n                        span: 1400..1400,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 109,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1465..1521,\n                key: Ident(\n                    Ident {\n                        span: 1465..1465,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 119,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1530..1586,\n                key: Ident(\n                    Ident {\n                        span: 1530..1530,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 129,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1595..1651,\n                key: Ident(\n                    Ident {\n                        span: 1595..1595,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 139,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1660..1716,\n                key: Ident(\n                    Ident {\n                        span: 1660..1660,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 149,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1725..1781,\n                key: Ident(\n                    Ident {\n                        span: 1725..1725,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 159,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1790..1846,\n                key: Ident(\n                    Ident {\n                        span: 1790..1790,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 169,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1855..1911,\n                key: Ident(\n                    Ident {\n                        span: 1855..1855,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 179,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1920..1976,\n                key: Ident(\n                    Ident {\n                        span: 1920..1920,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 189,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 1985..2041,\n                key: Ident(\n                    Ident {\n                        span: 1985..1985,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 199,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 2050..2106,\n                key: Ident(\n                    Ident {\n                        span: 2050..2050,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 209,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 2115..2171,\n                key: Ident(\n                    Ident {\n                        span: 2115..2115,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 219,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 2180..2236,\n                key: Ident(\n                    Ident {\n                        span: 2180..2180,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 229,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 2245..2301,\n                key: Ident(\n                    Ident {\n                        span: 2245..2245,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 239,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 2310..2366,\n                key: Ident(\n                    Ident {\n                        span: 2310..2310,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 249,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 2375..2436,\n                key: Ident(\n                    Ident {\n                        span: 2375..2375,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: Id {\n                    index: 259,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967558,
-      "node": "Ident(\n    Ident {\n        span: 2440..2455,\n        sym: \"parseWithSpread\",\n    },\n)"
-    },
-    {
-      "id": 4294967559,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 2461..2462,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967560,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 2467..2468,\n            value: 2.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967561,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 2473..2475,\n            value: 26.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967562,
-      "node": "Object(\n    ObjectExpr {\n        span: 2456..2478,\n        props: [\n            KeyValueProp {\n                span: 2458..2463,\n                key: Ident(\n                    Ident {\n                        span: 2458..2459,\n                        sym: \"a\",\n                    },\n                ),\n                value: Id {\n                    index: 262,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 2464..2469,\n                key: Ident(\n                    Ident {\n                        span: 2464..2465,\n                        sym: \"b\",\n                    },\n                ),\n                value: Id {\n                    index: 263,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 2470..2477,\n                key: Ident(\n                    Ident {\n                        span: 2470..2471,\n                        sym: \"z\",\n                    },\n                ),\n                value: Id {\n                    index: 264,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967563,
-      "node": "Call(\n    CallExpr {\n        span: 2455..2478,\n        callee: Id {\n            index: 261,\n            generation: 1,\n        },\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: Id {\n                    index: 265,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 753..759,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 759..765,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 760..761,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 766..775,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 762..778,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 784..790,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 790..793,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 791..792,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 792..802,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 793..801,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 801..805,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 779..806,\n        props: [\n            KeyValueProp {\n                span: 781..805,\n                key: Ident(\n                    Ident {\n                        span: 781..782,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 776..806,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 818..824,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 824..830,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 825..826,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 831..840,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 827..843,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 849..855,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 855..858,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 856..857,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 857..867,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 858..866,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 866..870,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 844..871,\n        props: [\n            KeyValueProp {\n                span: 846..870,\n                key: Ident(\n                    Ident {\n                        span: 846..847,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 841..871,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 883..889,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 889..895,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 890..891,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 896..905,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 892..908,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 914..920,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 920..923,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 921..922,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 922..932,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 923..931,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 931..935,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 909..936,\n        props: [\n            KeyValueProp {\n                span: 911..935,\n                key: Ident(\n                    Ident {\n                        span: 911..912,\n                        sym: \"c\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 906..936,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 948..954,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 954..960,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 955..956,\n                sym: \"d\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 961..970,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 957..973,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 979..985,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 985..988,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 986..987,\n                sym: \"d\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 987..997,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 988..996,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 996..1000,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 974..1001,\n        props: [\n            KeyValueProp {\n                span: 976..1000,\n                key: Ident(\n                    Ident {\n                        span: 976..977,\n                        sym: \"d\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 971..1001,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1013..1019,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1019..1025,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1020..1021,\n                sym: \"e\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1026..1035,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1022..1038,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1044..1050,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1050..1053,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1051..1052,\n                sym: \"e\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1052..1062,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1053..1061,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1061..1065,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1039..1066,\n        props: [\n            KeyValueProp {\n                span: 1041..1065,\n                key: Ident(\n                    Ident {\n                        span: 1041..1042,\n                        sym: \"e\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1036..1066,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1078..1084,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1084..1090,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1085..1086,\n                sym: \"f\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1091..1100,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1087..1103,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1109..1115,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1115..1118,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1116..1117,\n                sym: \"f\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1117..1127,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1118..1126,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1126..1130,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1104..1131,\n        props: [\n            KeyValueProp {\n                span: 1106..1130,\n                key: Ident(\n                    Ident {\n                        span: 1106..1107,\n                        sym: \"f\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1101..1131,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1143..1149,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1149..1155,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1150..1151,\n                sym: \"g\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1156..1165,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1152..1168,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1174..1180,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1180..1183,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1181..1182,\n                sym: \"g\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1182..1192,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1183..1191,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1191..1195,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1169..1196,\n        props: [\n            KeyValueProp {\n                span: 1171..1195,\n                key: Ident(\n                    Ident {\n                        span: 1171..1172,\n                        sym: \"g\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1166..1196,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1208..1214,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1214..1220,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1215..1216,\n                sym: \"h\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1221..1230,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1217..1233,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1239..1245,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1245..1248,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1246..1247,\n                sym: \"h\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1247..1257,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1248..1256,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1256..1260,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1234..1261,\n        props: [\n            KeyValueProp {\n                span: 1236..1260,\n                key: Ident(\n                    Ident {\n                        span: 1236..1237,\n                        sym: \"h\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1231..1261,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1273..1279,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1279..1285,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1280..1281,\n                sym: \"i\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1286..1295,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1282..1298,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1304..1310,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1310..1313,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1311..1312,\n                sym: \"i\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1312..1322,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1313..1321,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1321..1325,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1299..1326,\n        props: [\n            KeyValueProp {\n                span: 1301..1325,\n                key: Ident(\n                    Ident {\n                        span: 1301..1302,\n                        sym: \"i\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1296..1326,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1338..1344,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1344..1350,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1345..1346,\n                sym: \"j\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1351..1360,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1347..1363,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1369..1375,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1375..1378,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1376..1377,\n                sym: \"j\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1377..1387,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1378..1386,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1386..1390,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1364..1391,\n        props: [\n            KeyValueProp {\n                span: 1366..1390,\n                key: Ident(\n                    Ident {\n                        span: 1366..1367,\n                        sym: \"j\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1361..1391,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1403..1409,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1409..1415,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1410..1411,\n                sym: \"k\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1416..1425,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1412..1428,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1434..1440,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1440..1443,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1441..1442,\n                sym: \"k\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1442..1452,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1443..1451,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1451..1455,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1429..1456,\n        props: [\n            KeyValueProp {\n                span: 1431..1455,\n                key: Ident(\n                    Ident {\n                        span: 1431..1432,\n                        sym: \"k\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1426..1456,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1468..1474,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1474..1480,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1475..1476,\n                sym: \"l\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1481..1490,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1477..1493,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1499..1505,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1505..1508,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1506..1507,\n                sym: \"l\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1507..1517,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1508..1516,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1516..1520,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1494..1521,\n        props: [\n            KeyValueProp {\n                span: 1496..1520,\n                key: Ident(\n                    Ident {\n                        span: 1496..1497,\n                        sym: \"l\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1491..1521,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1533..1539,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1539..1545,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1540..1541,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1546..1555,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1542..1558,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1564..1570,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1570..1573,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1571..1572,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1572..1582,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1573..1581,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1581..1585,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1559..1586,\n        props: [\n            KeyValueProp {\n                span: 1561..1585,\n                key: Ident(\n                    Ident {\n                        span: 1561..1562,\n                        sym: \"m\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1556..1586,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1598..1604,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1604..1610,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1605..1606,\n                sym: \"n\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1611..1620,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1607..1623,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1629..1635,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1635..1638,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1636..1637,\n                sym: \"n\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1637..1647,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1638..1646,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1646..1650,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1624..1651,\n        props: [\n            KeyValueProp {\n                span: 1626..1650,\n                key: Ident(\n                    Ident {\n                        span: 1626..1627,\n                        sym: \"n\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1621..1651,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1663..1669,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1669..1675,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1670..1671,\n                sym: \"o\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1676..1685,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1672..1688,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1694..1700,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1700..1703,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1701..1702,\n                sym: \"o\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1702..1712,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1703..1711,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1711..1715,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1689..1716,\n        props: [\n            KeyValueProp {\n                span: 1691..1715,\n                key: Ident(\n                    Ident {\n                        span: 1691..1692,\n                        sym: \"o\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1686..1716,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1728..1734,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1734..1740,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1735..1736,\n                sym: \"p\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1741..1750,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1737..1753,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1759..1765,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1765..1768,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1766..1767,\n                sym: \"p\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1767..1777,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1768..1776,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1776..1780,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1754..1781,\n        props: [\n            KeyValueProp {\n                span: 1756..1780,\n                key: Ident(\n                    Ident {\n                        span: 1756..1757,\n                        sym: \"p\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1751..1781,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1793..1799,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1799..1805,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1800..1801,\n                sym: \"q\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1806..1815,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1802..1818,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1824..1830,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1830..1833,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1831..1832,\n                sym: \"q\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1832..1842,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1833..1841,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1841..1845,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1819..1846,\n        props: [\n            KeyValueProp {\n                span: 1821..1845,\n                key: Ident(\n                    Ident {\n                        span: 1821..1822,\n                        sym: \"q\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1816..1846,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1858..1864,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1864..1870,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1865..1866,\n                sym: \"r\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1871..1880,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1867..1883,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1889..1895,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1895..1898,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1896..1897,\n                sym: \"r\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1897..1907,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1898..1906,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1906..1910,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1884..1911,\n        props: [\n            KeyValueProp {\n                span: 1886..1910,\n                key: Ident(\n                    Ident {\n                        span: 1886..1887,\n                        sym: \"r\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1881..1911,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1923..1929,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1929..1935,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1930..1931,\n                sym: \"s\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1936..1945,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1932..1948,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1954..1960,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1960..1963,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1961..1962,\n                sym: \"s\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1962..1972,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1963..1971,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1971..1975,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1949..1976,\n        props: [\n            KeyValueProp {\n                span: 1951..1975,\n                key: Ident(\n                    Ident {\n                        span: 1951..1952,\n                        sym: \"s\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1946..1976,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1988..1994,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1994..2000,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1995..1996,\n                sym: \"t\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2001..2010,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1997..2013,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2019..2025,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2025..2028,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2026..2027,\n                sym: \"t\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2027..2037,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2028..2036,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2036..2040,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 2014..2041,\n        props: [\n            KeyValueProp {\n                span: 2016..2040,\n                key: Ident(\n                    Ident {\n                        span: 2016..2017,\n                        sym: \"t\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2011..2041,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2053..2059,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2059..2065,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2060..2061,\n                sym: \"u\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2066..2075,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2062..2078,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2084..2090,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2090..2093,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2091..2092,\n                sym: \"u\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2092..2102,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2093..2101,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2101..2105,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 2079..2106,\n        props: [\n            KeyValueProp {\n                span: 2081..2105,\n                key: Ident(\n                    Ident {\n                        span: 2081..2082,\n                        sym: \"u\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2076..2106,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2118..2124,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2124..2130,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2125..2126,\n                sym: \"v\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2131..2140,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2127..2143,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2149..2155,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2155..2158,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2156..2157,\n                sym: \"v\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2157..2167,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2158..2166,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2166..2170,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 2144..2171,\n        props: [\n            KeyValueProp {\n                span: 2146..2170,\n                key: Ident(\n                    Ident {\n                        span: 2146..2147,\n                        sym: \"v\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2141..2171,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2183..2189,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2189..2195,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2190..2191,\n                sym: \"w\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2196..2205,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2192..2208,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2214..2220,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2220..2223,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2221..2222,\n                sym: \"w\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2222..2232,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2223..2231,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2231..2235,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 2209..2236,\n        props: [\n            KeyValueProp {\n                span: 2211..2235,\n                key: Ident(\n                    Ident {\n                        span: 2211..2212,\n                        sym: \"w\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2206..2236,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2248..2254,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2254..2260,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2255..2256,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2261..2270,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2257..2273,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2279..2285,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2285..2288,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2286..2287,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2287..2297,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2288..2296,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2296..2300,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 2274..2301,\n        props: [\n            KeyValueProp {\n                span: 2276..2300,\n                key: Ident(\n                    Ident {\n                        span: 2276..2277,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2271..2301,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2313..2319,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2319..2325,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2320..2321,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2326..2335,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2322..2338,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2344..2350,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2350..2353,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2351..2352,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2352..2362,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2353..2361,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2361..2365,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 2339..2366,\n        props: [\n            KeyValueProp {\n                span: 2341..2365,\n                key: Ident(\n                    Ident {\n                        span: 2341..2342,\n                        sym: \"y\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2336..2366,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2378..2384,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2384..2390,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2385..2386,\n                sym: \"z\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2391..2400,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2387..2403,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2409..2415,\n        sym: \"config\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2415..2418,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2416..2417,\n                sym: \"z\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2417..2427,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2418..2426,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2426..2430,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 2404..2436,\n        props: [\n            KeyValueProp {\n                span: 2406..2430,\n                key: Ident(\n                    Ident {\n                        span: 2406..2407,\n                        sym: \"z\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2401..2436,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 740..2438,\n        props: [\n            KeyValueProp {\n                span: 750..806,\n                key: Ident(\n                    Ident {\n                        span: 750..750,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 815..871,\n                key: Ident(\n                    Ident {\n                        span: 815..815,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 880..936,\n                key: Ident(\n                    Ident {\n                        span: 880..880,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 945..1001,\n                key: Ident(\n                    Ident {\n                        span: 945..945,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1010..1066,\n                key: Ident(\n                    Ident {\n                        span: 1010..1010,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1075..1131,\n                key: Ident(\n                    Ident {\n                        span: 1075..1075,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1140..1196,\n                key: Ident(\n                    Ident {\n                        span: 1140..1140,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1205..1261,\n                key: Ident(\n                    Ident {\n                        span: 1205..1205,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1270..1326,\n                key: Ident(\n                    Ident {\n                        span: 1270..1270,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1335..1391,\n                key: Ident(\n                    Ident {\n                        span: 1335..1335,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1400..1456,\n                key: Ident(\n                    Ident {\n                        span: 1400..1400,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1465..1521,\n                key: Ident(\n                    Ident {\n                        span: 1465..1465,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1530..1586,\n                key: Ident(\n                    Ident {\n                        span: 1530..1530,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1595..1651,\n                key: Ident(\n                    Ident {\n                        span: 1595..1595,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1660..1716,\n                key: Ident(\n                    Ident {\n                        span: 1660..1660,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1725..1781,\n                key: Ident(\n                    Ident {\n                        span: 1725..1725,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1790..1846,\n                key: Ident(\n                    Ident {\n                        span: 1790..1790,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1855..1911,\n                key: Ident(\n                    Ident {\n                        span: 1855..1855,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1920..1976,\n                key: Ident(\n                    Ident {\n                        span: 1920..1920,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1985..2041,\n                key: Ident(\n                    Ident {\n                        span: 1985..1985,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 2050..2106,\n                key: Ident(\n                    Ident {\n                        span: 2050..2050,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 2115..2171,\n                key: Ident(\n                    Ident {\n                        span: 2115..2115,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 2180..2236,\n                key: Ident(\n                    Ident {\n                        span: 2180..2180,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 2245..2301,\n                key: Ident(\n                    Ident {\n                        span: 2245..2245,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 2310..2366,\n                key: Ident(\n                    Ident {\n                        span: 2310..2310,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 2375..2436,\n                key: Ident(\n                    Ident {\n                        span: 2375..2375,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2440..2455,\n        sym: \"parseWithSpread\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 2461..2462,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 2467..2468,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 2473..2475,\n            value: 26.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 2456..2478,\n        props: [\n            KeyValueProp {\n                span: 2458..2463,\n                key: Ident(\n                    Ident {\n                        span: 2458..2459,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 2464..2469,\n                key: Ident(\n                    Ident {\n                        span: 2464..2465,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 2470..2477,\n                key: Ident(\n                    Ident {\n                        span: 2470..2471,\n                        sym: \"z\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2455..2478,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
@@ -1116,109 +290,31 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Keyword(\n    String,\n)"
-    }
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)"
   ]
 }

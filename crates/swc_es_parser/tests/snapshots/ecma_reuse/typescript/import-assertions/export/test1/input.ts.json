@@ -1,25 +1,15 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..62,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..62,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 1..62,\n        src: Some(\n            StrLit {\n                span: 21..31,\n                value: \"./foo.js\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 10..13,\n                    sym: \"val\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [\n            ImportAttribute {\n                span: 41..61,\n                key: Ident(\n                    Ident {\n                        span: 41..45,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 47..59,\n                    value: \"javascript\",\n                },\n            },\n        ],\n    },\n)"
-    }
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 1..62,\n        src: Some(\n            StrLit {\n                span: 21..31,\n                value: \"./foo.js\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 10..13,\n                    sym: \"val\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [\n            ImportAttribute {\n                span: 41..61,\n                key: Ident(\n                    Ident {\n                        span: 41..45,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 47..59,\n                    value: \"javascript\",\n                },\n            },\n        ],\n    },\n)"
   ],
   "functions": [],
   "classes": [],

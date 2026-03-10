@@ -1,22 +1,12 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..62,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..62,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..62,\n        ident: Ident {\n            span: 6..9,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        ty: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..62,\n        ident: Ident {\n            span: 6..9,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
@@ -26,25 +16,10 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "Keyword(\n    Number,\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Keyword(\n    Any,\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Array(\n    TsArrayType {\n        span: 54..60,\n        elem_type: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Tuple(\n    TsTupleType {\n        span: 12..61,\n        elem_types: [\n            Id {\n                index: 0,\n                generation: 1,\n            },\n            Id {\n                index: 1,\n                generation: 1,\n            },\n            Id {\n                index: 3,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    }
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Any,\n)",
+    "Array(\n    TsArrayType {\n        span: 54..60,\n        elem_type: _,\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 12..61,\n        elem_types: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ]
 }

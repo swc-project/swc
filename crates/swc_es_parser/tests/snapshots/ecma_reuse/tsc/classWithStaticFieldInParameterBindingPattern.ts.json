@@ -1,75 +1,32 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 116..167,\n    kind: Script,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 116..167,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "Expr(\n    ExprStmt {\n        span: 116..167,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 116..167,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"b\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 150..156,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Object(\n    ObjectPat {\n        span: 118..157,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 120..156,\n                    key: Computed(\n                        Id {\n                            index: 2,\n                            generation: 1,\n                        },\n                    ),\n                    value: Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 150..156,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 118..157,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 120..156,\n                    key: Computed(\n                        _,\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 140..141,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Class(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Member(\n    MemberExpr {\n        span: 143..146,\n        obj: Id {\n            index: 1,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 144..145,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 152..154,\n            value: \"\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 117..164,\n        params: [\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Paren(\n    ParenExpr {\n        span: 116..165,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Call(\n    CallExpr {\n        span: 164..167,\n        callee: Id {\n            index: 5,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 140..141,\n            value: 1.0,\n        },\n    ),\n)",
+    "Class(\n    _,\n)",
+    "Member(\n    MemberExpr {\n        span: 143..146,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 144..145,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 152..154,\n            value: \"\",\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 117..164,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 116..165,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 164..167,\n        callee: _,\n        args: [],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 121..144,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 121..144,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Prop(\n    ClassProp {\n        span: 129..143,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 136..137,\n                sym: \"x\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n        is_static: true,\n    },\n)"
-    }
+    "Prop(\n    ClassProp {\n        span: 129..143,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 136..137,\n                sym: \"x\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

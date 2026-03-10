@@ -1,137 +1,49 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 19..313,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 19..313,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Expr(\n    ExprStmt {\n        span: 264..313,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 264..313,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 19..265,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 19..204,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 19..265,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 19..204,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 23..26,\n        sym: \"obj\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 87..88,\n        sym: \"s\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 136..137,\n        sym: \"s\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 269..270,\n        sym: \"x\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 23..26,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 87..88,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 136..137,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 269..270,\n        sym: \"x\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Function(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Object(\n    ObjectExpr {\n        span: 79..154,\n        props: [\n            KeyValueProp {\n                span: 85..94,\n                key: Ident(\n                    Ident {\n                        span: 85..86,\n                        sym: \"f\",\n                    },\n                ),\n                value: Id {\n                    index: 0,\n                    generation: 1,\n                },\n            },\n            KeyValueProp {\n                span: 134..144,\n                key: Ident(\n                    Ident {\n                        span: 134..135,\n                        sym: \"g\",\n                    },\n                ),\n                value: Id {\n                    index: 1,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 145..204,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n        ty: Id {\n            index: 13,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Function(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Object(\n    ObjectExpr {\n        span: 265..278,\n        props: [\n            KeyValueProp {\n                span: 267..277,\n                key: Ident(\n                    Ident {\n                        span: 267..268,\n                        sym: \"f\",\n                    },\n                ),\n                value: Id {\n                    index: 4,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Paren(\n    ParenExpr {\n        span: 264..288,\n        expr: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 279..312,\n        expr: Id {\n            index: 6,\n            generation: 1,\n        },\n        ty: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Function(\n    _,\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 79..154,\n        props: [\n            KeyValueProp {\n                span: 85..94,\n                key: Ident(\n                    Ident {\n                        span: 85..86,\n                        sym: \"f\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 134..144,\n                key: Ident(\n                    Ident {\n                        span: 134..135,\n                        sym: \"g\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 145..204,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 265..278,\n        props: [\n            KeyValueProp {\n                span: 267..277,\n                key: Ident(\n                    Ident {\n                        span: 267..268,\n                        sym: \"f\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 264..288,\n        expr: _,\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 279..312,\n        expr: _,\n        ty: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 85..94,\n    params: [\n        Param {\n            span: 87..89,\n            decorators: [],\n            pat: Id {\n                index: 1,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "Function {\n    span: 134..144,\n    params: [\n        Param {\n            span: 136..138,\n            decorators: [],\n            pat: Id {\n                index: 2,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967299,
-      "node": "Function {\n    span: 267..277,\n    params: [\n        Param {\n            span: 269..271,\n            decorators: [],\n            pat: Id {\n                index: 3,\n                generation: 1,\n            },\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 85..94,\n    params: [\n        Param {\n            span: 87..89,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 134..144,\n    params: [\n        Param {\n            span: 136..138,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 267..277,\n    params: [\n        Param {\n            span: 269..271,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [],
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967304,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Keyword(\n    Void,\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 155..179,\n        members: [\n            TsTypeMember {\n                span: 157..177,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 157..158,\n                            sym: \"g\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 159..169,\n                        name: Some(\n                            Ident {\n                                span: 159..160,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 7,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Keyword(\n    Unknown,\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 180..204,\n        name: Ident {\n            span: 180..187,\n            sym: \"Record\",\n        },\n        type_args: [\n            Id {\n                index: 10,\n                generation: 1,\n            },\n            Id {\n                index: 11,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Intersection(\n    TsIntersectionType {\n        span: 155..204,\n        types: [\n            Id {\n                index: 9,\n                generation: 1,\n            },\n            Id {\n                index: 12,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Keyword(\n    String,\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Keyword(\n    Void,\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "TypeLit(\n    TsTypeLit {\n        span: 289..312,\n        members: [\n            TsTypeMember {\n                span: 291..311,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 291..292,\n                            sym: \"f\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 293..303,\n                        name: Some(\n                            Ident {\n                                span: 293..294,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            Id {\n                                index: 14,\n                                generation: 1,\n                            },\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    Id {\n                        index: 15,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Void,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 155..179,\n        members: [\n            TsTypeMember {\n                span: 157..177,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 157..158,\n                            sym: \"g\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 159..169,\n                        name: Some(\n                            Ident {\n                                span: 159..160,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Unknown,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 180..204,\n        name: Ident {\n            span: 180..187,\n            sym: \"Record\",\n        },\n        type_args: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 155..204,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Void,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 289..312,\n        members: [\n            TsTypeMember {\n                span: 291..311,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 291..292,\n                            sym: \"f\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 293..303,\n                        name: Some(\n                            Ident {\n                                span: 293..294,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ]
 }

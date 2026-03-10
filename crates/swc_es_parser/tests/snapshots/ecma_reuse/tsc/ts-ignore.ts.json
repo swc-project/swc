@@ -1,146 +1,46 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 42..528,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 4,\n            generation: 1,\n        },\n        Id {\n            index: 5,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 42..528,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 42..131,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 42..85,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 128..188,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 128..169,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Var(\n    VarDecl {\n        span: 185..247,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 185..228,\n                name: Id {\n                    index: 2,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Var(\n    VarDecl {\n        span: 244..290,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 244..285,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Var(\n    VarDecl {\n        span: 287..326,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 287..321,\n                name: Id {\n                    index: 4,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 4,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Var(\n    VarDecl {\n        span: 323..402,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 323..355,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Var(\n    VarDecl {\n        span: 399..489,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 399..442,\n                name: Id {\n                    index: 6,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Var(\n    VarDecl {\n        span: 486..528,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 486..527,\n                name: Id {\n                    index: 7,\n                    generation: 1,\n                },\n                init: Some(\n                    Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                ),\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 42..131,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 42..85,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 128..188,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 128..169,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 185..247,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 185..228,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 244..290,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 244..285,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 287..326,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 287..321,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 323..402,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 323..355,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 399..489,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 399..442,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 486..528,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 486..527,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 46..67,\n        sym: \"invalidCommentedFancy\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Ident(\n    Ident {\n        span: 132..151,\n        sym: \"validCommentedFancy\",\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 189..210,\n        sym: \"invalidCommentedPlain\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 248..267,\n        sym: \"validCommentedPlain\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 291..303,\n        sym: \"invalidPlain\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 327..337,\n        sym: \"validPlain\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Ident(\n    Ident {\n        span: 403..424,\n        sym: \"invalidCommentedFancy\",\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 490..509,\n        sym: \"validCommentedFancy\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 46..67,\n        sym: \"invalidCommentedFancy\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 132..151,\n        sym: \"validCommentedFancy\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 189..210,\n        sym: \"invalidCommentedPlain\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 248..267,\n        sym: \"validCommentedPlain\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 291..303,\n        sym: \"invalidPlain\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 327..337,\n        sym: \"validPlain\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 403..424,\n        sym: \"invalidCommentedFancy\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 490..509,\n        sym: \"validCommentedFancy\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 78..84,\n            value: \"nope\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 162..168,\n            value: \"nope\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 221..227,\n            value: \"nope\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 278..284,\n            value: \"nope\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 314..320,\n            value: \"nope\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 348..354,\n            value: \"nope\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 435..441,\n            value: \"nope\",\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Lit(\n    Str(\n        StrLit {\n            span: 520..526,\n            value: \"nope\",\n        },\n    ),\n)"
-    }
+    "Lit(\n    Str(\n        StrLit {\n            span: 78..84,\n            value: \"nope\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 162..168,\n            value: \"nope\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 221..227,\n            value: \"nope\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 278..284,\n            value: \"nope\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 314..320,\n            value: \"nope\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 348..354,\n            value: \"nope\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 435..441,\n            value: \"nope\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 520..526,\n            value: \"nope\",\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

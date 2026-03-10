@@ -1,1118 +1,295 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 109..2019,\n    kind: Module,\n    body: [\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 8,\n            generation: 1,\n        },\n        Id {\n            index: 14,\n            generation: 1,\n        },\n        Id {\n            index: 18,\n            generation: 1,\n        },\n        Id {\n            index: 31,\n            generation: 1,\n        },\n        Id {\n            index: 34,\n            generation: 1,\n        },\n        Id {\n            index: 41,\n            generation: 1,\n        },\n        Id {\n            index: 46,\n            generation: 1,\n        },\n        Id {\n            index: 56,\n            generation: 1,\n        },\n        Id {\n            index: 63,\n            generation: 1,\n        },\n        Id {\n            index: 68,\n            generation: 1,\n        },\n        Id {\n            index: 73,\n            generation: 1,\n        },\n        Id {\n            index: 78,\n            generation: 1,\n        },\n        Id {\n            index: 82,\n            generation: 1,\n        },\n        Id {\n            index: 86,\n            generation: 1,\n        },\n        Id {\n            index: 87,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 109..2019,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Expr(\n    ExprStmt {\n        span: 165..179,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Expr(\n    ExprStmt {\n        span: 250..263,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 265..279,\n        expr: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 352..368,\n        expr: Id {\n            index: 16,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Expr(\n    ExprStmt {\n        span: 363..376,\n        expr: Id {\n            index: 18,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Decl(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Decl(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Decl(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Decl(\n    Id {\n        index: 8,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Expr(\n    ExprStmt {\n        span: 658..675,\n        expr: Id {\n            index: 34,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Decl(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Expr(\n    ExprStmt {\n        span: 768..788,\n        expr: Id {\n            index: 39,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Expr(\n    ExprStmt {\n        span: 783..800,\n        expr: Id {\n            index: 41,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Decl(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Decl(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Block(\n    BlockStmt {\n        span: 804..875,\n        stmts: [\n            Id {\n                index: 33,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Decl(\n    Id {\n        index: 12,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Break(\n    BreakStmt {\n        span: 978..994,\n        label: None,\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Decl(\n    Id {\n        index: 13,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Break(\n    BreakStmt {\n        span: 1070..1078,\n        label: None,\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Switch(\n    SwitchStmt {\n        span: 869..1082,\n        discriminant: Id {\n            index: 49,\n            generation: 1,\n        },\n        cases: [\n            SwitchCase {\n                span: 898..994,\n                test: Some(\n                    Id {\n                        index: 50,\n                        generation: 1,\n                    },\n                ),\n                cons: [\n                    Id {\n                        index: 36,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 37,\n                        generation: 1,\n                    },\n                ],\n            },\n            SwitchCase {\n                span: 990..1078,\n                test: Some(\n                    Id {\n                        index: 55,\n                        generation: 1,\n                    },\n                ),\n                cons: [\n                    Id {\n                        index: 39,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 40,\n                        generation: 1,\n                    },\n                ],\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Decl(\n    Id {\n        index: 14,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Break(\n    BreakStmt {\n        span: 1203..1215,\n        label: None,\n    },\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Switch(\n    SwitchStmt {\n        span: 1094..1220,\n        discriminant: Id {\n            index: 61,\n            generation: 1,\n        },\n        cases: [\n            SwitchCase {\n                span: 1115..1215,\n                test: Some(\n                    Id {\n                        index: 62,\n                        generation: 1,\n                    },\n                ),\n                cons: [\n                    Id {\n                        index: 43,\n                        generation: 1,\n                    },\n                    Id {\n                        index: 44,\n                        generation: 1,\n                    },\n                ],\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967343,
-      "node": "If(\n    IfStmt {\n        span: 1080..1220,\n        test: Id {\n            index: 60,\n            generation: 1,\n        },\n        cons: Id {\n            index: 45,\n            generation: 1,\n        },\n        alt: None,\n    },\n)"
-    },
-    {
-      "id": 4294967345,
-      "node": "Decl(\n    Id {\n        index: 15,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Block(\n    BlockStmt {\n        span: 1221..1290,\n        stmts: [\n            Id {\n                index: 48,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Decl(\n    Id {\n        index: 16,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967349,
-      "node": "Block(\n    BlockStmt {\n        span: 1291..1362,\n        stmts: [\n            Id {\n                index: 51,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967351,
-      "node": "Decl(\n    Id {\n        index: 17,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967352,
-      "node": "Block(\n    BlockStmt {\n        span: 1363..1430,\n        stmts: [\n            Id {\n                index: 54,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "Try(\n    TryStmt {\n        span: 1217..1430,\n        block: Id {\n            index: 49,\n            generation: 1,\n        },\n        handler: Some(\n            CatchClause {\n                span: 1285..1362,\n                param: None,\n                body: Id {\n                    index: 52,\n                    generation: 1,\n                },\n            },\n        ),\n        finalizer: Some(\n            Id {\n                index: 55,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967355,
-      "node": "Decl(\n    Id {\n        index: 18,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967356,
-      "node": "Block(\n    BlockStmt {\n        span: 1438..1506,\n        stmts: [\n            Id {\n                index: 58,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967358,
-      "node": "Decl(\n    Id {\n        index: 19,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967359,
-      "node": "Block(\n    BlockStmt {\n        span: 1507..1577,\n        stmts: [\n            Id {\n                index: 61,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967360,
-      "node": "If(\n    IfStmt {\n        span: 1428..1577,\n        test: Id {\n            index: 79,\n            generation: 1,\n        },\n        cons: Id {\n            index: 59,\n            generation: 1,\n        },\n        alt: Some(\n            Id {\n                index: 62,\n                generation: 1,\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967362,
-      "node": "Decl(\n    Id {\n        index: 20,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967363,
-      "node": "Break(\n    BreakStmt {\n        span: 1651..1659,\n        label: None,\n    },\n)"
-    },
-    {
-      "id": 4294967364,
-      "node": "Block(\n    BlockStmt {\n        span: 1585..1663,\n        stmts: [\n            Id {\n                index: 65,\n                generation: 1,\n            },\n            Id {\n                index: 66,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967365,
-      "node": "While(\n    WhileStmt {\n        span: 1572..1663,\n        test: Id {\n            index: 88,\n            generation: 1,\n        },\n        body: Id {\n            index: 67,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967367,
-      "node": "Decl(\n    Id {\n        index: 21,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967368,
-      "node": "Break(\n    BreakStmt {\n        span: 1730..1738,\n        label: None,\n    },\n)"
-    },
-    {
-      "id": 4294967369,
-      "node": "Block(\n    BlockStmt {\n        span: 1664..1744,\n        stmts: [\n            Id {\n                index: 70,\n                generation: 1,\n            },\n            Id {\n                index: 71,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967370,
-      "node": "DoWhile(\n    DoWhileStmt {\n        span: 1661..1757,\n        body: Id {\n            index: 72,\n            generation: 1,\n        },\n        test: Id {\n            index: 97,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967372,
-      "node": "Decl(\n    Id {\n        index: 22,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967373,
-      "node": "Break(\n    BreakStmt {\n        span: 1829..1837,\n        label: None,\n    },\n)"
-    },
-    {
-      "id": 4294967374,
-      "node": "Block(\n    BlockStmt {\n        span: 1763..1842,\n        stmts: [\n            Id {\n                index: 75,\n                generation: 1,\n            },\n            Id {\n                index: 76,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967375,
-      "node": "For(\n    ForStmt {\n        span: 1754..1842,\n        head: Classic(\n            ForClassicHead {\n                init: None,\n                test: None,\n                update: None,\n            },\n        ),\n        body: Id {\n            index: 77,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967377,
-      "node": "Decl(\n    Id {\n        index: 24,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967378,
-      "node": "Block(\n    BlockStmt {\n        span: 1859..1927,\n        stmts: [\n            Id {\n                index: 80,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967379,
-      "node": "For(\n    ForStmt {\n        span: 1839..1927,\n        head: In(\n            ForInHead {\n                left: Decl(\n                    Id {\n                        index: 23,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 102,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 81,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967381,
-      "node": "Decl(\n    Id {\n        index: 26,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967382,
-      "node": "Block(\n    BlockStmt {\n        span: 1944..2015,\n        stmts: [\n            Id {\n                index: 84,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967383,
-      "node": "For(\n    ForStmt {\n        span: 1924..2015,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    Id {\n                        index: 25,\n                        generation: 1,\n                    },\n                ),\n                right: Id {\n                    index: 107,\n                    generation: 1,\n                },\n            },\n        ),\n        body: Id {\n            index: 85,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967384,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 165..179,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 250..263,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 265..279,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 352..368,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 363..376,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 658..675,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 768..788,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 783..800,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 804..875,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Break(\n    BreakStmt {\n        span: 978..994,\n        label: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Break(\n    BreakStmt {\n        span: 1070..1078,\n        label: None,\n    },\n)",
+    "Switch(\n    SwitchStmt {\n        span: 869..1082,\n        discriminant: _,\n        cases: [\n            SwitchCase {\n                span: 898..994,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                    _,\n                ],\n            },\n            SwitchCase {\n                span: 990..1078,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                    _,\n                ],\n            },\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Break(\n    BreakStmt {\n        span: 1203..1215,\n        label: None,\n    },\n)",
+    "Switch(\n    SwitchStmt {\n        span: 1094..1220,\n        discriminant: _,\n        cases: [\n            SwitchCase {\n                span: 1115..1215,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                    _,\n                ],\n            },\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 1080..1220,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 1221..1290,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 1291..1362,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 1363..1430,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 1217..1430,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 1285..1362,\n                param: None,\n                body: _,\n            },\n        ),\n        finalizer: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 1438..1506,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 1507..1577,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 1428..1577,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Break(\n    BreakStmt {\n        span: 1651..1659,\n        label: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 1585..1663,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 1572..1663,\n        test: _,\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Break(\n    BreakStmt {\n        span: 1730..1738,\n        label: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 1664..1744,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 1661..1757,\n        body: _,\n        test: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Break(\n    BreakStmt {\n        span: 1829..1837,\n        label: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 1763..1842,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1754..1842,\n        head: Classic(\n            ForClassicHead {\n                init: None,\n                test: None,\n                update: None,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 1859..1927,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1839..1927,\n        head: In(\n            ForInHead {\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 1944..2015,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1924..2015,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 109..170,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 109..163,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 191..255,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 191..245,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Fn(\n    FnDecl {\n        span: 171..270,\n        ident: Ident {\n            span: 180..182,\n            sym: \"af\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 4,\n                generation: 1,\n            },\n            Id {\n                index: 5,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Var(\n    VarDecl {\n        span: 293..357,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 293..347,\n                name: Id {\n                    index: 5,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Fn(\n    FnDecl {\n        span: 271..383,\n        ident: Ident {\n            span: 282..284,\n            sym: \"ag\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            Id {\n                index: 10,\n                generation: 1,\n            },\n            Id {\n                index: 11,\n                generation: 1,\n            },\n            Id {\n                index: 12,\n                generation: 1,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Var(\n    VarDecl {\n        span: 406..462,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 406..460,\n                name: Id {\n                    index: 8,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Var(\n    VarDecl {\n        span: 378..470,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 378..463,\n                name: Id {\n                    index: 9,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Var(\n    VarDecl {\n        span: 506..566,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 506..560,\n                name: Id {\n                    index: 11,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Var(\n    VarDecl {\n        span: 594..663,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 594..649,\n                name: Id {\n                    index: 13,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Var(\n    VarDecl {\n        span: 704..773,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 704..759,\n                name: Id {\n                    index: 15,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Class(\n    ClassDecl {\n        span: 465..805,\n        ident: Ident {\n            span: 471..473,\n            sym: \"C1\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Var(\n    VarDecl {\n        span: 810..867,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 810..865,\n                name: Id {\n                    index: 17,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Var(\n    VarDecl {\n        span: 914..983,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 914..969,\n                name: Id {\n                    index: 19,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Var(\n    VarDecl {\n        span: 1006..1075,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1006..1061,\n                name: Id {\n                    index: 21,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Var(\n    VarDecl {\n        span: 1135..1208,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1135..1190,\n                name: Id {\n                    index: 23,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Var(\n    VarDecl {\n        span: 1227..1284,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1227..1282,\n                name: Id {\n                    index: 25,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Var(\n    VarDecl {\n        span: 1297..1354,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1297..1352,\n                name: Id {\n                    index: 27,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Var(\n    VarDecl {\n        span: 1369..1426,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1369..1424,\n                name: Id {\n                    index: 29,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Var(\n    VarDecl {\n        span: 1444..1501,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1444..1499,\n                name: Id {\n                    index: 31,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Var(\n    VarDecl {\n        span: 1513..1570,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1513..1568,\n                name: Id {\n                    index: 33,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Var(\n    VarDecl {\n        span: 1591..1656,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1591..1646,\n                name: Id {\n                    index: 35,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Var(\n    VarDecl {\n        span: 1670..1735,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1670..1725,\n                name: Id {\n                    index: 37,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Var(\n    VarDecl {\n        span: 1769..1834,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1769..1824,\n                name: Id {\n                    index: 39,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Var(\n    VarDecl {\n        span: 1844..1854,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1844..1854,\n                name: Id {\n                    index: 40,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Var(\n    VarDecl {\n        span: 1865..1922,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1865..1920,\n                name: Id {\n                    index: 42,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Var(\n    VarDecl {\n        span: 1929..1939,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1929..1939,\n                name: Id {\n                    index: 43,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Var(\n    VarDecl {\n        span: 1950..2007,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1950..2005,\n                name: Id {\n                    index: 45,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 109..170,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 109..163,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 191..255,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 191..245,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 171..270,\n        ident: Ident {\n            span: 180..182,\n            sym: \"af\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 293..357,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 293..347,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 271..383,\n        ident: Ident {\n            span: 282..284,\n            sym: \"ag\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 406..462,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 406..460,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 378..470,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 378..463,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 506..566,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 506..560,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 594..663,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 594..649,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 704..773,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 704..759,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 465..805,\n        ident: Ident {\n            span: 471..473,\n            sym: \"C1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 810..867,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 810..865,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 914..983,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 914..969,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1006..1075,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1006..1061,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1135..1208,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1135..1190,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1227..1284,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1227..1282,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1297..1354,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1297..1352,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1369..1426,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1369..1424,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1444..1501,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1444..1499,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1513..1570,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1513..1568,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1591..1656,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1591..1646,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1670..1735,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1670..1725,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1769..1834,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1769..1824,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1844..1854,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1844..1854,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1865..1922,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1865..1920,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1929..1939,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1929..1939,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1950..2007,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1950..2005,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 121..123,\n        sym: \"d1\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 124..163,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 203..205,\n        sym: \"d3\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Assign(\n    AssignPat {\n        span: 206..245,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 305..307,\n        sym: \"d5\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Assign(\n    AssignPat {\n        span: 308..347,\n        left: Id {\n            index: 4,\n            generation: 1,\n        },\n        right: Id {\n            index: 15,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Ident(\n    Ident {\n        span: 384..385,\n        sym: \"a\",\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Ident(\n    Ident {\n        span: 418..420,\n        sym: \"d6\",\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Assign(\n    AssignPat {\n        span: 421..460,\n        left: Id {\n            index: 7,\n            generation: 1,\n        },\n        right: Id {\n            index: 22,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Assign(\n    AssignPat {\n        span: 386..463,\n        left: Id {\n            index: 6,\n            generation: 1,\n        },\n        right: Id {\n            index: 23,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Ident(\n    Ident {\n        span: 518..520,\n        sym: \"d7\",\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Assign(\n    AssignPat {\n        span: 521..560,\n        left: Id {\n            index: 10,\n            generation: 1,\n        },\n        right: Id {\n            index: 27,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Ident(\n    Ident {\n        span: 606..609,\n        sym: \"d13\",\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Assign(\n    AssignPat {\n        span: 610..649,\n        left: Id {\n            index: 12,\n            generation: 1,\n        },\n        right: Id {\n            index: 32,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Ident(\n    Ident {\n        span: 716..719,\n        sym: \"d15\",\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Assign(\n    AssignPat {\n        span: 720..759,\n        left: Id {\n            index: 14,\n            generation: 1,\n        },\n        right: Id {\n            index: 38,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Ident(\n    Ident {\n        span: 822..825,\n        sym: \"d19\",\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Assign(\n    AssignPat {\n        span: 826..865,\n        left: Id {\n            index: 16,\n            generation: 1,\n        },\n        right: Id {\n            index: 46,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Ident(\n    Ident {\n        span: 926..929,\n        sym: \"d20\",\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Assign(\n    AssignPat {\n        span: 930..969,\n        left: Id {\n            index: 18,\n            generation: 1,\n        },\n        right: Id {\n            index: 54,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Ident(\n    Ident {\n        span: 1018..1021,\n        sym: \"d21\",\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Assign(\n    AssignPat {\n        span: 1022..1061,\n        left: Id {\n            index: 20,\n            generation: 1,\n        },\n        right: Id {\n            index: 59,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Ident(\n    Ident {\n        span: 1147..1150,\n        sym: \"d22\",\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Assign(\n    AssignPat {\n        span: 1151..1190,\n        left: Id {\n            index: 22,\n            generation: 1,\n        },\n        right: Id {\n            index: 66,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Ident(\n    Ident {\n        span: 1239..1242,\n        sym: \"d23\",\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Assign(\n    AssignPat {\n        span: 1243..1282,\n        left: Id {\n            index: 24,\n            generation: 1,\n        },\n        right: Id {\n            index: 70,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Ident(\n    Ident {\n        span: 1309..1312,\n        sym: \"d24\",\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Assign(\n    AssignPat {\n        span: 1313..1352,\n        left: Id {\n            index: 26,\n            generation: 1,\n        },\n        right: Id {\n            index: 74,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Ident(\n    Ident {\n        span: 1381..1384,\n        sym: \"d25\",\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Assign(\n    AssignPat {\n        span: 1385..1424,\n        left: Id {\n            index: 28,\n            generation: 1,\n        },\n        right: Id {\n            index: 78,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Ident(\n    Ident {\n        span: 1456..1459,\n        sym: \"d26\",\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Assign(\n    AssignPat {\n        span: 1460..1499,\n        left: Id {\n            index: 30,\n            generation: 1,\n        },\n        right: Id {\n            index: 83,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Ident(\n    Ident {\n        span: 1525..1528,\n        sym: \"d27\",\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Assign(\n    AssignPat {\n        span: 1529..1568,\n        left: Id {\n            index: 32,\n            generation: 1,\n        },\n        right: Id {\n            index: 87,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Ident(\n    Ident {\n        span: 1603..1606,\n        sym: \"d28\",\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Assign(\n    AssignPat {\n        span: 1607..1646,\n        left: Id {\n            index: 34,\n            generation: 1,\n        },\n        right: Id {\n            index: 92,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Ident(\n    Ident {\n        span: 1682..1685,\n        sym: \"d29\",\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Assign(\n    AssignPat {\n        span: 1686..1725,\n        left: Id {\n            index: 36,\n            generation: 1,\n        },\n        right: Id {\n            index: 96,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Ident(\n    Ident {\n        span: 1781..1784,\n        sym: \"d30\",\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Assign(\n    AssignPat {\n        span: 1785..1824,\n        left: Id {\n            index: 38,\n            generation: 1,\n        },\n        right: Id {\n            index: 101,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Ident(\n    Ident {\n        span: 1850..1851,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Ident(\n    Ident {\n        span: 1877..1880,\n        sym: \"d31\",\n    },\n)"
-    },
-    {
-      "id": 4294967339,
-      "node": "Assign(\n    AssignPat {\n        span: 1881..1920,\n        left: Id {\n            index: 41,\n            generation: 1,\n        },\n        right: Id {\n            index: 106,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Ident(\n    Ident {\n        span: 1935..1936,\n        sym: \"x\",\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Ident(\n    Ident {\n        span: 1962..1965,\n        sym: \"d32\",\n    },\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Assign(\n    AssignPat {\n        span: 1966..2005,\n        left: Id {\n            index: 44,\n            generation: 1,\n        },\n        right: Id {\n            index: 111,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 121..123,\n        sym: \"d1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 124..163,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 203..205,\n        sym: \"d3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 206..245,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 305..307,\n        sym: \"d5\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 308..347,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 384..385,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 418..420,\n        sym: \"d6\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 421..460,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 386..463,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 518..520,\n        sym: \"d7\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 521..560,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 606..609,\n        sym: \"d13\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 610..649,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 716..719,\n        sym: \"d15\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 720..759,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 822..825,\n        sym: \"d19\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 826..865,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 926..929,\n        sym: \"d20\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 930..969,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1018..1021,\n        sym: \"d21\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1022..1061,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1147..1150,\n        sym: \"d22\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1151..1190,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1239..1242,\n        sym: \"d23\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1243..1282,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1309..1312,\n        sym: \"d24\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1313..1352,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1381..1384,\n        sym: \"d25\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1385..1424,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1456..1459,\n        sym: \"d26\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1460..1499,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1525..1528,\n        sym: \"d27\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1529..1568,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1603..1606,\n        sym: \"d28\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1607..1646,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1682..1685,\n        sym: \"d29\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1686..1725,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1781..1784,\n        sym: \"d30\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1785..1824,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1850..1851,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1877..1880,\n        sym: \"d31\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1881..1920,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1935..1936,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1962..1965,\n        sym: \"d32\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1966..2005,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 135..141,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Member(\n    MemberExpr {\n        span: 141..155,\n        obj: Id {\n            index: 0,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 142..154,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Function(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Object(\n    ObjectExpr {\n        span: 126..163,\n        props: [\n            KeyValueProp {\n                span: 128..162,\n                key: Computed(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 2,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Ident(\n    Ident {\n        span: 165..170,\n        sym: \"async\",\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Ident(\n    Ident {\n        span: 217..223,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Member(\n    MemberExpr {\n        span: 223..237,\n        obj: Id {\n            index: 5,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 224..236,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Function(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Object(\n    ObjectExpr {\n        span: 208..245,\n        props: [\n            KeyValueProp {\n                span: 210..244,\n                key: Computed(\n                    Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 7,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 256..260,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Await(\n    AwaitExpr {\n        span: 250..261,\n        arg: Id {\n            index: 9,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Ident(\n    Ident {\n        span: 265..270,\n        sym: \"async\",\n    },\n)"
-    },
-    {
-      "id": 4294967309,
-      "node": "Ident(\n    Ident {\n        span: 319..325,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "Member(\n    MemberExpr {\n        span: 325..339,\n        obj: Id {\n            index: 12,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 326..338,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967311,
-      "node": "Function(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "Object(\n    ObjectExpr {\n        span: 310..347,\n        props: [\n            KeyValueProp {\n                span: 312..346,\n                key: Computed(\n                    Id {\n                        index: 13,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 14,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Yield(\n    YieldExpr {\n        span: 352..358,\n        arg: None,\n        delegate: false,\n    },\n)"
-    },
-    {
-      "id": 4294967314,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 369..373,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967315,
-      "node": "Await(\n    AwaitExpr {\n        span: 363..374,\n        arg: Id {\n            index: 17,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967316,
-      "node": "Ident(\n    Ident {\n        span: 432..438,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967317,
-      "node": "Member(\n    MemberExpr {\n        span: 438..452,\n        obj: Id {\n            index: 19,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 439..451,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967318,
-      "node": "Function(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967319,
-      "node": "Object(\n    ObjectExpr {\n        span: 423..460,\n        props: [\n            KeyValueProp {\n                span: 425..459,\n                key: Computed(\n                    Id {\n                        index: 20,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 21,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967320,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 394..463,\n        params: [],\n        body: Block(\n            [\n                Id {\n                    index: 16,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: true,\n    },\n)"
-    },
-    {
-      "id": 4294967321,
-      "node": "Ident(\n    Ident {\n        span: 532..538,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967322,
-      "node": "Member(\n    MemberExpr {\n        span: 538..552,\n        obj: Id {\n            index: 24,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 539..551,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967323,
-      "node": "Function(\n    Id {\n        index: 4,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967324,
-      "node": "Object(\n    ObjectExpr {\n        span: 523..560,\n        props: [\n            KeyValueProp {\n                span: 525..559,\n                key: Computed(\n                    Id {\n                        index: 25,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 26,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967325,
-      "node": "Arrow(\n    ArrowExpr {\n        span: 490..567,\n        params: [],\n        body: Block(\n            [\n                Id {\n                    index: 20,\n                    generation: 1,\n                },\n            ],\n        ),\n        is_async: true,\n    },\n)"
-    },
-    {
-      "id": 4294967326,
-      "node": "Ident(\n    Ident {\n        span: 621..627,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967327,
-      "node": "Member(\n    MemberExpr {\n        span: 627..641,\n        obj: Id {\n            index: 29,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 628..640,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967328,
-      "node": "Function(\n    Id {\n        index: 5,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967329,
-      "node": "Object(\n    ObjectExpr {\n        span: 612..649,\n        props: [\n            KeyValueProp {\n                span: 614..648,\n                key: Computed(\n                    Id {\n                        index: 30,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 31,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967330,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 664..668,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967331,
-      "node": "Await(\n    AwaitExpr {\n        span: 658..669,\n        arg: Id {\n            index: 33,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967332,
-      "node": "Ident(\n    Ident {\n        span: 731..737,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967333,
-      "node": "Member(\n    MemberExpr {\n        span: 737..751,\n        obj: Id {\n            index: 35,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 738..750,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967334,
-      "node": "Function(\n    Id {\n        index: 7,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967335,
-      "node": "Object(\n    ObjectExpr {\n        span: 722..759,\n        props: [\n            KeyValueProp {\n                span: 724..758,\n                key: Computed(\n                    Id {\n                        index: 36,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 37,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967336,
-      "node": "Yield(\n    YieldExpr {\n        span: 768..774,\n        arg: None,\n        delegate: false,\n    },\n)"
-    },
-    {
-      "id": 4294967337,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 789..793,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967338,
-      "node": "Await(\n    AwaitExpr {\n        span: 783..794,\n        arg: Id {\n            index: 40,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967340,
-      "node": "Ident(\n    Ident {\n        span: 837..843,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967341,
-      "node": "Member(\n    MemberExpr {\n        span: 843..857,\n        obj: Id {\n            index: 43,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 844..856,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967342,
-      "node": "Function(\n    Id {\n        index: 9,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967343,
-      "node": "Object(\n    ObjectExpr {\n        span: 828..865,\n        props: [\n            KeyValueProp {\n                span: 830..864,\n                key: Computed(\n                    Id {\n                        index: 44,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 45,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967344,
-      "node": "Ident(\n    Ident {\n        span: 877..881,\n        sym: \"Math\",\n    },\n)"
-    },
-    {
-      "id": 4294967345,
-      "node": "Member(\n    MemberExpr {\n        span: 881..889,\n        obj: Id {\n            index: 47,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 882..888,\n                sym: \"random\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967346,
-      "node": "Call(\n    CallExpr {\n        span: 888..891,\n        callee: Id {\n            index: 48,\n            generation: 1,\n        },\n        args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967347,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 903..904,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967348,
-      "node": "Ident(\n    Ident {\n        span: 941..947,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967349,
-      "node": "Member(\n    MemberExpr {\n        span: 947..961,\n        obj: Id {\n            index: 51,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 948..960,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967350,
-      "node": "Function(\n    Id {\n        index: 10,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967351,
-      "node": "Object(\n    ObjectExpr {\n        span: 932..969,\n        props: [\n            KeyValueProp {\n                span: 934..968,\n                key: Computed(\n                    Id {\n                        index: 52,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 53,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967352,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 995..996,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967353,
-      "node": "Ident(\n    Ident {\n        span: 1033..1039,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967354,
-      "node": "Member(\n    MemberExpr {\n        span: 1039..1053,\n        obj: Id {\n            index: 56,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1040..1052,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967355,
-      "node": "Function(\n    Id {\n        index: 11,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967356,
-      "node": "Object(\n    ObjectExpr {\n        span: 1024..1061,\n        props: [\n            KeyValueProp {\n                span: 1026..1060,\n                key: Computed(\n                    Id {\n                        index: 57,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 58,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967357,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 1084..1088,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967358,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1102..1103,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967359,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 1120..1121,\n            value: 0.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967360,
-      "node": "Ident(\n    Ident {\n        span: 1162..1168,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967361,
-      "node": "Member(\n    MemberExpr {\n        span: 1168..1182,\n        obj: Id {\n            index: 63,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1169..1181,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967362,
-      "node": "Function(\n    Id {\n        index: 12,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967363,
-      "node": "Object(\n    ObjectExpr {\n        span: 1153..1190,\n        props: [\n            KeyValueProp {\n                span: 1155..1189,\n                key: Computed(\n                    Id {\n                        index: 64,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 65,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967364,
-      "node": "Ident(\n    Ident {\n        span: 1254..1260,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967365,
-      "node": "Member(\n    MemberExpr {\n        span: 1260..1274,\n        obj: Id {\n            index: 67,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1261..1273,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967366,
-      "node": "Function(\n    Id {\n        index: 13,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967367,
-      "node": "Object(\n    ObjectExpr {\n        span: 1245..1282,\n        props: [\n            KeyValueProp {\n                span: 1247..1281,\n                key: Computed(\n                    Id {\n                        index: 68,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 69,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967368,
-      "node": "Ident(\n    Ident {\n        span: 1324..1330,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967369,
-      "node": "Member(\n    MemberExpr {\n        span: 1330..1344,\n        obj: Id {\n            index: 71,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1331..1343,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967370,
-      "node": "Function(\n    Id {\n        index: 14,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967371,
-      "node": "Object(\n    ObjectExpr {\n        span: 1315..1352,\n        props: [\n            KeyValueProp {\n                span: 1317..1351,\n                key: Computed(\n                    Id {\n                        index: 72,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 73,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967372,
-      "node": "Ident(\n    Ident {\n        span: 1396..1402,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967373,
-      "node": "Member(\n    MemberExpr {\n        span: 1402..1416,\n        obj: Id {\n            index: 75,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1403..1415,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967374,
-      "node": "Function(\n    Id {\n        index: 15,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967375,
-      "node": "Object(\n    ObjectExpr {\n        span: 1387..1424,\n        props: [\n            KeyValueProp {\n                span: 1389..1423,\n                key: Computed(\n                    Id {\n                        index: 76,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 77,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967376,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 1432..1436,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967377,
-      "node": "Ident(\n    Ident {\n        span: 1471..1477,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967378,
-      "node": "Member(\n    MemberExpr {\n        span: 1477..1491,\n        obj: Id {\n            index: 80,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1478..1490,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967379,
-      "node": "Function(\n    Id {\n        index: 16,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967380,
-      "node": "Object(\n    ObjectExpr {\n        span: 1462..1499,\n        props: [\n            KeyValueProp {\n                span: 1464..1498,\n                key: Computed(\n                    Id {\n                        index: 81,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 82,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967381,
-      "node": "Ident(\n    Ident {\n        span: 1540..1546,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967382,
-      "node": "Member(\n    MemberExpr {\n        span: 1546..1560,\n        obj: Id {\n            index: 84,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1547..1559,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967383,
-      "node": "Function(\n    Id {\n        index: 17,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967384,
-      "node": "Object(\n    ObjectExpr {\n        span: 1531..1568,\n        props: [\n            KeyValueProp {\n                span: 1533..1567,\n                key: Computed(\n                    Id {\n                        index: 85,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 86,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967385,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 1579..1583,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967386,
-      "node": "Ident(\n    Ident {\n        span: 1618..1624,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967387,
-      "node": "Member(\n    MemberExpr {\n        span: 1624..1638,\n        obj: Id {\n            index: 89,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1625..1637,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967388,
-      "node": "Function(\n    Id {\n        index: 18,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967389,
-      "node": "Object(\n    ObjectExpr {\n        span: 1609..1646,\n        props: [\n            KeyValueProp {\n                span: 1611..1645,\n                key: Computed(\n                    Id {\n                        index: 90,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 91,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967390,
-      "node": "Ident(\n    Ident {\n        span: 1697..1703,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967391,
-      "node": "Member(\n    MemberExpr {\n        span: 1703..1717,\n        obj: Id {\n            index: 93,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1704..1716,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967392,
-      "node": "Function(\n    Id {\n        index: 19,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967393,
-      "node": "Object(\n    ObjectExpr {\n        span: 1688..1725,\n        props: [\n            KeyValueProp {\n                span: 1690..1724,\n                key: Computed(\n                    Id {\n                        index: 94,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 95,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967394,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 1746..1750,\n            value: true,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967395,
-      "node": "Ident(\n    Ident {\n        span: 1796..1802,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967396,
-      "node": "Member(\n    MemberExpr {\n        span: 1802..1816,\n        obj: Id {\n            index: 98,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1803..1815,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967397,
-      "node": "Function(\n    Id {\n        index: 20,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967398,
-      "node": "Object(\n    ObjectExpr {\n        span: 1787..1824,\n        props: [\n            KeyValueProp {\n                span: 1789..1823,\n                key: Computed(\n                    Id {\n                        index: 99,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 100,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967399,
-      "node": "Object(\n    ObjectExpr {\n        span: 1855..1858,\n        props: [],\n    },\n)"
-    },
-    {
-      "id": 4294967400,
-      "node": "Ident(\n    Ident {\n        span: 1892..1898,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967401,
-      "node": "Member(\n    MemberExpr {\n        span: 1898..1912,\n        obj: Id {\n            index: 103,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1899..1911,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967402,
-      "node": "Function(\n    Id {\n        index: 21,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967403,
-      "node": "Object(\n    ObjectExpr {\n        span: 1883..1920,\n        props: [\n            KeyValueProp {\n                span: 1885..1919,\n                key: Computed(\n                    Id {\n                        index: 104,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 105,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967404,
-      "node": "Array(\n    ArrayExpr {\n        span: 1940..1943,\n        elems: [],\n    },\n)"
-    },
-    {
-      "id": 4294967405,
-      "node": "Ident(\n    Ident {\n        span: 1977..1983,\n        sym: \"Symbol\",\n    },\n)"
-    },
-    {
-      "id": 4294967406,
-      "node": "Member(\n    MemberExpr {\n        span: 1983..1997,\n        obj: Id {\n            index: 108,\n            generation: 1,\n        },\n        prop: Ident(\n            Ident {\n                span: 1984..1996,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967407,
-      "node": "Function(\n    Id {\n        index: 22,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967408,
-      "node": "Object(\n    ObjectExpr {\n        span: 1968..2005,\n        props: [\n            KeyValueProp {\n                span: 1970..2004,\n                key: Computed(\n                    Id {\n                        index: 109,\n                        generation: 1,\n                    },\n                ),\n                value: Id {\n                    index: 110,\n                    generation: 1,\n                },\n            },\n        ],\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 135..141,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 141..155,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 142..154,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 126..163,\n        props: [\n            KeyValueProp {\n                span: 128..162,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 165..170,\n        sym: \"async\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 217..223,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 223..237,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 224..236,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 208..245,\n        props: [\n            KeyValueProp {\n                span: 210..244,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 256..260,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 250..261,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 265..270,\n        sym: \"async\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 319..325,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 325..339,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 326..338,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 310..347,\n        props: [\n            KeyValueProp {\n                span: 312..346,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 352..358,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 369..373,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 363..374,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 432..438,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 438..452,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 439..451,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 423..460,\n        props: [\n            KeyValueProp {\n                span: 425..459,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 394..463,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: true,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 532..538,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 538..552,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 539..551,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 523..560,\n        props: [\n            KeyValueProp {\n                span: 525..559,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 490..567,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: true,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 621..627,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 627..641,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 628..640,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 612..649,\n        props: [\n            KeyValueProp {\n                span: 614..648,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 664..668,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 658..669,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 731..737,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 737..751,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 738..750,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 722..759,\n        props: [\n            KeyValueProp {\n                span: 724..758,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 768..774,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 789..793,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 783..794,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 837..843,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 843..857,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 844..856,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 828..865,\n        props: [\n            KeyValueProp {\n                span: 830..864,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 877..881,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 881..889,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 882..888,\n                sym: \"random\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 888..891,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 903..904,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 941..947,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 947..961,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 948..960,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 932..969,\n        props: [\n            KeyValueProp {\n                span: 934..968,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 995..996,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1033..1039,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1039..1053,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1040..1052,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1024..1061,\n        props: [\n            KeyValueProp {\n                span: 1026..1060,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 1084..1088,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1102..1103,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1120..1121,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1162..1168,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1168..1182,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1169..1181,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1153..1190,\n        props: [\n            KeyValueProp {\n                span: 1155..1189,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1254..1260,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1260..1274,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1261..1273,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1245..1282,\n        props: [\n            KeyValueProp {\n                span: 1247..1281,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1324..1330,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1330..1344,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1331..1343,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1315..1352,\n        props: [\n            KeyValueProp {\n                span: 1317..1351,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1396..1402,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1402..1416,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1403..1415,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1387..1424,\n        props: [\n            KeyValueProp {\n                span: 1389..1423,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 1432..1436,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1471..1477,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1477..1491,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1478..1490,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1462..1499,\n        props: [\n            KeyValueProp {\n                span: 1464..1498,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1540..1546,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1546..1560,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1547..1559,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1531..1568,\n        props: [\n            KeyValueProp {\n                span: 1533..1567,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 1579..1583,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1618..1624,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1624..1638,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1625..1637,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1609..1646,\n        props: [\n            KeyValueProp {\n                span: 1611..1645,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1697..1703,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1703..1717,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1704..1716,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1688..1725,\n        props: [\n            KeyValueProp {\n                span: 1690..1724,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 1746..1750,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1796..1802,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1802..1816,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1803..1815,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1787..1824,\n        props: [\n            KeyValueProp {\n                span: 1789..1823,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 1855..1858,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1892..1898,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1898..1912,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1899..1911,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1883..1920,\n        props: [\n            KeyValueProp {\n                span: 1885..1919,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 1940..1943,\n        elems: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1977..1983,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1983..1997,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1984..1996,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1968..2005,\n        props: [\n            KeyValueProp {\n                span: 1970..2004,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportNamed(\n    ExportNamedDecl {\n        span: 2009..2019,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
-    }
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 2009..2019,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
   ],
   "functions": [
-    {
-      "id": 4294967297,
-      "node": "Function {\n    span: 128..162,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "Function {\n    span: 210..244,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967299,
-      "node": "Function {\n    span: 312..346,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967300,
-      "node": "Function {\n    span: 425..459,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967301,
-      "node": "Function {\n    span: 525..559,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967302,
-      "node": "Function {\n    span: 614..648,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967303,
-      "node": "Function {\n    span: 573..686,\n    params: [],\n    body: [\n        Id {\n            index: 23,\n            generation: 1,\n        },\n        Id {\n            index: 24,\n            generation: 1,\n        },\n    ],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967304,
-      "node": "Function {\n    span: 724..758,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967305,
-      "node": "Function {\n    span: 681..802,\n    params: [],\n    body: [\n        Id {\n            index: 27,\n            generation: 1,\n        },\n        Id {\n            index: 28,\n            generation: 1,\n        },\n        Id {\n            index: 29,\n            generation: 1,\n        },\n    ],\n    is_async: true,\n    is_generator: true,\n}"
-    },
-    {
-      "id": 4294967306,
-      "node": "Function {\n    span: 830..864,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967307,
-      "node": "Function {\n    span: 934..968,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967308,
-      "node": "Function {\n    span: 1026..1060,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967309,
-      "node": "Function {\n    span: 1155..1189,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967310,
-      "node": "Function {\n    span: 1247..1281,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967311,
-      "node": "Function {\n    span: 1317..1351,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967312,
-      "node": "Function {\n    span: 1389..1423,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967313,
-      "node": "Function {\n    span: 1464..1498,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967314,
-      "node": "Function {\n    span: 1533..1567,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967315,
-      "node": "Function {\n    span: 1611..1645,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967316,
-      "node": "Function {\n    span: 1690..1724,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967317,
-      "node": "Function {\n    span: 1789..1823,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967318,
-      "node": "Function {\n    span: 1885..1919,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    },
-    {
-      "id": 4294967319,
-      "node": "Function {\n    span: 1970..2004,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
-    }
+    "Function {\n    span: 128..162,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 210..244,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 312..346,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 425..459,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 525..559,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 614..648,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 573..686,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 724..758,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 681..802,\n    params: [],\n    body: [\n        _,\n        _,\n        _,\n    ],\n    is_async: true,\n    is_generator: true,\n}",
+    "Function {\n    span: 830..864,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 934..968,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1026..1060,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1155..1189,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1247..1281,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1317..1351,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1389..1423,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1464..1498,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1533..1567,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1611..1645,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1690..1724,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1789..1823,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1885..1919,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1970..2004,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
   ],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 465..805,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 471..473,\n            sym: \"C1\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 465..805,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 471..473,\n            sym: \"C1\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Prop(\n    ClassProp {\n        span: 480..578,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 480..481,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 28,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Method(\n    ClassMethod {\n        span: 573..686,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 579..581,\n                sym: \"am\",\n            },\n        ),\n        function: Id {\n            index: 6,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Method(\n    ClassMethod {\n        span: 681..802,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 689..691,\n                sym: \"ag\",\n            },\n        ),\n        function: Id {\n            index: 8,\n            generation: 1,\n        },\n        is_static: false,\n        kind: Method,\n    },\n)"
-    }
+    "Prop(\n    ClassProp {\n        span: 480..578,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 480..481,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 573..686,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 579..581,\n                sym: \"am\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 681..802,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 689..691,\n                sym: \"ag\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

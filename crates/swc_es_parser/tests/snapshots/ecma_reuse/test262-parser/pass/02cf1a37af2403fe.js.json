@@ -1,24 +1,11 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..20,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..20,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Break(\n    BreakStmt {\n        span: 13..20,\n        label: Some(\n            Ident {\n                span: 19..20,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "For(\n    ForStmt {\n        span: 4..20,\n        head: Classic(\n            ForClassicHead {\n                init: None,\n                test: None,\n                update: None,\n            },\n        ),\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 1..20,\n        label: Ident {\n            span: 1..2,\n            sym: \"a\",\n        },\n        body: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Break(\n    BreakStmt {\n        span: 13..20,\n        label: Some(\n            Ident {\n                span: 19..20,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "For(\n    ForStmt {\n        span: 4..20,\n        head: Classic(\n            ForClassicHead {\n                init: None,\n                test: None,\n                update: None,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 1..20,\n        label: Ident {\n            span: 1..2,\n            sym: \"a\",\n        },\n        body: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],

@@ -1,46 +1,24 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..105,\n    kind: Module,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..105,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 1..105,\n        expr: Id {\n            index: 7,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 1..105,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967304,
-      "node": "JSXElement(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    }
+    "JSXElement(\n    _,\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [],
   "class_members": [],
   "jsx_elements": [
-    {
-      "id": 4294967297,
-      "node": "JSXElement {\n    span: 90..105,\n    opening: JSXOpeningElement {\n        span: 90..105,\n        name: Ident(\n            Ident {\n                span: 91..97,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 99..103,\n                name: \"div\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \";\",\n        ),\n    ],\n    closing: None,\n}"
-    },
-    {
-      "id": 4294967298,
-      "node": "JSXElement {\n    span: 76..105,\n    opening: JSXOpeningElement {\n        span: 76..105,\n        name: Ident(\n            Ident {\n                span: 77..82,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 84..88,\n                name: \"div\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \";\",\n        ),\n        Element(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: None,\n}"
-    },
-    {
-      "id": 4294967299,
-      "node": "JSXElement {\n    span: 38..105,\n    opening: JSXOpeningElement {\n        span: 38..105,\n        name: Ident(\n            Ident {\n                span: 39..52,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 43..68,\n                name: \"className\",\n                value: Some(\n                    Id {\n                        index: 3,\n                        generation: 1,\n                    },\n                ),\n            },\n            JSXAttr {\n                span: 70..74,\n                name: \"div\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \";\",\n        ),\n        Element(\n            Id {\n                index: 1,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: None,\n}"
-    },
-    {
-      "id": 4294967300,
-      "node": "JSXElement {\n    span: 1..105,\n    opening: JSXOpeningElement {\n        span: 1..105,\n        name: Ident(\n            Ident {\n                span: 2..15,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 6..30,\n                name: \"className\",\n                value: Some(\n                    Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                ),\n            },\n            JSXAttr {\n                span: 32..36,\n                name: \"div\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \";\",\n        ),\n        Element(\n            Id {\n                index: 2,\n                generation: 1,\n            },\n        ),\n    ],\n    closing: None,\n}"
-    }
+    "JSXElement {\n    span: 90..105,\n    opening: JSXOpeningElement {\n        span: 90..105,\n        name: Ident(\n            Ident {\n                span: 91..97,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 99..103,\n                name: \"div\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \";\",\n        ),\n    ],\n    closing: None,\n}",
+    "JSXElement {\n    span: 76..105,\n    opening: JSXOpeningElement {\n        span: 76..105,\n        name: Ident(\n            Ident {\n                span: 77..82,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 84..88,\n                name: \"div\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \";\",\n        ),\n        Element(\n            _,\n        ),\n    ],\n    closing: None,\n}",
+    "JSXElement {\n    span: 38..105,\n    opening: JSXOpeningElement {\n        span: 38..105,\n        name: Ident(\n            Ident {\n                span: 39..52,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 43..68,\n                name: \"className\",\n                value: Some(\n                    _,\n                ),\n            },\n            JSXAttr {\n                span: 70..74,\n                name: \"div\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \";\",\n        ),\n        Element(\n            _,\n        ),\n    ],\n    closing: None,\n}",
+    "JSXElement {\n    span: 1..105,\n    opening: JSXOpeningElement {\n        span: 1..105,\n        name: Ident(\n            Ident {\n                span: 2..15,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 6..30,\n                name: \"className\",\n                value: Some(\n                    _,\n                ),\n            },\n            JSXAttr {\n                span: 32..36,\n                name: \"div\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \";\",\n        ),\n        Element(\n            _,\n        ),\n    ],\n    closing: None,\n}"
   ],
   "ts_types": []
 }

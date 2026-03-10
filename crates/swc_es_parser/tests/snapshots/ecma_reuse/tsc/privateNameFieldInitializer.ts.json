@@ -1,47 +1,25 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 21..70,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 21..70,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Class(\n    ClassDecl {\n        span: 21..70,\n        ident: Ident {\n            span: 27..28,\n            sym: \"A\",\n        },\n        declare: false,\n        class: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Class(\n    ClassDecl {\n        span: 21..70,\n        ident: Ident {\n            span: 27..28,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 44..46,\n            value: 10.0,\n        },\n    ),\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 44..46,\n            value: 10.0,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [
-    {
-      "id": 4294967297,
-      "node": "Class {\n    span: 21..70,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 27..28,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Class {\n    span: 21..70,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 27..28,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "class_members": [
-    {
-      "id": 4294967297,
-      "node": "Prop(\n    ClassProp {\n        span: 35..53,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 35..41,\n                sym: \"#field\",\n            },\n        ),\n        value: Some(\n            Id {\n                index: 0,\n                generation: 1,\n            },\n        ),\n        is_static: false,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Prop(\n    ClassProp {\n        span: 52..69,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 52..66,\n                sym: \"#uninitialized\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
-    }
+    "Prop(\n    ClassProp {\n        span: 35..53,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 35..41,\n                sym: \"#field\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 52..69,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 52..66,\n                sym: \"#uninitialized\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
   ],
   "jsx_elements": [],
   "ts_types": []

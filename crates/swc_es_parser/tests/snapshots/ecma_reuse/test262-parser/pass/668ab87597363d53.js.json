@@ -1,32 +1,16 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 102..129,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 102..129,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Continue(\n    ContinueStmt {\n        span: 117..129,\n        label: Some(\n            Ident {\n                span: 126..127,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "While(\n    WhileStmt {\n        span: 105..129,\n        test: Id {\n            index: 0,\n            generation: 1,\n        },\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 102..129,\n        label: Ident {\n            span: 102..103,\n            sym: \"a\",\n        },\n        body: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Continue(\n    ContinueStmt {\n        span: 117..129,\n        label: Some(\n            Ident {\n                span: 126..127,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 105..129,\n        test: _,\n        body: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 102..129,\n        label: Ident {\n            span: 102..103,\n            sym: \"a\",\n        },\n        body: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Bool(\n        BoolLit {\n            span: 111..115,\n            value: true,\n        },\n    ),\n)"
-    }
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 111..115,\n            value: true,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

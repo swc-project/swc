@@ -1,98 +1,34 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 59..195,\n    kind: Script,\n    body: [\n        Id {\n            index: 0,\n            generation: 1,\n        },\n        Id {\n            index: 1,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 59..195,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Decl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    }
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "Var(\n    VarDecl {\n        span: 59..148,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 59..148,\n                name: Id {\n                    index: 1,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Var(\n    VarDecl {\n        span: 143..195,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 143..195,\n                name: Id {\n                    index: 3,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    }
+    "Var(\n    VarDecl {\n        span: 59..148,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 59..148,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 143..195,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 143..195,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 65..69,\n        sym: \"arr1\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Assign(\n    AssignPat {\n        span: 70..148,\n        left: Id {\n            index: 0,\n            generation: 1,\n        },\n        right: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Ident(\n    Ident {\n        span: 149..153,\n        sym: \"arr2\",\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Assign(\n    AssignPat {\n        span: 154..195,\n        left: Id {\n            index: 2,\n            generation: 1,\n        },\n        right: Id {\n            index: 11,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 65..69,\n        sym: \"arr1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 70..148,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 149..153,\n        sym: \"arr2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 154..195,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 73..74,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 76..77,\n            value: 2.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 79..80,\n            value: 3.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Array(\n    ArrayExpr {\n        span: 72..84,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 0,\n                        generation: 1,\n                    },\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 1,\n                        generation: 1,\n                    },\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 2,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 82..100,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n        ty: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 91..148,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n        ty: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 157..158,\n            value: 1.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 160..161,\n            value: 2.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Lit(\n    Num(\n        NumberLit {\n            span: 163..164,\n            value: 3.0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Array(\n    ArrayExpr {\n        span: 156..168,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 6,\n                        generation: 1,\n                    },\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 7,\n                        generation: 1,\n                    },\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: Id {\n                        index: 8,\n                        generation: 1,\n                    },\n                },\n            ),\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "TsAs(\n    TsAsExpr {\n        span: 166..184,\n        expr: Id {\n            index: 9,\n            generation: 1,\n        },\n        ty: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 175..195,\n        expr: Id {\n            index: 10,\n            generation: 1,\n        },\n        ty: Id {\n            index: 6,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "Lit(\n    Num(\n        NumberLit {\n            span: 73..74,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 76..77,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 79..80,\n            value: 3.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 72..84,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 82..100,\n        expr: _,\n        ty: _,\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 91..148,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 157..158,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 160..161,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 163..164,\n            value: 3.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 156..168,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 166..184,\n        expr: _,\n        ty: _,\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 175..195,\n        expr: _,\n        ty: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
@@ -100,33 +36,12 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    {
-      "id": 4294967297,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 85..100,\n        name: Ident {\n            span: 85..100,\n            sym: \"const\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Keyword(\n    Unknown,\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "TypeOperator(\n    TsTypeOperatorType {\n        span: 101..118,\n        op: ReadOnly,\n        ty: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Array(\n    TsArrayType {\n        span: 101..148,\n        elem_type: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "TypeRef(\n    TsTypeRef {\n        span: 169..184,\n        name: Ident {\n            span: 169..184,\n            sym: \"const\",\n        },\n        type_args: [],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "Keyword(\n    Unknown,\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Array(\n    TsArrayType {\n        span: 185..195,\n        elem_type: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "TypeRef(\n    TsTypeRef {\n        span: 85..100,\n        name: Ident {\n            span: 85..100,\n            sym: \"const\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Unknown,\n)",
+    "TypeOperator(\n    TsTypeOperatorType {\n        span: 101..118,\n        op: ReadOnly,\n        ty: _,\n    },\n)",
+    "Array(\n    TsArrayType {\n        span: 101..148,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 169..184,\n        name: Ident {\n            span: 169..184,\n            sym: \"const\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Unknown,\n)",
+    "Array(\n    TsArrayType {\n        span: 185..195,\n        elem_type: _,\n    },\n)"
   ]
 }

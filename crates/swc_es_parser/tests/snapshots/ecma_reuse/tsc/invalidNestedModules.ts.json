@@ -1,140 +1,46 @@
 {
-  "root_program": 4294967297,
   "programs": [
-    {
-      "id": 4294967297,
-      "node": "Program {\n    span: 1..365,\n    kind: Script,\n    body: [\n        Id {\n            index: 2,\n            generation: 1,\n        },\n        Id {\n            index: 3,\n            generation: 1,\n        },\n        Id {\n            index: 6,\n            generation: 1,\n        },\n        Id {\n            index: 7,\n            generation: 1,\n        },\n        Id {\n            index: 10,\n            generation: 1,\n        },\n        Id {\n            index: 11,\n            generation: 1,\n        },\n        Id {\n            index: 16,\n            generation: 1,\n        },\n    ],\n}"
-    }
+    "Program {\n    span: 1..365,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    {
-      "id": 4294967297,
-      "node": "Expr(\n    ExprStmt {\n        span: 71..84,\n        expr: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 68..84,\n        label: Ident {\n            span: 68..69,\n            sym: \"y\",\n        },\n        body: Id {\n            index: 0,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Decl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Expr(\n    ExprStmt {\n        span: 85..94,\n        expr: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "ModuleDecl(\n    Id {\n        index: 0,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "Decl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967304,
-      "node": "Expr(\n    ExprStmt {\n        span: 197..206,\n        expr: Id {\n            index: 2,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967305,
-      "node": "Expr(\n    ExprStmt {\n        span: 261..274,\n        expr: Id {\n            index: 3,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967306,
-      "node": "Labeled(\n    LabeledStmt {\n        span: 258..274,\n        label: Ident {\n            span: 258..259,\n            sym: \"y\",\n        },\n        body: Id {\n            index: 8,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967307,
-      "node": "Decl(\n    Id {\n        index: 3,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967308,
-      "node": "Expr(\n    ExprStmt {\n        span: 275..284,\n        expr: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967310,
-      "node": "ModuleDecl(\n    Id {\n        index: 1,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967312,
-      "node": "ModuleDecl(\n    Id {\n        index: 2,\n        generation: 1,\n    },\n)"
-    },
-    {
-      "id": 4294967313,
-      "node": "Decl(\n    Id {\n        index: 6,\n        generation: 1,\n    },\n)"
-    }
+    "Expr(\n    ExprStmt {\n        span: 71..84,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 68..84,\n        label: Ident {\n            span: 68..69,\n            sym: \"y\",\n        },\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 85..94,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 197..206,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 261..274,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 258..274,\n        label: Ident {\n            span: 258..259,\n            sym: \"y\",\n        },\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 275..284,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    {
-      "id": 4294967297,
-      "node": "TsModule(\n    TsModuleDecl {\n        span: 1..86,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 8..9,\n                sym: \"A\",\n            },\n        ),\n        body: Some(\n            Namespace(\n                TsNamespaceDecl {\n                    span: 1..86,\n                    declare: false,\n                    global: false,\n                    id: Ident {\n                        span: 8..9,\n                        sym: \"A\",\n                    },\n                    body: Namespace(\n                        TsNamespaceDecl {\n                            span: 10..86,\n                            declare: false,\n                            global: false,\n                            id: Ident {\n                                span: 10..11,\n                                sym: \"B\",\n                            },\n                            body: Namespace(\n                                TsNamespaceDecl {\n                                    span: 12..86,\n                                    declare: false,\n                                    global: false,\n                                    id: Ident {\n                                        span: 12..13,\n                                        sym: \"C\",\n                                    },\n                                    body: ModuleBlock(\n                                        [\n                                            Id {\n                                                index: 1,\n                                                generation: 1,\n                                            },\n                                        ],\n                                    ),\n                                },\n                            ),\n                        },\n                    ),\n                },\n            ),\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "TsModule(\n    TsModuleDecl {\n        span: 110..196,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 117..118,\n                sym: \"B\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "TsModule(\n    TsModuleDecl {\n        span: 88..198,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 95..96,\n                sym: \"A\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 5,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "TsModule(\n    TsModuleDecl {\n        span: 200..276,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 207..209,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            Namespace(\n                TsNamespaceDecl {\n                    span: 200..276,\n                    declare: false,\n                    global: false,\n                    id: Ident {\n                        span: 207..209,\n                        sym: \"M2\",\n                    },\n                    body: Namespace(\n                        TsNamespaceDecl {\n                            span: 210..276,\n                            declare: false,\n                            global: false,\n                            id: Ident {\n                                span: 210..211,\n                                sym: \"X\",\n                            },\n                            body: ModuleBlock(\n                                [\n                                    Id {\n                                        index: 9,\n                                        generation: 1,\n                                    },\n                                ],\n                            ),\n                        },\n                    ),\n                },\n            ),\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Var(\n    VarDecl {\n        span: 327..360,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 327..345,\n                name: Id {\n                    index: 0,\n                    generation: 1,\n                },\n                init: None,\n            },\n        ],\n    },\n)"
-    },
-    {
-      "id": 4294967302,
-      "node": "TsModule(\n    TsModuleDecl {\n        span: 301..362,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 308..309,\n                sym: \"X\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 13,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
-    },
-    {
-      "id": 4294967303,
-      "node": "TsModule(\n    TsModuleDecl {\n        span: 278..365,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 285..287,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    Id {\n                        index: 15,\n                        generation: 1,\n                    },\n                ],\n            ),\n        ),\n    },\n)"
-    }
+    "TsModule(\n    TsModuleDecl {\n        span: 1..86,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 8..9,\n                sym: \"A\",\n            },\n        ),\n        body: Some(\n            Namespace(\n                TsNamespaceDecl {\n                    span: 1..86,\n                    declare: false,\n                    global: false,\n                    id: Ident {\n                        span: 8..9,\n                        sym: \"A\",\n                    },\n                    body: Namespace(\n                        TsNamespaceDecl {\n                            span: 10..86,\n                            declare: false,\n                            global: false,\n                            id: Ident {\n                                span: 10..11,\n                                sym: \"B\",\n                            },\n                            body: Namespace(\n                                TsNamespaceDecl {\n                                    span: 12..86,\n                                    declare: false,\n                                    global: false,\n                                    id: Ident {\n                                        span: 12..13,\n                                        sym: \"C\",\n                                    },\n                                    body: ModuleBlock(\n                                        [\n                                            _,\n                                        ],\n                                    ),\n                                },\n                            ),\n                        },\n                    ),\n                },\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 110..196,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 117..118,\n                sym: \"B\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 88..198,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 95..96,\n                sym: \"A\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 200..276,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 207..209,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            Namespace(\n                TsNamespaceDecl {\n                    span: 200..276,\n                    declare: false,\n                    global: false,\n                    id: Ident {\n                        span: 207..209,\n                        sym: \"M2\",\n                    },\n                    body: Namespace(\n                        TsNamespaceDecl {\n                            span: 210..276,\n                            declare: false,\n                            global: false,\n                            id: Ident {\n                                span: 210..211,\n                                sym: \"X\",\n                            },\n                            body: ModuleBlock(\n                                [\n                                    _,\n                                ],\n                            ),\n                        },\n                    ),\n                },\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 327..360,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 327..345,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 301..362,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 308..309,\n                sym: \"X\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 278..365,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 285..287,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
   ],
   "pats": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 331..336,\n        sym: \"Point\",\n    },\n)"
-    }
+    "Ident(\n    Ident {\n        span: 331..336,\n        sym: \"Point\",\n    },\n)"
   ],
   "exprs": [
-    {
-      "id": 4294967297,
-      "node": "Ident(\n    Ident {\n        span: 71..77,\n        sym: \"number\",\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    },
-    {
-      "id": 4294967300,
-      "node": "Ident(\n    Ident {\n        span: 261..267,\n        sym: \"number\",\n    },\n)"
-    },
-    {
-      "id": 4294967301,
-      "node": "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-    }
+    "Ident(\n    Ident {\n        span: 71..77,\n        sym: \"number\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 261..267,\n        sym: \"number\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
   ],
   "module_decls": [
-    {
-      "id": 4294967297,
-      "node": "ExportDecl(\n    ExportDecl {\n        span: 103..196,\n        decl: Id {\n            index: 1,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967298,
-      "node": "ExportDecl(\n    ExportDecl {\n        span: 320..360,\n        decl: Id {\n            index: 4,\n            generation: 1,\n        },\n    },\n)"
-    },
-    {
-      "id": 4294967299,
-      "node": "ExportDecl(\n    ExportDecl {\n        span: 294..362,\n        decl: Id {\n            index: 5,\n            generation: 1,\n        },\n    },\n)"
-    }
+    "ExportDecl(\n    ExportDecl {\n        span: 103..196,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 320..360,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 294..362,\n        decl: _,\n    },\n)"
   ],
   "functions": [],
   "classes": [],
