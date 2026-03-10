@@ -33,6 +33,13 @@ pub struct LexerCheckpoint<'a> {
     errors_len: usize,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct RegexLiteral {
+    pub span: Span,
+    pub exp: Atom,
+    pub flags: Atom,
+}
+
 /// ECMAScript lexer.
 #[derive(Clone)]
 pub struct Lexer<'a> {
@@ -93,6 +100,78 @@ impl<'a> Lexer<'a> {
     /// Takes recoverable lexer errors.
     pub fn take_errors(&mut self) -> Vec<Error> {
         std::mem::take(&mut self.errors)
+    }
+
+    pub(crate) fn rescan_regex_literal(&mut self, start: BytePos) -> Result<RegexLiteral, Error> {
+        unsafe {
+            self.input.reset_to(start);
+        }
+
+        debug_assert_eq!(self.input.cur_as_ascii(), Some(b'/'));
+
+        let span_start = self.input.cur_pos();
+        self.bump_ascii();
+        let pattern_start = self.input.cur_pos();
+        let mut escaped = false;
+        let mut in_class = false;
+
+        while let Some(ch) = self.input.cur_as_char() {
+            if matches!(ch, '\n' | '\r' | '\u{2028}' | '\u{2029}') {
+                return Err(Error::new(
+                    Span::new_with_checked(span_start, self.input.cur_pos()),
+                    Severity::Fatal,
+                    ErrorCode::UnexpectedToken,
+                    "unterminated regular expression literal",
+                ));
+            }
+
+            if escaped {
+                escaped = false;
+                self.bump_char();
+                continue;
+            }
+
+            match ch {
+                '[' => in_class = true,
+                ']' if in_class => in_class = false,
+                '/' if !in_class => break,
+                '\\' => escaped = true,
+                _ => {}
+            }
+
+            self.bump_char();
+        }
+
+        let pattern_end = self.input.cur_pos();
+        if self.input.cur_as_ascii() != Some(b'/') {
+            return Err(Error::new(
+                Span::new_with_checked(span_start, pattern_end),
+                Severity::Fatal,
+                ErrorCode::UnexpectedToken,
+                "unterminated regular expression literal",
+            ));
+        }
+
+        let pattern = unsafe { self.input.slice_str(pattern_start, pattern_end) };
+        self.bump_ascii();
+
+        let flags = if self.is_ident_start()
+            || (self.input.cur_as_ascii() == Some(b'\\') && self.input.peek() == Some(b'u'))
+        {
+            let (value, _) = self.read_word_as_str_with();
+            Atom::new(value)
+        } else {
+            Atom::new("")
+        };
+
+        self.had_line_break_before = false;
+        self.is_first_token = false;
+
+        Ok(RegexLiteral {
+            span: Span::new_with_checked(span_start, self.input.cur_pos()),
+            exp: Atom::new(pattern),
+            flags,
+        })
     }
 
     /// Reads the next token from input.
