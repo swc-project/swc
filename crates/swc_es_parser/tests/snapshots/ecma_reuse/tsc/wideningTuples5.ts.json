@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 24..55,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 24..55,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..55,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 32..33,\n        sym: \"b\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 28..36,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 38..47,\n        sym: \"undefined\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 49..53,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 37..55,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

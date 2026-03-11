@@ -1,0 +1,30 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/errors/conflict_marker_diff_3_trivia_2/input.ts:3:1]
+ 2 |   foo() {
+ 3 | <<<<<<< B
+   : ^^
+ 4 |      a();
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/errors/conflict_marker_diff_3_trivia_2/input.ts:3:1]
+ 2 |   foo() {
+ 3 | <<<<<<< B
+   :     ^^
+ 4 |      a();
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected property name, got OrOr
+   ,-[/swc_ecma_parser/tests/errors/conflict_marker_diff_3_trivia_2/input.ts:6:1]
+ 5 |   }
+ 6 | ||||||| merged common ancestors
+   : ^^
+ 7 |      c();
+   `----
+
+Advice: 
+  > code: UnexpectedToken

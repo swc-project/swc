@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..38,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 18..37,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..38,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 25..26,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 29..30,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 33..34,\n            value: 3.0,\n        },\n    ),\n)",
+    "Cond(\n    CondExpr {\n        span: 27..35,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

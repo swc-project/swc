@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 3..100,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 3..29,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3..25,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 26..53,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 26..49,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 50..78,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 50..74,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 75..100,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 75..100,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..8,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 9..25,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 30..31,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 32..49,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 54..55,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 56..74,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 79..80,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 81..100,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Template(\n    TemplateExpr {\n        span: 11..24,\n        quasis: [\n            StrLit {\n                span: 11..24,\n                value: \"helloworld\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 34..48,\n        quasis: [\n            StrLit {\n                span: 34..48,\n                value: \"hello\\\\world\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 58..73,\n        quasis: [\n            StrLit {\n                span: 58..73,\n                value: \"hello\\\\world\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 83..99,\n        quasis: [\n            StrLit {\n                span: 83..99,\n                value: \"hello\\\\\\\\world\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

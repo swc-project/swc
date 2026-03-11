@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 119..251,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 126..251,\n        ident: Ident {\n            span: 132..137,\n            sym: \"Clazz\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 225..244,\n        sym: \"functionDeclaration\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 119..251,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 218..250,\n    params: [\n        Param {\n            span: 225..245,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 126..251,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 132..137,\n            sym: \"Clazz\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 218..250,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 218..224,\n                sym: \"method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,40 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+ 1 | type F<A> = A extends {} ? B : C;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+ 1 | type F<A> = A extends {} ? B : C;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeAliasDecl
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+ 1 | type F<A> = A extends {} ? B : C;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsConditionalType
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+ 1 | type F<A> = A extends {} ? B : C;
+   :             ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeRef
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+ 1 | type F<A> = A extends {} ? B : C;
+   :             ^^^^^^^^^
+   `----
+  x TsTypeLit
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+ 1 | type F<A> = A extends {} ? B : C;
+   :                       ^^^^
+   `----
+  x TsTypeRef
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+ 1 | type F<A> = A extends {} ? B : C;
+   :                            ^^^
+   `----
+  x TsTypeRef
+   ,-[/swc_ecma_parser/tests/span/ts/type/cond.ts:1:1]
+ 1 | type F<A> = A extends {} ? B : C;
+   :                                ^^
+   `----

@@ -1,0 +1,55 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   : ^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   : ^^^^^^^^^^^^^^^^^
+   `----
+  x BinaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   :           ^^^^^^^
+   `----
+  x BinaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   :       ^^^^^
+   `----
+  x BinaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   :   ^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   : ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   :     ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   :         ^
+   `----
+  x BinaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   :               ^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   :             ^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/binary.js:1:1]
+ 1 | a + b + c - d * 5
+   :                 ^
+   `----

@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..31,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 6..12,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 11..17,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 4..23,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 1..31,\n        body: _,\n        test: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"a\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 7..10,\n        op: PlusPlus,\n        arg: _,\n        prefix: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"b\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 12..15,\n        op: MinusMinus,\n        arg: _,\n        prefix: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 29..30,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 27..31,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

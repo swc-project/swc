@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 1..95,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..18,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..12,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 13..58,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 13..52,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 53..95,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 53..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 21..52,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 59..60,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 61..94,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 23..27,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"a\",\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 30..35,\n        expr: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 36..52,\n        expr: _,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 28..52,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 63..67,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 71..72,\n        sym: \"a\",\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 70..75,\n        expr: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 77..93,\n        expr: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 76..94,\n        expr: _,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 68..94,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 37..51,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 78..92,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

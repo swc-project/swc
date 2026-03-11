@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 1..117,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 16..31,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 30..57,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..17,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..15,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 54..93,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 54..80,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 90..117,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 90..110,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 58..77,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 60..75,\n                    key: Ident {\n                        span: 60..73,\n                        sym: \"destructuring\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 99..103,\n        sym: \"rest\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 94..107,\n        props: [\n            Rest(\n                RestPat {\n                    span: 96..105,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 17..27,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 18..26,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 26..29,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 30..31,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 31..41,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 32..40,\n                sym: \"nonExist\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 40..43,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 108..109,\n        sym: \"a\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

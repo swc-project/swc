@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 133..434,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 331..346,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 415..431,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 159..219,\n        ident: Ident {\n            span: 169..170,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 181..205,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 181..188,\n                            sym: \"mNumber\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 210..253,\n        ident: Ident {\n            span: 220..222,\n            sym: \"AT\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 223..224,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 236..251,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 236..239,\n                            sym: \"gen\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 141..302,\n        declare: true,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 151..152,\n                sym: \"N\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 297..388,\n        ident: Ident {\n            span: 303..304,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 383..434,\n        ident: Ident {\n            span: 389..392,\n            sym: \"BAT\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 338..339,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 422..424,\n            value: \"\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 311..348,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 399..433,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 297..388,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 303..304,\n            sym: \"B\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 383..434,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 389..392,\n            sym: \"BAT\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 311..348,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 311..318,\n                sym: \"mNumber\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 399..433,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 399..402,\n                sym: \"gen\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 243..245,\n        name: Ident {\n            span: 243..245,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

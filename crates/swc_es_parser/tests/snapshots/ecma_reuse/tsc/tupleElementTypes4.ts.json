@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..40,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..40,\n        ident: Ident {\n            span: 10..11,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"b\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 12..20,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 19..36,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 22..23,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 25..34,\n        sym: \"undefined\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 21..36,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

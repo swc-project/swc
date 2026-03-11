@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 19..101,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 68..81,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 85..101,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 19..42,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 19..35,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 37..92,\n        ident: Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 23..26,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..71,\n        sym: \"foo\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 74..75,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 72..81,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 85..92,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 92..97,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 93..96,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..100,\n        sym: \"foo\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 96..101,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 37..92,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 51..83,\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

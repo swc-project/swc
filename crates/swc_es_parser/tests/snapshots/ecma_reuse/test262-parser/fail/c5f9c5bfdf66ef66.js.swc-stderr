@@ -1,0 +1,8 @@
+  x expected (, got Semi
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/c5f9c5bfdf66ef66.js:1:1]
+ 1 | a if;
+   :     ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

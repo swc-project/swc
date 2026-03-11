@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 78..100,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 85..100,\n        ident: Ident {\n            span: 95..96,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 78..100,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,74 @@
+{
+  "programs": [
+    "Program {\n    span: 45..371,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 82..94,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 165..177,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 341..371,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 338..371,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 327..371,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 66..102,\n        ident: Ident {\n            span: 75..76,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 103..118,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 103..116,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 45..125,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 52..55,\n                sym: \"Foo\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 140..185,\n        ident: Ident {\n            span: 149..150,\n            sym: \"c\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 209..228,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 209..225,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 186..230,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 193..197,\n                sym: \"Test\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 119..237,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 126..129,\n                sym: \"Foo\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 302..329,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 302..326,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 107..108,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 109..116,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 151..152,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 213..219,\n        sym: \"answer\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 220..225,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 306..307,\n        sym: \"a\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 89..90,\n            value: 5.0,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 111..115,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 172..173,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 222..224,\n            value: 42.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 318..321,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 321..324,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 322..323,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 323..326,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 332..335,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 335..338,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 336..337,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 331..338,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 330..338,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 341..344,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 344..350,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 345..349,\n                sym: \"Test\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 349..358,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 350..356,\n                sym: \"answer\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 359..362,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 362..365,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 363..364,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 365..367,\n            value: 42.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 364..369,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 357..369,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 59..102,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 96..118,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 133..185,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 202..228,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 179..230,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 269..305,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 276..279,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

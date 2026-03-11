@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..21,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 1..21,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 15..18,\n                    sym: \"Foo\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: true,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

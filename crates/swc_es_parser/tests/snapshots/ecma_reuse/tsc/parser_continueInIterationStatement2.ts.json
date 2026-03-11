@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..33,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Continue(\n    ContinueStmt {\n        span: 8..19,\n        label: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 4..25,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 1..33,\n        body: _,\n        test: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 27..31,\n            value: true,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 16..73,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 36..73,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 36..71,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 16..73,\n        ident: Ident {\n            span: 26..27,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 42..71,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Yield(\n    YieldExpr {\n        span: 61..67,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 60..69,\n        expr: _,\n    },\n)",
+    "Class(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 44..71,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 50..51,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

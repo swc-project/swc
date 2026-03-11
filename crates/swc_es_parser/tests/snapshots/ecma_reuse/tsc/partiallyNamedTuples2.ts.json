@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 91..698,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 231..237,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 575..646,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 575..640,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 641..675,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 641..669,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 670..698,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 670..697,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 581..582,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 647..650,\n        sym: \"id1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 651..669,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 676..683,\n        sym: \"matches\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 684..697,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 634..638,\n        },\n    ),\n)",
+    "TsNonNull(\n    TsNonNullExpr {\n        span: 638..640,\n        expr: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 653..658,\n            value: \"abc\",\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 659..669,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 686..687,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 687..692,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 688..691,\n                sym: \"get\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 692..695,\n        sym: \"id1\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 691..697,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)"
+  ]
+}

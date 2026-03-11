@@ -1,0 +1,24 @@
+{
+  "programs": [
+    "Program {\n    span: 22..103,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 102..103,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 37..63,\n        ident: Ident {\n            span: 47..48,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 22..103,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 29..30,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

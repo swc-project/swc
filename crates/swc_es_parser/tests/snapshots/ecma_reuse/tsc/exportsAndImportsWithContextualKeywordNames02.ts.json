@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 59..290,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 59..80,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 59..72,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 153..171,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 153..167,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 168..215,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 168..186,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 63..65,\n        sym: \"as\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 66..72,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 157..158,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 159..167,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 172..173,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 174..186,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 68..71,\n            value: 100.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 161..163,\n        sym: \"as\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 163..167,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 164..166,\n                sym: \"as\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 176..178,\n        sym: \"as\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 178..186,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 179..185,\n                sym: \"return\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 74..131,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 83..85,\n                    sym: \"as\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 89..95,\n                        sym: \"return\",\n                    },\n                ),\n                is_type_only: false,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 97..99,\n                    sym: \"as\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 125..156,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 137..139,\n                        sym: \"as\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 145..151,\n            value: \"./t1\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 209..270,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 224..226,\n                        sym: \"as\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 218..220,\n                            sym: \"as\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 234..240,\n            value: \"./t1\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 264..290,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 273..275,\n                        sym: \"as\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 273..275,\n                            sym: \"as\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 283..289,\n            value: \"./t1\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

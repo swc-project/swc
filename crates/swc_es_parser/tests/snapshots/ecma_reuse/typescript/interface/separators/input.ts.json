@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..132,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..51,\n        ident: Ident {\n            span: 11..16,\n            sym: \"Comma\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..31,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 19..20,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 30..41,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 30..31,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 42..91,\n        ident: Ident {\n            span: 52..56,\n            sym: \"Semi\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 59..71,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 59..60,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 70..81,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 70..71,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 82..132,\n        ident: Ident {\n            span: 92..99,\n            sym: \"Newline\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 106..121,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 106..107,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 120..131,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 120..121,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)"
+  ]
+}

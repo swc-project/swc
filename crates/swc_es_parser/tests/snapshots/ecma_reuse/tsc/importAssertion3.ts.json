@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 89..366,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 96..138,\n        ident: Ident {\n            span: 106..107,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 89..138,\n        decl: _,\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 132..188,\n        src: Some(\n            StrLit {\n                span: 152..157,\n                value: \"./0\",\n            },\n        ),\n        specifiers: [],\n        type_only: true,\n        decl: None,\n        with: [\n            ImportAttribute {\n                span: 167..181,\n                key: Ident(\n                    Ident {\n                        span: 167..171,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 173..179,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 182..261,\n        src: Some(\n            StrLit {\n                span: 205..210,\n                value: \"./0\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 196..197,\n                    sym: \"I\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: true,\n        decl: None,\n        with: [\n            ImportAttribute {\n                span: 220..234,\n                key: Ident(\n                    Ident {\n                        span: 220..224,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 226..232,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 255..366,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 269..270,\n                        sym: \"I\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 269..270,\n                            sym: \"I\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 278..283,\n            value: \"./0\",\n        },\n        with: [\n            ImportAttribute {\n                span: 294..308,\n                key: Ident(\n                    Ident {\n                        span: 294..298,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 300..306,\n                    value: \"json\",\n                },\n            },\n        ],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

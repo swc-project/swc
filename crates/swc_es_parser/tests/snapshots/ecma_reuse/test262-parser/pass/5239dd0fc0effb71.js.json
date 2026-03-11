@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 18..78,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 67..75,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 57..77,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "With(\n    WithStmt {\n        span: 48..77,\n        obj: _,\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 37..52,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 37..43,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 18..78,\n        ident: Ident {\n            span: 27..28,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 41..42,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 54..55,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 67..68,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

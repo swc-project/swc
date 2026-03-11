@@ -1,0 +1,52 @@
+{
+  "programs": [
+    "Program {\n    span: 217..1075,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 985..1008,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 975..1013,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 1024..1042,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 1014..1044,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 944..1044,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 217..523,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 217..260,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 667..923,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 667..714,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 915..1052,\n        ident: Ident {\n            span: 924..930,\n            sym: \"testFn\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 223..230,\n        sym: \"myTypes\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 231..260,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 673..684,\n        sym: \"testFnTypes\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 685..714,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 931..936,\n        sym: \"input\",\n    },\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 233..260,\n        props: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 687..714,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 955..960,\n        sym: \"input\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 948..964,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 965..973,\n            value: \"number\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 961..974,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 992..993,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 996..1001,\n        sym: \"input\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 994..1002,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 1031..1035,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 517..564,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 525..532,\n                    sym: \"myTypes\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 558..672,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 566..573,\n                        sym: \"myTypes\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 566..573,\n                            sym: \"myTypes\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 580..591,\n            value: \"./file.js\",\n        },\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 1046..1075,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 1054..1060,\n                    sym: \"testFn\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 1062..1073,\n                    sym: \"testFnTypes\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

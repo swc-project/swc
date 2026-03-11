@@ -1,0 +1,20 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+ 1 | foo<string, boolean>();
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+ 1 | foo<string, boolean>();
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+ 1 | foo<string, boolean>();
+   :                     ^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/expr/type-args.ts:1:1]
+ 1 | foo<string, boolean>();
+   : ^^^
+   `----

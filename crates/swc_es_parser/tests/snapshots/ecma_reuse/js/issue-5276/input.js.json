@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 1..64,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 8..64,\n        ident: Ident {\n            span: 14..21,\n            sym: \"MyClass\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 29..40,\n        sym: \"MyDecorator\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 40..53,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 56..60,\n            value: true,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..64,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 8..64,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 14..21,\n            sym: \"MyClass\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 47..63,\n        decorators: [\n            Decorator {\n                span: 28..53,\n                expr: _,\n            },\n        ],\n        key: Ident(\n            Ident {\n                span: 47..53,\n                sym: \"export\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

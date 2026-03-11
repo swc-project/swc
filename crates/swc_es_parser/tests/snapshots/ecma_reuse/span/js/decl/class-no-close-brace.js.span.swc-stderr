@@ -1,0 +1,36 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+  x ClassDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+  x Class
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+  x ClassMethod
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:3:1]
+ 2 | 
+ 3 |   method() {}
+   :   ^^^^^^^^^^^
+   `----
+  x Function
+   ,-[/swc_ecma_parser/tests/span/js/decl/class-no-close-brace.js:3:1]
+ 2 | 
+ 3 |   method() {}
+   :   ^^^^^^^^^^^
+   `----

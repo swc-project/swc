@@ -1,0 +1,24 @@
+{
+  "programs": [
+    "Program {\n    span: 15..46,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 35..46,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 15..46,\n        ident: Ident {\n            span: 24..25,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 42..43,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

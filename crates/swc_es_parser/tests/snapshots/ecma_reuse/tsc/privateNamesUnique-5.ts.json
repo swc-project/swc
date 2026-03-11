@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 131..243,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 159..170,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 217..225,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 161..194,\n        ident: Ident {\n            span: 171..173,\n            sym: \"A2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 182..185,\n                sym: \"A\",\n            },\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 220..243,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 220..242,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 226..227,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 238..239,\n        sym: \"B\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 239..242,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 234..242,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 45..203,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 53..109,\n        ident: Ident {\n            span: 62..79,\n            sym: \"someOtherFunction\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 104..157,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 104..157,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 152..203,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 152..203,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 80..81,\n        sym: \"i\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 110..111,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 120..121,\n        sym: \"i\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 112..157,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 158..160,\n        sym: \"x1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 170..171,\n        sym: \"i\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 161..203,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 131..148,\n        sym: \"someOtherFunction\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 149..150,\n        sym: \"i\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 148..157,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 125..157,\n        arg: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 120..157,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: true,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 182..199,\n        sym: \"someOtherFunction\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 200..201,\n        sym: \"i\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 199..203,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 176..203,\n        arg: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 169..203,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: true,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

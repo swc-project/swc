@@ -1,0 +1,17 @@
+{
+  "programs": [
+    "Program {\n    span: 6..7,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 6..7,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

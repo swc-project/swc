@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 16..155,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 31..81,\n        ident: Ident {\n            span: 40..41,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 73..123,\n        ident: Ident {\n            span: 82..83,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 115..155,\n        ident: Ident {\n            span: 125..126,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 16..155,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 23..24,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 42..43,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 84..85,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 127..128,\n        sym: \"s\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

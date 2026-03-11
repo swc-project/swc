@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 1..345,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 36..44,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 74..86,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 215..227,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 77..130,\n        ident: Ident {\n            span: 87..89,\n            sym: \"I3\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 98..102,\n                sym: \"Foo\",\n            },\n            Ident {\n                span: 103..108,\n                sym: \"Bar\",\n            },\n        ],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 121..185,\n        ident: Ident {\n            span: 131..133,\n            sym: \"I4\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 142..146,\n                sym: \"Foo\",\n            },\n            Ident {\n                span: 147..152,\n                sym: \"Bar\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 166..178,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 166..167,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 218..271,\n        ident: Ident {\n            span: 228..230,\n            sym: \"I5\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 239..243,\n                sym: \"Foo\",\n            },\n            Ident {\n                span: 244..249,\n                sym: \"Baz\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 254..266,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 254..255,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 268..282,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 268..278,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 279..303,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 279..299,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 300..326,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 300..313,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 323..345,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 323..336,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 272..273,\n        sym: \"i\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 283..284,\n        sym: \"r\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 304..306,\n        sym: \"r2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 307..313,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 327..329,\n        sym: \"r3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 330..336,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 295..296,\n        sym: \"i\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 296..299,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 297..298,\n                sym: \"z\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 309..310,\n        sym: \"i\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 310..313,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 311..312,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 332..333,\n        sym: \"i\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 333..336,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 334..335,\n                sym: \"y\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)"
+  ]
+}

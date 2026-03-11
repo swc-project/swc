@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 16..207,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 60..113,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 149..167,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 16..174,\n        ident: Ident {\n            span: 22..36,\n            sym: \"SymbolIterator\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 171..207,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 171..207,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 175..180,\n        sym: \"array\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 181..207,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 88..94,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 94..106,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 67..107,\n        props: [\n            KeyValueProp {\n                span: 81..106,\n                key: Ident(\n                    Ident {\n                        span: 81..86,\n                        sym: \"value\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 120..126,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 126..136,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 127..135,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 156..160,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 191..205,\n        sym: \"SymbolIterator\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 187..206,\n        callee: _,\n        args: [],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 183..207,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: true,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 43..120,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 119..169,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 16..174,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 22..36,\n            sym: \"SymbolIterator\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 43..120,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 43..47,\n                sym: \"next\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 119..169,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

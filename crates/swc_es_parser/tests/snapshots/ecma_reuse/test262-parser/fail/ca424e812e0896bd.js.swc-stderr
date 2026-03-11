@@ -1,0 +1,8 @@
+  x member access is not allowed in binding patterns
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/ca424e812e0896bd.js:1:1]
+ 1 | (function* ([a.b]) {})
+   :               ^
+   `----
+
+Advice: 
+  > code: InvalidAssignTarget

@@ -1,0 +1,8 @@
+  x expected }, got Slash
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/fe233d87f280ed04.js:1:1]
+ 1 | p = { q/ }
+   :        ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

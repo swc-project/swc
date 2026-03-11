@@ -1,0 +1,55 @@
+{
+  "programs": [
+    "Program {\n    span: 94..529,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 148..163,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 186..202,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 101..331,\n        ident: Ident {\n            span: 107..108,\n            sym: \"S\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 340..428,\n        ident: Ident {\n            span: 349..371,\n            sym: \"__classPrivateFieldGet\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 437..529,\n        ident: Ident {\n            span: 446..468,\n            sym: \"__classPrivateFieldSet\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 393..401,\n        sym: \"receiver\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 406..411,\n        sym: \"state\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 490..498,\n        sym: \"receiver\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 503..508,\n        sym: \"state\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 515..520,\n        sym: \"value\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 127..128,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 148..152,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 152..157,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 153..155,\n                sym: \"#a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 158..160,\n            value: 42.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 156..161,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 193..194,\n        sym: \"S\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 194..198,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 195..197,\n                sym: \"#b\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 197..200,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 94..331,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 325..428,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 422..529,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 134..174,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 179..204,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 101..331,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 107..108,\n            sym: \"S\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 115..140,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 122..124,\n                sym: \"#a\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 134..174,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 141..143,\n                sym: \"#b\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 168..180,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 175..178,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 179..204,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 179..181,\n                sym: \"#c\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

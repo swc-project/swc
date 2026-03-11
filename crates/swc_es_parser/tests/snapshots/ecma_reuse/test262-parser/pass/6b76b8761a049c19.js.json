@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..35,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 15..34,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..35,\n        ident: Ident {\n            span: 11..12,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 23..28,\n        sym: \"yield\",\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 16..33,\n        props: [\n            KeyValueProp {\n                span: 17..32,\n                key: Ident(\n                    Ident {\n                        span: 21..22,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 15..34,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 17..32,\n    params: [\n        Param {\n            span: 23..29,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

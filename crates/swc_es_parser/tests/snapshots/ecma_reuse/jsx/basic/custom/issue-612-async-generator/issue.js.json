@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..25,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..25,\n        ident: Ident {\n            span: 17..20,\n            sym: \"agf\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

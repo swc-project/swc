@@ -1,0 +1,20 @@
+{
+  "programs": [
+    "Program {\n    span: 1..8,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..8,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 3..7,\n        sym: \"this\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 1..8,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

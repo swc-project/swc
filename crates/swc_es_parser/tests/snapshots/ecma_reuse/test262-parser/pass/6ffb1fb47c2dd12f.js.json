@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 1..79,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..79,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"a\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 8..9,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 28..29,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 27..30,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..37,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"a\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 39..43,\n        props: [\n            KeyValueProp {\n                span: 40..42,\n                key: Ident(\n                    Ident {\n                        span: 40..41,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 51..54,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 54..55,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 53..57,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..68,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 68..72,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 69..70,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 2..74,\n        props: [\n            KeyValueProp {\n                span: 8..10,\n                key: Ident(\n                    Ident {\n                        span: 8..9,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 15..19,\n                key: Ident(\n                    Ident {\n                        span: 15..16,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 24..30,\n                key: Ident(\n                    Ident {\n                        span: 24..25,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 35..43,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 48..57,\n                key: Ident(\n                    Ident {\n                        span: 48..49,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 62..72,\n                key: Ident(\n                    Ident {\n                        span: 62..63,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 75..76,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 73..77,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..78,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

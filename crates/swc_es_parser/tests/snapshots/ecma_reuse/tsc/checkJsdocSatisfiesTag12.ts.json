@@ -1,0 +1,69 @@
+{
+  "programs": [
+    "Program {\n    span: 276..676,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 276..330,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 276..296,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 325..385,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 325..351,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 380..448,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 380..394,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 443..495,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 443..461,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 490..549,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 490..515,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 544..614,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 544..580,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 609..665,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 609..631,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 660..676,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 660..675,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 282..284,\n        sym: \"t1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 285..296,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 331..333,\n        sym: \"t2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 334..351,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 386..388,\n        sym: \"t3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 389..394,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 449..451,\n        sym: \"t4\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 452..461,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 496..498,\n        sym: \"t5\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 499..515,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 550..552,\n        sym: \"t6\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 553..580,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 615..617,\n        sym: \"t7\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 618..631,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 666..668,\n        sym: \"t8\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 669..675,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 292..293,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 287..296,\n        props: [\n            KeyValueProp {\n                span: 289..295,\n                key: Ident(\n                    Ident {\n                        span: 289..290,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 341..342,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 347..348,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 336..351,\n        props: [\n            KeyValueProp {\n                span: 338..343,\n                key: Ident(\n                    Ident {\n                        span: 338..339,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 344..350,\n                key: Ident(\n                    Ident {\n                        span: 344..345,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 391..394,\n        props: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 455..456,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 458..459,\n            value: 2.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 454..461,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 506..512,\n            value: \"test\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 501..515,\n        props: [\n            KeyValueProp {\n                span: 503..514,\n                key: Ident(\n                    Ident {\n                        span: 503..504,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 560..566,\n            value: \"test\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 571..577,\n            value: \"test\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 555..580,\n        props: [\n            KeyValueProp {\n                span: 557..567,\n                key: Ident(\n                    Ident {\n                        span: 557..558,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 568..579,\n                key: Ident(\n                    Ident {\n                        span: 568..569,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 625..628,\n            value: \"a\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 620..631,\n        props: [\n            KeyValueProp {\n                span: 622..630,\n                key: Ident(\n                    Ident {\n                        span: 622..623,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 672..673,\n            value: 1.0,\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 671..675,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

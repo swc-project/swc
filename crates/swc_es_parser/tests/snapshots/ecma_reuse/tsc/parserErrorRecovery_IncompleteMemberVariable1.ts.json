@@ -1,0 +1,74 @@
+{
+  "programs": [
+    "Program {\n    span: 14..519,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 292..303,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 304..358,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 302..399,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 393..406,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 400..431,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 430..434,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 433..458,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 14..75,\n        ident: Ident {\n            span: 24..30,\n            sym: \"IPoint\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 37..57,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 37..44,\n                            sym: \"getDist\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 69..299,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 76..82,\n                sym: \"Shapes\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 455..498,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 455..494,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 495..519,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 495..518,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 400..406,\n        sym: \"origin\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 459..460,\n        sym: \"p\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 499..503,\n        sym: \"dist\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 504..518,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 292..299,\n        sym: \"getDist\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 299..303,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 311..315,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 315..321,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 316..320,\n                sym: \"sqrt\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 321..325,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 325..329,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 326..327,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 330..334,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 334..338,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 335..336,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 328..338,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 339..343,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 343..347,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 344..345,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 348..352,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 352..355,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 353..354,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 346..355,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 337..355,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 320..356,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 393..399,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 413..418,\n        sym: \"Point\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 419..420,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 422..423,\n            value: 0.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 418..425,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 409..425,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 407..425,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 475..481,\n        sym: \"Shapes\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 481..488,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 482..487,\n                sym: \"Point\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 488..489,\n            value: 3.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 491..492,\n            value: 4.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 487..494,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 471..494,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 506..507,\n        sym: \"p\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 507..516,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 508..515,\n                sym: \"getDist\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 515..518,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)"
+  ]
+}

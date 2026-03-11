@@ -1,0 +1,69 @@
+{
+  "programs": [
+    "Program {\n    span: 78..411,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 78..99,\n        ident: Ident {\n            span: 84..85,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 90..110,\n        ident: Ident {\n            span: 100..101,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 106..121,\n        ident: Ident {\n            span: 111..112,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 117..134,\n        ident: Ident {\n            span: 122..123,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 131..153,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 131..149,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 150..172,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 150..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 169..191,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 169..187,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 188..216,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 188..206,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 230..255,\n        ident: Ident {\n            span: 236..237,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 246..270,\n        ident: Ident {\n            span: 256..257,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 266..285,\n        ident: Ident {\n            span: 271..272,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 281..301,\n        ident: Ident {\n            span: 286..287,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 298..324,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 298..316,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 321..347,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 321..339,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 344..370,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 344..362,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 367..393,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 367..385,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 390..410,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 390..408,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 208..411,\n        ident: Ident {\n            span: 217..218,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 135..137,\n        sym: \"v1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 154..156,\n        sym: \"v2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 173..175,\n        sym: \"v3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 192..194,\n        sym: \"v4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 302..304,\n        sym: \"v1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 325..327,\n        sym: \"v2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 348..350,\n        sym: \"v3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 371..373,\n        sym: \"v4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 394..396,\n        sym: \"v5\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 78..99,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 84..85,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 230..255,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 236..237,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeLit(\n    TsTypeLit {\n        span: 126..130,\n        members: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 290..293,\n        members: [],\n    },\n)"
+  ]
+}

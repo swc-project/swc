@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 48..204,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 184..204,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 48..65,\n        ident: Ident {\n            span: 54..55,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 188..189,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 189..192,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 190..191,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 191..194,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 184..194,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 59..104,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 73..74,\n                    sym: \"A\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: true,\n        decl: None,\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 98..130,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 110..111,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 117..122,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 157..187,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 164..165,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 48..65,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 54..55,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

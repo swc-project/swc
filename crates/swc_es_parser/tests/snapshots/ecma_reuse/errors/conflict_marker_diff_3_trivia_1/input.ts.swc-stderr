@@ -1,0 +1,10 @@
+  x expected property name, got LtLt
+   ,-[/swc_ecma_parser/tests/errors/conflict_marker_diff_3_trivia_1/input.ts:2:1]
+ 1 | class C {
+ 2 | <<<<<<< HEAD
+   : ^^
+ 3 |     v = 1;
+   `----
+
+Advice: 
+  > code: UnexpectedToken

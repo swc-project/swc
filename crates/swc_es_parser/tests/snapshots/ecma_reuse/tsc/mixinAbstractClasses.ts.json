@@ -1,0 +1,87 @@
+{
+  "programs": [
+    "Program {\n    span: 43..842,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 336..343,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 342..354,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 348..368,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 367..375,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 414..428,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 485..493,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 594..631,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 620..653,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 782..827,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 816..842,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 43..97,\n        ident: Ident {\n            span: 53..58,\n            sym: \"Mixin\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 65..87,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 65..76,\n                            sym: \"mixinMethod\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 370..422,\n        ident: Ident {\n            span: 376..388,\n            sym: \"ConcreteBase\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 488..552,\n        ident: Ident {\n            span: 494..513,\n            sym: \"DerivedFromConcrete\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 547..605,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 547..593,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 648..740,\n        ident: Ident {\n            span: 654..673,\n            sym: \"DerivedFromAbstract\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 735..793,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 735..781,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 553..564,\n        sym: \"wasConcrete\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 565..593,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 741..752,\n        sym: \"wasAbstract\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 753..781,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 355..365,\n        sym: \"MixinClass\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 414..422,\n        sym: \"abstract\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 522..527,\n        sym: \"Mixin\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 528..540,\n        sym: \"ConcreteBase\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 527..543,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 571..590,\n        sym: \"DerivedFromConcrete\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 590..593,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 567..593,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 594..605,\n        sym: \"wasConcrete\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 605..617,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 606..616,\n                sym: \"baseMethod\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 616..619,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 620..631,\n        sym: \"wasConcrete\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 631..644,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 632..643,\n                sym: \"mixinMethod\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 643..646,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 682..687,\n        sym: \"Mixin\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 688..700,\n        sym: \"AbstractBase\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 687..703,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 759..778,\n        sym: \"DerivedFromAbstract\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 778..781,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 755..781,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 782..793,\n        sym: \"wasAbstract\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 793..813,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 794..812,\n                sym: \"abstractBaseMethod\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 812..815,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 816..827,\n        sym: \"wasAbstract\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 827..840,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 828..839,\n                sym: \"mixinMethod\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 839..842,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 395..412,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 708..733,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 370..422,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 376..388,\n            sym: \"ConcreteBase\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 488..552,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 494..513,\n            sym: \"DerivedFromConcrete\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 648..740,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 654..673,\n            sym: \"DerivedFromAbstract\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 395..412,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 395..405,\n                sym: \"baseMethod\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 708..733,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 708..726,\n                sym: \"abstractBaseMethod\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Void,\n)"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..32,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsEnum(\n    TsEnumDecl {\n        span: 16..32,\n        ident: Ident {\n            span: 27..28,\n            sym: \"E\",\n        },\n        declare: true,\n        is_const: true,\n        members: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..32,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

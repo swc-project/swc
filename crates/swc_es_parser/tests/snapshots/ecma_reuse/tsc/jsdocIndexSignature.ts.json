@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 118..332,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 285..310,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 309..331,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 118..169,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 118..125,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 166..217,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 166..173,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 214..273,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 214..221,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 265..332,\n        ident: Ident {\n            span: 274..275,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 122..124,\n        sym: \"o1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 170..172,\n        sym: \"o2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 218..220,\n        sym: \"o3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 276..277,\n        sym: \"o\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 285..286,\n        sym: \"o\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 286..292,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 287..290,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 293..294,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 291..295,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 309..310,\n        sym: \"o\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 310..316,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 311..314,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 317..322,\n            value: false,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 315..323,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

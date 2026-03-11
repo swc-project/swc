@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..110,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 8..110,\n        ident: Ident {\n            span: 18..32,\n            sym: \"PackageManager\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 39..110,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 39..57,\n                            sym: \"onDidUnloadPackage\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 58..95,\n                        name: Some(\n                            Ident {\n                                span: 58..66,\n                                sym: \"callback\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..110,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 78..86,\n        name: Ident {\n            span: 78..86,\n            sym: \"Package\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Void,\n)",
+    "Fn(\n    TsFnType {\n        span: 68..95,\n        params: [\n            TsFnParam {\n                span: 69..86,\n                name: Some(\n                    Ident {\n                        span: 69..76,\n                        sym: \"package\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 97..108,\n        name: Ident {\n            span: 97..108,\n            sym: \"Disposable\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

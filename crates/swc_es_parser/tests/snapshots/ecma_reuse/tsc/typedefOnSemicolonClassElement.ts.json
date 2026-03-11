@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 106..198,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 113..198,\n        ident: Ident {\n            span: 119..130,\n            sym: \"Preferences\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 191..195,\n            value: \"ok\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 106..198,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 113..198,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 119..130,\n            sym: \"Preferences\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 187..197,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 187..188,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

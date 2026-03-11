@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 1..218,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 193..217,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..88,\n        ident: Ident {\n            span: 11..15,\n            sym: \"Real\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 22..67,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 22..28,\n                            sym: \"method\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 29..40,\n                        name: Some(\n                            Ident {\n                                span: 29..33,\n                                sym: \"this\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                    TsFnParam {\n                        span: 41..51,\n                        name: Some(\n                            Ident {\n                                span: 41..42,\n                                sym: \"n\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 63..78,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 63..67,\n                            sym: \"data\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 79..165,\n        ident: Ident {\n            span: 89..93,\n            sym: \"Fake\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 100..145,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 100..106,\n                            sym: \"method\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 107..118,\n                        name: Some(\n                            Ident {\n                                span: 107..111,\n                                sym: \"this\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                    TsFnParam {\n                        span: 119..129,\n                        name: Some(\n                            Ident {\n                                span: 119..120,\n                                sym: \"n\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 141..156,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 141..145,\n                            sym: \"data\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 157..218,\n        ident: Ident {\n            span: 166..170,\n            sym: \"test\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 171..172,\n        sym: \"r\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 193..194,\n        sym: \"r\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 194..202,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 195..201,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 202..204,\n            value: 12.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 201..206,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 35..40,\n        name: Ident {\n            span: 35..40,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Void,\n)",
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 113..118,\n        name: Ident {\n            span: 113..118,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Void,\n)",
+    "Keyword(\n    Number,\n)"
+  ]
+}

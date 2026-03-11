@@ -1,0 +1,60 @@
+{
+  "programs": [
+    "Program {\n    span: 1..566,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 132..142,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 175..178,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 177..185,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 357..380,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 309..476,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 523..546,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 471..564,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..71,\n        ident: Ident {\n            span: 11..25,\n            sym: \"ContextualType\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 26..27,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 35..64,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 35..41,\n                            sym: \"method\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 42..55,\n                        name: Some(\n                            Ident {\n                                span: 42..51,\n                                sym: \"parameter\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 180..566,\n        ident: Ident {\n            span: 186..187,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 336..337,\n        sym: \"p\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 502..503,\n        sym: \"p\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 196..201,\n        sym: \"CBase\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 309..314,\n        sym: \"super\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 357..358,\n        sym: \"p\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 358..366,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 359..365,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 315..391,\n        props: [\n            KeyValueProp {\n                span: 329..390,\n                key: Ident(\n                    Ident {\n                        span: 329..335,\n                        sym: \"method\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 314..392,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 471..476,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 476..481,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 477..480,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 523..524,\n        sym: \"p\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 524..532,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 525..531,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 481..557,\n        props: [\n            KeyValueProp {\n                span: 495..556,\n                key: Ident(\n                    Ident {\n                        span: 495..501,\n                        sym: \"method\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 480..558,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 329..390,\n    params: [\n        Param {\n            span: 336..338,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 495..556,\n    params: [\n        Param {\n            span: 502..504,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 216..566,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 180..566,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 186..187,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 216..566,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 216..227,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 53..55,\n        name: Ident {\n            span: 53..55,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Void,\n)"
+  ]
+}

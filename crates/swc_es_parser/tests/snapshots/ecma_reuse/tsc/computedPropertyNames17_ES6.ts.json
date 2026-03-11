@@ -1,0 +1,55 @@
+{
+  "programs": [
+    "Program {\n    span: 17..214,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 59..69,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 116..127,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 179..190,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 17..38,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 17..32,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 33..214,\n        ident: Ident {\n            span: 39..40,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 92..93,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 141..142,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 206..207,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 52..53,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 66..67,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 86..90,\n            value: true,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 108..111,\n        elems: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 123..124,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 137..140,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 164..173,\n        sym: \"undefined\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 186..187,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 200..204,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 47..80,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 74..106,\n    params: [\n        Param {\n            span: 92..94,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 103..135,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 132..158,\n    params: [\n        Param {\n            span: 141..143,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 152..198,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 195..214,\n    params: [\n        Param {\n            span: 206..208,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 33..214,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 39..40,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 47..80,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 74..106,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: true,\n        kind: Setter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 103..135,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 132..158,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 152..198,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: true,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 195..214,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

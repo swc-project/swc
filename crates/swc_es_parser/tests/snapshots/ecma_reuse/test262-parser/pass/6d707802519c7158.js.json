@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..28,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..28,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 3..27,\n        quasis: [\n            StrLit {\n                span: 3..27,\n                value: \"${b} + ${c} = ${b + c}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2..28,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

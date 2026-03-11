@@ -1,0 +1,72 @@
+{
+  "programs": [
+    "Program {\n    span: 9..259,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 57..83,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 42..139,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 9..139,\n        test: _,\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 205..224,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 223..244,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 190..259,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 136..259,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Decl(\n                        _,\n                    ),\n                ),\n                test: Some(\n                    _,\n                ),\n                update: Some(\n                    _,\n                ),\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 80..108,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 80..86,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 100..126,\n        ident: Ident {\n            span: 109..110,\n            sym: \"b\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 141..154,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 141..154,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 241..258,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 241..247,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 84..85,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 145..146,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 147..154,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 245..246,\n        sym: \"i\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 21..26,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 18..29,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"c\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 35..38,\n            value: \"0\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 33..39,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 30..40,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 27..40,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 17..41,\n        expr: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 16..41,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"d\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 58..61,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 59..60,\n                sym: \"e\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 61..64,\n            value: \"f\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 60..66,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 149..150,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 152..153,\n        sym: \"g\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 149..154,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 155..156,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 161..162,\n        sym: \"g\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 166..167,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 163..168,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 160..171,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 157..171,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 181..182,\n        sym: \"c\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 174..183,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 173..183,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 172..184,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 169..184,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 187..188,\n        sym: \"c\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 185..189,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 205..206,\n        sym: \"h\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 206..209,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 223..224,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 224..227,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

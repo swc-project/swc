@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 17..67,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 17..67,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Template(\n    TemplateExpr {\n        span: 17..29,\n        quasis: [\n            StrLit {\n                span: 17..29,\n                value: \"abc${0}abc\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 30..48,\n        quasis: [\n            StrLit {\n                span: 30..48,\n                value: \"hello ${0} world\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 50..55,\n        quasis: [\n            StrLit {\n                span: 50..55,\n                value: \"   \",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 57..65,\n        quasis: [\n            StrLit {\n                span: 57..65,\n                value: \"1${2}3\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 29..67,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

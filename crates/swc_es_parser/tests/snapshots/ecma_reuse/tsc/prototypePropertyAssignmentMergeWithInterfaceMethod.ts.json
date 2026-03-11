@@ -1,0 +1,63 @@
+{
+  "programs": [
+    "Program {\n    span: 142..660,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 500..609,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 607..660,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 174..472,\n        ident: Ident {\n            span: 184..195,\n            sym: \"Transaction\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 202..264,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 202..208,\n                            sym: \"attach\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 209..230,\n                        name: Some(\n                            Ident {\n                                span: 209..214,\n                                sym: \"query\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 259..318,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 259..264,\n                            sym: \"begin\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 265..292,\n                        name: Some(\n                            Ident {\n                                span: 265..270,\n                                sym: \"scope\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 312..344,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 312..318,\n                            sym: \"commit\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 340..419,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 340..344,\n                            sym: \"exec\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 345..375,\n                        name: Some(\n                            Ident {\n                                span: 345..352,\n                                sym: \"queries\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 411..446,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 411..419,\n                            sym: \"rollback\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 441..470,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 441..446,\n                            sym: \"stats\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 150..502,\n        declare: true,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 160..162,\n                sym: \"lf\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 649..654,\n        sym: \"scope\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 500..502,\n        sym: \"lf\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 502..516,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 503..514,\n                sym: \"Transaction\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 515..531,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 607..609,\n        sym: \"lf\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 609..622,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 610..621,\n                sym: \"Transaction\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 621..632,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 622..631,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 631..639,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 632..637,\n                sym: \"begin\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 638..659,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 167..472,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 517..531,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 640..659,\n    params: [\n        Param {\n            span: 640..640,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 216..230,\n        name: Ident {\n            span: 216..230,\n            sym: \"query.Builder\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 246..254,\n        name: Ident {\n            span: 246..254,\n            sym: \"Object\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 240..254,\n        name: Ident {\n            span: 240..246,\n            sym: \"Array\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 232..264,\n        name: Ident {\n            span: 232..240,\n            sym: \"Promise\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 278..291,\n        name: Ident {\n            span: 278..291,\n            sym: \"schema.Table\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 272..292,\n        name: Ident {\n            span: 272..278,\n            sym: \"Array\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Void,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 294..318,\n        name: Ident {\n            span: 294..302,\n            sym: \"Promise\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Void,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 322..344,\n        name: Ident {\n            span: 322..330,\n            sym: \"Promise\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 360..374,\n        name: Ident {\n            span: 360..374,\n            sym: \"query.Builder\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 354..375,\n        name: Ident {\n            span: 354..360,\n            sym: \"Array\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 397..406,\n        name: Ident {\n            span: 397..406,\n            sym: \"Object\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 391..406,\n        name: Ident {\n            span: 391..397,\n            sym: \"Array\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 385..406,\n        name: Ident {\n            span: 385..391,\n            sym: \"Array\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 377..419,\n        name: Ident {\n            span: 377..385,\n            sym: \"Promise\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Void,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 423..446,\n        name: Ident {\n            span: 423..431,\n            sym: \"Promise\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 450..470,\n        name: Ident {\n            span: 450..470,\n            sym: \"TransactionStats\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

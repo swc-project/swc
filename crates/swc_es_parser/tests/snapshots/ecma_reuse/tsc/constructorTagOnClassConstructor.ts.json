@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 80..205,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 87..109,\n        ident: Ident {\n            span: 93..98,\n            sym: \"Alpha\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 110..183,\n        ident: Ident {\n            span: 116..120,\n            sym: \"Beta\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 178..205,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 178..204,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 184..187,\n        sym: \"arr\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 188..204,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 191..196,\n        sym: \"Alpha\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 198..202,\n        sym: \"Beta\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 190..204,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 80..109,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 103..183,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 155..176,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 87..109,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 93..98,\n            sym: \"Alpha\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 110..183,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 116..120,\n            sym: \"Beta\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 155..176,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 155..166,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

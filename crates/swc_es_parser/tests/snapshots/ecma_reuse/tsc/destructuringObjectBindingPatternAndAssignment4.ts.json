@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..121,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..121,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..120,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 7..108,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 13..19,\n                    key: Ident {\n                        span: 13..14,\n                        sym: \"a\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 24..30,\n                    key: Ident {\n                        span: 24..25,\n                        sym: \"b\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 35..41,\n                    key: Ident {\n                        span: 35..36,\n                        sym: \"c\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 52..58,\n                    key: Ident {\n                        span: 52..53,\n                        sym: \"d\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 69..75,\n                    key: Ident {\n                        span: 69..70,\n                        sym: \"e\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 89..106,\n                    key: Ident {\n                        span: 89..90,\n                        sym: \"f\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 17..18,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 28..29,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 39..40,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 73..74,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 93..94,\n        sym: \"f\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 109..115,\n        props: [],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 113..120,\n        expr: _,\n        ty: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Any,\n)"
+  ]
+}

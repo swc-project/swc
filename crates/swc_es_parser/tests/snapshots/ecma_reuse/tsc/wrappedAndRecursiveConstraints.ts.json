@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 24..245,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 84..93,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 137..140,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 139..151,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 142..194,\n        ident: Ident {\n            span: 152..155,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 164..170,\n                sym: \"Date\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 175..189,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 175..178,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 191..213,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 191..209,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 210..231,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 210..227,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 228..245,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 228..245,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 195..196,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 214..215,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 216..227,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 232..233,\n        sym: \"r\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 234..245,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 204..208,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 222..223,\n        sym: \"C\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..225,\n        sym: \"y\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 223..227,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 218..227,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 236..237,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 237..242,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 238..241,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 242..243,\n        sym: \"y\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 241..245,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 28..65,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 36..56,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 36..50,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 51..65,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 51..64,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 42..43,\n        sym: \"v\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 57..61,\n        props: [],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"v\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

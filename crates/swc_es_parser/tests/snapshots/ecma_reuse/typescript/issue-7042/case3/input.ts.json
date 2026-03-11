@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..78,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 51..75,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..78,\n        ident: Ident {\n            span: 7..16,\n            sym: \"SomeClass\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 58..68,\n            value: \"accessor\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 23..77,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..78,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..16,\n            sym: \"SomeClass\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 23..77,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 30..38,\n                sym: \"accessor\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

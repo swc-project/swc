@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..35,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..35,\n        ident: Ident {\n            span: 11..12,\n            sym: \"C\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..31,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 19..22,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 28..34,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 28..31,\n                            sym: \"new\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

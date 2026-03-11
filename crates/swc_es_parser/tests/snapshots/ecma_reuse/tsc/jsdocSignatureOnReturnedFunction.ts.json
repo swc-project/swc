@@ -1,0 +1,62 @@
+{
+  "programs": [
+    "Program {\n    span: 169..744,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 307..326,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 280..328,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 473..492,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 441..494,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 595..614,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 568..616,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 722..741,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 690..743,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 169..338,\n        ident: Ident {\n            span: 178..180,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 330..504,\n        ident: Ident {\n            span: 339..341,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 496..626,\n        ident: Ident {\n            span: 505..507,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 618..744,\n        ident: Ident {\n            span: 627..629,\n            sym: \"f4\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 288..289,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 291..292,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 458..459,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 461..462,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 576..577,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 579..580,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 707..708,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 710..711,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 314..315,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 318..319,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 316..320,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 287..328,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 480..481,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 484..485,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 482..486,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 602..603,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 606..607,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 604..608,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 575..616,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 729..730,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 733..734,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 731..735,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Function(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 448..494,\n    params: [\n        Param {\n            span: 448..448,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 448..448,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 697..743,\n    params: [\n        Param {\n            span: 697..697,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 697..697,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

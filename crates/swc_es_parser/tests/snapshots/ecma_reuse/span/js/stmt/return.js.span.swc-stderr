@@ -1,0 +1,31 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/stmt/return.js:1:1]
+ 1 | ,-> function foo() {
+ 2 | |       return 'foo';
+ 3 | `-> }
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/return.js:1:1]
+ 1 | ,-> function foo() {
+ 2 | |       return 'foo';
+ 3 | `-> }
+   `----
+  x FnDecl
+   ,-[/swc_ecma_parser/tests/span/js/stmt/return.js:1:1]
+ 1 | ,-> function foo() {
+ 2 | |       return 'foo';
+ 3 | `-> }
+   `----
+  x ReturnStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/return.js:2:1]
+ 1 |     function foo() {
+ 2 | ,->     return 'foo';
+ 3 | `-> }
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/stmt/return.js:2:1]
+ 1 | function foo() {
+ 2 |     return 'foo';
+   :            ^^^^^
+ 3 | }
+   `----

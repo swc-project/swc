@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 249..631,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 257..341,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 257..270,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 342..441,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 342..357,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 442..526,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 442..455,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 527..631,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 527..542,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 261..264,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 346..351,\n        sym: \"alpha\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 446..449,\n        sym: \"bar\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 531..536,\n        sym: \"alpha\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

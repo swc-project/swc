@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..132,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 114..121,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 120..128,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 122..131,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 130..132,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..64,\n        ident: Ident {\n            span: 11..16,\n            sym: \"IList\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 17..18,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 26..45,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 26..30,\n                            sym: \"data\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 41..58,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 41..45,\n                            sym: \"next\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 114..118,\n        sym: \"next\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 118..121,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 122..128,\n        sym: \"string\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 34..36,\n        name: Ident {\n            span: 34..36,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    String,\n)"
+  ]
+}

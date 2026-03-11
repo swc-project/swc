@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 37..101,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 37..78,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 37..78,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 73..101,\n        ident: Ident {\n            span: 79..81,\n            sym: \"C2\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"C\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 45..78,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Class(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 47..78,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 73..101,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 79..81,\n            sym: \"C2\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 59..71,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 66..68,\n                sym: \"#x\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 88..100,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 95..97,\n                sym: \"#x\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

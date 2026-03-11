@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 42..186,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 172..186,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 50..67,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 50..64,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 79..124,\n        ident: Ident {\n            span: 85..92,\n            sym: \"Example\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 156..170,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 156..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 125..179,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 135..142,\n                sym: \"Example\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 54..58,\n        sym: \"deco\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 162..163,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 164..168,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 67..71,\n        sym: \"deco\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 166..167,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 172..179,\n        sym: \"Example\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 179..184,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 180..183,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 183..186,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 72..124,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 149..170,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 118..179,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 99..116,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 79..124,\n    decorators: [\n        Decorator {\n            span: 66..78,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 85..92,\n            sym: \"Example\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 99..116,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 106..109,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

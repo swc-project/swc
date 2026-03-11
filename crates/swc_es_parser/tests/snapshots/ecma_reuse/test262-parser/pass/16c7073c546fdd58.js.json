@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 70..126,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 107..124,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 70..126,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 92..111,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 92..102,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 98..102,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 100..101,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 107..111,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 111..122,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 112..121,\n                sym: \"arguments\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "New(\n    NewExpr {\n        span: 70..125,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 74..125,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

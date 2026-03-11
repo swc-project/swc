@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 39..306,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 133..159,\n        ident: Ident {\n            span: 138..139,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 103..161,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 113..119,\n                sym: \"nested\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 78..189,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 88..91,\n                sym: \"ns1\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 277..303,\n        ident: Ident {\n            span: 282..283,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 247..305,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 257..263,\n                sym: \"nested\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 222..306,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 232..235,\n                sym: \"ns2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 39..77,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 53..56,\n                        sym: \"ns2\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 53..56,\n                            sym: \"ns2\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 64..69,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 126..159,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 96..161,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 71..189,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 183..221,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 197..200,\n                        sym: \"ns1\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 197..200,\n                            sym: \"ns1\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 208..213,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 270..303,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 240..305,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 215..306,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 142..155,\n        name: Ident {\n            span: 142..155,\n            sym: \"ns2.nested.T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 286..299,\n        name: Ident {\n            span: 286..299,\n            sym: \"ns1.nested.T\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

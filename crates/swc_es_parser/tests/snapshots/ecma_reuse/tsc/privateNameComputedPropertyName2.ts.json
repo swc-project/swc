@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 37..159,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 133..159,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 37..71,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 37..64,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 66..140,\n        ident: Ident {\n            span: 72..73,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 41..45,\n        sym: \"getX\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 104..105,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 96..100,\n        sym: \"getX\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 85..88,\n            value: 100.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 113..114,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 114..118,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 115..117,\n                sym: \"#x\",\n            },\n        ),\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 103..118,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 101..118,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 119..122,\n            value: \"_\",\n        },\n    ),\n)",
+    "Seq(\n    SeqExpr {\n        span: 96..123,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 95..124,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 133..140,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 140..145,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 141..144,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 145..149,\n        sym: \"getX\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 154..155,\n        sym: \"A\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 150..156,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 149..157,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 144..158,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 94..131,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 66..140,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 72..73,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 80..95,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 80..82,\n                sym: \"#x\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 94..131,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

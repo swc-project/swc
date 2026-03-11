@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 238..715,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 238..700,\n        ident: Ident {\n            span: 244..245,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 695..715,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 695..714,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 701..702,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 703..714,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 313..319,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 319..322,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 517..523,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 523..526,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 560..566,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 566..569,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 623..629,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 629..632,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 653..659,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 659..662,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 705..711,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 711..714,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 238..700,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 244..245,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 285..395,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 292..310,\n                sym: \"readonlyStaticCall\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 389..488,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 396..414,\n                sym: \"readonlyStaticType\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 482..537,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 489..514,\n                sym: \"readonlyStaticTypeAndCall\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 531..620,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 538..557,\n                sym: \"readwriteStaticCall\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 608..650,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 608..620,\n                sym: \"readonlyCall\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 637..664,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 637..650,\n                sym: \"readwriteCall\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

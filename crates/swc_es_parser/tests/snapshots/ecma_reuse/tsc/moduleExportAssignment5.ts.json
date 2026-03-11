@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 77..285,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 219..235,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 77..134,\n        ident: Ident {\n            span: 83..88,\n            sym: \"Axios\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 131..224,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 131..155,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 135..140,\n        sym: \"axios\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 141..155,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 147..152,\n        sym: \"Axios\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 152..155,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 143..155,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 219..224,\n        sym: \"axios\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 224..227,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 225..226,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 226..235,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 95..122,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 121..130,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 77..134,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 83..88,\n            sym: \"Axios\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 95..122,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 95..106,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 121..130,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 121..122,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

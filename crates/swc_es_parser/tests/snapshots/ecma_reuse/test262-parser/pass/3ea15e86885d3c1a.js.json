@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 45..86,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Continue(\n    ContinueStmt {\n        span: 74..86,\n        label: Some(\n            Ident {\n                span: 83..84,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 61..86,\n        test: _,\n        body: _,\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 48..86,\n        test: _,\n        body: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 45..86,\n        label: Ident {\n            span: 45..46,\n            sym: \"a\",\n        },\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 55..59,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 68..72,\n            value: true,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

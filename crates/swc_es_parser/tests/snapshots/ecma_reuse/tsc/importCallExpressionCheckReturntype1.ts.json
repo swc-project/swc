@@ -1,0 +1,56 @@
+{
+  "programs": [
+    "Program {\n    span: 94..458,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 101..147,\n        ident: Ident {\n            span: 107..108,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 148..185,\n        ident: Ident {\n            span: 154..155,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 278..346,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 278..342,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 343..413,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 343..409,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 410..458,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 410..457,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 282..284,\n        sym: \"p1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 347..349,\n        sym: \"p2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 350..409,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 414..416,\n        sym: \"p3\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 318..324,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 325..340,\n            value: \"./defaultPath\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 324..342,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 352..358,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 359..374,\n            value: \"./defaultPath\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 358..378,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 376..409,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 433..439,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 440..455,\n            value: \"./defaultPath\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 439..457,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 94..147,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 141..185,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 179..233,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 191..204,\n                        sym: \"defaultModule\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 210..225,\n            value: \"./defaultPath\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 227..281,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 239..252,\n                        sym: \"anotherModule\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 258..275,\n            value: \"./anotherModule\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 101..147,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 107..108,\n            sym: \"D\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 148..185,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 154..155,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeQuery(\n    TsTypeQuery {\n        span: 387..408,\n        expr_name: Ident {\n            span: 394..408,\n            sym: \"anotherModule\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 379..409,\n        name: Ident {\n            span: 379..387,\n            sym: \"Promise\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)"
+  ]
+}

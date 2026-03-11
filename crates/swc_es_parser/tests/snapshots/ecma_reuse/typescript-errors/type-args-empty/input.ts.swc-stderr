@@ -1,0 +1,9 @@
+  x expected {, got Lt
+   ,-[/swc_ecma_parser/tests/typescript-errors/type-args-empty/input.ts:1:1]
+ 1 | class I<T> { }
+   :        ^
+ 2 | var x: I<>;
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 76..221,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 213..220,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 84..123,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 84..123,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 190..221,\n        ident: Ident {\n            span: 199..203,\n            sym: \"demo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 88..94,\n        sym: \"config\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 204..205,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 213..214,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 214..220,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 215..218,\n                sym: \"fix\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

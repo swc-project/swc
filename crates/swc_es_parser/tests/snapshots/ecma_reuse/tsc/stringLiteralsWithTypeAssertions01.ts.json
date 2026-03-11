@@ -1,0 +1,65 @@
+{
+  "programs": [
+    "Program {\n    span: 1..193,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..34,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..29,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 31..58,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 31..54,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 55..82,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 55..78,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 79..109,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 79..105,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 106..136,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 106..132,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 133..163,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 133..159,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 160..193,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 160..193,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..13,\n        sym: \"fooOrBar\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 35..36,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 37..54,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 59..60,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 61..78,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 83..84,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 85..105,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 110..111,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 112..132,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..138,\n        sym: \"e\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 139..159,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 164..165,\n        sym: \"f\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 166..193,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 39..44,\n            value: \"foo\",\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 45..54,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 63..68,\n            value: \"bar\",\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 69..78,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 87..95,\n        sym: \"fooOrBar\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 96..105,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 114..122,\n        sym: \"fooOrBar\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 123..132,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 141..149,\n        sym: \"fooOrBar\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 150..159,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 168..173,\n            value: \"baz\",\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 174..193,\n        expr: _,\n        ty: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 48..53,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 72..77,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 99..104,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 126..131,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 153..158,\n            value: \"baz\",\n        },\n    ),\n)",
+    "TypeQuery(\n    TsTypeQuery {\n        span: 177..193,\n        expr_name: Ident {\n            span: 184..193,\n            sym: \"fooOrBar\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

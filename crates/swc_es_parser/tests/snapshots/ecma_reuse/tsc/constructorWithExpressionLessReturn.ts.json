@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 1..264,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 39..52,\n        arg: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 85..100,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 109..122,\n        arg: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 99..124,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 123..131,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 180..193,\n        arg: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 261..264,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 263..264,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..61,\n        ident: Ident {\n            span: 7..8,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 126..202,\n        ident: Ident {\n            span: 132..133,\n            sym: \"E\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 159..160,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 85..96,\n        sym: \"constructor\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 96..100,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 15..54,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 140..195,\n    params: [\n        Param {\n            span: 152..169,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..61,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..8,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 126..202,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 132..133,\n            sym: \"E\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 15..54,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 15..26,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 140..195,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 140..151,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

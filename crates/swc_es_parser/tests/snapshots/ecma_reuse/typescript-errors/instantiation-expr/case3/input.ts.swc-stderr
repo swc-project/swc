@@ -1,0 +1,8 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/typescript-errors/instantiation-expr/case3/input.ts:1:1]
+ 1 | f<x> < g<y>;
+   :      ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

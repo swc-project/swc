@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 120..463,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 350..380,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 127..264,\n        ident: Ident {\n            span: 137..144,\n            sym: \"Encoder\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 145..146,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 154..184,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 154..160,\n                            sym: \"encode\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 161..170,\n                        name: Some(\n                            Ident {\n                                span: 161..166,\n                                sym: \"value\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 265..463,\n        ident: Ident {\n            span: 271..278,\n            sym: \"Encoder\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 333..338,\n        sym: \"value\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 361..371,\n        sym: \"Uint8Array\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 372..373,\n            value: 0.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 371..380,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 357..380,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 120..264,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 258..463,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 326..382,\n    params: [\n        Param {\n            span: 333..339,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 265..463,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 271..278,\n            sym: \"Encoder\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 326..382,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 326..332,\n                sym: \"encode\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 168..170,\n        name: Ident {\n            span: 168..170,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 172..184,\n        name: Ident {\n            span: 172..184,\n            sym: \"Uint8Array\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 16..201,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 130..151,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 107..201,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 24..110,\n        ident: Ident {\n            span: 33..36,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 49..52,\n        sym: \"fun\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 83..87,\n        sym: \"fun2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 136..137,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 153..154,\n        sym: \"p\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 107..110,\n        sym: \"foo\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 111..113,\n            value: \"\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 141..142,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 142..151,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 143..149,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 136..151,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 130..151,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 158..167,\n        sym: \"undefined\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 153..168,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 110..169,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 115..152,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: true,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

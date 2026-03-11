@@ -627,7 +627,8 @@ impl VisitMut for Fixer<'_> {
             | Expr::Assign(..)
             | Expr::Seq(..)
             | Expr::Unary(..)
-            | Expr::Lit(..) => self.wrap(&mut node.callee),
+            | Expr::Lit(..)
+            | Expr::OptChain(..) => self.wrap(&mut node.callee),
             _ => {}
         }
         self.ctx = ctx;
@@ -1841,4 +1842,6 @@ var store = global[SHARED] || (global[SHARED] = {});
         "(function () { })() && a;",
         "(function () { })() && a;"
     );
+
+    identical!(issue_11612, "r = new (XE?.default)({ ...e });");
 }

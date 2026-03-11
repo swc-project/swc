@@ -1,0 +1,15 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/decl/import-string-names-2.js:1:1]
+ 1 | import { "foo" as bar, "default" as qux } from "module-a"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ModuleDeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/import-string-names-2.js:1:1]
+ 1 | import { "foo" as bar, "default" as qux } from "module-a"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ImportDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/import-string-names-2.js:1:1]
+ 1 | import { "foo" as bar, "default" as qux } from "module-a"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

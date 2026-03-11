@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..52,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsModule(\n    TsModuleDecl {\n        span: 9..52,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 16..19,\n                value: \"m\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 26..51,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 38..39,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 45..48,\n            value: \"a\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

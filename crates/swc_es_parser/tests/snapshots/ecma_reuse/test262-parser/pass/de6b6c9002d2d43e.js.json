@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..74,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 38..72,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1..74,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 23..39,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 23..33,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 29..33,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 31..32,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 38..39,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..44,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 44..57,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 45..56,\n                sym: \"constructor\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 56..67,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 57..66,\n                sym: \"arguments\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 66..69,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 67..68,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 39..70,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "New(\n    NewExpr {\n        span: 1..73,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 5..73,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

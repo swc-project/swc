@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..26,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 24..25,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..26,\n        head: Of(\n            ForOfHead {\n                is_await: true,\n                left: Pat(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 12..17,\n        sym: \"using\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 21..23,\n        sym: \"of\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

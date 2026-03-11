@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 19..330,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 27..73,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 27..73,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 74..113,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 74..113,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 114..152,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 114..152,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 153..191,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 153..191,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 192..233,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 192..233,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 234..276,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 234..276,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 271..330,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 271..330,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 33..35,\n        sym: \"a1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..82,\n        sym: \"a2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 120..122,\n        sym: \"a3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 159..161,\n        sym: \"a4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 198..200,\n        sym: \"a5\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 240..242,\n        sym: \"a6\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 277..280,\n        sym: \"aa1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 281..330,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 283..285,\n        sym: \"a1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 289..291,\n        sym: \"a2\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 286..294,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 295..297,\n        sym: \"a3\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 292..300,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 301..303,\n        sym: \"a4\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 298..306,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 307..309,\n        sym: \"a5\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 304..312,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 313..315,\n        sym: \"a6\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 310..318,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 319..329,\n            value: \"whatever\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 316..330,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

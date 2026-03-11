@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 37..110,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 37..110,\n        ident: Ident {\n            span: 58..59,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 77..78,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 88..89,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 37..110,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 95..109,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 52..110,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 58..59,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 66..85,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 73..74,\n                sym: \"s\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 84..101,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 84..85,\n                sym: \"p\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 95..109,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 95..101,\n                sym: \"method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

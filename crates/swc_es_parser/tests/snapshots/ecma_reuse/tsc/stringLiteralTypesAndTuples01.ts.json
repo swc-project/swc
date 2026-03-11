@@ -1,0 +1,72 @@
+{
+  "programs": [
+    "Program {\n    span: 50..446,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 237..262,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 325..349,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 315..356,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 293..356,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 387..411,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 377..422,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 354..422,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Throw(\n    ThrowStmt {\n        span: 417..446,\n        arg: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 50..127,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 50..121,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 123..164,\n        ident: Ident {\n            span: 128..139,\n            sym: \"RexOrRaptor\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 161..241,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 161..235,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 254..446,\n        ident: Ident {\n            span: 263..267,\n            sym: \"rawr\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 55..60,\n        sym: \"hello\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 62..67,\n        sym: \"brave\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..75,\n        sym: \"newish\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 77..82,\n        sym: \"world\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 54..85,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 166..168,\n        sym: \"im\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 170..171,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 173..181,\n        sym: \"dinosaur\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 165..183,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 268..272,\n        sym: \"dino\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 87..94,\n            value: \"Hello\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 96..103,\n            value: \"Brave\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 105..110,\n            value: \"New\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 112..119,\n            value: \"World\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 86..121,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 213..219,\n            value: \"I'm\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 221..224,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 226..233,\n            value: \"t-rex\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 212..235,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 237..241,\n        sym: \"rawr\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 242..250,\n        sym: \"dinosaur\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 241..252,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 297..301,\n        sym: \"dino\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 306..313,\n            value: \"t-rex\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 302..314,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 332..342,\n            value: \"ROAAAAR!\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 358..362,\n        sym: \"dino\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 367..375,\n            value: \"raptor\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 363..376,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 394..404,\n            value: \"yip yip!\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 423..436,\n            value: \"Unexpected \",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 439..443,\n        sym: \"dino\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 437..444,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 142..149,\n            value: \"t-rex\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 152..160,\n            value: \"raptor\",\n        },\n    ),\n)",
+    "Union(\n    TsUnionType {\n        span: 142..164,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

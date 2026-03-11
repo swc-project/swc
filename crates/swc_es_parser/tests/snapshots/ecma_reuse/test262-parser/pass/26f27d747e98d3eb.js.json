@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..96,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 27..96,\n        stmts: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 20..96,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 37..55,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 37..43,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 52..70,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 52..58,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 67..85,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 67..73,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 82..94,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 82..88,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..96,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 41..42,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"d\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 71..72,\n        sym: \"e\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 86..87,\n        sym: \"f\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

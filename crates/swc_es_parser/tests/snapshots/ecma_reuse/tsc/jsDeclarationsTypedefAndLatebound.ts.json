@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 141..543,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 232..403,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 141..208,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 141..178,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 203..241,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 203..231,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 398..523,\n        ident: Ident {\n            span: 404..411,\n            sym: \"LazySet\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 147..154,\n        sym: \"LazySet\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 155..178,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..218,\n        sym: \"stringSet\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 219..231,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 474..482,\n        sym: \"iterable\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 157..164,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 165..176,\n            value: \"./LazySet\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 164..178,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 221..230,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 232..241,\n        sym: \"stringSet\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 241..249,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 242..248,\n                sym: \"addAll\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 249..258,\n        sym: \"stringSet\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 248..260,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 492..498,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 498..508,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 499..507,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 467..492,\n    params: [\n        Param {\n            span: 474..483,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 491..515,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 398..523,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 404..411,\n            sym: \"LazySet\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 467..492,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 467..473,\n                sym: \"addAll\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 491..515,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

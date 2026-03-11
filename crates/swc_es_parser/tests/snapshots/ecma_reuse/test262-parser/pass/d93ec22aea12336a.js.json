@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..74,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 20..43,\n        ident: Ident {\n            span: 26..27,\n            sym: \"b\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 40..57,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 40..57,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 54..74,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 54..74,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..74,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 44..45,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 46..57,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 58..59,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 60..74,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"b\",\n    },\n)",
+    "Class(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 20..43,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 26..27,\n            sym: \"b\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 62..74,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 68..69,\n            sym: \"e\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

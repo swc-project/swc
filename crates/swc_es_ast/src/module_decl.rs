@@ -32,6 +32,8 @@ pub struct ImportDecl {
     pub span: Span,
     /// Imported specifiers.
     pub specifiers: Vec<ImportSpecifier>,
+    /// `true` for `import type ...`.
+    pub type_only: bool,
     /// Source module.
     pub src: StrLit,
     /// Optional import attributes/assertions.
@@ -74,6 +76,8 @@ pub struct ImportNamedSpecifier {
     pub local: Ident,
     /// Optional imported name.
     pub imported: Option<Ident>,
+    /// `true` for `import { type A }`.
+    pub is_type_only: bool,
 }
 
 /// Named export specifier.
@@ -84,6 +88,8 @@ pub struct ExportSpecifier {
     pub local: Ident,
     /// Exported binding name.
     pub exported: Option<Ident>,
+    /// `true` for `export { type A }`.
+    pub is_type_only: bool,
 }
 
 /// Named export declaration.
@@ -96,6 +102,8 @@ pub struct ExportNamedDecl {
     pub src: Option<StrLit>,
     /// Named specifiers.
     pub specifiers: Vec<ExportSpecifier>,
+    /// `true` for `export type ...`.
+    pub type_only: bool,
     /// Optional inline declaration.
     pub decl: Option<DeclId>,
     /// Optional export attributes/assertions.
@@ -130,6 +138,8 @@ pub struct ExportAllDecl {
     pub span: Span,
     /// Re-export source module.
     pub src: StrLit,
+    /// `true` for `export type * from "x"`.
+    pub type_only: bool,
     /// Optional export namespace name (`export * as ns`).
     pub exported: Option<Ident>,
     /// Optional export attributes/assertions.

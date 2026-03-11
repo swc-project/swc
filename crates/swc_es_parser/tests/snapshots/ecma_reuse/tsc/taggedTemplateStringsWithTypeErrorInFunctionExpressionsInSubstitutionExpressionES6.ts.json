@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 17..97,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 51..97,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 17..54,\n        ident: Ident {\n            span: 26..29,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 33..37,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 30..38,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 51..54,\n        sym: \"foo\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 55..97,\n        tag: _,\n        template: TemplateExpr {\n            span: 55..96,\n            quasis: [\n                StrLit {\n                    span: 55..96,\n                    value: \"${function (x: number) { x = \\\"bad\\\"; } }\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

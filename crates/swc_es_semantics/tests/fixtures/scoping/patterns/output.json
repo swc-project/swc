@@ -1,0 +1,172 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Function",
+      "parent": 0,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Function",
+      "scope": 0,
+      "name": "p",
+      "references": []
+    },
+    {
+      "id": 1,
+      "kind": "Param",
+      "scope": 1,
+      "name": "obj",
+      "references": [
+        0,
+        6
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Param",
+      "scope": 1,
+      "name": "arr",
+      "references": [
+        3
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Let",
+      "scope": 1,
+      "name": "x",
+      "references": [
+        1,
+        4,
+        7,
+        9
+      ]
+    },
+    {
+      "id": 4,
+      "kind": "Let",
+      "scope": 1,
+      "name": "b",
+      "references": [
+        2,
+        5,
+        8
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 1,
+      "name": "obj",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 1,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 3,
+      "name": "x",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 2,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 4,
+      "name": "b",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 3,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 2,
+      "name": "arr",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 4,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 3,
+      "name": "x",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 5,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 4,
+      "name": "b",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 6,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 1,
+      "name": "obj",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 7,
+      "kind": "ReadWrite",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 3,
+      "name": "x",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 8,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 4,
+      "name": "b",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 9,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 3,
+      "name": "x",
+      "maybe_dynamic": false
+    }
+  ]
+}

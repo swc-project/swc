@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 1..473,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 61..72,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 115..165,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 227..237,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 280..330,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 385..395,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 430..472,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 64..174,\n        ident: Ident {\n            span: 73..76,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 229..339,\n        ident: Ident {\n            span: 238..241,\n            sym: \"bar\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 387..473,\n        ident: Ident {\n            span: 396..399,\n            sym: \"baz\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 77..91,\n        sym: \"staticToString\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 242..256,\n        sym: \"staticToNumber\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 400..406,\n        sym: \"normal\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 122..136,\n        sym: \"staticToString\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..162,\n        sym: \"StaticToString\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 137..163,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 287..301,\n        sym: \"staticToNumber\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 313..327,\n        sym: \"StaticToNumber\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 302..328,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 437..443,\n        sym: \"normal\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 455..469,\n        sym: \"NormalToString\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 444..470,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

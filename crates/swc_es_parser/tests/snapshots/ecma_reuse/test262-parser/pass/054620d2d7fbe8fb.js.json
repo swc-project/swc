@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 1..102,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 31..101,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 20..101,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 83..99,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 83..93,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..102,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 87..88,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 89..93,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 24..29,\n            value: false,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 91..92,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

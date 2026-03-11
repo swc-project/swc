@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 17..58,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 17..32,\n        ident: Ident {\n            span: 23..24,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 29..58,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 29..58,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 33..34,\n        sym: \"v\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 35..58,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 53..54,\n        sym: \"D\",\n    },\n)",
+    "Class(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 17..32,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..24,\n            sym: \"D\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 37..58,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

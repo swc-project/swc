@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 61..112,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 82..93,\n        stmts: [],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 69..93,\n        test: _,\n        body: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 61..93,\n        label: Ident {\n            span: 61..67,\n            sym: \"target\",\n        },\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 109..112,\n        stmts: [],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 96..112,\n        test: _,\n        body: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 87..112,\n        label: Ident {\n            span: 87..93,\n            sym: \"target\",\n        },\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 76..80,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 103..107,\n            value: true,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

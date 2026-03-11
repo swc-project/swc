@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 146..296,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 161..260,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 161..185,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 272..296,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 272..296,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 167..171,\n        sym: \"elem\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 278..282,\n        sym: \"elem\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 146..260,\n        decl: _,\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 254..271,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

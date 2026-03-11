@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 104..347,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 111..141,\n        ident: Ident {\n            span: 120..129,\n            sym: \"Component\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 142..201,\n        ident: Ident {\n            span: 152..166,\n            sym: \"ComponentProps\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 104..141,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 135..201,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 195..290,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 204..213,\n                        sym: \"Component\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 204..213,\n                            sym: \"Component\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 215..229,\n                        sym: \"ComponentProps\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 215..229,\n                            sym: \"ComponentProps\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 237..251,\n            value: \"./exports.js\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 284..347,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 293..302,\n                        sym: \"Component\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 293..302,\n                            sym: \"Component\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 309..323,\n                        sym: \"ComponentProps\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 309..323,\n                            sym: \"ComponentProps\",\n                        },\n                    ),\n                    is_type_only: true,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 331..345,\n            value: \"./exports.js\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 81..260,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 227..250,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 81..151,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 81..122,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 196..256,\n        ident: Ident {\n            span: 202..205,\n            sym: \"Bar\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 146..260,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 146..258,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 87..100,\n        sym: \"dedupingMixin\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 112..117,\n        sym: \"mixin\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 101..122,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 152..169,\n        sym: \"PropertyAccessors\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 170..258,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 172..185,\n        sym: \"dedupingMixin\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 227..231,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 231..242,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 232..241,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 241..246,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 242..245,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 245..248,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 186..257,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 185..258,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 103..122,\n    params: [\n        Param {\n            span: 103..103,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 212..254,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 196..256,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 202..205,\n            sym: \"Bar\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 212..254,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 219..222,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

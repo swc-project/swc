@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 1..152,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 57..101,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..106,\n        ident: Ident {\n            span: 10..25,\n            sym: \"getFirstElement\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 103..152,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 103..151,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 29..34,\n        sym: \"array\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 107..117,\n        sym: \"myFunction\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 118..151,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 64..69,\n        sym: \"array\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 69..78,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 70..76,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 79..80,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 77..82,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 83..88,\n        sym: \"array\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 89..90,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 88..93,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 94..98,\n        },\n    ),\n)",
+    "Cond(\n    CondExpr {\n        span: 81..99,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 120..135,\n        sym: \"getFirstElement\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 144..151,\n        expr: _,\n        ty: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Any,\n)"
+  ]
+}

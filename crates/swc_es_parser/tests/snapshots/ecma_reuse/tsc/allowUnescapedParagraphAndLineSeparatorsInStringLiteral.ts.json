@@ -1,0 +1,60 @@
+{
+  "programs": [
+    "Program {\n    span: 127..778,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 127..200,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 127..196,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 197..277,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 197..271,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 274..347,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 274..343,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 344..424,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 344..418,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 421..494,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 421..490,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 491..621,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 491..565,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 618..778,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 618..778,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 131..170,\n        sym: \"stringContainingUnescapedLineSeparator1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 171..196,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 201..245,\n        sym: \"stringContainingUnescapedParagraphSeparator1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 246..271,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 278..317,\n        sym: \"stringContainingUnescapedLineSeparator2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 318..343,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 348..392,\n        sym: \"stringContainingUnescapedParagraphSeparator2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 393..418,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 425..464,\n        sym: \"stringContainingUnescapedLineSeparator3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 465..490,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 495..539,\n        sym: \"stringContainingUnescapedParagraphSeparator3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 540..565,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 622..625,\n        sym: \"arr\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 626..778,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 173..195,\n            value: \"\\u{2028}STRING_CONTENT\\u{2028}\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 248..270,\n            value: \"\\u{2029}STRING_CONTENT\\u{2029}\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 320..342,\n            value: \"\\u{2028}STRING_CONTENT\\u{2028}\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 395..417,\n            value: \"\\u{2029}STRING_CONTENT\\u{2029}\",\n        },\n    ),\n)",
+    "Template(\n    TemplateExpr {\n        span: 467..489,\n        quasis: [\n            StrLit {\n                span: 467..489,\n                value: \"\\u{2028}STRING_CONTENT\\u{2028}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 542..564,\n        quasis: [\n            StrLit {\n                span: 542..564,\n                value: \"\\u{2029}STRING_CONTENT\\u{2029}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 634..662,\n            value: \"\\u{2029}\\u{2028}STRING_CONTENT\\u{2028}\\u{2029}\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 668..702,\n            value: \"\\u{2028}\\u{2029}\\u{2029}STRING_CONTENT\\u{2029}\\u{2029}\\u{2028}\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 708..727,\n            value: \"STRING_CONTENT\\u{2029}\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 733..752,\n            value: \"\\u{2028}STRING_CONTENT\",\n        },\n    ),\n)",
+    "Template(\n    TemplateExpr {\n        span: 758..764,\n        quasis: [\n            StrLit {\n                span: 758..764,\n                value: \"\\u{2029}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 770..775,\n            value: \"\\u{2028}\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 628..778,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

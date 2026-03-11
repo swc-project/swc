@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 16..90,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 86..90,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 80..90,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 59..90,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..62,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..58,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 64..72,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 64..72,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..25,\n        sym: \"tuple\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..69,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 48..50,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 52..56,\n            value: true,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 47..58,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 73..78,\n        sym: \"tuple\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 86..87,\n        sym: \"v\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

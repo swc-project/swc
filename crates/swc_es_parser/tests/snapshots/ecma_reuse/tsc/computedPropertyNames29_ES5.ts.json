@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 17..181,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 47..170,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 164..179,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 67..155,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 67..145,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 17..181,\n        ident: Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 71..74,\n        sym: \"obj\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 75..145,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 96..100,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 100..105,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 101..104,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 104..107,\n        callee: _,\n        args: [],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 77..145,\n        props: [\n            KeyValueProp {\n                span: 95..144,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 47..170,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 171..172,\n            value: 0.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 95..144,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 31..181,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 17..181,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 31..181,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 31..34,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..30,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..30,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..29,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..29,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "JSXElement(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 9..29,\n    opening: JSXOpeningElement {\n        span: 9..29,\n        name: Ident(\n            Ident {\n                span: 10..21,\n                sym: \"Test\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 15..27,\n                name: \"attrib\",\n                value: Some(\n                    _,\n                ),\n            },\n        ],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}"
+  ],
+  "ts_types": []
+}

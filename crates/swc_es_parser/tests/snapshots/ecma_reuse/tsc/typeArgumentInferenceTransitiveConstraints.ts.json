@@ -1,0 +1,47 @@
+{
+  "programs": [
+    "Program {\n    span: 2..201,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 80..99,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 2..104,\n        ident: Ident {\n            span: 11..13,\n            sym: \"fn\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 101..152,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 101..148,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 149..201,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 149..163,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..69,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 107..148,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 153..154,\n        sym: \"d\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 88..89,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 91..92,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 94..95,\n        sym: \"c\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 87..97,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 109..111,\n        sym: \"fn\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 116..120,\n        sym: \"Date\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 120..123,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 112..123,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 128..132,\n        sym: \"Date\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 132..135,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 124..135,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 140..144,\n        sym: \"Date\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 144..147,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 136..147,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 111..148,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

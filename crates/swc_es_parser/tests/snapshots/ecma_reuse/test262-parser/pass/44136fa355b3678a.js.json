@@ -1,0 +1,17 @@
+{
+  "programs": [
+    "Program {\n    span: 1..3,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 1..3,\n        stmts: [],\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

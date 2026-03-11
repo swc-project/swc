@@ -1,0 +1,54 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x ClassDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x Class
+   ,-[/swc_ecma_parser/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x ClassMethod
+   ,-[/swc_ecma_parser/tests/span/js/decl/constructor.js:2:1]
+ 1 |     class Cons {
+ 2 | ,->     constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x Function
+   ,-[/swc_ecma_parser/tests/span/js/decl/constructor.js:2:1]
+ 1 |     class Cons {
+ 2 | ,->     constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/decl/constructor.js:2:1]
+ 1 | class Cons {
+ 2 |     constructor(foo) {
+   :                 ^^^
+   `----

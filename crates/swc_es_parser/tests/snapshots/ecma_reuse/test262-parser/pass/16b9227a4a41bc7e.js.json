@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..100,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 84..100,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 84..98,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..100,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 88..95,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 89..91,\n                    key: Ident {\n                        span: 89..90,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 91..93,\n                    key: Ident {\n                        span: 91..92,\n                        sym: \"b\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"c\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,36 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+  x MemberExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | React.useEffect(() => {
+   :      ^^^^^^^^^^^
+ 2 |     // @refresh reset
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^
+ 2 |     // @refresh reset
+   `----
+  x ArrowExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----

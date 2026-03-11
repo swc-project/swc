@@ -1,0 +1,56 @@
+{
+  "programs": [
+    "Program {\n    span: 248..791,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 760..774,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 770..783,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 779..791,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 248..281,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 248..255,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 276..523,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 276..523,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 520..563,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 520..563,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 560..709,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 560..572,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 706..764,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 706..759,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 252..254,\n        sym: \"ex\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 282..285,\n        sym: \"app\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 286..523,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 524..535,\n        sym: \"intercessor\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 536..563,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 564..571,\n        sym: \"mistake\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 710..714,\n        sym: \"sala\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 715..759,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 300..306,\n            value: \"name\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 338..345,\n            value: \"x.png\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 364..371,\n            value: \"y.png\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 319..380,\n        props: [\n            KeyValueProp {\n                span: 329..346,\n                key: Ident(\n                    Ident {\n                        span: 329..336,\n                        sym: \"image32\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 355..372,\n                key: Ident(\n                    Ident {\n                        span: 355..362,\n                        sym: \"image64\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 288..523,\n        props: [\n            KeyValueProp {\n                span: 294..307,\n                key: Ident(\n                    Ident {\n                        span: 294..298,\n                        sym: \"name\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 312..380,\n                key: Ident(\n                    Ident {\n                        span: 312..317,\n                        sym: \"icons\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 538..539,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 725..734,\n            value: \"uppsala\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 741..742,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 752..756,\n            value: \"ok\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 717..759,\n        props: [\n            KeyValueProp {\n                span: 719..735,\n                key: Ident(\n                    Ident {\n                        span: 719..723,\n                        sym: \"name\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 736..743,\n                key: Ident(\n                    Ident {\n                        span: 736..739,\n                        sym: \"not\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 744..758,\n                key: Ident(\n                    Ident {\n                        span: 744..750,\n                        sym: \"nested\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 760..764,\n        sym: \"sala\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 764..774,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 765..769,\n                sym: \"name\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 770..774,\n        sym: \"sala\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 774..783,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 775..778,\n                sym: \"not\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 779..783,\n        sym: \"sala\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 783..791,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 784..790,\n                sym: \"nested\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

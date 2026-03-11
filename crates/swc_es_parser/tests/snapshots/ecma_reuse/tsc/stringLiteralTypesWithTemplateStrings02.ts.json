@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 24..94,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 24..56,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..52,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 53..94,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 53..94,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 28..31,\n        sym: \"abc\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 57..69,\n        sym: \"de_NEWLINE_f\",\n    },\n)"
+  ],
+  "exprs": [
+    "Template(\n    TemplateExpr {\n        span: 45..51,\n        quasis: [\n            StrLit {\n                span: 45..51,\n                value: \"AB\\nC\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 81..93,\n        quasis: [\n            StrLit {\n                span: 81..93,\n                value: \"DE${\\\"\\n\\\"}F\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

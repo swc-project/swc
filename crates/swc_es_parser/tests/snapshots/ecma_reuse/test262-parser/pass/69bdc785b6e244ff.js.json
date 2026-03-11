@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 1..26,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..26,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"d\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"e\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"f\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 18..22,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 16..23,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 14..23,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 12..24,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 10..24,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 8..25,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 6..25,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 4..26,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 2..26,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

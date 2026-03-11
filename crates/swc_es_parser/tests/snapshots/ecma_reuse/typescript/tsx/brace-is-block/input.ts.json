@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 100..129,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 124..129,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 100..125,\n        ident: Ident {\n            span: 106..107,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 116..117,\n        sym: \"D\",\n    },\n)",
+    "JSXElement(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 100..125,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 106..107,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 124..129,\n    opening: JSXOpeningElement {\n        span: 124..129,\n        name: Ident(\n            Ident {\n                span: 125..127,\n                sym: \"C\",\n            },\n        ),\n        attrs: [],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}"
+  ],
+  "ts_types": []
+}

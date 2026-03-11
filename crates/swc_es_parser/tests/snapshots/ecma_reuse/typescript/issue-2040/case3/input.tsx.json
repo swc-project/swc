@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..75,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 69..75,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 8..75,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 8..75,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 14..17,\n        sym: \"run\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 53..55,\n        sym: \"fn\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 18..75,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 69..71,\n        sym: \"fn\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 71..75,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 52..75,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..75,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

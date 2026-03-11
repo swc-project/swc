@@ -1,0 +1,67 @@
+{
+  "programs": [
+    "Program {\n    span: 20..359,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 101..115,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 95..119,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 59..119,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 206..223,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 200..227,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 161..227,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Expr(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 294..358,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 288..359,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 224..359,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 20..62,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 20..58,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 64..87,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 64..87,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 116..135,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 116..131,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 132..164,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 132..160,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 229..244,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 229..244,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 24..29,\n        sym: \"array\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 76..82,\n        sym: \"restOf\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 68..87,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 70..72,\n                    key: Ident {\n                        span: 70..71,\n                        sym: \"x\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 73..84,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 120..122,\n        sym: \"xx\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 136..144,\n        sym: \"rrestOff\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 235..241,\n        sym: \"norest\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 255..256,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 88..93,\n        sym: \"array\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 102..103,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 105..111,\n        sym: \"restOf\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 101..113,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 171..173,\n        sym: \"xx\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 178..186,\n        sym: \"rrestOff\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 166..191,\n        props: [\n            KeyValueProp {\n                span: 168..174,\n                key: Ident(\n                    Ident {\n                        span: 168..169,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 175..188,\n                key: Ident(\n                    Ident {\n                        span: 175..175,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 192..197,\n        sym: \"array\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 207..209,\n        sym: \"xx\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 211..219,\n        sym: \"rrestOff\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 206..221,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 245..250,\n        sym: \"array\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 250..255,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 251..254,\n                sym: \"map\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 266..267,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 272..282,\n            value: \"a string\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 261..285,\n        props: [\n            KeyValueProp {\n                span: 263..268,\n                key: Ident(\n                    Ident {\n                        span: 263..263,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 269..284,\n                key: Ident(\n                    Ident {\n                        span: 269..270,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 260..286,\n        expr: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 255..286,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 254..287,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 295..301,\n        sym: \"norest\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 301..304,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 302..303,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 305..311,\n        sym: \"norest\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 311..314,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 312..313,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 294..315,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,20 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/type/tuple.ts:1:1]
+ 1 | type A = [any, string, boolean]
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/type/tuple.ts:1:1]
+ 1 | type A = [any, string, boolean]
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeAliasDecl
+   ,-[/swc_ecma_parser/tests/span/ts/type/tuple.ts:1:1]
+ 1 | type A = [any, string, boolean]
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTupleType
+   ,-[/swc_ecma_parser/tests/span/ts/type/tuple.ts:1:1]
+ 1 | type A = [any, string, boolean]
+   :          ^^^^^^^^^^^^^^^^^^^^^^
+   `----

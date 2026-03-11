@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 1..196,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 37..49,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 131..143,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 40..101,\n        ident: Ident {\n            span: 50..53,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 62..68,\n                sym: \"Base\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 82..94,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 82..83,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 134..196,\n        ident: Ident {\n            span: 144..148,\n            sym: \"Foo2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 149..150,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 160..166,\n                sym: \"Base2\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 184..196,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 184..185,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)"
+  ]
+}

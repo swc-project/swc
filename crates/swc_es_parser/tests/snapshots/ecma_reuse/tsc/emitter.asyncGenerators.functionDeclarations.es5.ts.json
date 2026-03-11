@@ -1,0 +1,72 @@
+{
+  "programs": [
+    "Program {\n    span: 53..519,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 373..383,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 507..518,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 53..104,\n        ident: Ident {\n            span: 70..72,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 127..145,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 127..143,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 99..171,\n        ident: Ident {\n            span: 116..118,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 194..214,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 194..212,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 166..240,\n        ident: Ident {\n            span: 183..185,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 263..286,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 263..284,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 235..312,\n        ident: Ident {\n            span: 252..254,\n            sym: \"f4\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 335..389,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 335..387,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 307..415,\n        ident: Ident {\n            span: 324..326,\n            sym: \"f5\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 438..458,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 438..456,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 410..484,\n        ident: Ident {\n            span: 427..429,\n            sym: \"f6\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 479..519,\n        ident: Ident {\n            span: 496..498,\n            sym: \"f7\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 133..134,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 135..143,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 200..201,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 202..212,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 269..270,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 271..284,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 341..342,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 343..387,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 444..445,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 446..456,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Yield(\n    YieldExpr {\n        span: 137..143,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 210..211,\n            value: 1.0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 204..212,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 281..282,\n            value: 1.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 280..284,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 273..284,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 379..380,\n            value: 1.0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 373..381,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 352..385,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 384..387,\n        callee: _,\n        args: [],\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 345..387,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 454..455,\n            value: 1.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 448..456,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 514..515,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 353..384,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: true,\n    is_generator: true,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

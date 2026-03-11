@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 1..152,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..56,\n        ident: Ident {\n            span: 11..14,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 21..45,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 47..123,\n        ident: Ident {\n            span: 57..64,\n            sym: \"Derived\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 73..78,\n                sym: \"Foo\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 83..118,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 120..139,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 120..135,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 136..152,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 136..152,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 124..125,\n        sym: \"d\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 140..141,\n        sym: \"r\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 142..152,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"d\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 149..152,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 144..152,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 29..43,\n        members: [\n            TsTypeMember {\n                span: 31..42,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 31..32,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 91..116,\n        members: [\n            TsTypeMember {\n                span: 93..105,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 93..94,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 104..115,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 104..105,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ]
+}

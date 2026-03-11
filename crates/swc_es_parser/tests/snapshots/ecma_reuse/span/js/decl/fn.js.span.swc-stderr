@@ -1,0 +1,38 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x FnDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+ 1 | function foo(a, b = c) {
+   :              ^
+   `----
+  x AssignPat
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+ 1 | function foo(a, b = c) {
+   :                   ^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+ 1 | function foo(a, b = c) {
+   :                 ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/decl/fn.js:1:1]
+ 1 | function foo(a, b = c) {
+   :                     ^
+   `----

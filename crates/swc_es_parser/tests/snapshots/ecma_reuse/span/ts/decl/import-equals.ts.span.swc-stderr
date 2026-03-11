@@ -1,0 +1,15 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   : ^^^^^^^^^^^^
+   `----
+  x ModuleDeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   : ^^^^^^^^^^^^
+   `----
+  x ImportDecl
+   ,-[/swc_ecma_parser/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   : ^^^^^^^^^^^^
+   `----

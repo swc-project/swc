@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 44..64,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 44..64,\n        ident: Ident {\n            span: 53..58,\n            sym: \"await\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

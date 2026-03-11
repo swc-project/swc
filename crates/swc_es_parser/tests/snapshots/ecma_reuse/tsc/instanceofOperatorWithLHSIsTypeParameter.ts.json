@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..70,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 29..48,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 29..40,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 45..70,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 45..68,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..70,\n        ident: Ident {\n            span: 10..13,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 33..34,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 49..50,\n        sym: \"r\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 51..68,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 53..54,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 66..67,\n        sym: \"x\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 55..68,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

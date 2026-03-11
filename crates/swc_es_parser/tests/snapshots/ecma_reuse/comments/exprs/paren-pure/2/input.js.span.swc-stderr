@@ -1,0 +1,54 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :                                      ^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ArrowExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :                ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :                            ^^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :                      ^^^^^^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/2/input.js:2:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :                             ^^^^^^^
+   `----

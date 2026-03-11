@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 130..205,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 189..205,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 130..192,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 130..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 136..139,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 152..153,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 155..156,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 161..162,\n        sym: \"r\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 158..163,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 140..168,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 189..192,\n        sym: \"foo\",\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 193..198,\n            value: false,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 200..202,\n            value: \"\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 192..204,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 142..168,\n    params: [\n        Param {\n            span: 142..142,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 142..142,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 142..142,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

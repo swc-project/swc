@@ -1,0 +1,111 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a() {
+ 3 | |           let o1 = { b: super.b };
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a() {
+ 3 | |           let o1 = { b: super.b };
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a() {
+ 3 | |           let o1 = { b: super.b };
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x AssignPat
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a() {
+ 3 | |           let o1 = { b: super.b };
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:1:1]
+ 1 | let o = {
+   :     ^
+ 2 |     a() {
+   `----
+  x ObjectExpr
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a() {
+ 3 | |           let o1 = { b: super.b };
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x FunctionExpr
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:2:1]
+ 1 |     let o = {
+ 2 | ,->     a() {
+ 3 | |           let o1 = { b: super.b };
+ 4 | `->     },
+ 5 |     };
+   `----
+  x Function
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:2:1]
+ 1 |     let o = {
+ 2 | ,->     a() {
+ 3 | |           let o1 = { b: super.b };
+ 4 | `->     },
+ 5 |     };
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:3:1]
+ 2 |         a() {
+ 3 | ,->         let o1 = { b: super.b };
+ 4 | `->     },
+ 5 |     };
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:3:1]
+ 2 |         a() {
+ 3 | ,->         let o1 = { b: super.b };
+ 4 | `->     },
+ 5 |     };
+   `----
+  x AssignPat
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:3:1]
+ 2 |     a() {
+ 3 |         let o1 = { b: super.b };
+   :                ^^^^^^^^^^^^^^^^^
+ 4 |     },
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:3:1]
+ 2 |     a() {
+ 3 |         let o1 = { b: super.b };
+   :             ^^
+ 4 |     },
+   `----
+  x ObjectExpr
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:3:1]
+ 2 |     a() {
+ 3 |         let o1 = { b: super.b };
+   :                  ^^^^^^^^^^^^^^^
+ 4 |     },
+   `----
+  x MemberExpr
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:3:1]
+ 2 |     a() {
+ 3 |         let o1 = { b: super.b };
+   :                            ^^^^
+ 4 |     },
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/super/obj3.js:3:1]
+ 2 |     a() {
+ 3 |         let o1 = { b: super.b };
+   :                       ^^^^^
+ 4 |     },
+   `----

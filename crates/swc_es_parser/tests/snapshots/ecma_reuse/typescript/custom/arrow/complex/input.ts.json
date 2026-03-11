@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..487,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 8..487,\n        ident: Ident {\n            span: 17..49,\n            sym: \"getTsConfigPropArrayElementValue\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 50..68,\n        sym: \"tsConfigSourceFile\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 102..109,\n        sym: \"propKey\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 119..131,\n        sym: \"elementValue\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..487,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

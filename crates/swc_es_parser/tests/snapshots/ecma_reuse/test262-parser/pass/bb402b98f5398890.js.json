@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 1..11,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..11,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 10..11,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 8..11,\n        op: BitXor,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 3..11,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 1..211,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 154..201,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..98,\n        ident: Ident {\n            span: 6..13,\n            sym: \"Point2d\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 93..161,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 93..140,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 198..211,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 198..210,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 101..140,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 202..203,\n        sym: \"p\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 204..210,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 108..110,\n            value: 10.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 103..122,\n        props: [\n            KeyValueProp {\n                span: 105..112,\n                key: Ident(\n                    Ident {\n                        span: 105..106,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 113..140,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 154..161,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 161..166,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 162..165,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 166..167,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 167..170,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 168..169,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 169..178,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 170..177,\n                sym: \"toFixed\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 177..180,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 165..181,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 206..207,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 207..210,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 208..209,\n                sym: \"y\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 16..41,\n        members: [\n            TsTypeMember {\n                span: 18..30,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 18..19,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 29..40,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 29..30,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 131..139,\n        name: Ident {\n            span: 131..139,\n            sym: \"Point2d\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 123..140,\n        name: Ident {\n            span: 123..131,\n            sym: \"Partial\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 196..409,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 224..377,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 396..409,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 196..228,\n        ident: Ident {\n            span: 205..209,\n            sym: \"good\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 369..399,\n        ident: Ident {\n            span: 378..381,\n            sym: \"bad\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 210..211,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 213..214,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 216..217,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 382..383,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 385..386,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 388..389,\n        sym: \"z\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 224..228,\n        sym: \"good\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 229..230,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 232..233,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 235..236,\n            value: 3.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 228..377,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 396..399,\n        sym: \"bad\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 400..401,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 403..404,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 406..407,\n            value: 3.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 399..409,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

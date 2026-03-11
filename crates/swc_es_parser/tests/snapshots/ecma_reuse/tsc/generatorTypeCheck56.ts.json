@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 16..116,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 89..107,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 36..116,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 36..114,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 16..116,\n        ident: Ident {\n            span: 26..27,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 42..114,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 70..71,\n            value: 0.0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 64..72,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 95..96,\n            value: 0.0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 89..97,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Class(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 62..113,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: true,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 44..114,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 50..51,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 62..113,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

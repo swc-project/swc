@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 115..278,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 115..134,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 169..210,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 198..217,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 276..278,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 129..150,\n        ident: Ident {\n            span: 135..140,\n            sym: \"Thing\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 212..257,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 212..257,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 218..223,\n        sym: \"Thing\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 224..257,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 115..127,\n            value: \"use strict\",\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 198..210,\n            value: \"use strict\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 226..233,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 234..243,\n            value: \"./thing\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 233..245,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 244..257,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 245..250,\n                sym: \"Thing\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 129..150,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 135..140,\n            sym: \"Thing\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

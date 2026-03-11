@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 24..329,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 273..280,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 327..329,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 31..81,\n        ident: Ident {\n            span: 41..50,\n            sym: \"Component\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 24..81,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 75..120,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 92..97,\n                        sym: \"types\",\n                    },\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 103..112,\n            value: \"./types\",\n        },\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 114..162,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 123..128,\n                    sym: \"types\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 156..201,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 173..178,\n                        sym: \"types\",\n                    },\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 184..193,\n            value: \"./types\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 195..242,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 207..222,\n                        sym: \"nestedNamespace\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 228..234,\n            value: \"./ns\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

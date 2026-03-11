@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 77..360,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 105..117,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 84..209,\n        ident: Ident {\n            span: 93..96,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 112..114,\n            value: \"\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 77..209,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 203..277,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 212..215,\n                        sym: \"foo\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 212..215,\n                            sym: \"foo\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 223..230,\n            value: \"./foo\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 271..360,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 280..283,\n                        sym: \"baz\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 280..283,\n                            sym: \"baz\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 291..298,\n            value: \"./baz\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

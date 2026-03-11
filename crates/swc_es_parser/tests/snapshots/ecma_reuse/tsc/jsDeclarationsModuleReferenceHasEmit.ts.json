@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 137..236,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 137..202,\n        ident: Ident {\n            span: 143..144,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 203..225,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 203..217,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 207..209,\n        sym: \"el\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 210..217,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 212..216,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 234..235,\n        sym: \"A\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 196..225,\n        decl: _,\n    },\n)",
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 219..236,\n        expr: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 137..202,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 143..144,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

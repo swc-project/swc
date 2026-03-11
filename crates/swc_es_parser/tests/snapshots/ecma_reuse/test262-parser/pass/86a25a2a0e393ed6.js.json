@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..41,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Break(\n    BreakStmt {\n        span: 33..41,\n        label: None,\n    },\n)",
+    "Switch(\n    SwitchStmt {\n        span: 1..41,\n        discriminant: _,\n        cases: [\n            SwitchCase {\n                span: 14..41,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                    _,\n                ],\n            },\n        ],\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 22..38,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 22..32,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 28..32,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 19..20,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 30..31,\n            value: 2.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

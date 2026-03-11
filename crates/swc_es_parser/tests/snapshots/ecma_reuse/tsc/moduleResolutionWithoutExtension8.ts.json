@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 139..203,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 139..203,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 160..161,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 139..145,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 146..153,\n            value: \"./foo\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 145..155,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 154..160,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 155..159,\n                sym: \"then\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 165..166,\n        sym: \"x\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 160..167,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 159..168,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

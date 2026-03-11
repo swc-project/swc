@@ -1,0 +1,91 @@
+{
+  "programs": [
+    "Program {\n    span: 68..452,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 92..107,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 128..146,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 189..209,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 167..219,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 75..134,\n        ident: Ident {\n            span: 84..87,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 143..169,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 143..166,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 220..253,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 220..243,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 266..293,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 266..291,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 245..300,\n        ident: Ident {\n            span: 254..257,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 328..367,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 328..361,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 295..377,\n        ident: Ident {\n            span: 301..302,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 411..450,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 411..444,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 378..452,\n        ident: Ident {\n            span: 384..385,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 147..149,\n        sym: \"p1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 150..166,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 175..179,\n        sym: \"zero\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..226,\n        sym: \"p2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 227..243,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 272..274,\n        sym: \"p2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 275..291,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 334..343,\n        sym: \"loadAsync\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 344..361,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 417..426,\n        sym: \"loadAsync\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 427..444,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 99..104,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 128..134,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 135..140,\n            value: \"./0\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 134..142,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 152..158,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 159..164,\n            value: \"./0\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 158..166,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 167..169,\n        sym: \"p1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 169..175,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 170..174,\n                sym: \"then\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 196..200,\n        sym: \"zero\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 200..205,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 201..204,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 204..207,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 175..210,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 174..211,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 229..235,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 236..241,\n            value: \"./0\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 235..243,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 277..283,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 284..289,\n            value: \"./0\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 283..291,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 346..352,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 354..359,\n            value: \"./0\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 353..361,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 429..435,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 437..442,\n            value: \"./0\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 436..444,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 68..134,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 213..253,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 371..452,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 309..369,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 392..452,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 295..377,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 301..302,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 378..452,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 384..385,\n            sym: \"D\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 309..369,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 309..315,\n                sym: \"method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 392..452,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 392..398,\n                sym: \"method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 174..635,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 174..226,\n        ident: Ident {\n            span: 180..183,\n            sym: \"Cls\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 388..414,\n        ident: Ident {\n            span: 409..410,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 552..572,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 552..565,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 558..559,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 560..565,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 194..196,\n            value: 12.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 213..217,\n            value: \"ok\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 235..238,\n        sym: \"Cls\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 562..564,\n            value: 12.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 220..394,\n        expr: _,\n    },\n)",
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 388..557,\n        decl: _,\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 566..635,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 574..575,\n                    sym: \"x\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 579..586,\n                        sym: \"default\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 174..226,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 180..183,\n            sym: \"Cls\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 403..414,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 409..410,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 190..208,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 190..191,\n                sym: \"x\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 202..219,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 209..210,\n                sym: \"y\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

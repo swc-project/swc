@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..264,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 39..83,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 129..137,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 171..215,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 263..264,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

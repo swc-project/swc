@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..66,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 44..61,\n        stmts: [],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 31..61,\n        test: _,\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 58..66,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 58..64,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..66,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 38..42,\n            value: true,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 94..134,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 102..118,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 102..115,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 122..134,\n        ident: Ident {\n            span: 128..129,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 106..109,\n        sym: \"dec\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 118..121,\n        sym: \"dec\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 122..134,\n    decorators: [\n        Decorator {\n            span: 117..127,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 128..129,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

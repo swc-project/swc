@@ -1,0 +1,72 @@
+{
+  "programs": [
+    "Program {\n    span: 128..415,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 128..159,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 152..186,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 179..218,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 243..252,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 272..281,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 360..372,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 368..380,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 376..388,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 384..396,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 392..406,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 402..415,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 328..364,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 328..359,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 334..338,\n        sym: \"mod1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 339..359,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 128..135,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 135..139,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 136..137,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 145..148,\n            value: \"x\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 140..151,\n        props: [\n            KeyValueProp {\n                span: 142..150,\n                key: Ident(\n                    Ident {\n                        span: 142..143,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 138..151,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 152..159,\n        sym: \"exports\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 160..163,\n            value: \"b\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 159..166,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 172..175,\n            value: \"x\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 167..178,\n        props: [\n            KeyValueProp {\n                span: 169..177,\n                key: Ident(\n                    Ident {\n                        span: 169..170,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 165..178,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 179..186,\n        sym: \"exports\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 187..196,\n            value: \"default\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 186..199,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 205..208,\n            value: \"x\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 200..211,\n        props: [\n            KeyValueProp {\n                span: 202..210,\n                key: Ident(\n                    Ident {\n                        span: 202..203,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 198..211,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 341..348,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 349..357,\n            value: \"./mod1\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 348..359,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 360..364,\n        sym: \"mod1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 364..367,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 365..366,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 368..372,\n        sym: \"mod1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 372..375,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 373..374,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 376..380,\n        sym: \"mod1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 380..383,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 381..382,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 384..388,\n        sym: \"mod1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 388..391,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 389..390,\n                sym: \"d\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 392..396,\n        sym: \"mod1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 396..399,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 397..398,\n                sym: \"d\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 398..401,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 399..400,\n                sym: \"e\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 402..406,\n        sym: \"mod1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 406..415,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 407..414,\n                sym: \"default\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

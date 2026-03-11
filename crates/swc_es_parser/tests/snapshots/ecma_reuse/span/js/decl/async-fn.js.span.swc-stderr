@@ -1,0 +1,18 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
+ 1 | ,-> async function foo() {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
+ 1 | ,-> async function foo() {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x FnDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
+ 1 | ,-> async function foo() {
+ 2 | |   
+ 3 | `-> }
+   `----

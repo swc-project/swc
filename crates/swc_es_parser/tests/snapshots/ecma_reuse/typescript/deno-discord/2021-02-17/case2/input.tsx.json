@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..244,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..244,\n        ident: Ident {\n            span: 7..10,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 83..87,\n        sym: \"name\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 105..109,\n        sym: \"path\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 130..140,\n        sym: \"middleware\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 127..141,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 17..244,\n    params: [\n        Param {\n            span: 83..96,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 105..118,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 127..172,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..244,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..10,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 17..244,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 17..23,\n                sym: \"delete\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

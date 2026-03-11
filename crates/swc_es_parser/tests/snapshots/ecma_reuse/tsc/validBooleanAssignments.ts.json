@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 1..90,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..19,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..14,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 16..35,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..31,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 32..54,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 32..50,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 51..74,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 51..70,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 71..90,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 71..90,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..14,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..37,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 55..56,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 75..76,\n        sym: \"d\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 9..13,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..69,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 88..89,\n        sym: \"x\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

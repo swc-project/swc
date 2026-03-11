@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 17..59,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 44..59,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 38..59,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 17..59,\n        test: _,\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Template(\n    TemplateExpr {\n        span: 24..36,\n        quasis: [\n            StrLit {\n                span: 24..36,\n                value: \"abc${0}abc\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 44..56,\n        quasis: [\n            StrLit {\n                span: 44..56,\n                value: \"def${1}def\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

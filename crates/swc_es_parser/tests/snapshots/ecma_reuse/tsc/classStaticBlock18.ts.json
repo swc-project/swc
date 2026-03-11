@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 42..221,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 62..220,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 116..214,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 116..214,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 42..221,\n        ident: Ident {\n            span: 51..54,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 122..123,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 124..214,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 94..95,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 155..156,\n            value: 2.0,\n        },\n    ),\n)",
+    "Class(\n    _,\n)",
+    "Class(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 126..214,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 69..220,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 81..107,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 88..91,\n                sym: \"foo\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 142..172,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 149..152,\n                sym: \"bar\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 166..208,\n        body: [],\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 101..218,\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

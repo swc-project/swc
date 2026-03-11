@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 1..230,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 74..80,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 77..94,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 77..90,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 91..123,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..119,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 120..161,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 120..157,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 158..193,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 158..189,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 190..230,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 190..230,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 81..82,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 83..90,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 95..96,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 124..125,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 162..163,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 194..195,\n        sym: \"d\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 85..89,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 107..108,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 108..117,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 109..116,\n                sym: \"doStuff\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 116..119,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 136..137,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 137..151,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 138..150,\n                sym: \"doOtherStuff\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 151..155,\n            value: \"hm\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 150..157,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 174..175,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 176..185,\n            value: \"doStuff\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 175..187,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 186..189,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 206..207,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 208..222,\n            value: \"doOtherStuff\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 207..224,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 224..228,\n            value: \"hm\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 223..230,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

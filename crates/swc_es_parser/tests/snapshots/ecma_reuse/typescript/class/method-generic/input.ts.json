@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 1..85,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..85,\n        ident: Ident {\n            span: 7..8,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..37,\n        sym: \"c\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 33..38,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 55..61,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 61..71,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 62..70,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 15..55,\n    params: [\n        Param {\n            span: 20..25,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 26..32,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 33..43,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 54..84,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..85,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..8,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 15..55,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 15..16,\n                sym: \"f\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 54..84,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

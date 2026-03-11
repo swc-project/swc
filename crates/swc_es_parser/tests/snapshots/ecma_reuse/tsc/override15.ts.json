@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 31..117,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 31..70,\n        ident: Ident {\n            span: 37..38,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 65..117,\n        ident: Ident {\n            span: 71..72,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 81..82,\n        sym: \"A\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 45..63,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 98..116,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 31..70,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 37..38,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 65..117,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 71..72,\n            sym: \"B\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 45..63,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 45..56,\n                sym: \"doSomething\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 89..109,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 89..97,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 98..116,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 98..109,\n                sym: \"doSomethang\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

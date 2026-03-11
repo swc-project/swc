@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..24,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..24,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..24,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"a\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 12..19,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 13..18,\n                    key: Ident(\n                        Ident {\n                            span: 13..14,\n                            sym: \"c\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 5..21,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 6..8,\n                    key: Ident {\n                        span: 6..7,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 9..19,\n                    key: Ident(\n                        Ident {\n                            span: 9..10,\n                            sym: \"b\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 22..23,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

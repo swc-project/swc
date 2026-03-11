@@ -1,0 +1,68 @@
+{
+  "programs": [
+    "Program {\n    span: 116..592,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 176..236,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 266..269,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 268..310,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 351..407,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 433..461,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 116..183,\n        ident: Ident {\n            span: 122..125,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 307..358,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 307..319,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 458..532,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 458..489,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 529..562,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 529..535,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 559..570,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 559..566,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 567..592,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 567..591,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 311..314,\n        sym: \"Qux\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 315..319,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 462..465,\n        sym: \"mod\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 466..489,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 533..534,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 563..565,\n        sym: \"bb\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 571..574,\n        sym: \"bbb\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 575..591,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 176..183,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 183..189,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 184..187,\n                sym: \"Bar\",\n            },\n        ),\n    },\n)",
+    "Class(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 188..236,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 317..318,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 351..358,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 358..365,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 359..363,\n                sym: \"Quid\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 366..367,\n            value: 2.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 364..368,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 468..475,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 476..487,\n            value: \"./mod1.js\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 475..489,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 581..584,\n        sym: \"mod\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 584..589,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 585..588,\n                sym: \"Baz\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 588..591,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 577..591,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 116..183,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 122..125,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 190..236,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

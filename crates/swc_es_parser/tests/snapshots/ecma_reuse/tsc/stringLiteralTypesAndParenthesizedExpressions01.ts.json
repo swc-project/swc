@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 24..223,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 32..68,\n        ident: Ident {\n            span: 41..51,\n            sym: \"myRandBool\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 65..92,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 65..88,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 89..124,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 89..120,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 121..171,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 121..167,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 168..223,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 168..222,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 69..70,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 93..94,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 125..126,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 172..173,\n        sym: \"d\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 81..86,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 80..88,\n        expr: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 113..118,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 112..120,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..147,\n        sym: \"myRandBool\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 150..155,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 159..164,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 158..166,\n        expr: _,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 148..166,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 136..167,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 192..202,\n        sym: \"myRandBool\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 205..210,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 214..219,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 213..221,\n        expr: _,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 203..221,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 191..222,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

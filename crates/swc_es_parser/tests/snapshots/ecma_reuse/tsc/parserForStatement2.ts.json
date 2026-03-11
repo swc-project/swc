@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 1..63,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 59..63,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 27..63,\n        head: In(\n            ForInHead {\n                left: Pat(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..11,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..7,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 8..23,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 8..19,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 20..30,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 20..26,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 14..19,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"c\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 32..33,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 16..19,\n        elems: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 37..38,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 39..40,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 38..43,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 44..45,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 46..47,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 45..51,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 52..55,\n        elems: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 49..55,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 42..55,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"d\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 37..58,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

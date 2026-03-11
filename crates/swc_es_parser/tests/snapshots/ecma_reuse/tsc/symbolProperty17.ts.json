@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 16..154,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 90..104,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 103..111,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 105..114,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 113..119,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 116..129,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 116..125,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 126..154,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 126..154,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 120..121,\n        sym: \"i\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 130..132,\n        sym: \"it\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 133..154,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 90..103,\n            value: \"__@iterator\",\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 105..111,\n        sym: \"string\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"i\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..143,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 143..153,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 144..152,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 136..154,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

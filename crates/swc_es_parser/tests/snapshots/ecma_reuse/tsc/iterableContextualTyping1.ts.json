@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 16..76,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..76,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..76,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..24,\n        sym: \"iter\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"s\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 66..67,\n        sym: \"s\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 67..75,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 68..74,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 61..75,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 60..76,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

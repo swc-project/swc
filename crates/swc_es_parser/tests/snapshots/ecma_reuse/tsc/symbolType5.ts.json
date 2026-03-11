@@ -1,0 +1,47 @@
+{
+  "programs": [
+    "Program {\n    span: 16..83,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 48..56,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 55..63,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 62..71,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 70..78,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 77..83,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..49,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..47,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 22..47,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 24..30,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 30..35,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 31..34,\n                sym: \"for\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 35..45,\n            value: \"multiply\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 34..47,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 52..53,\n        sym: \"s\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 50..54,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 55..56,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 59..60,\n        sym: \"s\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 57..61,\n        op: Div,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 66..67,\n        sym: \"s\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 64..68,\n        op: Mod,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 70..71,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 74..75,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 72..76,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 77..78,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 81..82,\n        sym: \"s\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 79..83,\n        op: Div,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

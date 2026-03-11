@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 24..69,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 24..42,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..37,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 39..69,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 39..69,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 28..29,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 47..48,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 45..69,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 52..61,\n        sym: \"undefined\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 63..67,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 51..69,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 49..69,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

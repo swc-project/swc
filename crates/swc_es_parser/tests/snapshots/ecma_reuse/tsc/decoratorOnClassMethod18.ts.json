@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 85..161,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 93..119,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 93..112,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 114..161,\n        ident: Ident {\n            span: 120..123,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 97..106,\n        sym: \"decorator\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 139..148,\n        sym: \"decorator\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 148..157,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 114..161,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 120..123,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 130..139,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 130..132,\n                sym: \"p1\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 155..160,\n        decorators: [\n            Decorator {\n                span: 138..157,\n                expr: _,\n            },\n        ],\n        key: Ident(\n            Ident {\n                span: 155..157,\n                sym: \"p2\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

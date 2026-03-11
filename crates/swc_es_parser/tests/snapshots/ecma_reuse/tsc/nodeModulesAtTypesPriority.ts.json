@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 133..627,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 346..412,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 524..569,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 141..165,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 141..158,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 243..334,\n        ident: Ident {\n            span: 252..263,\n            sym: \"createStore\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 421..512,\n        ident: Ident {\n            span: 430..441,\n            sym: \"createStore\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 147..152,\n        sym: \"React\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 228..334,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 406..512,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 563..596,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 570..575,\n                        sym: \"React\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 581..588,\n            value: \"react\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 590..627,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 599..610,\n                        sym: \"createStore\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 599..610,\n                            sym: \"createStore\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 618..625,\n            value: \"redux\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

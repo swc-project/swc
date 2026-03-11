@@ -1,0 +1,8 @@
+  x expected identifier, got LParen
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/783865dd3a3c2200.module.js:1:1]
+ 1 | export function () {}
+   :                 ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 159..184,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 159..184,\n        ident: Ident {\n            span: 168..171,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 172..173,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 175..176,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 178..179,\n        sym: \"c\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

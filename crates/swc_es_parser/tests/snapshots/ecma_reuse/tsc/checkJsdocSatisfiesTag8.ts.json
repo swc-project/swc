@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 169..239,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 169..239,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 169..239,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 175..176,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 177..239,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 215..219,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 228..235,\n            value: \"false\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 206..238,\n        props: [\n            KeyValueProp {\n                span: 212..220,\n                key: Ident(\n                    Ident {\n                        span: 212..213,\n                        sym: \"m\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 225..237,\n                key: Ident(\n                    Ident {\n                        span: 225..226,\n                        sym: \"s\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 205..239,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

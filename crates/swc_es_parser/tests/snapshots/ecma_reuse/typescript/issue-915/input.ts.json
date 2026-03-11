@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 1..80,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 8..80,\n        ident: Ident {\n            span: 14..29,\n            sym: \"MultipartReader\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 55..62,\n        sym: \"encoder\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 62..70,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 63..69,\n                sym: \"encode\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 70..76,\n            value: \"\\r\\n\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 69..78,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..80,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 8..80,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 14..29,\n            sym: \"MultipartReader\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 36..52,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 36..44,\n                sym: \"readonly\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 45..80,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 45..52,\n                sym: \"newLine\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

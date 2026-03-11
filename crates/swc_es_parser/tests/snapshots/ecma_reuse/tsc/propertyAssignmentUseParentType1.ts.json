@@ -1,0 +1,62 @@
+{
+  "programs": [
+    "Program {\n    span: 1..305,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 88..117,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 173..199,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 281..305,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..53,\n        ident: Ident {\n            span: 11..12,\n            sym: \"N\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..38,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 35..46,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 35..38,\n                            sym: \"num\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 54..98,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 54..87,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 118..180,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 118..172,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 200..292,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 200..231,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 60..70,\n        sym: \"interfaced\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 124..131,\n        sym: \"inlined\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 206..217,\n        sym: \"ignoreJsdoc\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 218..231,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 82..86,\n            value: true,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 76..87,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 88..98,\n        sym: \"interfaced\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 98..104,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 99..102,\n                sym: \"num\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 105..108,\n            value: 123.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 103..109,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 167..171,\n            value: true,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 161..172,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 173..180,\n        sym: \"inlined\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 180..186,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 181..184,\n                sym: \"nun\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 187..190,\n            value: 456.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 185..191,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 226..230,\n            value: true,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 220..231,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 281..292,\n        sym: \"ignoreJsdoc\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 292..300,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 293..298,\n                sym: \"extra\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 301..304,\n            value: 111.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 299..305,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 47..98,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 111..180,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 193..292,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Boolean,\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 40..43,\n            value: 123.0,\n        },\n    ),\n)"
+  ]
+}

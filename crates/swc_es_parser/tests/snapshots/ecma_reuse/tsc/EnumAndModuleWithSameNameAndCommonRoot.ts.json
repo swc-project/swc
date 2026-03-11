@@ -1,0 +1,57 @@
+{
+  "programs": [
+    "Program {\n    span: 1..253,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsEnum(\n    TsEnumDecl {\n        span: 1..40,\n        ident: Ident {\n            span: 6..14,\n            sym: \"enumdule\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 21..25,\n                name: Ident(\n                    Ident {\n                        span: 21..24,\n                        sym: \"Red\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 26..32,\n                name: Ident(\n                    Ident {\n                        span: 26..30,\n                        sym: \"Blue\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 64..145,\n        ident: Ident {\n            span: 70..75,\n            sym: \"Point\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 34..150,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 41..49,\n                sym: \"enumdule\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 147..167,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 147..163,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 164..190,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 164..185,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 187..223,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 187..219,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 220..253,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 220..253,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 123..124,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 151..152,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 168..169,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 170..185,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 191..192,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..225,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 226..253,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 172..180,\n        sym: \"enumdule\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 180..185,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 181..184,\n                sym: \"Red\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 232..240,\n        sym: \"enumdule\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 240..247,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 241..246,\n                sym: \"Point\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 247..248,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 250..251,\n            value: 0.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 246..253,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 228..253,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 57..145,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 86..143,\n    params: [\n        Param {\n            span: 98..115,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 116..133,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 64..145,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 70..75,\n            sym: \"Point\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 86..143,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 86..97,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..76,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 43..76,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 25..76,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 19..76,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..76,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 6..14,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 6..14,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 30..38,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 30..38,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 53..74,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 53..68,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 10..11,\n        sym: \"w\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 34..35,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 59..68,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 15..18,\n        elems: [],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 39..42,\n        elems: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"w\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 65..66,\n        sym: \"v\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 61..68,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 202..311,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsEnum(\n    TsEnumDecl {\n        span: 210..257,\n        ident: Ident {\n            span: 215..216,\n            sym: \"E\",\n        },\n        declare: true,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 223..225,\n                name: Ident(\n                    Ident {\n                        span: 223..224,\n                        sym: \"a\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 237..239,\n                name: Ident(\n                    Ident {\n                        span: 237..238,\n                        sym: \"b\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 258..311,\n        ident: Ident {\n            span: 269..271,\n            sym: \"E1\",\n        },\n        declare: true,\n        is_const: true,\n        members: [\n            TsEnumMember {\n                span: 278..280,\n                name: Ident(\n                    Ident {\n                        span: 278..279,\n                        sym: \"a\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 296..298,\n                name: Ident(\n                    Ident {\n                        span: 296..297,\n                        sym: \"b\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

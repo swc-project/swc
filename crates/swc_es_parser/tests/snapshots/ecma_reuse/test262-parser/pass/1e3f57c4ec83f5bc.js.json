@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..31,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..31,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 7..8,\n        sym: \"c\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 11..14,\n            value: \"d\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 9..15,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 6..16,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 18..19,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 20..23,\n            value: \"d\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 24..28,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 19..30,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2..31,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

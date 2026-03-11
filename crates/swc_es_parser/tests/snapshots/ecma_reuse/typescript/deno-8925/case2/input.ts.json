@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 1..42,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 24..42,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 8..31,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 8..23,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 14..18,\n        sym: \"𝒫\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 19..23,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 21..22,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 24..31,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 31..36,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 32..35,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..40,\n        sym: \"𝒫\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 35..42,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..31,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

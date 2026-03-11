@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 21..132,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 74..102,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 106..132,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 21..113,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 21..113,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"C\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"x\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Assign(\n    AssignPat {\n        span: 29..113,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 74..78,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 78..84,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 79..81,\n                sym: \"#x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 85..86,\n            value: 2.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 82..87,\n        left: _,\n        op: AddAssign,\n        right: _,\n    },\n)",
+    "Class(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 106..113,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 113..118,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 114..117,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 122..123,\n        sym: \"C\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 123..126,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 125..128,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 126..127,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 127..130,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 118..130,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 117..131,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 47..61,\n    params: [\n        Param {\n            span: 50..52,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 60..104,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 31..113,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 43..48,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 43..46,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 47..61,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 47..49,\n                sym: \"#x\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 60..104,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 60..61,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

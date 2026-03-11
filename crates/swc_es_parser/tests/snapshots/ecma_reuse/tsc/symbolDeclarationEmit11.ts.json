@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 37..223,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 166..178,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 37..223,\n        ident: Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 215..216,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 59..65,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 65..75,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 66..74,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 78..79,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 93..99,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 99..119,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 100..118,\n                sym: \"isConcatSpreadable\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 142..148,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 148..161,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 149..160,\n                sym: \"toPrimitive\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 173..175,\n            value: \"\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 195..201,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 201..214,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 202..213,\n                sym: \"toPrimitive\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 85..136,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 130..189,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 183..223,\n    params: [\n        Param {\n            span: 215..217,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 37..223,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 51..91,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 85..136,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 130..189,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: true,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 183..223,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: true,\n        kind: Setter,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

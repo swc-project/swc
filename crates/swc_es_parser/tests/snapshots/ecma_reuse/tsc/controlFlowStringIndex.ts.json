@@ -1,0 +1,50 @@
+{
+  "programs": [
+    "Program {\n    span: 18..271,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 147..182,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 177..231,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 226..270,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 141..271,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 117..271,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 18..100,\n        ident: Ident {\n            span: 23..24,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 101..119,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 101..116,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 107..112,\n        sym: \"value\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 121..126,\n        sym: \"value\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 126..134,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 127..130,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 135..139,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 131..140,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 147..152,\n        sym: \"value\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 152..157,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 153..156,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 156..171,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 157..170,\n                sym: \"toExponential\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 170..182,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 177..182,\n        sym: \"value\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 182..231,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 183..188,\n                sym: \"other\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 226..231,\n        sym: \"value\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 231..270,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 232..235,\n                sym: \"bar\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 49..54,\n        name: Ident {\n            span: 49..54,\n            sym: \"null\",\n        },\n        type_args: [],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 40..54,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 85..91,\n        name: Ident {\n            span: 85..91,\n            sym: \"null\",\n        },\n        type_args: [],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 76..91,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 27..92,\n        members: [\n            TsTypeMember {\n                span: 33..60,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 33..38,\n                            sym: \"other\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 59..91,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 60..65,\n                        name: Some(\n                            Ident {\n                                span: 60..65,\n                                sym: \"index\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ]
+}

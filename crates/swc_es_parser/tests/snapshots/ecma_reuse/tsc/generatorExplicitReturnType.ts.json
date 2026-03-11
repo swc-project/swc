@@ -1,0 +1,65 @@
+{
+  "programs": [
+    "Program {\n    span: 100..646,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 157..182,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 177..206,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 241..262,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 344..358,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 527..541,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 632..646,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 201..247,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 201..227,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 100..272,\n        ident: Ident {\n            span: 110..112,\n            sym: \"g1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 321..350,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 321..339,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 264..367,\n        ident: Ident {\n            span: 274..276,\n            sym: \"g2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 368..429,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 368..419,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 478..533,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 478..513,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 421..551,\n        ident: Ident {\n            span: 431..433,\n            sym: \"g3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 600..638,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 600..627,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 543..646,\n        ident: Ident {\n            span: 553..555,\n            sym: \"g4\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 207..208,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 327..328,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 329..339,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 374..383,\n        sym: \"generator\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 484..485,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 606..607,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 608..627,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Yield(\n    YieldExpr {\n        span: 157..163,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 183..186,\n            value: \"a\",\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 177..187,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 225..226,\n            value: 1.0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 219..227,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 248..250,\n            value: 10.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 337..338,\n            value: 1.0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 331..339,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 351..355,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 503..512,\n        sym: \"generator\",\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 496..513,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 534..538,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 617..626,\n        sym: \"generator\",\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 610..627,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 639..643,\n            value: true,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

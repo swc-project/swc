@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 1..85,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 37..58,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..65,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..61,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 62..85,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 62..84,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"C\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..61,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 66..67,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 68..84,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"C\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 49..52,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 44..52,\n        callee: _,\n        args: [],\n    },\n)",
+    "Class(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 75..76,\n        sym: \"C\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 71..77,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 70..78,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 77..82,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 78..81,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 81..84,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 21..60,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 9..61,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 21..60,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 21..24,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

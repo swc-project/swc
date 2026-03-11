@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..15,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..15,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..4,\n        sym: \"obj\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 4..9,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 6..7,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 4..9,\n        base: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 7..12,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 9..10,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 7..12,\n        base: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 10..14,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 12..13,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 10..14,\n        base: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 13..15,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

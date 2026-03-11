@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 41..163,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 131..133,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 132..140,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 134..163,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 142..143,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 145..146,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 134..140,\n        sym: \"simple\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 141..162,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 140..163,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 1..198,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 145..171,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 33..197,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 100..151,\n        ident: Ident {\n            span: 109..116,\n            sym: \"onClick\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 8..198,\n        ident: Ident {\n            span: 17..24,\n            sym: \"Results\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 69..72,\n        elems: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 71..76,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 72..75,\n                sym: \"map\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 152..156,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 76..172,\n        params: [],\n        body: Block(\n            [\n                _,\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 75..173,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "JSXElement(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 40..195,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..198,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 50..194,\n    opening: JSXOpeningElement {\n        span: 50..194,\n        name: Ident(\n            Ident {\n                span: 51..55,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Expr(\n            _,\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 184..188,\n                sym: \"div\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}

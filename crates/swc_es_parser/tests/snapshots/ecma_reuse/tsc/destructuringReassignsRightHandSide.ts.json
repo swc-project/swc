@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 17..188,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 108..168,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 17..55,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 17..51,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 52..109,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 52..65,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 165..188,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 165..188,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..24,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 56..59,\n        sym: \"bar\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Object(\n    ObjectPat {\n        span: 169..183,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 171..175,\n                    key: Ident {\n                        span: 171..174,\n                        sym: \"foo\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 176..181,\n                    key: Ident {\n                        span: 176..179,\n                        sym: \"baz\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 39..40,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 47..48,\n            value: 2.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 32..51,\n        props: [\n            KeyValueProp {\n                span: 34..41,\n                key: Ident(\n                    Ident {\n                        span: 34..37,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 42..50,\n                key: Ident(\n                    Ident {\n                        span: 42..45,\n                        sym: \"bar\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 111..114,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 116..119,\n        sym: \"bar\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 109..123,\n        props: [\n            KeyValueProp {\n                span: 111..115,\n                key: Ident(\n                    Ident {\n                        span: 111..114,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 116..121,\n                key: Ident(\n                    Ident {\n                        span: 116..119,\n                        sym: \"bar\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 124..127,\n        sym: \"foo\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 122..128,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 108..129,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 184..187,\n        sym: \"foo\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

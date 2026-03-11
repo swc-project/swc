@@ -1,0 +1,64 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+ 1 | ,-> new Date();
+ 2 | `-> (new Date).toString()
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+ 1 | ,-> new Date();
+ 2 | `-> (new Date).toString()
+   `----
+  x NewExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+ 1 | new Date();
+   : ^^^^^^^^^^^
+ 2 | (new Date).toString()
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+ 1 | new Date();
+   :         ^^^
+ 2 | (new Date).toString()
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:1:1]
+ 1 | new Date();
+   :     ^^^^
+ 2 | (new Date).toString()
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+ 1 | new Date();
+ 2 | (new Date).toString()
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+ 1 | new Date();
+ 2 | (new Date).toString()
+   :                    ^^
+   `----
+  x MemberExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+ 1 | new Date();
+ 2 | (new Date).toString()
+   :           ^^^^^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+ 1 | new Date();
+ 2 | (new Date).toString()
+   : ^^^^^^^^^^^
+   `----
+  x NewExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+ 1 | new Date();
+ 2 | (new Date).toString()
+   :  ^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/new.js:2:1]
+ 1 | new Date();
+ 2 | (new Date).toString()
+   :      ^^^^
+   `----

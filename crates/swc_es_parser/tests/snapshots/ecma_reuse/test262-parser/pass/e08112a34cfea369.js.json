@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 1..63,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 21..22,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..26,\n        head: In(\n            ForInHead {\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 42..43,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 23..47,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Decl(\n                        _,\n                    ),\n                ),\n                test: None,\n                update: None,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 62..63,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 44..63,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 6..18,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 6..18,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 28..40,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 28..40,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 49..59,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 49..59,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"b\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 10..18,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 33..34,\n        sym: \"d\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 32..37,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 53..59,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 54..56,\n                    key: Ident {\n                        span: 54..55,\n                        sym: \"e\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"c\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 38..39,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 60..61,\n        sym: \"f\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

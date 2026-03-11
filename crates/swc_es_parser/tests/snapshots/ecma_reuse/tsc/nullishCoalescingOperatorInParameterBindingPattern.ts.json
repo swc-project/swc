@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 116..200,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 163..200,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 116..164,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 116..162,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 122..123,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 124..162,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 181..182,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 183..189,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 165..190,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 167..189,\n                    key: Computed(\n                        _,\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 152..161,\n        sym: \"undefined\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 126..162,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 168..169,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 169..174,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 175..178,\n            value: \"d\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 172..179,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 185..187,\n            value: \"\",\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 164..197,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 163..198,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 197..200,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

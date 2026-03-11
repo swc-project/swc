@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 1..65,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportAll(\n    ExportAllDecl {\n        span: 1..30,\n        src: StrLit {\n            span: 15..21,\n            value: \"test\",\n        },\n        type_only: false,\n        exported: None,\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 24..46,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 31..37,\n            value: \"test\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 40..65,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 47..51,\n                        sym: \"Test\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 57..63,\n            value: \"test\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

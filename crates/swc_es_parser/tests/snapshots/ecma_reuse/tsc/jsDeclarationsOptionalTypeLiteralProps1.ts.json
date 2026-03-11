@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 273..325,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 305..324,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 273..325,\n        ident: Ident {\n            span: 282..285,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 286..298,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 288..290,\n                    key: Ident {\n                        span: 288..289,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 291..293,\n                    key: Ident {\n                        span: 291..292,\n                        sym: \"b\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 294..297,\n                    key: Ident {\n                        span: 294..295,\n                        sym: \"c\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 312..313,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 316..317,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 314..319,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 320..321,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 318..322,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

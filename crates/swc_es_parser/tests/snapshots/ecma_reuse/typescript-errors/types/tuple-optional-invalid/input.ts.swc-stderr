@@ -1,0 +1,16 @@
+  x unexpected token in TypeScript type
+   ,-[/swc_ecma_parser/tests/typescript-errors/types/tuple-optional-invalid/input.ts:1:1]
+ 1 | let x: [string?, number]
+   :                ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected ], got Keyword(Number)
+   ,-[/swc_ecma_parser/tests/typescript-errors/types/tuple-optional-invalid/input.ts:1:1]
+ 1 | let x: [string?, number]
+   :                  ^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

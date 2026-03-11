@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 16..211,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 38..45,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 74..81,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 98..108,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 121..137,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 132..156,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 151..175,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 170..197,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 192..211,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 100..211,\n        ident: Ident {\n            span: 110..112,\n            sym: \"g3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 121..127,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 142..145,\n        sym: \"Bar\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 138..146,\n        callee: _,\n        args: [],\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 132..146,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 161..164,\n        sym: \"Baz\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 157..165,\n        callee: _,\n        args: [],\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 151..165,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 182..185,\n        sym: \"Bar\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 178..186,\n        callee: _,\n        args: [],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 177..187,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 170..187,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 204..207,\n        sym: \"Baz\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 200..208,\n        callee: _,\n        args: [],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 199..209,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 192..209,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

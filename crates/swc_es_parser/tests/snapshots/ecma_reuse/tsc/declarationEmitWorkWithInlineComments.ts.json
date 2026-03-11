@@ -1,0 +1,52 @@
+{
+  "programs": [
+    "Program {\n    span: 47..864,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 54..700,\n        ident: Ident {\n            span: 60..63,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 701..783,\n        ident: Ident {\n            span: 707..710,\n            sym: \"Bar\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 784..864,\n        ident: Ident {\n            span: 790..793,\n            sym: \"Baz\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 113..124,\n        sym: \"isInternal1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 162..173,\n        sym: \"isInternal2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 211..222,\n        sym: \"isInternal3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 260..271,\n        sym: \"isInternal4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 328..339,\n        sym: \"isInternal5\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 376..387,\n        sym: \"isInternal6\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 439..450,\n        sym: \"isInternal7\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 504..516,\n        sym: \"notInternal1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 573..585,\n        sym: \"notInternal2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 661..673,\n        sym: \"notInternal3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 750..761,\n        sym: \"isInternal1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 837..847,\n        sym: \"isInternal\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 47..700,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 694..783,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 777..864,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 68..692,\n    params: [\n        Param {\n            span: 106..133,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 155..182,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 204..231,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 253..280,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 321..348,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 369..411,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 432..459,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 497..525,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 566..594,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 654..682,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 715..775,\n    params: [\n        Param {\n            span: 743..770,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 798..864,\n    params: [\n        Param {\n            span: 830..859,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 54..700,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 60..63,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 701..783,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 707..710,\n            sym: \"Bar\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 784..864,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 790..793,\n            sym: \"Baz\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 68..692,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 68..79,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 715..775,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 715..726,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 798..864,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 798..809,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 233..332,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 256..259,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 258..317,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 316..332,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 233..257,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 233..255,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 237..238,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 239..255,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 248..252,\n            value: \"no\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 241..255,\n        props: [\n            KeyValueProp {\n                span: 243..254,\n                key: Ident(\n                    Ident {\n                        span: 243..246,\n                        sym: \"bye\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 256..257,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 258..259,\n        sym: \"y\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 259..270,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 260..268,\n                sym: \"ignoreMe\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 271..315,\n            value: \"ok but just because of the index signature\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 269..317,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 316..317,\n        sym: \"y\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 318..322,\n            value: \"hi\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 317..325,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 326..331,\n            value: \"yes\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 324..332,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

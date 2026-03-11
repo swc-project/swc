@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 1..159,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 155..159,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 8..81,\n        ident: Ident {\n            span: 13..14,\n            sym: \"U\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 77..125,\n        ident: Ident {\n            span: 82..84,\n            sym: \"Ex\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 85..86,\n                sym: \"T\",\n            },\n            Ident {\n                span: 88..89,\n                sym: \"U\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 126..156,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 126..156,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 130..131,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 155..156,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 156..159,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 157..158,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..81,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 26..29,\n            value: \"A\",\n        },\n    ),\n)",
+    "Keyword(\n    String,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 17..44,\n        members: [\n            TsTypeMember {\n                span: 19..32,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 19..23,\n                            sym: \"kind\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 31..42,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 31..32,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 54..57,\n            value: \"B\",\n        },\n    ),\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 45..61,\n        members: [\n            TsTypeMember {\n                span: 47..59,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 47..51,\n                            sym: \"kind\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 62..76,\n        members: [\n            TsTypeMember {\n                span: 64..75,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 64..65,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 45..76,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 17..76,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 93..102,\n        name: Ident {\n            span: 93..102,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 103..106,\n        name: Ident {\n            span: 103..106,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 107..110,\n        name: Ident {\n            span: 107..110,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 93..117,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)"
+  ]
+}

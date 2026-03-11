@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..37,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..18,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 15..37,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 15..36,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 28..29,\n        sym: \"a\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 19..33,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 21..31,\n                    key: Ident(\n                        Ident {\n                            span: 21..26,\n                            sym: \"yield\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 1..13,\n            value: \"use strict\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 34..35,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

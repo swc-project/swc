@@ -1,0 +1,7 @@
+  x unexpected eof
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/2079bad53fe76b1d.js:1:1]
+ 1 | with(x)
+   `----
+
+Advice: 
+  > code: Eof

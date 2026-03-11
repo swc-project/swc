@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 17..61,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 17..61,\n        ident: Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 45..46,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 30..61,\n    params: [\n        Param {\n            span: 38..55,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 17..61,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 30..61,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 34..37,\n                sym: \"Foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

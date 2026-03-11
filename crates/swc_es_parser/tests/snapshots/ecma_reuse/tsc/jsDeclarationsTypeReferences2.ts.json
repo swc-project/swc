@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 161..322,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 319..322,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 168..231,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 168..231,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 226..274,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 226..267,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 269..296,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 269..296,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 174..175,\n        sym: \"o\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 176..231,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 231..241,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 233..235,\n                    key: Ident {\n                        span: 233..234,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 236..239,\n                    key: Ident {\n                        span: 236..237,\n                        sym: \"m\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 275..280,\n        sym: \"thing\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 281..296,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 187..188,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 197..198,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 178..231,\n        props: [\n            KeyValueProp {\n                span: 184..189,\n                key: Ident(\n                    Ident {\n                        span: 184..185,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 194..200,\n                key: Ident(\n                    Ident {\n                        span: 194..195,\n                        sym: \"m\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 242..249,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 250..263,\n            value: \"./something\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 249..265,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 264..267,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 265..266,\n                sym: \"o\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 283..284,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 287..288,\n        sym: \"m\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 285..296,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 161..231,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

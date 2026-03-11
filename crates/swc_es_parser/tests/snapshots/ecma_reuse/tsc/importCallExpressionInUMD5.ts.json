@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 55..296,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 79..94,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 62..177,\n        ident: Ident {\n            span: 71..74,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 200..234,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 200..224,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 229..295,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 229..293,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 172..296,\n        ident: Ident {\n            span: 187..191,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 206..217,\n        sym: \"packageName\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 218..224,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 235..246,\n        sym: \"packageJson\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 247..293,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 86..91,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 220..223,\n            value: \".\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 255..261,\n        sym: \"import\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 262..273,\n        sym: \"packageName\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 276..291,\n            value: \"/package.json\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 274..292,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 261..293,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 249..293,\n        arg: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 55..177,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

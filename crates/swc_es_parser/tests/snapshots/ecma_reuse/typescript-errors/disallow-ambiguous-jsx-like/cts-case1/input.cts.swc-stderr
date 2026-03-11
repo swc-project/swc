@@ -1,0 +1,8 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/typescript-errors/disallow-ambiguous-jsx-like/cts-case1/input.cts:1:1]
+ 1 | <T>x;
+   : ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

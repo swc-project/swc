@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 503..598,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 556..597,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 510..598,\n        ident: Ident {\n            span: 519..520,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 521..522,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 524..525,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 527..528,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 530..535,\n        sym: \"alpha\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 537..541,\n        sym: \"beta\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 543..548,\n        sym: \"gamma\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 563..564,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 567..568,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 565..570,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 571..572,\n        sym: \"z\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 569..574,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 575..580,\n        sym: \"alpha\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 573..582,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 583..587,\n        sym: \"beta\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 581..589,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 590..595,\n        sym: \"gamma\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 588..597,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 503..598,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

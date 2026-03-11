@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..57,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 44..54,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 34..56,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 20..56,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..57,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 30..33,\n        callee: _,\n        args: [],\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 24..33,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 44..45,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 45..48,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

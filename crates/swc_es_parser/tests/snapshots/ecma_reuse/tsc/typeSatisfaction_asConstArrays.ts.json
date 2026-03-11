@@ -1,0 +1,47 @@
+{
+  "programs": [
+    "Program {\n    span: 59..195,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 59..148,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 59..148,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 143..195,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 143..195,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 65..69,\n        sym: \"arr1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 70..148,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 149..153,\n        sym: \"arr2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 154..195,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 73..74,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 76..77,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 79..80,\n            value: 3.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 72..84,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 82..100,\n        expr: _,\n        ty: _,\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 91..148,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 157..158,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 160..161,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 163..164,\n            value: 3.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 156..168,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 166..184,\n        expr: _,\n        ty: _,\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 175..195,\n        expr: _,\n        ty: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 85..100,\n        name: Ident {\n            span: 85..100,\n            sym: \"const\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Unknown,\n)",
+    "TypeOperator(\n    TsTypeOperatorType {\n        span: 101..118,\n        op: ReadOnly,\n        ty: _,\n    },\n)",
+    "Array(\n    TsArrayType {\n        span: 101..148,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 169..184,\n        name: Ident {\n            span: 169..184,\n            sym: \"const\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Unknown,\n)",
+    "Array(\n    TsArrayType {\n        span: 185..195,\n        elem_type: _,\n    },\n)"
+  ]
+}

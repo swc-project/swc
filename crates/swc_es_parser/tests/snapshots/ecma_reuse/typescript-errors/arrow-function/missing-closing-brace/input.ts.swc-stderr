@@ -1,0 +1,8 @@
+  x expected }, got Eof
+   ,-[/swc_ecma_parser/tests/typescript-errors/arrow-function/missing-closing-brace/input.ts:2:1]
+ 1 | const t = () => {
+ 2 |   console.log(5);
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..41,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 23..39,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..41,\n        ident: Ident {\n            span: 7..8,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 23..28,\n        sym: \"super\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 32..33,\n            value: 0.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 31..35,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 13..41,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..41,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..8,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 13..41,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 13..14,\n                sym: \"M\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

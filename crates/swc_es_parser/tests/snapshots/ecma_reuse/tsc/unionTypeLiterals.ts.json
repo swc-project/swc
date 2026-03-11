@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 41..562,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 41..78,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 41..74,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 75..124,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 75..119,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 121..164,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 121..160,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 161..208,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 161..203,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 205..266,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 205..262,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 263..324,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 263..320,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 321..373,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 321..368,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 370..442,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 370..438,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 439..511,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 439..507,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 508..562,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 508..562,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 45..56,\n        sym: \"simpleUnion\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 79..91,\n        sym: \"unionOfUnion\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 125..138,\n        sym: \"arrayOfUnions\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 165..178,\n        sym: \"arrayOfUnions\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..228,\n        sym: \"unionOfFunctionType\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 267..286,\n        sym: \"unionOfFunctionType\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 325..344,\n        sym: \"unionOfFunctionType\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 374..396,\n        sym: \"unionOfConstructorType\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 443..465,\n        sym: \"unionOfConstructorType\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 512..534,\n        sym: \"unionOfConstructorType\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

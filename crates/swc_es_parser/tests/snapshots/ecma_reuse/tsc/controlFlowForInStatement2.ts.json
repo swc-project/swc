@@ -1,0 +1,82 @@
+{
+  "programs": [
+    "Program {\n    span: 1..385,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 158..181,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 152..185,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 138..185,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 208..236,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 202..241,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 183..241,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 299..322,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 293..326,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 266..326,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 365..385,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 359..385,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 324..385,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..28,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..22,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 23..50,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 23..44,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 46..83,\n        ident: Ident {\n            span: 51..52,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 79..120,\n        ident: Ident {\n            span: 84..85,\n            sym: \"B\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 121..140,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 121..136,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 238..268,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 238..264,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..15,\n        sym: \"keywordA\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 16..22,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 29..37,\n        sym: \"keywordB\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 38..44,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 127..128,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 242..249,\n        sym: \"stringB\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 18..21,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 40..43,\n            value: \"b\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 142..145,\n            value: \"a\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 149..150,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 146..151,\n        op: In,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 158..159,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 187..195,\n        sym: \"keywordA\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 199..200,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 196..201,\n        op: In,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 208..209,\n        sym: \"c\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 260..263,\n            value: \"b\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 271..278,\n        sym: \"stringB\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 279..286,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 270..289,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 290..291,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 287..292,\n        op: In,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 299..300,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 329..336,\n        sym: \"stringB\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 337..352,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 328..355,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 356..357,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 353..358,\n        op: In,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 365..366,\n        sym: \"c\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 55..78,\n        members: [\n            TsTypeMember {\n                span: 57..77,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 58..66,\n                        name: Some(\n                            Ident {\n                                span: 58..66,\n                                sym: \"keywordA\",\n                            },\n                        ),\n                        ty: None,\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 88..111,\n        members: [\n            TsTypeMember {\n                span: 90..110,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 91..99,\n                        name: Some(\n                            Ident {\n                                span: 91..99,\n                                sym: \"keywordB\",\n                            },\n                        ),\n                        ty: None,\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 282..285,\n            value: \"b\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 341..344,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 347..350,\n            value: \"b\",\n        },\n    ),\n)",
+    "Union(\n    TsUnionType {\n        span: 341..351,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 340..352,\n        ty: _,\n    },\n)"
+  ]
+}

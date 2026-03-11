@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..32,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 1..32,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..13,\n                        sym: \"defer\",\n                    },\n                },\n            ),\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 19..21,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 27..30,\n            value: \"x\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

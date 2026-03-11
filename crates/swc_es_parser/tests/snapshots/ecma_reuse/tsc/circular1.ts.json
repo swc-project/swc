@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 39..120,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 39..96,\n        src: Some(\n            StrLit {\n                span: 62..67,\n                value: \"./b\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 53..54,\n                    sym: \"A\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: true,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 90..120,\n        src: Some(\n            StrLit {\n                span: 113..118,\n                value: \"./a\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 104..105,\n                    sym: \"A\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: true,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

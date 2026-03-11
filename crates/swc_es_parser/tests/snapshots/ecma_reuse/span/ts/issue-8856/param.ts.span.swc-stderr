@@ -1,0 +1,30 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x FnDecl
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x AssignPat
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   :                      ^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   :            ^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/param.ts:1:1]
+ 1 | function b(a: number = 1) { }
+   :                        ^
+   `----

@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 136..162,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 136..162,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 136..162,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 140..141,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 144..145,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 142..162,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 149..150,\n        sym: \"s\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 150..160,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 151..159,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 159..162,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 144..162,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

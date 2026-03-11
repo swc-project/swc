@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 18..99,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 18..99,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Template(\n    TemplateExpr {\n        span: 18..99,\n        quasis: [\n            StrLit {\n                span: 18..99,\n                value: \"0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 2028 2029 0085 t v f b r n\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

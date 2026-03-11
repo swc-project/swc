@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 78..183,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 165..181,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 78..183,\n        ident: Ident {\n            span: 99..100,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 172..174,\n            value: 42.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 78..183,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 107..146,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 140..183,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 93..183,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 99..100,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 107..146,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 107..118,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 140..183,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 147..148,\n                sym: \"B\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

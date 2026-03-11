@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 1..407,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 24..97,\n        ident: Ident {\n            span: 34..39,\n            sym: \"Point\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 50..70,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 50..51,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 69..85,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 69..70,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 98..145,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 98..133,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 146..216,\n        ident: Ident {\n            span: 156..163,\n            sym: \"Point3d\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 172..179,\n                sym: \"Point\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 188..204,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 188..189,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 217..274,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 217..262,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 275..406,\n        ident: Ident {\n            span: 285..289,\n            sym: \"Line\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 290..296,\n                sym: \"TPoint\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 321..368,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 326..340,\n                        name: Some(\n                            Ident {\n                                span: 326..331,\n                                sym: \"start\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                    TsFnParam {\n                        span: 341..353,\n                        name: Some(\n                            Ident {\n                                span: 341..344,\n                                sym: \"end\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 363..389,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 363..368,\n                            sym: \"start\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 386..404,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 386..389,\n                            sym: \"end\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 1..407,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 8..9,\n                sym: \"A\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 102..108,\n        sym: \"Origin\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 221..229,\n        sym: \"Origin3d\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 123..124,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 129..130,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 118..133,\n        props: [\n            KeyValueProp {\n                span: 120..125,\n                key: Ident(\n                    Ident {\n                        span: 120..121,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 126..132,\n                key: Ident(\n                    Ident {\n                        span: 126..127,\n                        sym: \"y\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 246..247,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 252..253,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 258..259,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 241..262,\n        props: [\n            KeyValueProp {\n                span: 243..248,\n                key: Ident(\n                    Ident {\n                        span: 243..244,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 249..254,\n                key: Ident(\n                    Ident {\n                        span: 249..250,\n                        sym: \"y\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 255..261,\n                key: Ident(\n                    Ident {\n                        span: 255..256,\n                        sym: \"z\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 17..97,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 91..145,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 139..216,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 210..274,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 268..406,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 333..340,\n        name: Ident {\n            span: 333..340,\n            sym: \"TPoint\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 346..353,\n        name: Ident {\n            span: 346..353,\n            sym: \"TPoint\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 370..377,\n        name: Ident {\n            span: 370..377,\n            sym: \"TPoint\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 391..398,\n        name: Ident {\n            span: 391..398,\n            sym: \"TPoint\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

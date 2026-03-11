@@ -1,0 +1,67 @@
+{
+  "programs": [
+    "Program {\n    span: 105..362,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 134..152,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 253..274,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 209..305,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 337..362,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 147..178,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 147..178,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 173..208,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 173..206,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 105..212,\n        ident: Ident {\n            span: 114..124,\n            sym: \"ollKorrect\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 302..340,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 302..340,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 125..126,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 153..154,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 155..178,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 179..180,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 181..206,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 306..309,\n        sym: \"Emu\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 310..340,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 134..135,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 135..152,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 136..142,\n                sym: \"_model\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 161..164,\n        sym: \"Emu\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 164..167,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 165..166,\n                sym: \"D\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 166..178,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 157..178,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 183..186,\n        sym: \"Emu\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 186..189,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 187..188,\n                sym: \"D\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 188..206,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 189..205,\n                sym: \"_wrapperInstance\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..212,\n        sym: \"Emu\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 212..216,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 213..214,\n                sym: \"D\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 253..257,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 257..266,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 258..264,\n                sym: \"_model\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 267..268,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 265..274,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Class(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 215..305,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 312..340,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 337..340,\n        sym: \"Emu\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 340..343,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 341..342,\n                sym: \"D\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 342..360,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 343..359,\n                sym: \"_wrapperInstance\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 229..276,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 217..305,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 229..276,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 229..240,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

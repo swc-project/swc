@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 84..352,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 110..258,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 282..301,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 250..305,\n        ident: Ident {\n            span: 259..260,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 302..352,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 302..351,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 261..262,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 264..265,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 267..274,\n        sym: \"skipped\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 306..307,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 308..351,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 289..290,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 290..294,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 291..292,\n                sym: \"t\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 295..296,\n        sym: \"y\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 296..299,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 297..298,\n                sym: \"t\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 293..299,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 310..311,\n        sym: \"f\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 317..321,\n            value: 1000.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 312..324,\n        props: [\n            KeyValueProp {\n                span: 314..323,\n                key: Ident(\n                    Ident {\n                        span: 314..315,\n                        sym: \"t\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 330..334,\n            value: 3000.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 325..337,\n        props: [\n            KeyValueProp {\n                span: 327..336,\n                key: Ident(\n                    Ident {\n                        span: 327..328,\n                        sym: \"t\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 343..347,\n            value: 5000.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 338..350,\n        props: [\n            KeyValueProp {\n                span: 340..349,\n                key: Ident(\n                    Ident {\n                        span: 340..341,\n                        sym: \"t\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 311..351,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

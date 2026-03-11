@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 188..349,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 188..213,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 188..206,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 301..332,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 301..325,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 194..195,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 196..206,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 307..312,\n        sym: \"items\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 313..325,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 202..204,\n            value: 12.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 198..206,\n        props: [\n            KeyValueProp {\n                span: 199..205,\n                key: Ident(\n                    Ident {\n                        span: 199..200,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 320..322,\n            value: 12.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 316..324,\n        props: [\n            KeyValueProp {\n                span: 317..323,\n                key: Ident(\n                    Ident {\n                        span: 317..318,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 315..325,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

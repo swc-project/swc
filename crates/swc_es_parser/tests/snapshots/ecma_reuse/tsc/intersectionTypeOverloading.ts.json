@@ -1,0 +1,56 @@
+{
+  "programs": [
+    "Program {\n    span: 96..252,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 96..132,\n        ident: Ident {\n            span: 101..102,\n            sym: \"F\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 128..158,\n        ident: Ident {\n            span: 133..134,\n            sym: \"G\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 155..173,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 155..169,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 170..189,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 170..184,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 186..208,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 186..204,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 205..224,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 205..219,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 221..243,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 221..239,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 240..252,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 240..251,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 159..161,\n        sym: \"fg\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 174..176,\n        sym: \"gf\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 190..191,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 192..204,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..210,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 225..226,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 227..239,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 244..245,\n        sym: \"y\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 194..196,\n        sym: \"fg\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 197..202,\n            value: \"abc\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 196..204,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 229..231,\n        sym: \"gf\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 232..237,\n            value: \"abc\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 231..239,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Fn(\n    TsFnType {\n        span: 105..127,\n        params: [\n            TsFnParam {\n                span: 106..116,\n                name: Some(\n                    Ident {\n                        span: 106..107,\n                        sym: \"s\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Fn(\n    TsFnType {\n        span: 137..153,\n        params: [\n            TsFnParam {\n                span: 138..145,\n                name: Some(\n                    Ident {\n                        span: 138..139,\n                        sym: \"x\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)"
+  ]
+}

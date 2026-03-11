@@ -1,0 +1,7 @@
+  x unexpected eof
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/26f0d66be5e7895a.js:1:1]
+ 1 | if(false) doThis(); else
+   `----
+
+Advice: 
+  > code: Eof

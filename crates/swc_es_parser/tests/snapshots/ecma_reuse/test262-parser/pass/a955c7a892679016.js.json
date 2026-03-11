@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..23,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 18..23,\n        expr: _,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..23,\n        head: In(\n            ForInHead {\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 6..14,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 6..14,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 10..11,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 15..16,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 18..19,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 19..23,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

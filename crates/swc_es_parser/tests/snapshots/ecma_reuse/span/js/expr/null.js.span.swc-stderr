@@ -1,0 +1,30 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/null.js:1:1]
+ 1 | let a = null
+   : ^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/null.js:1:1]
+ 1 | let a = null
+   : ^^^^^^^^^^^^
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/js/expr/null.js:1:1]
+ 1 | let a = null
+   : ^^^^^^^^^^^^
+   `----
+  x AssignPat
+   ,-[/swc_ecma_parser/tests/span/js/expr/null.js:1:1]
+ 1 | let a = null
+   :       ^^^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/expr/null.js:1:1]
+ 1 | let a = null
+   :     ^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/null.js:1:1]
+ 1 | let a = null
+   :         ^^^^
+   `----

@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 24..86,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 57..66,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 65..86,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 24..64,\n        ident: Ident {\n            span: 29..33,\n            sym: \"Test\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 34..35,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 65..66,\n        sym: \"B\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..75,\n        sym: \"number\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..84,\n        sym: \"string\",\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 67..85,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 39..48,\n        name: Ident {\n            span: 39..48,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

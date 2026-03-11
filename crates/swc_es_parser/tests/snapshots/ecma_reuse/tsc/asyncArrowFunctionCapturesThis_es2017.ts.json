@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 44..120,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 74..117,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 74..106,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 44..120,\n        ident: Ident {\n            span: 50..51,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 78..80,\n        sym: \"fn\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 81..106,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 101..105,\n        sym: \"this\",\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 95..106,\n        arg: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 89..106,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: true,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 57..119,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 44..120,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 50..51,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 57..119,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 57..63,\n                sym: \"method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

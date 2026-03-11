@@ -1,0 +1,25 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :     ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :                   ^^^
+   `----

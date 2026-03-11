@@ -1,0 +1,59 @@
+{
+  "programs": [
+    "Program {\n    span: 217..1099,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 517..572,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 999..1022,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 989..1027,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 1038..1056,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 1028..1058,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 958..1058,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 1097..1099,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 217..524,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 217..260,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 567..686,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 567..606,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 681..937,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 681..728,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 929..1066,\n        ident: Ident {\n            span: 938..944,\n            sym: \"testFn\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 223..230,\n        sym: \"myTypes\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 231..260,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Object(\n    ObjectPat {\n        span: 573..584,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 574..582,\n                    key: Ident {\n                        span: 574..581,\n                        sym: \"myTypes\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 687..698,\n        sym: \"testFnTypes\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 699..728,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 945..950,\n        sym: \"input\",\n    },\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 233..260,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 517..524,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 524..534,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 525..532,\n                sym: \"myTypes\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 535..542,\n        sym: \"myTypes\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 533..543,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 585..592,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 593..604,\n            value: \"./file.js\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 592..606,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 701..728,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 969..974,\n        sym: \"input\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 962..978,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 979..987,\n            value: \"number\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 975..988,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1006..1007,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1010..1015,\n        sym: \"input\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 1008..1016,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 1045..1049,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

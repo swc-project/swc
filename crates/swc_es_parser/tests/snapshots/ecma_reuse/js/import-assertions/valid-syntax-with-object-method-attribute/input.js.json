@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..77,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 1..77,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..11,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 17..27,\n            value: \"foo.json\",\n        },\n        with: [\n            ImportAttribute {\n                span: 37..50,\n                key: Ident(\n                    Ident {\n                        span: 37..41,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 43..49,\n                    value: \"json\",\n                },\n            },\n            ImportAttribute {\n                span: 51..75,\n                key: Ident(\n                    Ident {\n                        span: 51..65,\n                        sym: \"hasOwnProperty\",\n                    },\n                ),\n                value: StrLit {\n                    span: 67..73,\n                    value: \"true\",\n                },\n            },\n        ],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

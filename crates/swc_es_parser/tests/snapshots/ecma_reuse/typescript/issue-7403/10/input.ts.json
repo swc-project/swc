@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..28,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..28,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 18..19,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..3,\n        sym: \"fn\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 4..5,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 8..9,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 6..10,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 15..16,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 13..17,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 20..27,\n        left: _,\n        op: ZeroFillRShiftAssign,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 3..28,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

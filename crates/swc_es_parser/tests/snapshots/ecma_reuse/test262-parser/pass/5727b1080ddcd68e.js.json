@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..15,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..15,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 1..10,\n        sym: \"日本語\",\n    },\n)"
+  ],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 13..15,\n        elems: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 11..15,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

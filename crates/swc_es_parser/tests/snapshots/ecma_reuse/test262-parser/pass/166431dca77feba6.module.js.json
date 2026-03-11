@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..33,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 1..33,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..9,\n                        sym: \"a\",\n                    },\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 13..14,\n                        sym: \"b\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 13..14,\n                            sym: \"b\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 21..22,\n                        sym: \"c\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 16..17,\n                            sym: \"d\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 30..33,\n            value: \"a\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

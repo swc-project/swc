@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 18..103,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 46..74,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 46..66,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 71..103,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 71..101,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 18..103,\n        ident: Ident {\n            span: 27..28,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 29..38,\n        sym: \"arguments\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..60,\n        sym: \"_arguments\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 61..66,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 75..76,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 77..101,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 63..65,\n            value: 10.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 91..100,\n        sym: \"arguments\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 85..101,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 79..101,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

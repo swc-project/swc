@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 1..33,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 30..33,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 11..33,\n        head: In(\n            ForInHead {\n                left: Expr(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..14,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..7,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 1..10,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 8..9,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"b\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 16..25,\n        props: [\n            KeyValueProp {\n                span: 17..19,\n                key: Ident(\n                    Ident {\n                        span: 17..18,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 20..22,\n                key: Ident(\n                    Ident {\n                        span: 20..21,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 26..29,\n        elems: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

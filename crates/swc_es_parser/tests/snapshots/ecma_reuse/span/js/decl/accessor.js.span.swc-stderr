@@ -1,0 +1,170 @@
+  x Program
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
+  1 | ,-> class Foo {
+  2 | |       get a() {
+  3 | |   
+  4 | |       }
+  5 | |       set a(v) {
+  6 | |   
+  7 | |       }
+  8 | |   }
+  9 | |   
+ 10 | |   let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+  x DeclStmt
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
+  1 | ,-> class Foo {
+  2 | |       get a() {
+  3 | |   
+  4 | |       }
+  5 | |       set a(v) {
+  6 | |   
+  7 | |       }
+  8 | |   }
+  9 | |   
+ 10 | `-> let obj = {
+ 11 |         get a() { },
+    `----
+  x ClassDecl
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
+  1 | ,-> class Foo {
+  2 | |       get a() {
+  3 | |   
+  4 | |       }
+  5 | |       set a(v) {
+  6 | |   
+  7 | |       }
+  8 | |   }
+  9 | |   
+ 10 | `-> let obj = {
+ 11 |         get a() { },
+    `----
+  x Class
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:1:1]
+  1 | ,-> class Foo {
+  2 | |       get a() {
+  3 | |   
+  4 | |       }
+  5 | |       set a(v) {
+  6 | |   
+  7 | |       }
+  8 | |   }
+  9 | |   
+ 10 | `-> let obj = {
+ 11 |         get a() { },
+    `----
+  x ClassMethod
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:2:1]
+ 1 |     class Foo {
+ 2 | ,->     get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | `->     set a(v) {
+   `----
+  x Function
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:2:1]
+ 1 |     class Foo {
+ 2 | ,->     get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | `->     set a(v) {
+   `----
+  x ClassMethod
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:5:1]
+ 4 |         }
+ 5 | ,->     set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
+  x Function
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:5:1]
+ 4 |         }
+ 5 | ,->     set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:5:1]
+ 4 |     }
+ 5 |     set a(v) {
+   :           ^
+   `----
+  x DeclStmt
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+  x VarDecl
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+  x AssignPat
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+  x IdentPat
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+  9 | 
+ 10 | let obj = {
+    :     ^^^
+ 11 |     get a() { },
+    `----
+  x ObjectExpr
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+  x FunctionExpr
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:11:1]
+ 10 | let obj = {
+ 11 |     get a() { },
+    :     ^^^^^^^^^^^^
+ 12 |     set a(v) { },
+    `----
+  x Function
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:11:1]
+ 10 | let obj = {
+ 11 |     get a() { },
+    :     ^^^^^^^^^^^^
+ 12 |     set a(v) { },
+    `----
+  x FunctionExpr
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:12:1]
+ 11 |     get a() { },
+ 12 |     set a(v) { },
+    :     ^^^^^^^^^^^^^
+ 13 | }
+    `----
+  x Function
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:12:1]
+ 11 |     get a() { },
+ 12 |     set a(v) { },
+    :     ^^^^^^^^^^^^^
+ 13 | }
+    `----
+  x IdentPat
+    ,-[/swc_ecma_parser/tests/span/js/decl/accessor.js:12:1]
+ 11 |     get a() { },
+ 12 |     set a(v) { },
+    :           ^
+ 13 | }
+    `----

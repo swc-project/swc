@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 111..335,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 118..142,\n        ident: Ident {\n            span: 123..124,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 143..165,\n        ident: Ident {\n            span: 148..149,\n            sym: \"B\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 166..211,\n        ident: Ident {\n            span: 171..172,\n            sym: \"C\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 111..142,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 136..165,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 159..211,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 205..290,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 219..220,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 219..220,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: true,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 227..228,\n                        sym: \"B\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 227..228,\n                            sym: \"B\",\n                        },\n                    ),\n                    is_type_only: true,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 235..236,\n                        sym: \"C\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 235..236,\n                            sym: \"C\",\n                        },\n                    ),\n                    is_type_only: true,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 244..254,\n            value: \"./mod.js\",\n        },\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 284..335,\n        src: Some(\n            StrLit {\n                span: 323..333,\n                value: \"./mod.js\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 298..299,\n                    sym: \"A\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 306..307,\n                    sym: \"B\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 314..315,\n                    sym: \"C\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Unknown,\n)",
+    "Keyword(\n    Never,\n)",
+    "Keyword(\n    Any,\n)"
+  ]
+}

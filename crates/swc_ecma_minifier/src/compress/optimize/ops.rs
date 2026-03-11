@@ -354,6 +354,8 @@ fn contains_update_or_assign(expr: &Expr) -> bool {
                         .iter()
                         .any(|arg| contains_update_or_assign(&arg.expr))
             }
+            #[cfg(swc_ast_unknown)]
+            _ => false,
         },
 
         _ => false,

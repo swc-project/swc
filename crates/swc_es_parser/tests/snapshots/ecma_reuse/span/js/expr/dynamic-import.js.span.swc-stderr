@@ -1,0 +1,25 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+ 1 | import("foo")
+   : ^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+ 1 | import("foo")
+   : ^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+ 1 | import("foo")
+   :       ^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+ 1 | import("foo")
+   : ^^^^^^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/dynamic-import.js:1:1]
+ 1 | import("foo")
+   :        ^^^^^
+   `----

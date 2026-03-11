@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..125,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 36..49,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 44..56,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..43,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..43,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..14,\n        sym: \"Context\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 15..43,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 17..30,\n        sym: \"createContext\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 32..35,\n        sym: \"Key\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 30..43,\n        op: LShift,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 44..49,\n        sym: \"keyof\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

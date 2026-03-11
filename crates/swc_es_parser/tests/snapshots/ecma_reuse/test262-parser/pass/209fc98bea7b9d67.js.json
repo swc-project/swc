@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 1..22,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 11..21,\n        expr: _,\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 21..22,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 1..22,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 5..9,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 12..16,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

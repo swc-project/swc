@@ -1,0 +1,55 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ArrayPat
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   :     ^^^^^^^^^^^^^^^^^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   :      ^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   :         ^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   :            ^
+   `----
+  x RestPat
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   :               ^^^^^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   :                  ^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   :                             ^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/pat/array.js:1:1]
+ 1 | let [a, b, c, ...rest] = foo()
+   :                          ^^^
+   `----

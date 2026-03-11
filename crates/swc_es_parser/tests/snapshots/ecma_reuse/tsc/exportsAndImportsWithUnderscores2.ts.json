@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 57..215,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 57..74,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 57..74,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 178..215,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 178..214,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"R\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 83..84,\n        sym: \"R\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 184..211,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 186..197,\n                    key: Ident {\n                        span: 186..196,\n                        sym: \"__esmodule\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 198..209,\n                    key: Ident {\n                        span: 198..207,\n                        sym: \"__proto__\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 107..111,\n            value: true,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 130..134,\n        props: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 87..162,\n        props: [\n            KeyValueProp {\n                span: 93..112,\n                key: Str(\n                    StrLit {\n                        span: 93..105,\n                        value: \"__esmodule\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 117..134,\n                key: Str(\n                    StrLit {\n                        span: 117..128,\n                        value: \"__proto__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 85..162,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 212..213,\n        sym: \"R\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 68..162,\n        expr: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 156..183,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 163..164,\n                        sym: \"R\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 170..176,\n            value: \"./m1\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

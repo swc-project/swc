@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 206..358,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 354..358,\n        stmts: [],\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 214..302,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 214..239,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 299..355,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 299..323,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 218..223,\n        sym: \"alpha\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 303..304,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 315..320,\n        sym: \"alpha\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 320..323,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 321..322,\n                sym: \"a\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 113..312,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 113..148,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 113..144,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 145..180,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 145..176,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 177..222,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 177..218,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 219..253,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 219..240,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 250..285,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 250..272,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 282..312,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 282..303,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 117..125,\n        sym: \"strOrNum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 149..157,\n        sym: \"strOrNum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 181..189,\n        sym: \"strOrNum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 223..231,\n        sym: \"strOrNum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 254..262,\n        sym: \"strOrNum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 286..294,\n        sym: \"strOrNum\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

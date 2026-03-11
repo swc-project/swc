@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 56..113,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 101..110,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 56..113,\n        ident: Ident {\n            span: 62..63,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 80..81,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 101..102,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 102..106,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 103..105,\n                sym: \"#x\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 56..113,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 62..63,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 68..94,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 75..77,\n                sym: \"#x\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 88..112,\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

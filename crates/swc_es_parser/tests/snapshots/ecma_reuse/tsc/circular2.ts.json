@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 39..158,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 76..115,\n        ident: Ident {\n            span: 81..82,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 146..158,\n        ident: Ident {\n            span: 151..152,\n            sym: \"B\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 39..75,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 53..54,\n                        sym: \"B\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 53..54,\n                            sym: \"B\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 62..67,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 69..115,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 109..145,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 123..124,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 123..124,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 132..137,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 139..158,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 85..87,\n        name: Ident {\n            span: 85..87,\n            sym: \"B\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 155..157,\n        name: Ident {\n            span: 155..157,\n            sym: \"A\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

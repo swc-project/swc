@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..56,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 37..54,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..56,\n        ident: Ident {\n            span: 7..8,\n            sym: \"a\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 42..47,\n        sym: \"super\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 47..50,\n        callee: _,\n        args: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 38..51,\n        props: [\n            KeyValueProp {\n                span: 39..50,\n                key: Ident(\n                    Ident {\n                        span: 39..40,\n                        sym: \"c\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 37..52,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 21..56,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..56,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..8,\n            sym: \"a\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 21..56,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 21..32,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,72 @@
+{
+  "programs": [
+    "Program {\n    span: 1..480,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 168..174,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 182..192,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 191..216,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 215..232,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 231..263,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 262..283,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 282..317,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 316..357,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 356..418,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 417..443,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 442..480,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 171..183,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 171..180,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 175..176,\n        sym: \"f\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 182..183,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 184..192,\n        tag: _,\n        template: TemplateExpr {\n            span: 184..189,\n            quasis: [\n                StrLit {\n                    span: 184..189,\n                    value: \"abc\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Ident(\n    Ident {\n        span: 191..192,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 193..213,\n        tag: _,\n        template: TemplateExpr {\n            span: 193..212,\n            quasis: [\n                StrLit {\n                    span: 193..212,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Ident(\n    Ident {\n        span: 215..216,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 217..223,\n        tag: _,\n        template: TemplateExpr {\n            span: 217..222,\n            quasis: [\n                StrLit {\n                    span: 217..222,\n                    value: \"abc\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 222..232,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 223..229,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 231..232,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 233..253,\n        tag: _,\n        template: TemplateExpr {\n            span: 233..252,\n            quasis: [\n                StrLit {\n                    span: 233..252,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 252..260,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 253..259,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 262..263,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 264..270,\n        tag: _,\n        template: TemplateExpr {\n            span: 264..269,\n            quasis: [\n                StrLit {\n                    span: 264..269,\n                    value: \"abc\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 270..278,\n            value: \"member\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 269..280,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 282..283,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 284..304,\n        tag: _,\n        template: TemplateExpr {\n            span: 284..303,\n            quasis: [\n                StrLit {\n                    span: 284..303,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 304..312,\n            value: \"member\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 303..314,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 316..317,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 318..324,\n        tag: _,\n        template: TemplateExpr {\n            span: 318..323,\n            quasis: [\n                StrLit {\n                    span: 318..323,\n                    value: \"abc\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 324..325,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 323..327,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 326..353,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 327..333,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 334..354,\n        tag: _,\n        template: TemplateExpr {\n            span: 334..353,\n            quasis: [\n                StrLit {\n                    span: 334..353,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Ident(\n    Ident {\n        span: 356..357,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 358..378,\n        tag: _,\n        template: TemplateExpr {\n            span: 358..377,\n            quasis: [\n                StrLit {\n                    span: 358..377,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 378..386,\n            value: \"member\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 377..388,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 387..414,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 388..394,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 395..415,\n        tag: _,\n        template: TemplateExpr {\n            span: 395..414,\n            quasis: [\n                StrLit {\n                    span: 395..414,\n                    value: \"abc${1}def${2}ghi\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Ident(\n    Ident {\n        span: 417..418,\n        sym: \"f\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 418..433,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 419..432,\n                sym: \"thisIsNotATag\",\n            },\n        ),\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 433..438,\n        quasis: [\n            StrLit {\n                span: 433..438,\n                value: \"abc\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 432..440,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 442..443,\n        sym: \"f\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 443..458,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 444..457,\n                sym: \"thisIsNotATag\",\n            },\n        ),\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 458..477,\n        quasis: [\n            StrLit {\n                span: 458..477,\n                value: \"abc${1}def${2}ghi\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 457..479,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

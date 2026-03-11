@@ -1,0 +1,50 @@
+{
+  "programs": [
+    "Program {\n    span: 21..333,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 68..69,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 21..38,\n        ident: Ident {\n            span: 27..28,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 58..69,\n        ident: Ident {\n            span: 64..65,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 121..147,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 121..143,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 144..171,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 144..166,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 168..333,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 168..333,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 125..126,\n        sym: \"A\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"B\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 172..173,\n        sym: \"t\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 290..299,\n        sym: \"undefined\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 300..307,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 313..322,\n        sym: \"undefined\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 323..330,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 190..333,\n        props: [\n            KeyValueProp {\n                span: 287..307,\n                key: Ident(\n                    Ident {\n                        span: 287..288,\n                        sym: \"A\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 310..330,\n                key: Ident(\n                    Ident {\n                        span: 310..311,\n                        sym: \"B\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 32..57,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 46..47,\n                    sym: \"A\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: true,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 51..69,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 91..124,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 103..108,\n                        sym: \"types\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 114..119,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 21..38,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 27..28,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 58..69,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 64..65,\n            sym: \"B\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)"
+  ]
+}

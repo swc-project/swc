@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 21..115,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 81..93,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 97..115,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 21..104,\n        ident: Ident {\n            span: 27..28,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"C\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 51..54,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 53..62,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 54..61,\n                sym: \"#method\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 61..64,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 46..64,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 88..90,\n            value: 42.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 97..104,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 104..109,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 105..108,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 109..110,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 110..113,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 111..112,\n                sym: \"s\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 108..114,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 69..95,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 21..104,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 27..28,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 35..70,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 42..43,\n                sym: \"s\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 69..95,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 69..76,\n                sym: \"#method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

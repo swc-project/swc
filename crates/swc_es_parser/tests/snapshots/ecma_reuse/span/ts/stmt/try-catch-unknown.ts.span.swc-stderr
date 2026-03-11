@@ -1,0 +1,31 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/stmt/try-catch-unknown.ts:1:1]
+ 1 | ,-> try {
+ 2 | |   } catch (e: unknown) {
+ 3 | `-> }
+   `----
+  x TryStmt
+   ,-[/swc_ecma_parser/tests/span/ts/stmt/try-catch-unknown.ts:1:1]
+ 1 | ,-> try {
+ 2 | |   } catch (e: unknown) {
+ 3 | `-> }
+   `----
+  x BlockStmt
+   ,-[/swc_ecma_parser/tests/span/ts/stmt/try-catch-unknown.ts:1:1]
+ 1 | ,-> try {
+ 2 | `-> } catch (e: unknown) {
+ 3 |     }
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/ts/stmt/try-catch-unknown.ts:2:1]
+ 1 | try {
+ 2 | } catch (e: unknown) {
+   :          ^
+ 3 | }
+   `----
+  x BlockStmt
+   ,-[/swc_ecma_parser/tests/span/ts/stmt/try-catch-unknown.ts:2:1]
+ 1 |     try {
+ 2 | ,-> } catch (e: unknown) {
+ 3 | `-> }
+   `----

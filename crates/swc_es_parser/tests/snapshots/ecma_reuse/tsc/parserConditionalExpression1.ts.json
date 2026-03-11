@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 1..51,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..51,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 2..3,\n        sym: \"a\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 4..8,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 8..11,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 9..10,\n                sym: \"R\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 10..14,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 3..14,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..15,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 15..16,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 16..21,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 17..19,\n                sym: \"JW\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 22..23,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 23..27,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 24..26,\n                sym: \"e5\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 27..31,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 32..33,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 26..35,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 35..36,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 36..40,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 37..39,\n                sym: \"JW\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"_\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 41..44,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 42..43,\n                sym: \"l\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 39..44,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 22..44,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 21..45,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 19..45,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 45..49,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 49..51,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 50..51,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 14..51,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

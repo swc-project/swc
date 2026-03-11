@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 147..355,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 322..352,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 289..326,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 289..313,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 147..355,\n        ident: Ident {\n            span: 153..154,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 295..296,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 297..313,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 299..303,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 303..309,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 304..306,\n                sym: \"#a\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 310..313,\n        props: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 307..313,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 322..326,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 326..331,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 327..329,\n                sym: \"#b\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 332..336,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 336..342,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 337..339,\n                sym: \"#b\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 343..346,\n        props: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 340..346,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 330..346,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 275..354,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 147..355,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 153..154,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 210..268,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 210..212,\n                sym: \"#a\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 267..276,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 267..269,\n                sym: \"#b\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 275..354,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 275..276,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

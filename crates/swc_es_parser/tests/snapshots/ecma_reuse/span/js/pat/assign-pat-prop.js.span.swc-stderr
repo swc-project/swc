@@ -1,0 +1,30 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+ 1 | let { a = 'default' } = foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+ 1 | let { a = 'default' } = foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+ 1 | let { a = 'default' } = foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ObjectPat
+   ,-[/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+ 1 | let { a = 'default' } = foo
+   :     ^^^^^^^^^^^^^^^^^^^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+ 1 | let { a = 'default' } = foo
+   :           ^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/pat/assign-pat-prop.js:1:1]
+ 1 | let { a = 'default' } = foo
+   :                         ^^^
+   `----

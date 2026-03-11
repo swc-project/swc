@@ -1,0 +1,63 @@
+{
+  "programs": [
+    "Program {\n    span: 102..389,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 128..138,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 279..287,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 281..341,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 338..353,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 350..365,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 362..380,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 377..389,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 102..147,\n        ident: Ident {\n            span: 108..113,\n            sym: \"Alias\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 135..136,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 281..287,\n        sym: \"Object\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 287..303,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 288..302,\n                sym: \"defineProperty\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 303..304,\n        sym: \"A\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 304..315,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 305..314,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 316..321,\n            value: \"def\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 332..333,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 323..336,\n        props: [\n            KeyValueProp {\n                span: 325..335,\n                key: Ident(\n                    Ident {\n                        span: 325..330,\n                        sym: \"value\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 302..337,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 342..343,\n        sym: \"A\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 343..346,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 345..353,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 346..349,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "New(\n    NewExpr {\n        span: 338..353,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 354..355,\n        sym: \"A\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 355..358,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 357..365,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 358..361,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "New(\n    NewExpr {\n        span: 350..365,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 366..367,\n        sym: \"A\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 367..370,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 369..375,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 370..374,\n                sym: \"func\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 374..380,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 362..380,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 381..382,\n        sym: \"A\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 382..385,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 384..389,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 385..388,\n                sym: \"def\",\n            },\n        ),\n    },\n)",
+    "New(\n    NewExpr {\n        span: 377..389,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 188..280,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 195..196,\n                        sym: \"A\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 202..210,\n            value: \"./mod1\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 120..140,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 102..147,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 108..113,\n            sym: \"Alias\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 120..140,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 120..123,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

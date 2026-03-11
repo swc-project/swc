@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 24..108,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 99..108,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 32..76,\n        ident: Ident {\n            span: 41..44,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 73..100,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 73..98,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 77..78,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 79..98,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"y\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 81..84,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 86..95,\n        sym: \"undefined\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 85..97,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 84..98,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 104..106,\n            value: \"\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 103..108,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 101..108,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

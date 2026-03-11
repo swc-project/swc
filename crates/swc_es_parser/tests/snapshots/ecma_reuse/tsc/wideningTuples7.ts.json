@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 24..124,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 87..123,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 55..93,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 55..82,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 24..124,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..124,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 28..31,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 59..71,\n        sym: \"intermediate\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 94..106,\n        sym: \"intermediate\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 32..124,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 110..119,\n        sym: \"undefined\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 109..121,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 107..121,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Function(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 34..124,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

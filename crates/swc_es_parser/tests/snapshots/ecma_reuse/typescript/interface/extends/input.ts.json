@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..31,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..31,\n        ident: Ident {\n            span: 11..12,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 21..25,\n                sym: \"X.Y\",\n            },\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

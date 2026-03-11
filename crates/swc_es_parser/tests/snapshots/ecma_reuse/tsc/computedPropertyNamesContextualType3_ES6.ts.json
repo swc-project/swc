@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 17..154,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 105..123,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 17..77,\n        ident: Ident {\n            span: 27..28,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 35..72,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 36..37,\n                        name: Some(\n                            Ident {\n                                span: 36..37,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 74..154,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 74..154,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"o\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 100..101,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 139..140,\n        sym: \"y\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 93..98,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 92..99,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 112..113,\n        sym: \"y\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 113..121,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 114..120,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 131..136,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 130..137,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 144..145,\n        sym: \"y\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 145..154,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 146..152,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 139..154,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 85..154,\n        props: [\n            KeyValueProp {\n                span: 91..124,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 129..154,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 91..124,\n    params: [\n        Param {\n            span: 100..102,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Fn(\n    TsFnType {\n        span: 48..70,\n        params: [\n            TsFnParam {\n                span: 49..59,\n                name: Some(\n                    Ident {\n                        span: 49..50,\n                        sym: \"x\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)"
+  ]
+}

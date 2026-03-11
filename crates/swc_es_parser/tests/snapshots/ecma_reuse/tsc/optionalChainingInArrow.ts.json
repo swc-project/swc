@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 101..189,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 101..189,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 101..188,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 107..111,\n        sym: \"test\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 115..120,\n        sym: \"names\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 180..181,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 112..188,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 166..171,\n        sym: \"names\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 171..180,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 173..179,\n                sym: \"filter\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 171..180,\n        base: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 185..186,\n        sym: \"x\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 180..187,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 179..188,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 114..188,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,68 @@
+{
+  "programs": [
+    "Program {\n    span: 29..360,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 79..100,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 124..169,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 261..286,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 307..336,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 29..60,\n        ident: Ident {\n            span: 35..38,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 55..80,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 55..77,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 61..64,\n        sym: \"foo\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 65..77,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 71..74,\n        sym: \"Foo\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 74..77,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 67..77,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..83,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 83..88,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 84..85,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 86..93,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 79..95,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 93..98,\n        callee: _,\n        args: [],\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 93..98,\n        base: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 131..134,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 134..139,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 135..136,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 137..150,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 124..158,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 156..161,\n        callee: _,\n        args: [],\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 156..161,\n        base: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 262..265,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 265..271,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 267..268,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 265..271,\n        base: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 269..276,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 261..277,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 276..284,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 277..283,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 308..311,\n        sym: \"foo\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 314..317,\n            value: \"m\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 311..321,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 311..321,\n        base: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 319..326,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 307..327,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 326..334,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 327..333,\n                sym: \"length\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 45..53,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 29..60,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 35..38,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 45..53,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 45..46,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)"
+  ]
+}

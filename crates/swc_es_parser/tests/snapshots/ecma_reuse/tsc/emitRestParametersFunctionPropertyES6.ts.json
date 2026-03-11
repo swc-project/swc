@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 17..96,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 17..63,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 17..63,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 60..96,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 60..96,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..24,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..68,\n        sym: \"obj2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 85..89,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 82..90,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 69..96,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 71..96,\n        props: [\n            KeyValueProp {\n                span: 77..96,\n                key: Ident(\n                    Ident {\n                        span: 77..81,\n                        sym: \"func\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 77..96,\n    params: [\n        Param {\n            span: 82..90,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

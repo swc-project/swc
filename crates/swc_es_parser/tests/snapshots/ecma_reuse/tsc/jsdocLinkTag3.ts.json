@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 46..199,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 53..95,\n        ident: Ident {\n            span: 63..64,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 172..199,\n        ident: Ident {\n            span: 181..184,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 185..186,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 46..95,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 89..171,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 103..104,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 103..104,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 112..117,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 165..199,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

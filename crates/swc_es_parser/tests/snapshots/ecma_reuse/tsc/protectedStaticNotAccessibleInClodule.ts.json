@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 139..296,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 184..200,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 194..204,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 206..215,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 201..215,\n        label: Ident {\n            span: 201..204,\n            sym: \"bar\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 214..223,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 239..270,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 239..253,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 271..296,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 271..285,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 217..296,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 224..225,\n                sym: \"C\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 243..244,\n        sym: \"f\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 245..253,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 275..276,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 277..285,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 184..193,\n        sym: \"protected\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 194..200,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 206..212,\n        sym: \"string\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 247..248,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 248..253,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 249..252,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 279..280,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 280..285,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 281..284,\n                sym: \"bar\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 232..270,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 264..296,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..27,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..27,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 18..19,\n        sym: \"d\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 17..21,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 2..22,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 3..5,\n                    key: Ident {\n                        span: 3..4,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 5..11,\n                    key: Ident {\n                        span: 5..6,\n                        sym: \"b\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 11..13,\n                    key: Ident {\n                        span: 11..12,\n                        sym: \"c\",\n                    },\n                    value: None,\n                },\n            ),\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 13..21,\n                    key: Computed(\n                        _,\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 7..8,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"a\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 7..11,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 24..25,\n            value: 1.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1..26,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

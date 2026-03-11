@@ -1,0 +1,77 @@
+{
+  "programs": [
+    "Program {\n    span: 1..269,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 171..179,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 204..212,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 235..243,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 266..269,\n        stmts: [],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 244..269,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 213..269,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 180..269,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 147..269,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..43,\n        ident: Ident {\n            span: 11..13,\n            sym: \"I1\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 20..32,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 20..22,\n                            sym: \"p1\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 34..82,\n        ident: Ident {\n            span: 44..46,\n            sym: \"I2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 55..59,\n                sym: \"I1\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 64..77,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 64..66,\n                            sym: \"p2\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 79..110,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 79..106,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 107..134,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 107..130,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 131..149,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 131..145,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 83..84,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 85..106,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 111..112,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"z\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 93..95,\n            value: 10.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 101..103,\n            value: 20.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 87..106,\n        props: [\n            KeyValueProp {\n                span: 89..96,\n                key: Ident(\n                    Ident {\n                        span: 89..91,\n                        sym: \"p1\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 97..105,\n                key: Ident(\n                    Ident {\n                        span: 97..99,\n                        sym: \"p2\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 128..129,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 143..144,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 151..152,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 157..158,\n        sym: \"z\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 153..161,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 162..163,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 168..169,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 164..170,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 159..170,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 184..185,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 190..191,\n        sym: \"z\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 186..194,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 195..196,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 201..202,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 197..203,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 192..203,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 217..218,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 222..223,\n        sym: \"z\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 219..226,\n        op: EqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 227..228,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 232..233,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 229..234,\n        op: EqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 224..234,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 248..249,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 253..254,\n        sym: \"z\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 250..257,\n        op: NotEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 258..259,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 263..264,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 260..265,\n        op: NotEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 255..265,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)"
+  ]
+}

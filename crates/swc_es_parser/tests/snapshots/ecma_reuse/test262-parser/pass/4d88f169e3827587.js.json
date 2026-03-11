@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 1..26,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 5..13,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 24..26,\n        stmts: [],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 1..26,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 8..26,\n                param: Some(\n                    _,\n                ),\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 15..23,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 16..22,\n                    key: Ident {\n                        span: 16..17,\n                        sym: \"a\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 20..21,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

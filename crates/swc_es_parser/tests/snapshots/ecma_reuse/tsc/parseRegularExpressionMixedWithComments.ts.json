@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 1..179,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..27,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..23,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 24..54,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..50,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 51..121,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 51..117,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 118..152,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 118..148,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 149..179,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 149..179,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..11,\n        sym: \"regex1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 12..23,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 28..34,\n        sym: \"regex2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 35..50,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 55..61,\n        sym: \"regex3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 62..117,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 122..128,\n        sym: \"regex4\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 129..148,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 153..159,\n        sym: \"regex5\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 160..179,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 14..22,\n            exp: \" asdf \",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 41..49,\n            exp: \" asdf \",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 115..116,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 135..138,\n            exp: \" \",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 140..147,\n            exp: \"asdf \",\n            flags: \"\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 138..148,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 166..173,\n            exp: \" asdf\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 175..178,\n            exp: \" \",\n            flags: \"\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 173..179,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

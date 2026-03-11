@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 156..261,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 242..258,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 232..260,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 222..260,\n        test: _,\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 199..227,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 199..217,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 156..261,\n        ident: Ident {\n            span: 172..173,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 174..175,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 203..204,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 205..217,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 207..208,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 208..213,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 209..210,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 214..216,\n            value: 10.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 211..217,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 229..230,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 248..249,\n        sym: \"c\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 249..252,\n        op: MinusMinus,\n        arg: _,\n        prefix: false,\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 242..252,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

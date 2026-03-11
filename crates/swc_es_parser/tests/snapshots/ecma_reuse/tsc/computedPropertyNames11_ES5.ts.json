@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 17..386,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 309..338,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 337..341,\n        stmts: [],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 340..349,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 346..372,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 373..384,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 371..386,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 385..386,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 17..35,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 17..31,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 32..50,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 32..46,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 47..62,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 47..58,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..37,\n        sym: \"n\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 51..52,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 316..319,\n        sym: \"set\",\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 321..332,\n        quasis: [\n            StrLit {\n                span: 321..332,\n                value: \"hello bye\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 320..334,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 334..335,\n        sym: \"v\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 333..338,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 309..338,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 346..349,\n        sym: \"get\",\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 351..367,\n        quasis: [\n            StrLit {\n                span: 351..367,\n                value: \"hello ${a} bye\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 350..369,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 368..372,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 380..381,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 2..217,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 105..116,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 157..174,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 147..183,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 195..215,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 184..217,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 133..217,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 2..26,\n        ident: Ident {\n            span: 7..8,\n            sym: \"S\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 22..49,\n        ident: Ident {\n            span: 27..28,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 108..217,\n        ident: Ident {\n            span: 117..118,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 119..122,\n        sym: \"foo\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 137..140,\n        sym: \"isS\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 141..144,\n        sym: \"foo\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 140..146,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 164..167,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 202..205,\n        sym: \"foo\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 206..207,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 205..209,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 11..14,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 17..20,\n            value: \"b\",\n        },\n    ),\n)",
+    "Union(\n    TsUnionType {\n        span: 11..21,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 31..33,\n        name: Ident {\n            span: 31..33,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)",
+    "Array(\n    TsArrayType {\n        span: 31..36,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 37..39,\n        name: Ident {\n            span: 37..39,\n            sym: \"S\",\n        },\n        type_args: [],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 31..39,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

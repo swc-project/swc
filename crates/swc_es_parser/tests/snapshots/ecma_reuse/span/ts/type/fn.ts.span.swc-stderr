@@ -1,0 +1,20 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
+ 1 | type A = () => void;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
+ 1 | type A = () => void;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeAliasDecl
+   ,-[/swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
+ 1 | type A = () => void;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsFnType
+   ,-[/swc_ecma_parser/tests/span/ts/type/fn.ts:1:1]
+ 1 | type A = () => void;
+   :          ^^^^^^^^^^^
+   `----

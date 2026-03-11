@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..32,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 9..19,\n        expr: _,\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 28..29,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 16..31,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Decl(\n                        _,\n                    ),\n                ),\n                test: None,\n                update: None,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 7..32,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 1..32,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 20..26,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 20..26,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"c\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 4..5,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 13..14,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 11..15,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

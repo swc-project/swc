@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..60,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Continue(\n    ContinueStmt {\n        span: 42..60,\n        label: Some(\n            Ident {\n                span: 51..57,\n                sym: \"label1\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 36..60,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 9..60,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Decl(\n                        _,\n                    ),\n                ),\n                test: Some(\n                    _,\n                ),\n                update: Some(\n                    _,\n                ),\n            },\n        ),\n        body: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 1..60,\n        label: Ident {\n            span: 1..7,\n            sym: \"label1\",\n        },\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 13..23,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 13..23,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"i\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 19..23,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 21..22,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"i\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 28..29,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 26..30,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"i\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 32..35,\n        op: PlusPlus,\n        arg: _,\n        prefix: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

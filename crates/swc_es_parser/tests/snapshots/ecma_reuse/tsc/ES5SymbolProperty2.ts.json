@@ -1,0 +1,51 @@
+{
+  "programs": [
+    "Program {\n    span: 16..168,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 112..139,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 141..168,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 31..59,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 31..47,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 60..113,\n        ident: Ident {\n            span: 66..67,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 16..142,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 23..24,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 35..41,\n        sym: \"Symbol\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 79..85,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 85..95,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 86..94,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 117..118,\n        sym: \"C\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 113..119,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 112..120,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 120..126,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 126..136,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 127..135,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 119..137,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 146..147,\n        sym: \"M\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 147..150,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 148..149,\n                sym: \"C\",\n            },\n        ),\n    },\n)",
+    "New(\n    NewExpr {\n        span: 142..150,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 141..151,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 151..157,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 157..167,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 158..166,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 150..168,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 53..113,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 78..107,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 60..113,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 66..67,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 78..107,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

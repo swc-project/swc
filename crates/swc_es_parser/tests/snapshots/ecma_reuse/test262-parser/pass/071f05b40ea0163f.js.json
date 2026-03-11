@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 1..105,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..37,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 34..70,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 67..105,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 7..17,\n            value: \"aa, [bb]\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 19..31,\n            value: \"return aa;\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 6..33,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 1..33,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 38..39,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 40..50,\n            value: \"aa, {bb}\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 52..64,\n            value: \"return aa;\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 39..66,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 34..66,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 71..72,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 73..89,\n            value: \"[[aa]], [{bb}]\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 91..103,\n            value: \"return aa;\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 72..105,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 67..105,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

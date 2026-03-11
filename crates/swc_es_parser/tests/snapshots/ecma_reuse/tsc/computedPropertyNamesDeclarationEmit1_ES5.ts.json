@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 39..129,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 91..102,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 39..129,\n        ident: Ident {\n            span: 45..46,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 121..122,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 54..56,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 59..61,\n            value: \"\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 57..62,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 78..80,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 83..85,\n            value: \"\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 81..86,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 98..99,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 112..114,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 117..119,\n            value: \"\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 115..120,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 53..76,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 73..110,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 107..129,\n    params: [\n        Param {\n            span: 121..123,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 39..129,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 45..46,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 53..76,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 73..110,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 107..129,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

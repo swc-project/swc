@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 23..45,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsModule(\n    TsModuleDecl {\n        span: 31..45,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 38..43,\n                value: \"foo\",\n            },\n        ),\n        body: None,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

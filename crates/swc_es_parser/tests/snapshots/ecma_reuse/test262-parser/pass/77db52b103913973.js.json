@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..14,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..14,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 2..3,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 10..13,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 8..14,\n        expr: _,\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 1..14,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: true,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

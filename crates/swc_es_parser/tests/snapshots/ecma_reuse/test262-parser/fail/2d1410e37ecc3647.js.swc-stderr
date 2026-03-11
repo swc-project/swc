@@ -1,0 +1,7 @@
+  x expected {, got Eof
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/2d1410e37ecc3647.js:1:1]
+ 1 | function f(a, ...b = 0)
+   `----
+
+Advice: 
+  > code: UnexpectedToken

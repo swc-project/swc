@@ -1,0 +1,59 @@
+{
+  "programs": [
+    "Program {\n    span: 7..163,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 22..25,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 21..26,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 20..33,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 40..46,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 38..52,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 31..52,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 52..55,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 51..57,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 14..62,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 69..75,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 63..85,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 7..85,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 139..145,\n        expr: _,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 132..145,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 96..145,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Decl(\n                        _,\n                    ),\n                ),\n                test: Some(\n                    _,\n                ),\n                update: Some(\n                    _,\n                ),\n            },\n        ),\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 90..150,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 157..163,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 151..163,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 83..163,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 101..111,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 101..111,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"e\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 107..111,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 35..36,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 41..44,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..70,\n        sym: \"d\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 70..73,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 87..88,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 109..110,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 112..113,\n        sym: \"e\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 116..117,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 114..118,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 121..122,\n        sym: \"e\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 119..123,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 136..137,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 139..140,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 140..143,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 157..158,\n        sym: \"d\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 158..161,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

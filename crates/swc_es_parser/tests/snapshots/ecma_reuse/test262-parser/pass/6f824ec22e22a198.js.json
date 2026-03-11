@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..16,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..16,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 10..11,\n        sym: \"c\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 7..12,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 2..16,\n        props: [\n            KeyValueProp {\n                span: 3..15,\n                key: Ident(\n                    Ident {\n                        span: 3..4,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..16,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 3..15,\n    params: [\n        Param {\n            span: 5..7,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 7..12,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,64 @@
+{
+  "programs": [
+    "Program {\n    span: 52..411,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 102..112,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 155..167,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 164..171,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 170..176,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 172..179,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 178..186,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 181..266,\n        ident: Ident {\n            span: 187..189,\n            sym: \"DB\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 261..346,\n        ident: Ident {\n            span: 267..269,\n            sym: \"DD\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 341..411,\n        ident: Ident {\n            span: 347..349,\n            sym: \"EB\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 155..163,\n        sym: \"override\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 164..167,\n        sym: \"bar\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 168..171,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 172..179,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 198..199,\n        sym: \"B\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 278..279,\n        sym: \"D\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 358..359,\n        sym: \"D\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 215..242,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 243..259,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 295..322,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 323..339,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 366..393,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 394..410,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 181..266,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 187..189,\n            sym: \"DB\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 261..346,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 267..269,\n            sym: \"DD\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 341..411,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 347..349,\n            sym: \"EB\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 206..218,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 206..214,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 215..242,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 215..218,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 234..246,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 234..242,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 243..259,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 243..246,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 286..298,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 286..294,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 295..322,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 295..298,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 314..326,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 314..322,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 323..339,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 323..326,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 366..393,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 366..369,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 385..397,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 385..393,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 394..410,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 394..397,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

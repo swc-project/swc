@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 74..551,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 101..118,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 101..107,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 82..134,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 89..94,\n                value: \"equ\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 155..171,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 155..169,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 135..341,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 142..148,\n                value: \"equ2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 520..539,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 520..535,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 536..551,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 536..550,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 159..160,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 524..525,\n        sym: \"n\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 526..535,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 540..541,\n        sym: \"n\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 528..532,\n        sym: \"imp3\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 532..535,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 533..534,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 335..495,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 342..346,\n                        sym: \"imp1\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 489..523,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 496..500,\n                        sym: \"imp3\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

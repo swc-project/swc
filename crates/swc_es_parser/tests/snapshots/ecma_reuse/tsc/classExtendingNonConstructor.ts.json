@@ -1,0 +1,59 @@
+{
+  "programs": [
+    "Program {\n    span: 1..234,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 34..47,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..21,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..11,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 13..54,\n        ident: Ident {\n            span: 22..25,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 49..85,\n        ident: Ident {\n            span: 55..57,\n            sym: \"C1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 80..111,\n        ident: Ident {\n            span: 86..88,\n            sym: \"C2\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 106..138,\n        ident: Ident {\n            span: 112..114,\n            sym: \"C3\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 133..162,\n        ident: Ident {\n            span: 139..141,\n            sym: \"C4\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 157..191,\n        ident: Ident {\n            span: 163..165,\n            sym: \"C5\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 186..214,\n        ident: Ident {\n            span: 192..194,\n            sym: \"C6\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 209..234,\n        ident: Ident {\n            span: 215..217,\n            sym: \"C7\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"x\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 34..38,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 38..42,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 39..40,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 43..44,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 41..45,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 66..75,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..101,\n        sym: \"true\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 123..128,\n        sym: \"false\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 150..152,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 174..181,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 203..204,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 226..229,\n        sym: \"foo\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 49..85,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 55..57,\n            sym: \"C1\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 80..111,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 86..88,\n            sym: \"C2\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 106..138,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 112..114,\n            sym: \"C3\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 133..162,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 139..141,\n            sym: \"C4\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 157..191,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 163..165,\n            sym: \"C5\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 186..214,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 192..194,\n            sym: \"C6\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 209..234,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 215..217,\n            sym: \"C7\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

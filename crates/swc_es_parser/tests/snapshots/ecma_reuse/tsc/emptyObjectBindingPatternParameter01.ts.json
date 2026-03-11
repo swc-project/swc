@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 24..59,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 45..59,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 45..51,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 45..54,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 45..57,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 24..59,\n        ident: Ident {\n            span: 33..34,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 35..38,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 49..50,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 52..53,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 55..56,\n        sym: \"z\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

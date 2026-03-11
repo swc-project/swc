@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 24..85,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 71..85,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 71..77,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 71..80,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 71..83,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 24..85,\n        ident: Ident {\n            span: 33..34,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 35..39,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 38..64,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 75..76,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 81..82,\n        sym: \"z\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 44..45,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 50..53,\n            value: \"2\",\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 58..62,\n            value: true,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 40..64,\n        props: [\n            KeyValueProp {\n                span: 41..46,\n                key: Ident(\n                    Ident {\n                        span: 41..42,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 47..54,\n                key: Ident(\n                    Ident {\n                        span: 47..48,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 55..63,\n                key: Ident(\n                    Ident {\n                        span: 55..56,\n                        sym: \"c\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

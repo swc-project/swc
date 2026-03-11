@@ -1,0 +1,35 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                           ^^^^^^^^^^^
+   `----
+  x MemberExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                       ^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                ^^^^^^^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                            ^^^^^^^^
+   `----

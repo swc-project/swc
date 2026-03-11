@@ -1,0 +1,31 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "High-performance semantics analysis for swc_es_ast"
+documentation = "https://rustdoc.swc.rs/swc_es_semantics/"
+edition       = { workspace = true }
+license       = { workspace = true }
+name          = "swc_es_semantics"
+repository    = { workspace = true }
+version       = "0.1.0"
+
+[lib]
+bench = false
+
+[features]
+default = []
+
+[dependencies]
+rustc-hash = { workspace = true }
+
+swc_atoms   = { version = "9.0.0", path = "../swc_atoms" }
+swc_es_ast  = { version = "0.1.0", path = "../swc_es_ast" }
+swc_es_visit = { version = "0.1.0", path = "../swc_es_visit" }
+
+[dev-dependencies]
+serde       = { workspace = true, features = ["derive"] }
+serde_json   = { workspace = true }
+walkdir      = { workspace = true }
+
+swc_common   = { version = "19.0.0", path = "../swc_common" }
+swc_es_parser = { version = "0.1.0", path = "../swc_es_parser" }
+testing      = { version = "20.0.0", path = "../testing" }

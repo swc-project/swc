@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 112..486,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 459..485,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 112..172,\n        ident: Ident {\n            span: 117..125,\n            sym: \"Registry\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 168..210,\n        ident: Ident {\n            span: 173..178,\n            sym: \"Keyof\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 179..180,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 211..347,\n        ident: Ident {\n            span: 220..222,\n            sym: \"f1\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 339..486,\n        ident: Ident {\n            span: 348..350,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 299..308,\n        sym: \"eventPath\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 427..432,\n        sym: \"scope\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 441..446,\n        sym: \"event\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 459..461,\n        sym: \"f1\",\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 462..481,\n        quasis: [\n            StrLit {\n                span: 462..481,\n                value: \"${scope}:${event}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 461..483,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeLit(\n    TsTypeLit {\n        span: 141..145,\n        members: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 135..146,\n        members: [\n            TsTypeMember {\n                span: 137..145,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 137..139,\n                            sym: \"a1\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 158..162,\n        members: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 152..163,\n        members: [\n            TsTypeMember {\n                span: 154..162,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 154..156,\n                            sym: \"b1\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 128..166,\n        members: [\n            TsTypeMember {\n                span: 132..150,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 132..133,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 149..165,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 149..150,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 190..193,\n        name: Ident {\n            span: 190..193,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeOperator(\n    TsTypeOperatorType {\n        span: 184..193,\n        op: KeyOf,\n        ty: _,\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 184..201,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

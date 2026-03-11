@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 16..92,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..42,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..38,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 39..68,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 39..63,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 65..92,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 65..92,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..26,\n        sym: \"arrow1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 27..38,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 43..49,\n        sym: \"arrow2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 53..54,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 50..63,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..75,\n        sym: \"arrow3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 79..80,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 82..83,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 76..92,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Arrow(\n    ArrowExpr {\n        span: 29..38,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 52..63,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 78..92,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

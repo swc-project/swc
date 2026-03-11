@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..156,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 1..49,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..11,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 15..18,\n                        sym: \"bar\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 15..18,\n                            sym: \"bar\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 26..31,\n            value: \"foo\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 43..86,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 55..57,\n                        sym: \"ns\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 63..68,\n            value: \"foo\",\n        },\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 80..124,\n        src: Some(\n            StrLit {\n                span: 101..106,\n                value: \"foo\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 89..93,\n                    sym: \"quux\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportAll(\n    ExportAllDecl {\n        span: 118..156,\n        src: StrLit {\n            span: 139..144,\n            value: \"foo\",\n        },\n        type_only: false,\n        exported: Some(\n            Ident {\n                span: 130..133,\n                sym: \"ns2\",\n            },\n        ),\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

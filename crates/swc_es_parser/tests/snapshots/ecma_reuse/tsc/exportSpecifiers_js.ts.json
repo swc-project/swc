@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 76..112,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 76..97,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 76..90,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 82..85,\n        sym: \"foo\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 86..90,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 88..89,\n            value: 0.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 91..112,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 105..108,\n                    sym: \"foo\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

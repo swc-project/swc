@@ -1,0 +1,103 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:1:1]
+ 1 | ,-> void 0
+ 2 | |   void i
+ 3 | |   +1
+ 4 | |   -1
+ 5 | |   +a
+ 6 | `-> -a
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:1:1]
+ 1 | ,-> void 0
+ 2 | `-> void i
+ 3 |     +1
+   `----
+  x UnaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:1:1]
+ 1 | ,-> void 0
+ 2 | `-> void i
+ 3 |     +1
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:1:1]
+ 1 | void 0
+   :      ^
+ 2 | void i
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:2:1]
+ 1 |     void 0
+ 2 | ,-> void i
+ 3 | |   +1
+ 4 | |   -1
+ 5 | |   +a
+ 6 | `-> -a
+   `----
+  x BinaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:6:1]
+ 5 | +a
+ 6 | -a
+   : ^^^
+   `----
+  x BinaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:5:1]
+ 4 |     -1
+ 5 | ,-> +a
+ 6 | `-> -a
+   `----
+  x BinaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:4:1]
+ 3 |     +1
+ 4 | ,-> -1
+ 5 | `-> +a
+ 6 |     -a
+   `----
+  x BinaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:3:1]
+ 2 |     void i
+ 3 | ,-> +1
+ 4 | `-> -1
+ 5 |     +a
+   `----
+  x UnaryExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:2:1]
+ 1 |     void 0
+ 2 | ,-> void i
+ 3 | `-> +1
+ 4 |     -1
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:2:1]
+ 1 | void 0
+ 2 | void i
+   :      ^
+ 3 | +1
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:3:1]
+ 2 | void i
+ 3 | +1
+   :  ^
+ 4 | -1
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:4:1]
+ 3 | +1
+ 4 | -1
+   :  ^
+ 5 | +a
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:5:1]
+ 4 | -1
+ 5 | +a
+   :  ^
+ 6 | -a
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/unary.js:6:1]
+ 5 | +a
+ 6 | -a
+   :  ^
+   `----

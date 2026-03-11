@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 44..283,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 44..96,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 44..96,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 91..138,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..138,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 133..180,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 133..180,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 175..221,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 175..221,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 216..249,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 216..249,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 244..275,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 244..275,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 270..283,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 270..283,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 52..96,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..98,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 99..138,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 139..140,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 141..180,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 181..182,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 183..221,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 222..223,\n        sym: \"e\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 224..249,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 250..251,\n        sym: \"f\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 252..275,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 276..277,\n        sym: \"g\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 278..283,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 54..56,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 101..103,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 143..145,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 185..187,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 226..228,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 254..256,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 280..282,\n            value: \"\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

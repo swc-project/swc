@@ -1,0 +1,60 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   :            ^^^^^^^^^^^^^^^
+   `----
+  x MemberExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   :        ^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   : ^^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   :             ^^^^^^^^^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   :              ^^^^^^^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   :               ^^^^^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   :                ^^^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   :                 ^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   :                  ^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   :                   ^
+   `----

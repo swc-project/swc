@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..39,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..24,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..17,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..11,\n        sym: \"from\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 12..17,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 14..17,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 33..37,\n        sym: \"from\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 18..39,\n        expr: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

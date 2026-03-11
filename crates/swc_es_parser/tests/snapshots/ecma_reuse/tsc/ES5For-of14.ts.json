@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 1..39,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 21..39,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..39,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 6..16,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 6..16,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 27..39,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 27..37,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 33..37,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 17..20,\n        elems: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 35..36,\n        sym: \"v\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

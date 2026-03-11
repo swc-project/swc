@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 17..105,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 82..99,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 57..103,\n        ident: Ident {\n            span: 67..71,\n            sym: \"quux\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 36..105,\n        ident: Ident {\n            span: 45..48,\n            sym: \"bar\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 17..105,\n        ident: Ident {\n            span: 26..29,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 88..91,\n        sym: \"foo\",\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 87..93,\n        expr: _,\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 82..93,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

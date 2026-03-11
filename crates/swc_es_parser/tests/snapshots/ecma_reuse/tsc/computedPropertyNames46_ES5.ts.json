@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 17..46,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 17..46,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 17..46,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"o\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 23..46,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 32..34,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 38..39,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 35..40,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 42..43,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 25..46,\n        props: [\n            KeyValueProp {\n                span: 31..45,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

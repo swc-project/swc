@@ -1,0 +1,36 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+ 1 | ,-> a: while (true) {
+ 2 | |       break a
+ 3 | `-> }
+   `----
+  x LabeledStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+ 1 | ,-> a: while (true) {
+ 2 | |       break a
+ 3 | `-> }
+   `----
+  x WhileStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+ 1 | ,-> a: while (true) {
+ 2 | |       break a
+ 3 | `-> }
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+ 1 | a: while (true) {
+   :           ^^^^
+ 2 |     break a
+   `----
+  x BlockStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:1:1]
+ 1 | ,-> a: while (true) {
+ 2 | |       break a
+ 3 | `-> }
+   `----
+  x BreakStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/label.js:2:1]
+ 1 |     a: while (true) {
+ 2 | ,->     break a
+ 3 | `-> }
+   `----

@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..67,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 41..66,\n        stmts: [],\n    },\n)",
+    "With(\n    WithStmt {\n        span: 20..66,\n        obj: _,\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..67,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 28..31,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 37..38,\n            value: 1.0,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 32..39,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 27..39,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 26..40,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

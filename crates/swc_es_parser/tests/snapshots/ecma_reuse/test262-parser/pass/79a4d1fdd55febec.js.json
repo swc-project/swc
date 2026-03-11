@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 1..92,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..92,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..92,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..92,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 10..11,\n        sym: \"b\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 9..14,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"c\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 55..60,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"d\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 58..63,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 54..66,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 12..66,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 73..74,\n        sym: \"e\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 72..77,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"f\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 75..80,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 71..83,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 64..83,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 88..89,\n        sym: \"g\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 89..92,\n        callee: _,\n        args: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 81..92,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

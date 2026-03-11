@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 45..199,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 76..92,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 76..90,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 53..156,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 60..65,\n                value: \"foo\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 179..199,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 179..198,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 80..81,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 183..184,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 185..198,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 187..190,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 190..194,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 191..192,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 195..197,\n            value: 10.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 193..198,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 69..92,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 150..182,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 157..160,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

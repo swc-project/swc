@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 154..331,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 154..212,\n        ident: Ident {\n            span: 160..162,\n            sym: \"C1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 207..272,\n        ident: Ident {\n            span: 213..215,\n            sym: \"C2\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 267..331,\n        ident: Ident {\n            span: 273..275,\n            sym: \"C3\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 183..185,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 192..197,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 236..238,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 252..257,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 296..298,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 312..317,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 321..327,\n            value: \"test\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 191..206,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 244..266,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 154..212,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 160..162,\n            sym: \"C1\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 207..272,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 213..215,\n            sym: \"C2\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 267..331,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 273..275,\n            sym: \"C3\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 169..192,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 176..180,\n                sym: \"#qux\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 191..206,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 222..250,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 229..233,\n                sym: \"#qux\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 244..266,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 282..310,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 289..293,\n                sym: \"#qux\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 304..330,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 16..68,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 42..68,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..43,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..30,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 16..41,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"b\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 47..48,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 54..55,\n            value: 0.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 52..56,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 46..57,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 42..59,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: true,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 61..63,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 65..66,\n            value: 1.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 60..68,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 58..68,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..31,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 5..13,\n        stmts: [],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 17..31,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 1..31,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 8..31,\n                param: Some(\n                    _,\n                ),\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 19..31,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 19..29,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 23..24,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 25..29,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 27..28,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

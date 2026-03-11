@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 17..45,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 17..45,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Template(\n    TemplateExpr {\n        span: 17..29,\n        quasis: [\n            StrLit {\n                span: 17..29,\n                value: \"abc${0}abc\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 29..38,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 30..37,\n                sym: \"indexOf\",\n            },\n        ),\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 38..43,\n        quasis: [\n            StrLit {\n                span: 38..43,\n                value: \"abc\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 37..45,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 16..99,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 16..69,\n        ident: Ident {\n            span: 26..43,\n            sym: \"SymbolConstructor\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 50..64,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 50..53,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 66..99,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 66..99,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 70..73,\n        sym: \"obj\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 74..99,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 83..89,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 89..94,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 90..93,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 96..97,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 76..99,\n        props: [\n            KeyValueProp {\n                span: 82..99,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)"
+  ]
+}

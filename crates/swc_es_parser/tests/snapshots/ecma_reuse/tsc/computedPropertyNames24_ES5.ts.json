@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 17..116,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 50..65,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 17..73,\n        ident: Ident {\n            span: 23..27,\n            sym: \"Base\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 68..116,\n        ident: Ident {\n            span: 74..75,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 57..58,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 84..88,\n        sym: \"Base\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 96..101,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 101..106,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 102..105,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 105..108,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 34..67,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 95..116,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 17..73,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..27,\n            sym: \"Base\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 68..116,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 74..75,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 34..67,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 34..37,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 95..116,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

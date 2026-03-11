@@ -1,0 +1,25 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/type/tuple/optional.ts:1:1]
+ 1 | type Foo = [first: number, second?: string, ...rest: any[]];
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/type/tuple/optional.ts:1:1]
+ 1 | type Foo = [first: number, second?: string, ...rest: any[]];
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeAliasDecl
+   ,-[/swc_ecma_parser/tests/span/ts/type/tuple/optional.ts:1:1]
+ 1 | type Foo = [first: number, second?: string, ...rest: any[]];
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTupleType
+   ,-[/swc_ecma_parser/tests/span/ts/type/tuple/optional.ts:1:1]
+ 1 | type Foo = [first: number, second?: string, ...rest: any[]];
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsArrayType
+   ,-[/swc_ecma_parser/tests/span/ts/type/tuple/optional.ts:1:1]
+ 1 | type Foo = [first: number, second?: string, ...rest: any[]];
+   :                                                      ^^^^^^
+   `----

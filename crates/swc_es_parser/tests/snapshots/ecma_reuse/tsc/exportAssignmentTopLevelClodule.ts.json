@@ -1,0 +1,50 @@
+{
+  "programs": [
+    "Program {\n    span: 40..226,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 202..226,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 181..226,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 40..76,\n        ident: Ident {\n            span: 46..49,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 91..109,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..107,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 70..116,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 77..80,\n                sym: \"Foo\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 205..225,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 205..223,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 95..101,\n        sym: \"answer\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 102..107,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..210,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 211..223,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 60..66,\n            value: \"test\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 104..106,\n            value: 42.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 184..187,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 187..198,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 188..194,\n                sym: \"answer\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 199..201,\n            value: 42.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 195..202,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 217..220,\n        sym: \"foo\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 220..223,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 213..223,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 84..109,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 148..183,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 155..158,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 40..76,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 46..49,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 53..69,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 53..57,\n                sym: \"test\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

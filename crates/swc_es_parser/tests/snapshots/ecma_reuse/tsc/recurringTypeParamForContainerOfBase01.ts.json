@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 24..202,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 24..87,\n        ident: Ident {\n            span: 34..42,\n            sym: \"BoxOfFoo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 43..44,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 67..76,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 67..71,\n                            sym: \"item\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 78..137,\n        ident: Ident {\n            span: 88..91,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 92..93,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 116..126,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 116..120,\n                            sym: \"self\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 128..202,\n        ident: Ident {\n            span: 138..141,\n            sym: \"Bar\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 142..143,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 168..172,\n                sym: \"Foo\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 181..202,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 181..186,\n                            sym: \"other\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 73..76,\n        name: Ident {\n            span: 73..76,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 122..124,\n        name: Ident {\n            span: 122..124,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 197..199,\n        name: Ident {\n            span: 197..199,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 188..200,\n        name: Ident {\n            span: 188..197,\n            sym: \"BoxOfFoo\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)"
+  ]
+}

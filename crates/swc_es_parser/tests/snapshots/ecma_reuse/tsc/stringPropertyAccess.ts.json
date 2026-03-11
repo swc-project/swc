@@ -1,0 +1,58 @@
+{
+  "programs": [
+    "Program {\n    span: 1..134,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..16,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..12,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 13..37,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 13..33,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 34..74,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 34..69,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 71..98,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 71..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 95..134,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 95..134,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..12,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 19..33,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 38..39,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 40..69,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 75..76,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 77..94,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"e\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 101..134,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 9..11,\n            value: \"\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 22..30,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 23..29,\n                sym: \"charAt\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 30..31,\n            value: 0.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 29..33,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 42..43,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 43..59,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 44..58,\n                sym: \"hasOwnProperty\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 59..67,\n            value: \"charAt\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 58..69,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 79..80,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 81..89,\n            value: \"charAt\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 80..91,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 91..92,\n            value: 0.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 90..94,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 103..104,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 105..121,\n            value: \"hasOwnProperty\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 104..123,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 123..132,\n            value: \"toFixed\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 122..134,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

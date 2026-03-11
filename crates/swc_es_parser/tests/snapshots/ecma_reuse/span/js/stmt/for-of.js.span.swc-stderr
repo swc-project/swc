@@ -1,0 +1,33 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+ 1 | ,-> for await (const a of foo) {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x ForStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+ 1 | ,-> for await (const a of foo) {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+ 1 | for await (const a of foo) {
+   :            ^^^^^^^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+ 1 | for await (const a of foo) {
+   :                  ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+ 1 | for await (const a of foo) {
+   :                       ^^^
+   `----
+  x BlockStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/for-of.js:1:1]
+ 1 | ,-> for await (const a of foo) {
+ 2 | |   
+ 3 | `-> }
+   `----

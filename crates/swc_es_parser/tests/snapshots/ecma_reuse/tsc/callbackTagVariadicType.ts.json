@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 193..240,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 200..221,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 200..221,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 218..240,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 218..240,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 206..207,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 208..221,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 222..225,\n        sym: \"res\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 226..240,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 216..217,\n            value: 1.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 210..221,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 228..229,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 230..233,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 235..238,\n            value: \"b\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 229..240,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 193..221,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

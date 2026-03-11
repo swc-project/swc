@@ -1,0 +1,20 @@
+{
+  "programs": [
+    "Program {\n    span: 1..9,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 8..9,\n    },\n)",
+    "With(\n    WithStmt {\n        span: 1..9,\n        obj: _,\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 6..7,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

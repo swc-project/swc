@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 158..423,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 408..423,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 158..409,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 158..305,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 162..165,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 246..247,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 295..296,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 166..305,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 413..414,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 238..304,\n        props: [\n            KeyValueProp {\n                span: 244..253,\n                key: Ident(\n                    Ident {\n                        span: 244..245,\n                        sym: \"f\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 293..303,\n                key: Ident(\n                    Ident {\n                        span: 293..294,\n                        sym: \"g\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 237..305,\n        expr: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 409..422,\n        props: [\n            KeyValueProp {\n                span: 411..421,\n                key: Ident(\n                    Ident {\n                        span: 411..412,\n                        sym: \"f\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 408..423,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 244..253,\n    params: [\n        Param {\n            span: 246..248,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 293..303,\n    params: [\n        Param {\n            span: 295..297,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 411..421,\n    params: [\n        Param {\n            span: 413..415,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

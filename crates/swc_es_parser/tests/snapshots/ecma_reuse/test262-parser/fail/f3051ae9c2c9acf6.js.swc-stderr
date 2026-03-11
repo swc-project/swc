@@ -1,0 +1,8 @@
+  x expected property name, got LParen
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/f3051ae9c2c9acf6.js:1:1]
+ 1 | ({(a)} = 0)
+   :   ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

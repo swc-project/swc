@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..127,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..127,\n        ident: Ident {\n            span: 11..29,\n            sym: \"IConnectedAppProps\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 42..53,\n                sym: \"ReturnType\",\n            },\n            Ident {\n                span: 86..97,\n                sym: \"ReturnType\",\n            },\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

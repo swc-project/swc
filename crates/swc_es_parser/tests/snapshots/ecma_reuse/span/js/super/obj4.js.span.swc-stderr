@@ -1,0 +1,10 @@
+  x `super` is not allowed outside methods in current syntax mode
+   ,-[/swc_ecma_parser/tests/span/js/super/obj4.js:5:1]
+ 4 |             b: function b(){
+ 5 |                 super.b
+   :                      ^
+ 6 |             }
+   `----
+
+Advice: 
+  > code: InvalidStatement

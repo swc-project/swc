@@ -1,0 +1,94 @@
+{
+  "programs": [
+    "Program {\n    span: 143..859,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 189..227,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 260..291,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 452..476,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 628..666,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 660..677,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 707..737,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 797..827,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 820..859,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 143..237,\n        ident: Ident {\n            span: 149..158,\n            sym: \"Rectangle\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 286..336,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 286..329,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 591..632,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 591..619,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 331..687,\n        ident: Ident {\n            span: 337..343,\n            sym: \"Render\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 732..772,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 732..768,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 769..803,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 769..795,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 292..305,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 293..303,\n                    key: Ident {\n                        span: 293..302,\n                        sym: \"Rectangle\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 597..600,\n        sym: \"obj\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 601..619,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 738..748,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 739..746,\n                    key: Ident {\n                        span: 739..745,\n                        sym: \"Render\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 773..779,\n        sym: \"render\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 780..795,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 189..196,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 196..201,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 197..200,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 201..219,\n            value: \"I'm a rectangle!\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 200..221,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 306..313,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 314..327,\n            value: \"./rectangle\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 313..329,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 452..456,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 456..466,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 457..464,\n                sym: \"objects\",\n            },\n        ),\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 467..470,\n        elems: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 465..470,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 607..616,\n        sym: \"Rectangle\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 616..619,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 603..619,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 628..632,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 632..641,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 633..640,\n                sym: \"objects\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 640..646,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 641..645,\n                sym: \"push\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 646..649,\n        sym: \"obj\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 645..651,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 667..670,\n        sym: \"obj\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 749..756,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 757..766,\n            value: \"./index\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 756..768,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 786..792,\n        sym: \"Render\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 792..795,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 782..795,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 797..803,\n        sym: \"render\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 803..817,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 804..816,\n                sym: \"addRectangle\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 816..819,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 820..827,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 827..832,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 828..831,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 832..841,\n            value: \"Objects\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 843..849,\n        sym: \"render\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 849..858,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 850..857,\n                sym: \"objects\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 831..859,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 165..229,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 350..578,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 566..679,\n    params: [],\n    body: [\n        _,\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 143..237,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 149..158,\n            sym: \"Rectangle\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 331..687,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 337..343,\n            sym: \"Render\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 165..229,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 165..176,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 350..578,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 350..361,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 566..679,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 566..578,\n                sym: \"addRectangle\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

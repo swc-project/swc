@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..65,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..65,\n        ident: Ident {\n            span: 6..7,\n            sym: \"Y\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Union(\n    TsUnionType {\n        span: 46..62,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 10..65,\n        members: [\n            TsTypeMember {\n                span: 16..23,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 16..19,\n                            sym: \"get\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 20..38,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 20..23,\n                            sym: \"bar\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 35..42,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 35..38,\n                            sym: \"set\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 39..65,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 39..42,\n                            sym: \"bar\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 43..62,\n                        name: Some(\n                            Ident {\n                                span: 43..44,\n                                sym: \"v\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: None,\n            },\n        ],\n    },\n)"
+  ]
+}

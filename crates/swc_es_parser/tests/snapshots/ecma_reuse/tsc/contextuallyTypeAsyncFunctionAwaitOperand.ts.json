@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 62..294,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 261..293,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 62..100,\n        ident: Ident {\n            span: 72..75,\n            sym: \"Obj\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 78..93,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 78..81,\n                            sym: \"key\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 136..187,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 136..177,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 182..267,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 182..256,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 95..294,\n        ident: Ident {\n            span: 110..113,\n            sym: \"fn1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 142..146,\n        sym: \"obj1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 188..192,\n        sym: \"obj2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 218..225,\n        sym: \"resolve\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 167..174,\n            value: \"value\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 160..177,\n        props: [\n            KeyValueProp {\n                span: 162..176,\n                key: Ident(\n                    Ident {\n                        span: 162..165,\n                        sym: \"key\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 154..177,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 210..217,\n        sym: \"Promise\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 229..236,\n        sym: \"resolve\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 244..251,\n            value: \"value\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 237..254,\n        props: [\n            KeyValueProp {\n                span: 239..253,\n                key: Ident(\n                    Ident {\n                        span: 239..242,\n                        sym: \"key\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 236..255,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 218..255,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 217..256,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 206..256,\n        callee: _,\n        args: [],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 200..256,\n        arg: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 281..288,\n            value: \"value\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 274..291,\n        props: [\n            KeyValueProp {\n                span: 276..290,\n                key: Ident(\n                    Ident {\n                        span: 276..279,\n                        sym: \"key\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 268..291,\n        arg: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 83..90,\n            value: \"value\",\n        },\n    ),\n)"
+  ]
+}

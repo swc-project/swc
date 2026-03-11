@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 107..154,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 130..154,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 107..137,\n        ident: Ident {\n            span: 116..123,\n            sym: \"MyClass\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 130..137,\n        sym: \"MyClass\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 137..149,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 138..147,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 150..153,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 148..153,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

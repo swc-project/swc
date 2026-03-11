@@ -1,0 +1,53 @@
+{
+  "programs": [
+    "Program {\n    span: 368..1180,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 686..717,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 368..606,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 368..606,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 601..636,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 601..628,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 712..1030,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 712..773,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 1025..1153,\n        ident: Ident {\n            span: 1031..1046,\n            sym: \"MainThreadTasks\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 374..384,\n        sym: \"taskGroups\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 385..606,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 607..622,\n        sym: \"taskNameToGroup\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 623..628,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 718..749,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 719..730,\n                    key: Ident {\n                        span: 719..729,\n                        sym: \"taskGroups\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 731..747,\n                    key: Ident {\n                        span: 731..746,\n                        sym: \"taskNameToGroup\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1136..1137,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1139..1140,\n        sym: \"y\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 418..429,\n            value: \"parseHTML\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 446..464,\n            value: \"Parse HTML & CSS\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 404..471,\n        props: [\n            KeyValueProp {\n                span: 414..430,\n                key: Ident(\n                    Ident {\n                        span: 414..416,\n                        sym: \"id\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 439..470,\n                key: Ident(\n                    Ident {\n                        span: 439..444,\n                        sym: \"label\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 503..516,\n            value: \"styleLayout\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 533..549,\n            value: \"Style & Layout\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 489..556,\n        props: [\n            KeyValueProp {\n                span: 499..517,\n                key: Ident(\n                    Ident {\n                        span: 499..501,\n                        sym: \"id\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 526..555,\n                key: Ident(\n                    Ident {\n                        span: 526..531,\n                        sym: \"label\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 387..606,\n        props: [\n            KeyValueProp {\n                span: 393..471,\n                key: Ident(\n                    Ident {\n                        span: 393..402,\n                        sym: \"parseHTML\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 476..556,\n                key: Ident(\n                    Ident {\n                        span: 476..487,\n                        sym: \"styleLayout\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 625..628,\n        props: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 750..757,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 758..771,\n            value: \"./module.js\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 757..773,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 1124..1145,\n    params: [\n        Param {\n            span: 1136..1138,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 1139..1141,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1025..1153,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1031..1046,\n            sym: \"MainThreadTasks\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 1124..1145,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1124..1135,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

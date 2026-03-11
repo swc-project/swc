@@ -1,0 +1,1 @@
+const t=XE?.default;r=new t({...e})

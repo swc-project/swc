@@ -1,0 +1,70 @@
+{
+  "programs": [
+    "Program {\n    span: 18..914,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 73..119,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 94..145,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 121..171,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 147..203,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 173..240,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 205..281,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 242..314,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 284..358,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 316..400,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 360..442,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 402..494,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 444..558,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 496..604,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 561..661,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 606..716,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 663..771,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 718..836,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 773..913,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 838..914,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 18..34,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 18..30,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 31..47,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 31..43,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 44..92,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 44..50,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 22..24,\n        sym: \"t1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 25..30,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 35..37,\n        sym: \"t2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 38..43,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"s\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 27..29,\n            value: 10.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 40..42,\n            value: 10.0,\n        },\n    ),\n)",
+    "Template(\n    TemplateExpr {\n        span: 73..92,\n        quasis: [\n            StrLit {\n                span: 73..92,\n                value: \"hello ${t1 ** t2}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 94..119,\n        quasis: [\n            StrLit {\n                span: 94..119,\n                value: \"hello ${t1 ** t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 121..145,\n        quasis: [\n            StrLit {\n                span: 121..145,\n                value: \"hello ${t1 + t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 147..171,\n        quasis: [\n            StrLit {\n                span: 147..171,\n                value: \"hello ${t1 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 173..203,\n        quasis: [\n            StrLit {\n                span: 173..203,\n                value: \"hello ${t1 + t2 ** t2 + t1 }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 205..240,\n        quasis: [\n            StrLit {\n                span: 205..240,\n                value: \"hello ${typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 242..281,\n        quasis: [\n            StrLit {\n                span: 242..281,\n                value: \"hello ${1 + typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 284..314,\n        quasis: [\n            StrLit {\n                span: 284..314,\n                value: \"hello ${t1 ** t2}${t1 ** t2}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 316..358,\n        quasis: [\n            StrLit {\n                span: 316..358,\n                value: \"hello ${t1 ** t2 ** t1}${t1 ** t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 360..400,\n        quasis: [\n            StrLit {\n                span: 360..400,\n                value: \"hello ${t1 + t2 ** t1}${t1 + t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 402..442,\n        quasis: [\n            StrLit {\n                span: 402..442,\n                value: \"hello ${t1 ** t2 + t1}${t1 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 444..494,\n        quasis: [\n            StrLit {\n                span: 444..494,\n                value: \"hello ${t1 + t2 ** t2 + t1}${t1 + t2 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 496..558,\n        quasis: [\n            StrLit {\n                span: 496..558,\n                value: \"hello ${typeof (t1 ** t2 ** t1) }${typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 561..604,\n        quasis: [\n            StrLit {\n                span: 561..604,\n                value: \"hello ${t1 ** t2} hello world ${t1 ** t2}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 606..661,\n        quasis: [\n            StrLit {\n                span: 606..661,\n                value: \"hello ${t1 ** t2 ** t1} hello world ${t1 ** t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 663..716,\n        quasis: [\n            StrLit {\n                span: 663..716,\n                value: \"hello ${t1 + t2 ** t1} hello world ${t1 + t2 ** t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 718..771,\n        quasis: [\n            StrLit {\n                span: 718..771,\n                value: \"hello ${t1 ** t2 + t1} hello world ${t1 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 773..836,\n        quasis: [\n            StrLit {\n                span: 773..836,\n                value: \"hello ${t1 + t2 ** t2 + t1} hello world ${t1 + t2 ** t2 + t1}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 838..913,\n        quasis: [\n            StrLit {\n                span: 838..913,\n                value: \"hello ${typeof (t1 ** t2 ** t1) } hello world ${typeof (t1 ** t2 ** t1) }\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

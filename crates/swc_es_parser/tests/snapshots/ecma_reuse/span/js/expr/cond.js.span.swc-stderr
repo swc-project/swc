@@ -1,0 +1,30 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/cond.js:1:1]
+ 1 | a ? b : 'c'
+   : ^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/cond.js:1:1]
+ 1 | a ? b : 'c'
+   : ^^^^^^^^^^^
+   `----
+  x CondExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/cond.js:1:1]
+ 1 | a ? b : 'c'
+   :   ^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/cond.js:1:1]
+ 1 | a ? b : 'c'
+   : ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/cond.js:1:1]
+ 1 | a ? b : 'c'
+   :     ^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/cond.js:1:1]
+ 1 | a ? b : 'c'
+   :         ^^^
+   `----

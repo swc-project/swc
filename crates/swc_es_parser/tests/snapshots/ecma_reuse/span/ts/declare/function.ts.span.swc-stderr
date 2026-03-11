@@ -1,0 +1,15 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/declare/function.ts:1:1]
+ 1 | declare function example(): undefined;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/declare/function.ts:1:1]
+ 1 | declare function example(): undefined;
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x FnDecl
+   ,-[/swc_ecma_parser/tests/span/ts/declare/function.ts:1:1]
+ 1 | declare function example(): undefined;
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

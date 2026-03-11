@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..23,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 4..14,\n        expr: _,\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 1..23,\n        body: _,\n        test: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 4..8,\n            exp: \"x\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 16..21,\n            value: false,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

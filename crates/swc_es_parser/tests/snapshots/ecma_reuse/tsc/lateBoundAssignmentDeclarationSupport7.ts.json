@@ -1,0 +1,70 @@
+{
+  "programs": [
+    "Program {\n    span: 143..430,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 212..229,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 228..250,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 143..171,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 143..165,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 166..203,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 166..193,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 195..213,\n        ident: Ident {\n            span: 204..205,\n            sym: \"F\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 314..385,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 314..379,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 380..415,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 380..409,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 410..430,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 410..429,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 149..153,\n        sym: \"_sym\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 154..165,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 172..176,\n        sym: \"_str\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 177..193,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 320..321,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 322..379,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 386..387,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 388..409,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 416..417,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 418..429,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 156..162,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 162..165,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 179..192,\n            value: \"my-fake-sym\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 212..213,\n        sym: \"F\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 214..218,\n        sym: \"_sym\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 213..221,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 222..226,\n            value: \"ok\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 220..227,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 228..229,\n        sym: \"F\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 230..234,\n        sym: \"_str\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 229..237,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 238..242,\n            value: \"ok\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 236..243,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 324..331,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 332..377,\n            value: \"./lateBoundAssignmentDeclarationSupport7.js\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 331..379,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 390..391,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 391..394,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 392..393,\n                sym: \"F\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 394..407,\n            value: \"my-fake-sym\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 393..409,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 420..421,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 421..424,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 422..423,\n                sym: \"F\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 424..425,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 425..428,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 426..427,\n                sym: \"S\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 423..429,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

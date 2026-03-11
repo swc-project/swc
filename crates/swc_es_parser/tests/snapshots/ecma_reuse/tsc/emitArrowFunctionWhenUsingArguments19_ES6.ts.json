@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 18..443,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 273..381,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 424..441,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 60..150,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 60..80,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 169..276,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 169..199,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 142..387,\n        ident: Ident {\n            span: 151..152,\n            sym: \"h\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 37..401,\n        ident: Ident {\n            span: 46..47,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 393..443,\n        ident: Ident {\n            span: 402..405,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 18..443,\n        ident: Ident {\n            span: 27..28,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 64..74,\n        sym: \"_arguments\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 75..80,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 173..180,\n        sym: \"capture\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 181..199,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 406..407,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 77..79,\n            value: 10.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 189..198,\n        sym: \"arguments\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 183..199,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 273..276,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 277..287,\n        sym: \"_arguments\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 276..289,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 431..434,\n            value: 100.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

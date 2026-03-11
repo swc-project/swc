@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 50..155,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 57..101,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 57..70,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 133..155,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 133..154,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 61..64,\n        sym: \"foo\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 65..70,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..138,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 139..154,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 67..69,\n            value: 42.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 141..144,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 144..150,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 145..148,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 151..153,\n            value: 42.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 149..154,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 50..101,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 95..136,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 102..105,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

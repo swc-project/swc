@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 428..713,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 428..528,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 428..438,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 525..582,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 525..535,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 579..627,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 579..596,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 628..713,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 628..712,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 432..437,\n        sym: \"tuvwx\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 529..534,\n        sym: \"wrong\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 583..595,\n        sym: \"insufficient\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 632..640,\n        sym: \"actually\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

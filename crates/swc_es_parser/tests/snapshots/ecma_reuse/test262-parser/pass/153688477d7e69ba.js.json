@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 134..199,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 182..192,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 172..194,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 153..194,\n        test: _,\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 134..199,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 161..162,\n        sym: \"a\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 160..165,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 167..168,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 168..171,\n        callee: _,\n        args: [],\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 166..171,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 163..171,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 182..183,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 183..186,\n        callee: _,\n        args: [],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 194..197,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 134..198,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 135..195,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

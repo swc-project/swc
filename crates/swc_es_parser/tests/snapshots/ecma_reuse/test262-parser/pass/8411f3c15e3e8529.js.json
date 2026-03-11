@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..11,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 2..6,\n        stmts: [],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 5..11,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 1..11,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 5..11,\n            exp: \"foo\",\n            flags: \"\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

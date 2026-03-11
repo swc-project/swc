@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 116..313,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 116..150,\n        ident: Ident {\n            span: 126..127,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 134..145,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 147..160,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 147..156,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 157..180,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 157..176,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 177..226,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 177..221,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 223..252,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 223..252,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 249..272,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 249..268,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 269..313,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 269..313,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 151..152,\n        sym: \"i\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 161..163,\n        sym: \"r2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 181..184,\n        sym: \"r2b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 227..228,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 253..255,\n        sym: \"r4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 273..276,\n        sym: \"rb4\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 172..173,\n        sym: \"i\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 173..176,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 213..214,\n        sym: \"i\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 214..221,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 215..220,\n                sym: \"apply\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 264..265,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 265..268,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 305..306,\n        sym: \"b\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 306..313,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 307..312,\n                sym: \"apply\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Void,\n)"
+  ]
+}

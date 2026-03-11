@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 85..230,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 161..176,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 212..227,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 93..119,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 93..112,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 114..230,\n        ident: Ident {\n            span: 120..123,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 97..106,\n        sym: \"decorator\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 168..169,\n            value: 0.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 145..182,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 182..191,\n        sym: \"decorator\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 219..220,\n            value: 0.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 196..229,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 114..230,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 120..123,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 130..182,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 138..142,\n                sym: \"prop\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 196..229,\n        decorators: [\n            Decorator {\n                span: 181..199,\n                expr: _,\n            },\n        ],\n        key: Ident(\n            Ident {\n                span: 196..199,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

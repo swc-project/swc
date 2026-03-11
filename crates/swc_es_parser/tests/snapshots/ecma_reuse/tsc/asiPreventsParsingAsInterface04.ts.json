@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 2..258,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 2..62,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2..23,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 2..42,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 2..53,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 110..258,\n        ident: Ident {\n            span: 167..168,\n            sym: \"I\",\n        },\n        declare: true,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 6..13,\n        sym: \"declare\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 24..33,\n        sym: \"interface\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"I\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

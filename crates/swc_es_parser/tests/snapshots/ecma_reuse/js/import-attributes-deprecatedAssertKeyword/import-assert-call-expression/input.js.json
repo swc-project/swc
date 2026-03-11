@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..25,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 1..25,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 8..11,\n            value: \"x\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

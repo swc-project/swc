@@ -1,0 +1,90 @@
+{
+  "programs": [
+    "Program {\n    span: 20..667,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 166..215,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 207..321,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 591..607,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 601..633,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 627..667,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 20..101,\n        ident: Ident {\n            span: 29..39,\n            sym: \"cloneAgain\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 102..174,\n        ident: Ident {\n            span: 111..119,\n            sym: \"suddenly\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 316..548,\n        ident: Ident {\n            span: 322..323,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 540..597,\n        ident: Ident {\n            span: 549..555,\n            sym: \"foobar\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 48..53,\n        sym: \"clone\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 40..56,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 42..44,\n                    key: Ident {\n                        span: 42..43,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 45..55,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 120..121,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 181..182,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 187..191,\n        sym: \"rest\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 176..194,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 178..183,\n                    key: Ident(\n                        Ident {\n                            span: 178..179,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 184..193,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 235..241,\n        sym: \"nested\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 222..244,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 224..231,\n                    key: Ident {\n                        span: 224..225,\n                        sym: \"z\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 232..243,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 248..252,\n        sym: \"rest\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 217..256,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 219..244,\n                    key: Ident(\n                        Ident {\n                            span: 219..220,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 245..254,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 255..290,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 340..345,\n        sym: \"clone\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 332..348,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 334..336,\n                    key: Ident {\n                        span: 334..335,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 337..347,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 451..456,\n        sym: \"clone\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 443..459,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 445..447,\n                    key: Ident {\n                        span: 445..446,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 448..458,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 569..573,\n        sym: \"opts\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 556..576,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 558..565,\n                    key: Ident {\n                        span: 558..561,\n                        sym: \"bar\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 566..575,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 581..586,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 166..174,\n        sym: \"suddenly\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 198..202,\n        sym: \"rest\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 202..205,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 203..204,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 175..205,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 174..206,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 207..215,\n        sym: \"suddenly\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 228..230,\n            value: 12.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 267..268,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 274..275,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 262..278,\n        props: [\n            KeyValueProp {\n                span: 264..269,\n                key: Ident(\n                    Ident {\n                        span: 264..265,\n                        sym: \"z\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 270..277,\n                key: Ident(\n                    Ident {\n                        span: 270..272,\n                        sym: \"ka\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 282..287,\n            value: \"noo\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 257..290,\n        props: [\n            KeyValueProp {\n                span: 259..278,\n                key: Ident(\n                    Ident {\n                        span: 259..260,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 279..289,\n                key: Ident(\n                    Ident {\n                        span: 279..280,\n                        sym: \"y\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 294..298,\n        sym: \"rest\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 298..302,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 299..300,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 303..309,\n        sym: \"nested\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 309..313,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 310..312,\n                sym: \"ka\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 301..313,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 216..313,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 215..314,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 562..565,\n        props: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 583..586,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 591..597,\n        sym: \"foobar\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 597..600,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 601..607,\n        sym: \"foobar\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 615..622,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 608..625,\n        props: [\n            KeyValueProp {\n                span: 610..624,\n                key: Ident(\n                    Ident {\n                        span: 610..613,\n                        sym: \"baz\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 607..626,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 627..633,\n        sym: \"foobar\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 653..660,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 641..664,\n        props: [\n            KeyValueProp {\n                span: 643..662,\n                key: Ident(\n                    Ident {\n                        span: 643..651,\n                        sym: \"greeting\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 634..665,\n        props: [\n            KeyValueProp {\n                span: 636..664,\n                key: Ident(\n                    Ident {\n                        span: 636..639,\n                        sym: \"bar\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 633..666,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 330..440,\n    params: [\n        Param {\n            span: 332..373,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 437..539,\n    params: [\n        Param {\n            span: 443..484,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 316..548,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 322..323,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 330..440,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 330..331,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 437..539,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 441..442,\n                sym: \"p\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

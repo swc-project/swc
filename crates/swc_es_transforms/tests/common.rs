@@ -1,0 +1,222 @@
+#![allow(dead_code)]
+
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
+
+use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
+use swc_es_codegen::{emit_program, Config};
+use swc_es_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
+use swc_es_transforms::{
+    transform_program, ReactRuntime, ReactTransformOptions, TransformOptions, TransformTarget,
+    TypeScriptTransformOptions,
+};
+use testing::NormalizedOutput;
+use walkdir::WalkDir;
+
+#[derive(Debug)]
+pub struct FixtureResult {
+    pub output: String,
+    pub stats: swc_es_transforms::PassStats,
+}
+
+pub fn fixture_inputs() -> Vec<PathBuf> {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("tests")
+        .join("fixtures");
+
+    let mut files: Vec<PathBuf> = WalkDir::new(&root)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|entry| entry.file_type().is_file())
+        .filter(|entry| entry.file_name() == "input.js")
+        .map(|entry| entry.path().to_path_buf())
+        .collect();
+
+    files.sort();
+    files
+}
+
+pub fn run_fixture(input: &Path) -> FixtureResult {
+    let source = fs::read_to_string(input)
+        .unwrap_or_else(|err| panic!("failed to read fixture {}: {err}", input.display()));
+
+    let cm = SourceMap::default();
+    let fm = cm.new_source_file(FileName::Real(input.to_path_buf()).into(), source);
+
+    let mut recovered = Vec::new();
+    let comments = SingleThreadedComments::default();
+
+    let parsed =
+        parse_file_as_program(&fm, syntax_for_path(input), Some(&comments), &mut recovered)
+            .unwrap_or_else(|err| panic!("failed to parse fixture {}: {err:?}", input.display()));
+
+    assert!(
+        recovered.is_empty(),
+        "fixture {} has parser errors: {:?}",
+        input.display(),
+        recovered
+    );
+
+    let options = read_options(input);
+
+    let mut store = parsed.store;
+    let result = transform_program(&mut store, parsed.program, &options);
+
+    let output = emit_program(&store, result.program, Config::default()).unwrap_or_else(|err| {
+        panic!(
+            "failed to emit transformed output {}: {err}",
+            input.display()
+        )
+    });
+
+    FixtureResult {
+        output,
+        stats: result.stats,
+    }
+}
+
+fn syntax_for_path(input: &Path) -> Syntax {
+    match input.extension().and_then(|ext| ext.to_str()) {
+        Some("ts") => Syntax::Typescript(TsSyntax {
+            decorators: true,
+            ..Default::default()
+        }),
+        Some("tsx") => Syntax::Typescript(TsSyntax {
+            tsx: true,
+            decorators: true,
+            ..Default::default()
+        }),
+        Some("jsx") => Syntax::Es(EsSyntax {
+            jsx: true,
+            decorators: true,
+            import_attributes: true,
+            explicit_resource_management: true,
+            ..Default::default()
+        }),
+        _ => Syntax::Es(EsSyntax {
+            decorators: true,
+            import_attributes: true,
+            explicit_resource_management: true,
+            ..Default::default()
+        }),
+    }
+}
+
+fn read_options(input: &Path) -> TransformOptions {
+    let options_path = input.with_file_name("options.json");
+    let data = fs::read_to_string(&options_path)
+        .unwrap_or_else(|err| panic!("failed to read options {}: {err}", options_path.display()));
+
+    let raw: RawOptions = serde_json::from_str(&data)
+        .unwrap_or_else(|err| panic!("invalid options {}: {err}", options_path.display()));
+
+    TransformOptions {
+        target: match raw.target.as_deref().unwrap_or("es2022") {
+            "es2022" => TransformTarget::Es2022,
+            "es2021" => TransformTarget::Es2021,
+            "es2020" => TransformTarget::Es2020,
+            "es2019" => TransformTarget::Es2019,
+            "es2018" => TransformTarget::Es2018,
+            other => panic!("unknown target `{other}` in {}", options_path.display()),
+        },
+        enable_optional_chaining: raw.enable_optional_chaining.unwrap_or(true),
+        enable_nullish_coalescing: raw.enable_nullish_coalescing.unwrap_or(true),
+        enable_logical_assignment: raw.enable_logical_assignment.unwrap_or(true),
+        enable_normalize: raw.enable_normalize.unwrap_or(true),
+        typescript: TypeScriptTransformOptions {
+            enabled: raw
+                .typescript
+                .as_ref()
+                .and_then(|v| v.enabled)
+                .unwrap_or(true),
+            transform_enum: raw
+                .typescript
+                .as_ref()
+                .and_then(|v| v.transform_enum)
+                .unwrap_or(true),
+            transform_namespace: raw
+                .typescript
+                .as_ref()
+                .and_then(|v| v.transform_namespace)
+                .unwrap_or(true),
+            drop_declare: raw
+                .typescript
+                .as_ref()
+                .and_then(|v| v.drop_declare)
+                .unwrap_or(true),
+        },
+        react: ReactTransformOptions {
+            enabled: raw.react.as_ref().and_then(|v| v.enabled).unwrap_or(true),
+            runtime: match raw.react.as_ref().and_then(|v| v.runtime.as_deref()) {
+                Some("classic") => ReactRuntime::Classic,
+                Some("automatic") | None => ReactRuntime::Automatic,
+                Some(other) => panic!(
+                    "unknown react runtime `{other}` in {}",
+                    options_path.display()
+                ),
+            },
+            import_source: raw
+                .react
+                .as_ref()
+                .and_then(|v| v.import_source.clone())
+                .unwrap_or_else(|| swc_atoms::Atom::new("react/jsx-runtime")),
+            classic_pragma: raw
+                .react
+                .as_ref()
+                .and_then(|v| v.classic_pragma.clone())
+                .unwrap_or_else(|| swc_atoms::Atom::new("React.createElement")),
+            classic_fragment_pragma: raw
+                .react
+                .as_ref()
+                .and_then(|v| v.classic_fragment_pragma.clone())
+                .unwrap_or_else(|| swc_atoms::Atom::new("React.Fragment")),
+        },
+    }
+}
+
+#[derive(Debug, serde::Deserialize)]
+struct RawOptions {
+    target: Option<String>,
+    enable_optional_chaining: Option<bool>,
+    enable_nullish_coalescing: Option<bool>,
+    enable_logical_assignment: Option<bool>,
+    enable_normalize: Option<bool>,
+    typescript: Option<RawTypeScriptOptions>,
+    react: Option<RawReactOptions>,
+}
+
+#[derive(Debug, serde::Deserialize)]
+struct RawTypeScriptOptions {
+    enabled: Option<bool>,
+    transform_enum: Option<bool>,
+    transform_namespace: Option<bool>,
+    drop_declare: Option<bool>,
+}
+
+#[derive(Debug, serde::Deserialize)]
+struct RawReactOptions {
+    enabled: Option<bool>,
+    runtime: Option<String>,
+    import_source: Option<swc_atoms::Atom>,
+    classic_pragma: Option<swc_atoms::Atom>,
+    classic_fragment_pragma: Option<swc_atoms::Atom>,
+}
+
+pub fn assert_snapshot(path: &Path, content: &str) {
+    let mut content = content.to_string();
+    if !content.ends_with('\n') {
+        content.push('\n');
+    }
+
+    if std::env::var("UPDATE").is_ok() {
+        fs::write(path, content)
+            .unwrap_or_else(|err| panic!("failed to update snapshot {}: {err}", path.display()));
+        return;
+    }
+
+    NormalizedOutput::from(content)
+        .compare_to_file(path)
+        .unwrap_or_else(|_| panic!("snapshot mismatch: {}", path.display()));
+}

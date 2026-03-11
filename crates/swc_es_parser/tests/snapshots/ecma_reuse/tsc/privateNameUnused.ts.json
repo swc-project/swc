@@ -1,0 +1,86 @@
+{
+  "programs": [
+    "Program {\n    span: 63..525,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 153..183,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 271..303,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 343..353,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 415..425,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 493..523,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 70..193,\n        ident: Ident {\n            span: 76..77,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 194..313,\n        ident: Ident {\n            span: 200..202,\n            sym: \"A2\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 314..525,\n        ident: Ident {\n            span: 320..322,\n            sym: \"A3\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 369..374,\n        sym: \"value\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 443..448,\n        sym: \"value\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 92..98,\n            value: \"used\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 114..122,\n            value: \"unused\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 153..160,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 160..165,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 161..164,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 165..169,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 169..176,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 170..175,\n                sym: \"#used\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 164..177,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 271..278,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 278..283,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 279..282,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 283..287,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 287..294,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 288..293,\n                sym: \"#used\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 293..296,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 282..297,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 350..351,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 422..423,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 493..500,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 500..505,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 501..504,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 505..509,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 509..516,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 510..515,\n                sym: \"#used\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 504..517,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 63..193,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 187..313,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 307..525,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 128..185,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 209..222,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 227..241,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 246..305,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 333..354,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 363..389,\n    params: [\n        Param {\n            span: 369..383,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 403..426,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 435..463,\n    params: [\n        Param {\n            span: 443..457,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 468..525,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 70..193,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 76..77,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 194..313,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 200..202,\n            sym: \"A2\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 314..525,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 320..322,\n            sym: \"A3\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 84..105,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 84..89,\n                sym: \"#used\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 104..139,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 104..111,\n                sym: \"#unused\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 128..185,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 128..139,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 209..222,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 209..214,\n                sym: \"#used\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 227..241,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 227..234,\n                sym: \"#unused\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 246..305,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 246..257,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 329..334,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 329..332,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 333..354,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 333..338,\n                sym: \"#used\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 359..364,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 359..362,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 363..389,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 363..368,\n                sym: \"#used\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 399..404,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 399..402,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 403..426,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 403..410,\n                sym: \"#unused\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 431..436,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 431..434,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 435..463,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 435..442,\n                sym: \"#unused\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 468..525,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 468..479,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

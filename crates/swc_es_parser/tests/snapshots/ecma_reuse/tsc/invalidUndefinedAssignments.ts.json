@@ -1,0 +1,78 @@
+{
+  "programs": [
+    "Program {\n    span: 1..236,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 40..48,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 47..62,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 79..84,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 91..108,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 137..145,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 144..158,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 183..199,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 229..236,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..31,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..25,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 27..41,\n        ident: Ident {\n            span: 32..33,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 36..39,\n                name: Ident(\n                    Ident {\n                        span: 36..37,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 81..92,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 81..90,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 99..130,\n        ident: Ident {\n            span: 109..110,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 113..126,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 113..116,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 127..138,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 127..136,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 170..182,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 170..180,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 152..184,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 159..160,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 191..230,\n        ident: Ident {\n            span: 200..201,\n            sym: \"i\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"E\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 85..86,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 91..92,\n        sym: \"C\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 131..132,\n        sym: \"g\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..138,\n        sym: \"g\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 144..145,\n        sym: \"I\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 174..175,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 176..180,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 183..184,\n        sym: \"M\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 205..206,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 229..230,\n        sym: \"i\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 44..45,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 42..46,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 47..48,\n        sym: \"E\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 48..52,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 49..50,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 53..54,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 51..55,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 95..96,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 93..97,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 141..142,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 139..143,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 146..150,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 178..179,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 187..188,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 185..189,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 233..234,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 231..235,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 163..182,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)"
+  ]
+}

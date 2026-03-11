@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 17..136,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 58..75,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 58..67,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 72..89,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 72..81,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 86..135,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 86..133,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 17..136,\n        ident: Ident {\n            span: 26..27,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 76..77,\n        sym: \"k\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 90..91,\n        sym: \"v\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 92..133,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"t\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 109..110,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 121..122,\n        sym: \"k\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 125..126,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 94..133,\n        props: [\n            KeyValueProp {\n                span: 104..111,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 120..132,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

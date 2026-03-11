@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 60..238,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 88..167,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 161..238,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 60..94,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 60..87,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 143..157,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 143..155,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 221..235,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 221..233,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 66..76,\n        sym: \"localeName\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 77..87,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 130..133,\n        sym: \"bar\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 147..148,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 149..155,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 208..211,\n        sym: \"bar\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 225..226,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 227..233,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 79..86,\n            value: \"zh-CN\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 88..94,\n        sym: \"import\",\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 95..123,\n        quasis: [\n            StrLit {\n                span: 95..123,\n                value: \"./locales/${localeName}.js\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 94..125,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 124..130,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 125..129,\n                sym: \"then\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 151..154,\n        sym: \"bar\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 130..158,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 129..159,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 161..167,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 168..180,\n            value: \"./locales/\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 183..193,\n        sym: \"localeName\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 181..195,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 196..201,\n            value: \".js\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 194..202,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 167..203,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 202..208,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 203..207,\n                sym: \"then\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 229..232,\n        sym: \"bar\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 208..236,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 207..237,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

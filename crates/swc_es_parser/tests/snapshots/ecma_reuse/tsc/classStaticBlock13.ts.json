@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 71..173,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 116..137,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 154..170,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 71..173,\n        ident: Ident {\n            span: 77..78,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 95..98,\n            value: 123.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 116..123,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 123..128,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 124..127,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 128..129,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 129..133,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 130..132,\n                sym: \"#x\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 127..137,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 161..162,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 162..166,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 163..165,\n                sym: \"#x\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 141..172,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 71..173,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 77..78,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 83..109,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 90..92,\n                sym: \"#x\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 103..144,\n        body: [\n            _,\n        ],\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 141..172,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 141..144,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

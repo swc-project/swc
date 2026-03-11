@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..65,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 55..64,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 20..64,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Decl(\n                        _,\n                    ),\n                ),\n                test: Some(\n                    _,\n                ),\n                update: Some(\n                    _,\n                ),\n            },\n        ),\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 25..42,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 25..42,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..65,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..37,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 31..42,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 33..34,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 40..41,\n            value: 2.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 38..42,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 33..42,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 47..48,\n            value: 3.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 45..49,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 52..53,\n        sym: \"b\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 50..54,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

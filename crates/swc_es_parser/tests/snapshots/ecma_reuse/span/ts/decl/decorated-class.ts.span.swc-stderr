@@ -1,0 +1,560 @@
+  x Program
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:2:1]
+  1 |     
+  2 | ,-> @Controller(COMMENT_CONTROLLER_ROUTE)
+  3 | |   @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+  4 | |   export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+  x ModuleDeclStmt
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:4:1]
+  3 |     @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+  x ExportDecl
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:4:1]
+  3 |     @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+  x ClassDecl
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:4:1]
+  3 |     @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+  x Class
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:4:1]
+  3 |     @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:2:1]
+ 1 |     
+ 2 | ,-> @Controller(COMMENT_CONTROLLER_ROUTE)
+ 3 | `-> @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+ 4 |     export class CommentController {
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:2:1]
+ 1 | 
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :  ^^^^^^^^^^
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:2:1]
+ 1 | 
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:3:1]
+ 2 |     @Controller(COMMENT_CONTROLLER_ROUTE)
+ 3 | ,-> @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+ 4 | `-> export class CommentController {
+ 5 |         constructor(private commentService: CommentService) { }
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:3:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :  ^^^^^^^^^^^^^^^
+ 4 | export class CommentController {
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:3:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                                                    ^^^^^^^^^^
+ 4 | export class CommentController {
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:3:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | export class CommentController {
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:3:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                                                     ^^^^^^^
+ 4 | export class CommentController {
+   `----
+  x ClassMethod
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:5:1]
+ 4 |     export class CommentController {
+ 5 | ,->     constructor(private commentService: CommentService) { }
+ 6 | |   
+ 7 | `->     @UseGuards(JwtAuthGuard)
+ 8 |         @Put(COMMENT_UPDATE_ENDPOINT)
+   `----
+  x Function
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:5:1]
+ 4 |     export class CommentController {
+ 5 | ,->     constructor(private commentService: CommentService) { }
+ 6 | |   
+ 7 | `->     @UseGuards(JwtAuthGuard)
+ 8 |         @Put(COMMENT_UPDATE_ENDPOINT)
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:5:1]
+ 4 | export class CommentController {
+ 5 |     constructor(private commentService: CommentService) { }
+   :                         ^^^^^^^^^^^^^^
+   `----
+  x ClassMethod
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:9:1]
+  8 |         @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | ,->     public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | `->     @UseGuards(JwtAuthGuard)
+ 18 |         @Delete(COMMENT_DELETE_ENDPOINT)
+    `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:7:1]
+ 6 |     
+ 7 | ,->     @UseGuards(JwtAuthGuard)
+ 8 | `->     @Put(COMMENT_UPDATE_ENDPOINT)
+ 9 |         public updateComment(
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:7:1]
+ 6 | 
+ 7 |     @UseGuards(JwtAuthGuard)
+   :      ^^^^^^^^^
+ 8 |     @Put(COMMENT_UPDATE_ENDPOINT)
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:7:1]
+ 6 | 
+ 7 |     @UseGuards(JwtAuthGuard)
+   :                ^^^^^^^^^^^^
+ 8 |     @Put(COMMENT_UPDATE_ENDPOINT)
+   `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:8:1]
+  7 |         @UseGuards(JwtAuthGuard)
+  8 | ,->     @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | `->     public updateComment(
+ 10 |             @Param('id') id: string,
+    `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:8:1]
+ 7 |     @UseGuards(JwtAuthGuard)
+ 8 |     @Put(COMMENT_UPDATE_ENDPOINT)
+   :      ^^^
+ 9 |     public updateComment(
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:8:1]
+ 7 |     @UseGuards(JwtAuthGuard)
+ 8 |     @Put(COMMENT_UPDATE_ENDPOINT)
+   :          ^^^^^^^^^^^^^^^^^^^^^^^
+ 9 |     public updateComment(
+   `----
+  x Function
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:9:1]
+  8 |         @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | ,->     public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | `->     @UseGuards(JwtAuthGuard)
+ 18 |         @Delete(COMMENT_DELETE_ENDPOINT)
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:10:1]
+  9 |     public updateComment(
+ 10 |         @Param('id') id: string,
+    :               ^^^^^^^^^
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:10:1]
+  9 |     public updateComment(
+ 10 |         @Param('id') id: string,
+    :          ^^^^^
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+    `----
+  x LitExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:10:1]
+  9 |     public updateComment(
+ 10 |         @Param('id') id: string,
+    :                ^^^^
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+    `----
+  x IdentPat
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:10:1]
+  9 |     public updateComment(
+ 10 |         @Param('id') id: string,
+    :                      ^^
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:11:1]
+ 10 |         @Param('id') id: string,
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+    :              ^^^^^^^^^^^^^^^^^^^
+ 12 |         @User() user: UserType,
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:11:1]
+ 10 |         @Param('id') id: string,
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+    :          ^^^^
+ 12 |         @User() user: UserType,
+    `----
+  x IdentPat
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:11:1]
+ 10 |         @Param('id') id: string,
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+    :                 ^^^^^^^^^^^^^^^^
+ 12 |         @User() user: UserType,
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:12:1]
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+ 12 |         @User() user: UserType,
+    :              ^^^^^^^
+ 13 |     ) {
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:12:1]
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+ 12 |         @User() user: UserType,
+    :          ^^^^
+ 13 |     ) {
+    `----
+  x IdentPat
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:12:1]
+ 11 |         @Body() updateCommentDto: UpdateCommentDto,
+ 12 |         @User() user: UserType,
+    :                 ^^^^
+ 13 |     ) {
+    `----
+  x ReturnStmt
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:14:1]
+ 13 |         ) {
+ 14 | ,->         return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | `->     }
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:14:1]
+ 13 |     ) {
+ 14 |         return this.commentService.update(id, updateCommentDto, user.id);
+    :                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |     }
+    `----
+  x MemberExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:14:1]
+ 13 |     ) {
+ 14 |         return this.commentService.update(id, updateCommentDto, user.id);
+    :                                   ^^^^^^^^
+ 15 |     }
+    `----
+  x MemberExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:14:1]
+ 13 |     ) {
+ 14 |         return this.commentService.update(id, updateCommentDto, user.id);
+    :                    ^^^^^^^^^^^^^^^^
+ 15 |     }
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:14:1]
+ 13 |     ) {
+ 14 |         return this.commentService.update(id, updateCommentDto, user.id);
+    :                ^^^^
+ 15 |     }
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:14:1]
+ 13 |     ) {
+ 14 |         return this.commentService.update(id, updateCommentDto, user.id);
+    :                                           ^^
+ 15 |     }
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:14:1]
+ 13 |     ) {
+ 14 |         return this.commentService.update(id, updateCommentDto, user.id);
+    :                                               ^^^^^^^^^^^^^^^^
+ 15 |     }
+    `----
+  x MemberExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:14:1]
+ 13 |     ) {
+ 14 |         return this.commentService.update(id, updateCommentDto, user.id);
+    :                                                                     ^^^^
+ 15 |     }
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:14:1]
+ 13 |     ) {
+ 14 |         return this.commentService.update(id, updateCommentDto, user.id);
+    :                                                                 ^^^^
+ 15 |     }
+    `----
+  x ClassMethod
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:19:1]
+ 18 |         @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | ,->     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:17:1]
+ 16 |     
+ 17 | ,->     @UseGuards(JwtAuthGuard)
+ 18 | `->     @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 |         public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:17:1]
+ 16 | 
+ 17 |     @UseGuards(JwtAuthGuard)
+    :      ^^^^^^^^^
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:17:1]
+ 16 | 
+ 17 |     @UseGuards(JwtAuthGuard)
+    :                ^^^^^^^^^^^^
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:18:1]
+ 17 |         @UseGuards(JwtAuthGuard)
+ 18 | ,->     @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | `->     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 |             return this.commentService.delete(id, user.id);
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:18:1]
+ 17 |     @UseGuards(JwtAuthGuard)
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+    :      ^^^^^^
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:18:1]
+ 17 |     @UseGuards(JwtAuthGuard)
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+    :             ^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    `----
+  x Function
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:19:1]
+ 18 |         @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | ,->     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:19:1]
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                ^^^^^^^^^
+ 20 |         return this.commentService.delete(id, user.id);
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:19:1]
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                           ^^^^^
+ 20 |         return this.commentService.delete(id, user.id);
+    `----
+  x LitExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:19:1]
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                 ^^^^
+ 20 |         return this.commentService.delete(id, user.id);
+    `----
+  x IdentPat
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:19:1]
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                       ^^
+ 20 |         return this.commentService.delete(id, user.id);
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:19:1]
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                        ^^^^^^^
+ 20 |         return this.commentService.delete(id, user.id);
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:19:1]
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                    ^^^^
+ 20 |         return this.commentService.delete(id, user.id);
+    `----
+  x IdentPat
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:19:1]
+ 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                           ^^^^
+ 20 |         return this.commentService.delete(id, user.id);
+    `----
+  x ReturnStmt
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:20:1]
+ 19 |         public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | ,->         return this.commentService.delete(id, user.id);
+ 21 | `->     }
+ 22 |     }
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:20:1]
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 |         return this.commentService.delete(id, user.id);
+    :                                          ^^^^^^^^^^^^^^
+ 21 |     }
+    `----
+  x MemberExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:20:1]
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 |         return this.commentService.delete(id, user.id);
+    :                                   ^^^^^^^^
+ 21 |     }
+    `----
+  x MemberExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:20:1]
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 |         return this.commentService.delete(id, user.id);
+    :                    ^^^^^^^^^^^^^^^^
+ 21 |     }
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:20:1]
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 |         return this.commentService.delete(id, user.id);
+    :                ^^^^
+ 21 |     }
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:20:1]
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 |         return this.commentService.delete(id, user.id);
+    :                                           ^^
+ 21 |     }
+    `----
+  x MemberExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:20:1]
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 |         return this.commentService.delete(id, user.id);
+    :                                                   ^^^^
+ 21 |     }
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/span/ts/decl/decorated-class.ts:20:1]
+ 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 |         return this.commentService.delete(id, user.id);
+    :                                               ^^^^
+ 21 |     }
+    `----

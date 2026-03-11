@@ -1,0 +1,51 @@
+{
+  "programs": [
+    "Program {\n    span: 1..227,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 31..39,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 76..85,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 71..85,\n        label: Ident {\n            span: 71..74,\n            sym: \"bar\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 84..92,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 134..140,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 185..194,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 193..205,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 137..153,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 137..149,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 150..170,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 150..166,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 167..186,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 167..184,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 202..227,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 202..227,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 141..142,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 154..156,\n        sym: \"d1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 171..173,\n        sym: \"d2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 185..186,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 193..194,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 206..207,\n        sym: \"r\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 76..82,\n        sym: \"number\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 189..191,\n        sym: \"d1\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 187..192,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 197..199,\n        sym: \"d2\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 195..200,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 219..221,\n        sym: \"d1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 223..225,\n        sym: \"d2\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 218..227,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

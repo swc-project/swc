@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 18..57,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 18..36,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 18..32,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 33..57,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 33..57,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 22..31,\n        sym: \"arguments\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 37..38,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 39..57,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 47..56,\n        sym: \"arguments\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 41..57,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

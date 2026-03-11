@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 73..159,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 80..155,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 80..98,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 152..159,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 152..158,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 86..89,\n        sym: \"FOO\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 90..98,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 156..157,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 92..97,\n            value: \"foo\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 73..155,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 115..1098,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 115..543,\n        ident: Ident {\n            span: 121..122,\n            sym: \"X\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 538..1098,\n        ident: Ident {\n            span: 544..545,\n            sym: \"Y\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 516..531,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 517..524,\n                    key: Ident {\n                        span: 517..523,\n                        sym: \"reason\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 525..530,\n                    key: Ident {\n                        span: 525..529,\n                        sym: \"code\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 1075..1092,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 1076..1083,\n                    key: Ident {\n                        span: 1076..1082,\n                        sym: \"reason\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 1084..1091,\n                    key: Ident {\n                        span: 1084..1090,\n                        sym: \"suberr\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 503..536,\n    params: [\n        Param {\n            span: 516..531,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1062..1097,\n    params: [\n        Param {\n            span: 1075..1092,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 115..543,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 121..122,\n            sym: \"X\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 538..1098,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 544..545,\n            sym: \"Y\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 503..536,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 509..515,\n                sym: \"cancel\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 1062..1097,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1068..1074,\n                sym: \"cancel\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

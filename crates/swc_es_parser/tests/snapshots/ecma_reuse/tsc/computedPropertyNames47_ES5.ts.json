@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 17..79,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsEnum(\n    TsEnumDecl {\n        span: 17..35,\n        ident: Ident {\n            span: 22..24,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 27..30,\n                name: Ident(\n                    Ident {\n                        span: 27..28,\n                        sym: \"x\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 31..48,\n        ident: Ident {\n            span: 36..38,\n            sym: \"E2\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 41..44,\n                name: Ident(\n                    Ident {\n                        span: 41..42,\n                        sym: \"x\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 45..79,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 45..79,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 49..50,\n        sym: \"o\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 51..79,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 60..62,\n        sym: \"E1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 62..67,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 63..64,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..70,\n        sym: \"E2\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 70..73,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 71..72,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 65..73,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 75..76,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 53..79,\n        props: [\n            KeyValueProp {\n                span: 59..78,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

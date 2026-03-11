@@ -1,0 +1,59 @@
+{
+  "programs": [
+    "Program {\n    span: 146..459,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 180..246,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 296..365,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 427..459,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 153..187,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 153..187,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 247..306,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 247..306,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 366..448,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 366..448,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 159..166,\n        sym: \"inlined\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 167..187,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 253..263,\n        sym: \"duplicated\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 264..306,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 372..393,\n        sym: \"conflictingDuplicated\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 394..448,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 175..179,\n            value: true,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 169..187,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 180..187,\n        sym: \"inlined\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 187..193,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 188..191,\n                sym: \"nuo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 194..197,\n            value: 789.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 192..246,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 272..276,\n            value: true,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 266..306,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 296..306,\n        sym: \"duplicated\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 306..312,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 307..310,\n                sym: \"nuo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 313..316,\n            value: 789.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 311..365,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 402..406,\n            value: true,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 396..448,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 427..448,\n        sym: \"conflictingDuplicated\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 448..454,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 449..452,\n                sym: \"nuo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 455..458,\n            value: 789.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 453..459,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 146..187,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 240..306,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 359..448,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

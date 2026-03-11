@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 96..184,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 175..184,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 104..141,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 104..133,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 142..176,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 142..173,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 110..111,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"y\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 175..176,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 181..182,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 177..183,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 97..347,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 104..317,\n        ident: Ident {\n            span: 110..121,\n            sym: \"Preferences\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 314..347,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 314..347,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 318..326,\n        sym: \"ooscope2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 329..330,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 327..347,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 142..146,\n            value: \"no\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 334..335,\n        sym: \"s\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 335..344,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 336..342,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 345..346,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 343..347,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 329..347,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 97..317,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 264..282,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 104..317,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 110..121,\n            sym: \"Preferences\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 126..275,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 126..139,\n                sym: \"assignability\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 264..282,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 264..275,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

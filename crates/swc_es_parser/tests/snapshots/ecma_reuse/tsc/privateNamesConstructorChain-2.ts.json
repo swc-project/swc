@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 21..475,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 57..65,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 64..68,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 65..94,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 78..98,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 107..221,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 216..259,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 97..261,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 260..268,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 405..409,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 406..432,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 431..437,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 434..475,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 65..68,\n        sym: \"bar\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 406..409,\n        sym: \"bar\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 57..63,\n        sym: \"static\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 71..72,\n            value: 5.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 69..73,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..94,\n        sym: \"accessChildProps\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 94..98,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 111..116,\n        sym: \"Child\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 124..127,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 126..132,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 127..131,\n                sym: \"#foo\",\n            },\n        ),\n    },\n)",
+    "New(\n    NewExpr {\n        span: 107..132,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 216..221,\n        sym: \"Child\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 221..227,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 222..226,\n                sym: \"#bar\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 412..417,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 410..418,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 438..444,\n        sym: \"Parent\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 452..455,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 454..472,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 455..471,\n                sym: \"accessChildProps\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 471..474,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 434..474,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

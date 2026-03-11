@@ -1,0 +1,15 @@
+{
+  "programs": [
+    "Program {\n    span: 16..16,\n    kind: Script,\n    body: [],\n}"
+  ],
+  "stmts": [],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

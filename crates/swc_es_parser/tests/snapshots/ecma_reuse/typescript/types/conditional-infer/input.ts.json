@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..50,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..50,\n        ident: Ident {\n            span: 6..13,\n            sym: \"Element\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 14..15,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 19..28,\n        name: Ident {\n            span: 19..28,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 30..38,\n        type_param: Ident {\n            span: 36..37,\n            sym: \"U\",\n        },\n    },\n)",
+    "Parenthesized(\n    TsParenthesizedType {\n        span: 29..39,\n        ty: _,\n    },\n)",
+    "Array(\n    TsArrayType {\n        span: 29..42,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 43..46,\n        name: Ident {\n            span: 43..46,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 47..49,\n        name: Ident {\n            span: 47..49,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 19..49,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)"
+  ]
+}

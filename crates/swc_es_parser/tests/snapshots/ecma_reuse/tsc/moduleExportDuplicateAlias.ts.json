@@ -1,0 +1,50 @@
+{
+  "programs": [
+    "Program {\n    span: 123..312,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 123..158,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 167..190,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 183..209,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 202..246,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 304..312,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 150..174,\n        ident: Ident {\n            span: 159..160,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 241..309,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 241..309,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Object(\n    ObjectPat {\n        span: 247..258,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 249..256,\n                    key: Ident {\n                        span: 249..254,\n                        sym: \"apply\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 123..130,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 130..138,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 131..136,\n                sym: \"apply\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 139..148,\n        sym: \"undefined\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 137..149,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 167..174,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 174..181,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 175..180,\n                sym: \"apply\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 180..190,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 183..190,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 190..198,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 191..196,\n                sym: \"apply\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 199..200,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 197..201,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 202..209,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 209..216,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 210..215,\n                sym: \"apply\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 215..246,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 259..266,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 267..302,\n            value: \"./moduleExportAliasDuplicateAlias\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 266..309,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 304..309,\n        sym: \"apply\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 309..312,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

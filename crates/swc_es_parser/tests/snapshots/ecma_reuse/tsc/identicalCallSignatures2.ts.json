@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 169..323,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 169..226,\n        ident: Ident {\n            span: 179..183,\n            sym: \"Base\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 184..185,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 193..215,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 194..204,\n                        name: Some(\n                            Ident {\n                                span: 194..195,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 217..278,\n        ident: Ident {\n            span: 227..228,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 237..242,\n                sym: \"Base\",\n            },\n            Ident {\n                span: 251..256,\n                sym: \"Base\",\n            },\n        ],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 269..323,\n        ident: Ident {\n            span: 279..281,\n            sym: \"I2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 282..283,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 293..298,\n                sym: \"Base\",\n            },\n            Ident {\n                span: 307..312,\n                sym: \"Base\",\n            },\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    String,\n)"
+  ]
+}

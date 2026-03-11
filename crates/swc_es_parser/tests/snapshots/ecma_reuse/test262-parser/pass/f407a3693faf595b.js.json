@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..15,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..15,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 3..4,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 4..7,\n        left: _,\n        right: _,\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 2..8,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 9..12,\n        elems: [],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 5..6,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 14..15,\n            value: 2.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1..15,\n        params: [\n            _,\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

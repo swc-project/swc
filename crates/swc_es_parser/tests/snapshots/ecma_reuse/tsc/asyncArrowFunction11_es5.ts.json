@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 123..307,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 177..215,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 210..304,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 210..244,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 123..307,\n        ident: Ident {\n            span: 129..130,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 151..155,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 148..156,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 216..219,\n        sym: \"obj\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 220..244,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 183..190,\n        sym: \"Promise\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 190..199,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 191..198,\n                sym: \"resolve\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 198..201,\n        callee: _,\n        args: [],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 177..201,\n        arg: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 225..228,\n            value: \"a\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 237..241,\n        sym: \"this\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 231..243,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 222..244,\n        props: [\n            KeyValueProp {\n                span: 224..243,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 147..305,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n                _,\n            ],\n        ),\n        is_async: true,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 123..307,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 129..130,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 137..307,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 137..138,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

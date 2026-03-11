@@ -1,0 +1,55 @@
+{
+  "programs": [
+    "Program {\n    span: 257..1692,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 257..351,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 257..280,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 346..430,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 346..368,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 425..508,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 425..446,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 503..1297,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 503..523,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1289..1490,\n        ident: Ident {\n            span: 1298..1300,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1482..1679,\n        ident: Ident {\n            span: 1491..1493,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1671..1692,\n        ident: Ident {\n            span: 1680..1682,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 263..272,\n        sym: \"aDefault1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 273..280,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 352..361,\n        sym: \"aDefault2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 362..368,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 431..438,\n        sym: \"aString\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 439..446,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 509..516,\n        sym: \"aNumber\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 517..523,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1301..1302,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1304..1305,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1494..1495,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1497..1498,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1683..1684,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1686..1687,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 276..278,\n            value: \"\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 275..280,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 365..366,\n            value: 0.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 364..368,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 442..444,\n            value: \"\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 441..446,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 520..521,\n            value: 0.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 519..523,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

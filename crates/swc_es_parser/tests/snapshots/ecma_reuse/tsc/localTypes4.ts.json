@@ -1,0 +1,80 @@
+{
+  "programs": [
+    "Program {\n    span: 33..768,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 153..176,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 321..344,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 497..520,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 624..640,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 710..730,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 648..739,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 750..765,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 740..767,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 638..767,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 120..178,\n        ident: Ident {\n            span: 129..130,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 33..188,\n        ident: Ident {\n            span: 42..44,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 297..327,\n        ident: Ident {\n            span: 307..308,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 267..346,\n        ident: Ident {\n            span: 276..277,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 180..356,\n        ident: Ident {\n            span: 189..191,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 473..503,\n        ident: Ident {\n            span: 483..484,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 447..522,\n        ident: Ident {\n            span: 456..457,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 348..532,\n        ident: Ident {\n            span: 357..359,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 580..613,\n        ident: Ident {\n            span: 590..591,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 594..605,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 594..595,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 610..625,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 610..619,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 658..695,\n        ident: Ident {\n            span: 668..669,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 672..683,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 672..673,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 692..711,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 692..701,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 524..768,\n        ident: Ident {\n            span: 533..535,\n            sym: \"f4\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 134..135,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 278..279,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 614..615,\n        sym: \"v\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 696..697,\n        sym: \"v\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 160..169,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 328..337,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 504..513,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 624..625,\n        sym: \"v\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 625..629,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 626..627,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 630..632,\n            value: 10.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 628..633,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 642..646,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 710..711,\n        sym: \"v\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 711..715,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 712..713,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 716..723,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 714..724,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 750..751,\n        sym: \"v\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 751..755,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 752..753,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 756..758,\n            value: 20.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 754..759,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    String,\n)"
+  ]
+}

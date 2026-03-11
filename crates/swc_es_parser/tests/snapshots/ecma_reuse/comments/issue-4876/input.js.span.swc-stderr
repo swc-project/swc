@@ -1,0 +1,40 @@
+  x Program
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+  9 |     // a
+ 10 | ,-> console.log(1);
+ 11 | `-> // b
+    `----
+  x ExprStmt
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+  9 |     // a
+ 10 | ,-> console.log(1);
+ 11 | `-> // b
+    `----
+  x CallExpr
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+  9 | // a
+ 10 | console.log(1);
+    :            ^^^^
+ 11 | // b
+    `----
+  x MemberExpr
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+  9 | // a
+ 10 | console.log(1);
+    :        ^^^^^
+ 11 | // b
+    `----
+  x IdentExpr
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^
+ 11 | // b
+    `----
+  x LitExpr
+    ,-[/swc_ecma_parser/tests/comments/issue-4876/input.js:10:1]
+  9 | // a
+ 10 | console.log(1);
+    :             ^
+ 11 | // b
+    `----

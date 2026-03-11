@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..51,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 44..51,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..45,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..45,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..10,\n        sym: \"tty\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 11..45,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 13..20,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 21..26,\n            value: \"tty\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 20..30,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 28..45,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 45..50,\n            value: \"tty\",\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 44..51,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeQuery(\n    TsTypeQuery {\n        span: 31..45,\n        expr_name: Ident {\n            span: 38..45,\n            sym: \"import\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

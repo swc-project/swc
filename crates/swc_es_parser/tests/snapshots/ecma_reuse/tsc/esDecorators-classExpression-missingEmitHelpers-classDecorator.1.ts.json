@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 146..297,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 247..256,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 154..235,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 154..167,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 236..250,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 236..250,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 158..161,\n        sym: \"dec\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 242..243,\n        sym: \"C\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 244..250,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 247..250,\n        sym: \"dec\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 229..250,\n        decl: _,\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 287..297,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

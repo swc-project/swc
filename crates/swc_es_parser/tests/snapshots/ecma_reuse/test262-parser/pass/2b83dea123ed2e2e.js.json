@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..28,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..28,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 8..9,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 11..12,\n        sym: \"b\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 7..15,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 2..16,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 4..15,\n                    key: Ident(\n                        Ident {\n                            span: 4..5,\n                            sym: \"a\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"c\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 17..22,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Arrow(\n    ArrowExpr {\n        span: 1..28,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

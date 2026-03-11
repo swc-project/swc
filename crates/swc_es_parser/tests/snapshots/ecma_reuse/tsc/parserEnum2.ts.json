@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 7..149,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsEnum(\n    TsEnumDecl {\n        span: 14..149,\n        ident: Ident {\n            span: 19..33,\n            sym: \"SignatureFlags\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 44..53,\n                name: Ident(\n                    Ident {\n                        span: 44..48,\n                        sym: \"None\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 62..76,\n                name: Ident(\n                    Ident {\n                        span: 62..71,\n                        sym: \"IsIndexer\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 85..110,\n                name: Ident(\n                    Ident {\n                        span: 85..100,\n                        sym: \"IsStringIndexer\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 119..149,\n                name: Ident(\n                    Ident {\n                        span: 119..134,\n                        sym: \"IsNumberIndexer\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 51..52,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 74..75,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 103..104,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 108..109,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 105..110,\n        op: LShift,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 137..138,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 142..143,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 139..149,\n        op: LShift,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 7..149,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

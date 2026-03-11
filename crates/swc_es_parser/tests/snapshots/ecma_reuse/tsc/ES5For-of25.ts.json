@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 20..73,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 62..70,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 69..73,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 56..73,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 39..73,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 20..42,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 20..38,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 44..52,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 44..52,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 26..38,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 29..30,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 32..33,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 35..36,\n            value: 3.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 28..38,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 53..54,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..70,\n        sym: \"a\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

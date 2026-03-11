@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 235..331,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 235..293,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 235..255,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 288..331,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 288..330,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 241..243,\n        sym: \"t1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 244..255,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 294..296,\n        sym: \"t2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 297..330,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 251..252,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 246..255,\n        props: [\n            KeyValueProp {\n                span: 248..254,\n                key: Ident(\n                    Ident {\n                        span: 248..249,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 327..328,\n            value: 1.0,\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 326..330,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

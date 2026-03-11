@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..20,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 19..20,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..20,\n        head: Classic(\n            ForClassicHead {\n                init: Some(\n                    Expr(\n                        _,\n                    ),\n                ),\n                test: Some(\n                    _,\n                ),\n                update: None,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 9..10,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 7..11,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 16..17,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 14..18,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

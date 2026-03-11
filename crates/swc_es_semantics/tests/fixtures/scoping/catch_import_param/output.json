@@ -1,0 +1,228 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Function",
+      "parent": 0,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Block",
+      "parent": 1,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": []
+    },
+    {
+      "id": 3,
+      "kind": "Catch",
+      "parent": 1,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        7
+      ]
+    },
+    {
+      "id": 4,
+      "kind": "Block",
+      "parent": 3,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        8
+      ]
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Function",
+      "scope": 0,
+      "name": "run",
+      "references": [
+        8
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Import",
+      "scope": 0,
+      "name": "d",
+      "references": [
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Import",
+      "scope": 0,
+      "name": "f",
+      "references": [
+        0
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Import",
+      "scope": 0,
+      "name": "bar",
+      "references": [
+        1
+      ]
+    },
+    {
+      "id": 4,
+      "kind": "Param",
+      "scope": 1,
+      "name": "a",
+      "references": [
+        3
+      ]
+    },
+    {
+      "id": 5,
+      "kind": "Param",
+      "scope": 1,
+      "name": "c",
+      "references": [
+        4
+      ]
+    },
+    {
+      "id": 6,
+      "kind": "Param",
+      "scope": 1,
+      "name": "rest",
+      "references": [
+        5
+      ]
+    },
+    {
+      "id": 7,
+      "kind": "CatchParam",
+      "scope": 3,
+      "name": "m",
+      "references": [
+        6
+      ]
+    },
+    {
+      "id": 8,
+      "kind": "Let",
+      "scope": 4,
+      "name": "bar",
+      "references": [
+        7
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 2,
+      "name": "f",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 1,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 3,
+      "name": "bar",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 2,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 1,
+      "name": "d",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 3,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 4,
+      "name": "a",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 4,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 5,
+      "name": "c",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 5,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 1,
+      "symbol": 6,
+      "name": "rest",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 6,
+      "kind": "Read",
+      "scope": 4,
+      "enclosing_function": 1,
+      "symbol": 7,
+      "name": "m",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 7,
+      "kind": "Read",
+      "scope": 4,
+      "enclosing_function": 1,
+      "symbol": 8,
+      "name": "bar",
+      "maybe_dynamic": false
+    },
+    {
+      "id": 8,
+      "kind": "Read",
+      "scope": 0,
+      "enclosing_function": 0,
+      "symbol": 0,
+      "name": "run",
+      "maybe_dynamic": false
+    }
+  ]
+}

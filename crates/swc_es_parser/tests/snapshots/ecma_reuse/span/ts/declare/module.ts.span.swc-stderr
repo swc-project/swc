@@ -1,0 +1,42 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:1:1]
+ 1 | ,-> declare module "name" {
+ 2 | |       export class Foo { }
+ 3 | `-> }
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:1:1]
+ 1 | ,-> declare module "name" {
+ 2 | |       export class Foo { }
+ 3 | `-> }
+   `----
+  x TsModuleDecl
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:1:1]
+ 1 | ,-> declare module "name" {
+ 2 | |       export class Foo { }
+ 3 | `-> }
+   `----
+  x ModuleDeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
+ 1 |     declare module "name" {
+ 2 | ,->     export class Foo { }
+ 3 | `-> }
+   `----
+  x ExportDecl
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
+ 1 |     declare module "name" {
+ 2 | ,->     export class Foo { }
+ 3 | `-> }
+   `----
+  x ClassDecl
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
+ 1 |     declare module "name" {
+ 2 | ,->     export class Foo { }
+ 3 | `-> }
+   `----
+  x Class
+   ,-[/swc_ecma_parser/tests/span/ts/declare/module.ts:2:1]
+ 1 |     declare module "name" {
+ 2 | ,->     export class Foo { }
+ 3 | `-> }
+   `----

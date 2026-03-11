@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 1..20,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 18..19,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..20,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Expr(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 7..8,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 10..11,\n        sym: \"b\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 6..15,\n        props: [\n            KeyValueProp {\n                span: 7..9,\n                key: Ident(\n                    Ident {\n                        span: 7..8,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 10..12,\n                key: Ident(\n                    Ident {\n                        span: 10..11,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"c\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

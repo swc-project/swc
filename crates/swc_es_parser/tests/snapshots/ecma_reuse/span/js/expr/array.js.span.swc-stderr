@@ -1,0 +1,40 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+ 1 | ([a, b, c, ...foo])
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+ 1 | ([a, b, c, ...foo])
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+  x ParenExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+ 1 | ([a, b, c, ...foo])
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+  x ArrayExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+ 1 | ([a, b, c, ...foo])
+   :  ^^^^^^^^^^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+ 1 | ([a, b, c, ...foo])
+   :   ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+ 1 | ([a, b, c, ...foo])
+   :      ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+ 1 | ([a, b, c, ...foo])
+   :         ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/array.js:1:1]
+ 1 | ([a, b, c, ...foo])
+   :               ^^^
+   `----

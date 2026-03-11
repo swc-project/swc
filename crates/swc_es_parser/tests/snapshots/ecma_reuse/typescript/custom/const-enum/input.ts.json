@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..39,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsEnum(\n    TsEnumDecl {\n        span: 1..39,\n        ident: Ident {\n            span: 12..15,\n            sym: \"Foo\",\n        },\n        declare: false,\n        is_const: true,\n        members: [\n            TsEnumMember {\n                span: 22..24,\n                name: Ident(\n                    Ident {\n                        span: 22..23,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 29..31,\n                name: Ident(\n                    Ident {\n                        span: 29..30,\n                        sym: \"B\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 36..39,\n                name: Ident(\n                    Ident {\n                        span: 36..37,\n                        sym: \"C\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

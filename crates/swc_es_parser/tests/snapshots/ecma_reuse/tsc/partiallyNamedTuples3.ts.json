@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 35..159,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 43..118,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 43..111,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 113..159,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 113..158,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 49..54,\n        sym: \"tuple\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 119..125,\n        sym: \"output\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 133..137,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 130..138,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 126..158,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 142..146,\n        sym: \"args\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 129..147,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 128..148,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 151..156,\n        sym: \"tuple\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 147..158,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

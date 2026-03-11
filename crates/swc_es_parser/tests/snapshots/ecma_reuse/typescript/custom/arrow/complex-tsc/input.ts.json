@@ -1,0 +1,51 @@
+{
+  "programs": [
+    "Program {\n    span: 1..401,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 8..401,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 8..401,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 14..28,\n        sym: \"assertEachNode\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 82..87,\n        sym: \"nodes\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..101,\n        sym: \"test\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 128..135,\n        sym: \"message\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 29..401,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 31..43,\n        sym: \"shouldAssert\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 44..58,\n        sym: \"AssertionLevel\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 58..66,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 59..65,\n                sym: \"Normal\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 43..80,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 155..161,\n        sym: \"assert\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 179..183,\n        sym: \"test\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 188..197,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 184..200,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 201..206,\n        sym: \"every\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 207..212,\n        sym: \"nodes\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 214..218,\n        sym: \"test\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 206..220,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 198..220,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 237..244,\n        sym: \"message\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 248..266,\n            value: \"Unexpected node.\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 245..267,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 290..348,\n        quasis: [\n            StrLit {\n                span: 290..348,\n                value: \"Node array did not pass test '${getFunctionName(test)}'.\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 284..349,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 366..380,\n        sym: \"assertEachNode\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 161..395,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 81..395,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 396..400,\n        sym: \"noop\",\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 79..401,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..401,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,20 @@
+{
+  "programs": [
+    "Program {\n    span: 1..6,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..6,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 3..6,\n        props: [],\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 1..6,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

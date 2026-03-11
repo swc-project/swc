@@ -1,0 +1,57 @@
+{
+  "programs": [
+    "Program {\n    span: 1..204,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..16,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..12,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 13..33,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 13..29,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 30..49,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 30..45,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 46..64,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 46..60,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 61..79,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 61..75,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 76..96,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 76..92,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 93..111,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 93..107,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 108..127,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 108..123,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 124..143,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 124..139,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 140..161,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 140..157,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 158..174,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 158..170,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 171..189,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 171..185,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 186..204,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 186..203,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 17..19,\n        sym: \"un\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 34..35,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..52,\n        sym: \"ne\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 65..68,\n        sym: \"nul\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..83,\n        sym: \"num\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..98,\n        sym: \"o\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 112..114,\n        sym: \"st\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 128..130,\n        sym: \"sy\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 144..145,\n        sym: \"u\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 162..163,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 175..176,\n        sym: \"n\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 190..191,\n        sym: \"i\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

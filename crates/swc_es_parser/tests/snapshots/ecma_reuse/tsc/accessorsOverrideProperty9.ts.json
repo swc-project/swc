@@ -1,0 +1,83 @@
+{
+  "programs": [
+    "Program {\n    span: 97..1216,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 211..224,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 391..405,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 750..764,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 903..913,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 910..921,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 914..924,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 923..938,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 971..976,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 975..986,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 980..1000,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 999..1042,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 1199..1213,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 104..164,\n        ident: Ident {\n            span: 109..120,\n            sym: \"Constructor\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 121..122,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 215..327,\n        ident: Ident {\n            span: 225..244,\n            sym: \"IApiItemConstructor\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 253..265,\n                sym: \"Constructor\",\n            },\n            Ident {\n                span: 275..288,\n                sym: \"PropertiesOf\",\n            },\n        ],\n        body: [],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 322..433,\n        ident: Ident {\n            span: 328..335,\n            sym: \"ApiItem\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 428..498,\n        ident: Ident {\n            span: 434..447,\n            sym: \"ApiEnumMember\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 489..594,\n        ident: Ident {\n            span: 499..520,\n            sym: \"ApiItemContainerMixin\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 529..538,\n                sym: \"ApiItem\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 541..584,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 550..557,\n                            sym: \"members\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 586..909,\n        ident: Ident {\n            span: 595..616,\n            sym: \"ApiItemContainerMixin\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 1043..1216,\n        ident: Ident {\n            span: 1049..1056,\n            sym: \"ApiEnum\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 660..669,\n        sym: \"baseClass\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 398..401,\n        elems: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 456..463,\n        sym: \"ApiItem\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 750..758,\n        sym: \"abstract\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 903..909,\n        sym: \"public\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 910..913,\n        sym: \"get\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 914..921,\n        sym: \"members\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 921..924,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 987..997,\n        sym: \"MixedClass\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1065..1086,\n        sym: \"ApiItemContainerMixin\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1087..1094,\n        sym: \"ApiItem\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1086..1097,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 1206..1209,\n        elems: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 97..164,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 1036..1216,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 340..407,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 1142..1215,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 322..433,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 328..335,\n            sym: \"ApiItem\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 428..498,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 434..447,\n            sym: \"ApiEnumMember\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 1043..1216,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1049..1056,\n            sym: \"ApiEnum\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 340..407,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 351..358,\n                sym: \"members\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 1142..1215,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1153..1160,\n                sym: \"members\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Any,\n)",
+    "Array(\n    TsArrayType {\n        span: 145..151,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 155..157,\n        name: Ident {\n            span: 155..157,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 135..157,\n        params: [\n            TsFnParam {\n                span: 136..151,\n                name: Some(\n                    Ident {\n                        span: 139..143,\n                        sym: \"args\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 573..581,\n        name: Ident {\n            span: 573..581,\n            sym: \"ApiItem\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 559..582,\n        name: Ident {\n            span: 559..573,\n            sym: \"ReadonlyArray\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)"
+  ]
+}

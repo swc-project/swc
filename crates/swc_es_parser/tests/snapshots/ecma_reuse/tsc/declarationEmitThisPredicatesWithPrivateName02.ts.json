@@ -1,0 +1,47 @@
+{
+  "programs": [
+    "Program {\n    span: 45..262,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 181..205,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 199..260,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 259..262,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 261..262,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 45..116,\n        ident: Ident {\n            span: 55..58,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 65..81,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 65..66,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 80..96,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 80..81,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 95..108,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 95..96,\n                            sym: \"c\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 183..190,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 206..209,\n        sym: \"dis\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 209..214,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 210..211,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 215..219,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 212..222,\n        op: NotEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 223..226,\n        sym: \"dis\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 226..231,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 227..228,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 232..236,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 229..239,\n        op: NotEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 220..239,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 240..243,\n        sym: \"dis\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 243..248,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 244..245,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 249..253,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 246..254,\n        op: NotEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 237..254,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Boolean,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 186..190,\n        name: Ident {\n            span: 186..190,\n            sym: \"Foo\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

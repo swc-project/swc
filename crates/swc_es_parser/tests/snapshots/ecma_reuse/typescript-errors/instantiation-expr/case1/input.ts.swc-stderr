@@ -1,0 +1,16 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/typescript-errors/instantiation-expr/case1/input.ts:1:1]
+ 1 | const a8 = f<number><number>;
+   :                     ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/typescript-errors/instantiation-expr/case1/input.ts:1:1]
+ 1 | const a8 = f<number><number>;
+   :                             ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 1..119,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 79..101,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 79..101,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 98..119,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 98..119,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 8..119,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 8..119,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 14..18,\n        sym: \"then\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 26..34,\n        sym: \"callback\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 83..90,\n        sym: \"returns\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 102..108,\n        sym: \"called\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 19..119,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Arrow(\n    ArrowExpr {\n        span: 25..119,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..119,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

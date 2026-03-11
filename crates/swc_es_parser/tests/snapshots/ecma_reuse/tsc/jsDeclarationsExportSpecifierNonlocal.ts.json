@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 117..246,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 124..145,\n        ident: Ident {\n            span: 130..135,\n            sym: \"Thing\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 146..195,\n        ident: Ident {\n            span: 152..162,\n            sym: \"OtherThing\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 117..145,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 139..195,\n        decl: _,\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 189..246,\n        src: Some(\n            StrLit {\n                span: 234..244,\n                value: \"./source\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 198..203,\n                    sym: \"Thing\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 205..215,\n                    sym: \"OtherThing\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 219..226,\n                        sym: \"default\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 124..145,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 130..135,\n            sym: \"Thing\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 146..195,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 152..162,\n            sym: \"OtherThing\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

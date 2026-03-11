@@ -1,0 +1,40 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "2-pass minifier for swc_es_ast"
+documentation = "https://rustdoc.swc.rs/swc_es_minifier/"
+edition       = { workspace = true }
+license       = { workspace = true }
+name          = "swc_es_minifier"
+repository    = { workspace = true }
+version       = "0.1.0"
+
+[lib]
+bench = false
+
+[features]
+default = []
+
+[dependencies]
+rustc-hash = { workspace = true }
+
+swc_atoms        = { version = "9.0.0", path = "../swc_atoms" }
+swc_common       = { version = "19.0.0", path = "../swc_common" }
+swc_es_ast       = { version = "0.1.0", path = "../swc_es_ast" }
+swc_es_semantics = { version = "0.1.0", path = "../swc_es_semantics" }
+swc_es_visit     = { version = "0.1.0", path = "../swc_es_visit" }
+
+[dev-dependencies]
+codspeed-criterion-compat = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+walkdir = { workspace = true }
+
+swc_common    = { version = "19.0.0", path = "../swc_common" }
+swc_es_codegen = { version = "0.1.0", path = "../swc_es_codegen" }
+swc_es_parser = { version = "0.1.0", path = "../swc_es_parser" }
+swc_malloc    = { version = "1.2.5", path = "../swc_malloc" }
+testing       = { version = "20.0.0", path = "../testing" }
+
+[[bench]]
+harness = false
+name    = "with_parse"

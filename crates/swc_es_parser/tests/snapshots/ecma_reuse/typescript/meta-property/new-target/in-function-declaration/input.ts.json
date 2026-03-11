@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..103,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 21..34,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 82..99,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..44,\n        ident: Ident {\n            span: 10..12,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 56..102,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 56..100,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 36..103,\n        ident: Ident {\n            span: 45..47,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 64..100,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "MetaProp(\n    MetaPropExpr {\n        span: 21..32,\n        kind: NewTarget,\n    },\n)",
+    "MetaProp(\n    MetaPropExpr {\n        span: 82..93,\n        kind: NewTarget,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 66..100,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

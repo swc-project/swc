@@ -1,0 +1,8 @@
+  x expected ), got Ident
+   ,-[/swc_ecma_parser/tests/errors/explicit-resource-management/.invalid-for-using-binding-of-of/input.js:1:1]
+ 1 | for (using of of of);
+   :                  ^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

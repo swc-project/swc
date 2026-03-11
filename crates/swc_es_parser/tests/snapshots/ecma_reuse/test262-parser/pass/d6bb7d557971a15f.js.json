@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..10,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..10,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 6..10,\n        tag: _,\n        template: TemplateExpr {\n            span: 6..10,\n            quasis: [\n                StrLit {\n                    span: 6..10,\n                    value: \"42\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "New(\n    NewExpr {\n        span: 1..10,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

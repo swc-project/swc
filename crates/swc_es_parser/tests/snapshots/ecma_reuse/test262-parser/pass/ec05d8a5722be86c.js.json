@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..53,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 35..48,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1..53,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 20..36,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 20..30,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 26..30,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 39..40,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 35..36,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 28..29,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 44..45,\n            value: 2.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 41..46,\n        left: _,\n        op: AddAssign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 37..46,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 48..51,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..52,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 2..49,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

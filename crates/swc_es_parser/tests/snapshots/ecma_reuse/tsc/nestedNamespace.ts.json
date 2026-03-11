@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 20..151,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 54..66,\n        ident: Ident {\n            span: 60..61,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 27..93,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 37..42,\n                sym: \"types\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 118..151,\n        ident: Ident {\n            span: 128..129,\n            sym: \"B\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 138..149,\n                sym: \"a.types.A\",\n            },\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 47..66,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 20..93,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 87..127,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 104..105,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 111..116,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 54..66,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 60..61,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

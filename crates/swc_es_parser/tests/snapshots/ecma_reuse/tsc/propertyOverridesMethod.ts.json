@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 54..116,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 54..83,\n        ident: Ident {\n            span: 60..61,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 78..116,\n        ident: Ident {\n            span: 84..85,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 94..95,\n        sym: \"A\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 112..113,\n            value: 1.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 106..115,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 68..77,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 54..83,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 60..61,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 78..116,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 84..85,\n            sym: \"B\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 68..77,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 68..69,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 102..115,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 102..103,\n                sym: \"m\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

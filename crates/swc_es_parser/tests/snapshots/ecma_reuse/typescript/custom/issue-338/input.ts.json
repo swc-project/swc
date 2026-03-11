@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..39,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..39,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..39,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..10,\n        sym: \"bar\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 11..39,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 13..16,\n        sym: \"bas\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 17..39,\n        expr: _,\n        ty: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeQuery(\n    TsTypeQuery {\n        span: 20..39,\n        expr_name: Ident {\n            span: 27..39,\n            sym: \"beep.delete\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

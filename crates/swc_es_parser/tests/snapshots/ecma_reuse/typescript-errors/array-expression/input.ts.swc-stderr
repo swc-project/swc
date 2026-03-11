@@ -1,0 +1,8 @@
+  x expected ], got Ident
+   ,-[/swc_ecma_parser/tests/typescript-errors/array-expression/input.ts:1:1]
+ 1 | const arr = [a b]
+   :                ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

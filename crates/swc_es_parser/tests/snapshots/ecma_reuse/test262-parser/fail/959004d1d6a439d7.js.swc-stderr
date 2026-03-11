@@ -1,0 +1,8 @@
+  x unexpected character
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/959004d1d6a439d7.js:1:1]
+ 1 | var 🀒
+   :     ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

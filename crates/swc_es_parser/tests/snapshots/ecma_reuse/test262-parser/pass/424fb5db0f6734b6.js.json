@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..38,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..38,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..38,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 30..31,\n        sym: \"b\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 6..33,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 7..19,\n                    key: Ident(\n                        Ident {\n                            span: 7..16,\n                            sym: \"__proto__\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 20..32,\n                    key: Ident(\n                        Ident {\n                            span: 20..29,\n                            sym: \"__proto__\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 5..35,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 36..37,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

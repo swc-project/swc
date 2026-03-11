@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 1..25,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 22..25,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..25,\n        head: In(\n            ForInHead {\n                left: Expr(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 10..13,\n        sym: \"foo\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 13..18,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 6..18,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

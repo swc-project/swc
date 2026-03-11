@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 1..92,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..31,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 23..59,\n        ident: Ident {\n            span: 32..33,\n            sym: \"c\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 51..92,\n        ident: Ident {\n            span: 60..61,\n            sym: \"d\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 14..18,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 34..35,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 36..46,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 62..69,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 64..67,\n                    key: Ident {\n                        span: 64..65,\n                        sym: \"e\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 68..73,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 76..77,\n        sym: \"f\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 74..81,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 80..88,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 16..17,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 39..40,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 43..44,\n            value: 3.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 41..45,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 38..46,\n        expr: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 70..73,\n        props: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 84..85,\n            value: 4.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 82..88,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

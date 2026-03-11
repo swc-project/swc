@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 134..392,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 317..353,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 307..355,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 271..355,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 378..392,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 134..241,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 134..162,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 233..389,\n        ident: Ident {\n            span: 242..243,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 138..149,\n        sym: \"GlobalThing\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 150..162,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 244..248,\n        sym: \"type\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 250..254,\n        sym: \"ctor\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 256..263,\n        sym: \"exports\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 157..159,\n            value: 12.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 152..162,\n        props: [\n            KeyValueProp {\n                span: 154..161,\n                key: Ident(\n                    Ident {\n                        span: 154..155,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 282..289,\n        sym: \"exports\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 275..293,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 294..305,\n            value: \"undefined\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 290..306,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 317..324,\n        sym: \"exports\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 325..331,\n            value: \"AST_\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 334..338,\n        sym: \"type\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 332..339,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 324..341,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 342..346,\n        sym: \"ctor\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 340..347,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 378..389,\n        sym: \"GlobalThing\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 389..392,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 390..391,\n                sym: \"x\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

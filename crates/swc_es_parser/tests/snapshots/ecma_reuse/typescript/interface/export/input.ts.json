@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 1..53,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 48..51,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 50..53,\n        stmts: [],\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 8..29,\n        ident: Ident {\n            span: 18..19,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 38..47,\n        sym: \"interface\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"A\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..29,\n        decl: _,\n    },\n)",
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 23..49,\n        expr: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,59 @@
+{
+  "programs": [
+    "Program {\n    span: 16..289,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 101..178,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 214..232,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 261..289,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 16..37,\n        ident: Ident {\n            span: 22..25,\n            sym: \"Bar\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 32..65,\n        ident: Ident {\n            span: 38..41,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 60..239,\n        ident: Ident {\n            span: 66..77,\n            sym: \"FooIterator\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 236..262,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 236..247,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 236..260,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 240..241,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 248..249,\n        sym: \"b\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 50..53,\n        sym: \"Bar\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 133..136,\n        sym: \"Foo\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 129..137,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 156..161,\n            value: false,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 108..172,\n        props: [\n            KeyValueProp {\n                span: 122..137,\n                key: Ident(\n                    Ident {\n                        span: 122..127,\n                        sym: \"value\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 150..171,\n                key: Ident(\n                    Ident {\n                        span: 150..154,\n                        sym: \"done\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 185..191,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 191..201,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 192..200,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 221..225,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 262..263,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 268..269,\n        sym: \"b\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 261..272,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: true,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 277..288,\n        sym: \"FooIterator\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 273..289,\n        callee: _,\n        args: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 271..289,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 84..185,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 184..234,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 16..37,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 22..25,\n            sym: \"Bar\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 32..65,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 38..41,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 60..239,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 66..77,\n            sym: \"FooIterator\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 28..31,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 28..29,\n                sym: \"x\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 56..59,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 56..57,\n                sym: \"y\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 84..185,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 84..88,\n                sym: \"next\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 184..234,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

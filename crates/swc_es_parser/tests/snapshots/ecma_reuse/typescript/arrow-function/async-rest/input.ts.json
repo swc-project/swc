@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..36,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..36,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 11..15,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 8..16,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Arrow(\n    ArrowExpr {\n        span: 7..36,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: true,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

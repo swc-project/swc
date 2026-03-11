@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..61,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 50..58,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 57..61,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 44..61,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..61,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 6..35,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 6..35,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 18..22,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 28..32,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 12..35,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 13..22,\n                    key: Ident(\n                        Ident {\n                            span: 13..14,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 23..32,\n                    key: Ident(\n                        Ident {\n                            span: 23..24,\n                            sym: \"y\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 20..21,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 30..31,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 37..38,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 40..41,\n            value: 3.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 36..43,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,57 @@
+{
+  "programs": [
+    "Program {\n    span: 70..314,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 77..141,\n        ident: Ident {\n            span: 83..84,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 164..200,\n        ident: Ident {\n            span: 173..176,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 211..275,\n        ident: Ident {\n            span: 217..218,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 290..308,\n        ident: Ident {\n            span: 296..297,\n            sym: \"E\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 180..184,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 177..185,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 102..103,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 113..114,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 200..203,\n        sym: \"foo\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 236..237,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 247..248,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 70..141,\n        decl: _,\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 135..163,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 144..145,\n                    sym: \"C\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 149..151,\n                        sym: \"C2\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 204..275,\n        decl: _,\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 269..295,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 278..279,\n                    sym: \"D\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 283..285,\n                        sym: \"D2\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 302..314,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 310..311,\n                    sym: \"E\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 120..134,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 254..268,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 77..141,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 83..84,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 211..275,\n    decorators: [\n        Decorator {\n            span: 199..210,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 217..218,\n            sym: \"D\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 290..308,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 296..297,\n            sym: \"E\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 91..110,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 98..99,\n                sym: \"s\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 109..126,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 109..110,\n                sym: \"p\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 120..134,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 120..126,\n                sym: \"method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 225..244,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 232..233,\n                sym: \"s\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 243..260,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 243..244,\n                sym: \"p\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 254..268,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 254..260,\n                sym: \"method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

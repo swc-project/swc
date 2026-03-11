@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 259..342,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 259..307,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 259..288,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 304..342,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 304..342,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 263..264,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 308..309,\n        sym: \"r\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 319..320,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 310..342,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 312..313,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 325..326,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 326..339,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 327..338,\n                sym: \"toLowerCase\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 338..341,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 318..341,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 317..342,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 314..342,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

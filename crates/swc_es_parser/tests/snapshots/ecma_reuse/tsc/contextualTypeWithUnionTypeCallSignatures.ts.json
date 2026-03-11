@@ -1,0 +1,80 @@
+{
+  "programs": [
+    "Program {\n    span: 528..1501,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 528..590,\n        ident: Ident {\n            span: 538..559,\n            sym: \"IWithNoCallSignatures\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 566..580,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 566..569,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 581..649,\n        ident: Ident {\n            span: 591..610,\n            sym: \"IWithCallSignatures\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 617..639,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 618..628,\n                        name: Some(\n                            Ident {\n                                span: 618..619,\n                                sym: \"a\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 640..709,\n        ident: Ident {\n            span: 650..670,\n            sym: \"IWithCallSignatures2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 677..699,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 678..688,\n                        name: Some(\n                            Ident {\n                                span: 678..679,\n                                sym: \"a\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 700..769,\n        ident: Ident {\n            span: 710..730,\n            sym: \"IWithCallSignatures3\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 737..759,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 738..748,\n                        name: Some(\n                            Ident {\n                                span: 738..739,\n                                sym: \"b\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 760..903,\n        ident: Ident {\n            span: 770..790,\n            sym: \"IWithCallSignatures4\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 797..823,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 798..808,\n                        name: Some(\n                            Ident {\n                                span: 798..799,\n                                sym: \"a\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 822..855,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 823..833,\n                        name: Some(\n                            Ident {\n                                span: 823..824,\n                                sym: \"a\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                    TsFnParam {\n                        span: 834..844,\n                        name: Some(\n                            Ident {\n                                span: 834..835,\n                                sym: \"b\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 900..1027,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 900..971,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1024..1127,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1024..1095,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1124..1272,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1124..1184,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1269..1408,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1269..1365,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1405..1501,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1405..1501,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 904..905,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 953..954,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1028..1030,\n        sym: \"x2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1077..1078,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1128..1130,\n        sym: \"x2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1177..1178,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1273..1275,\n        sym: \"x3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1322..1323,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1409..1411,\n        sym: \"x4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1458..1459,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 958..959,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 959..969,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 960..968,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 968..971,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 953..971,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1082..1083,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1083..1093,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1084..1092,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1092..1095,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1077..1095,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1182..1183,\n        sym: \"a\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1177..1184,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1352..1353,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1353..1363,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1354..1362,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1362..1365,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1322..1365,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1488..1489,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1489..1499,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1490..1498,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1498..1501,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1458..1501,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)"
+  ]
+}

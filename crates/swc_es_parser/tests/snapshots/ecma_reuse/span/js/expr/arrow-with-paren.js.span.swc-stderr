@@ -1,0 +1,35 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-paren.js:1:1]
+ 1 | use((a) => a)
+   : ^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-paren.js:1:1]
+ 1 | use((a) => a)
+   : ^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-paren.js:1:1]
+ 1 | use((a) => a)
+   :    ^^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-paren.js:1:1]
+ 1 | use((a) => a)
+   : ^^^
+   `----
+  x ArrowExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-paren.js:1:1]
+ 1 | use((a) => a)
+   :     ^^^^^^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-paren.js:1:1]
+ 1 | use((a) => a)
+   :      ^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/arrow-with-paren.js:1:1]
+ 1 | use((a) => a)
+   :            ^
+   `----

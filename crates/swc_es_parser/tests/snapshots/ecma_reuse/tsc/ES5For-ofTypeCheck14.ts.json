@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 28..86,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 83..86,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 60..86,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 28..63,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 28..63,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 65..75,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 65..75,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 32..37,\n        sym: \"union\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 71..72,\n        sym: \"e\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 76..81,\n        sym: \"union\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

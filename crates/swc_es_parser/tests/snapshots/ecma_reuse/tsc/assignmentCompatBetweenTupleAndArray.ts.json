@@ -1,0 +1,65 @@
+{
+  "programs": [
+    "Program {\n    span: 1..407,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 195..232,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 219..263,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 250..292,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 279..321,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 308..360,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 352..389,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 376..407,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..39,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..35,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 36..74,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 36..70,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 71..110,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 71..106,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 107..136,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 107..131,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 133..160,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 133..156,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 157..203,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 157..181,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..16,\n        sym: \"numStrTuple\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..51,\n        sym: \"numNumTuple\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 75..91,\n        sym: \"numEmptyObjTuple\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 111..124,\n        sym: \"emptyObjTuple\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..145,\n        sym: \"numArray\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 161..174,\n        sym: \"emptyObjArray\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 195..203,\n        sym: \"numArray\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 219..232,\n        sym: \"emptyObjArray\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 250..263,\n        sym: \"emptyObjArray\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 279..292,\n        sym: \"emptyObjArray\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 308..321,\n        sym: \"emptyObjArray\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 352..360,\n        sym: \"numArray\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 376..389,\n        sym: \"emptyObjTuple\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 206..217,\n        sym: \"numNumTuple\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 204..218,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 235..248,\n        sym: \"emptyObjTuple\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 233..249,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 266..277,\n        sym: \"numStrTuple\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 264..278,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 295..306,\n        sym: \"numNumTuple\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 293..307,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 324..340,\n        sym: \"numEmptyObjTuple\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 322..341,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 363..374,\n        sym: \"numStrTuple\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 361..375,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 392..405,\n        sym: \"emptyObjArray\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 390..406,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

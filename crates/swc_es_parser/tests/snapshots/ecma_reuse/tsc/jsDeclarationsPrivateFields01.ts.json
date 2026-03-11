@@ -1,0 +1,55 @@
+{
+  "programs": [
+    "Program {\n    span: 113..447,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 198..223,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 261..300,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Throw(\n    ThrowStmt {\n        span: 375..392,\n        arg: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 419..444,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 120..447,\n        ident: Ident {\n            span: 126..127,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 358..363,\n        sym: \"value\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 143..150,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 165..168,\n            value: 100.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 205..209,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 209..217,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 210..216,\n                sym: \"#hello\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 268..272,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 272..280,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 273..279,\n                sym: \"#hello\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 279..292,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 280..291,\n                sym: \"toUpperCase\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 291..294,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 381..385,\n            value: \"NO\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 426..430,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 430..438,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 431..437,\n                sym: \"#world\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 113..447,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 175..232,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 233..341,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 342..406,\n    params: [\n        Param {\n            span: 358..364,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 398..446,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 120..447,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 126..127,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 134..157,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 134..140,\n                sym: \"#hello\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 156..176,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 156..162,\n                sym: \"#world\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 175..232,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 175..185,\n                sym: \"#calcHello\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 229..234,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 229..232,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 233..341,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 233..248,\n                sym: \"#screamingHello\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 338..343,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 338..341,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 342..406,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 342..357,\n                sym: \"#screamingHello\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 398..446,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 398..406,\n                sym: \"getWorld\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

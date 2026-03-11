@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 141..443,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 141..206,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 141..206,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 201..253,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 201..253,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 147..151,\n        sym: \"test\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 152..206,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 207..211,\n        sym: \"tost\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 212..253,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 154..159,\n            value: \"add\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 214..222,\n            value: \"remove\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 247..443,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 256..264,\n                        sym: \"TestEnum\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 256..264,\n                            sym: \"TestEnum\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 272..280,\n            value: \"./mod1\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

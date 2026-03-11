@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 57..109,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 88..109,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 57..89,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 57..86,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 93..94,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 101..102,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 88..89,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 98..99,\n        sym: \"a\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 93..100,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 106..107,\n        sym: \"b\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 101..108,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 93..108,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 92..109,\n        expr: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 90..109,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

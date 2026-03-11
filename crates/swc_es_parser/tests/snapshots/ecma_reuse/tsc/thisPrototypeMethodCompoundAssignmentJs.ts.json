@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 96..287,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 141..178,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 96..210,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 248..285,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 203..287,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 96..103,\n        sym: \"Element\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 103..114,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 104..113,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 113..124,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 114..120,\n                sym: \"remove\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 141..145,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 145..158,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 146..156,\n                sym: \"parentNode\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 156..170,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 158..169,\n                sym: \"removeChild\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 156..170,\n        base: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 170..174,\n        sym: \"this\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 169..176,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 121..179,\n        left: _,\n        op: NullishAssign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 203..210,\n        sym: \"Element\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 210..221,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 211..220,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 220..231,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 221..227,\n                sym: \"remove\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 248..252,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 252..265,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 253..263,\n                sym: \"parentNode\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 263..277,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 265..276,\n                sym: \"removeChild\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 263..277,\n        base: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 277..281,\n        sym: \"this\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 276..283,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 228..286,\n        left: _,\n        op: NullishAssign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 125..179,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 232..286,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,55 @@
+{
+  "programs": [
+    "Program {\n    span: 1..430,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 43..63,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 109..128,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 183..202,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 271..290,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 361..380,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 409..428,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..73,\n        ident: Ident {\n            span: 10..12,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 65..138,\n        ident: Ident {\n            span: 74..76,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 130..212,\n        ident: Ident {\n            span: 139..141,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 204..300,\n        ident: Ident {\n            span: 213..215,\n            sym: \"f4\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 292..390,\n        ident: Ident {\n            span: 301..303,\n            sym: \"f5\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 382..430,\n        ident: Ident {\n            span: 391..393,\n            sym: \"f6\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 31..34,\n        sym: \"arg\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..100,\n        sym: \"arg\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 171..174,\n        sym: \"arg\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 259..262,\n        sym: \"arg\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 349..352,\n        sym: \"arg\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 397..400,\n        sym: \"arg\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 55..58,\n        sym: \"arg\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 50..61,\n        props: [\n            KeyValueProp {\n                span: 52..60,\n                key: Ident(\n                    Ident {\n                        span: 52..52,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 121..124,\n        sym: \"arg\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 116..128,\n        props: [\n            KeyValueProp {\n                span: 118..126,\n                key: Ident(\n                    Ident {\n                        span: 118..118,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 195..198,\n        sym: \"arg\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 190..202,\n        props: [\n            KeyValueProp {\n                span: 192..200,\n                key: Ident(\n                    Ident {\n                        span: 192..192,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 283..286,\n        sym: \"arg\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 278..290,\n        props: [\n            KeyValueProp {\n                span: 280..288,\n                key: Ident(\n                    Ident {\n                        span: 280..280,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 373..376,\n        sym: \"arg\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 368..380,\n        props: [\n            KeyValueProp {\n                span: 370..378,\n                key: Ident(\n                    Ident {\n                        span: 370..370,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 421..424,\n        sym: \"arg\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 416..428,\n        props: [\n            KeyValueProp {\n                span: 418..426,\n                key: Ident(\n                    Ident {\n                        span: 418..418,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

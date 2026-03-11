@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 89..197,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 97..117,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 97..110,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 112..156,\n        ident: Ident {\n            span: 118..119,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 160..197,\n        ident: Ident {\n            span: 166..167,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 101..104,\n        sym: \"dec\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 127..130,\n        sym: \"dec\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 156..159,\n        sym: \"dec\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 131..153,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 174..196,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 112..156,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 118..119,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 160..197,\n    decorators: [\n        Decorator {\n            span: 155..165,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 166..167,\n            sym: \"D\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 131..153,\n        decorators: [\n            Decorator {\n                span: 126..137,\n                expr: _,\n            },\n        ],\n        key: Private(\n            Ident {\n                span: 138..146,\n                sym: \"#method1\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 174..196,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 181..189,\n                sym: \"#method1\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

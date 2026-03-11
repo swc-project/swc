@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 75..172,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 82..120,\n        ident: Ident {\n            span: 88..89,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 161..172,\n        ident: Ident {\n            span: 167..168,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 75..120,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 114..166,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 126..127,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 133..138,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 82..120,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 88..89,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 161..172,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 167..168,\n            sym: \"B\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

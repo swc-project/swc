@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 16..111,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 84..103,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 36..111,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 36..111,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 16..111,\n        ident: Ident {\n            span: 26..27,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 42..111,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 65..66,\n            value: 0.0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 59..67,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 91..92,\n            value: 0.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 44..111,\n        props: [\n            KeyValueProp {\n                span: 54..109,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 54..109,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 133..186,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 160..170,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 171..186,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 133..181,\n        ident: Ident {\n            span: 142..152,\n            sym: \"Dependency\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 153..154,\n        sym: \"j\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 167..168,\n        sym: \"j\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 171..181,\n        sym: \"Dependency\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 182..185,\n        props: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 181..186,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

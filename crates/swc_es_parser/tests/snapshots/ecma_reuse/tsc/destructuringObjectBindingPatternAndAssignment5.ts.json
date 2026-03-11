@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 1..87,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 55..86,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 21..43,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 21..35,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 40..56,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 40..56,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..87,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 44..45,\n        sym: \"y\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 58..59,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..65,\n        sym: \"y\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 56..69,\n        props: [\n            KeyValueProp {\n                span: 58..60,\n                key: Ident(\n                    Ident {\n                        span: 58..59,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 61..67,\n                key: Ident(\n                    Ident {\n                        span: 61..61,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 71..77,\n        props: [],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 75..82,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 70..83,\n        expr: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 68..83,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 55..84,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Any,\n)"
+  ]
+}

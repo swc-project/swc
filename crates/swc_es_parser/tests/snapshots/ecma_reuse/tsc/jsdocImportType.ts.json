@@ -1,0 +1,61 @@
+{
+  "programs": [
+    "Program {\n    span: 79..525,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 289..310,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 453..468,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 516..525,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 87..131,\n        ident: Ident {\n            span: 96..103,\n            sym: \"require\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 132..157,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 132..149,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 158..252,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 158..187,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 247..319,\n        ident: Ident {\n            span: 253..258,\n            sym: \"Chunk\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 446..454,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 446..452,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 463..512,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 463..491,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 509..517,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 509..515,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 104..108,\n        sym: \"name\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 136..143,\n        sym: \"exports\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 162..168,\n        sym: \"module\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 450..451,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 469..470,\n        sym: \"D\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 471..491,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 513..514,\n        sym: \"d\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 289..293,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 293..301,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 294..299,\n                sym: \"chunk\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 302..303,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 300..304,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 453..454,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 454..461,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 455..460,\n                sym: \"chunk\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 473..480,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 481..489,\n            value: \"./mod1\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 480..491,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 516..517,\n        sym: \"d\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 517..524,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 518..523,\n                sym: \"chunk\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 265..312,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 247..319,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 253..258,\n            sym: \"Chunk\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 265..312,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 265..276,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

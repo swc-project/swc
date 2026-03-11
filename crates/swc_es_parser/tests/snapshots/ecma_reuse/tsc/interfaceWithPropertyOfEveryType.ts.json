@@ -1,0 +1,67 @@
+{
+  "programs": [
+    "Program {\n    span: 1..569,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 24..34,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 272..282,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 269..282,\n        label: Ident {\n            span: 269..270,\n            sym: \"j\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 284..292,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 281..292,\n        label: Ident {\n            span: 281..282,\n            sym: \"k\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 294..310,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 291..310,\n        label: Ident {\n            span: 291..292,\n            sym: \"l\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 312..327,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 309..327,\n        label: Ident {\n            span: 309..310,\n            sym: \"m\",\n        },\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 329..332,\n        stmts: [],\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 326..332,\n        label: Ident {\n            span: 326..327,\n            sym: \"n\",\n        },\n        body: _,\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 331..332,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 340..344,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 337..344,\n        label: Ident {\n            span: 337..338,\n            sym: \"o\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 343..349,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 554..563,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 562..565,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 564..569,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 568..569,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 26..50,\n        ident: Ident {\n            span: 35..37,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 66..78,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 66..76,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 44..83,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 51..52,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 79..102,\n        ident: Ident {\n            span: 84..85,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 88..91,\n                name: Ident(\n                    Ident {\n                        span: 88..89,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 70..71,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 72..76,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 74..75,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 272..275,\n        sym: \"Foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 284..285,\n        sym: \"C\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 301..303,\n        sym: \"f1\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 294..304,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 319..320,\n        sym: \"M\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 312..321,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 340..341,\n        sym: \"E\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 561..562,\n        sym: \"o\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 554..563,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 564..565,\n        sym: \"E\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 565..569,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 566..567,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 59..78,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

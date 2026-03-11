@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 76..293,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 76..257,\n        ident: Ident {\n            span: 81..82,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 83..84,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 254..289,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 254..260,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 286..293,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 286..292,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 258..259,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 290..291,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 108..111,\n        name: Ident {\n            span: 108..111,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 103..257,\n        members: [\n            TsTypeMember {\n                span: 105..111,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 105..106,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ]
+}

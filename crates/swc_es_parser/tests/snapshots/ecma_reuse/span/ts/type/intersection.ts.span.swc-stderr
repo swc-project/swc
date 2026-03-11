@@ -1,0 +1,30 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+ 1 | type A = { foo: string } & { bar: boolean }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+ 1 | type A = { foo: string } & { bar: boolean }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeAliasDecl
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+ 1 | type A = { foo: string } & { bar: boolean }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsIntersectionType
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+ 1 | type A = { foo: string } & { bar: boolean }
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeLit
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+ 1 | type A = { foo: string } & { bar: boolean }
+   :          ^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeLit
+   ,-[/swc_ecma_parser/tests/span/ts/type/intersection.ts:1:1]
+ 1 | type A = { foo: string } & { bar: boolean }
+   :                            ^^^^^^^^^^^^^^^^
+   `----

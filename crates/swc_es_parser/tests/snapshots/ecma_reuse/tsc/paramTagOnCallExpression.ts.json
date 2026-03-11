@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 79..258,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 219..258,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 87..226,\n        ident: Ident {\n            span: 96..103,\n            sym: \"factory\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 104..108,\n        sym: \"type\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 219..226,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 226..237,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 227..235,\n                sym: \"inherits\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 238..245,\n        sym: \"factory\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 246..256,\n            value: \"inherits\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 245..258,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 236..258,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

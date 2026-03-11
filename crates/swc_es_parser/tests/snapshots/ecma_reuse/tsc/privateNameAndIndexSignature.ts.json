@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 35..460,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 71..75,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 72..86,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 85..211,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 456..459,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 458..460,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 72..75,\n        sym: \"foo\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 78..79,\n            value: 3.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 76..80,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 86..92,\n            value: \"#bar\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 85..95,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 96..100,\n        sym: \"this\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 101..107,\n            value: \"#bar\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 100..211,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 94..211,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

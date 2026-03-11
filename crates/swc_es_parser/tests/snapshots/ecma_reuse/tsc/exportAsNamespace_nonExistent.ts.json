@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 49..95,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportAll(\n    ExportAllDecl {\n        span: 49..95,\n        src: StrLit {\n            span: 69..84,\n            value: \"./nonexistent\",\n        },\n        type_only: false,\n        exported: Some(\n            Ident {\n                span: 61..63,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

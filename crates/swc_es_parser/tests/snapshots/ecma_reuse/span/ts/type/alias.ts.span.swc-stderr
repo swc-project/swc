@@ -1,0 +1,20 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
+ 1 | type Test = "test"    ;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
+ 1 | type Test = "test"    ;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeAliasDecl
+   ,-[/swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
+ 1 | type Test = "test"    ;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsLitType
+   ,-[/swc_ecma_parser/tests/span/ts/type/alias.ts:1:1]
+ 1 | type Test = "test"    ;
+   :             ^^^^^^
+   `----

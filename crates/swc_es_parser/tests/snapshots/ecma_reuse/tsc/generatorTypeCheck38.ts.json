@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 16..82,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 47..63,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..35,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..26,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 60..82,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 60..80,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 27..82,\n        ident: Ident {\n            span: 37..38,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..25,\n        sym: \"yield\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..65,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 53..54,\n            value: 0.0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 47..55,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

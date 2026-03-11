@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 72..135,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 72..135,\n        ident: Ident {\n            span: 78..79,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 102..104,\n            value: 10.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 72..135,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 78..79,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 86..116,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 93..99,\n                sym: \"#field\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 110..134,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 117..131,\n                sym: \"#uninitialized\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

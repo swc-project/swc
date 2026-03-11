@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..29,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Break(\n    BreakStmt {\n        span: 23..29,\n        label: None,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 14..29,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..29,\n        head: Classic(\n            ForClassicHead {\n                init: None,\n                test: None,\n                update: None,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 18..19,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 19..22,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

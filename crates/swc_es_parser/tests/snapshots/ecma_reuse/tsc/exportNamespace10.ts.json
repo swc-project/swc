@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 21..173,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 28..66,\n        ident: Ident {\n            span: 34..35,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 139..173,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 139..164,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 143..144,\n        sym: \"_\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 157..159,\n        sym: \"ns\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 159..162,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 160..161,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 161..164,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 153..164,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 21..66,\n        decl: _,\n    },\n)",
+    "ExportAll(\n    ExportAllDecl {\n        span: 60..119,\n        src: StrLit {\n            span: 85..90,\n            value: \"./a\",\n        },\n        type_only: true,\n        exported: Some(\n            Ident {\n                span: 77..79,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 113..142,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 122..124,\n                        sym: \"ns\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 122..124,\n                            sym: \"ns\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 132..137,\n            value: \"./b\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 28..66,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 34..35,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

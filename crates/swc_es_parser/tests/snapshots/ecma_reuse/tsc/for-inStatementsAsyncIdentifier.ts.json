@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 21..65,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 62..65,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 32..65,\n        head: In(\n            ForInHead {\n                left: Pat(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 21..35,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 21..31,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 25..30,\n        sym: \"async\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 37..42,\n        sym: \"async\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 51..52,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 57..58,\n            value: 2.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 46..61,\n        props: [\n            KeyValueProp {\n                span: 48..53,\n                key: Ident(\n                    Ident {\n                        span: 48..49,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 54..60,\n                key: Ident(\n                    Ident {\n                        span: 54..55,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

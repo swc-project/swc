@@ -1,0 +1,114 @@
+{
+  "cfgs": [
+    {
+      "id": 0,
+      "root": "Program",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "kind": "Normal"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "root": "FunctionDecl",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement"
+        },
+        {
+          "id": 3,
+          "kind": "Statement"
+        },
+        {
+          "id": 4,
+          "kind": "Statement"
+        },
+        {
+          "id": 5,
+          "kind": "Statement"
+        },
+        {
+          "id": 6,
+          "kind": "Synthetic"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "kind": "True"
+        },
+        {
+          "from": 2,
+          "to": 4,
+          "kind": "True"
+        },
+        {
+          "from": 2,
+          "to": 5,
+          "kind": "True"
+        },
+        {
+          "from": 3,
+          "to": 6,
+          "kind": "Break"
+        },
+        {
+          "from": 6,
+          "to": 1,
+          "kind": "Normal"
+        },
+        {
+          "from": 4,
+          "to": 1,
+          "kind": "Return"
+        },
+        {
+          "from": 5,
+          "to": 1,
+          "kind": "Return"
+        }
+      ]
+    }
+  ]
+}

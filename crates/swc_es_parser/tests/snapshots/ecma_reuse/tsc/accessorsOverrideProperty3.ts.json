@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 54..241,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 95..102,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 163..183,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 219..238,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 97..241,\n        ident: Ident {\n            span: 103..107,\n            sym: \"Lion\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 212..215,\n        sym: \"val\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 116..122,\n        sym: \"Animal\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 138..144,\n            value: \"grrr\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 170..174,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 174..183,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 175..181,\n                sym: \"_sound\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 219..223,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 223..232,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 224..230,\n                sym: \"_sound\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 233..236,\n        sym: \"val\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 231..238,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 149..205,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 202..240,\n    params: [\n        Param {\n            span: 212..216,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 97..241,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 103..107,\n            sym: \"Lion\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 129..152,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 129..135,\n                sym: \"_sound\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 149..205,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 153..158,\n                sym: \"sound\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 202..240,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 206..211,\n                sym: \"sound\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

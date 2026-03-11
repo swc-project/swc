@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 1..165,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..41,\n        ident: Ident {\n            span: 6..7,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 36..92,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 36..86,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 87..165,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 87..115,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 42..48,\n        sym: \"extra1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 49..86,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 93..95,\n        sym: \"a1\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 56..59,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 64..67,\n            value: \"b\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 76..83,\n            value: \"extra\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 51..86,\n        props: [\n            KeyValueProp {\n                span: 53..60,\n                key: Ident(\n                    Ident {\n                        span: 53..54,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 61..68,\n                key: Ident(\n                    Ident {\n                        span: 61..62,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 69..85,\n                key: Ident(\n                    Ident {\n                        span: 69..74,\n                        sym: \"extra\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 106..112,\n        sym: \"extra1\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 101..115,\n        props: [\n            KeyValueProp {\n                span: 103..114,\n                key: Ident(\n                    Ident {\n                        span: 103..103,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 10..35,\n        members: [\n            TsTypeMember {\n                span: 12..24,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 12..13,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 23..34,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 23..24,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ]
+}

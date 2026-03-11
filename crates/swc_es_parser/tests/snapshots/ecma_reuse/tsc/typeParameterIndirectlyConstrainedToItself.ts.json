@@ -1,0 +1,57 @@
+{
+  "programs": [
+    "Program {\n    span: 1..656,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 37..44,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 89..101,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 394..400,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 549..578,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 92..143,\n        ident: Ident {\n            span: 102..103,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 104..105,\n                sym: \"U\",\n            },\n            Ident {\n                span: 117..118,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 134..199,\n        ident: Ident {\n            span: 144..146,\n            sym: \"I2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 147..148,\n                sym: \"T\",\n            },\n            Ident {\n                span: 160..161,\n                sym: \"U\",\n            },\n            Ident {\n                span: 173..174,\n                sym: \"V\",\n            },\n        ],\n        extends: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 191..242,\n        ident: Ident {\n            span: 200..201,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 234..295,\n        ident: Ident {\n            span: 243..245,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 397..444,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 397..444,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 441..505,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 441..505,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 574..628,\n        ident: Ident {\n            span: 579..582,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 583..584,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 620..656,\n        ident: Ident {\n            span: 629..632,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 401..402,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 403..444,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 445..447,\n        sym: \"b2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 448..505,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 431..444,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 489..505,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 589..591,\n        name: Ident {\n            span: 589..591,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 588..599,\n        elem_types: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Tuple(\n    TsTupleType {\n        span: 600..610,\n        elem_types: [\n            _,\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 611..615,\n        members: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 616..619,\n        members: [],\n    },\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 588..619,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)"
+  ]
+}

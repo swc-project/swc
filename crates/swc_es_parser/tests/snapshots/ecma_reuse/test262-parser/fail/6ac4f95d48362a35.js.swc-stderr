@@ -1,0 +1,8 @@
+  x legacy octal escape sequences are not allowed in strict mode
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/6ac4f95d48362a35.js:1:1]
+ 1 | 'use strict'; ('\001')
+   :                ^^^^^^
+   `----
+
+Advice: 
+  > code: StrictModeViolation

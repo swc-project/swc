@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 1..71,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..71,\n        ident: Ident {\n            span: 7..8,\n            sym: \"a\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 42..43,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 65..66,\n        sym: \"c\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 11..35,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 29..51,\n    params: [\n        Param {\n            span: 42..44,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 48..62,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 59..71,\n    params: [\n        Param {\n            span: 65..67,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..71,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..8,\n            sym: \"a\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 11..35,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 22..23,\n                sym: \"b\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 29..51,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 40..41,\n                sym: \"b\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Setter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 48..62,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 52..53,\n                sym: \"b\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 59..71,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 63..64,\n                sym: \"b\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,74 @@
+{
+  "programs": [
+    "Program {\n    span: 36..880,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 276..284,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 733..880,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 36..68,\n        ident: Ident {\n            span: 41..49,\n            sym: \"LowInfer\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 50..51,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 64..174,\n        ident: Ident {\n            span: 69..84,\n            sym: \"PartialAssigner\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 85..93,\n                sym: \"TContext\",\n            },\n            Ident {\n                span: 95..99,\n                sym: \"TKey\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 280..350,\n        ident: Ident {\n            span: 285..289,\n            sym: \"Meta\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 290..298,\n                sym: \"TContext\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 341..466,\n        ident: Ident {\n            span: 351..363,\n            sym: \"AssignAction\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 364..372,\n                sym: \"TContext\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 378..407,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 378..382,\n                            sym: \"type\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 403..457,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 403..407,\n                            sym: \"exec\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 467..577,\n        ident: Ident {\n            span: 476..482,\n            sym: \"assign\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 573..665,\n        ident: Ident {\n            span: 578..584,\n            sym: \"Config\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 585..593,\n                sym: \"TContext\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 666..746,\n        ident: Ident {\n            span: 675..688,\n            sym: \"createMachine\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 496..506,\n        sym: \"assignment\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 699..705,\n        sym: \"config\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 830..833,\n        sym: \"ctx\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 733..746,\n        sym: \"createMachine\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 792..793,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 779..799,\n        props: [\n            KeyValueProp {\n                span: 785..794,\n                key: Ident(\n                    Ident {\n                        span: 785..790,\n                        sym: \"count\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 809..815,\n        sym: \"assign\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 859..862,\n        sym: \"ctx\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 862..869,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 863..868,\n                sym: \"count\",\n            },\n        ),\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 857..869,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 829..869,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 816..874,\n        props: [\n            KeyValueProp {\n                span: 822..869,\n                key: Ident(\n                    Ident {\n                        span: 822..827,\n                        sym: \"count\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 815..875,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 766..878,\n        props: [\n            KeyValueProp {\n                span: 770..799,\n                key: Ident(\n                    Ident {\n                        span: 770..777,\n                        sym: \"context\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 802..875,\n                key: Ident(\n                    Ident {\n                        span: 802..807,\n                        sym: \"entry\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 765..879,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 55..58,\n        name: Ident {\n            span: 55..58,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 59..62,\n        members: [],\n    },\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 55..62,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 139..149,\n        name: Ident {\n            span: 139..149,\n            sym: \"TContext\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 153..162,\n        name: Ident {\n            span: 153..162,\n            sym: \"TContext\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 162..167,\n        name: Ident {\n            span: 162..167,\n            sym: \"TKey\",\n        },\n        type_args: [],\n    },\n)",
+    "IndexedAccess(\n    TsIndexedAccessType {\n        span: 153..168,\n        obj_type: _,\n        index_type: _,\n    },\n)",
+    "Fn(\n    TsFnType {\n        span: 126..168,\n        params: [\n            TsFnParam {\n                span: 130..149,\n                name: Some(\n                    Ident {\n                        span: 130..137,\n                        sym: \"context\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 320..329,\n        name: Ident {\n            span: 320..329,\n            sym: \"TContext\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Void,\n)",
+    "Fn(\n    TsFnType {\n        span: 314..339,\n        params: [\n            TsFnParam {\n                span: 315..329,\n                name: Some(\n                    Ident {\n                        span: 315..318,\n                        sym: \"ctx\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 302..350,\n        members: [\n            TsTypeMember {\n                span: 306..339,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 306..312,\n                            sym: \"action\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 384..399,\n            value: \"xstate.assign\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 415..424,\n        name: Ident {\n            span: 415..424,\n            sym: \"TContext\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 436..445,\n        name: Ident {\n            span: 436..445,\n            sym: \"TContext\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 431..446,\n        name: Ident {\n            span: 431..436,\n            sym: \"Meta\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Void,\n)",
+    "Fn(\n    TsFnType {\n        span: 409..455,\n        params: [\n            TsFnParam {\n                span: 410..424,\n                name: Some(\n                    Ident {\n                        span: 410..413,\n                        sym: \"arg\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n            TsFnParam {\n                span: 425..446,\n                name: Some(\n                    Ident {\n                        span: 425..429,\n                        sym: \"meta\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 610..619,\n        name: Ident {\n            span: 610..619,\n            sym: \"TContext\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 643..652,\n        name: Ident {\n            span: 643..652,\n            sym: \"TContext\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 630..653,\n        name: Ident {\n            span: 630..643,\n            sym: \"AssignAction\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 597..656,\n        members: [\n            TsTypeMember {\n                span: 601..627,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 601..608,\n                            sym: \"context\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 622..655,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 622..627,\n                            sym: \"entry\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ]
+}

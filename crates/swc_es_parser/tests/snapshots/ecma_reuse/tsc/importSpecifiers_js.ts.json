@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 76..150,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 83..126,\n        ident: Ident {\n            span: 93..94,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 76..126,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 120..150,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 134..135,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 134..135,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: true,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 143..148,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

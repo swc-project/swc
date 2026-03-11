@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 98..249,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 98..139,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 98..132,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 229..249,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 229..248,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 104..110,\n        sym: \"MyEnum\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 111..132,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 235..236,\n        sym: \"v\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 237..248,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 120..121,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 128..129,\n            value: 2.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 113..132,\n        props: [\n            KeyValueProp {\n                span: 117..122,\n                key: Ident(\n                    Ident {\n                        span: 117..118,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 125..131,\n                key: Ident(\n                    Ident {\n                        span: 125..126,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..154,\n        sym: \"MyEnum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 239..245,\n        sym: \"MyEnum\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 245..248,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 246..247,\n                sym: \"b\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 133..184,\n        expr: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 178..234,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 185..191,\n                        sym: \"MyEnum\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 197..204,\n            value: \"./def\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

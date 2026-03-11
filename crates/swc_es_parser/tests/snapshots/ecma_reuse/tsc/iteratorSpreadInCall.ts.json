@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 16..251,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 88..166,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 202..220,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 224..251,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 16..49,\n        ident: Ident {\n            span: 25..28,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 44..227,\n        ident: Ident {\n            span: 50..64,\n            sym: \"SymbolIterator\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"s\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 116..122,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 122..125,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 144..149,\n            value: false,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 95..160,\n        props: [\n            KeyValueProp {\n                span: 109..125,\n                key: Ident(\n                    Ident {\n                        span: 109..114,\n                        sym: \"value\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 138..159,\n                key: Ident(\n                    Ident {\n                        span: 138..142,\n                        sym: \"done\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 173..179,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 179..189,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 180..188,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..213,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..227,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 235..249,\n        sym: \"SymbolIterator\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 231..250,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 227..251,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 71..173,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 172..222,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 44..227,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 50..64,\n            sym: \"SymbolIterator\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 71..173,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 71..75,\n                sym: \"next\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 172..222,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

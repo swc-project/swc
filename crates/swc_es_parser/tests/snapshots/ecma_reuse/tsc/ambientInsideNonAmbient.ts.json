@@ -1,0 +1,53 @@
+{
+  "programs": [
+    "Program {\n    span: 1..297,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 31..48,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 31..37,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 57..81,\n        ident: Ident {\n            span: 66..67,\n            sym: \"f\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 90..112,\n        ident: Ident {\n            span: 96..97,\n            sym: \"C\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 121..142,\n        ident: Ident {\n            span: 126..127,\n            sym: \"E\",\n        },\n        declare: true,\n        is_const: false,\n        members: [],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 151..165,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 158..159,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 1..173,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 8..9,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 191..209,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 191..197,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 210..235,\n        ident: Ident {\n            span: 219..220,\n            sym: \"f\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 236..259,\n        ident: Ident {\n            span: 242..243,\n            sym: \"C\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 260..282,\n        ident: Ident {\n            span: 265..266,\n            sym: \"E\",\n        },\n        declare: true,\n        is_const: false,\n        members: [],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 283..297,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 290..291,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 167..297,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 174..176,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 35..36,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 195..196,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 16..48,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 42..81,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 75..112,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 106..142,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 136..165,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 90..112,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 96..97,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 236..259,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 242..243,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

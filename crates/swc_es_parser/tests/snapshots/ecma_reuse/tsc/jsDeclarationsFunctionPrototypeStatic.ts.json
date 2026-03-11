@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 117..428,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 166..210,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 203..251,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 244..428,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 144..173,\n        ident: Ident {\n            span: 153..160,\n            sym: \"MyClass\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 166..173,\n        sym: \"MyClass\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 173..188,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 174..186,\n                sym: \"staticMethod\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 187..210,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 203..210,\n        sym: \"MyClass\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 210..221,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 211..220,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 220..229,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 221..227,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 228..251,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 244..251,\n        sym: \"MyClass\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 251..268,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 252..266,\n                sym: \"staticProperty\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 269..272,\n            value: 123.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 267..273,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 189..210,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 230..251,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,24 @@
+{
+  "programs": [
+    "Program {\n    span: 1..67,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..67,\n        ident: Ident {\n            span: 11..12,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..29,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 19..20,\n                            sym: \"m\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: None,\n            },\n            TsTypeMember {\n                span: 28..66,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 28..29,\n                            sym: \"m\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 30..41,\n                        name: Some(\n                            Ident {\n                                span: 30..31,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: true,\n                    },\n                    TsFnParam {\n                        span: 42..57,\n                        name: Some(\n                            Ident {\n                                span: 45..46,\n                                sym: \"y\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: true,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Array(\n    TsArrayType {\n        span: 48..57,\n        elem_type: _,\n    },\n)",
+    "Keyword(\n    Void,\n)"
+  ]
+}

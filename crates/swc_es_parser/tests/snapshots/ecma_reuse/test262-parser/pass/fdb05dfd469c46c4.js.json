@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 1..90,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 13..31,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..14,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..12,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 28..49,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 28..45,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 46..90,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 46..59,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..12,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 32..40,\n        sym: \"ↂωↂ\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 41..45,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..54,\n        sym: \"l০\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 55..59,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 9..12,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 14..23,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 15..21,\n                sym: \"你好\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 24..25,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 22..26,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 43..44,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 57..58,\n            value: 3.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

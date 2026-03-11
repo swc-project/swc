@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 16..65,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 62..63,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 36..63,\n        ident: Ident {\n            span: 42..43,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 16..65,\n        ident: Ident {\n            span: 26..27,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Yield(\n    YieldExpr {\n        span: 53..59,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 52..61,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 36..63,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 42..43,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

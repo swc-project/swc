@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 173..316,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 173..290,\n        ident: Ident {\n            span: 183..185,\n            sym: \"AA\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 186..187,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 273..279,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 273..274,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 281..316,\n        ident: Ident {\n            span: 291..293,\n            sym: \"BB\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 302..305,\n                sym: \"AA\",\n            },\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 276..279,\n        name: Ident {\n            span: 276..279,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

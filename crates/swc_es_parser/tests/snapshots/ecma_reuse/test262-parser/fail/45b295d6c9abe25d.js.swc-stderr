@@ -1,0 +1,8 @@
+  x expected property name, got RBrace
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/45b295d6c9abe25d.js:1:1]
+ 1 | ({ * })
+   :      ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

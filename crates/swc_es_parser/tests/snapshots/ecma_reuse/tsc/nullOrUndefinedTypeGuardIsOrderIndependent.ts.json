@@ -1,0 +1,53 @@
+{
+  "programs": [
+    "Program {\n    span: 28..340,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 197..219,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 187..228,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 239..261,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 229..268,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 163..268,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 310..337,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 300..339,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 266..339,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 110..147,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 110..139,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 144..165,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 144..158,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 28..340,\n        ident: Ident {\n            span: 37..41,\n            sym: \"test\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 42..51,\n        sym: \"strOrNull\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..82,\n        sym: \"strOrUndefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 114..117,\n        sym: \"str\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..151,\n        sym: \"nil\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 197..200,\n        sym: \"nil\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 239..242,\n        sym: \"str\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 310..313,\n        sym: \"str\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 128..138,\n            value: \"original\",\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 167..171,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 176..185,\n        sym: \"strOrNull\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 172..186,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 203..212,\n        sym: \"strOrNull\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 201..213,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 245..254,\n        sym: \"strOrNull\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 243..255,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 270..279,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 284..298,\n        sym: \"strOrUndefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 280..299,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 316..330,\n        sym: \"strOrUndefined\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 314..331,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

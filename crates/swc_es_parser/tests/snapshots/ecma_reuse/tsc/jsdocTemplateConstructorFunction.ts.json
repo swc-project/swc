@@ -1,0 +1,76 @@
+{
+  "programs": [
+    "Program {\n    span: 197..435,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 240..255,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 251..263,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 351..382,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 376..395,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 309..399,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 415..424,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 423..435,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 197..312,\n        ident: Ident {\n            span: 206..209,\n            sym: \"Zet\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 396..416,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 396..416,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 210..211,\n        sym: \"t\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 338..339,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 341..343,\n        sym: \"id\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 400..401,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 402..416,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 240..244,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 244..255,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 245..246,\n                sym: \"u\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 251..255,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 255..259,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 256..257,\n                sym: \"t\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 260..261,\n        sym: \"t\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 258..263,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 309..312,\n        sym: \"Zet\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 312..323,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 313..322,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 322..328,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 323..326,\n                sym: \"add\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 351..355,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 355..359,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 356..357,\n                sym: \"u\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 360..361,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 365..369,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 369..382,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 370..371,\n                sym: \"t\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 362..382,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 358..382,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 383..385,\n        sym: \"id\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 386..390,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 390..393,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 391..392,\n                sym: \"u\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 385..395,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 327..399,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 408..411,\n        sym: \"Zet\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 412..413,\n            value: 1.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 411..416,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 404..416,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 415..416,\n        sym: \"z\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 416..420,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 417..418,\n                sym: \"t\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 421..422,\n            value: 2.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 419..424,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 423..424,\n        sym: \"z\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 424..428,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 425..426,\n                sym: \"u\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 429..434,\n            value: false,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 427..435,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 329..399,\n    params: [\n        Param {\n            span: 329..329,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 329..329,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

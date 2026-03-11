@@ -1,0 +1,63 @@
+{
+  "programs": [
+    "Program {\n    span: 50..501,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 50..117,\n        ident: Ident {\n            span: 56..59,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 112..191,\n        ident: Ident {\n            span: 118..124,\n            sym: \"SubFoo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 186..285,\n        ident: Ident {\n            span: 192..204,\n            sym: \"StaticSubFoo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 280..320,\n        ident: Ident {\n            span: 286..298,\n            sym: \"Intermediate\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 315..404,\n        ident: Ident {\n            span: 321..328,\n            sym: \"Derived\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 399..501,\n        ident: Ident {\n            span: 405..418,\n            sym: \"StaticDerived\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 77..78,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 107..108,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 133..136,\n        sym: \"Foo\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 154..156,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 179..181,\n            value: 42.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 213..216,\n        sym: \"Foo\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 241..243,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 273..275,\n            value: 42.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 307..310,\n        sym: \"Foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 337..349,\n        sym: \"Intermediate\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 367..369,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 392..394,\n            value: 42.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 427..439,\n        sym: \"Intermediate\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 464..466,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 496..498,\n            value: 42.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 50..117,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 56..59,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 112..191,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 118..124,\n            sym: \"SubFoo\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 186..285,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 192..204,\n            sym: \"StaticSubFoo\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 280..320,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 286..298,\n            sym: \"Intermediate\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 315..404,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 321..328,\n            sym: \"Derived\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 399..501,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 405..418,\n            sym: \"StaticDerived\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 66..89,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 66..74,\n                sym: \"property\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 83..110,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 90..104,\n                sym: \"staticProperty\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 143..176,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 143..151,\n                sym: \"property\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 162..184,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 162..176,\n                sym: \"staticProperty\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 223..255,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 230..238,\n                sym: \"property\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 249..278,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 256..270,\n                sym: \"staticProperty\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 356..389,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 356..364,\n                sym: \"property\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 375..397,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 375..389,\n                sym: \"staticProperty\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 446..478,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 453..461,\n                sym: \"property\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 472..501,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 479..493,\n                sym: \"staticProperty\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

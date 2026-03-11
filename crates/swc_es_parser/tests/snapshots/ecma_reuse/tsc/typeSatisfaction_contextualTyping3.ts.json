@@ -1,0 +1,76 @@
+{
+  "programs": [
+    "Program {\n    span: 121..466,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 451..459,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 457..466,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 121..239,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 121..232,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 234..337,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 234..331,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 333..394,\n        ident: Ident {\n            span: 338..356,\n            sym: \"StringOrNumberFunc\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 389..453,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 389..450,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 127..130,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 144..149,\n        sym: \"param\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 150..162,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 131..232,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 240..244,\n        sym: \"obj2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 258..263,\n        sym: \"param\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 264..276,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 245..331,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 395..397,\n        sym: \"fn\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 402..403,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 404..411,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 398..450,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 152..161,\n            value: \"default\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 166..171,\n        sym: \"param\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 143..172,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 133..184,\n        props: [\n            KeyValueProp {\n                span: 138..172,\n                key: Ident(\n                    Ident {\n                        span: 138..141,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 175..232,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 266..275,\n            value: \"default\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 280..285,\n        sym: \"param\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 257..286,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 247..298,\n        props: [\n            KeyValueProp {\n                span: 252..286,\n                key: Ident(\n                    Ident {\n                        span: 252..255,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 289..331,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 406..410,\n            value: \"ok\",\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 415..419,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 401..420,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 400..430,\n        expr: _,\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 421..450,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 451..453,\n        sym: \"fn\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 453..456,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 457..459,\n        sym: \"fn\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 460..462,\n            value: 32.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 459..464,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Fn(\n    TsFnType {\n        span: 205..229,\n        params: [\n            TsFnParam {\n                span: 206..221,\n                name: Some(\n                    Ident {\n                        span: 209..215,\n                        sym: \"params\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: true,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 185..232,\n        members: [\n            TsTypeMember {\n                span: 190..231,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 191..194,\n                        name: Some(\n                            Ident {\n                                span: 191..194,\n                                sym: \"key\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 319..328,\n        name: Ident {\n            span: 319..328,\n            sym: \"Function\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 299..331,\n        members: [\n            TsTypeMember {\n                span: 304..330,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 305..308,\n                        name: Some(\n                            Ident {\n                                span: 305..308,\n                                sym: \"key\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Union(\n    TsUnionType {\n        span: 363..379,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "Fn(\n    TsFnType {\n        span: 359..387,\n        params: [\n            TsFnParam {\n                span: 360..379,\n                name: Some(\n                    Ident {\n                        span: 360..361,\n                        sym: \"x\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 431..450,\n        name: Ident {\n            span: 431..450,\n            sym: \"StringOrNumberFunc\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..33,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..22,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 27..33,\n        expr: _,\n    },\n)",
+    "With(\n    WithStmt {\n        span: 18..33,\n        obj: _,\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 1..16,\n            value: \"use strict\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 29..33,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

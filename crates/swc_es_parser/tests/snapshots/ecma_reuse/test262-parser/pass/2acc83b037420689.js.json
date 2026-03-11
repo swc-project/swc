@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 1..71,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 49..68,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..71,\n        ident: Ident {\n            span: 7..8,\n            sym: \"a\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 55..60,\n        sym: \"super\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 60..68,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 49..68,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 25..70,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..71,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..8,\n            sym: \"a\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 25..70,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 25..36,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

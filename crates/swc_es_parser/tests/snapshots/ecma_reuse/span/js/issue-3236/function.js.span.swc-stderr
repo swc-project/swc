@@ -1,0 +1,49 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+  x FnDecl
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+  x AssignPat
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :              ^^^^
+ 2 |     "use strict";
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :            ^
+ 2 |     "use strict";
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :                ^
+ 2 |     "use strict";
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/function.js:2:1]
+ 1 |     function f(a = 0) {
+ 2 | ,->     "use strict";
+ 3 | `-> }
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/issue-3236/function.js:2:1]
+ 1 | function f(a = 0) {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^
+ 3 | }
+   `----

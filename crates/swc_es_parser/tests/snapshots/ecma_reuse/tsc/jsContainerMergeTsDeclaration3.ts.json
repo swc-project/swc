@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 75..139,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 128..139,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 83..118,\n        ident: Ident {\n            span: 89..90,\n            sym: \"A\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 113..129,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 113..127,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 119..120,\n        sym: \"A\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 121..127,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 123..127,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 128..129,\n        sym: \"A\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 129..133,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 130..131,\n                sym: \"d\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 134..138,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 132..138,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 83..118,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 89..90,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

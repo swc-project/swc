@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 222..445,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 271..342,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 371..426,\n        stmts: [],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 354..426,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 420..443,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 334..445,\n        ident: Ident {\n            span: 343..344,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 345..346,\n        sym: \"k\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 358..359,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 364..365,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 368..369,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 366..370,\n        op: Sub,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 360..370,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 427..428,\n        sym: \"k\",\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 435..439,\n            value: true,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 429..441,\n        props: [\n            KeyValueProp {\n                span: 431..440,\n                key: Ident(\n                    Ident {\n                        span: 431..433,\n                        sym: \"ok\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 428..443,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

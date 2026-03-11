@@ -1,0 +1,76 @@
+{
+  "programs": [
+    "Program {\n    span: 159..633,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 307..441,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 269..441,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 582..633,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 547..633,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 159..272,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 159..268,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 274..291,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 274..291,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 311..434,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 311..432,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 436..550,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 436..546,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 552..564,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 552..564,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 586..632,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 586..630,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 165..178,\n        sym: \"timezoneNames\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 179..268,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 280..288,\n        sym: \"zoneName\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 315..324,\n        sym: \"formatter\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 325..432,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 442..457,\n        sym: \"enumerationKeys\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 458..546,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 558..561,\n        sym: \"key\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 590..599,\n        sym: \"supported\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 600..630,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 182..189,\n            value: \"short\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 191..197,\n            value: \"long\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 199..212,\n            value: \"shortOffset\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 214..226,\n            value: \"longOffset\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 228..242,\n            value: \"shortGeneric\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 244..257,\n            value: \"longGeneric\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 181..261,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 259..268,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 292..305,\n        sym: \"timezoneNames\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 331..335,\n        sym: \"Intl\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 335..351,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 336..350,\n                sym: \"DateTimeFormat\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 351..358,\n            value: \"en-US\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 376..397,\n            value: \"America/Los_Angeles\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 417..425,\n        sym: \"zoneName\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 360..431,\n        props: [\n            KeyValueProp {\n                span: 366..398,\n                key: Ident(\n                    Ident {\n                        span: 366..374,\n                        sym: \"timeZone\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 403..426,\n                key: Ident(\n                    Ident {\n                        span: 403..415,\n                        sym: \"timeZoneName\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 350..432,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 327..432,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 461..471,\n            value: \"calendar\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 473..484,\n            value: \"collation\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 486..496,\n            value: \"currency\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 498..515,\n            value: \"numberingSystem\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 517..527,\n            value: \"timeZone\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 529..535,\n            value: \"unit\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 460..539,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 537..546,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 565..580,\n        sym: \"enumerationKeys\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 602..606,\n        sym: \"Intl\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 606..625,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 607..624,\n                sym: \"supportedValuesOf\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 625..628,\n        sym: \"key\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 624..630,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 262..268,\n        name: Ident {\n            span: 262..268,\n            sym: \"const\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 540..546,\n        name: Ident {\n            span: 540..546,\n            sym: \"const\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

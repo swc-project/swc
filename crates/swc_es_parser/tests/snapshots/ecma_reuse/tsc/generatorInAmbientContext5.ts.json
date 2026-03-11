@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 37..74,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 37..74,\n        ident: Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 51..74,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: true,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 37..74,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 43..44,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 51..74,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 52..61,\n                sym: \"generator\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

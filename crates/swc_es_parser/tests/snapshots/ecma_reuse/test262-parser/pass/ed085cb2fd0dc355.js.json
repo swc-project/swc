@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 1..68,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 40..48,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 34..53,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 60..68,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 54..68,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 8..68,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..10,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..7,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 60..61,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"b\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 12..17,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"c\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 18..23,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 15..23,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"d\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 24..29,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 21..29,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"e\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 30..33,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 27..33,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 44..45,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 42..46,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 64..65,\n            value: 2.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 62..66,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 21..57,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 55..56,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 32..57,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Expr(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 21..35,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 21..31,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 25..30,\n        sym: \"async\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 38..43,\n        sym: \"async\",\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 37..47,\n        expr: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 49..50,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 52..53,\n            value: 2.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 48..55,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

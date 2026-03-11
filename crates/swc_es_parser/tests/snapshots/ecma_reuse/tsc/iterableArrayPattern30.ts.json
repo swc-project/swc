@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 16..83,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..83,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..83,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 24..26,\n        sym: \"k1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 28..30,\n        sym: \"v1\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 23..32,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 34..36,\n        sym: \"k2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 38..40,\n        sym: \"v2\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 33..42,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 22..44,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 49..52,\n        sym: \"Map\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 55..57,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 59..63,\n            value: true,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 54..65,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 67..74,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 76..80,\n            value: true,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 66..82,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 53..83,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 52..83,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 45..83,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 17..90,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 17..51,\n        ident: Ident {\n            span: 26..29,\n            sym: \"bar\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 43..90,\n        ident: Ident {\n            span: 52..55,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 33..37,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 30..38,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 67..68,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 81..85,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 78..86,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

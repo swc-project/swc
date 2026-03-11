@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 79..134,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 79..96,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 92..101,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 100..127,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 123..132,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 131..134,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 79..83,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 83..87,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 84..85,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 88..90,\n            value: 10.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 86..91,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 92..96,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 96..99,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 97..98,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 100..101,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 123..127,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 127..130,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 128..129,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 131..132,\n        sym: \"a\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

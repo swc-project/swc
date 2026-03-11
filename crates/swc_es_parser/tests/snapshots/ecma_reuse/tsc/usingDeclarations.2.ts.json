@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 109..197,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 109..197,\n        stmts: [\n            _,\n        ],\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 115..196,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 115..152,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 115..194,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 121..123,\n        sym: \"d1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 124..152,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 163..165,\n        sym: \"d2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 166..194,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 129..135,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 135..144,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 136..143,\n                sym: \"dispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 126..152,\n        props: [\n            KeyValueProp {\n                span: 128..151,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 171..177,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 177..186,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 178..185,\n                sym: \"dispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 168..194,\n        props: [\n            KeyValueProp {\n                span: 170..193,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 128..151,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 170..193,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

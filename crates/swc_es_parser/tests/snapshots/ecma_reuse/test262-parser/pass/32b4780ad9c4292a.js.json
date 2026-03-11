@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 1..12,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 4..8,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 1..8,\n        label: Ident {\n            span: 1..2,\n            sym: \"a\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 10..12,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 7..12,\n        label: Ident {\n            span: 7..8,\n            sym: \"a\",\n        },\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 4..5,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 10..11,\n            value: 2.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

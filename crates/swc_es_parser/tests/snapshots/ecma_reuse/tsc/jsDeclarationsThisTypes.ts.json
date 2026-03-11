@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 113..308,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 180..198,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 120..207,\n        ident: Ident {\n            span: 126..127,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 201..308,\n        ident: Ident {\n            span: 222..226,\n            sym: \"Base\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 187..191,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 235..236,\n        sym: \"A\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 113..207,\n        decl: _,\n    },\n)",
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 201..308,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 161..200,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 294..308,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 120..207,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 126..127,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 216..308,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 222..226,\n            sym: \"Base\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 161..200,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 161..167,\n                sym: \"method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 294..308,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 294..300,\n                sym: \"verify\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

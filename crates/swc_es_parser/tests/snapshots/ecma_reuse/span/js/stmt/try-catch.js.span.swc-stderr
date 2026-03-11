@@ -1,0 +1,35 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | `-> }
+   `----
+  x TryStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | `-> }
+   `----
+  x BlockStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | `-> } catch (e) {
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:3:1]
+ 2 | 
+ 3 | } catch (e) {
+   :          ^
+   `----
+  x BlockStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/try-catch.js:3:1]
+ 2 |     
+ 3 | ,-> } catch (e) {
+ 4 | |   
+ 5 | `-> }
+   `----

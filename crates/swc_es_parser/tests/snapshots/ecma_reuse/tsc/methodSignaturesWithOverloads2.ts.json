@@ -1,0 +1,56 @@
+{
+  "programs": [
+    "Program {\n    span: 80..489,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 247..267,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 266..290,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 405..407,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 428..432,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 431..450,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 448..471,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 469..489,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 80..248,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 80..232,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 84..85,\n        sym: \"c\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 247..248,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 248..256,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 249..254,\n                sym: \"func4\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 257..258,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 258..265,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 259..264,\n                sym: \"func5\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 255..265,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 266..267,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 267..275,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 268..273,\n                sym: \"func5\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 276..277,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 277..284,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 278..283,\n                sym: \"func4\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 274..284,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 448..450,\n        sym: \"c2\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 450..458,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 451..456,\n                sym: \"func4\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 459..461,\n        sym: \"c2\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 461..468,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 462..467,\n                sym: \"func5\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 457..468,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 469..471,\n        sym: \"c2\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 471..479,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 472..477,\n                sym: \"func5\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 480..482,\n        sym: \"c2\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 482..489,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 483..488,\n                sym: \"func4\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 478..489,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

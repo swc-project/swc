@@ -1,0 +1,45 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+ 1 | ,-> const foo = 3;
+ 2 | `-> export { foo as "str" };
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+ 1 | ,-> const foo = 3;
+ 2 | `-> export { foo as "str" };
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+ 1 | ,-> const foo = 3;
+ 2 | `-> export { foo as "str" };
+   `----
+  x AssignPat
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+ 1 | const foo = 3;
+   :           ^^^^
+ 2 | export { foo as "str" };
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+ 1 | const foo = 3;
+   :       ^^^
+ 2 | export { foo as "str" };
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:1:1]
+ 1 | const foo = 3;
+   :             ^
+ 2 | export { foo as "str" };
+   `----
+  x ModuleDeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:2:1]
+ 1 | const foo = 3;
+ 2 | export { foo as "str" };
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExportNamedDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/export-string-names-1.js:2:1]
+ 1 | const foo = 3;
+ 2 | export { foo as "str" };
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

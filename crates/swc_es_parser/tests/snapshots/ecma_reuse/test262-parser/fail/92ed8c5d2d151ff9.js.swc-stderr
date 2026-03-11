@@ -1,0 +1,16 @@
+  x invalid hexadecimal escape sequence
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/92ed8c5d2d151ff9.js:1:1]
+ 1 | '\x
+   :  ^^
+   `----
+
+Advice: 
+  > code: InvalidEscape
+  x unterminated string literal
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/92ed8c5d2d151ff9.js:1:1]
+ 1 | '\x
+   : ^^^
+   `----
+
+Advice: 
+  > code: UnterminatedString

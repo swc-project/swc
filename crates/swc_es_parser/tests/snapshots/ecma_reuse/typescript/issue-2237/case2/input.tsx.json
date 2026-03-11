@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 1..153,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 100..126,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 33..152,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 8..153,\n        ident: Ident {\n            span: 17..24,\n            sym: \"Results\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 69..72,\n        elems: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 71..76,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 72..75,\n                sym: \"map\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 107..111,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 76..127,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 75..128,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "JSXElement(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 40..150,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..153,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 50..149,\n    opening: JSXOpeningElement {\n        span: 50..149,\n        name: Ident(\n            Ident {\n                span: 51..55,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Expr(\n            _,\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 139..143,\n                sym: \"div\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}

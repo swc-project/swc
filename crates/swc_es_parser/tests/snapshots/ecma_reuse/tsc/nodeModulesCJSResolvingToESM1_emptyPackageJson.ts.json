@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 148..441,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 148..184,\n        stmts: [],\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 178..226,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 220..288,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 235..249,\n            value: \"./module.mjs\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 282..352,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 297..311,\n            value: \"./module.mjs\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 346..416,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 361..375,\n            value: \"./module.mjs\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 410..441,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 425..439,\n            value: \"./module.mjs\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

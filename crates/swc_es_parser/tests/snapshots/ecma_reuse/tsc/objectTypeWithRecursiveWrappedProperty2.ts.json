@@ -1,0 +1,53 @@
+{
+  "programs": [
+    "Program {\n    span: 26..224,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 65..81,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 59..81,\n        label: Ident {\n            span: 59..63,\n            sym: \"next\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 80..86,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 180..206,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 201..224,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 83..118,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 83..114,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 115..150,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 115..146,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 147..185,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 147..178,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 87..92,\n        sym: \"list1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 93..114,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 119..124,\n        sym: \"list2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 125..146,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 151..156,\n        sym: \"list3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 157..178,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 180..185,\n        sym: \"list1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 201..206,\n        sym: \"list1\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 65..69,\n        sym: \"List\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 99..103,\n        sym: \"List\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 111..114,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 95..114,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 131..135,\n        sym: \"List\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 143..146,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 127..146,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 163..167,\n        sym: \"List\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 175..178,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 159..178,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 188..193,\n        sym: \"list2\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 186..194,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..214,\n        sym: \"list3\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 207..215,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

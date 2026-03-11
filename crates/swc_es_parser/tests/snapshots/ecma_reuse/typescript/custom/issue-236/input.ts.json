@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 1..172,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 123..153,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 149..172,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 8..172,\n        ident: Ident {\n            span: 17..52,\n            sym: \"DirectiveIserviceIdPrefixController\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 53..57,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..70,\n        sym: \"$scope\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 88..94,\n        sym: \"$attrs\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 123..127,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 127..136,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 128..134,\n                sym: \"$scope\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..143,\n        sym: \"$scope\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 135..144,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 149..153,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 153..162,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 154..160,\n                sym: \"$attrs\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 163..169,\n        sym: \"$attrs\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 161..170,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..172,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

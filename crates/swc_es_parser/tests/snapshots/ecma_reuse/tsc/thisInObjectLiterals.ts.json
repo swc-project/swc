@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 51..472,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 87..93,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 92..303,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 302..387,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 414..440,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 102..218,\n        ident: Ident {\n            span: 107..121,\n            sym: \"ContainingThis\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 215..258,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 215..246,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 255..301,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 255..295,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 384..447,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 384..443,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 444..472,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 444..471,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 219..220,\n        sym: \"t\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 221..246,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 259..260,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 388..391,\n        sym: \"obj\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 392..443,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 448..451,\n        sym: \"obj\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 87..89,\n        sym: \"fn\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 89..93,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 228..232,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 237..241,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 241..245,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 242..243,\n                sym: \"t\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 223..246,\n        props: [\n            KeyValueProp {\n                span: 225..233,\n                key: Ident(\n                    Ident {\n                        span: 225..226,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 234..245,\n                key: Ident(\n                    Ident {\n                        span: 234..235,\n                        sym: \"y\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 421..425,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 425..434,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 426..433,\n                sym: \"spaaace\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 394..443,\n        props: [\n            KeyValueProp {\n                span: 400..442,\n                key: Ident(\n                    Ident {\n                        span: 400..401,\n                        sym: \"f\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 400..442,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 124..129,\n        name: Ident {\n            span: 124..129,\n            sym: \"this\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..63,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 26..40,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 46..60,\n        expr: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 55..63,\n        label: None,\n    },\n)",
+    "Switch(\n    SwitchStmt {\n        span: 1..63,\n        discriminant: _,\n        cases: [\n            SwitchCase {\n                span: 16..40,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                ],\n            },\n            SwitchCase {\n                span: 33..63,\n                test: None,\n                cons: [\n                    _,\n                    _,\n                ],\n            },\n        ],\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 21..24,\n            value: \"b\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 27..30,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 46..47,\n        sym: \"d\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 47..50,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

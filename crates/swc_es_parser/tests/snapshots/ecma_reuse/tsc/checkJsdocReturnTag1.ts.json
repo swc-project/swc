@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 147..415,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 166..183,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 273..296,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 392..414,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 147..261,\n        ident: Ident {\n            span: 156..157,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 253..380,\n        ident: Ident {\n            span: 262..264,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 372..415,\n        ident: Ident {\n            span: 381..383,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 173..180,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 280..293,\n            value: \"hello world\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 399..400,\n            value: 5.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 404..411,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 401..412,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

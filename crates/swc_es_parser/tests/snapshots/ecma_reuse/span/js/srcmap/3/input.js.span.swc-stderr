@@ -1,0 +1,15 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/3/input.js:1:1]
+ 1 | 1
+   : ^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/3/input.js:1:1]
+ 1 | 1
+   : ^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/3/input.js:1:1]
+ 1 | 1
+   : ^
+   `----

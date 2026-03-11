@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 1..100,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 35..48,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 42..51,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 50..56,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 52..70,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 62..85,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 80..91,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 90..96,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 92..99,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 98..100,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 62..70,\n        sym: \"readonly\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 35..41,\n        sym: \"public\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 42..48,\n        sym: \"static\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 48..51,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 52..70,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 73..74,\n            value: 0.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 71..75,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..85,\n        sym: \"async\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 88..91,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 92..99,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

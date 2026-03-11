@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 216..468,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 236..247,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 216..307,\n        ident: Ident {\n            span: 225..226,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 302..416,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 302..314,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 408..454,\n        ident: Ident {\n            span: 417..418,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 449..468,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 449..468,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 227..228,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 308..309,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 310..314,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 419..424,\n        sym: \"vvvvv\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 455..457,\n        sym: \"cb\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 460..461,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 458..468,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 243..244,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 312..313,\n            value: 3.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 460..468,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

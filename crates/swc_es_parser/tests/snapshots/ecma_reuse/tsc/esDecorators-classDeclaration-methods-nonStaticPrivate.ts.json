@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 89..147,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 97..117,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 97..110,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 112..147,\n        ident: Ident {\n            span: 118..119,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 101..104,\n        sym: \"dec\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 127..130,\n        sym: \"dec\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 131..146,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 112..147,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 118..119,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 131..146,\n        decorators: [\n            Decorator {\n                span: 126..132,\n                expr: _,\n            },\n        ],\n        key: Private(\n            Ident {\n                span: 131..139,\n                sym: \"#method1\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

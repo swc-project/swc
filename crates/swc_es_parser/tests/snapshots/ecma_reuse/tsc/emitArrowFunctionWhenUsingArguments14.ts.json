@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 18..128,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 97..126,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 56..128,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 37..128,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 66..103,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 66..88,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 18..128,\n        ident: Ident {\n            span: 27..28,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 72..81,\n        sym: \"arguments\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 82..88,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 41..45,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 45..53,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 46..52,\n                sym: \"random\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 52..55,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 84..87,\n            value: 100.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 110..119,\n        sym: \"arguments\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 104..120,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

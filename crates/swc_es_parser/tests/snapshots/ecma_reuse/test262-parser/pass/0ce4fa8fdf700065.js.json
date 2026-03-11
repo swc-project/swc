@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..39,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 1..39,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 24..36,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..34,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 28..29,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 30..34,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 32..33,\n            value: 1.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 5..38,\n        expr: _,\n    },\n)",
+    "New(\n    NewExpr {\n        span: 1..38,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 6..37,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

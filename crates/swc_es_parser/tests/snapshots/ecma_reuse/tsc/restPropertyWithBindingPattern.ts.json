@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 1..68,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..18,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 17..36,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 35..52,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 51..68,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 6..9,\n        props: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 2..11,\n        props: [\n            KeyValueProp {\n                span: 3..9,\n                key: Ident(\n                    Ident {\n                        span: 3..3,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 12..15,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 10..15,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..16,\n        expr: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 23..26,\n        props: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 22..27,\n        expr: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 18..29,\n        props: [\n            KeyValueProp {\n                span: 19..27,\n                key: Ident(\n                    Ident {\n                        span: 19..19,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 30..33,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 28..33,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 17..34,\n        expr: _,\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 40..43,\n        elems: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 36..45,\n        props: [\n            KeyValueProp {\n                span: 37..43,\n                key: Ident(\n                    Ident {\n                        span: 37..37,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 46..49,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 44..49,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 35..50,\n        expr: _,\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 57..60,\n        elems: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 56..61,\n        expr: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 52..63,\n        props: [\n            KeyValueProp {\n                span: 53..61,\n                key: Ident(\n                    Ident {\n                        span: 53..53,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 64..67,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 62..67,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 51..68,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

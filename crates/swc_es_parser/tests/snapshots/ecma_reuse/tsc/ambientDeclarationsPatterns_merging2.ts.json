@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 24..354,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 51..76,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 51..74,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 32..108,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 39..46,\n                value: \"*.foo\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 187..209,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 187..207,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 168..240,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 175..182,\n                value: \"a.foo\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 328..354,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 328..352,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 309..354,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 316..323,\n                value: \"a.foo\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 55..65,\n        sym: \"everywhere\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 191..198,\n        sym: \"onlyInA\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 332..343,\n        sym: \"alsoOnlyInA\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 102..167,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 111..121,\n                        sym: \"everywhere\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 111..121,\n                            sym: \"everywhere\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 123..130,\n                        sym: \"onlyInA\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 123..130,\n                            sym: \"onlyInA\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 132..143,\n                        sym: \"alsoOnlyInA\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 132..143,\n                            sym: \"alsoOnlyInA\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 151..158,\n            value: \"a.foo\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 234..308,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 243..253,\n                        sym: \"everywhere\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 243..253,\n                            sym: \"everywhere\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 255..262,\n                        sym: \"onlyInA\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 255..262,\n                            sym: \"onlyInA\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 264..275,\n                        sym: \"alsoOnlyInA\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 264..275,\n                            sym: \"alsoOnlyInA\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 283..290,\n            value: \"b.foo\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

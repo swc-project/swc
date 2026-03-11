@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 60..363,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 139..147,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 143..182,\n        ident: Ident {\n            span: 148..149,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 183..207,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 183..199,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 208..231,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 208..224,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 226..300,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 226..273,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 301..331,\n        ident: Ident {\n            span: 310..314,\n            sym: \"from\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 326..363,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 326..362,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 189..190,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 214..215,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 232..234,\n        sym: \"c1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 235..273,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 332..334,\n        sym: \"c2\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 237..242,\n        sym: \"Array\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 242..248,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 243..247,\n                sym: \"from\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 248..249,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 247..251,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 250..258,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 251..257,\n                sym: \"concat\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 258..263,\n        sym: \"Array\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 263..269,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 264..268,\n                sym: \"from\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 269..270,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 268..272,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 257..273,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 355..359,\n        sym: \"from\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 359..362,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 160..163,\n            value: \"A\",\n        },\n    ),\n)",
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 152..173,\n        name: Ident {\n            span: 152..160,\n            sym: \"Nominal\",\n        },\n        type_args: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

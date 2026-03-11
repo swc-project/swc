@@ -1,0 +1,50 @@
+{
+  "programs": [
+    "Program {\n    span: 41..304,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 276..304,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 273..304,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 242..304,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 41..110,\n        ident: Ident {\n            span: 46..53,\n            sym: \"Correct\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 106..153,\n        ident: Ident {\n            span: 111..114,\n            sym: \"Err\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 149..192,\n        ident: Ident {\n            span: 154..168,\n            sym: \"SomeReturnType\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 187..244,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 187..240,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 193..200,\n        sym: \"example\",\n    },\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 219..224,\n        props: [],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 222..240,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 246..253,\n        sym: \"example\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 253..261,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 254..257,\n                sym: \"err\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 262..271,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 258..272,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 276..283,\n        sym: \"example\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 283..293,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 284..292,\n                sym: \"property\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 83..87,\n            value: true,\n        },\n    ),\n)",
+    "Keyword(\n    Undefined,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 56..110,\n        members: [\n            TsTypeMember {\n                span: 59..81,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 59..63,\n                            sym: \"code\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 73..92,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 73..81,\n                            sym: \"property\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 89..105,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 89..92,\n                            sym: \"err\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 117..153,\n        members: [\n            TsTypeMember {\n                span: 120..148,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 120..123,\n                            sym: \"err\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 171..180,\n        name: Ident {\n            span: 171..180,\n            sym: \"Correct\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 181..185,\n        name: Ident {\n            span: 181..185,\n            sym: \"Err\",\n        },\n        type_args: [],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 171..185,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 225..240,\n        name: Ident {\n            span: 225..240,\n            sym: \"SomeReturnType\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

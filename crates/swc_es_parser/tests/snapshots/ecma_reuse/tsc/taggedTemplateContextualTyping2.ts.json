@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 18..903,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 357..376,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 614..694,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 686..820,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 812..903,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 122..218,\n        ident: Ident {\n            span: 131..139,\n            sym: \"tempTag2\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 210..320,\n        ident: Ident {\n            span: 219..227,\n            sym: \"tempTag2\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 312..622,\n        ident: Ident {\n            span: 321..329,\n            sym: \"tempTag2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 140..152,\n        sym: \"templateStrs\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 176..177,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 190..191,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 228..240,\n        sym: \"templateStrs\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 264..265,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 278..279,\n        sym: \"h\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 292..293,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 333..337,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 330..338,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 364..373,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 614..622,\n        sym: \"tempTag2\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 623..685,\n        tag: _,\n        template: TemplateExpr {\n            span: 623..684,\n            quasis: [\n                StrLit {\n                    span: 623..684,\n                    value: \"${ x => { x<number>(undefined); return x; }         }${ 0 }\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Ident(\n    Ident {\n        span: 686..694,\n        sym: \"tempTag2\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 695..811,\n        tag: _,\n        template: TemplateExpr {\n            span: 695..810,\n            quasis: [\n                StrLit {\n                    span: 695..810,\n                    value: \"${ x => { x<number, string>(undefined); return x; } }${ y => { y<string, number>(null); return y; } }${ \\\"hello\\\" }\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Ident(\n    Ident {\n        span: 812..820,\n        sym: \"tempTag2\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 821..903,\n        tag: _,\n        template: TemplateExpr {\n            span: 821..902,\n            quasis: [\n                StrLit {\n                    span: 821..902,\n                    value: \"${ x => { x<number, string>(undefined); return x; } }${ undefined }${ \\\"hello\\\" }\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

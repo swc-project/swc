@@ -1,0 +1,62 @@
+{
+  "programs": [
+    "Program {\n    span: 93..341,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 114..152,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 145..186,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 179..219,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 212..259,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 252..293,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 286..321,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 314..341,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsEnum(\n    TsEnumDecl {\n        span: 93..121,\n        ident: Ident {\n            span: 104..109,\n            sym: \"Bebra\",\n        },\n        declare: false,\n        is_const: true,\n        members: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 114..121,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 121..126,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 122..125,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 126..131,\n        sym: \"Bebra\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 131..144,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 132..143,\n                sym: \"constructor\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 125..152,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 145..152,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 152..157,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 153..156,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 157..162,\n        sym: \"Bebra\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 162..178,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 163..177,\n                sym: \"hasOwnProperty\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 156..186,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 179..186,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 186..191,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 187..190,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 191..196,\n        sym: \"Bebra\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 196..211,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 197..210,\n                sym: \"isPrototypeOf\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 190..219,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 212..219,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 219..224,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 220..223,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..229,\n        sym: \"Bebra\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 229..251,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 230..250,\n                sym: \"propertyIsEnumerable\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 223..259,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 252..259,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 259..264,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 260..263,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 264..269,\n        sym: \"Bebra\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 269..285,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 270..284,\n                sym: \"toLocaleString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 263..293,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 286..293,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 293..298,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 294..297,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 298..303,\n        sym: \"Bebra\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 303..313,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 304..312,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 297..321,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 314..321,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 321..326,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 322..325,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 326..331,\n        sym: \"Bebra\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 331..340,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 332..339,\n                sym: \"valueOf\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 325..341,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

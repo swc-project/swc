@@ -1,0 +1,20 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/type/import.ts:1:1]
+ 1 | type A = import('foo').Bar
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/type/import.ts:1:1]
+ 1 | type A = import('foo').Bar
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsTypeAliasDecl
+   ,-[/swc_ecma_parser/tests/span/ts/type/import.ts:1:1]
+ 1 | type A = import('foo').Bar
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x TsImportType
+   ,-[/swc_ecma_parser/tests/span/ts/type/import.ts:1:1]
+ 1 | type A = import('foo').Bar
+   :          ^^^^^^^^^^^^^^^^^
+   `----

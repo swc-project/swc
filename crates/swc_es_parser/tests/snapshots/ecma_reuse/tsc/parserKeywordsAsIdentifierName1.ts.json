@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..56,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..56,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..56,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..8,\n        sym: \"big\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 9..56,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 24..25,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 38..39,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 52..53,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 11..56,\n        props: [\n            KeyValueProp {\n                span: 16..26,\n                key: Ident(\n                    Ident {\n                        span: 16..21,\n                        sym: \"break\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 30..40,\n                key: Ident(\n                    Ident {\n                        span: 30..35,\n                        sym: \"super\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 44..55,\n                key: Ident(\n                    Ident {\n                        span: 44..49,\n                        sym: \"const\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

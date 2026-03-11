@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 1..17,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 15..17,\n        stmts: [],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 1..17,\n        test: _,\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 8..9,\n        sym: \"a\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 9..12,\n        op: MinusMinus,\n        arg: _,\n        prefix: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 12..13,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 11..14,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

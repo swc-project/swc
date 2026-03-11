@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 37..138,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 44..74,\n        ident: Ident {\n            span: 53..55,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 75..106,\n        ident: Ident {\n            span: 84..86,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 115..138,\n        ident: Ident {\n            span: 124..126,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 58..62,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 90..93,\n        sym: \"arg\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 87..94,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 127..128,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 129..133,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 60..61,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 131..132,\n            value: 0.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 37..74,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 68..106,\n        decl: _,\n    },\n)",
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 100..138,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

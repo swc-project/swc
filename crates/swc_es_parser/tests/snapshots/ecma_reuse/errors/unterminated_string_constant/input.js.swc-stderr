@@ -1,0 +1,8 @@
+  x unterminated string literal
+   ,-[/swc_ecma_parser/tests/errors/unterminated_string_constant/input.js:1:1]
+ 1 | const string = "\
+   :                ^^
+   `----
+
+Advice: 
+  > code: UnterminatedString

@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 116..496,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 123..142,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 123..135,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 143..162,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 143..155,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 163..208,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 163..175,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 129..130,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 131..135,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 149..150,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 151..155,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 169..170,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 171..175,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 133..134,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 153..154,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 173..174,\n            value: 3.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 116..142,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 136..162,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 156..208,\n        decl: _,\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 202..265,\n        src: Some(\n            StrLit {\n                span: 226..235,\n                value: \"./items\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 211..212,\n                    sym: \"a\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 214..215,\n                    sym: \"b\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 217..218,\n                    sym: \"c\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 259..294,\n        src: Some(\n            StrLit {\n                span: 277..286,\n                value: \"./items\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 268..269,\n                    sym: \"a\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 288..353,\n        src: Some(\n            StrLit {\n                span: 309..318,\n                value: \"./items\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 297..298,\n                    sym: \"b\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 300..301,\n                    sym: \"c\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 347..383,\n        src: Some(\n            StrLit {\n                span: 366..375,\n                value: \"./items\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 355..356,\n                    sym: \"a\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n            ExportSpecifier {\n                local: Ident {\n                    span: 358..359,\n                    sym: \"b\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 377..414,\n        src: Some(\n            StrLit {\n                span: 399..406,\n                value: \"./two\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 385..386,\n                    sym: \"a\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 390..392,\n                        sym: \"aa\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 408..445,\n        src: Some(\n            StrLit {\n                span: 430..437,\n                value: \"./two\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 416..417,\n                    sym: \"b\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 421..423,\n                        sym: \"bb\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 439..469,\n        src: Some(\n            StrLit {\n                span: 455..462,\n                value: \"./two\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 447..448,\n                    sym: \"c\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 463..496,\n        src: Some(\n            StrLit {\n                span: 485..494,\n                value: \"./items\",\n            },\n        ),\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 471..472,\n                    sym: \"c\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 476..478,\n                        sym: \"cc\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

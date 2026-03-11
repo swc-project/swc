@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 1..98,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 68..95,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..98,\n        ident: Ident {\n            span: 7..8,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 17..21,\n        sym: \"null\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..72,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 72..76,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 73..75,\n                sym: \"_t\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 44..97,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..98,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..8,\n            sym: \"D\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 28..55,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 36..38,\n                sym: \"_t\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 44..97,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 44..55,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 35..138,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 57..75,\n        expr: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 94..112,\n        label: Some(\n            Ident {\n                span: 100..101,\n                sym: \"d\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 80..126,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 73..126,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 121..135,\n        label: Some(\n            Ident {\n                span: 127..128,\n                sym: \"e\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 47..137,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 44..137,\n        label: Ident {\n            span: 44..45,\n            sym: \"d\",\n        },\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 38..138,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 35..138,\n        label: Ident {\n            span: 35..36,\n            sym: \"e\",\n        },\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 59..62,\n            value: \"b\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 58..64,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 77..78,\n        sym: \"c\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

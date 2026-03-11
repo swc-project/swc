@@ -1,0 +1,78 @@
+{
+  "programs": [
+    "Program {\n    span: 151..1266,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 181..206,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 389..412,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 964..995,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 956..1004,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 924..1004,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1000..1037,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 1218..1237,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1038..1246,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 151..213,\n        ident: Ident {\n            span: 160..165,\n            sym: \"Timer\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 361..419,\n        ident: Ident {\n            span: 370..374,\n            sym: \"Hook\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 894..1045,\n        ident: Ident {\n            span: 903..910,\n            sym: \"Context\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 166..173,\n        sym: \"timeout\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 375..381,\n        sym: \"handle\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 911..916,\n        sym: \"input\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 1178..1183,\n        sym: \"input\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1185..1191,\n        sym: \"handle\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 1192..1207,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 181..185,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 185..195,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 186..193,\n                sym: \"timeout\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 196..203,\n        sym: \"timeout\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 194..204,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 389..393,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 393..402,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 394..400,\n                sym: \"handle\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 403..409,\n        sym: \"handle\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 401..410,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 930..934,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 946..953,\n        sym: \"Context\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 935..954,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 929..955,\n        expr: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 928..955,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 975..982,\n        sym: \"Context\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 983..988,\n        sym: \"input\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 982..995,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 971..995,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1000..1004,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1004..1012,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1005..1010,\n                sym: \"state\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1013..1017,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1017..1028,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1018..1027,\n                sym: \"construct\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1028..1033,\n        sym: \"input\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1027..1035,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 1011..1035,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1038..1045,\n        sym: \"Context\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1045..1057,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1046..1055,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1205..1206,\n            value: 0.0,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 1200..1207,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1194..1207,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1225..1230,\n        sym: \"input\",\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 1058..1246,\n        props: [\n            KeyValueProp {\n                span: 1168..1239,\n                key: Ident(\n                    Ident {\n                        span: 1168..1177,\n                        sym: \"construct\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 1056..1246,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 1168..1239,\n    params: [\n        Param {\n            span: 1178..1184,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 1185..1207,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

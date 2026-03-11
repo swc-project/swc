@@ -1,0 +1,59 @@
+{
+  "programs": [
+    "Program {\n    span: 1..154,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 66..81,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 60..88,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 38..88,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 141..153,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 135..154,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 119..154,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..40,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..40,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 83..121,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 83..118,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"x\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 89..90,\n        sym: \"y\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 30..35,\n            value: false,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 25..40,\n        props: [\n            KeyValueProp {\n                span: 27..37,\n                key: Ident(\n                    Ident {\n                        span: 27..28,\n                        sym: \"o\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 42..43,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 44..47,\n            value: \"o\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 43..52,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 53..58,\n            value: false,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 49..59,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 66..67,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 68..71,\n            value: \"o\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 67..74,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 75..79,\n            value: true,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 73..81,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 112..113,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 115..116,\n            value: 0.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 111..118,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 123..124,\n        sym: \"y\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 125..126,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 124..131,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 132..133,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 128..134,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 141..142,\n        sym: \"y\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 143..144,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 142..147,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 149..150,\n            value: 1.0,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 148..151,\n        op: Minus,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 146..151,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

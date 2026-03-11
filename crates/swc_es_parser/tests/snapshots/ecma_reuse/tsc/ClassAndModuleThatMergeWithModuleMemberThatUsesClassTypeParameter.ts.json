@@ -1,0 +1,68 @@
+{
+  "programs": [
+    "Program {\n    span: 31..503,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 78..82,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 71..82,\n        label: Ident {\n            span: 71..76,\n            sym: \"value\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 81..90,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 177..181,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 170..181,\n        label: Ident {\n            span: 170..175,\n            sym: \"value\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 180..189,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 277..285,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 270..285,\n        label: Ident {\n            span: 270..275,\n            sym: \"value\",\n        },\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 286..294,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 336..340,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 329..340,\n        label: Ident {\n            span: 329..334,\n            sym: \"value\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 339..348,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 440..444,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 433..444,\n        label: Ident {\n            span: 433..438,\n            sym: \"value\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 443..452,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 501..503,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 106..128,\n        ident: Ident {\n            span: 115..116,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 84..135,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 91..99,\n                sym: \"clodule1\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 205..225,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 205..214,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 183..287,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 190..198,\n                sym: \"clodule2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 371..391,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 371..389,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 342..398,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 349..357,\n                sym: \"clodule3\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 446..502,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 453..461,\n                sym: \"clodule4\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 117..118,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..210,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 375..376,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 377..389,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"T\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 177..178,\n        sym: \"T\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 277..278,\n        sym: \"U\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 336..337,\n        sym: \"T\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 385..386,\n        sym: \"T\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 379..389,\n        props: [\n            KeyValueProp {\n                span: 381..388,\n                key: Ident(\n                    Ident {\n                        span: 381..383,\n                        sym: \"id\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 440..441,\n        sym: \"T\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 364..391,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

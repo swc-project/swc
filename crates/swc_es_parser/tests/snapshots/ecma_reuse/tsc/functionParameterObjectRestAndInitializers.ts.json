@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 105..217,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 140..151,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 205..216,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 105..161,\n        ident: Ident {\n            span: 114..115,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 153..217,\n        ident: Ident {\n            span: 162..163,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 123..124,\n        sym: \"x\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 116..126,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 117..119,\n                    key: Ident {\n                        span: 117..118,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 120..125,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 127..128,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 129..133,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 171..172,\n        sym: \"x\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 164..174,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 165..167,\n                    key: Ident {\n                        span: 165..166,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 168..173,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 175..176,\n        sym: \"b\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 180..184,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 181..183,\n                    key: Ident {\n                        span: 181..182,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 185..186,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 187..191,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 177..198,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 131..132,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 147..148,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 189..190,\n        sym: \"a\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 179..198,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 212..213,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

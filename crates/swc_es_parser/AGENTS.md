@@ -17,12 +17,20 @@
 - Script/module/program entry points share the same token stream and AST store.
 - Module declarations are represented as `Stmt::ModuleDecl` for top-level interoperability.
 - A parity fixture mode can classify known shared fixtures as expected success or expected failure.
+- Runtime dependency on `swc_ecma_parser` is forbidden; fixture corpus reuse is test-only.
 
 ## Fixture Parity Contract
 
 - `swc_es_parser/tests/parity_suite.rs` reuses the `swc_ecma_parser/tests` fixture corpus.
 - The suite enforces pass/fail parity only (not diagnostic-text parity).
 - The suite mirrors `swc_ecma_parser` fixture skip rules for `typescript/tsc` and `test262` pass ignores.
+
+## Syntax Option Coverage
+
+- `EsSyntax` option behavior is wired for `decorators_before_export`,
+  `export_default_from`, and `allow_super_outside_method`.
+- `TsSyntax` option behavior is wired for `dts` and
+  `disallow_ambiguous_jsx_like`.
 
 ## Performance Notes
 

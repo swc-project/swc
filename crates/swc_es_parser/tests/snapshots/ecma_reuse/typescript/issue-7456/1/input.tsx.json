@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..74,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 23..74,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..74,\n        ident: Ident {\n            span: 10..14,\n            sym: \"Form\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "JSXElement(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 30..70,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 38..69,\n    opening: JSXOpeningElement {\n        span: 38..69,\n        name: Ident(\n            Ident {\n                span: 39..46,\n                sym: \"Select\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 56..63,\n                sym: \"Select\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}

@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 20..74,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 57..74,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 51..74,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 20..74,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 25..33,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 25..33,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 35..38,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 40..43,\n            value: \"b\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 45..48,\n            value: \"c\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 34..50,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 57..64,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 64..69,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 65..68,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..70,\n        sym: \"v\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 68..72,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

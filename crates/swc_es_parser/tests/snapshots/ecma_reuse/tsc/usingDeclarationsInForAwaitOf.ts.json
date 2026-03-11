@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 109..216,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 206..215,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 137..215,\n        head: Of(\n            ForOfHead {\n                is_await: true,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 148..159,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 148..159,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 109..216,\n        ident: Ident {\n            span: 124..128,\n            sym: \"main\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 154..156,\n        sym: \"d1\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 164..170,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 170..179,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 171..178,\n                sym: \"dispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 161..187,\n        props: [\n            KeyValueProp {\n                span: 163..186,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 188..192,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 194..203,\n        sym: \"undefined\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 160..205,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 163..186,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

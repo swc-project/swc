@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 107..393,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 174..217,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 255..329,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 391..393,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 107..227,\n        ident: Ident {\n            span: 113..123,\n            sym: \"FancyError\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 324..367,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 324..359,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 156..162,\n        sym: \"status\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 330..336,\n        sym: \"errors\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 337..359,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 132..137,\n        sym: \"Error\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 174..179,\n        sym: \"super\",\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 180..209,\n        quasis: [\n            StrLit {\n                span: 180..209,\n                value: \"error with status ${status}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 179..211,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 339..346,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 347..357,\n            value: \"./errors\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 346..359,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 144..219,\n    params: [\n        Param {\n            span: 156..163,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 107..227,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 113..123,\n            sym: \"FancyError\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 144..219,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 144..155,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

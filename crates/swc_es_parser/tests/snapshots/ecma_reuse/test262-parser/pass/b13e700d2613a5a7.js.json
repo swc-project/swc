@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..43,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 17..27,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 26..40,\n        expr: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 35..43,\n        label: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 11..43,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "While(\n    WhileStmt {\n        span: 1..43,\n        test: _,\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 8..9,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 18..21,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 27..30,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

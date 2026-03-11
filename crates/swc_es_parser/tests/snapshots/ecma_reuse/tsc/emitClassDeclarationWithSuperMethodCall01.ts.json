@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 17..134,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 17..58,\n        ident: Ident {\n            span: 23..29,\n            sym: \"Parent\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 100..132,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 100..126,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 53..134,\n        ident: Ident {\n            span: 59..62,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 104..105,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 106..126,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 71..77,\n        sym: \"Parent\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 114..119,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 119..124,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 120..123,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 123..126,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 108..126,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 36..51,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 84..134,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 17..58,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..29,\n            sym: \"Parent\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 53..134,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 59..62,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 36..51,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 36..39,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 84..134,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 84..87,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

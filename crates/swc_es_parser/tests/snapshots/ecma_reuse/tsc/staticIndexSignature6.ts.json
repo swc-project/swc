@@ -1,0 +1,63 @@
+{
+  "programs": [
+    "Program {\n    span: 19..250,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 161..164,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 163..171,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 182..188,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 187..197,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 196..203,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 202..219,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 241..250,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 19..162,\n        ident: Ident {\n            span: 28..31,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 166..183,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 166..183,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 214..242,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 214..240,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 172..173,\n        sym: \"C\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 174..183,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 220..221,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 222..240,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 176..179,\n        sym: \"foo\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 179..183,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 182..183,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 183..186,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 184..185,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 187..188,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 188..192,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 189..190,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 193..194,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 191..195,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 196..197,\n        sym: \"C\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 198..199,\n            value: 2.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 197..201,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 202..203,\n        sym: \"C\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 204..205,\n            value: 2.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 203..208,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 209..211,\n            value: 42.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 207..212,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 228..229,\n        sym: \"C\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 237..240,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 224..240,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 241..242,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 242..247,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 243..246,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 247..248,\n            value: 1.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 246..250,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..225,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 23..225,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..225,\n        ident: Ident {\n            span: 10..14,\n            sym: \"Test\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "JSXElement(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 30..223,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 40..222,\n    opening: JSXOpeningElement {\n        span: 40..222,\n        name: Ident(\n            Ident {\n                span: 41..63,\n                sym: \"Y\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 55..215,\n                name: \"elements\",\n                value: Some(\n                    _,\n                ),\n            },\n        ],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}"
+  ],
+  "ts_types": []
+}

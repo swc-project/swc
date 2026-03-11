@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..14,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..14,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Template(\n    TemplateExpr {\n        span: 1..9,\n        quasis: [\n            StrLit {\n                span: 1..9,\n                value: \"{${a}}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 11..14,\n        quasis: [\n            StrLit {\n                span: 11..14,\n                value: \"}\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 1..14,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

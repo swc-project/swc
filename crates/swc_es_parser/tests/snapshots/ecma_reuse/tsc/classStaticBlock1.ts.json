@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 41..119,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 108..116,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 41..60,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 41..53,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 86..109,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 86..98,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 55..119,\n        ident: Ident {\n            span: 61..62,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 47..48,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 49..53,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 92..93,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 94..98,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 51..52,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 96..97,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 108..109,\n        sym: \"a\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 55..119,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 61..62,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 69..118,\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

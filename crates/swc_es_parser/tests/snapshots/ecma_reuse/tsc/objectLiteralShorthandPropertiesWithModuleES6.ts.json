@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 18..123,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 40..48,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 40..46,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 18..56,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 25..26,\n                sym: \"m\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 65..83,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 65..75,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 80..122,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 80..120,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 50..123,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 57..58,\n                sym: \"m\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 44..45,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..70,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 71..75,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 84..85,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 86..120,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 73..74,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 101..102,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 112..113,\n        sym: \"x\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 88..120,\n        props: [\n            KeyValueProp {\n                span: 98..103,\n                key: Ident(\n                    Ident {\n                        span: 98..99,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 112..119,\n                key: Ident(\n                    Ident {\n                        span: 112..113,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 33..48,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

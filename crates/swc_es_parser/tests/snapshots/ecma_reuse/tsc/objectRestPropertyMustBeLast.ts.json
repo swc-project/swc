@@ -1,0 +1,51 @@
+{
+  "programs": [
+    "Program {\n    span: 1..282,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 68..139,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 209..282,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..69,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..27,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 136..210,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 136..168,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"a\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 5..17,\n        props: [\n            Rest(\n                RestPat {\n                    span: 6..11,\n                    arg: _,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 12..15,\n                    key: Ident {\n                        span: 12..13,\n                        sym: \"x\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 144..145,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 153..154,\n        sym: \"b\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 140..158,\n        props: [\n            Rest(\n                RestPat {\n                    span: 141..146,\n                    arg: _,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 147..149,\n                    key: Ident {\n                        span: 147..148,\n                        sym: \"x\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 150..156,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 23..24,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 18..27,\n        props: [\n            KeyValueProp {\n                span: 20..26,\n                key: Ident(\n                    Ident {\n                        span: 20..21,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 73..74,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 76..77,\n        sym: \"x\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 69..81,\n        props: [\n            KeyValueProp {\n                span: 70..75,\n                key: Ident(\n                    Ident {\n                        span: 70..70,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 76..79,\n                key: Ident(\n                    Ident {\n                        span: 76..77,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 87..88,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 82..91,\n        props: [\n            KeyValueProp {\n                span: 84..90,\n                key: Ident(\n                    Ident {\n                        span: 84..85,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 80..91,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 68..92,\n        expr: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 164..165,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 159..168,\n        props: [\n            KeyValueProp {\n                span: 161..167,\n                key: Ident(\n                    Ident {\n                        span: 161..162,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 214..215,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 217..218,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 223..224,\n        sym: \"b\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 210..228,\n        props: [\n            KeyValueProp {\n                span: 211..216,\n                key: Ident(\n                    Ident {\n                        span: 211..211,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 217..219,\n                key: Ident(\n                    Ident {\n                        span: 217..218,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 220..226,\n                key: Ident(\n                    Ident {\n                        span: 220..220,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 234..235,\n            value: 1.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 229..238,\n        props: [\n            KeyValueProp {\n                span: 231..237,\n                key: Ident(\n                    Ident {\n                        span: 231..232,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 227..238,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 209..239,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

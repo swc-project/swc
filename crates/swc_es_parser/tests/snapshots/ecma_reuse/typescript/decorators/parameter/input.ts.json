@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 1..118,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..118,\n        ident: Ident {\n            span: 7..11,\n            sym: \"Test\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 34..36,\n        sym: \"t1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..52,\n        sym: \"t2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 61..63,\n        sym: \"t3\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 58..64,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 89..91,\n        sym: \"t1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 104..106,\n        sym: \"t2\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 101..107,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 31..33,\n        sym: \"p1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 39..41,\n        sym: \"p2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 55..57,\n        sym: \"p3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 86..88,\n        sym: \"p1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 94..96,\n        sym: \"p1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 98..100,\n        sym: \"p2\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 18..84,\n    params: [\n        Param {\n            span: 30..37,\n            decorators: [\n                Decorator {\n                    span: 30..36,\n                    expr: _,\n                },\n            ],\n            pat: _,\n        },\n        Param {\n            span: 38..53,\n            decorators: [\n                Decorator {\n                    span: 38..49,\n                    expr: _,\n                },\n            ],\n            pat: _,\n        },\n        Param {\n            span: 54..64,\n            decorators: [\n                Decorator {\n                    span: 54..61,\n                    expr: _,\n                },\n            ],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 78..117,\n    params: [\n        Param {\n            span: 85..92,\n            decorators: [\n                Decorator {\n                    span: 85..91,\n                    expr: _,\n                },\n            ],\n            pat: _,\n        },\n        Param {\n            span: 93..107,\n            decorators: [\n                Decorator {\n                    span: 93..98,\n                    expr: _,\n                },\n                Decorator {\n                    span: 97..104,\n                    expr: _,\n                },\n            ],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..118,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..11,\n            sym: \"Test\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 18..84,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 18..29,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 78..117,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 78..84,\n                sym: \"method\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 97..263,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 184..192,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 190..222,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 254..263,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 104..123,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 104..116,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 124..163,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 124..136,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 110..111,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 112..116,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 130..131,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 132..136,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 114..115,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 134..135,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 184..186,\n        sym: \"ns\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 186..189,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 187..188,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 190..192,\n        sym: \"ns\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 192..195,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 193..194,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 254..257,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 257..261,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 258..260,\n                sym: \"ns\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 260..263,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 261..262,\n                sym: \"b\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 97..123,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 117..163,\n        decl: _,\n    },\n)",
+    "ExportAll(\n    ExportAllDecl {\n        span: 157..186,\n        src: StrLit {\n            span: 177..182,\n            value: \"./0\",\n        },\n        type_only: false,\n        exported: Some(\n            Ident {\n                span: 169..171,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 216..257,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 228..231,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 237..242,\n            value: \"./1\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

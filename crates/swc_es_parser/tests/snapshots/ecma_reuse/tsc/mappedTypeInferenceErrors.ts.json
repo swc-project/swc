@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 41..365,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 96..106,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 317..337,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 200..365,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 107..203,\n        ident: Ident {\n            span: 116..119,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 287..323,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 287..304,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 126..133,\n        sym: \"options\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 291..292,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 293..304,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 200..203,\n        sym: \"foo\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 222..224,\n            value: 10.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 229..231,\n            value: 20.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 217..234,\n        props: [\n            KeyValueProp {\n                span: 219..225,\n                key: Ident(\n                    Ident {\n                        span: 219..220,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 226..233,\n                key: Ident(\n                    Ident {\n                        span: 226..227,\n                        sym: \"y\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 295..299,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 299..304,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 300..303,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 324..326,\n            value: 42.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 352..354,\n            value: 42.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 249..362,\n        props: [\n            KeyValueProp {\n                span: 259..338,\n                key: Ident(\n                    Ident {\n                        span: 259..262,\n                        sym: \"bar\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 347..360,\n                key: Ident(\n                    Ident {\n                        span: 347..350,\n                        sym: \"baz\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 204..363,\n        props: [\n            KeyValueProp {\n                span: 210..234,\n                key: Ident(\n                    Ident {\n                        span: 210..215,\n                        sym: \"props\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 239..362,\n                key: Ident(\n                    Ident {\n                        span: 239..247,\n                        sym: \"computed\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 203..364,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 259..338,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 1..68,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 8..27,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 8..20,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 53..67,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 53..65,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 28..68,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 38..39,\n                sym: \"N\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 16..20,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 59..60,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 61..65,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 18..19,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 63..64,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..27,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 46..67,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 21..68,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

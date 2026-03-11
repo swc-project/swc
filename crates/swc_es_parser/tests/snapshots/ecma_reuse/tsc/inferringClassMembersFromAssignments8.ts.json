@@ -1,0 +1,47 @@
+{
+  "programs": [
+    "Program {\n    span: 56..155,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 105..134,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 153..155,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 83..110,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 83..100,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 56..138,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 56..138,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 135..154,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 135..154,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 60..63,\n        sym: \"app\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 87..92,\n        sym: \"_this\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 93..100,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Assign(\n    AssignPat {\n        span: 64..138,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 139..140,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 141..154,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 95..99,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 105..110,\n        sym: \"_this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 110..117,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 111..115,\n                sym: \"swap\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 116..134,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 147..150,\n        sym: \"app\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 150..154,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 143..154,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 153..154,\n        sym: \"a\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 118..134,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 66..138,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

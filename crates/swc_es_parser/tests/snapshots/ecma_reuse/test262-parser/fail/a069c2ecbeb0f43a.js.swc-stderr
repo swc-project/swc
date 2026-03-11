@@ -1,0 +1,7 @@
+  x expected }, got Eof
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/a069c2ecbeb0f43a.js:1:1]
+ 1 | switch (cond) { case 10: let a = 20; 
+   `----
+
+Advice: 
+  > code: UnexpectedToken

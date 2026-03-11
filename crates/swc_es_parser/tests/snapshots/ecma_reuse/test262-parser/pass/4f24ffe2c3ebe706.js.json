@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..8,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..8,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 2..5,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 3..4,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 4..7,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 5..6,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 6..8,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 7..8,\n                sym: \"d\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

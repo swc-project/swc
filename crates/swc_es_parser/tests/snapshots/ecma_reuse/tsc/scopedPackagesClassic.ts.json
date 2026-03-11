@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 165..236,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 172..212,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 172..184,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 178..179,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 180..184,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 182..183,\n            value: 0.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 165..212,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 206..236,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 215..216,\n                        sym: \"x\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 215..216,\n                            sym: \"x\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 224..234,\n            value: \"@see/saw\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

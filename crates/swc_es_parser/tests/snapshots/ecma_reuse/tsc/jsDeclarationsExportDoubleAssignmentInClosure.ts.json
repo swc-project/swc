@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 115..375,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 269..270,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 352..374,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 373..375,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 115..270,\n        ident: Ident {\n            span: 124..127,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 275..359,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 275..359,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 281..282,\n        sym: \"m\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 283..359,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 352..359,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 359..369,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 360..367,\n                sym: \"methods\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 370..371,\n        sym: \"m\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 368..372,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 285..359,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

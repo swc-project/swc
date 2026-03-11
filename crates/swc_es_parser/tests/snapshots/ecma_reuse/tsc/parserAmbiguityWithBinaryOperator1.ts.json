@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 1..69,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 64..69,\n        stmts: [],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 38..69,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 21..40,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 21..27,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 21..30,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 21..33,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..69,\n        ident: Ident {\n            span: 10..12,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 28..29,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"c\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 42..43,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 46..47,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 44..50,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 51..52,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"c\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 60..61,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 58..62,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 55..63,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 53..63,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 48..63,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..54,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..54,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "JSXElement(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 1..54,\n    opening: JSXOpeningElement {\n        span: 1..54,\n        name: Ident(\n            Ident {\n                span: 2..9,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 6..24,\n                name: \"pre\",\n                value: Some(\n                    _,\n                ),\n            },\n            JSXAttr {\n                span: 20..38,\n                name: \"pre2\",\n                value: Some(\n                    _,\n                ),\n            },\n            JSXAttr {\n                span: 37..48,\n                name: \"...\",\n                value: Some(\n                    _,\n                ),\n            },\n        ],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 50..54,\n                sym: \"div\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}

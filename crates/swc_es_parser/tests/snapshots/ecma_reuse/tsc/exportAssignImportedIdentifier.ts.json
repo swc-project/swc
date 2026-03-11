@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 23..236,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 45..59,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 30..89,\n        ident: Ident {\n            span: 39..40,\n            sym: \"x\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 116..138,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 116..131,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 200..236,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 200..215,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 120..121,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 122..131,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 204..205,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 206..215,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 52..56,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 124..128,\n        sym: \"foo1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 128..131,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 129..130,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 208..212,\n        sym: \"foo2\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 212..215,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 23..89,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 83..119,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 90..94,\n                        sym: \"foo1\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 167..203,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 174..178,\n                        sym: \"foo2\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

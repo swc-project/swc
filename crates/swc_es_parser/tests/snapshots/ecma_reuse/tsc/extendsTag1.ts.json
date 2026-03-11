@@ -1,0 +1,23 @@
+{
+  "programs": [
+    "Program {\n    span: 202..226,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 202..226,\n        ident: Ident {\n            span: 208..210,\n            sym: \"My\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 219..222,\n        sym: \"Set\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 202..226,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 208..210,\n            sym: \"My\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

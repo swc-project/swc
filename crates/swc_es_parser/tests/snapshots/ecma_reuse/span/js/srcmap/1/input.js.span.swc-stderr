@@ -1,0 +1,40 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x SwitchStmt
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   :         ^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   :                   ^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   :                      ^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   :                       ^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   :                      ^
+   `----
+  x BreakStmt
+   ,-[/swc_ecma_parser/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   :                           ^^^^^^^^
+   `----

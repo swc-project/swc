@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..83,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..83,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..83,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..9,\n        sym: \"page\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 10..83,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "JSXElement(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 21..47,\n    opening: JSXOpeningElement {\n        span: 21..47,\n        name: Ident(\n            Ident {\n                span: 22..25,\n                sym: \"em\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"New\",\n        ),\n        Text(\n            \"melody\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 37..40,\n                sym: \"em\",\n            },\n        ),\n    ),\n}",
+    "JSXElement {\n    span: 12..83,\n    opening: JSXOpeningElement {\n        span: 12..83,\n        name: Ident(\n            Ident {\n                span: 13..15,\n                sym: \"p\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"Click\",\n        ),\n        Element(\n            _,\n        ),\n        Text(\n            \"listen\",\n        ),\n        Text(\n            \"to\",\n        ),\n        Text(\n            \"a\",\n        ),\n        Text(\n            \"randomly\",\n        ),\n        Text(\n            \"generated\",\n        ),\n        Text(\n            \"melody\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 80..82,\n                sym: \"p\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}

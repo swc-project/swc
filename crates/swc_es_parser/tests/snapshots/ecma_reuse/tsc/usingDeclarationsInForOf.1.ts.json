@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 109..176,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 172..176,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 109..176,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 114..125,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 114..125,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 120..122,\n        sym: \"d1\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 130..136,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 136..145,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 137..144,\n                sym: \"dispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 127..153,\n        props: [\n            KeyValueProp {\n                span: 129..152,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 154..158,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 160..169,\n        sym: \"undefined\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 126..171,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 129..152,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 109..236,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 205..222,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 218..233,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 109..139,\n        ident: Ident {\n            span: 115..119,\n            sym: \"Base\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 134..236,\n        ident: Ident {\n            span: 140..147,\n            sym: \"Derived\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 128..129,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 156..160,\n        sym: \"Base\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 174..178,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 178..181,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 179..180,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 205..210,\n        sym: \"super\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 210..213,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 218..222,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 222..226,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 223..224,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 227..228,\n            value: 2.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 225..229,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 185..235,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 109..139,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 115..119,\n            sym: \"Base\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 134..236,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 140..147,\n            sym: \"Derived\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 124..132,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 124..125,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 165..171,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 165..166,\n                sym: \"b\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 170..196,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 170..171,\n                sym: \"d\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 185..235,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 185..196,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

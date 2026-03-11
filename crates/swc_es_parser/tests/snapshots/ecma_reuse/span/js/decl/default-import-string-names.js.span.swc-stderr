@@ -1,0 +1,15 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/decl/default-import-string-names.js:1:1]
+ 1 | import { "default" as quotation } from "Confucius"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ModuleDeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/default-import-string-names.js:1:1]
+ 1 | import { "default" as quotation } from "Confucius"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ImportDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/default-import-string-names.js:1:1]
+ 1 | import { "default" as quotation } from "Confucius"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

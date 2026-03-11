@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 43..155,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Continue(\n    ContinueStmt {\n        span: 96..115,\n        label: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 82..120,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 135..136,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 121..152,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 75..152,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 65..154,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 58..154,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 52..155,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 43..155,\n        head: Classic(\n            ForClassicHead {\n                init: None,\n                test: None,\n                update: None,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 79..80,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

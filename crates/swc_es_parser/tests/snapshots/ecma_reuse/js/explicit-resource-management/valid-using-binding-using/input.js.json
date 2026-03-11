@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..52,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 48..49,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 25..51,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 1..52,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 5..28,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 5..22,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 30..44,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 30..44,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 11..16,\n        sym: \"using\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 17..22,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..41,\n        sym: \"using\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 19..21,\n        sym: \"of\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 45..47,\n        sym: \"of\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

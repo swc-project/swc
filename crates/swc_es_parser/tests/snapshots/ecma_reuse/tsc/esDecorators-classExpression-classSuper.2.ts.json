@@ -1,0 +1,66 @@
+{
+  "programs": [
+    "Program {\n    span: 73..545,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 190..193,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 198..206,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 215..232,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 205..234,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 192..235,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 234..305,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 340..349,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 348..351,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 356..364,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 373..390,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 363..392,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 350..393,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 392..458,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 489..491,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 490..499,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 498..501,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 506..514,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 523..540,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 513..542,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 500..543,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 542..545,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 81..160,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 81..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 85..88,\n        sym: \"dec\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 198..204,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 215..220,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 220..226,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 221..225,\n                sym: \"name\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 342..349,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 356..362,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 373..378,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 378..384,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 379..383,\n                sym: \"name\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 492..499,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 506..512,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 523..528,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 528..534,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 529..533,\n                sym: \"name\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 24..144,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 24..51,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..47,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 48..87,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 48..83,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 84..111,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 84..107,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 108..144,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 108..144,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 28..31,\n        sym: \"ABC\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 52..64,\n        sym: \"DE_NEWLINE_F\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 88..98,\n        sym: \"G_QUOTE_HI\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 112..125,\n        sym: \"JK_BACKTICK_L\",\n    },\n)"
+  ],
+  "exprs": [
+    "Template(\n    TemplateExpr {\n        span: 41..46,\n        quasis: [\n            StrLit {\n                span: 41..46,\n                value: \"ABC\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 76..82,\n        quasis: [\n            StrLit {\n                span: 76..82,\n                value: \"DE\\nF\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 136..143,\n        quasis: [\n            StrLit {\n                span: 136..143,\n                value: \"JK`L\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

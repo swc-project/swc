@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 146..280,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 228..237,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 242..243,\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 154..216,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 154..167,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 217..231,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 217..231,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 232..243,\n        ident: Ident {\n            span: 238..239,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 158..161,\n        sym: \"dec\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 223..224,\n        sym: \"C\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 225..231,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 228..231,\n        sym: \"dec\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 210..231,\n        decl: _,\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 270..280,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 232..243,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 238..239,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 103..293,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 111..153,\n        ident: Ident {\n            span: 117..129,\n            sym: \"SpecialError\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 250..293,\n        ident: Ident {\n            span: 259..270,\n            sym: \"handleError\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 271..274,\n        sym: \"err\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 138..143,\n        sym: \"Error\",\n    },\n)"
+  ],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 203..258,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 215..227,\n                        sym: \"SpecialError\",\n                    },\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 111..153,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 117..129,\n            sym: \"SpecialError\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

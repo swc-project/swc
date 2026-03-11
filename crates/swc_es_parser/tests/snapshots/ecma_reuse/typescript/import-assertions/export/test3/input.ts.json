@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..57,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportAll(\n    ExportAllDecl {\n        span: 1..57,\n        src: StrLit {\n            span: 15..25,\n            value: \"./foo.js\",\n        },\n        type_only: false,\n        exported: None,\n        with: [\n            ImportAttribute {\n                span: 35..55,\n                key: Ident(\n                    Ident {\n                        span: 35..39,\n                        sym: \"type\",\n                    },\n                ),\n                value: StrLit {\n                    span: 41..53,\n                    value: \"javascript\",\n                },\n            },\n        ],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

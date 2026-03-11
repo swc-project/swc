@@ -1,0 +1,24 @@
+{
+  "programs": [
+    "Program {\n    span: 1..32,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Break(\n    BreakStmt {\n        span: 26..32,\n        label: None,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 17..32,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..32,\n        head: Classic(\n            ForClassicHead {\n                init: None,\n                test: Some(\n                    _,\n                ),\n                update: None,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 7..8,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 8..11,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 22..25,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

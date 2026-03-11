@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 84..149,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 84..115,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 84..105,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 126..149,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 126..147,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 107..149,\n        ident: Ident {\n            span: 116..117,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 98..105,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 138..139,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 140..147,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 100..104,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 142..146,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

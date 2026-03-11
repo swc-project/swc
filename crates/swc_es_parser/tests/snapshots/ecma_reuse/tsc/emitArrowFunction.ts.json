@@ -1,0 +1,64 @@
+{
+  "programs": [
+    "Program {\n    span: 16..253,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 207..227,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 236..251,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 224..253,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..38,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..38,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 35..77,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 35..77,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 74..125,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 74..125,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 122..177,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 122..177,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 169..210,\n        ident: Ident {\n            span: 178..181,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..22,\n        sym: \"f1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 23..38,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 39..41,\n        sym: \"f2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 45..46,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 42..77,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..80,\n        sym: \"f3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 84..85,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 95..96,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 109..113,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 106..114,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 81..125,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 126..128,\n        sym: \"f4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 132..133,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 143..144,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 154..155,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 156..161,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 129..177,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 182..186,\n        sym: \"func\",\n    },\n)"
+  ],
+  "exprs": [
+    "Arrow(\n    ArrowExpr {\n        span: 25..38,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 44..77,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 83..125,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 158..160,\n            value: 10.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 131..177,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 207..210,\n        sym: \"foo\",\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 217..221,\n            value: true,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 211..222,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 210..223,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..227,\n        sym: \"foo\",\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 243..248,\n            value: false,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 228..252,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 227..253,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

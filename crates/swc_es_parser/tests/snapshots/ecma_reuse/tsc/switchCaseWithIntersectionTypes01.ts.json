@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 2..378,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Break(\n    BreakStmt {\n        span: 188..224,\n        label: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 252..299,\n        label: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 320..355,\n        label: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 370..378,\n        label: None,\n    },\n)",
+    "Switch(\n    SwitchStmt {\n        span: 122..378,\n        discriminant: _,\n        cases: [\n            SwitchCase {\n                span: 164..224,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                ],\n            },\n            SwitchCase {\n                span: 220..238,\n                test: Some(\n                    _,\n                ),\n                cons: [],\n            },\n            SwitchCase {\n                span: 234..299,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                ],\n            },\n            SwitchCase {\n                span: 295..355,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                ],\n            },\n            SwitchCase {\n                span: 351..378,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                ],\n            },\n        ],\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 2..37,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2..33,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 34..71,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 34..67,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 68..88,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 68..84,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 85..105,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 85..101,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 102..128,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 102..120,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 6..15,\n        sym: \"strAndNum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 38..48,\n        sym: \"numAndBool\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 72..75,\n        sym: \"str\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 89..92,\n        sym: \"num\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 106..110,\n        sym: \"bool\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 130..139,\n        sym: \"strAndNum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 169..178,\n        sym: \"strAndNum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 225..228,\n        sym: \"str\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 239..242,\n        sym: \"num\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 300..310,\n        sym: \"numAndBool\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 356..360,\n        sym: \"bool\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

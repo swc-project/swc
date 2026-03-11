@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 72..234,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 72..135,\n        ident: Ident {\n            span: 78..79,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 130..234,\n        ident: Ident {\n            span: 136..137,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 97..98,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 115..119,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 119..123,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 120..121,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 124..125,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 122..126,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 146..147,\n        sym: \"C\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 165..166,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 183..187,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 187..191,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 188..189,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 192..193,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 190..194,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 210..215,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 215..219,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 216..217,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 220..224,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 224..228,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 225..226,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 218..228,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 229..230,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 227..231,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 72..135,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 78..79,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 130..234,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 136..137,\n            sym: \"D\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 86..110,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 93..94,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 104..128,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 111..112,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 154..178,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 161..162,\n                sym: \"c\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 172..205,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 179..180,\n                sym: \"d\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 199..233,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 206..207,\n                sym: \"e\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

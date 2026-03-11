@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..40,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..15,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 12..28,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 25..40,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"b\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 6..11,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 5..15,\n        expr: _,\n    },\n)",
+    "New(\n    NewExpr {\n        span: 1..15,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 22..23,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 19..24,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 16..28,\n        expr: _,\n    },\n)",
+    "New(\n    NewExpr {\n        span: 12..28,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 30..31,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 34..35,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 38..39,\n        sym: \"b\",\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 32..40,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 29..40,\n        expr: _,\n    },\n)",
+    "New(\n    NewExpr {\n        span: 25..40,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

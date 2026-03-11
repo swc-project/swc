@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 1..103,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..39,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..35,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 36..76,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 36..72,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..35,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 42..72,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 9..14,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 19..24,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 15..27,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 25..35,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 44..49,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 55..60,\n            value: \"bar\",\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 61..71,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 54..72,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 50..72,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)"
+  ]
+}

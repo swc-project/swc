@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 16..112,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 95..110,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..37,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..33,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 34..112,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 34..112,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 22..33,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 38..39,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 40..112,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 24..30,\n        sym: \"Symbol\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 30..33,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 49..50,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 53..54,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"s\",\n    },\n)",
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 80..81,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 102..103,\n            value: 0.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 42..112,\n        props: [\n            KeyValueProp {\n                span: 48..55,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 60..70,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 75..112,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 60..70,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 75..112,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

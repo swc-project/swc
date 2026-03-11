@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 79..224,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 86..153,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 86..126,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 173..210,\n        ident: Ident {\n            span: 178..185,\n            sym: \"NoInfer\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 186..187,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 211..224,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 211..223,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 92..93,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 100..101,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 106..107,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 94..126,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 217..218,\n        sym: \"g\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 219..223,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 124..125,\n        sym: \"x\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 99..126,\n        params: [\n            _,\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 221..222,\n        sym: \"f\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 79..153,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 147..177,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 156..157,\n                        sym: \"f\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 156..157,\n                            sym: \"f\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 165..170,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 204..224,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 191..194,\n        name: Ident {\n            span: 191..194,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 191..202,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

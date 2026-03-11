@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..19,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Debugger(\n    DebuggerStmt {\n        span: 9..17,\n    },\n)",
+    "If(\n    IfStmt {\n        span: 1..19,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"a\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 5..8,\n        op: Bang,\n        arg: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

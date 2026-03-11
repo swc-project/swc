@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 17..250,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 17..146,\n        ident: Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 141..250,\n        ident: Ident {\n            span: 147..148,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 43..47,\n        sym: \"name\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 60..64,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 57..65,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 89..93,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 86..94,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 114..115,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 128..132,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 125..133,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 170..174,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 167..175,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 199..203,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 196..204,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..225,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 238..242,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 235..243,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 31..81,\n    params: [\n        Param {\n            span: 43..56,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 57..65,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 75..109,\n    params: [\n        Param {\n            span: 86..94,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 103..139,\n    params: [\n        Param {\n            span: 114..124,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 125..133,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 155..191,\n    params: [\n        Param {\n            span: 167..175,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 185..219,\n    params: [\n        Param {\n            span: 196..204,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 213..249,\n    params: [\n        Param {\n            span: 224..234,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 235..243,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 17..146,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..24,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 141..250,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 147..148,\n            sym: \"D\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 31..81,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 31..42,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 75..109,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 82..85,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 103..139,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 110..113,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 155..191,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 155..166,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 185..219,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 192..195,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 213..249,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 220..223,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

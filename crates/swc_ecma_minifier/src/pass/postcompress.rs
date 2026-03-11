@@ -90,6 +90,8 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
                                     ModuleExportName::Str(s) => {
                                         Atom::new(s.value.to_string_lossy())
                                     }
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
                                 })
                                 .unwrap_or_else(|| n.local.sym.clone());
                             let local_id = n.local.clone();
@@ -101,6 +103,8 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
                                 record.named.push_back((remote, local_id));
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
             }

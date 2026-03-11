@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 79..292,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 86..123,\n        ident: Ident {\n            span: 96..97,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 104..116,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 104..105,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 124..280,\n        ident: Ident {\n            span: 134..135,\n            sym: \"B\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 142..154,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 142..143,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 272..292,\n        ident: Ident {\n            span: 281..282,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 283..284,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 286..287,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 79..123,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 117..280,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)"
+  ]
+}

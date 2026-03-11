@@ -1,0 +1,20 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
+ 1 | tag`foo`
+   : ^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
+ 1 | tag`foo`
+   : ^^^^^^^^
+   `----
+  x TaggedTemplateExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
+ 1 | tag`foo`
+   :    ^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/tagged-tpl.js:1:1]
+ 1 | tag`foo`
+   : ^^^
+   `----

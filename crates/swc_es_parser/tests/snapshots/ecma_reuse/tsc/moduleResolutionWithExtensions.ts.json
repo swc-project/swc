@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 52..534,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 287..308,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 287..301,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 291..292,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 67..68,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 317..318,\n        sym: \"x\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 52..130,\n        expr: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 124..229,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 131..132,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 138..143,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 223..286,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 230..231,\n                        sym: \"a\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 237..245,\n            value: \"./a.js\",\n        },\n        with: [],\n    },\n)",
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 302..394,\n        expr: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 388..512,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 395..396,\n                        sym: \"j\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 402..412,\n            value: \"./jquery\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 506..534,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 513..514,\n                        sym: \"j\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 520..533,\n            value: \"./jquery.js\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

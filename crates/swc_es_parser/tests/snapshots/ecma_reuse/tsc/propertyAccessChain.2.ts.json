@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 20..196,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 65..80,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 125..142,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 187..196,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 28..67,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 28..64,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 81..127,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 81..124,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 143..189,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 143..186,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 34..36,\n        sym: \"o1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 87..89,\n        sym: \"o2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 149..151,\n        sym: \"o3\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 65..67,\n        sym: \"o1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 67..71,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 69..70,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 67..71,\n        base: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 125..127,\n        sym: \"o2\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 127..131,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 129..130,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 127..131,\n        base: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 130..133,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 131..132,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 187..189,\n        sym: \"o3\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 189..193,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 190..191,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 191..195,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 193..194,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 191..195,\n        base: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

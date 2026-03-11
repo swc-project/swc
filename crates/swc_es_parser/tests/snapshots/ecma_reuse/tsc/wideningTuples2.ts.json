@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 24..145,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 98..129,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 123..144,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 68..110,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 68..93,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 24..145,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..145,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 28..31,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 72..84,\n        sym: \"intermediate\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 85..93,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 98..110,\n        sym: \"intermediate\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 87..90,\n        sym: \"bar\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 90..93,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 114..116,\n            value: \"\",\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 113..118,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 111..118,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 131..140,\n        sym: \"undefined\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 130..142,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Function(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 47..145,\n    params: [],\n    body: [\n        _,\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

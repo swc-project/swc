@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..52,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 31..40,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 36..47,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1..52,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 18..32,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 18..28,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 22..23,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 24..28,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 26..27,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..40,\n        sym: \"eval\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 41..43,\n            value: \"\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 40..45,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 47..50,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..51,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 2..48,\n    params: [],\n    body: [\n        _,\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

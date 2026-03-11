@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 123..256,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 131..172,\n        ident: Ident {\n            span: 140..150,\n            sym: \"forwardRef\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 173..194,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 173..192,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 236..256,\n        ident: Ident {\n            span: 242..252,\n            sym: \"Testing123\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 151..152,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 177..186,\n        sym: \"Something\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 194..203,\n        sym: \"Something\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 215..225,\n        sym: \"Testing123\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 209..227,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 204..228,\n        props: [\n            KeyValueProp {\n                span: 206..227,\n                key: Ident(\n                    Ident {\n                        span: 206..207,\n                        sym: \"v\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 203..235,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 229..256,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 236..256,\n    decorators: [\n        Decorator {\n            span: 193..235,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 242..252,\n            sym: \"Testing123\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

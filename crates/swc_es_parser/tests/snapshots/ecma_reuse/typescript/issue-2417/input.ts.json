@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..399,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 398..399,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 1..40,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..16,\n                        sym: \"mongoose\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 22..32,\n            value: \"mongoose\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 34..109,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 43..55,\n                        sym: \"modelOptions\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 43..55,\n                            sym: \"modelOptions\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 57..65,\n                        sym: \"Severity\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 57..65,\n                            sym: \"Severity\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 67..71,\n                        sym: \"prop\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 67..71,\n                            sym: \"prop\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 79..101,\n            value: \"@typegoose/typegoose\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 103..169,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 112..116,\n                        sym: \"Base\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 112..116,\n                            sym: \"Base\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 124..165,\n            value: \"@typegoose/typegoose/lib/defaultClasses\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

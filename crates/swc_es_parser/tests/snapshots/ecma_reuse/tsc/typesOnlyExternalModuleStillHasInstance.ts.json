@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 45..351,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 52..109,\n        ident: Ident {\n            span: 62..68,\n            sym: \"Person\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 72..90,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 72..76,\n                            sym: \"name\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 87..101,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 87..90,\n                            sym: \"age\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 130..162,\n        ident: Ident {\n            span: 140..142,\n            sym: \"I2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 147..160,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 147..148,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 110..193,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 117..119,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 298..326,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 298..322,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 323..351,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 323..350,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 302..303,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 327..328,\n        sym: \"y\",\n    },\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 319..322,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 345..349,\n        sym: \"foo0\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 45..109,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 123..162,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 103..193,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 187..301,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 194..198,\n                        sym: \"foo0\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 150..157,\n        name: Ident {\n            span: 150..157,\n            sym: \"Person\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

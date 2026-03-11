@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 63..225,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 119..128,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 63..82,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 63..74,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 137..169,\n        ident: Ident {\n            span: 142..143,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 150..154,\n                name: Ident(\n                    Ident {\n                        span: 150..153,\n                        sym: \"Red\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 155..161,\n                name: Ident(\n                    Ident {\n                        span: 155..159,\n                        sym: \"Blue\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 178..217,\n        ident: Ident {\n            span: 188..189,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 196..209,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 196..198,\n                            sym: \"id\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 67..68,\n        sym: \"V\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 69..74,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 71..73,\n            value: 12.0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 76..96,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 83..84,\n                        sym: \"v\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 122..141,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 129..130,\n                        sym: \"c\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 163..187,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 170..171,\n                        sym: \"e\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 211..225,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 218..219,\n                        sym: \"i\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)"
+  ]
+}

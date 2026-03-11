@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 24..55,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 24..45,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..41,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 42..55,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 42..55,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 28..29,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 30..41,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 46..47,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 48..55,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 32..37,\n        elems: [],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 35..41,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 52..53,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 51..55,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Tuple(\n    TsTupleType {\n        span: 38..41,\n        elem_types: [],\n    },\n)"
+  ]
+}

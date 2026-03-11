@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 135..384,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 146..171,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 146..165,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 166..305,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 166..189,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 327..383,\n        ident: Ident {\n            span: 336..349,\n            sym: \"__spreadArray\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 306..384,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 313..320,\n                value: \"tslib\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 152..153,\n        sym: \"k\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 154..165,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 172..173,\n        sym: \"o\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 174..189,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 350..352,\n        sym: \"to\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 361..365,\n        sym: \"from\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 157..158,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 162..163,\n            value: 2.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 156..165,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            None,\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 177..178,\n            value: 3.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 183..184,\n        sym: \"k\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 186..187,\n            value: 4.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 176..189,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: true,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 135..151,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

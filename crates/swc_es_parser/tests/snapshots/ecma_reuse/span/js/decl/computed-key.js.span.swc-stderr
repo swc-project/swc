@@ -1,0 +1,44 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
+ 1 | ,-> class A {
+ 2 | |       [foo] = '1'
+ 3 | `-> }
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
+ 1 | ,-> class A {
+ 2 | |       [foo] = '1'
+ 3 | `-> }
+   `----
+  x ClassDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
+ 1 | ,-> class A {
+ 2 | |       [foo] = '1'
+ 3 | `-> }
+   `----
+  x Class
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:1:1]
+ 1 | ,-> class A {
+ 2 | |       [foo] = '1'
+ 3 | `-> }
+   `----
+  x ClassProp
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:2:1]
+ 1 |     class A {
+ 2 | ,->     [foo] = '1'
+ 3 | `-> }
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:2:1]
+ 1 | class A {
+ 2 |     [foo] = '1'
+   :      ^^^
+ 3 | }
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/decl/computed-key.js:2:1]
+ 1 | class A {
+ 2 |     [foo] = '1'
+   :             ^^^
+ 3 | }
+   `----

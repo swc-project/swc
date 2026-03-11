@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 16..74,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 16..51,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 49..74,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 16..22,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 22..44,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 23..41,\n                sym: \"isConcatSpreadable\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 45..48,\n        props: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 42..48,\n        op: In,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 49..51,\n            value: \"\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 55..61,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 61..74,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 62..73,\n                sym: \"toPrimitive\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 52..74,\n        op: In,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

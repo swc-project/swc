@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 89..262,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 214..240,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 236..259,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 97..117,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 97..110,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 112..155,\n        ident: Ident {\n            span: 118..119,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 159..262,\n        ident: Ident {\n            span: 165..166,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 101..104,\n        sym: \"dec\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 127..130,\n        sym: \"dec\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 148..149,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 155..158,\n        sym: \"dec\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 190..191,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 214..218,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 218..227,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 219..226,\n                sym: \"#field1\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 236..240,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 240..250,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 241..248,\n                sym: \"#field1\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 251..252,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 249..253,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 112..155,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 118..119,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 159..262,\n    decorators: [\n        Decorator {\n            span: 154..164,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 165..166,\n            sym: \"D\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 131..152,\n        decorators: [\n            Decorator {\n                span: 126..137,\n                expr: _,\n            },\n        ],\n        key: Private(\n            Ident {\n                span: 138..145,\n                sym: \"#field1\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 173..203,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 180..187,\n                sym: \"#field1\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 197..261,\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

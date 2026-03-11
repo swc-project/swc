@@ -1,0 +1,23 @@
+  x import/export is not allowed in script mode
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/39a0bd52fcde419f.js:1:1]
+ 1 | export *
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: ImportExportInScript
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/39a0bd52fcde419f.js:1:1]
+ 1 | export *
+   : ^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x unexpected eof
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/39a0bd52fcde419f.js:1:1]
+ 1 | export *
+   `----
+
+Advice: 
+  > code: Eof

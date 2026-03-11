@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 1..266,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 9..65,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 9..61,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 62..148,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 62..118,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 149..197,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 149..193,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 194..266,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 194..243,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 13..15,\n        sym: \"x1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 66..68,\n        sym: \"y1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 153..155,\n        sym: \"x2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 198..200,\n        sym: \"y2\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 115..117,\n        sym: \"x1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 240..242,\n        sym: \"x2\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

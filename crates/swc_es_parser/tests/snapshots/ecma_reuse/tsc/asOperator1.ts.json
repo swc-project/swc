@@ -1,0 +1,63 @@
+{
+  "programs": [
+    "Program {\n    span: 1..228,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 220..228,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..17,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..13,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 14..46,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 14..42,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 43..79,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 43..75,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 76..194,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 76..106,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 191..221,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 191..219,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..7,\n        sym: \"as\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 8..13,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 18..19,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 20..42,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 47..48,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 49..75,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..81,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 82..106,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 195..196,\n        sym: \"j\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 197..219,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 220..221,\n        sym: \"j\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 10..12,\n            value: 43.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 22..31,\n        sym: \"undefined\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 32..42,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 52..56,\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 57..67,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 51..68,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 67..75,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 68..74,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 84..88,\n        sym: \"Date\",\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 89..98,\n        expr: _,\n        ty: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 96..106,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 199..201,\n            value: 32.0,\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 202..219,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 224..226,\n            value: \"\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 222..227,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    String,\n)",
+    "Union(\n    TsUnionType {\n        span: 205..219,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

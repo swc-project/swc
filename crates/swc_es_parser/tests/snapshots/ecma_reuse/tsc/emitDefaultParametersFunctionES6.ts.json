@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 16..155,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 16..60,\n        ident: Ident {\n            span: 25..28,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 52..104,\n        ident: Ident {\n            span: 61..64,\n            sym: \"baz\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 96..129,\n        ident: Ident {\n            span: 105..108,\n            sym: \"bar\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 121..155,\n        ident: Ident {\n            span: 130..134,\n            sym: \"bar1\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 42..47,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 65..66,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 76..77,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 78..82,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 86..90,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 83..91,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 109..110,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 111..116,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 137..142,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 146..150,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 143..151,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 44..46,\n            value: 10.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 80..81,\n            value: 5.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 113..115,\n            value: 10.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 139..141,\n            value: 10.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

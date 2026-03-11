@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 2..298,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 26..35,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 36..48,\n        stmts: [],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 22..48,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 30..48,\n                param: None,\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 49..58,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 74..83,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 103..112,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 113..126,\n        stmts: [],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 99..126,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 107..126,\n                param: None,\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 84..138,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 70..138,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 78..138,\n                param: None,\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 139..148,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 149..158,\n        stmts: [],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 135..158,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 143..158,\n                param: None,\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 59..167,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 45..167,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 53..167,\n                param: None,\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 168..177,\n        stmts: [],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 182..206,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 164..206,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 172..206,\n                param: Some(\n                    _,\n                ),\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 207..218,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 219..231,\n        stmts: [],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 203..231,\n        block: _,\n        handler: None,\n        finalizer: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 232..241,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 242..253,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 254..266,\n        stmts: [],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 228..266,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 236..253,\n                param: None,\n                body: _,\n            },\n        ),\n        finalizer: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 267..276,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 281..292,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 293..298,\n        stmts: [],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 263..298,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 271..292,\n                param: Some(\n                    _,\n                ),\n                body: _,\n            },\n        ),\n        finalizer: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 184..197,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 184..195,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 2..298,\n        ident: Ident {\n            span: 11..13,\n            sym: \"fn\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 179..180,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 188..189,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 278..279,\n        sym: \"z\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

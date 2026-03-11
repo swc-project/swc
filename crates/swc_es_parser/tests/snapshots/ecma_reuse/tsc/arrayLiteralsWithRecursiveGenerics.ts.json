@@ -1,0 +1,71 @@
+{
+  "programs": [
+    "Program {\n    span: 1..476,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 40..56,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 34..56,\n        label: Ident {\n            span: 34..38,\n            sym: \"next\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 55..63,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 136..144,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 180..200,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 174..200,\n        label: Ident {\n            span: 174..178,\n            sym: \"next\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 199..205,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 202..229,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 202..225,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 226..254,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 226..250,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 251..283,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 251..278,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 280..316,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 280..304,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 313..348,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 313..336,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 345..390,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 345..367,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 387..430,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 387..426,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 427..476,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 427..458,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 206..210,\n        sym: \"list\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 230..235,\n        sym: \"list2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 255..261,\n        sym: \"myList\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 284..286,\n        sym: \"xs\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 287..304,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 317..319,\n        sym: \"ys\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 320..336,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 349..351,\n        sym: \"zs\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 352..367,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 391..404,\n        sym: \"myDerivedList\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 431..433,\n        sym: \"as\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 434..458,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 40..44,\n        sym: \"List\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 180..186,\n        sym: \"MyList\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 290..294,\n        sym: \"list\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 296..302,\n        sym: \"myList\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 289..304,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 323..327,\n        sym: \"list\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 329..334,\n        sym: \"list2\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 322..336,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 355..359,\n        sym: \"list\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 361..365,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 354..367,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 437..441,\n        sym: \"list\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 443..456,\n        sym: \"myDerivedList\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 436..458,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

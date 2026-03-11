@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 37..200,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 37..130,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 37..130,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 125..200,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 125..200,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 43..45,\n        sym: \"o1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 105..107,\n        sym: \"_v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 131..133,\n        sym: \"o2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 180..182,\n        sym: \"_v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 88..89,\n            value: 1.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 95..124,\n        props: [\n            KeyValueProp {\n                span: 97..122,\n                key: Ident(\n                    Ident {\n                        span: 101..104,\n                        sym: \"bar\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 81..130,\n        props: [\n            KeyValueProp {\n                span: 83..90,\n                key: Ident(\n                    Ident {\n                        span: 83..86,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 91..124,\n                key: Ident(\n                    Ident {\n                        span: 91..91,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 163..164,\n            value: 1.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 170..199,\n        props: [\n            KeyValueProp {\n                span: 172..197,\n                key: Ident(\n                    Ident {\n                        span: 176..179,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 156..200,\n        props: [\n            KeyValueProp {\n                span: 158..165,\n                key: Ident(\n                    Ident {\n                        span: 158..161,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 166..199,\n                key: Ident(\n                    Ident {\n                        span: 166..166,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 97..122,\n    params: [\n        Param {\n            span: 105..116,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 172..197,\n    params: [\n        Param {\n            span: 180..191,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

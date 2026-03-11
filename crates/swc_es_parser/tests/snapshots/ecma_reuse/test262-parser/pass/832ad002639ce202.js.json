@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 1..26,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..26,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..26,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..8,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 9..26,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 11..12,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 18..19,\n            value: 2.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 16..20,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 25..26,\n            value: 3.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 23..26,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 11..26,\n        exprs: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

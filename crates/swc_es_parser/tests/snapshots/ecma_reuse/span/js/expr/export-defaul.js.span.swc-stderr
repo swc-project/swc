@@ -1,0 +1,20 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
+ 1 | export default foo
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+  x ModuleDeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
+ 1 | export default foo
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+  x ExportDefaultExprDecl
+   ,-[/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
+ 1 | export default foo
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/export-defaul.js:1:1]
+ 1 | export default foo
+   :                ^^^
+   `----

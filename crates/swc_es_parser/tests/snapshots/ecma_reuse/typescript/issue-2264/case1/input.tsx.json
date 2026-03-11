@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..42,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..42,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..42,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..8,\n        sym: \"t\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 9..42,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "JSXElement(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 11..42,\n    opening: JSXOpeningElement {\n        span: 11..42,\n        name: Ident(\n            Ident {\n                span: 12..19,\n                sym: \"Switch\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: None,\n}"
+  ],
+  "ts_types": []
+}

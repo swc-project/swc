@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 20..99,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 57..65,\n        arg: None,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 20..99,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 20..99,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 26..28,\n        sym: \"c1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 87..92,\n        sym: \"value\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 29..99,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 31..99,\n        props: [\n            KeyValueProp {\n                span: 37..66,\n                key: Ident(\n                    Ident {\n                        span: 41..52,\n                        sym: \"constructor\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 71..98,\n                key: Ident(\n                    Ident {\n                        span: 75..86,\n                        sym: \"constructor\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 37..66,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 71..98,\n    params: [\n        Param {\n            span: 87..93,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

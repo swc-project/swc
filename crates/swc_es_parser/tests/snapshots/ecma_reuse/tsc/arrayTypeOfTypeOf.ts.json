@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 35..209,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 167..174,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 168..180,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 198..205,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 199..209,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 35..49,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 35..45,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 46..126,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 46..65,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 123..149,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 123..145,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 146..168,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 146..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 177..199,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 177..199,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 39..40,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 41..45,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..52,\n        sym: \"xs\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 127..130,\n        sym: \"xs2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 150..153,\n        sym: \"xs3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 181..184,\n        sym: \"xs4\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 43..44,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 168..174,\n        sym: \"number\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 174..180,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 206..207,\n        sym: \"x\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 199..208,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 207..209,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

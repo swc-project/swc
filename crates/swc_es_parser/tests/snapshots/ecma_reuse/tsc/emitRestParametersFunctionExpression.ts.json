@@ -1,0 +1,53 @@
+{
+  "programs": [
+    "Program {\n    span: 17..171,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 17..51,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 17..51,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 48..94,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 48..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 91..132,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..132,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 129..171,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 129..171,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..28,\n        sym: \"funcExp\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 35..39,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 32..40,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 29..51,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 52..60,\n        sym: \"funcExp1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..65,\n        sym: \"X\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..82,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 75..83,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 61..94,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 95..103,\n        sym: \"funcExp2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 119..123,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 116..124,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 104..132,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 133..141,\n        sym: \"funcExp3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 158..162,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 155..163,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 142..171,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Arrow(\n    ArrowExpr {\n        span: 31..51,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 63..94,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Function(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 144..169,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 168..171,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 106..132,\n    params: [\n        Param {\n            span: 106..106,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 145..168,\n    params: [\n        Param {\n            span: 145..145,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

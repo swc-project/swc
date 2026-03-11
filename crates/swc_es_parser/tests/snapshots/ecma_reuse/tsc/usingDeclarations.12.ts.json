@@ -1,0 +1,47 @@
+{
+  "programs": [
+    "Program {\n    span: 115..274,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 211..233,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 115..155,\n        ident: Ident {\n            span: 121..123,\n            sym: \"C1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 228..272,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 228..266,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 150..274,\n        ident: Ident {\n            span: 156..158,\n            sym: \"C2\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 234..237,\n        sym: \"d17\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 238..266,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 167..169,\n        sym: \"C1\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 180..181,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 211..216,\n        sym: \"super\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 216..219,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 243..249,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 249..258,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 250..257,\n                sym: \"dispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 240..266,\n        props: [\n            KeyValueProp {\n                span: 242..265,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 130..148,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 242..265,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 187..274,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 115..155,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 121..123,\n            sym: \"C1\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 150..274,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 156..158,\n            sym: \"C2\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 130..148,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 130..141,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 176..198,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 176..177,\n                sym: \"y\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 187..274,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 187..198,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

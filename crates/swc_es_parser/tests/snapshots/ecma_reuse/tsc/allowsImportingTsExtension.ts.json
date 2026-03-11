@@ -1,0 +1,62 @@
+{
+  "programs": [
+    "Program {\n    span: 97..609,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 104..143,\n        ident: Ident {\n            span: 110..111,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 144..181,\n        ident: Ident {\n            span: 150..151,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 296..338,\n        ident: Ident {\n            span: 301..304,\n            sym: \"__A\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 333..403,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 333..367,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 524..568,\n        ident: Ident {\n            span: 529..532,\n            sym: \"__A\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 563..609,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 563..599,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 339..347,\n        sym: \"aPromise\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 348..367,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 569..577,\n        sym: \"aPromise\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 578..599,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 350..356,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 357..365,\n            value: \"./a.ts\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 356..367,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 580..586,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 587..597,\n            value: \"./a.d.ts\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 586..599,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 97..143,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 137..181,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 175..220,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 189..190,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 189..190,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 198..206,\n            value: \"./a.ts\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 214..254,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 229..237,\n            value: \"./a.ts\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 248..300,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 267..269,\n                        sym: \"_A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 262..263,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: true,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 277..285,\n            value: \"./a.ts\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 397..444,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 411..412,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 411..412,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 420..430,\n            value: \"./a.d.ts\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 438..480,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 453..463,\n            value: \"./a.d.ts\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 474..528,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 493..495,\n                        sym: \"_A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 488..489,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: true,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 503..513,\n            value: \"./a.d.ts\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 104..143,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 110..111,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 144..181,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 150..151,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Import(\n    TsImportType {\n        span: 307..326,\n        arg: StrLit {\n            span: 314..322,\n            value: \"./a.ts\",\n        },\n        qualifier: Some(\n            Ident {\n                span: 324..326,\n                sym: \"A\",\n            },\n        ),\n        type_args: [],\n    },\n)",
+    "Import(\n    TsImportType {\n        span: 535..556,\n        arg: StrLit {\n            span: 542..552,\n            value: \"./a.d.ts\",\n        },\n        qualifier: Some(\n            Ident {\n                span: 554..556,\n                sym: \"A\",\n            },\n        ),\n        type_args: [],\n    },\n)"
+  ]
+}

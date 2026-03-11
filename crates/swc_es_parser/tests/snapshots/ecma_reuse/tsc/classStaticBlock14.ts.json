@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 56..195,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 56..195,\n        ident: Ident {\n            span: 62..63,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 81..82,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 99..100,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 117..118,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 56..195,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 62..63,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 68..92,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 75..78,\n                sym: \"#_1\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 86..110,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 93..96,\n                sym: \"#_3\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 104..129,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 111..114,\n                sym: \"#_5\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 123..141,\n        body: [],\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 135..153,\n        body: [],\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 147..165,\n        body: [],\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 159..177,\n        body: [],\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 171..189,\n        body: [],\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 183..194,\n        body: [],\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

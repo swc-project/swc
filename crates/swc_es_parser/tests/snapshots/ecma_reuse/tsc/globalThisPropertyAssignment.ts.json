@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 100..240,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 100..114,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 142..229,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 219..240,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 111..148,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 111..148,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 115..116,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 117..148,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 100..104,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 104..108,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 105..106,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 109..110,\n            value: 1.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 107..114,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 119..120,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 142..148,\n        sym: \"window\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 148..152,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 149..150,\n                sym: \"z\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 153..154,\n            value: 3.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 151..229,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 219..229,\n        sym: \"globalThis\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 229..237,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 230..235,\n                sym: \"alpha\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 238..239,\n            value: 4.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 236..240,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

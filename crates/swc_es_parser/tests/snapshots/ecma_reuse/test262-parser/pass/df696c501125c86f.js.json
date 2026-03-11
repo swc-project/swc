@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..19,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 18..19,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..19,\n        head: In(\n            ForInHead {\n                left: Expr(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 5..8,\n        sym: \"let\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 8..15,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 9..12,\n                sym: \"let\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 16..17,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

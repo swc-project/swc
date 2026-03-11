@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 1..69,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..69,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..69,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..9,\n        sym: \"fn\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 12..15,\n        sym: \"foo\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 10..69,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 20..23,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 23..29,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 24..27,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..34,\n        sym: \"foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 34..39,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 35..38,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 38..44,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 39..42,\n                sym: \"bas\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 45..50,\n            value: \"bas\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 53..58,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Cond(\n    CondExpr {\n        span: 43..59,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 30..61,\n        expr: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 62..67,\n            value: \"bat\",\n        },\n    ),\n)",
+    "Cond(\n    CondExpr {\n        span: 28..68,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 19..69,\n        expr: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 12..69,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

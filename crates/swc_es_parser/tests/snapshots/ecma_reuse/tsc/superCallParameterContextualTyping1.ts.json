@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 2..282,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 75..78,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 77..85,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 231..279,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 80..282,\n        ident: Ident {\n            span: 86..87,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 237..242,\n        sym: \"value\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"A\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 231..236,\n        sym: \"super\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 246..252,\n        sym: \"String\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 253..258,\n        sym: \"value\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 258..273,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 259..272,\n                sym: \"toExponential\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 272..275,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 252..276,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 237..276,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 236..277,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 215..281,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 80..282,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 86..87,\n            sym: \"B\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 215..281,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 215..226,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

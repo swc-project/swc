@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..11,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Throw(\n    ThrowStmt {\n        span: 1..11,\n        arg: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 7..11,\n        sym: \"this\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

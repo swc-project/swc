@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 86..163,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 86..133,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 86..93,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 93..99,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 94..97,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 100..105,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 98..133,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 127..163,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 134..137,\n                        sym: \"foo\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 143..154,\n            value: \"./foo.cjs\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

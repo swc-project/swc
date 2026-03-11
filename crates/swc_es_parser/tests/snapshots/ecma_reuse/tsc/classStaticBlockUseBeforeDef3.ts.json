@@ -1,0 +1,89 @@
+{
+  "programs": [
+    "Program {\n    span: 36..594,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 67..109,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 145..174,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 212..253,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 309..352,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 422..442,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 441..469,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 540..568,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 572..594,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 36..184,\n        ident: Ident {\n            span: 42..43,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 179..262,\n        ident: Ident {\n            span: 185..188,\n            sym: \"Baz\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 257..281,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 257..275,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 276..359,\n        ident: Ident {\n            span: 282..285,\n            sym: \"Bar\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 356..394,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 356..387,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 389..573,\n        ident: Ident {\n            span: 395..398,\n            sym: \"CFA\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 263..266,\n        sym: \"FOO\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 267..275,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 360..361,\n        sym: \"u\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 362..387,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 422..423,\n        sym: \"u\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 67..68,\n        sym: \"A\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 68..81,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 69..80,\n                sym: \"doSomething\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 80..83,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 145..152,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 152..157,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 153..156,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 157..166,\n            value: \"gotcha!\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 156..168,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 212..219,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 219..224,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 220..223,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..227,\n        sym: \"FOO\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 223..229,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 269..274,\n            value: \"FOO\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 309..316,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 316..321,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 317..320,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 321..324,\n        sym: \"FOO\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 320..326,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 364..369,\n            value: \"FOO\",\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 370..387,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 426..431,\n            value: \"BAR\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 424..432,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 441..442,\n        sym: \"u\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 486..487,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 540..541,\n        sym: \"u\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 572..573,\n        sym: \"u\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 115..176,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 494..529,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 36..184,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 42..43,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 179..262,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 185..188,\n            sym: \"Baz\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 276..359,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 282..285,\n            sym: \"Bar\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 389..573,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 395..398,\n            sym: \"CFA\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 50..121,\n        body: [\n            _,\n        ],\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 115..176,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 122..133,\n                sym: \"doSomething\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 195..255,\n        body: [\n            _,\n        ],\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 292..354,\n        body: [\n            _,\n        ],\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 405..481,\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 475..500,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 482..483,\n                sym: \"t\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 494..529,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 501..512,\n                sym: \"doSomething\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 523..570,\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 373..378,\n            value: \"FOO\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 381..386,\n            value: \"BAR\",\n        },\n    ),\n)",
+    "Union(\n    TsUnionType {\n        span: 373..387,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

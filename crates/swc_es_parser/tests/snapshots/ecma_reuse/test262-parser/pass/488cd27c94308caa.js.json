@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 1..59,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 36..58,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 20..37,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 20..31,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..59,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 24..25,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 26..31,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 28..31,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 36..37,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 43..44,\n            value: 1.0,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 38..45,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 37..47,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 49..50,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 50..53,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 53..54,\n        sym: \"d\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 49..55,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 48..56,\n        expr: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 46..56,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

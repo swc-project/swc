@@ -1,0 +1,60 @@
+{
+  "programs": [
+    "Program {\n    span: 1..92,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..16,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 15..32,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 31..46,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 45..65,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 64..78,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 77..92,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 3..6,\n            value: \"b\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 2..9,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 10..13,\n            value: \"c\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 8..14,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 15..16,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 17..21,\n            value: \"if\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 16..24,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 25..29,\n            value: \"if\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 23..30,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 33..36,\n            value: \"*\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 32..39,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 40..43,\n            value: \"d\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 38..44,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 45..46,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 47..55,\n            value: \"ຳ\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 46..58,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 59..62,\n            value: \"e\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 57..63,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..65,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 66..68,\n            value: \"\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 65..71,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 72..75,\n            value: \"f\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 70..76,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 77..78,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 79..84,\n            value: \"1_1\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 78..87,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 88..91,\n            value: \"b\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 86..92,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

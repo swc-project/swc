@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..32,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportAll(\n    ExportAllDecl {\n        span: 1..32,\n        src: StrLit {\n            span: 21..30,\n            value: \"package\",\n        },\n        type_only: false,\n        exported: Some(\n            Ident {\n                span: 13..15,\n                sym: \"ns\",\n            },\n        ),\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

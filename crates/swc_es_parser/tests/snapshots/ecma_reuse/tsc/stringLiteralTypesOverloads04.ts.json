@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 24..127,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 115..126,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 77..127,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 32..78,\n        ident: Ident {\n            span: 41..42,\n            sym: \"f\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 90..121,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 90..110,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 79..80,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 100..101,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 98..110,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 77..78,\n        sym: \"f\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 104..109,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 102..110,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 122..123,\n        sym: \"z\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 79..127,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 78..127,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

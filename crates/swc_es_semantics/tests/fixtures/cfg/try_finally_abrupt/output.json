@@ -1,0 +1,214 @@
+{
+  "cfgs": [
+    {
+      "id": 0,
+      "root": "Program",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "kind": "Normal"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "root": "FunctionDecl",
+      "entry": 0,
+      "exit": 1,
+      "blocks": [
+        {
+          "id": 0,
+          "kind": "Entry"
+        },
+        {
+          "id": 1,
+          "kind": "Exit"
+        },
+        {
+          "id": 2,
+          "kind": "Statement"
+        },
+        {
+          "id": 3,
+          "kind": "Statement"
+        },
+        {
+          "id": 4,
+          "kind": "Statement"
+        },
+        {
+          "id": 5,
+          "kind": "Statement"
+        },
+        {
+          "id": 6,
+          "kind": "Statement"
+        },
+        {
+          "id": 7,
+          "kind": "Statement"
+        },
+        {
+          "id": 8,
+          "kind": "Synthetic"
+        },
+        {
+          "id": 9,
+          "kind": "Statement"
+        },
+        {
+          "id": 10,
+          "kind": "Statement"
+        },
+        {
+          "id": 11,
+          "kind": "Statement"
+        },
+        {
+          "id": 12,
+          "kind": "Statement"
+        },
+        {
+          "id": 13,
+          "kind": "Statement"
+        },
+        {
+          "id": 14,
+          "kind": "Synthetic"
+        },
+        {
+          "id": 15,
+          "kind": "Synthetic"
+        },
+        {
+          "id": 16,
+          "kind": "Statement"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 2,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "kind": "True"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "kind": "Normal"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "kind": "Normal"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "kind": "Normal"
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "kind": "True"
+        },
+        {
+          "from": 6,
+          "to": 8,
+          "kind": "Normal"
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "kind": "Normal"
+        },
+        {
+          "from": 7,
+          "to": 10,
+          "kind": "Break"
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "kind": "Return"
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "kind": "Normal"
+        },
+        {
+          "from": 11,
+          "to": 12,
+          "kind": "Normal"
+        },
+        {
+          "from": 12,
+          "to": 13,
+          "kind": "True"
+        },
+        {
+          "from": 12,
+          "to": 14,
+          "kind": "Normal"
+        },
+        {
+          "from": 2,
+          "to": 15,
+          "kind": "False"
+        },
+        {
+          "from": 13,
+          "to": 2,
+          "kind": "Continue"
+        },
+        {
+          "from": 14,
+          "to": 15,
+          "kind": "Break"
+        },
+        {
+          "from": 15,
+          "to": 16,
+          "kind": "Normal"
+        },
+        {
+          "from": 14,
+          "to": 1,
+          "kind": "Return"
+        },
+        {
+          "from": 16,
+          "to": 1,
+          "kind": "Return"
+        }
+      ]
+    }
+  ]
+}

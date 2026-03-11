@@ -1,0 +1,61 @@
+{
+  "programs": [
+    "Program {\n    span: 45..402,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 122..134,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 368..402,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 355..402,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 52..106,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 52..65,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 107..170,\n        ident: Ident {\n            span: 116..117,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 191..206,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 191..204,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 171..242,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 178..180,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 371..401,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 371..399,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 56..59,\n        sym: \"foo\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 60..65,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 195..196,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 197..204,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 375..376,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 377..399,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 62..64,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 129..131,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 199..203,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 358..362,\n        sym: \"foo2\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 362..366,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 363..365,\n                sym: \"M2\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 365..368,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 366..367,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 379..383,\n        sym: \"foo0\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 383..389,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 384..387,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 390..394,\n        sym: \"foo1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 394..397,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 395..396,\n                sym: \"f\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 396..399,\n        callee: _,\n        args: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 388..399,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 45..106,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 100..170,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 184..206,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 164..242,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 236..277,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 243..247,\n                        sym: \"foo0\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 271..316,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 278..282,\n                        sym: \"foo1\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 310..357,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 317..321,\n                        sym: \"foo2\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,83 @@
+{
+  "programs": [
+    "Program {\n    span: 37..717,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 498..576,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 661..679,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 676..717,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 37..64,\n        ident: Ident {\n            span: 42..43,\n            sym: \"R\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 60..87,\n        ident: Ident {\n            span: 65..66,\n            sym: \"W\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 83..125,\n        ident: Ident {\n            span: 88..90,\n            sym: \"RW\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 126..332,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 126..332,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 333..354,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 333..354,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 355..375,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 355..375,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 376..393,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 376..393,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 394..415,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 394..415,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 416..436,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 416..436,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 437..501,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 437..501,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 577..644,\n        ident: Ident {\n            span: 586..590,\n            sym: \"test\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 645..665,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 645..665,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 132..135,\n        sym: \"pli\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 337..343,\n        sym: \"writes\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 359..364,\n        sym: \"reads\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 380..382,\n        sym: \"tr\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 398..401,\n        sym: \"gun\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 420..422,\n        sym: \"gz\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 441..444,\n        sym: \"fun\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 591..592,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 599..600,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 649..653,\n        sym: \"anys\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 498..501,\n        sym: \"pli\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 507..512,\n        sym: \"reads\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 521..524,\n        sym: \"gun\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 530..532,\n        sym: \"tr\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 538..541,\n        sym: \"fun\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 550..552,\n        sym: \"gz\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 558..564,\n        sym: \"writes\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 501..567,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 661..665,\n        sym: \"test\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 669..673,\n        sym: \"anys\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 665..679,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 676..679,\n        sym: \"pli\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 684..689,\n        sym: \"reads\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 691..697,\n        sym: \"writes\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 699..705,\n        sym: \"writes\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 683..709,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 707..716,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 679..717,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 46..64,\n        members: [\n            TsTypeMember {\n                span: 48..59,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 48..49,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 69..87,\n        members: [\n            TsTypeMember {\n                span: 71..82,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 71..72,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 93..125,\n        members: [\n            TsTypeMember {\n                span: 95..107,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 95..96,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 106..117,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 106..107,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 710..716,\n        name: Ident {\n            span: 710..716,\n            sym: \"const\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

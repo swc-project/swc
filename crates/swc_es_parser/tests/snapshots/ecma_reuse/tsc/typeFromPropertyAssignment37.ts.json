@@ -1,0 +1,58 @@
+{
+  "programs": [
+    "Program {\n    span: 75..290,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 137..168,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 131..196,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 118..196,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 240..265,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 266..290,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 75..120,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 75..120,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 191..229,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 191..229,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 221..270,\n        ident: Ident {\n            span: 230..231,\n            sym: \"n\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 81..85,\n        sym: \"util\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 88..95,\n        sym: \"exports\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 86..120,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 197..201,\n        sym: \"util\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 202..229,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 98..104,\n        sym: \"module\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 104..114,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 105..112,\n                sym: \"exports\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 115..120,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 113..120,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 96..120,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 124..129,\n            value: false,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 123..130,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 122..130,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..141,\n        sym: \"util\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 141..150,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 142..148,\n                sym: \"existy\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 149..168,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 204..211,\n        sym: \"require\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 212..219,\n            value: \"./mod\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 211..229,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 240..244,\n        sym: \"util\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 244..265,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 245..251,\n                sym: \"existy\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 266..270,\n        sym: \"util\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 270..290,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 271..277,\n                sym: \"existy\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 151..168,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

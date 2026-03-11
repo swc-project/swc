@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 44..97,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 52..80,\n        ident: Ident {\n            span: 58..59,\n            sym: \"A\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 75..97,\n        ident: Ident {\n            span: 81..82,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 52..80,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 58..59,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 75..97,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 81..82,\n            sym: \"B\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 66..74,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 66..71,\n                sym: \"#prop\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 89..97,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 89..94,\n                sym: \"#prop\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

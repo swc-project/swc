@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 73..135,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 97..119,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 112..135,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 73..104,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 73..96,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 79..82,\n        sym: \"Foo\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 83..96,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 92..93,\n            value: 3.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 85..96,\n        props: [\n            KeyValueProp {\n                span: 87..95,\n                key: Ident(\n                    Ident {\n                        span: 87..90,\n                        sym: \"min\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..104,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 104..109,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 105..108,\n                sym: \"fn1\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 108..111,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 112..119,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 119..125,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 120..123,\n                sym: \"fn2\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 126..129,\n        sym: \"Foo\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 129..134,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 130..133,\n                sym: \"min\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 124..134,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

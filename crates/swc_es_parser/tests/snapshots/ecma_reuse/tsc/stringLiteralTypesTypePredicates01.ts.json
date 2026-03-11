@@ -1,0 +1,72 @@
+{
+  "programs": [
+    "Program {\n    span: 24..378,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 202..223,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 271..294,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 295..317,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 251..317,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 336..359,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 360..378,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 315..378,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 24..55,\n        ident: Ident {\n            span: 29..33,\n            sym: \"Kind\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 149..228,\n        ident: Ident {\n            span: 158..164,\n            sym: \"kindIs\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 225..253,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 225..249,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 277..289,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 277..287,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 301..313,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 301..311,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 342..354,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 342..352,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 366..378,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 366..376,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 165..169,\n        sym: \"kind\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 177..179,\n        sym: \"is\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 229..230,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 281..282,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 283..287,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 305..306,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 307..311,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 346..347,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 348..352,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 370..371,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 372..376,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 209..213,\n        sym: \"kind\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 218..220,\n        sym: \"is\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 214..221,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 239..248,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 255..261,\n        sym: \"kindIs\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 262..263,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 265..268,\n            value: \"A\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 261..270,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 285..286,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 309..310,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 320..326,\n        sym: \"kindIs\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 327..328,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 330..333,\n            value: \"B\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 326..335,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 319..335,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 350..351,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 374..375,\n        sym: \"x\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 36..39,\n            value: \"A\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 42..45,\n            value: \"B\",\n        },\n    ),\n)",
+    "Union(\n    TsUnionType {\n        span: 36..55,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

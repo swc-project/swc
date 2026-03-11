@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 91..173,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 119..127,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 122..173,\n        ident: Ident {\n            span: 128..129,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 138..139,\n        sym: \"A\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 161..169,\n            value: \"string\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 122..173,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 128..129,\n            sym: \"B\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 146..158,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 146..154,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 155..172,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 155..158,\n                sym: \"foo\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

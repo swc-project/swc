@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 28..147,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 28..46,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 28..40,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 41..100,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 41..93,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 95..147,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 95..146,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 34..35,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 36..40,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 47..49,\n        sym: \"f1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 50..93,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 101..103,\n        sym: \"f2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 104..146,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 38..39,\n            value: 1.0,\n        },\n    ),\n)",
+    "Template(\n    TemplateExpr {\n        span: 62..92,\n        quasis: [\n            StrLit {\n                span: 62..92,\n                value: \"${\\n      // a\\n      a\\n    }a\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 52..93,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 116..145,\n        quasis: [\n            StrLit {\n                span: 116..145,\n                value: \"${\\n      // a\\n      a\\n    }\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 106..146,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

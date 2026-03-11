@@ -1,0 +1,61 @@
+{
+  "programs": [
+    "Program {\n    span: 69..561,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 108..114,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 110..129,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 115..135,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 137..187,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 178..229,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 226..271,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 268..342,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 402..411,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 422..431,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 505..514,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 337..358,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 337..352,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 353..372,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 353..366,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 367..394,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 367..387,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 343..347,\n        sym: \"type\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 348..352,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 359..361,\n        sym: \"as\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 362..366,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 373..382,\n        sym: \"something\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 383..387,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 110..114,\n        sym: \"from\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 115..129,\n            value: \"./exports.js\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 137..139,\n        sym: \"as\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 178..187,\n        sym: \"something\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 226..229,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 268..271,\n        sym: \"bar\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 350..351,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 364..365,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 385..386,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 425..458,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 439..448,\n                    sym: \"something\",\n                },\n                exported: None,\n                is_type_only: true,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 452..487,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 466..470,\n                    sym: \"type\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 474..477,\n                        sym: \"foo\",\n                    },\n                ),\n                is_type_only: true,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 508..561,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 527..536,\n                    sym: \"something\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 540..548,\n                        sym: \"whatever\",\n                    },\n                ),\n                is_type_only: true,\n            },\n        ],\n        type_only: true,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

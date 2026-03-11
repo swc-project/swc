@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 1..64,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 8..31,\n        ident: Ident {\n            span: 13..14,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 32..48,\n        ident: Ident {\n            span: 37..38,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 49..64,\n        ident: Ident {\n            span: 59..60,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..31,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 25..48,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 42..64,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)"
+  ]
+}

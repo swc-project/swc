@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 1..95,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 75..81,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 78..90,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 87..95,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsModule(\n    TsModuleDecl {\n        span: 1..53,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 8..9,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 54..76,\n        ident: Ident {\n            span: 60..61,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 70..71,\n        sym: \"A\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 82..83,\n        sym: \"M\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 83..86,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 84..85,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "New(\n    NewExpr {\n        span: 78..86,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 91..92,\n        sym: \"M\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 92..95,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 93..94,\n                sym: \"B\",\n            },\n        ),\n    },\n)",
+    "New(\n    NewExpr {\n        span: 87..95,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 47..76,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 54..76,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 60..61,\n            sym: \"B\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

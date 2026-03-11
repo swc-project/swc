@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 1..181,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 97..109,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 157..169,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..53,\n        ident: Ident {\n            span: 7..11,\n            sym: \"Base\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 48..124,\n        ident: Ident {\n            span: 54..61,\n            sym: \"Derived\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 119..181,\n        ident: Ident {\n            span: 125..134,\n            sym: \"Unrelated\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 70..74,\n        sym: \"Base\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 101..105,\n        sym: \"Base\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 105..109,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 97..109,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 161..165,\n        sym: \"Base\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 165..169,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 157..169,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 18..47,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 81..117,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 141..180,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..53,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..11,\n            sym: \"Base\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 48..124,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 54..61,\n            sym: \"Derived\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 119..181,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 125..134,\n            sym: \"Unrelated\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 18..47,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 28..39,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 81..117,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 88..92,\n                sym: \"make\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 141..180,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 148..152,\n                sym: \"fake\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

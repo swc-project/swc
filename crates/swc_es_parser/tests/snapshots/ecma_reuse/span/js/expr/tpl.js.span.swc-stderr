@@ -1,0 +1,15 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/tpl.js:1:1]
+ 1 | `foo`
+   : ^^^^^
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/tpl.js:1:1]
+ 1 | `foo`
+   : ^^^^^
+   `----
+  x TemplateExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/tpl.js:1:1]
+ 1 | `foo`
+   : ^^^^^
+   `----

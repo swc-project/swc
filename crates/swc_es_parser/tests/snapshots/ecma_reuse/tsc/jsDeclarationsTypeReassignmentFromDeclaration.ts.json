@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 118..304,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 118..159,\n        ident: Ident {\n            span: 128..132,\n            sym: \"Item\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 139..151,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 139..140,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 160..187,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 160..180,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 263..287,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 263..280,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 166..171,\n        sym: \"items\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 269..274,\n        sym: \"items\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 275..280,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 277..280,\n        elems: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 16..151,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 94..151,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 16..113,\n        ident: Ident {\n            span: 25..44,\n            sym: \"takeFirstTwoEntries\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 50..52,\n        sym: \"k1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 54..56,\n        sym: \"v1\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 49..58,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 60..62,\n        sym: \"k2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..66,\n        sym: \"v2\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 59..68,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 48..69,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 45..69,\n        arg: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 94..113,\n        sym: \"takeFirstTwoEntries\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 121..124,\n        sym: \"Map\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 127..129,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 131..132,\n            value: 0.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 126..134,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 136..143,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 145..146,\n            value: 1.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 135..148,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 125..149,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 124..150,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 117..150,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 113..151,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

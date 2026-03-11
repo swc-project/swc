@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 80..172,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 91..172,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 80..172,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 138..171,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 138..169,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 144..145,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 158..159,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 146..169,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 84..89,\n            value: false,\n        },\n    ),\n)",
+    "Function(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 148..169,\n    params: [\n        Param {\n            span: 148..148,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

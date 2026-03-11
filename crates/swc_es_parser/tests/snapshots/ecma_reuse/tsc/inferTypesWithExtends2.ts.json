@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 96..346,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 96..265,\n        ident: Ident {\n            span: 101..103,\n            sym: \"X1\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 104..105,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 261..346,\n        ident: Ident {\n            span: 266..268,\n            sym: \"X2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 269..270,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 113..122,\n        name: Ident {\n            span: 113..122,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 128..143,\n        type_param: Ident {\n            span: 134..135,\n            sym: \"U\",\n        },\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 155..170,\n        type_param: Ident {\n            span: 161..162,\n            sym: \"U\",\n        },\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 123..181,\n        members: [\n            TsTypeMember {\n                span: 125..153,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 125..126,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 152..179,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 152..153,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 182..185,\n        name: Ident {\n            span: 182..185,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 113..196,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 278..287,\n        name: Ident {\n            span: 278..287,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 293..301,\n        type_param: Ident {\n            span: 299..300,\n            sym: \"U\",\n        },\n    },\n)",
+    "Infer(\n    TsInferType {\n        span: 305..320,\n        type_param: Ident {\n            span: 311..312,\n            sym: \"V\",\n        },\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 288..326,\n        members: [\n            TsTypeMember {\n                span: 290..303,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 290..291,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 302..324,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 302..303,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 328..330,\n        name: Ident {\n            span: 328..330,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 331..333,\n        name: Ident {\n            span: 331..333,\n            sym: \"V\",\n        },\n        type_args: [],\n    },\n)",
+    "Tuple(\n    TsTupleType {\n        span: 327..335,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Never,\n)",
+    "Conditional(\n    TsConditionalType {\n        span: 278..346,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)"
+  ]
+}

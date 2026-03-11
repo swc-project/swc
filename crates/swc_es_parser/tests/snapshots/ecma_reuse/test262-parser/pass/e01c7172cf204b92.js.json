@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..31,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..31,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 15..28,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "MetaProp(\n    MetaPropExpr {\n        span: 17..28,\n        kind: NewTarget,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..31,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 2..31,\n    params: [\n        Param {\n            span: 2..2,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,69 @@
+{
+  "programs": [
+    "Program {\n    span: 168..473,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 242..271,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 232..280,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 202..280,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 276..296,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 292..305,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 432..472,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 175..342,\n        ident: Ident {\n            span: 184..189,\n            sym: \"Point\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 404..473,\n        ident: Ident {\n            span: 413..422,\n            sym: \"magnitude\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 190..191,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 193..194,\n        sym: \"y\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 423..424,\n        sym: \"p\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 208..212,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..229,\n        sym: \"Point\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 213..230,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 207..231,\n        expr: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 206..231,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 253..258,\n        sym: \"Point\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 259..260,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 262..263,\n        sym: \"y\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 258..265,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 249..265,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 276..280,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 280..284,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 281..282,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 285..286,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 283..287,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 292..296,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 296..300,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 297..298,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 301..302,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 299..303,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 439..443,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 443..449,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 444..448,\n                sym: \"sqrt\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 449..450,\n        sym: \"p\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 450..455,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 451..452,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 456..457,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 453..459,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 460..461,\n        sym: \"p\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 461..466,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 462..463,\n                sym: \"y\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 467..468,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 464..469,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 458..469,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 448..470,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 168..342,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 336..403,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 344..349,\n                        sym: \"Point\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 344..349,\n                            sym: \"Point\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 356..366,\n            value: \"./source\",\n        },\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 397..473,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

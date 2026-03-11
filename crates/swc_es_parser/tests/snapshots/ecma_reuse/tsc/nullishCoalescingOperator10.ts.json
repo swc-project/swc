@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 19..85,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 27..65,\n        ident: Ident {\n            span: 36..37,\n            sym: \"f\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 62..85,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 62..85,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 66..68,\n        sym: \"gg\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 69..85,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 71..72,\n        sym: \"f\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 72..77,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 78..83,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 75..85,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

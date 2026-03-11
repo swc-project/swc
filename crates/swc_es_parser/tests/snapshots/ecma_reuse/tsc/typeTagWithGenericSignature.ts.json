@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 145..209,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 173..188,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 145..193,\n        ident: Ident {\n            span: 154..159,\n            sym: \"typed\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 190..209,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 190..207,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 160..165,\n        sym: \"param\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 194..195,\n        sym: \"n\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 196..207,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 180..185,\n        sym: \"param\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 198..203,\n        sym: \"typed\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 204..205,\n            value: 1.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 203..207,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

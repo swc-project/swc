@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 38..136,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 38..136,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 38..135,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 42..50,\n        sym: \"promise1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 74..81,\n        sym: \"resolve\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 83..89,\n        sym: \"reject\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 51..135,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 57..64,\n        sym: \"Promise\",\n    },\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 64..112,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 111..120,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 112..119,\n                sym: \"finally\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 119..135,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 53..135,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 65..94,\n    params: [\n        Param {\n            span: 65..65,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 65..65,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 120..134,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

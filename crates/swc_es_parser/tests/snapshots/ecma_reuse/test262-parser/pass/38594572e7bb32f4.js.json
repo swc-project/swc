@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 1..85,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 45..62,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 65..80,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1..85,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 18..66,\n        ident: Ident {\n            span: 27..36,\n            sym: \"arguments\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 45..46,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 47..56,\n        sym: \"arguments\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 46..58,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 65..66,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 67..76,\n        sym: \"arguments\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 66..78,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 80..83,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..84,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 2..81,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

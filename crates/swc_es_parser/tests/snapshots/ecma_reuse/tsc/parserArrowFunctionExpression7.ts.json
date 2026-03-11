@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 20..60,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 47..55,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 38..55,\n        head: Classic(\n            ForClassicHead {\n                init: None,\n                test: None,\n                update: None,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 20..60,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 21..58,\n        props: [\n            KeyValueProp {\n                span: 24..57,\n                key: Ident(\n                    Ident {\n                        span: 30..31,\n                        sym: \"m\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 20..59,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 24..57,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: true,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

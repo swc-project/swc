@@ -1,0 +1,24 @@
+{
+  "programs": [
+    "Program {\n    span: 1..197,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..197,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..197,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..14,\n        sym: \"content\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 15..197,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Template(\n    TemplateExpr {\n        span: 17..197,\n        quasis: [\n            StrLit {\n                span: 17..197,\n                value: \"--------------------------366796e1c748a2fb\\r\\nContent-Disposition: form-data; name=\\\"payload\\\"\\r\\nContent-Type: text/plain\\r\\n\\r\\nCONTENT\\r\\n--------------------------366796e1c748a2fb--\",\n            },\n        ],\n        exprs: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

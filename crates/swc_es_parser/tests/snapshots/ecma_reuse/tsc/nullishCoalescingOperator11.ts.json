@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 19..103,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 27..73,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 27..68,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 70..103,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 70..103,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 33..36,\n        sym: \"f11\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 74..77,\n        sym: \"g11\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 78..103,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 80..83,\n        sym: \"f11\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 87..90,\n        sym: \"f11\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 90..99,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 91..98,\n                sym: \"toFixed\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 98..103,\n        callee: _,\n        args: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 84..103,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

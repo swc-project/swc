@@ -1,0 +1,51 @@
+{
+  "programs": [
+    "Program {\n    span: 17..304,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 17..228,\n        ident: Ident {\n            span: 27..28,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 35..97,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 36..63,\n                        name: Some(\n                            Ident {\n                                span: 36..40,\n                                sym: \"strs\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                    TsFnParam {\n                        span: 64..82,\n                        name: Some(\n                            Ident {\n                                span: 67..71,\n                                sym: \"subs\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: true,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 91..224,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 91..97,\n                            sym: \"member\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 225..239,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 225..234,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 236..304,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 236..302,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 229..230,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 240..241,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 242..302,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 256..257,\n        sym: \"f\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 258..273,\n        tag: _,\n        template: TemplateExpr {\n            span: 258..272,\n            quasis: [\n                StrLit {\n                    span: 258..272,\n                    value: \"abc${ 0 }def\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 272..280,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 273..279,\n                sym: \"member\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 280..287,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 279..289,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 289..291,\n            value: 42.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 288..296,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 252..296,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 248..296,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 244..296,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 297..301,\n            value: true,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 293..302,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 42..63,\n        name: Ident {\n            span: 42..63,\n            sym: \"TemplateStringsArray\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Array(\n    TsArrayType {\n        span: 73..82,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 84..86,\n        name: Ident {\n            span: 84..86,\n            sym: \"I\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Boolean,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 157..215,\n        members: [\n            TsTypeMember {\n                span: 175..205,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 126..221,\n        members: [\n            TsTypeMember {\n                span: 140..215,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 145..155,\n                        name: Some(\n                            Ident {\n                                span: 145..146,\n                                sym: \"n\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 99..222,\n        members: [\n            TsTypeMember {\n                span: 109..221,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 114..124,\n                        name: Some(\n                            Ident {\n                                span: 114..115,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ]
+}

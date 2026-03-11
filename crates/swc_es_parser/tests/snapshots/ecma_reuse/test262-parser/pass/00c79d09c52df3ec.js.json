@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 1..57,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 55..56,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..57,\n        head: In(\n            ForInHead {\n                left: Expr(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 8..9,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 10..11,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 9..13,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 18..19,\n        sym: \"e\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"g\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"h\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 28..31,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 30..33,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 31..32,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 34..35,\n            value: 1.0,\n        },\n    ),\n)",
+    "Paren(\n    ParenExpr {\n        span: 33..37,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 36..39,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 37..38,\n                sym: \"i\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 42..43,\n        sym: \"j\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 44..45,\n            value: 2.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 43..47,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 24..48,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: true,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 13..49,\n        props: [\n            KeyValueProp {\n                span: 14..16,\n                key: Ident(\n                    Ident {\n                        span: 14..15,\n                        sym: \"c\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 16..20,\n                key: Ident(\n                    Ident {\n                        span: 16..17,\n                        sym: \"d\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 20..48,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 5..52,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 53..54,\n            value: 3.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

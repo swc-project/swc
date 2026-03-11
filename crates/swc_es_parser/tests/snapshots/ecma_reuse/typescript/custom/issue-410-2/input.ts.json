@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 1..104,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..22,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 17..41,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 63..87,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 82..104,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 36..68,\n        ident: Ident {\n            span: 51..56,\n            sym: \"async\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 23..28,\n        sym: \"async\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 88..93,\n        sym: \"async\",\n    },\n)"
+  ],
+  "exprs": [
+    "Arrow(\n    ArrowExpr {\n        span: 7..16,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: true,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 23..35,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: true,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 69..78,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: true,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 79..80,\n        sym: \"x\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 63..81,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 88..100,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: true,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 101..102,\n        sym: \"x\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 82..103,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

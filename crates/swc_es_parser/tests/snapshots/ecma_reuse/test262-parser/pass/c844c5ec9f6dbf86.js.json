@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..23,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..23,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 5..8,\n            value: \"b\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 20..23,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 21..22,\n                sym: \"d\",\n            },\n        ),\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 12..23,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 9..23,\n        op: NotEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 3..23,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

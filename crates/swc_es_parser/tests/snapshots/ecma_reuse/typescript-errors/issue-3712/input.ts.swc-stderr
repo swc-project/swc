@@ -1,0 +1,30 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:7:1]
+ 6 | export const pageLayout = ()=>jsx(
+ 7 |         <>
+   :         ^
+ 8 |             < !doctype html >
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:8:1]
+ 7 |         <>
+ 8 |             < !doctype html >
+   :             ^
+ 9 |             <html lang='en-US' charSet='UTF-8'>
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected ,, got Ident
+   ,-[/swc_ecma_parser/tests/typescript-errors/issue-3712/input.ts:8:1]
+ 7 |         <>
+ 8 |             < !doctype html >
+   :                ^^^^^^^
+ 9 |             <html lang='en-US' charSet='UTF-8'>
+   `----
+
+Advice: 
+  > code: UnexpectedToken

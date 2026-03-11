@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 23..244,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 118..127,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 193..199,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsModule(\n    TsModuleDecl {\n        span: 23..119,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 30..31,\n                sym: \"B\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 121..178,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 128..129,\n                sym: \"A\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 196..224,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 196..220,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 221..244,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 221..241,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 200..201,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 225..226,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 227..241,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 233..234,\n        sym: \"B\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 234..237,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 235..236,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 236..239,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 237..238,\n                sym: \"C\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 238..241,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 229..241,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

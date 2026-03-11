@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 2..52,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 2..15,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2..11,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 12..27,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 12..23,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 24..38,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 24..32,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 34..52,\n        ident: Ident {\n            span: 39..42,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 6..10,\n        sym: \"type\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 16..22,\n        sym: \"string\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 28..31,\n        sym: \"Foo\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)"
+  ]
+}

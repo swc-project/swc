@@ -1,0 +1,67 @@
+{
+  "programs": [
+    "Program {\n    span: 75..317,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 114..148,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 143..245,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 252..265,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 260..273,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 299..310,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 306..317,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 75..119,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 75..90,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 242..257,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 242..257,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 270..303,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 270..303,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 79..84,\n        sym: \"Outer\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 85..90,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 246..251,\n        sym: \"inner\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 274..278,\n        sym: \"inno\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 279..303,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 87..90,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 114..119,\n        sym: \"Outer\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 119..127,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 120..125,\n                sym: \"Inner\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 126..148,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 143..148,\n        sym: \"Outer\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 148..155,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 149..154,\n                sym: \"Inner\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 154..166,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 155..164,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 176..177,\n            value: 1.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 167..245,\n        props: [\n            KeyValueProp {\n                span: 173..178,\n                key: Ident(\n                    Ident {\n                        span: 173..174,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 183..192,\n                key: Ident(\n                    Ident {\n                        span: 183..184,\n                        sym: \"m\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 165..245,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 252..257,\n        sym: \"inner\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 257..265,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 258..259,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 260..265,\n        sym: \"inner\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 265..268,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 266..267,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 267..273,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 285..290,\n        sym: \"Outer\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 290..297,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 291..296,\n                sym: \"Inner\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 296..303,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 281..303,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 299..303,\n        sym: \"inno\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 303..310,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 304..305,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 306..310,\n        sym: \"inno\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 310..313,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 311..312,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 312..317,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 128..148,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 183..192,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

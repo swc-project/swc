@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 1..45,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..45,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 7..8,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 6..10,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"d\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 13..17,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"e\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 20..24,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 28..31,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 33..34,\n        sym: \"d\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 34..37,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 39..40,\n        sym: \"e\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 40..44,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 2..45,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

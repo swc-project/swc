@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 1..102,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 31..44,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 38..46,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 45..63,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 54..70,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 64..72,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 71..87,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 80..94,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 88..96,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 95..101,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 100..102,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 31..37,\n        sym: \"public\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 38..44,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 45..46,\n        sym: \"f\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 46..49,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 54..63,\n        sym: \"protected\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..70,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 71..72,\n        sym: \"f\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 72..75,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..87,\n        sym: \"private\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 88..94,\n        sym: \"static\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 95..96,\n        sym: \"f\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 96..99,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

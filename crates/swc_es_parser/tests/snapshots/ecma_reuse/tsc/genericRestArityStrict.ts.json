@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 41..248,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 149..192,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 188..248,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 49..153,\n        ident: Ident {\n            span: 58..62,\n            sym: \"call\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 90..97,\n        sym: \"handler\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 129..133,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 126..134,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 155..156,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 166..167,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 194..195,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 205..206,\n        sym: \"y\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 149..153,\n        sym: \"call\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 180..181,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 184..185,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 182..186,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 154..186,\n        params: [\n            _,\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 153..187,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 188..192,\n        sym: \"call\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 219..220,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 223..224,\n        sym: \"y\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 221..225,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 193..225,\n        params: [\n            _,\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 226..227,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 229..230,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 232..233,\n            value: 3.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 235..236,\n            value: 4.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 238..239,\n            value: 5.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 241..242,\n            value: 6.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 244..245,\n            value: 7.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 192..247,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

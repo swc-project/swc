@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 58..131,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 74..95,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 116..131,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 58..75,\n        ident: Ident {\n            span: 67..68,\n            sym: \"F\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 90..117,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 90..115,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"f\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 98..115,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 74..75,\n        sym: \"F\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 76..82,\n            value: \"prop\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 75..85,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 86..87,\n            value: 3.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 84..88,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 116..117,\n        sym: \"f\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 118..124,\n            value: \"prop\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 117..127,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 128..129,\n            value: 3.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 126..130,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 100..115,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

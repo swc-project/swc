@@ -1,0 +1,10 @@
+  x expected {, got Keyword(Let)
+   ,-[/swc_ecma_parser/tests/errors/issue-8269/input.js:8:1]
+ 7 | {
+ 8 |     class let { }
+   :           ^^^
+ 9 | }
+   `----
+
+Advice: 
+  > code: UnexpectedToken

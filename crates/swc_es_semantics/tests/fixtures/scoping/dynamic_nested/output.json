@@ -1,0 +1,119 @@
+{
+  "scopes": [
+    {
+      "id": 0,
+      "kind": "Program",
+      "parent": null,
+      "enclosing_function": 0,
+      "parent_function": null,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        0
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "Function",
+      "parent": 0,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": true,
+      "symbols": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Function",
+      "parent": 1,
+      "enclosing_function": 2,
+      "parent_function": 1,
+      "has_dynamic_lookup": true,
+      "symbols": []
+    },
+    {
+      "id": 3,
+      "kind": "Block",
+      "parent": 1,
+      "enclosing_function": 1,
+      "parent_function": 0,
+      "has_dynamic_lookup": false,
+      "symbols": [
+        3
+      ]
+    }
+  ],
+  "symbols": [
+    {
+      "id": 0,
+      "kind": "Function",
+      "scope": 0,
+      "name": "outer",
+      "references": []
+    },
+    {
+      "id": 1,
+      "kind": "Param",
+      "scope": 1,
+      "name": "obj",
+      "references": [
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "Function",
+      "scope": 1,
+      "name": "inner",
+      "references": [
+        3
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "Let",
+      "scope": 3,
+      "name": "x",
+      "references": []
+    }
+  ],
+  "references": [
+    {
+      "id": 0,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 2,
+      "symbol": null,
+      "name": "eval",
+      "maybe_dynamic": true
+    },
+    {
+      "id": 1,
+      "kind": "Read",
+      "scope": 2,
+      "enclosing_function": 2,
+      "symbol": null,
+      "name": "x",
+      "maybe_dynamic": true
+    },
+    {
+      "id": 2,
+      "kind": "Read",
+      "scope": 1,
+      "enclosing_function": 1,
+      "symbol": 1,
+      "name": "obj",
+      "maybe_dynamic": true
+    },
+    {
+      "id": 3,
+      "kind": "Read",
+      "scope": 3,
+      "enclosing_function": 1,
+      "symbol": 2,
+      "name": "inner",
+      "maybe_dynamic": true
+    }
+  ]
+}

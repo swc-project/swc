@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 16..45,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 31..45,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 16..45,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Pat(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 37..45,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 37..43,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 41..42,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 27..28,\n            value: 0.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 26..30,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

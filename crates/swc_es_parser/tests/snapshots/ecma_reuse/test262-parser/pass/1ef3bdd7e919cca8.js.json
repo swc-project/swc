@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..30,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 17..30,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..30,\n        ident: Ident {\n            span: 11..12,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"b\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 18..21,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 19..20,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 21..27,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 20..28,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

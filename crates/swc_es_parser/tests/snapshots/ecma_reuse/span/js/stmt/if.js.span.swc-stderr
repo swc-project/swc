@@ -1,0 +1,43 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
+ 1 | ,-> if (true) {
+ 2 | |       foo()
+ 3 | `-> }
+   `----
+  x IfStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
+ 1 | ,-> if (true) {
+ 2 | |       foo()
+ 3 | `-> }
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+   :     ^^^^
+ 2 |     foo()
+   `----
+  x BlockStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:1:1]
+ 1 | ,-> if (true) {
+ 2 | |       foo()
+ 3 | `-> }
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:2:1]
+ 1 |     if (true) {
+ 2 | ,->     foo()
+ 3 | `-> }
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:2:1]
+ 1 |     if (true) {
+ 2 | ,->     foo()
+ 3 | `-> }
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/stmt/if.js:2:1]
+ 1 | if (true) {
+ 2 |     foo()
+   :     ^^^
+ 3 | }
+   `----

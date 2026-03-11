@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 1..89,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 26..36,\n        expr: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 31..44,\n        label: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 50..60,\n        expr: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 55..68,\n        label: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 76..86,\n        expr: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 81..89,\n        label: None,\n    },\n)",
+    "Switch(\n    SwitchStmt {\n        span: 1..89,\n        discriminant: _,\n        cases: [\n            SwitchCase {\n                span: 18..44,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                    _,\n                ],\n            },\n            SwitchCase {\n                span: 40..68,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                    _,\n                ],\n            },\n            SwitchCase {\n                span: 64..89,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                    _,\n                ],\n            },\n        ],\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 9..10,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 11..12,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 10..13,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 23..24,\n            value: 3.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 27..30,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 45..46,\n            value: 4.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 47..48,\n            value: 5.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 46..49,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 51..54,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 69..70,\n            value: 6.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 71..72,\n            value: 7.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 70..73,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 73..74,\n            value: 8.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 72..75,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 76..77,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 77..80,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,64 @@
+{
+  "programs": [
+    "Program {\n    span: 115..657,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 115..216,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 215..314,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 313..423,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 422..542,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 541..657,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 121..148,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 121..138,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 196..214,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 196..212,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 221..248,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 221..238,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 294..312,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 294..310,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 319..350,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 319..340,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 399..421,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 399..419,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 428..455,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 428..445,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 518..540,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 518..538,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 547..574,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 547..564,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 635..657,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 635..655,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 125..126,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 202..204,\n        sym: \"bb\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 225..226,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 300..302,\n        sym: \"bb\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 323..324,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 405..407,\n        sym: \"bb\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 432..433,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 524..526,\n        sym: \"bb\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 551..552,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 641..643,\n        sym: \"bb\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 136..137,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 210..211,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 236..237,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 308..309,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 338..339,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 417..418,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 443..444,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 536..537,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 562..563,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 653..654,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

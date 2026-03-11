@@ -1,0 +1,62 @@
+{
+  "programs": [
+    "Program {\n    span: 17..230,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 36..63,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 36..55,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 60..87,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 60..79,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 84..112,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 84..102,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 107..146,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 107..136,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 141..180,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 141..170,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 175..229,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 175..227,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 17..230,\n        ident: Ident {\n            span: 26..27,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"n\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 64..65,\n        sym: \"m\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 88..89,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 113..115,\n        sym: \"o1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 116..136,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 147..149,\n        sym: \"o2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 150..170,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 181..183,\n        sym: \"o3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 184..227,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 52..54,\n            value: 12.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 76..78,\n            value: 13.0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 97..101,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 123..126,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 128..129,\n        sym: \"n\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 132..133,\n        sym: \"n\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 118..136,\n        props: [\n            KeyValueProp {\n                span: 120..126,\n                key: Ident(\n                    Ident {\n                        span: 120..120,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 127..135,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 157..160,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 162..163,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 166..167,\n        sym: \"n\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 152..170,\n        props: [\n            KeyValueProp {\n                span: 154..160,\n                key: Ident(\n                    Ident {\n                        span: 154..154,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 161..169,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 189..190,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 193..194,\n        sym: \"n\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 199..202,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 204..205,\n        sym: \"n\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 208..209,\n        sym: \"n\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 214..217,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 219..220,\n        sym: \"m\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 223..224,\n        sym: \"m\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 186..227,\n        props: [\n            KeyValueProp {\n                span: 188..195,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 196..202,\n                key: Ident(\n                    Ident {\n                        span: 196..196,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 203..210,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 211..217,\n                key: Ident(\n                    Ident {\n                        span: 211..211,\n                        sym: \"__spread__\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 218..226,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 1..112,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 58..66,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 65..77,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 98..106,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 105..112,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..36,\n        ident: Ident {\n            span: 11..12,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..30,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 33..46,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 33..42,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 43..59,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 43..57,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 74..99,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 74..99,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 37..38,\n        sym: \"i\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 47..48,\n        sym: \"o\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 58..59,\n        sym: \"o\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 65..66,\n        sym: \"i\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 98..99,\n        sym: \"o\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"i\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 60..64,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..70,\n        sym: \"o\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 67..71,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 102..103,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 100..104,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 109..110,\n        sym: \"o\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 107..111,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Void,\n)"
+  ]
+}

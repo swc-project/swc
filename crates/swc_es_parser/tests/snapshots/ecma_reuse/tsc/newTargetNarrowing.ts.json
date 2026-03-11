@@ -1,0 +1,41 @@
+{
+  "programs": [
+    "Program {\n    span: 35..165,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 117..144,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 111..146,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 79..146,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 148..165,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 35..70,\n        ident: Ident {\n            span: 44..47,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 62..149,\n        ident: Ident {\n            span: 71..72,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"x\",\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "MetaProp(\n    MetaPropExpr {\n        span: 83..94,\n        kind: NewTarget,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 93..104,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 94..100,\n                sym: \"marked\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 105..109,\n            value: true,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 101..110,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 117..120,\n        sym: \"foo\",\n    },\n)",
+    "MetaProp(\n    MetaPropExpr {\n        span: 121..132,\n        kind: NewTarget,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 131..139,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 132..138,\n                sym: \"marked\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 120..140,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"f\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 149..158,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 150..156,\n                sym: \"marked\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 159..163,\n            value: true,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 157..164,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

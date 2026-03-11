@@ -1,0 +1,81 @@
+{
+  "programs": [
+    "Program {\n    span: 193..946,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 223..245,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 323..338,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 416..437,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 515..536,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 741..756,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 830..851,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 925..946,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 193..292,\n        ident: Ident {\n            span: 202..214,\n            sym: \"testPromise1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 287..343,\n        ident: Ident {\n            span: 302..314,\n            sym: \"testPromise2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 340..482,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 340..482,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 479..649,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 479..649,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 641..712,\n        ident: Ident {\n            span: 650..660,\n            sym: \"testNever1\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 707..761,\n        ident: Ident {\n            span: 722..732,\n            sym: \"testNever2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 758..894,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 758..894,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 891..946,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 891..946,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 344..356,\n        sym: \"testPromise3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 357..482,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 483..495,\n        sym: \"testPromise4\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 496..649,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 762..772,\n        sym: \"testNever3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 773..894,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 895..905,\n        sym: \"testNever4\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 906..946,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 223..230,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 230..235,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 231..234,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 235..241,\n            value: \"Nope\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 234..243,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 330..335,\n            value: \"asd\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 416..423,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 423..428,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 424..427,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 428..434,\n            value: \"test\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 427..437,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 515..522,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 522..527,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 523..526,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 527..533,\n            value: \"test\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 526..536,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 748..753,\n            value: \"asd\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 830..837,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 837..842,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 838..841,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 842..848,\n            value: \"test\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 841..851,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 925..932,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 932..937,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 933..936,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 937..943,\n            value: \"test\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 936..946,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Function(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 399..482,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 498..649,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 813..894,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 908..946,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 1..200,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..61,\n        ident: Ident {\n            span: 6..13,\n            sym: \"Movable\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 56..200,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 56..199,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 62..65,\n        sym: \"car\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 66..199,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Function(\n    _,\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 68..164,\n        props: [\n            KeyValueProp {\n                span: 74..86,\n                key: Ident(\n                    Ident {\n                        span: 74..79,\n                        sym: \"start\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 91..137,\n                key: Ident(\n                    Ident {\n                        span: 91..95,\n                        sym: \"move\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 142..154,\n                key: Ident(\n                    Ident {\n                        span: 142..146,\n                        sym: \"stop\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 155..199,\n        expr: _,\n        ty: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 74..86,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 91..137,\n    params: [\n        Param {\n            span: 96..98,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 142..154,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Void,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 16..54,\n        members: [\n            TsTypeMember {\n                span: 22..53,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 22..26,\n                            sym: \"move\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 27..44,\n                        name: Some(\n                            Ident {\n                                span: 27..35,\n                                sym: \"distance\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 165..174,\n        name: Ident {\n            span: 165..174,\n            sym: \"Movable\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Unknown,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 175..199,\n        name: Ident {\n            span: 175..182,\n            sym: \"Record\",\n        },\n        type_args: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 165..199,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

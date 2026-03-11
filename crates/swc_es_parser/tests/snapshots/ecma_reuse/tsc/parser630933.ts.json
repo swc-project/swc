@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..52,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..21,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..17,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 18..52,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 18..51,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..17,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 22..23,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 24..51,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 9..16,\n            value: \"Hello\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 27..34,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 28..33,\n                sym: \"match\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 34..49,\n            exp: \"\\\\/ver=([^/]+)\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 33..51,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

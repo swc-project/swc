@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 51..168,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 51..94,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 51..90,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 91..130,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..126,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 127..168,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 127..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 55..59,\n        sym: \"foge\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 60..90,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 95..102,\n        sym: \"species\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 103..126,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 131..140,\n        sym: \"stringTag\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 141..168,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 66..83,\n        sym: \"SharedArrayBuffer\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 84..88,\n            value: 1024.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 83..90,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 62..90,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 105..109,\n        sym: \"foge\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 110..116,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 116..125,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 117..124,\n                sym: \"species\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 109..126,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 143..147,\n        sym: \"foge\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..154,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 154..167,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 155..166,\n                sym: \"toStringTag\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 147..168,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

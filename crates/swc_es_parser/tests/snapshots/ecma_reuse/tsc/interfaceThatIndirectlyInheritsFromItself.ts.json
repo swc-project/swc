@@ -1,0 +1,38 @@
+{
+  "programs": [
+    "Program {\n    span: 1..406,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..71,\n        ident: Ident {\n            span: 11..15,\n            sym: \"Base\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 24..34,\n                sym: \"Derived2\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 48..60,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 48..49,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 62..122,\n        ident: Ident {\n            span: 72..79,\n            sym: \"Derived\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 88..94,\n                sym: \"Base\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 99..111,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 99..100,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 113..174,\n        ident: Ident {\n            span: 123..131,\n            sym: \"Derived2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 140..149,\n                sym: \"Derived\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 154..166,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 154..155,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 189..277,\n        ident: Ident {\n            span: 199..203,\n            sym: \"Base\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 204..205,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 215..224,\n                sym: \"Derived2\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 246..262,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 246..247,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 268..346,\n        ident: Ident {\n            span: 278..285,\n            sym: \"Derived\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 286..287,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 297..302,\n                sym: \"Base\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 315..331,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 315..316,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 337..406,\n        ident: Ident {\n            span: 347..355,\n            sym: \"Derived2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 356..357,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 367..375,\n                sym: \"Derived\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 388..404,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 388..389,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 168..406,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 175..182,\n                sym: \"Generic\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)"
+  ]
+}

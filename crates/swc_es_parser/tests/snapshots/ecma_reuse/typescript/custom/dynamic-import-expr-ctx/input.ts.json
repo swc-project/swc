@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 1..83,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 59..82,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..45,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..35,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 37..83,\n        ident: Ident {\n            span: 46..50,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..11,\n        sym: \"test\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 12..35,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 14..20,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 21..26,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 20..28,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 27..33,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 28..32,\n                sym: \"from\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 32..35,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 59..65,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 66..71,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 65..73,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 72..78,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 73..77,\n                sym: \"from\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 77..80,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

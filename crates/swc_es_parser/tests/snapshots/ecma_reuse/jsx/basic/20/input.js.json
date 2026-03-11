@@ -1,0 +1,24 @@
+{
+  "programs": [
+    "Program {\n    span: 1..53,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..53,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 38..40,\n        sym: \"aa\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 40..43,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 41..42,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "JSXElement(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 32..50,\n    opening: JSXOpeningElement {\n        span: 32..50,\n        name: Ident(\n            Ident {\n                span: 33..37,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Expr(\n            _,\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 45..49,\n                sym: \"div\",\n            },\n        ),\n    ),\n}",
+    "JSXElement {\n    span: 1..53,\n    opening: JSXOpeningElement {\n        span: 1..53,\n        name: Ident(\n            Ident {\n                span: 2..6,\n                sym: \"A\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 4..20,\n                name: \"aa\",\n                value: Some(\n                    _,\n                ),\n            },\n            JSXAttr {\n                span: 18..32,\n                name: \"bb\",\n                value: Some(\n                    _,\n                ),\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Element(\n            _,\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 51..53,\n                sym: \"A\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}

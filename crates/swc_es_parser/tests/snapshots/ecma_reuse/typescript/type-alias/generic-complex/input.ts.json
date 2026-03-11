@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..54,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..54,\n        ident: Ident {\n            span: 6..7,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 8..9,\n                sym: \"U\",\n            },\n        ],\n        ty: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 50..52,\n        name: Ident {\n            span: 50..52,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 44..53,\n        name: Ident {\n            span: 44..50,\n            sym: \"Array\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)"
+  ]
+}

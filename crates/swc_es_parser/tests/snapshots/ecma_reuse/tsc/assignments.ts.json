@@ -1,0 +1,71 @@
+{
+  "programs": [
+    "Program {\n    span: 189..497,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 202..227,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 234..258,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 267..287,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 286..357,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 367..401,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 405..430,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 444..461,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 479..497,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsModule(\n    TsModuleDecl {\n        span: 189..203,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 196..197,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 222..235,\n        ident: Ident {\n            span: 228..229,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 254..268,\n        ident: Ident {\n            span: 259..260,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 263..266,\n                name: Ident(\n                    Ident {\n                        span: 263..264,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 349..369,\n        ident: Ident {\n            span: 358..360,\n            sym: \"fn\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 398..406,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 398..404,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 422..472,\n        ident: Ident {\n            span: 431..434,\n            sym: \"fn2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 463..480,\n        ident: Ident {\n            span: 473..474,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 202..203,\n        sym: \"M\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 234..235,\n        sym: \"C\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 267..268,\n        sym: \"E\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 367..369,\n        sym: \"fn\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 402..403,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 405..406,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 435..436,\n        sym: \"p\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 444..445,\n        sym: \"p\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 479..480,\n        sym: \"I\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 206..210,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 204..211,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 238..242,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 236..243,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 271..275,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 269..276,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 286..287,\n        sym: \"E\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 287..291,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 288..289,\n                sym: \"A\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 292..296,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 290..297,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 372..376,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 370..377,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 409..413,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 407..414,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 448..452,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 446..453,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 483..487,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 481..488,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 222..235,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 228..229,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

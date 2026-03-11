@@ -1,0 +1,44 @@
+{
+  "programs": [
+    "Program {\n    span: 16..181,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 60..75,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 110..128,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 178..181,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 144..181,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 16..135,\n        ident: Ident {\n            span: 22..36,\n            sym: \"StringIterator\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 132..147,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 132..143,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 149..157,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 149..157,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 136..137,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 153..154,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 67..68,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 81..87,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 87..97,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 88..96,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 117..121,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 162..176,\n        sym: \"StringIterator\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 158..177,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 43..81,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 80..130,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 16..135,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 22..36,\n            sym: \"StringIterator\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 43..81,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 43..47,\n                sym: \"next\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 80..130,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

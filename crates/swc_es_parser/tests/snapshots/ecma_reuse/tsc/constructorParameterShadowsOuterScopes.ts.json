@@ -1,0 +1,57 @@
+{
+  "programs": [
+    "Program {\n    span: 403..730,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 536..570,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 403..419,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 403..413,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 414..581,\n        ident: Ident {\n            span: 420..421,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 578..594,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 578..588,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 711..728,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 711..722,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 589..730,\n        ident: Ident {\n            span: 595..596,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 407..408,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 409..413,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 515..516,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 536..537,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 582..583,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 584..588,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 690..691,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 715..716,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 717..722,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 411..412,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 432..433,\n        sym: \"x\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 540..541,\n            value: 2.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 538..542,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 586..587,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 607..608,\n        sym: \"y\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 719..721,\n            value: \"\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 503..576,\n    params: [\n        Param {\n            span: 515..525,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 678..730,\n    params: [\n        Param {\n            span: 690..700,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 414..581,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 420..421,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 589..730,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 595..596,\n            sym: \"D\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 428..514,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 428..429,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 503..576,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 503..514,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 603..689,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 603..604,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 678..730,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 678..689,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

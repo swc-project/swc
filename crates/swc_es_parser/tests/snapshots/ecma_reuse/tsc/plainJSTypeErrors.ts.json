@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 107..163,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 122..148,\n        stmts: [],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 107..148,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 160..163,\n        stmts: [],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 146..163,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 111..117,\n        props: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 118..121,\n        props: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 114..121,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 150..155,\n        props: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 156..159,\n        props: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 153..159,\n        op: EqEq,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

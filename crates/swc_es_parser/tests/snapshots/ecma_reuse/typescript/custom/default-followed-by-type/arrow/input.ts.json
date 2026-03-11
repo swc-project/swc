@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 1..98,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 63..97,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..98,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..98,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 10..18,\n        sym: \"greeting\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 27..37,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 38..44,\n        sym: \"target\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..98,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 29..36,\n            value: \"Hello\",\n        },\n    ),\n)",
+    "Template(\n    TemplateExpr {\n        span: 70..94,\n        quasis: [\n            StrLit {\n                span: 70..94,\n                value: \"${greeting} ${target}!\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 9..98,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

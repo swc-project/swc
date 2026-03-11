@@ -1,0 +1,21 @@
+{
+  "programs": [
+    "Program {\n    span: 1..15,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Block(\n    BlockStmt {\n        span: 10..14,\n        stmts: [],\n    },\n)",
+    "With(\n    WithStmt {\n        span: 1..14,\n        obj: _,\n        body: _,\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 13..14,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 6..9,\n        props: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

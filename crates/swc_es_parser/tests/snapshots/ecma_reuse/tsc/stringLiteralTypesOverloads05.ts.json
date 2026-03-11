@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 24..360,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 55..56,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 341..360,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 24..56,\n        ident: Ident {\n            span: 34..40,\n            sym: \"Animal\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 43..55,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 43..49,\n                            sym: \"animal\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 57..107,\n        ident: Ident {\n            span: 67..70,\n            sym: \"Dog\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 79..87,\n                sym: \"Animal\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 88..97,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 88..91,\n                            sym: \"dog\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 98..148,\n        ident: Ident {\n            span: 108..111,\n            sym: \"Cat\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 120..128,\n                sym: \"Animal\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 129..138,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 129..132,\n                            sym: \"cat\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 139..193,\n        ident: Ident {\n            span: 149..154,\n            sym: \"Moose\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 163..171,\n                sym: \"Animal\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 172..183,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 172..177,\n                            sym: \"moose\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 185..226,\n        ident: Ident {\n            span: 194..201,\n            sym: \"doThing\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 218..259,\n        ident: Ident {\n            span: 227..234,\n            sym: \"doThing\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 251..296,\n        ident: Ident {\n            span: 260..267,\n            sym: \"doThing\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 288..360,\n        ident: Ident {\n            span: 297..304,\n            sym: \"doThing\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 202..203,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 235..236,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 268..269,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 305..306,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 316..317,\n        sym: \"y\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 348..357,\n        sym: \"undefined\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeLit(\n    TsTypeLit {\n        span: 51..55,\n        members: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 93..97,\n        members: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 134..138,\n        members: [],\n    },\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 179..183,\n        members: [],\n    },\n)"
+  ]
+}

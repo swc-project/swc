@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 20..72,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 61..69,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 68..72,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 55..72,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 20..72,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 25..46,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 25..46,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 30..31,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 32..36,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 37..38,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 39..43,\n        left: _,\n        right: _,\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 29..46,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 34..35,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 41..42,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 48..49,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 51..52,\n            value: 3.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 47..54,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..69,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 18..158,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 46..64,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 94..112,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 142..158,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 18..71,\n        ident: Ident {\n            span: 33..37,\n            sym: \"bar1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 66..119,\n        ident: Ident {\n            span: 81..85,\n            sym: \"bar2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 114..158,\n        ident: Ident {\n            span: 129..133,\n            sym: \"bar3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 59..61,\n            value: 42.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 53..62,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 46..62,\n        op: Delete,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 107..109,\n            value: 42.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 101..110,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 94..110,\n        op: Delete,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 153..155,\n            value: 42.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 147..156,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 142..156,\n        op: Void,\n        arg: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

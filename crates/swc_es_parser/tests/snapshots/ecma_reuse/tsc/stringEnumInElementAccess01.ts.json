@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 25..236,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsEnum(\n    TsEnumDecl {\n        span: 25..85,\n        ident: Ident {\n            span: 30..31,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 38..46,\n                name: Ident(\n                    Ident {\n                        span: 38..39,\n                        sym: \"A\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 51..59,\n                name: Ident(\n                    Ident {\n                        span: 51..52,\n                        sym: \"B\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 64..72,\n                name: Ident(\n                    Ident {\n                        span: 64..65,\n                        sym: \"C\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 76..149,\n        ident: Ident {\n            span: 86..90,\n            sym: \"Item\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 97..113,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 97..98,\n                            sym: \"a\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 112..128,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 112..113,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 127..140,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 127..128,\n                            sym: \"c\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 150..175,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 150..167,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 176..193,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 176..187,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 188..236,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 188..235,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 156..160,\n        sym: \"item\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 182..183,\n        sym: \"e\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 194..197,\n        sym: \"snb\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 42..45,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 55..58,\n            value: \"b\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 68..71,\n            value: \"c\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 227..231,\n        sym: \"item\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 232..233,\n        sym: \"e\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 231..235,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Boolean,\n)"
+  ]
+}

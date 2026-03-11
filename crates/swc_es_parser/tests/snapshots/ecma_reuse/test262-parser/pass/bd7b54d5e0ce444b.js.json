@@ -1,0 +1,50 @@
+{
+  "programs": [
+    "Program {\n    span: 1..317,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Break(\n    BreakStmt {\n        span: 51..84,\n        label: Some(\n            Ident {\n                span: 57..58,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 44..84,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 107..130,\n        label: Some(\n            Ident {\n                span: 113..114,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 100..130,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 135..158,\n        label: Some(\n            Ident {\n                span: 141..142,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 128..158,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 163..181,\n        label: Some(\n            Ident {\n                span: 169..170,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 156..181,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 86..206,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 83..206,\n        label: Ident {\n            span: 83..84,\n            sym: \"c\",\n        },\n        body: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 229..252,\n        label: Some(\n            Ident {\n                span: 235..236,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 222..252,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 257..280,\n        label: Some(\n            Ident {\n                span: 263..264,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 250..280,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 285..303,\n        label: Some(\n            Ident {\n                span: 291..292,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "If(\n    IfStmt {\n        span: 278..303,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 208..310,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 205..310,\n        label: Ident {\n            span: 205..206,\n            sym: \"c\",\n        },\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 34..312,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 31..312,\n        label: Ident {\n            span: 31..32,\n            sym: \"b\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1..317,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 48..49,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 104..105,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 132..133,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 160..161,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 226..227,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 254..255,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 282..283,\n        sym: \"a\",\n    },\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 312..315,\n        callee: _,\n        args: [],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..316,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 2..313,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

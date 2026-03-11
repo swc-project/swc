@@ -1,0 +1,51 @@
+{
+  "programs": [
+    "Program {\n    span: 1..245,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 158..245,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 27..168,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 27..88,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 27..145,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 27..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..245,\n        ident: Ident {\n            span: 10..18,\n            sym: \"runTests\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 31..38,\n        sym: \"outfile\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 39..88,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 89..95,\n        sym: \"outerr\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 96..145,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 146..154,\n        sym: \"compiler\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 155..168,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 45..52,\n        sym: \"Harness\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 52..62,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 53..61,\n                sym: \"Compiler\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 61..79,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 62..78,\n                sym: \"WriterAggregator\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 78..88,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 41..88,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 102..109,\n        sym: \"Harness\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 109..119,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 110..118,\n                sym: \"Compiler\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 118..136,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 119..135,\n                sym: \"WriterAggregator\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 135..145,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 98..145,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 158..168,\n        sym: \"TypeScript\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 168..188,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 169..187,\n                sym: \"TypeScriptCompiler\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 192..202,\n        sym: \"TypeScript\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 202..222,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 203..221,\n                sym: \"TypeScriptCompiler\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 222..228,\n        sym: \"outerr\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 221..237,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 188..237,\n        callee: _,\n        args: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 187..237,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 238..242,\n        sym: \"code\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 158..243,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

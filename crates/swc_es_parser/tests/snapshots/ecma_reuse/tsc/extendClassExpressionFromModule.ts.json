@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 44..159,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 44..61,\n        ident: Ident {\n            span: 50..51,\n            sym: \"x\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 124..143,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 124..137,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 138..159,\n        ident: Ident {\n            span: 144..145,\n            sym: \"y\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 128..129,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 130..137,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 132..136,\n        sym: \"foo1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 154..155,\n        sym: \"x\",\n    },\n)"
+  ],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 91..127,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 98..102,\n                        sym: \"foo1\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 44..61,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 50..51,\n            sym: \"x\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 138..159,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 144..145,\n            sym: \"y\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,18 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/typescript-errors/esDecorators/classDeclaration/esDecorators-classDeclaration-exportModifier/file7.ts:4:1]
+ 3 | // error
+ 4 | @dec export default @dec class C7 {}
+   :                     ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x decorators can only be applied to class declarations
+   ,-[/swc_ecma_parser/tests/typescript-errors/esDecorators/classDeclaration/esDecorators-classDeclaration-exportModifier/file7.ts:4:1]
+ 3 | // error
+ 4 | @dec export default @dec class C7 {}
+   :      ^^^^^^^^^^^^^^^^^^^
+   `----
+
+Advice: 
+  > code: InvalidStatement

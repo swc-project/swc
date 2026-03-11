@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 114..179,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 157..177,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 121..179,\n        ident: Ident {\n            span: 127..128,\n            sym: \"Z\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 137..138,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 139..143,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 144..145,\n        sym: \"y\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 141..142,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 165..166,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 168..169,\n        sym: \"y\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 164..171,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 114..179,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 135..179,\n    params: [\n        Param {\n            span: 137..143,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 144..146,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 121..179,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 127..128,\n            sym: \"Z\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 135..179,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 135..136,\n                sym: \"f\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

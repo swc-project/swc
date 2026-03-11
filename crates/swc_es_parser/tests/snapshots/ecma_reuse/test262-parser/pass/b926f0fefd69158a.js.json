@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..50,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 22..32,\n        expr: _,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 27..41,\n        label: None,\n    },\n)",
+    "Break(\n    BreakStmt {\n        span: 43..50,\n        label: None,\n    },\n)",
+    "Switch(\n    SwitchStmt {\n        span: 1..50,\n        discriminant: _,\n        cases: [\n            SwitchCase {\n                span: 14..41,\n                test: Some(\n                    _,\n                ),\n                cons: [\n                    _,\n                    _,\n                ],\n            },\n            SwitchCase {\n                span: 34..50,\n                test: None,\n                cons: [\n                    _,\n                ],\n            },\n        ],\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 9..10,\n        sym: \"a\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 19..20,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 22..23,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 23..26,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

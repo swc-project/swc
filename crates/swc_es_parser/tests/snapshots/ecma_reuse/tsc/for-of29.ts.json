@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 16..147,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 95..102,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 143..147,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 99..147,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 104..112,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 104..112,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 108..109,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 113..141,\n        sym: \"iterableWithOptionalIterator\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

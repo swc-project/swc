@@ -1,0 +1,16 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/9fdb9877fcc446e2.js:1:1]
+ 1 | if (b,...a, );
+   :       ^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected ), got Ident
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/9fdb9877fcc446e2.js:1:1]
+ 1 | if (b,...a, );
+   :          ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

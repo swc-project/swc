@@ -1,0 +1,64 @@
+{
+  "programs": [
+    "Program {\n    span: 1..278,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 164..184,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 182..204,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 197..225,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 217..258,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 250..270,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 262..278,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 9..43,\n        ident: Ident {\n            span: 18..20,\n            sym: \"fn\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 44..91,\n        ident: Ident {\n            span: 53..60,\n            sym: \"takeTwo\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 92..149,\n        ident: Ident {\n            span: 101..109,\n            sym: \"withRest\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 146..166,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 146..162,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..70,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 110..111,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 121..125,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 118..126,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 150..151,\n        sym: \"n\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 164..166,\n        sym: \"fn\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 167..168,\n            value: 1.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 166..184,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 182..184,\n        sym: \"fn\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 185..186,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 188..189,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 191..192,\n            value: 3.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 194..195,\n            value: 4.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 184..204,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 197..204,\n        sym: \"takeTwo\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 205..206,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 208..209,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 211..212,\n            value: 3.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 214..215,\n            value: 4.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 204..225,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 217..225,\n        sym: \"withRest\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 226..229,\n            value: \"a\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 234..235,\n        sym: \"n\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 225..237,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 250..258,\n        sym: \"withRest\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 258..261,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 262..270,\n        sym: \"withRest\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 274..275,\n        sym: \"n\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 270..277,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: true,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

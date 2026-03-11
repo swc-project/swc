@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..82,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..82,\n        ident: Ident {\n            span: 11..12,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..68,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 19..22,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 23..58,\n                        name: Some(\n                            Ident {\n                                span: 23..31,\n                                sym: \"callback\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 66..82,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 66..68,\n                            sym: \"is\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Keyword(\n    Void,\n)",
+    "Fn(\n    TsFnType {\n        span: 33..58,\n        params: [\n            TsFnParam {\n                span: 34..41,\n                name: Some(\n                    Ident {\n                        span: 34..35,\n                        sym: \"a\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n            TsFnParam {\n                span: 42..49,\n                name: Some(\n                    Ident {\n                        span: 42..43,\n                        sym: \"b\",\n                    },\n                ),\n                ty: Some(\n                    _,\n                ),\n                is_rest: false,\n                optional: false,\n            },\n        ],\n        return_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 60..68,\n        name: Ident {\n            span: 60..68,\n            sym: \"I\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Boolean,\n)"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "programs": [
+    "Program {\n    span: 1..93,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 37..57,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 54..78,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 75..93,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..16,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..12,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 13..28,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 13..24,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 25..40,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 25..36,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 17..18,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"c\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 41..42,\n        sym: \"a\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 37..45,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 46..47,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 51..52,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 48..53,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 43..53,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 58..59,\n        sym: \"a\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 54..62,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 67..68,\n        sym: \"b\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 63..71,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 72..73,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 69..74,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 60..74,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..81,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 85..86,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 90..91,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 87..92,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 82..92,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 79..93,\n        expr: _,\n    },\n)",
+    "New(\n    NewExpr {\n        span: 75..93,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,74 @@
+{
+  "programs": [
+    "Program {\n    span: 35..428,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 107..118,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 256..275,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 274..301,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 300..328,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 327..354,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 353..379,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 378..405,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 404..428,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 35..229,\n        ident: Ident {\n            span: 41..42,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 226..257,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 226..249,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 137..142,\n        sym: \"value\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 230..231,\n        sym: \"k\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 256..257,\n        sym: \"k\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 274..275,\n        sym: \"k\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 300..301,\n        sym: \"k\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 327..328,\n        sym: \"k\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 353..354,\n        sym: \"k\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 378..379,\n        sym: \"k\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 404..405,\n        sym: \"k\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 61..62,\n            value: 3.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 114..115,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 167..168,\n            value: 3.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 180..181,\n            value: 3.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 243..248,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 260..265,\n            value: \"baz\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 258..266,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 278..289,\n            value: \"#fooField\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 276..290,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 304..316,\n            value: \"#fooMethod\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 302..317,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 331..341,\n            value: \"#fooProp\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 329..342,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 357..367,\n            value: \"fooField\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 355..368,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 382..393,\n            value: \"fooMethod\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 380..394,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 408..417,\n            value: \"fooProp\",\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 406..418,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 68..85,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 94..119,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 128..156,\n    params: [\n        Param {\n            span: 137..151,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 35..229,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 41..42,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 49..69,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 49..58,\n                sym: \"#fooField\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 68..85,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 68..78,\n                sym: \"#fooMethod\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 90..95,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 90..93,\n                sym: \"get\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 94..119,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 94..102,\n                sym: \"#fooProp\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 124..129,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 124..127,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 128..156,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 128..136,\n                sym: \"#fooProp\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 161..177,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 161..164,\n                sym: \"bar\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 174..184,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 174..177,\n                sym: \"baz\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

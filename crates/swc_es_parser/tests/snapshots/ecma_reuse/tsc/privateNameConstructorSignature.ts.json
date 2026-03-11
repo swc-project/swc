@@ -1,0 +1,63 @@
+{
+  "programs": [
+    "Program {\n    span: 21..228,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 98..128,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 177..193,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 21..57,\n        ident: Ident {\n            span: 31..32,\n            sym: \"D\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 39..51,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 39..40,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 123..155,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 123..141,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 150..178,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 150..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 52..205,\n        ident: Ident {\n            span: 58..59,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 196..228,\n        ident: Ident {\n            span: 206..207,\n            sym: \"C\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 214..226,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 129..130,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 131..141,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 156..157,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 158..168,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 102..103,\n        sym: \"C\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 103..106,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 105..110,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 106..108,\n                sym: \"#x\",\n            },\n        ),\n    },\n)",
+    "New(\n    NewExpr {\n        span: 98..110,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 111..113,\n            value: 10.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 109..114,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..138,\n        sym: \"C\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 138..141,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 133..141,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 164..165,\n        sym: \"y\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 165..168,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 160..168,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 177..178,\n        sym: \"z\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 178..182,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 179..180,\n                sym: \"x\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 183..186,\n            value: 123.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 181..187,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 74..195,\n    params: [],\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 52..205,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 58..59,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 66..80,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 66..68,\n                sym: \"#x\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 74..195,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 81..85,\n                sym: \"test\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 222..224,\n        name: Ident {\n            span: 222..224,\n            sym: \"D\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

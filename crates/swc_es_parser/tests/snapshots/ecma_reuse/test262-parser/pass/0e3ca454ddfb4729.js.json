@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..22,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 21..22,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..22,\n        head: In(\n            ForInHead {\n                left: Expr(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 8..9,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 13..14,\n        sym: \"c\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 10..15,\n        op: In,\n        left: _,\n        right: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 7..18,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"d\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,51 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+ 1 | ,-> use(/a/g)
+ 2 | `-> use(/[a-zA-Z0-9]+/g)
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+ 1 | ,-> use(/a/g)
+ 2 | `-> use(/[a-zA-Z0-9]+/g)
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+ 1 | ,-> use(/a/g)
+ 2 | `-> use(/[a-zA-Z0-9]+/g)
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+ 1 | use(/a/g)
+   : ^^^
+ 2 | use(/[a-zA-Z0-9]+/g)
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/regex.js:1:1]
+ 1 | use(/a/g)
+   :     ^^^^
+ 2 | use(/[a-zA-Z0-9]+/g)
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
+ 1 | use(/a/g)
+ 2 | use(/[a-zA-Z0-9]+/g)
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
+ 1 | use(/a/g)
+ 2 | use(/[a-zA-Z0-9]+/g)
+   :    ^^^^^^^^^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
+ 1 | use(/a/g)
+ 2 | use(/[a-zA-Z0-9]+/g)
+   : ^^^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/regex.js:2:1]
+ 1 | use(/a/g)
+ 2 | use(/[a-zA-Z0-9]+/g)
+   :     ^^^^^^^^^^^^^^^
+   `----

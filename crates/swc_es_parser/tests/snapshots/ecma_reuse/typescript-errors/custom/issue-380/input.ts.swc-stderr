@@ -1,0 +1,20 @@
+  x unexpected token while parsing expression
+   ,-[/swc_ecma_parser/tests/typescript-errors/custom/issue-380/input.ts:3:1]
+ 2 |     componentDidMount() {
+ 3 |         import(../foo/bar)
+   :                ^
+ 4 |             .then(bar => {
+   `----
+
+Advice: 
+  > code: UnexpectedToken
+  x expected identifier, got Slash
+   ,-[/swc_ecma_parser/tests/typescript-errors/custom/issue-380/input.ts:3:1]
+ 2 |     componentDidMount() {
+ 3 |         import(../foo/bar)
+   :                  ^
+ 4 |             .then(bar => {
+   `----
+
+Advice: 
+  > code: UnexpectedToken

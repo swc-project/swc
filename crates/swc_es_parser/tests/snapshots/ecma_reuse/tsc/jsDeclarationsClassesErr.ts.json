@@ -1,0 +1,75 @@
+{
+  "programs": [
+    "Program {\n    span: 304..1297,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 338..347,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 388..397,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 435..444,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 519..528,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 574..583,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 655..664,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 702..711,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 789..798,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 844..853,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 926..935,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 975..983,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1018..1022,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1021..1030,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 1121..1125,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1124..1133,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1185..1189,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1188..1197,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1259..1267,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1292..1296,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1295..1297,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 445..473,\n        ident: Ident {\n            span: 451..452,\n            sym: \"P\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 712..741,\n        ident: Ident {\n            span: 718..719,\n            sym: \"U\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 1031..1059,\n        ident: Ident {\n            span: 1037..1038,\n            sym: \"Z\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 461..462,\n        sym: \"O\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 728..729,\n        sym: \"T\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1047..1048,\n        sym: \"Y\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 438..473,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 705..741,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 1024..1059,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 445..473,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 451..452,\n            sym: \"P\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 712..741,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 718..719,\n            sym: \"U\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 1031..1059,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1037..1038,\n            sym: \"Z\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

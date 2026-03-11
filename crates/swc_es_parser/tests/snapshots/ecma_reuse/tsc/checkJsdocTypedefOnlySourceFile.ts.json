@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 87..210,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 135..191,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 87..142,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 87..104,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 186..210,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 186..209,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 91..98,\n        sym: \"exports\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 99..104,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 192..200,\n        sym: \"myString\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 201..209,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 101..104,\n        props: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 135..142,\n        sym: \"exports\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 142..152,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 143..151,\n                sym: \"SomeName\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 203..208,\n            value: \"str\",\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,67 @@
+{
+  "programs": [
+    "Program {\n    span: 50..409,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 352..369,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 389..406,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 50..133,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 50..133,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 124..167,\n        ident: Ident {\n            span: 134..136,\n            sym: \"I1\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 143..156,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 143..145,\n                            sym: \"m1\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 158..217,\n        ident: Ident {\n            span: 168..170,\n            sym: \"I2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 177..195,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 177..179,\n                            sym: \"m1\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 193..206,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 193..195,\n                            sym: \"m2\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 208..264,\n        ident: Ident {\n            span: 218..220,\n            sym: \"C1\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 227..253,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 231..246,\n                        name: Some(\n                            Ident {\n                                span: 234..238,\n                                sym: \"args\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: true,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 255..308,\n        ident: Ident {\n            span: 265..267,\n            sym: \"C2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 274..300,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 278..293,\n                        name: Some(\n                            Ident {\n                                span: 281..285,\n                                sym: \"args\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: true,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 309..409,\n        ident: Ident {\n            span: 315..318,\n            sym: \"Bar\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 56..59,\n        sym: \"Foo\",\n    },\n)"
+  ],
+  "exprs": [
+    "Class(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 327..330,\n        sym: \"Foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 352..357,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 357..361,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 358..360,\n                sym: \"m1\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 360..363,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 389..394,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 394..398,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 395..397,\n                sym: \"m2\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 397..400,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 302..409,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 91..110,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 108..122,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 337..376,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 374..408,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 75..133,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 309..409,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 315..318,\n            sym: \"Bar\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 91..110,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 91..93,\n                sym: \"m1\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 108..122,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 108..110,\n                sym: \"m2\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 337..376,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 337..339,\n                sym: \"m1\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 374..408,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 374..376,\n                sym: \"m2\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Void,\n)",
+    "Keyword(\n    Void,\n)",
+    "Keyword(\n    Void,\n)",
+    "Keyword(\n    Any,\n)",
+    "Array(\n    TsArrayType {\n        span: 240..246,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 248..251,\n        name: Ident {\n            span: 248..251,\n            sym: \"I1\",\n        },\n        type_args: [],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "Array(\n    TsArrayType {\n        span: 287..293,\n        elem_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 295..298,\n        name: Ident {\n            span: 295..298,\n            sym: \"I2\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

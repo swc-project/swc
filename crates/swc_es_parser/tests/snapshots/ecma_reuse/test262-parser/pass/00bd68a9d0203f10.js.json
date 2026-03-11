@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 1..74,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 14..24,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 23..33,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 32..38,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 8..43,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 50..60,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 59..69,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 68..74,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 44..74,\n        stmts: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 1..74,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 15..18,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 23..24,\n        sym: \"c\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 24..27,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 32..33,\n        sym: \"d\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 33..36,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"e\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 51..54,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 59..60,\n        sym: \"f\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 60..63,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..69,\n        sym: \"g\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 69..72,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

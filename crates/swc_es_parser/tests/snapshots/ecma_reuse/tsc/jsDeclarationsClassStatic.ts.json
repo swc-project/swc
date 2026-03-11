@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 117..460,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 159..171,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 191..231,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 117..198,\n        ident: Ident {\n            span: 123..130,\n            sym: \"Handler\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 226..276,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 226..276,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 232..239,\n        sym: \"Strings\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 240..276,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 166..167,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 191..198,\n        sym: \"Handler\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 198..210,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 199..208,\n                sym: \"statische\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 209..231,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 251..254,\n            value: \"A\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 263..266,\n            value: \"B\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 242..276,\n        props: [\n            KeyValueProp {\n                span: 248..255,\n                key: Ident(\n                    Ident {\n                        span: 248..249,\n                        sym: \"a\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 260..268,\n                key: Ident(\n                    Ident {\n                        span: 260..261,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 134..181,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 174..190,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 211..231,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 117..198,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 123..130,\n            sym: \"Handler\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 134..181,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 145..152,\n                sym: \"OPTIONS\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 174..190,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 174..181,\n                sym: \"process\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

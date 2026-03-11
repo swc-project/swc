@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..19,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 18..19,\n    },\n)",
+    "For(\n    ForStmt {\n        span: 1..19,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 5..15,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 5..15,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 10..11,\n        sym: \"a\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 9..15,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"b\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

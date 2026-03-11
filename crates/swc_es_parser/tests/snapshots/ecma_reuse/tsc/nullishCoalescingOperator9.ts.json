@@ -1,0 +1,50 @@
+{
+  "programs": [
+    "Program {\n    span: 19..164,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 88..112,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 138..162,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 27..68,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 27..63,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 65..117,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 65..117,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 114..164,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 114..164,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 31..32,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 69..70,\n        sym: \"g\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 79..82,\n        sym: \"abc\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 71..117,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 118..120,\n        sym: \"gg\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 129..132,\n        sym: \"abc\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 121..164,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 73..74,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 93..96,\n        sym: \"abc\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 96..109,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 97..108,\n                sym: \"toLowerCase\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 108..112,\n        callee: _,\n        args: [],\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 88..112,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 79..113,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 78..117,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 75..117,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 123..124,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 143..146,\n        sym: \"abc\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 146..159,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 147..158,\n                sym: \"toLowerCase\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 158..162,\n        callee: _,\n        args: [],\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 138..162,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 129..163,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 128..164,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 125..164,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

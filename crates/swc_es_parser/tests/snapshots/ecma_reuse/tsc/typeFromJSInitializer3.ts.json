@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 157..289,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 177..196,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 259..273,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 157..202,\n        ident: Ident {\n            span: 166..168,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 197..247,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 197..247,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 239..279,\n        ident: Ident {\n            span: 248..250,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 274..289,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 274..289,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 203..204,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 205..247,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 280..281,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 282..289,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 184..193,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 207..209,\n        sym: \"f1\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 209..247,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 266..270,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 284..286,\n        sym: \"f2\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 286..289,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

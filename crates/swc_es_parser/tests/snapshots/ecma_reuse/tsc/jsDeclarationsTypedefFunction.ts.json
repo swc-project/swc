@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 205..389,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 352..388,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 205..295,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 205..295,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 290..389,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 290..389,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 209..211,\n        sym: \"id\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 212..295,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 296..300,\n        sym: \"send\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 303..311,\n        sym: \"handlers\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 328..335,\n        sym: \"resolve\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 337..343,\n        sym: \"reject\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Assign(\n    AssignPat {\n        span: 301..389,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 214..215,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 319..326,\n        sym: \"Promise\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 352..360,\n        sym: \"handlers\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 363..365,\n        sym: \"id\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 361..366,\n        op: PlusPlus,\n        arg: _,\n        prefix: true,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 360..368,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 370..377,\n        sym: \"resolve\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 379..385,\n        sym: \"reject\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 369..388,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 367..388,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 327..389,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 326..389,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 315..389,\n        callee: _,\n        args: [],\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 303..389,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

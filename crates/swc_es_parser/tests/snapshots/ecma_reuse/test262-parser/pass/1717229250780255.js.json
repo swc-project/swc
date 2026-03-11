@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 1..52,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 20..44,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 49..50,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 39..50,\n        ident: Ident {\n            span: 45..46,\n            sym: \"c\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..52,\n        ident: Ident {\n            span: 10..11,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Class(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 20..34,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 21..33,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 27..28,\n            sym: \"b\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 39..50,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 45..46,\n            sym: \"c\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

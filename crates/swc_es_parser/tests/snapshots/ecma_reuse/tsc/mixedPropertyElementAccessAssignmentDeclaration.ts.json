@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 29..64,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 43..64,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 29..46,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 29..42,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 33..36,\n        sym: \"arr\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 37..42,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 39..42,\n        elems: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 43..46,\n        sym: \"arr\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 47..48,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 46..50,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 49..55,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 50..54,\n                sym: \"prop\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 55..56,\n            value: 2.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 54..59,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 60..63,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 58..63,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

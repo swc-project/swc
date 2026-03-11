@@ -1,0 +1,24 @@
+{
+  "programs": [
+    "Program {\n    span: 1..44,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsModule(\n    TsModuleDecl {\n        span: 8..31,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 18..19,\n                sym: \"X\",\n            },\n        ),\n        body: Some(\n            Namespace(\n                TsNamespaceDecl {\n                    span: 8..31,\n                    declare: false,\n                    global: false,\n                    id: Ident {\n                        span: 18..19,\n                        sym: \"X\",\n                    },\n                    body: Namespace(\n                        TsNamespaceDecl {\n                            span: 20..31,\n                            declare: false,\n                            global: false,\n                            id: Ident {\n                                span: 20..21,\n                                sym: \"Y\",\n                            },\n                            body: ModuleBlock(\n                                [],\n                            ),\n                        },\n                    ),\n                },\n            ),\n        ),\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 32..44,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 39..40,\n                sym: \"X\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..31,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 25..44,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

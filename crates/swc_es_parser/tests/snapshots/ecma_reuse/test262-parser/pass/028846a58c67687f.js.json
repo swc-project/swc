@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..34,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Empty(\n    EmptyStmt {\n        span: 2..3,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 1..6,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 5..11,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 10..13,\n        stmts: [],\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 12..13,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 20..23,\n        stmts: [],\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 22..23,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 14..26,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Empty(\n    EmptyStmt {\n        span: 25..26,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 27..33,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 32..34,\n        stmts: [],\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 6..9,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"b\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 28..31,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

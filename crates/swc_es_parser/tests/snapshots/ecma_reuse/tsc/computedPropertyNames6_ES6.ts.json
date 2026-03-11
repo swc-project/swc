@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 17..144,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 17..45,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 17..41,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 42..72,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 42..68,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 69..98,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 69..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 95..144,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 95..144,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..23,\n        sym: \"p1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 46..48,\n        sym: \"p2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 73..75,\n        sym: \"p3\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"v\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 101..144,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 110..112,\n        sym: \"p1\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 115..116,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 123..125,\n        sym: \"p2\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 128..129,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 136..138,\n        sym: \"p3\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 141..142,\n            value: 2.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 103..144,\n        props: [\n            KeyValueProp {\n                span: 109..117,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 122..130,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 135..144,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

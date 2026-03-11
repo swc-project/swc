@@ -1,0 +1,80 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | ,-> a?.b?.c
+ 2 | `-> A?.['B']?.()
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | ,-> a?.b?.c
+ 2 | `-> A?.['B']?.()
+   `----
+  x OptChainExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | ,-> a?.b?.c
+ 2 | `-> A?.['B']?.()
+   `----
+  x MemberExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | ,-> a?.b?.c
+ 2 | `-> A?.['B']?.()
+   `----
+  x OptChainExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   :  ^^^^^
+ 2 | A?.['B']?.()
+   `----
+  x MemberExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   :  ^^^^^
+ 2 | A?.['B']?.()
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^
+ 2 | A?.['B']?.()
+   `----
+  x ExprStmt
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^^^^^
+   `----
+  x OptChainExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   :         ^^^^
+   `----
+  x CallExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   :         ^^^^
+   `----
+  x OptChainExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   :  ^^^^^^^^^
+   `----
+  x MemberExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   :  ^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/expr/optional-chaining.js:2:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   :     ^^^
+   `----

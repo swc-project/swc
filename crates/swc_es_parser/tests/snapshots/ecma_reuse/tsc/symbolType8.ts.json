@@ -1,0 +1,73 @@
+{
+  "programs": [
+    "Program {\n    span: 16..137,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 47..55,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 54..62,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 61..69,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 68..76,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 75..84,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 83..92,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 91..100,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 99..109,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 108..124,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 123..137,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..48,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..46,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 22..46,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 24..30,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 30..35,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 31..34,\n                sym: \"for\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 35..44,\n            value: \"compare\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 34..46,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 47..48,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 51..52,\n        sym: \"s\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 49..53,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 54..55,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 58..59,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 56..60,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 65..66,\n        sym: \"s\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 63..67,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 68..69,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 72..73,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 70..74,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 75..76,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..81,\n        sym: \"s\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 77..82,\n        op: LtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 83..84,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 88..89,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 85..90,\n        op: LtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 91..92,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"s\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 93..98,\n        op: GtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 104..105,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 101..106,\n        op: GtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 108..109,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 114..115,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 119..120,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 116..121,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 113..122,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 110..122,\n        op: GtEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 124..125,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 129..130,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 126..131,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 123..134,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"s\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 132..137,\n        op: GtEq,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

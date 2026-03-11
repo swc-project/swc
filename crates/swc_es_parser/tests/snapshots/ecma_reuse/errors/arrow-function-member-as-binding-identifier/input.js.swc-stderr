@@ -1,0 +1,9 @@
+  x member access is not allowed in binding patterns
+   ,-[/swc_ecma_parser/tests/errors/arrow-function-member-as-binding-identifier/input.js:1:1]
+ 1 | ({a: b.c })=>{};
+   :       ^
+ 2 | ([a.b])=>{};
+   `----
+
+Advice: 
+  > code: InvalidAssignTarget

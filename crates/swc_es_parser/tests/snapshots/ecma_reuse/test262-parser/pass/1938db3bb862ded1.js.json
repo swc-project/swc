@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..27,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..27,\n        ident: Ident {\n            span: 11..12,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 21..22,\n        sym: \"b\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 13..24,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 14..23,\n                    key: Ident(\n                        Ident {\n                            span: 14..19,\n                            sym: \"yield\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

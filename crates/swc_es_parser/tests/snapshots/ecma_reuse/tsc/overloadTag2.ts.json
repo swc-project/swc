@@ -1,0 +1,81 @@
+{
+  "programs": [
+    "Program {\n    span: 141..773,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 647..671,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 667..684,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 148..690,\n        ident: Ident {\n            span: 154..157,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 687..708,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 687..708,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 705..731,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 705..731,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 728..750,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 728..750,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 747..773,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 747..773,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 631..632,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 634..635,\n        sym: \"b\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 691..692,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 693..708,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 709..710,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 711..731,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 732..733,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 734..750,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 751..752,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 753..773,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 169..173,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 176..177,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 180..183,\n            value: \"1\",\n        },\n    ),\n)",
+    "Cond(\n    CondExpr {\n        span: 174..189,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 647..651,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 651..656,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 652..654,\n                sym: \"#a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 657..658,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 655..671,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 667..671,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 671..676,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 672..674,\n                sym: \"#b\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 677..678,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 675..684,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 699..702,\n        sym: \"Foo\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 702..708,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 695..708,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 717..720,\n        sym: \"Foo\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 721..726,\n            value: \"str\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 720..731,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 713..731,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 740..743,\n        sym: \"Foo\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 744..745,\n            value: 2.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 743..750,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 736..750,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 759..762,\n        sym: \"Foo\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 763..768,\n            value: \"str\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 770..771,\n            value: 2.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 762..773,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 755..773,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 141..690,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 619..686,\n    params: [\n        Param {\n            span: 631..633,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 634..636,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 148..690,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 154..157,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 164..189,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 164..166,\n                sym: \"#a\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 188..630,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 188..190,\n                sym: \"#b\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 619..686,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 619..630,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

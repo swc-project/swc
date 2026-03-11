@@ -1,0 +1,45 @@
+{
+  "programs": [
+    "Program {\n    span: 16..255,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 60..132,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 167..185,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 234..255,\n        stmts: [],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 204..255,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Pat(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 16..192,\n        ident: Ident {\n            span: 22..36,\n            sym: \"StringIterator\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 189..207,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 189..203,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 193..194,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..210,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 88..90,\n            value: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 110..115,\n            value: false,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 67..126,\n        props: [\n            KeyValueProp {\n                span: 81..91,\n                key: Ident(\n                    Ident {\n                        span: 81..86,\n                        sym: \"value\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 104..125,\n                key: Ident(\n                    Ident {\n                        span: 104..108,\n                        sym: \"done\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 138..144,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 144..154,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 145..153,\n                sym: \"iterator\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 174..178,\n        sym: \"this\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 218..232,\n        sym: \"StringIterator\",\n    },\n)",
+    "New(\n    NewExpr {\n        span: 214..233,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 43..138,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 137..187,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 16..192,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 22..36,\n            sym: \"StringIterator\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 43..138,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 43..47,\n                sym: \"next\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 137..187,\n        decorators: [],\n        key: Computed(\n            _,\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

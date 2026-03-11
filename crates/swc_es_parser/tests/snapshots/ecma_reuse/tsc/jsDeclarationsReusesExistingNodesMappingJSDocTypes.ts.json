@@ -1,0 +1,68 @@
+{
+  "programs": [
+    "Program {\n    span: 130..547,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 137..177,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 137..152,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 178..224,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 178..193,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 225..271,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 225..240,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 272..318,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 272..287,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 319..390,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 319..334,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 391..467,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 391..406,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 468..530,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 468..483,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 531..547,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 531..546,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 143..144,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 145..152,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 184..185,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 186..193,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 231..232,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 233..240,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 278..279,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 280..287,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 325..326,\n        sym: \"e\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 327..334,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 397..398,\n        sym: \"f\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 399..406,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 474..475,\n        sym: \"g\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 476..483,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 537..538,\n        sym: \"h\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 539..546,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 147..151,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 188..192,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 235..239,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 282..286,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 329..333,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 401..405,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 478..482,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 541..545,\n        },\n    ),\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 130..177,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 171..224,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 218..271,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 265..318,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 312..390,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 384..467,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 461..530,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 524..547,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

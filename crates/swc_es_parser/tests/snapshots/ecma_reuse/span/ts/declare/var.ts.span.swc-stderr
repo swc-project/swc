@@ -1,0 +1,30 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+ 1 | declare const a = 1;
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+ 1 | declare const a = 1;
+   :         ^^^^^^^^^^^^^
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+ 1 | declare const a = 1;
+   :         ^^^^^^^^^^^^^
+   `----
+  x AssignPat
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+ 1 | declare const a = 1;
+   :                 ^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+ 1 | declare const a = 1;
+   :               ^
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/ts/declare/var.ts:1:1]
+ 1 | declare const a = 1;
+   :                   ^
+   `----

@@ -1,0 +1,64 @@
+{
+  "programs": [
+    "Program {\n    span: 1..328,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 38..44,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 87..110,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 109..128,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 81..132,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 56..132,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 163..193,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 157..198,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 130..198,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 249..285,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 244..290,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 296..327,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 291..328,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 217..328,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 41..58,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 41..58,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 195..219,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 195..219,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 45..46,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 109..110,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 199..200,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 60..61,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 73..79,\n        sym: \"Narrow\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 62..80,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 87..88,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 88..98,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 89..97,\n                sym: \"narrowed\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 113..116,\n            value: 123.0,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 111..117,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 141..142,\n        sym: \"a\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 134..146,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 147..155,\n            value: \"number\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 143..156,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 163..164,\n        sym: \"a\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 164..173,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 165..172,\n                sym: \"toFixed\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 172..175,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 228..229,\n        sym: \"b\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 221..233,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 234..242,\n            value: \"object\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 230..243,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 249..250,\n        sym: \"b\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 250..260,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 251..259,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 259..262,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 296..297,\n        sym: \"b\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 297..307,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 298..306,\n                sym: \"toString\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 306..309,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

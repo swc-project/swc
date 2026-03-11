@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 1..53,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..53,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 22..28,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 23..27,\n                    key: Ident {\n                        span: 23..24,\n                        sym: \"a\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 21..29,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 20..30,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 19..31,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 18..32,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 17..33,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 16..34,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 15..35,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 14..36,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 13..37,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 12..38,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 11..39,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 10..40,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 9..41,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 8..42,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 7..43,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 6..44,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 5..45,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 4..46,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 3..47,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 2..48,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 50..51,\n            value: 1.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1..52,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..34,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 1..34,\n        stmts: [\n            _,\n        ],\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 5..33,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 5..31,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 11..16,\n        sym: \"basic\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 17..31,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 19..28,\n        sym: \"getReader\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 28..31,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

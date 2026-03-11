@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 19..142,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 27..71,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 27..71,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 66..106,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 66..106,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 101..142,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 101..142,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 33..35,\n        sym: \"a1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 72..75,\n        sym: \"aa1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 76..106,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 107..110,\n        sym: \"aa2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 111..142,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 78..80,\n        sym: \"a1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 84..86,\n        sym: \"a1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 86..99,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 87..98,\n                sym: \"toLowerCase\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 98..106,\n        callee: _,\n        args: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 81..106,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 113..115,\n        sym: \"a1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 119..121,\n        sym: \"a1\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 121..140,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 122..139,\n                sym: \"toLocaleUpperCase\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 139..142,\n        callee: _,\n        args: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 116..142,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

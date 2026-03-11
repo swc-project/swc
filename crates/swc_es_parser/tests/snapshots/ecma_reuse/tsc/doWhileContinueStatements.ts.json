@@ -1,0 +1,70 @@
+{
+  "programs": [
+    "Program {\n    span: 33..457,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Continue(\n    ContinueStmt {\n        span: 42..53,\n        label: None,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 36..59,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 33..70,\n        body: _,\n        test: _,\n    },\n)",
+    "Continue(\n    ContinueStmt {\n        span: 81..96,\n        label: Some(\n            Ident {\n                span: 90..93,\n                sym: \"ONE\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 75..102,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 72..114,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 67..114,\n        label: Ident {\n            span: 67..70,\n            sym: \"ONE\",\n        },\n        body: _,\n    },\n)",
+    "Continue(\n    ContinueStmt {\n        span: 132..149,\n        label: Some(\n            Ident {\n                span: 141..146,\n                sym: \"THREE\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 126..154,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 123..167,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 116..167,\n        label: Ident {\n            span: 116..121,\n            sym: \"THREE\",\n        },\n        body: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 111..167,\n        label: Ident {\n            span: 111..114,\n            sym: \"TWO\",\n        },\n        body: _,\n    },\n)",
+    "Continue(\n    ContinueStmt {\n        span: 201..221,\n        label: Some(\n            Ident {\n                span: 210..214,\n                sym: \"FOUR\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 191..226,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 188..235,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 178..235,\n        label: Ident {\n            span: 178..182,\n            sym: \"FIVE\",\n        },\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 172..240,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 169..251,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 163..251,\n        label: Ident {\n            span: 163..167,\n            sym: \"FOUR\",\n        },\n        body: _,\n    },\n)",
+    "Continue(\n    ContinueStmt {\n        span: 270..289,\n        label: Some(\n            Ident {\n                span: 279..282,\n                sym: \"SIX\",\n            },\n        ),\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 267..297,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 258..297,\n        label: Ident {\n            span: 258..261,\n            sym: \"SIX\",\n        },\n        body: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 252..302,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 249..316,\n        body: _,\n        test: _,\n    },\n)",
+    "Continue(\n    ContinueStmt {\n        span: 327..348,\n        label: Some(\n            Ident {\n                span: 336..341,\n                sym: \"SEVEN\",\n            },\n        ),\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 324..361,\n        body: _,\n        test: _,\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 321..375,\n        body: _,\n        test: _,\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 318..389,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 311..389,\n        label: Ident {\n            span: 311..316,\n            sym: \"SEVEN\",\n        },\n        body: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Continue(\n    ContinueStmt {\n        span: 428..445,\n        label: Some(\n            Ident {\n                span: 437..442,\n                sym: \"EIGHT\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 393..450,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "DoWhile(\n    DoWhileStmt {\n        span: 391..457,\n        body: _,\n        test: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 384..457,\n        label: Ident {\n            span: 384..389,\n            sym: \"EIGHT\",\n        },\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 399..436,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 399..436,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 403..405,\n        sym: \"fn\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 406..436,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 60..64,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 104..108,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 156..160,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 228..232,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 242..246,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 290..294,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 304..308,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 350..354,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 363..367,\n            value: true,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 377..381,\n            value: true,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 451..455,\n            value: true,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 408..436,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

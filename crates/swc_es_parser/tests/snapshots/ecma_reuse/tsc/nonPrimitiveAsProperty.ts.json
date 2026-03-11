@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 23..177,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 23..74,\n        ident: Ident {\n            span: 33..49,\n            sym: \"WithNonPrimitive\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 56..69,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 56..59,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 71..124,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 71..119,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 121..177,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 121..160,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 75..76,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 125..126,\n        sym: \"b\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 110..115,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 104..118,\n        props: [\n            KeyValueProp {\n                span: 105..116,\n                key: Ident(\n                    Ident {\n                        span: 105..108,\n                        sym: \"bar\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 97..119,\n        props: [\n            KeyValueProp {\n                span: 99..118,\n                key: Ident(\n                    Ident {\n                        span: 99..102,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 153..158,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 147..160,\n        props: [\n            KeyValueProp {\n                span: 148..159,\n                key: Ident(\n                    Ident {\n                        span: 148..151,\n                        sym: \"foo\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Object,\n)"
+  ]
+}

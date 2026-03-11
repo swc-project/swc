@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 21..119,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 28..67,\n        ident: Ident {\n            span: 34..35,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 91..119,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..118,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 95..107,\n        sym: \"AConstructor\",\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 21..67,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 61..94,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 75..76,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 75..76,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: true,\n        src: StrLit {\n            span: 84..89,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 28..67,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 34..35,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

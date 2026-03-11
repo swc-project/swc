@@ -1,0 +1,39 @@
+{
+  "programs": [
+    "Program {\n    span: 1..95,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 37..95,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 37..95,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 8..95,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 8..95,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 45..95,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 16..95,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 47..48,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 52..53,\n        sym: \"b\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 49..55,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 79..86,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 56..88,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 89..93,\n        },\n    ),\n)",
+    "Cond(\n    CondExpr {\n        span: 54..95,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 18..95,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..95,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

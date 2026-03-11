@@ -1,0 +1,55 @@
+{
+  "programs": [
+    "Program {\n    span: 1..204,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..59,\n        ident: Ident {\n            span: 6..20,\n            sym: \"EnhancedString\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 56..93,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 56..89,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 90..129,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 90..125,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 160..204,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 160..204,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 60..61,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 62..89,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 94..95,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 96..125,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 164..165,\n        sym: \"d\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 166..204,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 64..69,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 74..79,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 70..82,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 80..89,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 98..103,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 109..114,\n            value: \"bar\",\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 115..124,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 108..125,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 104..125,\n        op: NotEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 168..173,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 179..184,\n            value: \"bar\",\n        },\n    ),\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 185..203,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 178..204,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 174..204,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Any,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 32..54,\n        members: [\n            TsTypeMember {\n                span: 34..53,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 34..46,\n                            sym: \"enhancements\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 23..54,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 83..88,\n            value: \"baz\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 118..123,\n            value: \"foo\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 188..203,\n        name: Ident {\n            span: 188..203,\n            sym: \"EnhancedString\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "programs": [
+    "Program {\n    span: 353..519,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 353..382,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 353..376,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "TsEnum(\n    TsEnumDecl {\n        span: 377..519,\n        ident: Ident {\n            span: 388..389,\n            sym: \"D\",\n        },\n        declare: false,\n        is_const: true,\n        members: [\n            TsEnumMember {\n                span: 396..403,\n                name: Ident(\n                    Ident {\n                        span: 396..397,\n                        sym: \"d\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 408..451,\n                name: Ident(\n                    Ident {\n                        span: 408..409,\n                        sym: \"e\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 456..502,\n                name: Ident(\n                    Ident {\n                        span: 456..457,\n                        sym: \"f\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n            TsEnumMember {\n                span: 507..517,\n                name: Ident(\n                    Ident {\n                        span: 507..508,\n                        sym: \"g\",\n                    },\n                ),\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 359..364,\n        sym: \"CONST\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 365..376,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 367..371,\n            value: 9000.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 374..375,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 372..376,\n        op: Mod,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 400..402,\n            value: 10.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 412..415,\n            value: 199.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 418..422,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 422..429,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 423..428,\n                sym: \"floor\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 429..433,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 433..441,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 434..440,\n                sym: \"random\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 440..444,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 445..449,\n            value: 1000.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 443..450,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 428..451,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 416..451,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 460..461,\n        sym: \"d\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 465..468,\n            value: 100.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 471..475,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 475..482,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 476..481,\n                sym: \"floor\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 482..486,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 486..494,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 487..493,\n                sym: \"random\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 493..497,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 498..499,\n            value: 8.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 496..500,\n        op: Mod,\n        left: _,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 481..501,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 469..501,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 464..502,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 462..502,\n        op: Sub,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 511..516,\n        sym: \"CONST\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

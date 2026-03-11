@@ -1,0 +1,27 @@
+{
+  "programs": [
+    "Program {\n    span: 1..21,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..21,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 2..3,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 6..7,\n        sym: \"b\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 8..13,\n            value: \"100\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 7..15,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 4..15,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 1..18,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 19..20,\n        sym: \"a\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 16..21,\n        op: NotEq,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

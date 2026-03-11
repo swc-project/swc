@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..48,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 23..31,\n        stmts: [],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 46..48,\n        stmts: [],\n    },\n)",
+    "Try(\n    TryStmt {\n        span: 19..48,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 26..48,\n                param: Some(\n                    _,\n                ),\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..22,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..11,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 1..18,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 7..11,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 14..18,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 41..42,\n        sym: \"b\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 33..45,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 35..37,\n                    key: Ident {\n                        span: 35..36,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 38..44,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 9..10,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 16..17,\n            value: 2.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 245..513,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 253..361,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 253..278,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 362..481,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 362..386,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 478..513,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 478..511,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 257..262,\n        sym: \"alpha\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 366..370,\n        sym: \"beta\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 482..483,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 494..499,\n        sym: \"alpha\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 499..503,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 500..501,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 504..508,\n        sym: \"beta\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 508..511,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 509..510,\n                sym: \"b\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 502..511,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

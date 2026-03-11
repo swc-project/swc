@@ -1,0 +1,24 @@
+{
+  "programs": [
+    "Program {\n    span: 1..26,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Class(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 16..26,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 1..26,\n        expr: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 17..25,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

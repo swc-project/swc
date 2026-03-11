@@ -1,0 +1,20 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/var-decl.ts:1:1]
+ 1 | const a: number
+   : ^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/var-decl.ts:1:1]
+ 1 | const a: number
+   : ^^^^^^^^^^^^^^^^
+   `----
+  x VarDecl
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/var-decl.ts:1:1]
+ 1 | const a: number
+   : ^^^^^^^^^^^^^^^^
+   `----
+  x IdentPat
+   ,-[/swc_ecma_parser/tests/span/ts/issue-8856/var-decl.ts:1:1]
+ 1 | const a: number
+   :       ^
+   `----

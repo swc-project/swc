@@ -1,0 +1,19 @@
+{
+  "programs": [
+    "Program {\n    span: 1..13,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Break(\n    BreakStmt {\n        span: 4..13,\n        label: Some(\n            Ident {\n                span: 10..11,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 3..13,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 1..13,\n        label: Ident {\n            span: 1..2,\n            sym: \"a\",\n        },\n        body: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

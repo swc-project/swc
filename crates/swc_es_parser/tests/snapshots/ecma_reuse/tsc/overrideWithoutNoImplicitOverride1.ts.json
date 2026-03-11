@@ -1,0 +1,77 @@
+{
+  "programs": [
+    "Program {\n    span: 32..713,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 96..105,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 222..231,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 305..317,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 314..320,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 319..325,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 321..328,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 327..344,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 517..529,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 526..532,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 531..537,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 533..544,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 543..546,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 545..561,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 106..176,\n        ident: Ident {\n            span: 112..127,\n            sym: \"NonAmbientClass\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 345..443,\n        declare: true,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 355..371,\n                sym: \"ambientNamespace\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 562..613,\n        ident: Ident {\n            span: 568..582,\n            sym: \"NonAmbientBase\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 614..713,\n        ident: Ident {\n            span: 620..637,\n            sym: \"NonAmbientDerived\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 305..313,\n        sym: \"override\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 314..317,\n        sym: \"bar\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 317..320,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 321..328,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 517..525,\n        sym: \"override\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 526..529,\n        sym: \"bar\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 529..532,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Unary(\n    UnaryExpr {\n        span: 533..544,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 646..660,\n        sym: \"NonAmbientBase\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 99..176,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 555..613,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 607..713,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [
+    "Function {\n    span: 143..161,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 589..605,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 667..695,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 696..712,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 106..176,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 112..127,\n            sym: \"NonAmbientClass\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 562..613,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 568..582,\n            sym: \"NonAmbientBase\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 614..713,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 620..637,\n            sym: \"NonAmbientDerived\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 134..148,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 134..142,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 143..161,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 143..148,\n                sym: \"yadda\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 589..605,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 589..592,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 667..695,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 667..670,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 687..699,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 687..695,\n                sym: \"override\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 696..712,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 696..699,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

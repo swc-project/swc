@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 16..56,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 52..56,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 46..56,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 29..56,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..32,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..28,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 34..42,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 34..42,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"v\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 22..28,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 38..39,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 25..26,\n            value: 1.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 24..28,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 52..53,\n        sym: \"v\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

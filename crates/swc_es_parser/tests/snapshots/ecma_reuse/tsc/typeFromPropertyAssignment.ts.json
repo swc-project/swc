@@ -1,0 +1,55 @@
+{
+  "programs": [
+    "Program {\n    span: 73..229,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 113..180,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 184..219,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 223..229,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 73..118,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 73..118,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 177..186,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 177..186,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 216..225,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 216..225,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 77..82,\n        sym: \"Outer\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 101..102,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 104..105,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 83..118,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 143..144,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 146..147,\n        sym: \"b\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 181..183,\n        sym: \"si\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 220..222,\n        sym: \"oi\",\n    },\n)"
+  ],
+  "exprs": [
+    "Class(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 113..118,\n        sym: \"Outer\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 118..126,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 119..124,\n                sym: \"Inner\",\n            },\n        ),\n    },\n)",
+    "Class(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 125..180,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 184..186,\n        sym: \"si\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 186..219,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 187..188,\n                sym: \"m\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 223..225,\n        sym: \"oi\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 225..229,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 226..227,\n                sym: \"n\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 99..112,\n    params: [\n        Param {\n            span: 101..103,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 104..106,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 141..155,\n    params: [\n        Param {\n            span: 143..145,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 146..148,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 85..118,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 91..92,\n            sym: \"O\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 127..180,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 133..134,\n            sym: \"I\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 99..112,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 99..100,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 141..155,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 141..142,\n                sym: \"n\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

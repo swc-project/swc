@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..33,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..33,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 28..29,\n        },\n    ),\n)",
+    "JSXElement(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 1..33,\n    opening: JSXOpeningElement {\n        span: 1..33,\n        name: Ident(\n            Ident {\n                span: 2..4,\n                sym: \"a\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Expr(\n            _,\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 31..33,\n                sym: \"a\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}

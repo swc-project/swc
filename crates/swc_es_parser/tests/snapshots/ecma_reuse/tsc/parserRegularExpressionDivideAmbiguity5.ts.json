@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 1..67,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..67,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..6,\n        sym: \"model\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 6..14,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 7..13,\n                sym: \"rotate\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 14..15,\n            value: 0.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 17..24,\n        sym: \"rotateY\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 27..31,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 31..36,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 32..34,\n                sym: \"PI\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 25..36,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 37..40,\n            value: 180.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 35..41,\n        op: Div,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 42..49,\n        sym: \"rotateZ\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 52..56,\n        sym: \"Math\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 56..61,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 57..59,\n                sym: \"PI\",\n            },\n        ),\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 50..61,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 62..65,\n            value: 180.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 60..66,\n        op: Div,\n        left: _,\n        right: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 13..67,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

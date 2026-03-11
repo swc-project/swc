@@ -1,0 +1,61 @@
+{
+  "programs": [
+    "Program {\n    span: 133..293,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 180..232,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 241..293,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 133..181,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 133..179,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 213..221,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 213..219,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 227..242,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 227..240,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 281..289,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 281..287,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 139..140,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 141..179,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 198..199,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 200..206,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 182..207,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 184..206,\n                    key: Computed(\n                        _,\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 217..218,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 233..234,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 235..240,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 259..260,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 261..266,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 243..275,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 245..266,\n                    key: Computed(\n                        _,\n                    ),\n                    value: _,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 267..274,\n                    key: Ident {\n                        span: 267..268,\n                        sym: \"d\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 285..286,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 169..178,\n        sym: \"undefined\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 143..179,\n        params: [],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 185..186,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 186..191,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 192..195,\n            value: \"d\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 189..196,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 202..204,\n            value: \"\",\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 181..222,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 180..223,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 222..225,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 237..239,\n            value: \"\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 246..247,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 247..252,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 253..256,\n            value: \"d\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 250..257,\n        op: NullishCoalescing,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 263..265,\n            value: \"\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 271..272,\n        sym: \"x\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 242..290,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 241..291,\n        expr: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 290..293,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

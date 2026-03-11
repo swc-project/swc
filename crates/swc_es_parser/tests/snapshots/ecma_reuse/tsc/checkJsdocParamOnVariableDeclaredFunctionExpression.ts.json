@@ -1,0 +1,49 @@
+{
+  "programs": [
+    "Program {\n    span: 139..318,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 207..263,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 139..172,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 139..172,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 169..208,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 169..175,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 260..318,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 260..287,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 260..317,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 143..144,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 160..161,\n        sym: \"n\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 163..164,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 145..172,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 173..174,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 224..225,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 207..208,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 264..267,\n        sym: \"one\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 280..281,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 268..287,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 288..291,\n        sym: \"two\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 304..311,\n        sym: \"untyped\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 292..317,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 209..263,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Function(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 147..172,\n    params: [\n        Param {\n            span: 147..147,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 147..147,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 211..263,\n    params: [\n        Param {\n            span: 211..211,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 270..287,\n    params: [\n        Param {\n            span: 270..270,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 294..317,\n    params: [\n        Param {\n            span: 294..294,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

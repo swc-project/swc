@@ -1,0 +1,53 @@
+{
+  "programs": [
+    "Program {\n    span: 99..511,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 383..411,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 489..510,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 99..266,\n        ident: Ident {\n            span: 109..113,\n            sym: \"List\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 114..115,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 123..140,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 123..127,\n                            sym: \"data\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 136..160,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 136..140,\n                            sym: \"next\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 155..177,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 155..160,\n                            sym: \"owner\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 257..328,\n        ident: Ident {\n            span: 267..276,\n            sym: \"OwnerList\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 277..278,\n                sym: \"U\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 288..293,\n                sym: \"List\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 308..323,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 308..312,\n                            sym: \"name\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 325..352,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 325..348,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 349..387,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 349..382,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 433..459,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 433..451,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 456..493,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 456..484,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 403..511,\n        ident: Ident {\n            span: 412..417,\n            sym: \"other\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 329..333,\n        sym: \"list\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 353..362,\n        sym: \"ownerList\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 383..387,\n        sym: \"list\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 421..422,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 437..441,\n        sym: \"list\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 460..469,\n        sym: \"ownerList\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 489..493,\n        sym: \"list\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 390..399,\n        sym: \"ownerList\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 388..400,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 496..505,\n        sym: \"ownerList\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 494..506,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 129..131,\n        name: Ident {\n            span: 129..131,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 147..149,\n        name: Ident {\n            span: 147..149,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 142..150,\n        name: Ident {\n            span: 142..147,\n            sym: \"List\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 172..174,\n        name: Ident {\n            span: 172..174,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 162..175,\n        name: Ident {\n            span: 162..172,\n            sym: \"OwnerList\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)"
+  ]
+}

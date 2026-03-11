@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 147..329,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 162..230,\n        ident: Ident {\n            span: 168..169,\n            sym: \"A\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 260..314,\n        ident: Ident {\n            span: 266..267,\n            sym: \"B\",\n        },\n        declare: true,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 276..277,\n        sym: \"A\",\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 147..230,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 224..251,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 232..233,\n                        sym: \"A\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 232..233,\n                            sym: \"A\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 240..243,\n            value: \"a\",\n        },\n        with: [],\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 245..314,\n        decl: _,\n    },\n)",
+    "Import(\n    ImportDecl {\n        span: 308..329,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 316..317,\n                        sym: \"B\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 316..317,\n                            sym: \"B\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 324..327,\n            value: \"b\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 162..230,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 168..169,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 260..314,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 266..267,\n            sym: \"B\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

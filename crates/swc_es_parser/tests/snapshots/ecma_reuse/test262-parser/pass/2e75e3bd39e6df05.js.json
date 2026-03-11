@@ -1,0 +1,47 @@
+{
+  "programs": [
+    "Program {\n    span: 1..65,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..13,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 12..41,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 40..50,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 49..65,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 49..50,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 5..8,\n            value: \"b\",\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 8..11,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 9..10,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 3..11,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 17..20,\n            value: \"b\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 23..26,\n            value: \"d\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 21..27,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 16..28,\n        expr: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 28..31,\n            value: \"e\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 34..37,\n            value: \"f\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 32..38,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 27..39,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 14..39,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 44..45,\n        sym: \"g\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 45..48,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 46..47,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 42..48,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 54..57,\n            value: \"b\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 60..61,\n        sym: \"g\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 58..62,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 53..63,\n        expr: _,\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 62..65,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 63..64,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 51..65,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

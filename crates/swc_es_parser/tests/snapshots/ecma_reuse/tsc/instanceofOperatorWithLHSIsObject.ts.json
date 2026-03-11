@@ -1,0 +1,69 @@
+{
+  "programs": [
+    "Program {\n    span: 1..206,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..17,\n        ident: Ident {\n            span: 7..8,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 14..30,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 14..26,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 27..49,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 27..44,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 46..60,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 46..56,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 57..75,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 57..71,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 72..85,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 72..81,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 82..105,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 82..100,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 102..131,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 102..127,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 128..157,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 128..153,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 154..183,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 154..179,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 180..206,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 180..205,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 18..20,\n        sym: \"x1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 31..33,\n        sym: \"x2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..51,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 76..77,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 86..87,\n        sym: \"d\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 106..108,\n        sym: \"r1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 109..127,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 132..134,\n        sym: \"r2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 135..153,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 158..160,\n        sym: \"r3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 161..179,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 184..186,\n        sym: \"r4\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 187..205,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 111..112,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 124..126,\n        sym: \"x1\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 113..127,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 137..138,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 150..152,\n        sym: \"x2\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 139..153,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 163..164,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 176..178,\n        sym: \"x1\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 165..179,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 189..190,\n        sym: \"d\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 202..204,\n        sym: \"x1\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 191..205,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 1..17,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..8,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

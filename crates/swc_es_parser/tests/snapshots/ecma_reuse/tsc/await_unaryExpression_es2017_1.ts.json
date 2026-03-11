@@ -1,0 +1,48 @@
+{
+  "programs": [
+    "Program {\n    span: 21..262,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 48..66,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 96..120,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 150..174,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 204..220,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 250..262,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 21..73,\n        ident: Ident {\n            span: 36..39,\n            sym: \"bar\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 68..127,\n        ident: Ident {\n            span: 83..87,\n            sym: \"bar1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 122..181,\n        ident: Ident {\n            span: 137..141,\n            sym: \"bar2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 176..227,\n        ident: Ident {\n            span: 191..195,\n            sym: \"bar3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 222..262,\n        ident: Ident {\n            span: 237..241,\n            sym: \"bar4\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 55..57,\n            value: 42.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 49..58,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 48..58,\n        op: Bang,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 109..111,\n            value: 42.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 103..112,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 96..112,\n        op: Delete,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 163..165,\n            value: 42.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 157..166,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 150..166,\n        op: Delete,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 215..217,\n            value: 42.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 209..218,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 204..218,\n        op: Void,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 257..259,\n            value: 42.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 251..260,\n        arg: _,\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 250..260,\n        op: Plus,\n        arg: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

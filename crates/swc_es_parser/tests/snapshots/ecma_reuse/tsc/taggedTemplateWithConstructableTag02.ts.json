@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 1..102,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 83..102,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..74,\n        ident: Ident {\n            span: 11..12,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 19..56,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 24..39,\n                        name: Some(\n                            Ident {\n                                span: 27..31,\n                                sym: \"args\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: true,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 53..70,\n                kind: Construct,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 71..86,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 71..82,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 75..78,\n        sym: \"tag\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 83..86,\n        sym: \"tag\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 87..102,\n        tag: _,\n        template: TemplateExpr {\n            span: 87..101,\n            quasis: [\n                StrLit {\n                    span: 87..101,\n                    value: \"Hello world!\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Any,\n)",
+    "Array(\n    TsArrayType {\n        span: 33..39,\n        elem_type: _,\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 25..97,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 60..97,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 41..97,\n        head: In(\n            ForInHead {\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 25..44,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 25..39,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 46..56,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 46..56,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 66..96,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 66..85,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 29..30,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..53,\n        sym: \"key\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 70..75,\n        sym: \"value\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 76..85,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 57..58,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 78..79,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 80..83,\n        sym: \"key\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 79..85,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

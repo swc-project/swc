@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 135..253,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 161..174,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 135..195,\n        ident: Ident {\n            span: 144..145,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 192..241,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 192..198,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 233..253,\n        ident: Ident {\n            span: 242..245,\n            sym: \"cbf\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 149..153,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 146..154,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 196..197,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 246..247,\n        sym: \"f\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 168..172,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

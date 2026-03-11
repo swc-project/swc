@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 75..138,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 75..91,\n        ident: Ident {\n            span: 81..82,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 86..122,\n        ident: Ident {\n            span: 92..93,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 117..138,\n        ident: Ident {\n            span: 123..124,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 133..134,\n        sym: \"B\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 75..91,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 81..82,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 86..122,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 92..93,\n            sym: \"B\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 117..138,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 123..124,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

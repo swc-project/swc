@@ -1,0 +1,51 @@
+{
+  "programs": [
+    "Program {\n    span: 38..420,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 281..292,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 291..295,\n        stmts: [],\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 294..301,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 334..344,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 357..377,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 401..418,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 38..74,\n        ident: Ident {\n            span: 47..50,\n            sym: \"fn1\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 66..101,\n        ident: Ident {\n            span: 75..78,\n            sym: \"fn2\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 93..129,\n        ident: Ident {\n            span: 102..105,\n            sym: \"fn3\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 121..155,\n        ident: Ident {\n            span: 130..133,\n            sym: \"fn4\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 147..220,\n        ident: Ident {\n            span: 156..159,\n            sym: \"fn7\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 211..243,\n        ident: Ident {\n            span: 221..222,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 225..237,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 225..227,\n                            sym: \"id\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 336..388,\n        ident: Ident {\n            span: 345..349,\n            sym: \"fn10\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 380..420,\n        ident: Ident {\n            span: 389..393,\n            sym: \"fn11\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 281..288,\n        sym: \"dispose\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 288..292,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 370..372,\n            value: 12.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 364..375,\n        props: [\n            KeyValueProp {\n                span: 366..374,\n                key: Ident(\n                    Ident {\n                        span: 366..368,\n                        sym: \"id\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 412..413,\n        sym: \"C\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 413..416,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 408..416,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)"
+  ]
+}

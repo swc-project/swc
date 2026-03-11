@@ -1,0 +1,79 @@
+{
+  "programs": [
+    "Program {\n    span: 159..621,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 181..194,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 329..339,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 275..345,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 505..519,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 342..525,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 159..278,\n        ident: Ident {\n            span: 168..171,\n            sym: \"Cls\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 522..549,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 522..543,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 544..588,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 544..582,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 583..621,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 583..619,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 172..173,\n        sym: \"t\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 317..318,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 320..321,\n        sym: \"v\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 489..490,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 492..493,\n        sym: \"u\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 526..527,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 528..543,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 550..551,\n        sym: \"s\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 552..582,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 589..590,\n        sym: \"t\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 591..619,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 181..185,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 185..189,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 186..187,\n                sym: \"t\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 190..191,\n        sym: \"t\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 188..192,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 275..278,\n        sym: \"Cls\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 278..289,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 279..288,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 288..306,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 289..304,\n                sym: \"topLevelComment\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 336..337,\n        sym: \"v\",\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 305..340,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 342..345,\n        sym: \"Cls\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 345..356,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 346..355,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 355..371,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 356..369,\n                sym: \"nestedComment\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 512..513,\n        sym: \"t\",\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 370..520,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 534..537,\n        sym: \"Cls\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 538..541,\n            value: \"a\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 537..543,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 530..543,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 554..555,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 555..572,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 556..571,\n                sym: \"topLevelComment\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 572..575,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 577..580,\n            value: \"b\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 571..582,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 593..594,\n        sym: \"c\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 594..609,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 595..608,\n                sym: \"nestedComment\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 609..612,\n            value: \"a\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 614..617,\n            value: \"b\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 608..619,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 307..340,\n    params: [\n        Param {\n            span: 307..307,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 307..307,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 479..520,\n    params: [\n        Param {\n            span: 479..479,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 479..479,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

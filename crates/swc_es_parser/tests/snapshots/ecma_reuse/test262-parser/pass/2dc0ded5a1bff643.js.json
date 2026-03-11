@@ -1,0 +1,43 @@
+{
+  "programs": [
+    "Program {\n    span: 1..57,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..13,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 12..28,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 27..44,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 43..57,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"d\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 43..44,\n        sym: \"e\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 6..7,\n            value: 1.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 5..11,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            None,\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 3..11,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 17..18,\n            value: 2.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 20..21,\n            value: 3.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 23..24,\n        sym: \"c\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 16..26,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 14..26,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 32..33,\n            value: 4.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 37..38,\n            value: 5.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 31..42,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            None,\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 29..42,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 48..49,\n            value: 6.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 51..52,\n        sym: \"c\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 54..55,\n            value: 7.0,\n        },\n    ),\n)",
+    "Array(\n    ArrayExpr {\n        span: 47..57,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 45..57,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

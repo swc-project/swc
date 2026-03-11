@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 16..52,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 34..52,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 16..52,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 21..29,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 21..29,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 40..52,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 40..50,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 44..45,\n        sym: \"v\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 46..50,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Array(\n    ArrayExpr {\n        span: 30..33,\n        elems: [],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 48..49,\n            value: 0.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

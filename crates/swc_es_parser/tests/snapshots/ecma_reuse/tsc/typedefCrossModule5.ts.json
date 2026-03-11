@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 123..204,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 123..164,\n        ident: Ident {\n            span: 129..132,\n            sym: \"Bar\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 159..194,\n        ident: Ident {\n            span: 165..168,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 189..204,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 189..203,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 195..198,\n        sym: \"Bar\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 199..203,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 201..202,\n            value: 3.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 123..164,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 129..132,\n            sym: \"Bar\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 159..194,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 165..168,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

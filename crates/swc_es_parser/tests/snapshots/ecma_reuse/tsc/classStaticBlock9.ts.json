@@ -1,0 +1,36 @@
+{
+  "programs": [
+    "Program {\n    span: 41..138,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 99..115,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 41..138,\n        ident: Ident {\n            span: 47..48,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 68..69,\n        sym: \"A\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 69..75,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 70..73,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 76..77,\n            value: 1.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 74..88,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"A\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 100..106,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 101..104,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 107..108,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 105..109,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 133..134,\n            value: 1.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 41..138,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 47..48,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 55..88,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 62..65,\n                sym: \"bar\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "StaticBlock(\n    ClassStaticBlock {\n        span: 82..126,\n        body: [\n            _,\n        ],\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 120..137,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 127..130,\n                sym: \"foo\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

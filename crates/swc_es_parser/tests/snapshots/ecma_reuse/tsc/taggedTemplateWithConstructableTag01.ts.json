@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..43,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 20..43,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..27,\n        ident: Ident {\n            span: 7..14,\n            sym: \"CtorTag\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 20..27,\n        sym: \"CtorTag\",\n    },\n)",
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 28..43,\n        tag: _,\n        template: TemplateExpr {\n            span: 28..42,\n            quasis: [\n                StrLit {\n                    span: 28..42,\n                    value: \"Hello world!\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 1..27,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..14,\n            sym: \"CtorTag\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

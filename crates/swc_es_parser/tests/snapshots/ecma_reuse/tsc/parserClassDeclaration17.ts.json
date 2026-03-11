@@ -1,0 +1,33 @@
+{
+  "programs": [
+    "Program {\n    span: 14..145,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 74..89,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 81..103,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 97..108,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 104..111,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 110..115,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 112..132,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 143..145,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 74..80,\n        sym: \"public\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 81..89,\n        sym: \"moveNext\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 89..92,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 97..103,\n        sym: \"public\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 104..108,\n        sym: \"item\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 108..111,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 112..115,\n        sym: \"any\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

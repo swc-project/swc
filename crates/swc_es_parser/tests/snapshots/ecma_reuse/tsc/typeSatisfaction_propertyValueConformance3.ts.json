@@ -1,0 +1,50 @@
+{
+  "programs": [
+    "Program {\n    span: 1..325,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 8..133,\n        ident: Ident {\n            span: 13..18,\n            sym: \"Color\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 134..325,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 134..324,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 140..147,\n        sym: \"Palette\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 148..324,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 168..171,\n            value: 255.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 176..179,\n            value: 255.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 184..187,\n            value: 255.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 163..190,\n        props: [\n            KeyValueProp {\n                span: 165..172,\n                key: Ident(\n                    Ident {\n                        span: 165..166,\n                        sym: \"r\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 173..180,\n                key: Ident(\n                    Ident {\n                        span: 173..174,\n                        sym: \"g\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 181..189,\n                key: Ident(\n                    Ident {\n                        span: 181..182,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 207..208,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 213..214,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 219..220,\n            value: 0.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 202..223,\n        props: [\n            KeyValueProp {\n                span: 204..209,\n                key: Ident(\n                    Ident {\n                        span: 204..205,\n                        sym: \"r\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 210..215,\n                key: Ident(\n                    Ident {\n                        span: 210..211,\n                        sym: \"g\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 216..222,\n                key: Ident(\n                    Ident {\n                        span: 216..217,\n                        sym: \"d\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 271..272,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 277..278,\n            value: 0.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 283..286,\n            value: 255.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 266..289,\n        props: [\n            KeyValueProp {\n                span: 268..273,\n                key: Ident(\n                    Ident {\n                        span: 268..269,\n                        sym: \"r\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 274..279,\n                key: Ident(\n                    Ident {\n                        span: 274..275,\n                        sym: \"g\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 280..288,\n                key: Ident(\n                    Ident {\n                        span: 280..281,\n                        sym: \"b\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 150..301,\n        props: [\n            KeyValueProp {\n                span: 156..190,\n                key: Ident(\n                    Ident {\n                        span: 156..161,\n                        sym: \"white\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 195..223,\n                key: Ident(\n                    Ident {\n                        span: 195..200,\n                        sym: \"black\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 260..289,\n                key: Ident(\n                    Ident {\n                        span: 260..264,\n                        sym: \"blue\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "TsSatisfies(\n    TsSatisfiesExpr {\n        span: 292..324,\n        expr: _,\n        ty: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..133,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 127..325,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 21..57,\n        members: [\n            TsTypeMember {\n                span: 23..35,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 23..24,\n                            sym: \"r\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 34..46,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 34..35,\n                            sym: \"g\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 45..56,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 45..46,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 317..323,\n        name: Ident {\n            span: 317..323,\n            sym: \"Color\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 302..324,\n        name: Ident {\n            span: 302..309,\n            sym: \"Record\",\n        },\n        type_args: [\n            _,\n            _,\n        ],\n    },\n)"
+  ]
+}

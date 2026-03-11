@@ -1,0 +1,8 @@
+  x failed to parse number literal
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/dcb304c591564c68.js:1:1]
+ 1 | 0O
+   : ^^
+   `----
+
+Advice: 
+  > code: InvalidNumber

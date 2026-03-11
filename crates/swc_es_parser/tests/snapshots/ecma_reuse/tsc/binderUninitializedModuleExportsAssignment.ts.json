@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 76..139,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 76..98,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 76..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 95..121,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 95..113,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 80..85,\n        sym: \"loop1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 86..94,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 99..104,\n        sym: \"loop2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 105..113,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 88..93,\n        sym: \"loop2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 107..112,\n        sym: \"loop1\",\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

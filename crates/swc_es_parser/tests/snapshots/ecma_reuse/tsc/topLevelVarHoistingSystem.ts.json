@@ -1,0 +1,37 @@
+{
+  "programs": [
+    "Program {\n    span: 67..149,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Block(\n    BlockStmt {\n        span: 78..106,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 67..106,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 117..134,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 84..96,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 84..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 98..142,\n        ident: Ident {\n            span: 107..108,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 88..89,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 90..94,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 71..76,\n            value: false,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 92..93,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 117..124,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 124..129,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 125..128,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 129..130,\n        sym: \"y\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 128..132,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportNamed(\n    ExportNamedDecl {\n        span: 136..149,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 145..146,\n                    sym: \"y\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 1..107,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 46..58,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..30,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..20,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 22..65,\n        ident: Ident {\n            span: 31..32,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 60..88,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 60..82,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 83..107,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 83..107,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"o\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 66..68,\n        sym: \"b1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 69..82,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 89..91,\n        sym: \"b2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 92..107,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Object(\n    ObjectExpr {\n        span: 17..20,\n        props: [],\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 53..56,\n        props: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 71..76,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 80..81,\n        sym: \"o\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 77..82,\n        op: In,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 94..99,\n            value: \"bar\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 103..104,\n        sym: \"f\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 104..107,\n        callee: _,\n        args: [],\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 100..107,\n        op: In,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

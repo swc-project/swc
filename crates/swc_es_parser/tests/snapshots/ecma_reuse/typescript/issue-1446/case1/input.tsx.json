@@ -1,0 +1,26 @@
+{
+  "programs": [
+    "Program {\n    span: 1..39,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..39,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..38,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..11,\n        sym: \"Span\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 12..38,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "JSXElement(\n    _,\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 14..38,\n    opening: JSXOpeningElement {\n        span: 14..38,\n        name: Ident(\n            Ident {\n                span: 15..20,\n                sym: \"span\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"with\",\n        ),\n        Text(\n            \"&\",\n        ),\n        Text(\n            \"nbsp\",\n        ),\n        Text(\n            \";\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 32..37,\n                sym: \"span\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}

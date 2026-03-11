@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 130..173,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 130..148,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 147..173,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Expr(\n    _,\n)",
+    "Expr(\n    _,\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 130..131,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 131..143,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 132..141,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 144..148,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 142..148,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 147..148,\n        sym: \"C\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 148..159,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 149..158,\n                sym: \"prototype\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 158..163,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 159..162,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 162..168,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 163..166,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 169..172,\n        props: [],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 167..172,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

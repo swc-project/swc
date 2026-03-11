@@ -1,0 +1,29 @@
+{
+  "programs": [
+    "Program {\n    span: 112..220,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 112..220,\n        ident: Ident {\n            span: 118..119,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 174..175,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 214..215,\n            value: 2.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 112..220,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 118..119,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 154..171,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 161..169,\n                sym: \"accessor\",\n            },\n        ),\n        value: None,\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 170..209,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 170..171,\n                sym: \"x\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 201..211,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 201..209,\n                sym: \"accessor\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 210..218,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 210..211,\n                sym: \"y\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

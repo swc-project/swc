@@ -1,0 +1,30 @@
+{
+  "programs": [
+    "Program {\n    span: 2..184,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 2..184,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 36..45,\n        sym: \"isLoading\",\n    },\n)",
+    "JSXElement(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 64..101,\n        expr: _,\n    },\n)",
+    "JSXElement(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 118..170,\n        expr: _,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 46..170,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "JSXElement(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 2..184,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 65..83,\n    opening: JSXOpeningElement {\n        span: 65..83,\n        name: Ident(\n            Ident {\n                span: 66..69,\n                sym: \"h2\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"loading\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 79..82,\n                sym: \"h2\",\n            },\n        ),\n    ),\n}",
+    "JSXElement {\n    span: 119..159,\n    opening: JSXOpeningElement {\n        span: 119..159,\n        name: Ident(\n            Ident {\n                span: 120..123,\n                sym: \"h3\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"naaaaaaaaaaaaffffffffffffffff\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 155..158,\n                sym: \"h3\",\n            },\n        ),\n    ),\n}",
+    "JSXElement {\n    span: 8..183,\n    opening: JSXOpeningElement {\n        span: 8..183,\n        name: Ident(\n            Ident {\n                span: 9..13,\n                sym: \"div\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [\n        Expr(\n            _,\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 177..181,\n                sym: \"div\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}

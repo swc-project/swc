@@ -1,0 +1,7 @@
+  x expected }, got Eof
+   ,-[/swc_ecma_parser/tests/test262-parser/fail/021fb596db81e6d0.js:1:1]
+ 1 | {
+   `----
+
+Advice: 
+  > code: UnexpectedToken

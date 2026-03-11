@@ -1,0 +1,32 @@
+{
+  "programs": [
+    "Program {\n    span: 94..215,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 94..195,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 194..215,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 103..104,\n        sym: \"c\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 203..204,\n        sym: \"c\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 94..95,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 98..99,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 113..114,\n        sym: \"e\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 102..195,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 96..195,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 194..195,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 198..199,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 213..214,\n        sym: \"e\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 202..215,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 196..215,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

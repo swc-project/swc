@@ -1,0 +1,24 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/comments/stmts/block/input.js:1:1]
+ 1 | ,-> while (1) {
+ 2 | |       /* test */
+ 3 | `-> }
+   `----
+  x WhileStmt
+   ,-[/swc_ecma_parser/tests/comments/stmts/block/input.js:1:1]
+ 1 | ,-> while (1) {
+ 2 | |       /* test */
+ 3 | `-> }
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/comments/stmts/block/input.js:1:1]
+ 1 | while (1) {
+   :        ^
+ 2 |     /* test */
+   `----
+  x BlockStmt
+   ,-[/swc_ecma_parser/tests/comments/stmts/block/input.js:1:1]
+ 1 | ,-> while (1) {
+ 2 | |       /* test */
+ 3 | `-> }
+   `----

@@ -1,0 +1,46 @@
+{
+  "programs": [
+    "Program {\n    span: 17..168,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 83..103,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 17..37,\n        ident: Ident {\n            span: 23..27,\n            sym: \"Base\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 100..166,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 100..160,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 32..168,\n        ident: Ident {\n            span: 38..39,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 104..107,\n        sym: \"obj\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 108..160,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 48..52,\n        sym: \"Base\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 83..88,\n        sym: \"super\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 88..91,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 126..131,\n        sym: \"super\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 131..134,\n        callee: _,\n        args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 135..141,\n            value: \"prop\",\n        },\n    ),\n)",
+    "Seq(\n    SeqExpr {\n        span: 126..142,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 125..143,\n        expr: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 110..160,\n        props: [\n            KeyValueProp {\n                span: 124..159,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 124..159,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 59..168,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 17..37,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 23..27,\n            sym: \"Base\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 32..168,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 38..39,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 59..168,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 59..70,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,83 @@
+{
+  "programs": [
+    "Program {\n    span: 73..617,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 196..258,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 302..319,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 341..365,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 396..413,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 443..465,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 460..481,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 517..534,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 549..573,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 597..614,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 81..103,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 81..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 262..617,\n        ident: Ident {\n            span: 268..269,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 85..88,\n        sym: \"dec\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 383..384,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 584..585,\n        sym: \"v\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 258..261,\n        sym: \"dec\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 278..282,\n        sym: \"Base\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 302..307,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 307..315,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 308..314,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 314..317,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 348..353,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 353..361,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 354..360,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 360..363,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 396..401,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 401..409,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 402..408,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 408..411,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 443..448,\n        sym: \"super\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 448..451,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 460..465,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 465..473,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 466..472,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 472..475,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 491..496,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 496..504,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 497..503,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 503..506,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 517..522,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 522..530,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 523..529,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 529..532,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 556..561,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 561..569,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 562..568,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 568..571,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 597..602,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 602..610,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 603..609,\n                sym: \"method\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 609..612,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 289..330,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 324..376,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 370..430,\n    params: [\n        Param {\n            span: 383..393,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 419..488,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 511..542,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 539..581,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 578..616,\n    params: [\n        Param {\n            span: 584..594,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 262..617,\n    decorators: [\n        Decorator {\n            span: 257..267,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 268..269,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 289..330,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 296..297,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 324..376,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 335..336,\n                sym: \"x\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 370..430,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 381..382,\n                sym: \"x\",\n            },\n        ),\n        function: _,\n        is_static: true,\n        kind: Setter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 419..488,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 419..430,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 487..512,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 487..488,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 511..542,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 511..512,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 539..581,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 543..544,\n                sym: \"x\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 578..616,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 582..583,\n                sym: \"x\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

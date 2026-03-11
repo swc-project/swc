@@ -1,0 +1,22 @@
+{
+  "programs": [
+    "Program {\n    span: 1..17,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..17,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"a\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 7..16,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 6..17,\n        expr: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 3..17,\n        op: LogicalAnd,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

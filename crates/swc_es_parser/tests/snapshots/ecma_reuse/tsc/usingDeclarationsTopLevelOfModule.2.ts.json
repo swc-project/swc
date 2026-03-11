@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 118..201,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 170..195,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 118..161,\n        kind: Using,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 118..154,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 156..177,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 156..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 124..125,\n        sym: \"z\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 126..154,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 162..163,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 164..168,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 131..137,\n        sym: \"Symbol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 137..146,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 138..145,\n                sym: \"dispose\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 128..154,\n        props: [\n            KeyValueProp {\n                span: 130..153,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 166..167,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 170..177,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 177..182,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 178..181,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 182..183,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 185..186,\n        sym: \"z\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 181..188,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 130..153,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

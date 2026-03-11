@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 170..353,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 200..211,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 212..265,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 291..302,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 303..353,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 177..216,\n        ident: Ident {\n            span: 186..190,\n            sym: \"inJs\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 260..312,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 260..312,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 191..192,\n        sym: \"l\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 266..275,\n        sym: \"inJsArrow\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 279..280,\n        sym: \"j\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 276..312,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 207..208,\n        sym: \"l\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 212..216,\n        sym: \"inJs\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 217..218,\n            value: 1.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 216..220,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 298..299,\n        sym: \"j\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 278..312,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 303..312,\n        sym: \"inJsArrow\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 313..314,\n            value: 2.0,\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 312..316,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 170..216,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

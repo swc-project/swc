@@ -1,0 +1,24 @@
+{
+  "programs": [
+    "Program {\n    span: 16..59,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 36..59,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 16..59,\n        ident: Ident {\n            span: 26..27,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 55..56,\n            value: 0.0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 49..57,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Yield(\n    YieldExpr {\n        span: 43..57,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

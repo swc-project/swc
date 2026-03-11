@@ -1,0 +1,25 @@
+{
+  "programs": [
+    "Program {\n    span: 1..62,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 32..62,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [],
+  "pats": [],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 32..39,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 39..44,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 40..43,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 44..59,\n            value: \"hello, world!\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 43..61,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [
+    "Import(\n    ImportDecl {\n        span: 1..39,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 8..12,\n                        sym: \"path\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 18..29,\n            value: \"node:path\",\n        },\n        with: [],\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

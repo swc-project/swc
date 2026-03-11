@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 88..154,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 130..154,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 88..109,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 88..109,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 106..137,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 106..137,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 94..101,\n        sym: \"orbitol\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 102..109,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 110..117,\n        sym: \"orbitol\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 118..137,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 104..105,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 120..121,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 124..129,\n            value: false,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 122..137,\n        op: Add,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 130..137,\n        sym: \"orbitol\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 137..152,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 138..151,\n                sym: \"toExponential\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 151..154,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,56 @@
+{
+  "programs": [
+    "Program {\n    span: 103..580,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Return(\n    ReturnStmt {\n        span: 227..261,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 435..460,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 103..290,\n        ident: Ident {\n            span: 109..110,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 285..533,\n        ident: Ident {\n            span: 291..292,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 528..580,\n        ident: Ident {\n            span: 534..535,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 214..215,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 422..423,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 241..242,\n        sym: \"a\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 234..246,\n        op: TypeOf,\n        arg: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 247..255,\n            value: \"string\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 243..261,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 301..302,\n        sym: \"A\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 442..447,\n        sym: \"super\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 447..452,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 448..451,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 452..453,\n        sym: \"a\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 451..460,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 209..269,\n    params: [\n        Param {\n            span: 214..216,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 266..283,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 417..469,\n    params: [\n        Param {\n            span: 422..424,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 466..511,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 508..525,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 563..580,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 103..290,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 109..110,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 285..533,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 291..292,\n            sym: \"B\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 528..580,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 534..535,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 209..269,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 209..212,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 266..283,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 266..269,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 417..469,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 417..420,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 466..511,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 466..469,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 508..525,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 508..511,\n                sym: \"baz\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 563..580,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 563..566,\n                sym: \"foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

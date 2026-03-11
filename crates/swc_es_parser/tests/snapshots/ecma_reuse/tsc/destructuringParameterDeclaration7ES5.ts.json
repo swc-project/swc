@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 18..233,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 18..85,\n        ident: Ident {\n            span: 28..38,\n            sym: \"ISomething\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 45..65,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 45..48,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 62..75,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 62..65,\n                            sym: \"bar\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 77..130,\n        ident: Ident {\n            span: 86..89,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 122..175,\n        ident: Ident {\n            span: 131..134,\n            sym: \"baz\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 167..200,\n        ident: Ident {\n            span: 176..179,\n            sym: \"one\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 192..233,\n        ident: Ident {\n            span: 201..204,\n            sym: \"two\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 90..93,\n        props: [],\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 94..105,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 95..99,\n                    key: Ident {\n                        span: 95..98,\n                        sym: \"foo\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 100..104,\n                    key: Ident {\n                        span: 100..103,\n                        sym: \"bar\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 135..138,\n        elems: [],\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 139..150,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 140..144,\n                    key: Ident {\n                        span: 140..143,\n                        sym: \"foo\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 145..149,\n                    key: Ident {\n                        span: 145..148,\n                        sym: \"bar\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 180..183,\n        elems: [],\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 184..187,\n        props: [],\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 205..208,\n        elems: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 210..211,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 213..214,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 216..217,\n        sym: \"c\",\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 209..219,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    String,\n)"
+  ]
+}

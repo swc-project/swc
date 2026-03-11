@@ -1,0 +1,77 @@
+{
+  "programs": [
+    "Program {\n    span: 48..545,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 261..273,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 390..399,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 397..406,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 404..413,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 411..450,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 56..79,\n        ident: Ident {\n            span: 62..64,\n            sym: \"C1\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 70..97,\n        ident: Ident {\n            span: 80..82,\n            sym: \"C1\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 88..113,\n        ident: Ident {\n            span: 98..100,\n            sym: \"C2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 114..133,\n        ident: Ident {\n            span: 120..122,\n            sym: \"C2\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 128..151,\n        ident: Ident {\n            span: 134..136,\n            sym: \"C3\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 142..169,\n        ident: Ident {\n            span: 152..154,\n            sym: \"C3\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 160..183,\n        ident: Ident {\n            span: 170..172,\n            sym: \"C4\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 178..201,\n        ident: Ident {\n            span: 184..186,\n            sym: \"C4\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 192..233,\n        ident: Ident {\n            span: 202..204,\n            sym: \"C5\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 211..224,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 211..213,\n                            sym: \"x1\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 264..307,\n        ident: Ident {\n            span: 274..276,\n            sym: \"C5\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 283..296,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 283..285,\n                            sym: \"x3\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 298..380,\n        ident: Ident {\n            span: 308..310,\n            sym: \"C5\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 317..330,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 317..319,\n                            sym: \"x4\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 377..392,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 377..389,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 451..474,\n        ident: Ident {\n            span: 457..459,\n            sym: \"C6\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 465..516,\n        ident: Ident {\n            span: 475..477,\n            sym: \"C7\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 507..532,\n        ident: Ident {\n            span: 517..519,\n            sym: \"C6\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 533..545,\n        ident: Ident {\n            span: 539..541,\n            sym: \"C7\",\n        },\n        declare: true,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 381..383,\n        sym: \"c5\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 390..392,\n        sym: \"c5\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 392..396,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 393..395,\n                sym: \"x1\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 397..399,\n        sym: \"c5\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 399..403,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 400..402,\n                sym: \"x2\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 404..406,\n        sym: \"c5\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 406..410,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 407..409,\n                sym: \"x3\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 411..413,\n        sym: \"c5\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 413..417,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 414..416,\n                sym: \"x4\",\n            },\n        ),\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [
+    "Class {\n    span: 56..79,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 62..64,\n            sym: \"C1\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 114..133,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 120..122,\n            sym: \"C2\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 128..151,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 134..136,\n            sym: \"C3\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 178..201,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 184..186,\n            sym: \"C4\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 451..474,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 457..459,\n            sym: \"C6\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
+    "Class {\n    span: 533..545,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 539..541,\n            sym: \"C7\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}"
+  ],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    Number,\n)"
+  ]
+}

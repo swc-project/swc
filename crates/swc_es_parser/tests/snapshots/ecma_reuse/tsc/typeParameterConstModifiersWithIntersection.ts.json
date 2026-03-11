@@ -1,0 +1,47 @@
+{
+  "programs": [
+    "Program {\n    span: 93..417,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 276..288,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 287..289,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 288..297,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 290..305,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 93..164,\n        ident: Ident {\n            span: 103..109,\n            sym: \"Config\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 110..112,\n                sym: \"T1\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 143..155,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 143..148,\n                            sym: \"useIt\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 300..417,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 300..417,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 306..312,\n        sym: \"result\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 313..417,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 280..287,\n        sym: \"TConfig\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 278..288,\n        op: BitAnd,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 290..297,\n        sym: \"TConfig\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 315..319,\n        sym: \"test\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 338..343,\n        props: [],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 341..367,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 389..394,\n            value: \"foo\",\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 377..400,\n        props: [\n            KeyValueProp {\n                span: 383..395,\n                key: Ident(\n                    Ident {\n                        span: 383..387,\n                        sym: \"type\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 410..412,\n            value: 10.0,\n        },\n    ),\n)",
+    "Object(\n    ObjectExpr {\n        span: 320..416,\n        props: [\n            KeyValueProp {\n                span: 324..367,\n                key: Ident(\n                    Ident {\n                        span: 324..336,\n                        sym: \"produceThing\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 370..400,\n                key: Ident(\n                    Ident {\n                        span: 370..375,\n                        sym: \"useIt\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 403..413,\n                key: Ident(\n                    Ident {\n                        span: 403..408,\n                        sym: \"extra\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 319..417,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 150..153,\n        name: Ident {\n            span: 150..153,\n            sym: \"T1\",\n        },\n        type_args: [],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 356..361,\n            value: \"foo\",\n        },\n    ),\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 344..367,\n        members: [\n            TsTypeMember {\n                span: 350..366,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 350..354,\n                            sym: \"type\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ]
+}

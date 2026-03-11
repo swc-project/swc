@@ -1,0 +1,42 @@
+{
+  "programs": [
+    "Program {\n    span: 73..190,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 105..152,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 175..186,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 73..106,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 73..106,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 149..190,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 149..189,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 82..83,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 84..106,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 153..154,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 155..189,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Function(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"x\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 106..110,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 107..108,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Function(\n    _,\n)",
+    "Assign(\n    AssignExpr {\n        span: 109..152,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 182..183,\n            value: 1.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Call(\n    CallExpr {\n        span: 186..189,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 86..106,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 111..152,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 157..187,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,28 @@
+{
+  "programs": [
+    "Program {\n    span: 17..64,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 38..64,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 38..64,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 17..64,\n        ident: Ident {\n            span: 28..31,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 42..43,\n        sym: \"v\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 44..64,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Yield(\n    YieldExpr {\n        span: 49..55,\n        arg: None,\n        delegate: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 57..60,\n        sym: \"foo\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 46..64,\n        props: [\n            KeyValueProp {\n                span: 48..62,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

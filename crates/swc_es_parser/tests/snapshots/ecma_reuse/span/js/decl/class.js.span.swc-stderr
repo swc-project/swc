@@ -1,0 +1,110 @@
+  x Program
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:1:1]
+ 1 | ,-> class Foo extends A {
+ 2 | |       foo = '1';
+ 3 | |       static bar = 2;
+ 4 | |   
+ 5 | |       static { }
+ 6 | |       method() { }
+ 7 | |       async asyncMethod() { }
+ 8 | `-> }
+   `----
+  x DeclStmt
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:1:1]
+ 1 | ,-> class Foo extends A {
+ 2 | |       foo = '1';
+ 3 | |       static bar = 2;
+ 4 | |   
+ 5 | |       static { }
+ 6 | |       method() { }
+ 7 | |       async asyncMethod() { }
+ 8 | `-> }
+   `----
+  x ClassDecl
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:1:1]
+ 1 | ,-> class Foo extends A {
+ 2 | |       foo = '1';
+ 3 | |       static bar = 2;
+ 4 | |   
+ 5 | |       static { }
+ 6 | |       method() { }
+ 7 | |       async asyncMethod() { }
+ 8 | `-> }
+   `----
+  x Class
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:1:1]
+ 1 | ,-> class Foo extends A {
+ 2 | |       foo = '1';
+ 3 | |       static bar = 2;
+ 4 | |   
+ 5 | |       static { }
+ 6 | |       method() { }
+ 7 | |       async asyncMethod() { }
+ 8 | `-> }
+   `----
+  x IdentExpr
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:1:1]
+ 1 | class Foo extends A {
+   :                   ^
+ 2 |     foo = '1';
+   `----
+  x ClassProp
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:2:1]
+ 1 |     class Foo extends A {
+ 2 | ,->     foo = '1';
+ 3 | `->     static bar = 2;
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:2:1]
+ 1 | class Foo extends A {
+ 2 |     foo = '1';
+   :           ^^^
+ 3 |     static bar = 2;
+   `----
+  x ClassProp
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:3:1]
+ 2 |         foo = '1';
+ 3 | ,->     static bar = 2;
+ 4 | |   
+ 5 | `->     static { }
+ 6 |         method() { }
+   `----
+  x LitExpr
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:3:1]
+ 2 |     foo = '1';
+ 3 |     static bar = 2;
+   :                  ^
+   `----
+  x ClassStaticBlock
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:5:1]
+ 4 |     
+ 5 | ,->     static { }
+ 6 | `->     method() { }
+ 7 |         async asyncMethod() { }
+   `----
+  x ClassMethod
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:6:1]
+ 5 |         static { }
+ 6 | ,->     method() { }
+ 7 | `->     async asyncMethod() { }
+ 8 |     }
+   `----
+  x Function
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:6:1]
+ 5 |         static { }
+ 6 | ,->     method() { }
+ 7 | `->     async asyncMethod() { }
+ 8 |     }
+   `----
+  x ClassMethod
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:7:1]
+ 6 |         method() { }
+ 7 | ,->     async asyncMethod() { }
+ 8 | `-> }
+   `----
+  x Function
+   ,-[/swc_ecma_parser/tests/span/js/decl/class.js:7:1]
+ 6 |         method() { }
+ 7 | ,->     async asyncMethod() { }
+ 8 | `-> }
+   `----

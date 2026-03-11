@@ -1,0 +1,40 @@
+{
+  "programs": [
+    "Program {\n    span: 109..269,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 248..262,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 109..147,\n        ident: Ident {\n            span: 115..119,\n            sym: \"Base\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 142..269,\n        ident: Ident {\n            span: 148..155,\n            sym: \"Derived\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 227..228,\n        sym: \"a\",\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 130..131,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 164..168,\n        sym: \"Base\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 179..183,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 183..200,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 184..185,\n                sym: \"a\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 248..253,\n        sym: \"super\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 253..256,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 208..266,\n    params: [\n        Param {\n            span: 220..237,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 109..147,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 115..119,\n            sym: \"Base\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 142..269,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 148..155,\n            sym: \"Derived\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 126..136,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 126..127,\n                sym: \"a\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 175..219,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 175..176,\n                sym: \"b\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 208..266,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 208..219,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 1..292,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 1..92,\n        ident: Ident {\n            span: 7..17,\n            sym: \"Controller\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 83..292,\n        ident: Ident {\n            span: 93..99,\n            sym: \"IScope\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 106..162,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 106..112,\n                            sym: \"create\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 156..228,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 156..162,\n                            sym: \"delete\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 225..291,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 225..228,\n                            sym: \"var\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [],
+  "exprs": [],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 24..51,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 45..69,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 66..81,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 1..92,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 7..17,\n            sym: \"Controller\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 24..51,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 24..30,\n                sym: \"create\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 45..69,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 45..51,\n                sym: \"delete\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 66..81,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 66..69,\n                sym: \"var\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": [
+    "TypeQuery(\n    TsTypeQuery {\n        span: 114..149,\n        expr_name: Ident {\n            span: 121..149,\n            sym: \"Controller.prototype.create\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeQuery(\n    TsTypeQuery {\n        span: 164..199,\n        expr_name: Ident {\n            span: 171..199,\n            sym: \"Controller.prototype.delete\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeQuery(\n    TsTypeQuery {\n        span: 230..262,\n        expr_name: Ident {\n            span: 237..262,\n            sym: \"Controller.prototype.var\",\n        },\n        type_args: [],\n    },\n)"
+  ]
+}

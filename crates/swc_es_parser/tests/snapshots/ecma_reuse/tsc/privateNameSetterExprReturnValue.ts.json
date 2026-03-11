@@ -1,0 +1,54 @@
+{
+  "programs": [
+    "Program {\n    span: 21..162,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 116..143,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 147..162,\n        expr: _,\n    },\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 78..123,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 78..107,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 21..150,\n        ident: Ident {\n            span: 27..28,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 44..45,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 82..83,\n        sym: \"x\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Assign(\n    AssignPat {\n        span: 84..107,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 87..91,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 91..98,\n        obj: _,\n        prop: Private(\n            Ident {\n                span: 92..96,\n                sym: \"#foo\",\n            },\n        ),\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 99..101,\n            value: 42.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 104..105,\n            value: 2.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 102..106,\n        op: Mul,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 97..106,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 86..107,\n        expr: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 116..123,\n        sym: \"console\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 123..128,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 124..127,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 128..129,\n        sym: \"x\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 127..131,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 151..152,\n        sym: \"C\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 152..155,\n        callee: _,\n        args: [],\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 154..159,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 155..158,\n                sym: \"bar\",\n            },\n        ),\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 158..161,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 147..161,\n        callee: _,\n        args: [],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 39..65,\n    params: [\n        Param {\n            span: 44..54,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 62..145,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 21..150,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 27..28,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 35..40,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 35..38,\n                sym: \"set\",\n            },\n        ),\n        value: None,\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 39..65,\n        decorators: [],\n        key: Private(\n            Ident {\n                span: 39..43,\n                sym: \"#foo\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 62..145,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 62..65,\n                sym: \"bar\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

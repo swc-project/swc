@@ -1,0 +1,8 @@
+  x expected }, got Keyword(As)
+   ,-[/swc_ecma_parser/tests/typescript-errors/type-only-import-specifier/too-many-as/input.ts:1:1]
+ 1 | import { type as as as as } from 'mod'
+   :                     ^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,0 +1,35 @@
+{
+  "programs": [
+    "Program {\n    span: 1..33,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..33,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..33,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 18..19,\n        sym: \"f\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 19..26,\n        left: _,\n        right: _,\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Object(\n    ObjectPat {\n        span: 5..31,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 6..8,\n                    key: Ident {\n                        span: 6..7,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 8..14,\n                    key: Ident {\n                        span: 8..9,\n                        sym: \"b\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 14..16,\n                    key: Ident {\n                        span: 14..15,\n                        sym: \"d\",\n                    },\n                    value: None,\n                },\n            ),\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 16..26,\n                    key: Ident(\n                        Ident {\n                            span: 16..17,\n                            sym: \"e\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 26..30,\n                    key: Computed(\n                        _,\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 10..11,\n            value: 1.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"c\",\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 10..14,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 20..21,\n            value: 2.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 23..24,\n        sym: \"g\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 22..26,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Seq(\n    SeqExpr {\n        span: 20..26,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 27..28,\n        sym: \"h\",\n    },\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 31..32,\n            value: 3.0,\n        },\n    ),\n)"
+  ],
+  "module_decls": [],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}

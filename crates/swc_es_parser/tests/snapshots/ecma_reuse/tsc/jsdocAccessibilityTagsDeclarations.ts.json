@@ -1,0 +1,92 @@
+{
+  "programs": [
+    "Program {\n    span: 149..857,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 244..260,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 301..320,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 357..372,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 414..430,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 523..539,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 578..597,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 632..647,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 687..703,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 149..439,\n        ident: Ident {\n            span: 155..164,\n            sym: \"Protected\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 434..768,\n        ident: Ident {\n            span: 440..447,\n            sym: \"Private\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 763..857,\n        ident: Ident {\n            span: 769..770,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 205..206,\n        sym: \"c\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 405..410,\n        sym: \"value\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 486..487,\n        sym: \"c\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 678..683,\n        sym: \"value\",\n    },\n)",
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 804..805,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 825..826,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 844..845,\n        sym: \"z\",\n    },\n)"
+  ],
+  "exprs": [
+    "Ident(\n    Ident {\n        span: 244..248,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 248..252,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 249..250,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 253..254,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 251..260,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 308..312,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 312..320,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 313..314,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 364..368,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 368..372,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 369..370,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 414..418,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 418..422,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 419..420,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 423..428,\n        sym: \"value\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 421..430,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 523..527,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 527..531,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 528..529,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 532..533,\n        sym: \"c\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 530..539,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 585..589,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 589..597,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 590..591,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 639..643,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 643..647,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 644..645,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 687..691,\n        sym: \"this\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 691..695,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 692..693,\n                sym: \"c\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 696..701,\n        sym: \"value\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 694..703,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 193..288,\n    params: [\n        Param {\n            span: 205..207,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 287..350,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 347..402,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 399..432,\n    params: [\n        Param {\n            span: 405..411,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 474..565,\n    params: [\n        Param {\n            span: 486..488,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 564..625,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 622..675,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 672..705,\n    params: [\n        Param {\n            span: 678..684,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 777..856,\n    params: [\n        Param {\n            span: 804..806,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 825..827,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 844..846,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 149..439,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 155..164,\n            sym: \"Protected\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 434..768,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 440..447,\n            sym: \"Private\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}",
+    "Class {\n    span: 763..857,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 769..770,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 193..288,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 193..204,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 287..350,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 287..288,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 347..402,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 351..352,\n                sym: \"p\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 399..432,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 403..404,\n                sym: \"p\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 474..565,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 474..485,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 564..625,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 564..565,\n                sym: \"m\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 622..675,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 626..627,\n                sym: \"p\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Getter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 672..705,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 676..677,\n                sym: \"p\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Setter,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 777..856,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 777..788,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
+  "jsx_elements": [],
+  "ts_types": []
+}

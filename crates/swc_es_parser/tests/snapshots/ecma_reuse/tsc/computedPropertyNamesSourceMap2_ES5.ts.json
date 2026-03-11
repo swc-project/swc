@@ -1,0 +1,34 @@
+{
+  "programs": [
+    "Program {\n    span: 37..127,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Debugger(\n    DebuggerStmt {\n        span: 73..81,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 113..125,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 37..127,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 37..127,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 41..42,\n        sym: \"v\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 43..127,\n        left: _,\n        right: _,\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 52..59,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 96..105,\n            value: \"goodbye\",\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 120..121,\n            value: 0.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 45..127,\n        props: [\n            KeyValueProp {\n                span: 51..86,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 91..127,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
+  ],
+  "module_decls": [],
+  "functions": [
+    "Function {\n    span: 51..86,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 91..127,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [],
+  "ts_types": []
+}
