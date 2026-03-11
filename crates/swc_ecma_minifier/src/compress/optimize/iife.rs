@@ -3,7 +3,6 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
@@ -436,20 +435,28 @@ impl Optimizer<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
 
-        if let Expr::Fn(FnExpr { function, .. }) = callee {
-            if self.data.used_arguments(function.ctxt) {
-                return;
+        match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                if let Some(scope) = self.data.get_scope(function.ctxt) {
+                    if scope.intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL)) {
+                        return;
+                    }
+                }
             }
-        }
-
-        if contains_eval(callee, false) {
-            return;
+            Expr::Arrow(a) => {
+                if let Some(scope) = self.data.get_scope(a.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL) {
+                        return;
+                    }
+                }
+            }
+            _ => (),
         }
 
         let mut removed = Vec::new();
         let params = find_params(callee);
 
-        let params = if let Some(mut params) = params {
+        if let Some(mut params) = params {
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 if let Pat::Ident(param) = &mut **param {
@@ -460,8 +467,6 @@ impl Optimizer<'_> {
                     }
                 }
             }
-
-            params
         } else {
             return;
         };
@@ -488,20 +493,6 @@ impl Optimizer<'_> {
                 }
             } else {
                 break;
-            }
-        }
-
-        if e.args.len() > params.len() && !params.iter().any(|p| p.is_rest()) {
-            for i in (params.len()..e.args.len()).rev() {
-                if let Some(arg) = e.args.get_mut(i) {
-                    let new = self.ignore_return_value(&mut arg.expr);
-
-                    if let Some(new) = new {
-                        arg.expr = Box::new(new);
-                    } else {
-                        e.args.remove(i);
-                    }
-                }
             }
         }
     }

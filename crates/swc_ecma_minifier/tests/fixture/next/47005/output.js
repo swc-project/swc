@@ -121,17 +121,12 @@
                     ...k.platform,
                     _c: E
                 };
-                return V(m, S, {
-                    ...k,
-                    platform: R
-                });
+                return V();
             };
             var er = async ({ elementReference: m = null, tooltipReference: S = null, tooltipArrowReference: h = null, place: E = "top", offset: k = 10, strategy: R = "absolute", middlewares: A = [
                 X(Number(k)),
                 W(),
-                Y({
-                    padding: 5
-                })
+                Y()
             ] })=>{
                 if (!m) return {
                     tooltipStyles: {},
@@ -213,7 +208,7 @@
                     };
                     eo(S), V.current = S;
                 }, ei = (m)=>{
-                    ee(m), y;
+                    ee(), y;
                 }, ea = (S)=>{
                     var h;
                     [

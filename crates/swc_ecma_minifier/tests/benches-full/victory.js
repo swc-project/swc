@@ -30598,7 +30598,7 @@
                     scale: scale,
                     axisType: axisType,
                     text: text
-                }).tickStyle, axisAngle = "radial" === axisType ? getAxisAngle(props, scale) : void 0, tickPadding = tickStyle.padding || tickStyle.size || 0, padAngle = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(90 - axisAngle), tickAngle = "angular" === axisType ? scale(tickValue) : victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(-1 * axisAngle), tickRadius = "angular" === axisType ? radius : scale(tickValue);
+                }).tickStyle, axisAngle = "radial" === axisType ? getAxisAngle(props) : void 0, tickPadding = tickStyle.padding || tickStyle.size || 0, padAngle = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(90 - axisAngle), tickAngle = "angular" === axisType ? scale(tickValue) : victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(-1 * axisAngle), tickRadius = "angular" === axisType ? radius : scale(tickValue);
                 return "angular" === axisType ? {
                     index: index,
                     datum: tick,
@@ -30627,7 +30627,7 @@
                     radius: radius,
                     scale: scale,
                     axisType: axisType
-                }).labelStyle, tickLabelComponent = props.tickLabelComponent, labelPlacement = tickLabelComponent.props && tickLabelComponent.props.labelPlacement ? tickLabelComponent.props.labelPlacement : props.labelPlacement, tickPadding = labelStyle.padding || 0, axisAngle = "radial" === axisType ? getAxisAngle(props, scale) : void 0, labelAngle = "angular" === axisType ? victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.radiansToDegrees(scale(tickValue)) : axisAngle + 0, textAngle = void 0 === labelStyle.angle ? victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getPolarAngle(lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
+                }).labelStyle, tickLabelComponent = props.tickLabelComponent, labelPlacement = tickLabelComponent.props && tickLabelComponent.props.labelPlacement ? tickLabelComponent.props.labelPlacement : props.labelPlacement, tickPadding = labelStyle.padding || 0, axisAngle = "radial" === axisType ? getAxisAngle(props) : void 0, labelAngle = "angular" === axisType ? victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.radiansToDegrees(scale(tickValue)) : axisAngle + 0, textAngle = void 0 === labelStyle.angle ? victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getPolarAngle(lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
                     labelPlacement: labelPlacement
                 }), labelAngle) : labelStyle.angle, labelRadius = "angular" === axisType ? radius + tickPadding : scale(tickValue), textAnchor = labelStyle.textAnchor || victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getPolarTextAnchor(lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
                     labelPlacement: labelPlacement
@@ -30673,9 +30673,9 @@
                     endAngle: endAngle
                 };
             }, getAxisLabelProps = function(props, calculatedValues) {
-                var axisType = calculatedValues.axisType, radius = calculatedValues.radius, style = calculatedValues.style, scale = calculatedValues.scale, origin = calculatedValues.origin, axisLabelComponent = props.axisLabelComponent;
+                var axisType = calculatedValues.axisType, radius = calculatedValues.radius, style = calculatedValues.style, origin = (calculatedValues.scale, calculatedValues.origin), axisLabelComponent = props.axisLabelComponent;
                 if ("radial" !== axisType) return {};
-                var labelPlacement = axisLabelComponent.props && axisLabelComponent.props.labelPlacement ? axisLabelComponent.props.labelPlacement : props.labelPlacement, labelStyle = style && style.axisLabel || {}, axisAngle = "radial" === axisType ? getAxisAngle(props, scale) : void 0, textAngle = void 0 === labelStyle.angle ? victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getPolarAngle(lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
+                var labelPlacement = axisLabelComponent.props && axisLabelComponent.props.labelPlacement ? axisLabelComponent.props.labelPlacement : props.labelPlacement, labelStyle = style && style.axisLabel || {}, axisAngle = "radial" === axisType ? getAxisAngle(props) : void 0, textAngle = void 0 === labelStyle.angle ? victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getPolarAngle(lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
                     labelPlacement: labelPlacement
                 }), axisAngle) : labelStyle.angle, labelRadius = radius + (labelStyle.padding || 0), textAnchor = labelStyle.textAnchor || victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getTextPolarAnchor(lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
                     labelPlacement: labelPlacement
@@ -30692,7 +30692,7 @@
                     y: getPosition(labelRadius, victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(axisAngle), "y") + origin.y
                 };
             }, getAxisProps = function(modifiedProps, calculatedValues) {
-                var style = calculatedValues.style, axisType = calculatedValues.axisType, radius = calculatedValues.radius, scale = calculatedValues.scale, origin = calculatedValues.origin, startAngle = modifiedProps.startAngle, endAngle = modifiedProps.endAngle, _modifiedProps$innerR = modifiedProps.innerRadius, innerRadius = void 0 === _modifiedProps$innerR ? 0 : _modifiedProps$innerR, axisAngle = "radial" === axisType ? victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(getAxisAngle(modifiedProps, scale)) : void 0;
+                var style = calculatedValues.style, axisType = calculatedValues.axisType, radius = calculatedValues.radius, origin = (calculatedValues.scale, calculatedValues.origin), startAngle = modifiedProps.startAngle, endAngle = modifiedProps.endAngle, _modifiedProps$innerR = modifiedProps.innerRadius, innerRadius = void 0 === _modifiedProps$innerR ? 0 : _modifiedProps$innerR, axisAngle = "radial" === axisType ? victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(getAxisAngle(modifiedProps)) : void 0;
                 return "radial" === axisType ? {
                     style: style.axis,
                     x1: getPosition(innerRadius, axisAngle, "x") + origin.x,
