@@ -13,7 +13,7 @@
     "Assign(\n    AssignPat {\n        span: 137..152,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 139..152,\n            exp: \"𐀀\",\n            flags: \"g\",\n        },\n    ),\n)"
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 139..151,\n            exp: \"\\\\u{10000}\",\n            flags: \"g\",\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

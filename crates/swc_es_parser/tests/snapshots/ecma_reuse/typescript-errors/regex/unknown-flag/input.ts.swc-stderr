@@ -1,7 +1,7 @@
   x unknown regular expression flag `z`
    ,-[/swc_ecma_parser/tests/typescript-errors/regex/unknown-flag/input.ts:1:1]
  1 | /shamiko/z;
-   : ^^^^^^^^^^^
+   : ^^^^^^^^^^
    `----
 
 Advice: 

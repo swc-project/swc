@@ -8,14 +8,16 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
-    "Var(\n    VarDecl {\n        span: 27..168,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 27..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 27..168,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 27..88,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 27..145,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 27..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 1..245,\n        ident: Ident {\n            span: 10..18,\n            sym: \"runTests\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 31..38,\n        sym: \"outfile\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 39..88,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 89..95,\n        sym: \"outerr\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 96..145,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 146..154,\n        sym: \"compiler\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 39..168,\n        left: _,\n        right: _,\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 155..168,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 45..52,\n        sym: \"Harness\",\n    },\n)",
@@ -28,10 +30,7 @@
     "Member(\n    MemberExpr {\n        span: 118..136,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 119..135,\n                sym: \"WriterAggregator\",\n            },\n        ),\n    },\n)",
     "Call(\n    CallExpr {\n        span: 135..145,\n        callee: _,\n        args: [],\n    },\n)",
     "New(\n    NewExpr {\n        span: 98..145,\n        callee: _,\n        args: [],\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 96..145,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Assign(\n    AssignExpr {\n        span: 155..168,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 41..168,\n        exprs: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 158..168,\n        sym: \"TypeScript\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 168..188,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 169..187,\n                sym: \"TypeScriptCompiler\",\n            },\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 192..202,\n        sym: \"TypeScript\",\n    },\n)",

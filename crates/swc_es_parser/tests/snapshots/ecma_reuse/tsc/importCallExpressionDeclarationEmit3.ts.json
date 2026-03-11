@@ -1,10 +1,11 @@
 {
   "programs": [
-    "Program {\n    span: 81..377,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 81..377,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Return(\n    ReturnStmt {\n        span: 105..120,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 206..228,\n        expr: _,\n    },\n)",
     "ModuleDecl(\n    _,\n)",
@@ -13,6 +14,7 @@
   ],
   "decls": [
     "Fn(\n    FnDecl {\n        span: 88..148,\n        ident: Ident {\n            span: 97..100,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 149..183,\n        ident: Ident {\n            span: 158..165,\n            sym: \"getPath\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 229..285,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 229..278,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 286..338,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 286..331,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 339..377,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 339..376,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"

@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 1..346,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..346,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -13,6 +14,7 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 9..45,\n        ident: Ident {\n            span: 18..21,\n            sym: \"tag\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 42..79,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 42..75,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 76..121,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 76..117,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 118..164,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 118..160,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -23,6 +25,8 @@
     "Var(\n    VarDecl {\n        span: 316..346,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 316..346,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 25..26,\n        sym: \"x\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 22..27,\n        arg: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 46..47,\n        sym: \"a\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 48..75,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 80..81,\n        sym: \"b\",\n    },\n)",

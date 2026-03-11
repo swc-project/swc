@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 55..1629,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 55..1629,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -24,7 +24,6 @@
     "For(\n    ForStmt {\n        span: 806..833,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Pat(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
     "Empty(\n    EmptyStmt {\n        span: 843..844,\n    },\n)",
     "For(\n    ForStmt {\n        span: 830..857,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Pat(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 852..866,\n        expr: _,\n    },\n)",
     "Empty(\n    EmptyStmt {\n        span: 936..937,\n    },\n)",
     "For(\n    ForStmt {\n        span: 917..954,\n        head: Of(\n            ForOfHead {\n                is_await: true,\n                left: Pat(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
     "Empty(\n    EmptyStmt {\n        span: 970..971,\n    },\n)",
@@ -37,13 +36,11 @@
     "Expr(\n    ExprStmt {\n        span: 1169..1198,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1193..1211,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 1213..1227,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1307..1336,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1331..1391,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1386..1415,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1410..1428,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 1430..1444,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1500..1522,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1517..1531,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
@@ -64,13 +61,13 @@
     "Var(\n    VarDecl {\n        span: 515..578,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 515..529,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 575..605,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 575..592,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 602..664,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 602..619,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 858..1094,\n        ident: Ident {\n            span: 867..874,\n            sym: \"asyncfn\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 852..1094,\n        ident: Ident {\n            span: 867..874,\n            sym: \"asyncfn\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 1086..1218,\n        ident: Ident {\n            span: 1096..1098,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 1219..1435,\n        ident: Ident {\n            span: 1229..1231,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1213..1435,\n        ident: Ident {\n            span: 1229..1231,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1456..1543,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1456..1532,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1538..1597,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1538..1588,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1605..1615,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1605..1615,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 1436..1629,\n        ident: Ident {\n            span: 1445..1447,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 1430..1629,\n        ident: Ident {\n            span: 1445..1447,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 67..68,\n        sym: \"_\",\n    },\n)",
@@ -133,7 +130,6 @@
     "Assign(\n    AssignExpr {\n        span: 769..774,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 816..818,\n        sym: \"g1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 840..842,\n        sym: \"g2\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 852..857,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 933..935,\n        sym: \"g1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 967..969,\n        sym: \"g2\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1038..1040,\n        sym: \"g4\",\n    },\n)",
@@ -142,7 +138,6 @@
     "Yield(\n    YieldExpr {\n        span: 1169..1179,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
     "Ident(\n    Ident {\n        span: 1200..1202,\n        sym: \"g3\",\n    },\n)",
     "Yield(\n    YieldExpr {\n        span: 1193..1203,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 1213..1218,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1314..1316,\n        sym: \"g1\",\n    },\n)",
     "Yield(\n    YieldExpr {\n        span: 1307..1317,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
     "Ident(\n    Ident {\n        span: 1338..1340,\n        sym: \"g3\",\n    },\n)",
@@ -151,7 +146,6 @@
     "Yield(\n    YieldExpr {\n        span: 1386..1396,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
     "Ident(\n    Ident {\n        span: 1417..1419,\n        sym: \"g6\",\n    },\n)",
     "Yield(\n    YieldExpr {\n        span: 1410..1420,\n        arg: Some(\n            _,\n        ),\n        delegate: true,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 1430..1435,\n        sym: \"async\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 1506..1507,\n            value: 1.0,\n        },\n    ),\n)",
     "Yield(\n    YieldExpr {\n        span: 1500..1508,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 1523..1524,\n            value: 2.0,\n        },\n    ),\n)",

@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 1..1883,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..1883,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -16,6 +16,9 @@
     "Expr(\n    ExprStmt {\n        span: 379..391,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 390..402,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 401..409,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -90,6 +93,9 @@
     "Var(\n    VarDecl {\n        span: 613..636,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 613..628,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 633..646,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 633..644,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 411..655,\n        ident: Ident {\n            span: 420..422,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 656..698,\n        ident: Ident {\n            span: 665..666,\n            sym: \"g\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 699..741,\n        ident: Ident {\n            span: 708..709,\n            sym: \"g\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 742..782,\n        ident: Ident {\n            span: 751..752,\n            sym: \"g\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 830..861,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 830..853,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 858..888,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 858..880,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 885..907,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 885..899,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -138,6 +144,9 @@
     "Assign(\n    AssignPat {\n        span: 619..628,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 637..638,\n        sym: \"y\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 639..644,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 667..668,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 710..711,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 753..754,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 786..787,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 796..797,\n        sym: \"b\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 813..814,\n        sym: \"c\",\n    },\n)",

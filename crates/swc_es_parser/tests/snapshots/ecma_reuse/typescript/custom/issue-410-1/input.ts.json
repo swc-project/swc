@@ -1,16 +1,14 @@
 {
   "programs": [
-    "Program {\n    span: 1..143,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..143,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 1..22,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 21..45,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 64..66,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 65..72,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 44..72,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 71..93,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 92..117,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 136..141,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 140..143,\n        expr: _,\n    },\n)"
+    "Expr(\n    ExprStmt {\n        span: 116..143,\n        expr: _,\n    },\n)"
   ],
   "decls": [],
   "pats": [
@@ -24,8 +22,8 @@
     "Arrow(\n    ArrowExpr {\n        span: 28..40,\n        params: [\n            _,\n        ],\n        body: Block(\n            [],\n        ),\n        is_async: true,\n    },\n)",
     "Paren(\n    ParenExpr {\n        span: 21..41,\n        expr: _,\n    },\n)",
     "Call(\n    CallExpr {\n        span: 40..43,\n        callee: _,\n        args: [],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 44..67,\n        expr: _,\n    },\n)",
     "Call(\n    CallExpr {\n        span: 66..69,\n        callee: _,\n        args: [],\n    },\n)",
     "Arrow(\n    ArrowExpr {\n        span: 78..87,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: true,\n    },\n)",
     "Ident(\n    Ident {\n        span: 88..89,\n        sym: \"x\",\n    },\n)",
@@ -35,13 +33,16 @@
     "Ident(\n    Ident {\n        span: 112..113,\n        sym: \"x\",\n    },\n)",
     "Seq(\n    SeqExpr {\n        span: 93..114,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Paren(\n    ParenExpr {\n        span: 92..115,\n        expr: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
     "Ident(\n    Ident {\n        span: 139..140,\n        sym: \"x\",\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 136..141,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Seq(\n    SeqExpr {\n        span: 117..141,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 116..142,\n        expr: _,\n    },\n)"
   ],
   "module_decls": [],
-  "functions": [],
+  "functions": [
+    "Function {\n    span: 45..66,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 117..138,\n    params: [],\n    body: [],\n    is_async: true,\n    is_generator: false,\n}"
+  ],
   "classes": [],
   "class_members": [],
   "jsx_elements": [],

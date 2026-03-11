@@ -1,1 +1,8 @@
-  x expected parser diagnostics; parser accepted input
+  x unterminated regular expression literal
+   ,-[/swc_ecma_parser/tests/jsx/errors/adjacent-tags/input.js:1:1]
+ 1 | var x = <div>one</div><div>two</div>;
+   :                                ^^^^^^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 56..1035,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 56..1035,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -24,14 +24,14 @@
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 739..760,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 758..789,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 854..868,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 887..915,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 913..943,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 984..1012,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1010..1033,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1032..1035,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1034..1035,\n        expr: _,\n    },\n)"
   ],
   "decls": [
@@ -45,8 +45,10 @@
     "Var(\n    VarDecl {\n        span: 522..564,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 522..556,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 561..584,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 561..577,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 699..741,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 699..734,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 822..868,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 822..856,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 865..889,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 865..878,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 940..986,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 940..975,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 940..986,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 940..975,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 781..1035,\n        ident: Ident {\n            span: 790..793,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 229..230,\n        sym: \"a\",\n    },\n)",
@@ -63,6 +65,7 @@
     "Ident(\n    Ident {\n        span: 703..705,\n        sym: \"b2\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 739..741,\n        sym: \"a1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 758..760,\n        sym: \"b2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 826..828,\n        sym: \"b3\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 869..871,\n        sym: \"a3\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 887..889,\n        sym: \"a3\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 913..915,\n        sym: \"b3\",\n    },\n)",
@@ -90,7 +93,6 @@
     "Assign(\n    AssignExpr {\n        span: 742..747,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 763..765,\n        sym: \"a1\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 761..766,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 892..894,\n        sym: \"b3\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 890..895,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 918..920,\n        sym: \"a3\",\n    },\n)",
@@ -99,7 +101,6 @@
     "Assign(\n    AssignExpr {\n        span: 987..992,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 1015..1017,\n        sym: \"a3\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 1013..1018,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
   ],
   "module_decls": [],

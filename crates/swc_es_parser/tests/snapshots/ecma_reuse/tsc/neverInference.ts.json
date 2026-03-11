@@ -1,8 +1,12 @@
 {
   "programs": [
-    "Program {\n    span: 54..785,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 54..785,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -14,21 +18,33 @@
     "Expr(\n    ExprStmt {\n        span: 739..785,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 62..93,\n        ident: Ident {\n            span: 71..73,\n            sym: \"f1\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 90..124,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 90..119,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 121..151,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 121..137,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 148..210,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 148..172,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 206..261,\n        ident: Ident {\n            span: 211..221,\n            sym: \"Comparator\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 222..223,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 252..335,\n        ident: Ident {\n            span: 262..272,\n            sym: \"LinkedList\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 273..274,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 282..318,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 282..292,\n                            sym: \"comparator\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 313..329,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 313..318,\n                            sym: \"nodes\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 331..389,\n        ident: Ident {\n            span: 336..340,\n            sym: \"Node\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 341..342,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 528..619,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 528..588,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 390..452,\n        ident: Ident {\n            span: 399..413,\n            sym: \"compareNumbers\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 453..533,\n        ident: Ident {\n            span: 462..468,\n            sym: \"mkList\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 528..619,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 528..588,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 620..695,\n        ident: Ident {\n            span: 629..631,\n            sym: \"f2\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 77..78,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 94..104,\n        sym: \"neverArray\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 125..127,\n        sym: \"a1\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 128..137,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 152..154,\n        sym: \"a2\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 155..172,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 414..415,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 425..426,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 472..477,\n        sym: \"items\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 484..494,\n        sym: \"comparator\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 534..538,\n        sym: \"list\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 635..638,\n        sym: \"as1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 645..648,\n        sym: \"as2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 655..658,\n        sym: \"cmp\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 718..720,\n        sym: \"a1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 722..724,\n        sym: \"a2\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 764..766,\n        sym: \"a1\",\n    },\n)",

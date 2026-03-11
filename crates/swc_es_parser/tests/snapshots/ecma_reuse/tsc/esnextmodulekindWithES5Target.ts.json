@@ -1,10 +1,11 @@
 {
   "programs": [
-    "Program {\n    span: 70..314,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 70..314,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -12,10 +13,14 @@
   ],
   "decls": [
     "Class(\n    ClassDecl {\n        span: 77..141,\n        ident: Ident {\n            span: 83..84,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 164..200,\n        ident: Ident {\n            span: 173..176,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 211..275,\n        ident: Ident {\n            span: 217..218,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 290..308,\n        ident: Ident {\n            span: 296..297,\n            sym: \"E\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
-  "pats": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 180..184,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 177..185,\n        arg: _,\n    },\n)"
+  ],
   "exprs": [
     "Lit(\n    Num(\n        NumberLit {\n            span: 102..103,\n            value: 0.0,\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 113..114,\n            value: 1.0,\n        },\n    ),\n)",

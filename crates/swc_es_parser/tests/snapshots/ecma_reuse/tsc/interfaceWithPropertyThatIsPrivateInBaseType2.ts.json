@@ -7,15 +7,15 @@
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 126..129,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 128..140,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 191..192,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
   "decls": [
     "Class(\n    ClassDecl {\n        span: 1..45,\n        ident: Ident {\n            span: 7..11,\n            sym: \"Base\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
-    "TsInterface(\n    TsInterfaceDecl {\n        span: 36..96,\n        ident: Ident {\n            span: 46..49,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 58..64,\n                sym: \"Base\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 78..89,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 78..79,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 36..96,\n        ident: Ident {\n            span: 46..49,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 58..64,\n                sym: \"Base\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 78..89,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 78..79,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 131..192,\n        ident: Ident {\n            span: 141..145,\n            sym: \"Foo2\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 146..147,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 157..163,\n                sym: \"Base2\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 181..192,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 181..182,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
   ],
@@ -31,6 +31,7 @@
   ],
   "jsx_elements": [],
   "ts_types": [
+    "Keyword(\n    Any,\n)",
     "Keyword(\n    Any,\n)"
   ]
 }

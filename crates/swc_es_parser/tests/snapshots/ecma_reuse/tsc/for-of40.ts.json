@@ -17,9 +17,10 @@
     "Ident(\n    Ident {\n        span: 20..23,\n        sym: \"map\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 24..48,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 59..60,\n        sym: \"k\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 61..66,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 67..68,\n        sym: \"v\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 61..77,\n        left: _,\n        right: _,\n    },\n)",
-    "Array(\n    ArrayPat {\n        span: 58..80,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 69..77,\n        left: _,\n        right: _,\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 58..80,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 30..33,\n        sym: \"Map\",\n    },\n)",
@@ -31,8 +32,6 @@
     "New(\n    NewExpr {\n        span: 26..48,\n        callee: _,\n        args: [],\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 63..65,\n            value: \"\",\n        },\n    ),\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 71..76,\n            value: false,\n        },\n    ),\n)",
-    "Assign(\n    AssignExpr {\n        span: 69..77,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 63..77,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 81..84,\n        sym: \"map\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 92..93,\n        sym: \"k\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"v\",\n    },\n)"

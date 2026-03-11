@@ -1,8 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 1..526,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..526,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -16,6 +18,8 @@
   "decls": [
     "TsInterface(\n    TsInterfaceDecl {\n        span: 1..62,\n        ident: Ident {\n            span: 11..20,\n            sym: \"NumberMap\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 21..22,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 30..51,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 31..36,\n                        name: Some(\n                            Ident {\n                                span: 31..36,\n                                sym: \"index\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 53..112,\n        ident: Ident {\n            span: 63..72,\n            sym: \"StringMap\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 73..74,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 82..103,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 83..88,\n                        name: Some(\n                            Ident {\n                                span: 83..88,\n                                sym: \"index\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 113..177,\n        ident: Ident {\n            span: 122..138,\n            sym: \"numberMapToArray\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 178..239,\n        ident: Ident {\n            span: 187..203,\n            sym: \"stringMapToArray\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 236..275,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 236..271,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 272..312,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 272..307,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 309..332,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 309..328,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -25,6 +29,8 @@
     "Var(\n    VarDecl {\n        span: 481..526,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 481..518,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 142..148,\n        sym: \"object\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 207..213,\n        sym: \"object\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 240..249,\n        sym: \"numberMap\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 276..285,\n        sym: \"stringMap\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 313..315,\n        sym: \"v1\",\n    },\n)",

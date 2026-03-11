@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 71..1034,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 71..1034,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -14,10 +14,10 @@
     "If(\n    IfStmt {\n        span: 292..328,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 326..331,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 333..347,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 688..692,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 689..690,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 691..699,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 694..708,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 849..862,\n        arg: None,\n    },\n)",
     "If(\n    IfStmt {\n        span: 836..862,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
@@ -36,8 +36,10 @@
     "Var(\n    VarDecl {\n        span: 139..173,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 139..167,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 71..220,\n        ident: Ident {\n            span: 80..85,\n            sym: \"test1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 212..338,\n        ident: Ident {\n            span: 221..226,\n            sym: \"test2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 408..466,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 408..456,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 333..690,\n        ident: Ident {\n            span: 348..360,\n            sym: \"myAllSettled\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 721..838,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 721..832,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 700..875,\n        ident: Ident {\n            span: 709..714,\n            sym: \"test3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 694..875,\n        ident: Ident {\n            span: 709..714,\n            sym: \"test3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 867..1034,\n        ident: Ident {\n            span: 876..881,\n            sym: \"test4\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
@@ -50,6 +52,9 @@
     "Ident(\n    Ident {\n        span: 233..240,\n        sym: \"p1Error\",\n    },\n)",
     "Array(\n    ArrayPat {\n        span: 228..242,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
     "Array(\n    ArrayPat {\n        span: 227..243,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 391..393,\n        sym: \"fn\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 414..422,\n        sym: \"promises\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 423..456,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 729..731,\n        sym: \"p1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 733..740,\n        sym: \"p1Error\",\n    },\n)",
     "Array(\n    ArrayPat {\n        span: 728..742,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)",
@@ -67,10 +72,13 @@
     "Ident(\n    Ident {\n        span: 205..207,\n        sym: \"p1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 296..303,\n        sym: \"p1Error\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 326..328,\n        sym: \"p1\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 333..338,\n        sym: \"async\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 431..438,\n        sym: \"Promise\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 438..450,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 439..449,\n                sym: \"allSettled\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 450..452,\n        sym: \"fn\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 452..455,\n        callee: _,\n        args: [],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 449..456,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 425..456,\n        arg: _,\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 694..699,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 754..766,\n        sym: \"myAllSettled\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 779..786,\n        sym: \"Promise\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 786..795,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 787..794,\n                sym: \"resolve\",\n            },\n        ),\n    },\n)",

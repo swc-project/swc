@@ -14,16 +14,13 @@
     "Fn(\n    FnDecl {\n        span: 136..208,\n        ident: Ident {\n            span: 145..150,\n            sym: \"test0\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
-    "Ident(\n    Ident {\n        span: 160..161,\n        sym: \"b\",\n    },\n)",
-    "Object(\n    ObjectPat {\n        span: 151..169,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 153..167,\n                    key: Ident {\n                        span: 153..154,\n                        sym: \"a\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 151..169,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 153..159,\n                    key: Ident {\n                        span: 153..154,\n                        sym: \"a\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 160..167,\n                    key: Ident {\n                        span: 160..161,\n                        sym: \"b\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 168..173,\n        left: _,\n        right: _,\n    },\n)",
     "Expr(\n    _,\n)"
   ],
   "exprs": [
     "Lit(\n    Num(\n        NumberLit {\n            span: 157..158,\n            value: 0.0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 164..165,\n        sym: \"a\",\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 162..167,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 157..167,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Object(\n    ObjectExpr {\n        span: 170..173,\n        props: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 189..190,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 192..193,\n        sym: \"b\",\n    },\n)",

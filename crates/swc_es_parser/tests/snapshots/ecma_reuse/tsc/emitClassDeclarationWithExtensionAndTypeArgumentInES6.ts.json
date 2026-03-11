@@ -1,24 +1,30 @@
 {
   "programs": [
-    "Program {\n    span: 17..194,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 17..194,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 54..57,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 56..63,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 191..194,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 193..194,\n        expr: _,\n    },\n)"
   ],
-  "decls": [],
+  "decls": [
+    "Class(\n    ClassDecl {\n        span: 58..93,\n        ident: Ident {\n            span: 64..65,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+  ],
   "pats": [],
   "exprs": [
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 74..75,\n        sym: \"B\",\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],
-  "classes": [],
+  "classes": [
+    "Class {\n    span: 58..93,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 64..65,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
   "class_members": [],
   "jsx_elements": [],
   "ts_types": []

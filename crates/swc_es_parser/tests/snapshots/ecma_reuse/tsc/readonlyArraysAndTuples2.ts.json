@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 106..563,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 106..563,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -21,9 +22,14 @@
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 183..222,\n        ident: Ident {\n            span: 188..191,\n            sym: \"T13\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 218..251,\n        ident: Ident {\n            span: 223..226,\n            sym: \"T20\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 247..293,\n        ident: Ident {\n            span: 252..255,\n            sym: \"T21\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 294..432,\n        ident: Ident {\n            span: 303..305,\n            sym: \"f1\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 433..459,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 433..452,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 306..308,\n        sym: \"ma\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 320..322,\n        sym: \"ra\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 343..345,\n        sym: \"mt\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 365..367,\n        sym: \"rt\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 439..446,\n        sym: \"someDec\",\n    },\n)",
     "Expr(\n    _,\n)"
   ],

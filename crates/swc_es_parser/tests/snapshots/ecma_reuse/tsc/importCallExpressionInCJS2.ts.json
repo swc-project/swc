@@ -1,13 +1,12 @@
 {
   "programs": [
-    "Program {\n    span: 60..387,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 60..387,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Return(\n    ReturnStmt {\n        span: 84..99,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "ModuleDecl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 147..165,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "ModuleDecl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 186..200,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 283..322,\n        expr: _,\n    },\n)",
     "Return(\n    ReturnStmt {\n        span: 316..340,\n        arg: Some(\n            _,\n        ),\n    },\n)",
@@ -21,7 +20,7 @@
     "Fn(\n    FnDecl {\n        span: 67..126,\n        ident: Ident {\n            span: 76..79,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 127..191,\n        ident: Ident {\n            span: 136..142,\n            sym: \"backup\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 238..267,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 238..260,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 192..371,\n        ident: Ident {\n            span: 201..208,\n            sym: \"compute\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 186..371,\n        ident: Ident {\n            span: 201..208,\n            sym: \"compute\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 209..216,\n        sym: \"promise\",\n    },\n)",
@@ -32,7 +31,6 @@
   "exprs": [
     "Lit(\n    Str(\n        StrLit {\n            span: 91..96,\n            value: \"foo\",\n        },\n    ),\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 154..162,\n            value: \"backup\",\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 186..191,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 252..259,\n        sym: \"promise\",\n    },\n)",
     "Await(\n    AwaitExpr {\n        span: 246..260,\n        arg: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 270..271,\n        sym: \"j\",\n    },\n)",

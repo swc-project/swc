@@ -1,16 +1,25 @@
 {
   "programs": [
-    "Program {\n    span: 17..186,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 17..186,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 17..56,\n        ident: Ident {\n            span: 26..27,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 48..87,\n        ident: Ident {\n            span: 57..58,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 79..111,\n        ident: Ident {\n            span: 88..89,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 103..130,\n        ident: Ident {\n            span: 112..113,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 127..186,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 127..186,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 28..29,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 59..60,\n        sym: \"n\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 93..94,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 114..115,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 131..132,\n        sym: \"v\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 133..186,\n        left: _,\n        right: _,\n    },\n)"

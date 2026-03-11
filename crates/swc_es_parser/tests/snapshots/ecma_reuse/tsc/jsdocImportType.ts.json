@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 79..525,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 79..525,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 289..310,\n        expr: _,\n    },\n)",
@@ -14,6 +15,7 @@
     "Expr(\n    ExprStmt {\n        span: 516..525,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 87..131,\n        ident: Ident {\n            span: 96..103,\n            sym: \"require\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 132..157,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 132..149,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 158..252,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 158..187,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 247..319,\n        ident: Ident {\n            span: 253..258,\n            sym: \"Chunk\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
@@ -22,6 +24,7 @@
     "Var(\n    VarDecl {\n        span: 509..517,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 509..515,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 104..108,\n        sym: \"name\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 136..143,\n        sym: \"exports\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 162..168,\n        sym: \"module\",\n    },\n)",
     "Expr(\n    _,\n)",

@@ -1,16 +1,19 @@
 {
   "programs": [
-    "Program {\n    span: 121..254,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 121..254,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 129..170,\n        ident: Ident {\n            span: 138..148,\n            sym: \"forwardRef\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 171..192,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 171..190,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 234..254,\n        ident: Ident {\n            span: 240..250,\n            sym: \"Testing123\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 149..150,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 175..184,\n        sym: \"Something\",\n    },\n)"
   ],
   "exprs": [

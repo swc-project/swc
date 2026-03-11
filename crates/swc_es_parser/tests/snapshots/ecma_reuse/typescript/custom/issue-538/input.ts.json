@@ -1,12 +1,18 @@
 {
   "programs": [
-    "Program {\n    span: 1..40,\n    kind: Module,\n    body: [],\n}"
+    "Program {\n    span: 1..40,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
-  "stmts": [],
-  "decls": [],
+  "stmts": [
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 16..40,\n        ident: Ident {\n            span: 25..29,\n            sym: \"test\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)"
+  ],
   "pats": [],
   "exprs": [],
-  "module_decls": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..40,\n        decl: _,\n    },\n)"
+  ],
   "functions": [],
   "classes": [],
   "class_members": [],

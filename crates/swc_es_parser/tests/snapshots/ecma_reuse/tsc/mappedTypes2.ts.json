@@ -1,9 +1,11 @@
 {
   "programs": [
-    "Program {\n    span: 51..2246,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 51..2246,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 164..174,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Empty(\n    EmptyStmt {\n        span: 165..166,\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 236..246,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
@@ -14,6 +16,11 @@
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 466..473,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 543..554,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -44,10 +51,17 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Var(\n    VarDecl {\n        span: 108..135,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 108..127,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 51..166,\n        ident: Ident {\n            span: 60..74,\n            sym: \"verifyLibTypes\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 171..199,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 171..191,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 243..270,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 243..262,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 299..328,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 299..320,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 353..417,\n        ident: Ident {\n            span: 358..363,\n            sym: \"Proxy\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 364..365,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 555..615,\n        ident: Ident {\n            span: 564..570,\n            sym: \"assign\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 616..664,\n        ident: Ident {\n            span: 625..631,\n            sym: \"freeze\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 665..743,\n        ident: Ident {\n            span: 674..678,\n            sym: \"pick\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 744..844,\n        ident: Ident {\n            span: 753..762,\n            sym: \"mapObject\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 845..896,\n        ident: Ident {\n            span: 854..861,\n            sym: \"proxify\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 887..947,\n        ident: Ident {\n            span: 897..902,\n            sym: \"Point\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 909..925,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 909..910,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 924..936,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 924..925,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 938..1046,\n        ident: Ident {\n            span: 948..953,\n            sym: \"Shape\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 960..983,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 960..964,\n                            sym: \"name\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 978..1003,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 978..983,\n                            sym: \"width\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 997..1025,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 997..1003,\n                            sym: \"height\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 1017..1035,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 1017..1025,\n                            sym: \"location\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 1037..1156,\n        ident: Ident {\n            span: 1047..1059,\n            sym: \"PartialShape\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 1066..1090,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 1066..1070,\n                            sym: \"name\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 1085..1111,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 1085..1090,\n                            sym: \"width\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 1105..1134,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 1105..1111,\n                            sym: \"height\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 1126..1145,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 1126..1134,\n                            sym: \"location\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
@@ -75,9 +89,19 @@
     "Fn(\n    FnDecl {\n        span: 2071..2246,\n        ident: Ident {\n            span: 2080..2082,\n            sym: \"f6\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 112..114,\n        sym: \"x1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 175..177,\n        sym: \"x2\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 247..249,\n        sym: \"x3\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 303..305,\n        sym: \"x4\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 574..577,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 582..587,\n        sym: \"props\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 635..638,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 701..704,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 712..716,\n        sym: \"keys\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 709..717,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 787..790,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 806..807,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 865..868,\n        sym: \"obj\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1302..1304,\n        sym: \"s1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1313..1315,\n        sym: \"s2\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1420..1425,\n        sym: \"shape\",\n    },\n)",
@@ -111,7 +135,6 @@
     "Assign(\n    AssignPat {\n        span: 2220..2233,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",

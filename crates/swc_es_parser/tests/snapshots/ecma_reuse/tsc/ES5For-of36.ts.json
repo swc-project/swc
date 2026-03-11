@@ -13,15 +13,14 @@
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 58..59,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 60..64,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 65..66,\n        sym: \"b\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 60..71,\n        left: _,\n        right: _,\n    },\n)",
-    "Array(\n    ArrayPat {\n        span: 57..74,\n        elems: [\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 67..71,\n        left: _,\n        right: _,\n    },\n)",
+    "Array(\n    ArrayPat {\n        span: 57..74,\n        elems: [\n            Some(\n                _,\n            ),\n            Some(\n                _,\n            ),\n        ],\n    },\n)"
   ],
   "exprs": [
     "Lit(\n    Num(\n        NumberLit {\n            span: 62..63,\n            value: 0.0,\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 69..70,\n            value: 1.0,\n        },\n    ),\n)",
-    "Assign(\n    AssignExpr {\n        span: 67..71,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 62..71,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 76..77,\n            value: 2.0,\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 79..80,\n            value: 3.0,\n        },\n    ),\n)",
     "Array(\n    ArrayExpr {\n        span: 75..82,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",

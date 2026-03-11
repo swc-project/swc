@@ -8,7 +8,7 @@
     "Decl(\n    _,\n)",
     "Empty(\n    EmptyStmt {\n        span: 233..234,\n    },\n)",
     "ModuleDecl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 743..745,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 744..756,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 755..772,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 812..910,\n        expr: _,\n    },\n)",
@@ -18,9 +18,13 @@
     "Expr(\n    ExprStmt {\n        span: 953..954,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    "Class(\n    ClassDecl {\n        span: 40..234,\n        ident: Ident {\n            span: 46..47,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+    "Class(\n    ClassDecl {\n        span: 40..234,\n        ident: Ident {\n            span: 46..47,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 250..745,\n        ident: Ident {\n            span: 259..276,\n            sym: \"boundMethodLogger\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 311..317,\n        sym: \"source\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 327..332,\n        sym: \"bound\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 333..340,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 783..787,\n        sym: \"this\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 792..796,\n        sym: \"args\",\n    },\n)",
     "Rest(\n    RestPat {\n        span: 789..797,\n        arg: _,\n    },\n)"
@@ -37,7 +41,7 @@
     "Member(\n    MemberExpr {\n        span: 176..181,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 177..180,\n                sym: \"log\",\n            },\n        ),\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 181..224,\n            value: \"Behold! The actual method implementation!\",\n        },\n    ),\n)",
     "Call(\n    CallExpr {\n        span: 180..231,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 335..339,\n            value: true,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 812..819,\n        sym: \"console\",\n    },\n)",

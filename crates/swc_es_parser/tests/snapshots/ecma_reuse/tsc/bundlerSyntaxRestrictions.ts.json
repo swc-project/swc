@@ -4,6 +4,7 @@
   ],
   "stmts": [
     "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
@@ -21,7 +22,8 @@
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 172..246,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 172..209,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "TsModule(\n    TsModuleDecl {\n        span: 247..345,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 254..258,\n                value: \"fs\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 272..337,\n        ident: Ident {\n            span: 281..293,\n            sym: \"readFileSync\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 247..345,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 254..258,\n                value: \"fs\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
     "Var(\n    VarDecl {\n        span: 435..459,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 435..453,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 403..470,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 413..417,\n                sym: \"path\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 346..519,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 353..359,\n                value: \"path\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
@@ -30,6 +32,8 @@
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 176..183,\n        sym: \"require\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 294..298,\n        sym: \"path\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 308..316,\n        sym: \"encoding\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 441..444,\n        sym: \"sep\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 556..557,\n        sym: \"_\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 558..575,\n        left: _,\n        right: _,\n    },\n)",
@@ -49,6 +53,7 @@
     "Lit(\n    Str(\n        StrLit {\n            span: 751..754,\n            value: \"a\",\n        },\n    ),\n)"
   ],
   "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 265..337,\n        decl: _,\n    },\n)",
     "Import(\n    ImportDecl {\n        span: 366..412,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 373..375,\n                        sym: \"fs\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 0..0,\n            value: \"\",\n        },\n        with: [],\n    },\n)",
     "ExportDecl(\n    ExportDecl {\n        span: 428..459,\n        decl: _,\n    },\n)",
     "Import(\n    ImportDecl {\n        span: 513..541,\n        specifiers: [],\n        type_only: false,\n        src: StrLit {\n            span: 528..533,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)",

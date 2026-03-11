@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 29..261,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 29..261,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -24,6 +25,7 @@
     "Var(\n    VarDecl {\n        span: 109..134,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 109..130,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 131..153,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 131..149,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 150..178,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 150..169,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 179..207,\n        ident: Ident {\n            span: 188..189,\n            sym: \"f\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 204..225,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 204..221,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 222..248,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 222..244,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 245..261,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 245..260,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
@@ -45,6 +47,7 @@
     "Assign(\n    AssignPat {\n        span: 138..149,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 154..156,\n        sym: \"b5\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 157..169,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 193..194,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 208..210,\n        sym: \"c1\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 211..221,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 226..228,\n        sym: \"c2\",\n    },\n)",

@@ -10,7 +10,7 @@
   "pats": [],
   "exprs": [
     "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 8..33,\n            exp: \"(\\\\\\\\?|&)rct=j\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 8..31,\n            exp: \" (\\\\\\\\ ? | & ) rct = j \",\n            flags: \"\",\n        },\n    ),\n)",
     "Member(\n    MemberExpr {\n        span: 32..38,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 33..37,\n                sym: \"test\",\n            },\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 38..39,\n        sym: \"c\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 39..45,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 40..44,\n                sym: \"href\",\n            },\n        ),\n    },\n)",

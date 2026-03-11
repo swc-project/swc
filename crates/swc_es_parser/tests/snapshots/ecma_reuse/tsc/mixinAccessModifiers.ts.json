@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 24..2966,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 24..2966,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -37,6 +37,7 @@
     "Expr(\n    ExprStmt {\n        span: 1086..1136,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1174..1224,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -90,6 +91,7 @@
     "Fn(\n    FnDecl {\n        span: 941..1056,\n        ident: Ident {\n            span: 950..952,\n            sym: \"f4\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 1048..1146,\n        ident: Ident {\n            span: 1057..1059,\n            sym: \"f5\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 1138..1233,\n        ident: Ident {\n            span: 1147..1149,\n            sym: \"f6\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1234..1337,\n        ident: Ident {\n            span: 1243..1246,\n            sym: \"Mix\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 1332..1380,\n        ident: Ident {\n            span: 1338..1340,\n            sym: \"C1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 1375..1424,\n        ident: Ident {\n            span: 1381..1383,\n            sym: \"C2\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 1419..1466,\n        ident: Ident {\n            span: 1425..1427,\n            sym: \"C3\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
@@ -107,6 +109,8 @@
     "Ident(\n    Ident {\n        span: 953..954,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1060..1061,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1150..1151,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1253..1255,\n        sym: \"c1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1260..1262,\n        sym: \"c2\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1510..1512,\n        sym: \"c4\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1518..1520,\n        sym: \"c5\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1526..1528,\n        sym: \"c6\",\n    },\n)",

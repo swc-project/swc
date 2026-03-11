@@ -1,9 +1,13 @@
 {
   "programs": [
-    "Program {\n    span: 1..22,\n    kind: Script,\n    body: [],\n}"
+    "Program {\n    span: 1..22,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
-  "stmts": [],
-  "decls": [],
+  "stmts": [
+    "Decl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 9..22,\n        ident: Ident {\n            span: 18..19,\n            sym: \"F\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)"
+  ],
   "pats": [],
   "exprs": [],
   "module_decls": [],

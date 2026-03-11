@@ -1,24 +1,22 @@
 {
   "programs": [
-    "Program {\n    span: 47..139,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 47..139,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 84..93,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 104..118,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 129..139,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 47..93,\n        ident: Ident {\n            span: 57..58,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 67..75,\n                sym: \"Promise\",\n            },\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 94..109,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 94..103,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 110..139,\n        ident: Ident {\n            span: 119..120,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 104..139,\n        ident: Ident {\n            span: 119..120,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 98..99,\n        sym: \"a\",\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 104..109,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"a\",\n    },\n)",
     "Await(\n    AwaitExpr {\n        span: 129..137,\n        arg: _,\n    },\n)"
   ],

@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 64..445,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 64..445,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 187..214,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
@@ -13,6 +14,7 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 72..113,\n        ident: Ident {\n            span: 81..93,\n            sym: \"getSpecifier\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 114..193,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 114..138,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 211..249,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 211..243,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 244..308,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 244..308,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",

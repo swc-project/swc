@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 51..1411,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 51..1411,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -85,6 +86,7 @@
     "Var(\n    VarDecl {\n        span: 1098..1129,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1098..1123,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1124..1155,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1124..1149,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1150..1206,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1150..1175,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1207..1235,\n        ident: Ident {\n            span: 1216..1219,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1230..1258,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1230..1254,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [

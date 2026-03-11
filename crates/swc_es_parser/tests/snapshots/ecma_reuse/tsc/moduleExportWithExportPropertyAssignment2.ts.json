@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 82..442,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 82..442,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 280..346,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
@@ -11,10 +12,12 @@
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 90..127,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 90..119,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 128..234,\n        ident: Ident {\n            span: 137..144,\n            sym: \"require\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 343..376,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 343..376,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 94..100,\n        sym: \"module\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 145..149,\n        sym: \"name\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 347..351,\n        sym: \"mod1\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 352..376,\n        left: _,\n        right: _,\n    },\n)"
   ],

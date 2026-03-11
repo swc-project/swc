@@ -1,8 +1,18 @@
 {
   "programs": [
-    "Program {\n    span: 41..1679,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 41..1679,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -31,6 +41,16 @@
   ],
   "decls": [
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 41..77,\n        ident: Ident {\n            span: 46..49,\n            sym: \"Box\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 50..51,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 78..136,\n        ident: Ident {\n            span: 87..91,\n            sym: \"wrap\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 137..217,\n        ident: Ident {\n            span: 146..153,\n            sym: \"compose\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 218..255,\n        ident: Ident {\n            span: 227..231,\n            sym: \"list\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 256..295,\n        ident: Ident {\n            span: 265..271,\n            sym: \"unlist\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 296..335,\n        ident: Ident {\n            span: 305..308,\n            sym: \"box\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 336..377,\n        ident: Ident {\n            span: 345..350,\n            sym: \"unbox\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 378..435,\n        ident: Ident {\n            span: 387..390,\n            sym: \"map\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 436..475,\n        ident: Ident {\n            span: 445..453,\n            sym: \"identity\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 476..524,\n        ident: Ident {\n            span: 485..488,\n            sym: \"zip\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 525..596,\n        ident: Ident {\n            span: 534..538,\n            sym: \"flip\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 591..604,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 591..604,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 627..640,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 627..640,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 667..680,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 667..680,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -52,6 +72,19 @@
     "Var(\n    VarDecl {\n        span: 1656..1679,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1656..1678,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 98..99,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 163..164,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 179..180,\n        sym: \"g\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 235..236,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 275..276,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 312..313,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 354..355,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 397..398,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 405..406,\n        sym: \"f\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 457..458,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 495..496,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 501..502,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 548..549,\n        sym: \"f\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 597..600,\n        sym: \"f00\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 633..636,\n        sym: \"f01\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 673..676,\n        sym: \"f02\",\n    },\n)",

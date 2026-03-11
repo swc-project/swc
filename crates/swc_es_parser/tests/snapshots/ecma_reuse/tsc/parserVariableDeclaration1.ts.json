@@ -6,24 +6,23 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
-    "Var(\n    VarDecl {\n        span: 4..70,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4..70,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 4..70,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 4..22,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 4..40,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 4..54,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 4..70,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 8..17,\n        sym: \"selection\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 18..22,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 27..35,\n        sym: \"position\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 36..40,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 44..49,\n        sym: \"model\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 50..54,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 58..65,\n        sym: \"support\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 18..70,\n        left: _,\n        right: _,\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 66..70,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 38..39,\n        sym: \"b\",\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 36..40,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 52..53,\n        sym: \"c\",\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 50..54,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 68..69,\n        sym: \"d\",\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 66..70,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 20..70,\n        exprs: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+    "Ident(\n    Ident {\n        span: 68..69,\n        sym: \"d\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

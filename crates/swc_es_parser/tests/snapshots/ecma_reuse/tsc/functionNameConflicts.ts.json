@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 140..390,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 140..390,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -30,6 +31,7 @@
     "Fn(\n    FnDecl {\n        span: 315..341,\n        ident: Ident {\n            span: 324..327,\n            sym: \"fn5\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 338..348,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 338..346,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 256..358,\n        ident: Ident {\n            span: 265..269,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 350..375,\n        ident: Ident {\n            span: 359..363,\n            sym: \"over\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 367..390,\n        ident: Ident {\n            span: 376..382,\n            sym: \"overrr\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
   ],
   "pats": [

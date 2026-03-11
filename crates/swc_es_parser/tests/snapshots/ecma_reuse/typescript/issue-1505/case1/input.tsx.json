@@ -6,21 +6,33 @@
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 56..63,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 83..90,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 279..282,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..36,\n        ident: Ident {\n            span: 6..24,\n            sym: \"InjectedTeamsProps\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..36,\n        ident: Ident {\n            span: 6..24,\n            sym: \"InjectedTeamsProps\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 85..282,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 85..281,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
-  "pats": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 91..107,\n        sym: \"withTeamsForUser\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 144..161,\n        sym: \"_WrappedComponent\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 108..281,\n        left: _,\n        right: _,\n    },\n)"
+  ],
   "exprs": [
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Ident(\n    Ident {\n        span: 201..210,\n        sym: \"Component\",\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 272..275,\n        quasis: [\n            StrLit {\n                span: 272..275,\n                value: \"x\",\n            },\n        ],\n        exprs: [],\n    },\n)",
+    "Class(\n    _,\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 140..281,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
-  "classes": [],
-  "class_members": [],
+  "classes": [
+    "Class {\n    span: 187..281,\n    decorators: [],\n    ident: None,\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 251..280,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 258..269,\n                sym: \"displayName\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)"
+  ],
   "jsx_elements": [],
   "ts_types": [
     "TypeLit(\n    TsTypeLit {\n        span: 27..30,\n        members: [],\n    },\n)"

@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 41..986,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 41..986,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -38,7 +39,8 @@
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 680..735,\n        ident: Ident {\n            span: 685..692,\n            sym: \"Result3\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 731..822,\n        ident: Ident {\n            span: 736..744,\n            sym: \"Example4\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 745..746,\n                sym: \"T\",\n            },\n            Ident {\n                span: 763..764,\n                sym: \"U\",\n            },\n        ],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 818..878,\n        ident: Ident {\n            span: 823..830,\n            sym: \"Result4\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 874..915,\n        ident: Ident {\n            span: 879..887,\n            sym: \"Example5\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 888..889,\n                sym: \"T\",\n            },\n            Ident {\n                span: 891..892,\n                sym: \"U\",\n            },\n        ],\n        ty: _,\n    },\n)"
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 874..915,\n        ident: Ident {\n            span: 879..887,\n            sym: \"Example5\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 888..889,\n                sym: \"T\",\n            },\n            Ident {\n                span: 891..892,\n                sym: \"U\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 911..986,\n        ident: Ident {\n            span: 916..923,\n            sym: \"Result5\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [],
@@ -125,6 +127,13 @@
     "TypeRef(\n    TsTypeRef {\n        span: 907..909,\n        name: Ident {\n            span: 907..909,\n            sym: \"U\",\n        },\n        type_args: [],\n    },\n)",
     "Intersection(\n    TsIntersectionType {\n        span: 903..909,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
     "Parenthesized(\n    TsParenthesizedType {\n        span: 902..910,\n        ty: _,\n    },\n)",
-    "TypeOperator(\n    TsTypeOperatorType {\n        span: 896..910,\n        op: KeyOf,\n        ty: _,\n    },\n)"
+    "TypeOperator(\n    TsTypeOperatorType {\n        span: 896..910,\n        op: KeyOf,\n        ty: _,\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 942..945,\n            value: \"x\",\n        },\n    ),\n)",
+    "Keyword(\n    Any,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 935..952,\n        name: Ident {\n            span: 935..942,\n            sym: \"Record\",\n        },\n        type_args: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 960..963,\n            value: \"y\",\n        },\n    ),\n)",
+    "Keyword(\n    Any,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 953..970,\n        name: Ident {\n            span: 953..960,\n            sym: \"Record\",\n        },\n        type_args: [\n            _,\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 926..971,\n        name: Ident {\n            span: 926..935,\n            sym: \"Example5\",\n        },\n        type_args: [\n            _,\n            _,\n        ],\n    },\n)"
   ]
 }

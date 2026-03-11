@@ -1,19 +1,22 @@
 {
   "programs": [
-    "Program {\n    span: 18..171,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 18..171,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 156..171,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 26..56,\n        ident: Ident {\n            span: 35..36,\n            sym: \"g\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 53..87,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 53..76,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 78..135,\n        ident: Ident {\n            span: 88..91,\n            sym: \"Obj\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 92..93,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 101..126,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 101..107,\n                            sym: \"method\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 108..117,\n                        name: Some(\n                            Ident {\n                                span: 108..113,\n                                sym: \"value\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 136..158,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 136..155,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 37..38,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 57..59,\n        sym: \"gg\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 142..143,\n        sym: \"o\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 156..158,\n        sym: \"gg\",\n    },\n)"

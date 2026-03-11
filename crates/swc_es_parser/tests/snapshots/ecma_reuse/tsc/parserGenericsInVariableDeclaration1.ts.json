@@ -1,18 +1,26 @@
 {
   "programs": [
-    "Program {\n    span: 1..151,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+    "Program {\n    span: 1..151,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
-    "Var(\n    VarDecl {\n        span: 1..24,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..20,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 1..24,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..20,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 41..69,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 41..65,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 91..125,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 91..121,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"v\",\n    },\n)"
+    "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 45..46,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 95..96,\n        sym: \"v\",\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Num(\n        NumberLit {\n            span: 18..19,\n            value: 1.0,\n        },\n    ),\n)"
+    "Lit(\n    Num(\n        NumberLit {\n            span: 18..19,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 63..64,\n            value: 1.0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 119..120,\n            value: 1.0,\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

@@ -1,22 +1,19 @@
 {
   "programs": [
-    "Program {\n    span: 44..147,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 44..147,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 44..58,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 131..146,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 131..144,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 50..147,\n        ident: Ident {\n            span: 59..62,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 44..147,\n        ident: Ident {\n            span: 59..62,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"v\",\n    },\n)"
   ],
-  "exprs": [
-    "Ident(\n    Ident {\n        span: 44..49,\n        sym: \"async\",\n    },\n)"
-  ],
+  "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [],

@@ -3,7 +3,8 @@
     "Program {\n    span: 61..558,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 136..145,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -14,6 +15,8 @@
     "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
+    "Var(\n    VarDecl {\n        span: 94..137,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 94..137,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 68..145,\n        ident: Ident {\n            span: 83..85,\n            sym: \"fn\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 189..236,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 189..236,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 146..246,\n        ident: Ident {\n            span: 152..155,\n            sym: \"cl1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Var(\n    VarDecl {\n        span: 290..339,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 290..339,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -24,6 +27,8 @@
     "Var(\n    VarDecl {\n        span: 485..558,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 485..558,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 100..103,\n        sym: \"req\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 104..137,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 195..198,\n        sym: \"req\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 199..236,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 253..256,\n        sym: \"obj\",\n    },\n)",
@@ -38,7 +43,10 @@
     "Assign(\n    AssignPat {\n        span: 493..558,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 112..118,\n        sym: \"import\",\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 119..127,\n            value: \"./test\",\n        },\n    ),\n)",
+    "Call(\n    CallExpr {\n        span: 118..137,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 106..137,\n        arg: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 207..213,\n        sym: \"import\",\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 214..222,\n            value: \"./test\",\n        },\n    ),\n)",
     "Call(\n    CallExpr {\n        span: 213..236,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
@@ -62,6 +70,7 @@
     "Arrow(\n    ArrowExpr {\n        span: 501..558,\n        params: [],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: true,\n    },\n)"
   ],
   "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 61..145,\n        decl: _,\n    },\n)",
     "ExportDecl(\n    ExportDecl {\n        span: 139..246,\n        decl: _,\n    },\n)",
     "ExportDecl(\n    ExportDecl {\n        span: 240..349,\n        decl: _,\n    },\n)",
     "ExportDecl(\n    ExportDecl {\n        span: 343..484,\n        decl: _,\n    },\n)",

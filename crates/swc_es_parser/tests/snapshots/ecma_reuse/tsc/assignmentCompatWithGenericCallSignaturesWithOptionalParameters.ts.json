@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 115..4169,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 115..4169,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 191..215,\n        expr: _,\n    },\n)",
@@ -51,6 +51,7 @@
     "Labeled(\n    LabeledStmt {\n        span: 1949..1979,\n        label: Ident {\n            span: 1949..1951,\n            sym: \"a5\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1978..1994,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 2085..2105,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 2104..2125,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 2124..2145,\n        expr: _,\n    },\n)",
@@ -76,7 +77,7 @@
     "Expr(\n    ExprStmt {\n        span: 2541..2563,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 2562..2584,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 2583..2601,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 2600..2603,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 2602..2611,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 2691..2718,\n        expr: _,\n    },\n)",
     "Labeled(\n    LabeledStmt {\n        span: 2687..2718,\n        label: Ident {\n            span: 2687..2689,\n            sym: \"a2\",\n        },\n        body: _,\n    },\n)",
@@ -111,7 +112,9 @@
   "decls": [
     "TsModule(\n    TsModuleDecl {\n        span: 115..1603,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 122..136,\n                sym: \"ClassTypeParam\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 1605..1825,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 1612..1636,\n                sym: \"GenericSignaturesInvalid\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 2014..2039,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2014..2027,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 2036..2086,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2036..2053,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1986..2603,\n        ident: Ident {\n            span: 1995..1998,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 2605..4169,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 2612..2634,\n                sym: \"GenericSignaturesValid\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
   ],
   "pats": [
@@ -170,6 +173,7 @@
     "Ident(\n    Ident {\n        span: 1928..1929,\n        sym: \"y\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1954..1955,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1961..1962,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2018..2019,\n        sym: \"b\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 2040..2041,\n        sym: \"t\",\n    },\n)",
     "Expr(\n    _,\n)",
     "Expr(\n    _,\n)",
@@ -484,7 +488,6 @@
     "Ident(\n    Ident {\n        span: 2590..2591,\n        sym: \"t\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 2591..2595,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2592..2594,\n                sym: \"a5\",\n            },\n        ),\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 2588..2595,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 2705..2706,\n        sym: \"T\",\n    },\n)",
     "Arrow(\n    ArrowExpr {\n        span: 2694..2707,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",

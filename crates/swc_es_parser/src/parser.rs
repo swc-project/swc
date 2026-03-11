@@ -206,6 +206,7 @@ impl<'a> Parser<'a> {
         let is_using = self.cur.kind == TokenKind::Ident
             && explicit_resource_management
             && self.is_using_decl_start();
+        let is_async_function = self.at_async_function_start();
         let is_labeled = self.cur.kind == TokenKind::Ident && self.peek_kind() == TokenKind::Colon;
         let is_const_enum = self.cur.kind == TokenKind::Keyword(Keyword::Const)
             && self.syntax().typescript()
@@ -234,6 +235,7 @@ impl<'a> Parser<'a> {
             TokenKind::Keyword(Keyword::For) => self.parse_for_stmt(),
             TokenKind::Keyword(Keyword::Return) => self.parse_return_stmt(),
             TokenKind::Keyword(Keyword::Function) => self.parse_function_decl_stmt(),
+            TokenKind::Ident if is_async_function => self.parse_async_function_decl_stmt(),
             TokenKind::Keyword(Keyword::Class) => self.parse_class_decl_stmt(),
             TokenKind::Keyword(Keyword::Const) if is_const_enum => self.parse_ts_enum_decl_stmt(),
             TokenKind::Keyword(Keyword::Declare) if self.syntax().typescript() => {
@@ -446,9 +448,15 @@ impl<'a> Parser<'a> {
         if self.cur.kind == TokenKind::Keyword(Keyword::Default) {
             let default_span = self.cur.span;
             self.bump();
-            if self.cur.kind == TokenKind::Keyword(Keyword::Function) {
+            if self.cur.kind == TokenKind::Keyword(Keyword::Function)
+                || self.at_async_function_start()
+            {
+                let is_async = self.at_async_function_start();
                 let fn_start = self.cur.span.lo;
-                self.bump();
+                if is_async {
+                    self.bump();
+                }
+                let _ = self.expect(TokenKind::Keyword(Keyword::Function), "function")?;
                 let is_generator = if self.cur.kind == TokenKind::Star {
                     self.bump();
                     true
@@ -463,7 +471,7 @@ impl<'a> Parser<'a> {
                         Atom::new("default"),
                     )
                 };
-                let (params, body) = self.parse_function_parts(false, is_generator)?;
+                let (params, body) = self.parse_function_parts(is_async, is_generator)?;
                 let decl = self.store.alloc_decl(Decl::Fn(FnDecl {
                     span: Span::new_with_checked(fn_start, self.last_pos()),
                     ident,
@@ -698,6 +706,7 @@ impl<'a> Parser<'a> {
         let is_const_enum = self.cur.kind == TokenKind::Keyword(Keyword::Const)
             && self.syntax().typescript()
             && self.peek_kind() == TokenKind::Keyword(Keyword::Enum);
+        let is_async_function = self.at_async_function_start();
         match self.cur.kind {
             TokenKind::Keyword(Keyword::Const) if is_const_enum => self.parse_ts_enum_decl(),
             TokenKind::Keyword(Keyword::Var | Keyword::Let | Keyword::Const) => {
@@ -719,6 +728,23 @@ impl<'a> Parser<'a> {
             }
             TokenKind::Keyword(Keyword::Function) => {
                 let stmt = self.parse_function_decl_stmt()?;
+                let Stmt::Decl(decl) = self
+                    .store
+                    .stmt(stmt)
+                    .cloned()
+                    .unwrap_or(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                else {
+                    return Err(Error::new(
+                        self.cur.span,
+                        Severity::Fatal,
+                        ErrorCode::InvalidStatement,
+                        "expected declaration",
+                    ));
+                };
+                Ok(decl)
+            }
+            TokenKind::Ident if is_async_function => {
+                let stmt = self.parse_async_function_decl_stmt()?;
                 let Stmt::Decl(decl) = self
                     .store
                     .stmt(stmt)
@@ -1307,8 +1333,30 @@ impl<'a> Parser<'a> {
         &mut self,
         declare: bool,
     ) -> PResult<swc_es_ast::StmtId> {
+        self.parse_function_decl_stmt_with_options(declare, false)
+    }
+
+    fn parse_async_function_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        self.parse_async_function_decl_stmt_with_declare(false)
+    }
+
+    fn parse_async_function_decl_stmt_with_declare(
+        &mut self,
+        declare: bool,
+    ) -> PResult<swc_es_ast::StmtId> {
+        self.parse_function_decl_stmt_with_options(declare, true)
+    }
+
+    fn parse_function_decl_stmt_with_options(
+        &mut self,
+        declare: bool,
+        is_async: bool,
+    ) -> PResult<swc_es_ast::StmtId> {
         let start = self.cur.span.lo;
-        self.bump();
+        if is_async {
+            self.bump();
+        }
+        let _ = self.expect(TokenKind::Keyword(Keyword::Function), "function")?;
         let is_generator = if self.cur.kind == TokenKind::Star {
             self.bump();
             true
@@ -1317,7 +1365,7 @@ impl<'a> Parser<'a> {
         };
 
         let ident = self.expect_ident()?;
-        let (params, body) = self.parse_function_parts(false, is_generator)?;
+        let (params, body) = self.parse_function_parts(is_async, is_generator)?;
 
         let decl = self.store.alloc_decl(Decl::Fn(FnDecl {
             span: Span::new_with_checked(start, self.last_pos()),
@@ -1376,6 +1424,9 @@ impl<'a> Parser<'a> {
         is_async: bool,
         is_generator: bool,
     ) -> PResult<(Vec<swc_es_ast::PatId>, Vec<swc_es_ast::StmtId>)> {
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Lt {
+            let _ = self.parse_ts_type_params()?;
+        }
         let _ = self.expect(TokenKind::LParen, "(")?;
         let mut params = Vec::new();
 
@@ -1389,6 +1440,11 @@ impl<'a> Parser<'a> {
         if self.syntax().typescript() && self.cur.kind == TokenKind::Colon {
             self.bump();
             let _ = self.parse_ts_type()?;
+        }
+
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Semi {
+            self.bump();
+            return Ok((params, Vec::new()));
         }
 
         let old_ctx = self.ctx;
@@ -1630,6 +1686,7 @@ impl<'a> Parser<'a> {
         self.bump();
         let is_const_enum = self.cur.kind == TokenKind::Keyword(Keyword::Const)
             && self.peek_kind() == TokenKind::Keyword(Keyword::Enum);
+        let is_async_function = self.at_async_function_start();
 
         let old_ctx = self.ctx;
         self.ctx.insert(Context::IN_DECLARE);
@@ -1642,6 +1699,9 @@ impl<'a> Parser<'a> {
             }
             TokenKind::Keyword(Keyword::Function) => {
                 self.parse_function_decl_stmt_with_declare(true)
+            }
+            TokenKind::Ident if is_async_function => {
+                self.parse_async_function_decl_stmt_with_declare(true)
             }
             TokenKind::Keyword(Keyword::Class) => self.parse_class_decl_stmt_with_declare(true),
             TokenKind::Keyword(Keyword::Type) => {
@@ -1714,7 +1774,11 @@ impl<'a> Parser<'a> {
         if self.cur.kind == TokenKind::Keyword(Keyword::Extends) {
             self.bump();
             loop {
-                extends.push(self.parse_ts_type_name());
+                let name = self.parse_ts_type_name();
+                if self.cur.kind == TokenKind::Lt {
+                    let _ = self.parse_ts_type_args()?;
+                }
+                extends.push(name);
                 if self.cur.kind == TokenKind::Comma {
                     self.bump();
                 } else {
@@ -1931,7 +1995,10 @@ impl<'a> Parser<'a> {
     fn parse_ts_type_member(&mut self) -> PResult<TsTypeMember> {
         let start = self.cur.span.lo;
         let mut readonly = false;
-        if self.cur.kind == TokenKind::Ident && self.cur_ident_is("readonly") {
+        if self.cur.kind == TokenKind::Ident
+            && self.cur_ident_is("readonly")
+            && (self.peek_kind() == TokenKind::LBracket || self.peek_starts_property_name())
+        {
             readonly = true;
             self.bump();
         }
@@ -2157,7 +2224,7 @@ impl<'a> Parser<'a> {
                 if self.cur.kind == TokenKind::Eq {
                     let start = self.cur.span.lo;
                     self.bump();
-                    let right = self.parse_expr()?;
+                    let right = self.parse_assignment_expr()?;
                     return Ok(self.store.alloc_pat(Pat::Assign(swc_es_ast::AssignPat {
                         span: Span::new_with_checked(start, self.last_pos()),
                         left: base,
@@ -2278,7 +2345,7 @@ impl<'a> Parser<'a> {
                     } else if let PropName::Ident(ident) = key {
                         let value = if self.cur.kind == TokenKind::Eq {
                             self.bump();
-                            Some(self.parse_expr()?)
+                            Some(self.parse_assignment_expr()?)
                         } else {
                             None
                         };
@@ -2307,7 +2374,6 @@ impl<'a> Parser<'a> {
                         self.bump();
                     }
                 }
-
                 let _ = self.expect(TokenKind::RBrace, "}")?;
                 Ok(self.store.alloc_pat(Pat::Object(swc_es_ast::ObjectPat {
                     span: Span::new_with_checked(start, self.last_pos()),
@@ -2390,10 +2456,35 @@ impl<'a> Parser<'a> {
             self.errors.truncate(errors_len);
         }
 
+        if self.syntax().typescript()
+            && self.cur.kind == TokenKind::Ident
+            && self.cur_ident_is("async")
+            && self.peek_kind() == TokenKind::Lt
+        {
+            let checkpoint = self.lexer.checkpoint_save();
+            let cur = self.cur.clone();
+            let next = self.next.clone();
+            let errors_len = self.errors.len();
+
+            self.bump();
+            let type_params_ok = self.parse_ts_type_params().is_ok();
+            if type_params_ok
+                && self.cur.kind == TokenKind::LParen
+                && self.paren_followed_by_arrow()
+            {
+                return self.parse_arrow_expr(true, true);
+            }
+
+            self.lexer.checkpoint_load(checkpoint);
+            self.cur = cur;
+            self.next = next;
+            self.errors.truncate(errors_len);
+        }
+
         if self.cur_can_be_arrow_param() && self.peek_kind() == TokenKind::Arrow {
             return self.parse_arrow_expr(false, false);
         }
-        if self.cur.kind == TokenKind::LParen && self.paren_followed_by_arrow() {
+        if self.cur.kind == TokenKind::LParen && self.can_parse_parenthesized_arrow_head() {
             return self.parse_arrow_expr(false, true);
         }
         if self.cur.kind == TokenKind::Ident
@@ -2429,6 +2520,9 @@ impl<'a> Parser<'a> {
         };
 
         if let Some(op) = op {
+            if op == AssignOp::Assign {
+                self.validate_assignment_target_expr(left);
+            }
             if self.expr_is_optional_chain(left) {
                 return Err(Error::new(
                     self.cur.span,
@@ -3076,31 +3170,36 @@ impl<'a> Parser<'a> {
                     let next = self.next.clone();
                     let errors_len = self.errors.len();
 
-                    let parsed =
-                        self.parse_ts_type_args().is_ok() && self.cur.kind == TokenKind::LParen;
-                    if parsed {
-                        let start = self.cur.span.lo;
-                        self.bump();
-                        let mut args = Vec::new();
-                        while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof
-                        {
-                            let spread = self.cur.kind == TokenKind::DotDotDot;
-                            if spread {
-                                self.bump();
+                    if self.parse_ts_type_args().is_ok() {
+                        if self.cur.kind == TokenKind::LParen {
+                            let start = self.cur.span.lo;
+                            self.bump();
+                            let mut args = Vec::new();
+                            while self.cur.kind != TokenKind::RParen
+                                && self.cur.kind != TokenKind::Eof
+                            {
+                                let spread = self.cur.kind == TokenKind::DotDotDot;
+                                if spread {
+                                    self.bump();
+                                }
+                                let arg = self.parse_assignment_expr()?;
+                                args.push(ExprOrSpread { spread, expr: arg });
+                                if self.cur.kind != TokenKind::RParen {
+                                    let _ = self.expect(TokenKind::Comma, ",")?;
+                                }
                             }
-                            let arg = self.parse_assignment_expr()?;
-                            args.push(ExprOrSpread { spread, expr: arg });
-                            if self.cur.kind != TokenKind::RParen {
-                                let _ = self.expect(TokenKind::Comma, ",")?;
-                            }
+                            let _ = self.expect(TokenKind::RParen, ")")?;
+                            expr = self.store.alloc_expr(Expr::Call(CallExpr {
+                                span: Span::new_with_checked(start, self.last_pos()),
+                                callee: expr,
+                                args,
+                            }));
+                            continue;
                         }
-                        let _ = self.expect(TokenKind::RParen, ")")?;
-                        expr = self.store.alloc_expr(Expr::Call(CallExpr {
-                            span: Span::new_with_checked(start, self.last_pos()),
-                            callee: expr,
-                            args,
-                        }));
-                        continue;
+
+                        if self.can_follow_ts_instantiation_expr() {
+                            continue;
+                        }
                     }
 
                     self.lexer.checkpoint_load(checkpoint);
@@ -3204,8 +3303,26 @@ impl<'a> Parser<'a> {
         })))
     }
 
+    fn parse_regex_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let start = self.cur.span.lo;
+        self.next = None;
+        let regex = self.lexer.rescan_regex_literal(start)?;
+        self.cur = self.lexer.next_token();
+
+        let lit = swc_es_ast::RegexLit {
+            span: regex.span,
+            exp: regex.exp,
+            flags: regex.flags,
+        };
+        self.validate_regex_literal(&lit);
+
+        Ok(self.store.alloc_expr(Expr::Lit(Lit::Regex(lit))))
+    }
+
     fn parse_primary_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let is_async_function = self.at_async_function_start();
         match self.cur.kind {
+            TokenKind::Ident if is_async_function => self.parse_async_function_expr(),
             TokenKind::Ident => {
                 let ident = self.cur_ident_value();
                 self.bump();
@@ -3302,63 +3419,7 @@ impl<'a> Parser<'a> {
             TokenKind::LBracket => self.parse_array_expr(),
             TokenKind::LBrace => self.parse_object_expr(),
             TokenKind::Lt if self.syntax().jsx() => self.parse_jsx_element_expr(),
-            TokenKind::Slash | TokenKind::SlashEq => {
-                let start = self.cur.span.lo;
-                let mut pattern = String::new();
-                if self.cur.kind == TokenKind::SlashEq {
-                    pattern.push('=');
-                }
-                self.bump();
-                let mut in_class = false;
-                let mut escaped = false;
-                while self.cur.kind != TokenKind::Eof {
-                    if self.cur.kind == TokenKind::Slash && !in_class && !escaped {
-                        self.bump();
-                        let mut flags = Atom::new("");
-                        if matches!(self.cur.kind, TokenKind::Ident | TokenKind::Keyword(_)) {
-                            if let Some(flag) = self.cur_name_atom() {
-                                flags = flag;
-                            }
-                            self.bump();
-                        }
-                        let lit = swc_es_ast::RegexLit {
-                            span: Span::new_with_checked(start, self.last_pos()),
-                            exp: Atom::new(pattern),
-                            flags,
-                        };
-                        self.validate_regex_literal(&lit);
-                        return Ok(self.store.alloc_expr(Expr::Lit(Lit::Regex(lit))));
-                    }
-
-                    if let Some(part) = self.regex_token_text_for_current() {
-                        for ch in part.chars() {
-                            if escaped {
-                                escaped = false;
-                                continue;
-                            }
-                            if ch == '\\' {
-                                escaped = true;
-                                continue;
-                            }
-                            if ch == '[' {
-                                in_class = true;
-                            } else if ch == ']' {
-                                in_class = false;
-                            }
-                        }
-                        pattern.push_str(part.as_ref());
-                    }
-
-                    self.bump();
-                }
-                let lit = swc_es_ast::RegexLit {
-                    span: Span::new_with_checked(start, self.last_pos()),
-                    exp: Atom::new(pattern),
-                    flags: Atom::new(""),
-                };
-                self.validate_regex_literal(&lit);
-                Ok(self.store.alloc_expr(Expr::Lit(Lit::Regex(lit))))
-            }
+            TokenKind::Slash | TokenKind::SlashEq => self.parse_regex_expr(),
             TokenKind::LParen => {
                 let start = self.cur.span.lo;
                 self.bump();
@@ -3403,8 +3464,19 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_function_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        self.parse_function_expr_with_options(false)
+    }
+
+    fn parse_async_function_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        self.parse_function_expr_with_options(true)
+    }
+
+    fn parse_function_expr_with_options(&mut self, is_async: bool) -> PResult<swc_es_ast::ExprId> {
         let start = self.cur.span.lo;
-        self.bump();
+        if is_async {
+            self.bump();
+        }
+        let _ = self.expect(TokenKind::Keyword(Keyword::Function), "function")?;
         let is_generator = if self.cur.kind == TokenKind::Star {
             self.bump();
             true
@@ -3418,7 +3490,7 @@ impl<'a> Parser<'a> {
             None
         };
 
-        let (params, body) = self.parse_function_parts(false, is_generator)?;
+        let (params, body) = self.parse_function_parts(is_async, is_generator)?;
         let function = self.store.alloc_function(Function {
             span: Span::new_with_checked(start, self.last_pos()),
             params: params
@@ -3430,7 +3502,7 @@ impl<'a> Parser<'a> {
                 })
                 .collect(),
             body,
-            is_async: false,
+            is_async,
             is_generator,
         });
 
@@ -3452,7 +3524,34 @@ impl<'a> Parser<'a> {
 
         let super_class = if self.cur.kind == TokenKind::Keyword(Keyword::Extends) {
             self.bump();
-            Some(self.parse_expr()?)
+            if self.syntax().typescript()
+                && matches!(self.cur.kind, TokenKind::Ident | TokenKind::Keyword(_))
+            {
+                let checkpoint = self.lexer.checkpoint_save();
+                let cur = self.cur.clone();
+                let next = self.next.clone();
+                let errors_len = self.errors.len();
+
+                if let Ok(expr) = self.parse_ts_heritage_expr() {
+                    if self.cur.kind == TokenKind::LBrace {
+                        Some(expr)
+                    } else {
+                        self.lexer.checkpoint_load(checkpoint);
+                        self.cur = cur;
+                        self.next = next;
+                        self.errors.truncate(errors_len);
+                        Some(self.parse_expr()?)
+                    }
+                } else {
+                    self.lexer.checkpoint_load(checkpoint);
+                    self.cur = cur;
+                    self.next = next;
+                    self.errors.truncate(errors_len);
+                    Some(self.parse_expr()?)
+                }
+            } else {
+                Some(self.parse_expr()?)
+            }
         } else {
             None
         };
@@ -3495,6 +3594,7 @@ impl<'a> Parser<'a> {
                 .cur_name_atom()
                 .is_some_and(|sym| sym.as_ref() == "static")
                 && !matches!(self.peek_kind(), TokenKind::LParen)
+                && !(self.syntax().typescript() && self.peek_kind() == TokenKind::Lt)
             {
                 is_static = true;
                 self.bump();
@@ -3557,7 +3657,9 @@ impl<'a> Parser<'a> {
             }
 
             let key = self.parse_prop_name()?;
-            if self.cur.kind == TokenKind::LParen {
+            if self.cur.kind == TokenKind::LParen
+                || (self.syntax().typescript() && self.cur.kind == TokenKind::Lt)
+            {
                 let function =
                     self.parse_class_method_function(member_start, is_async, is_generator)?;
                 if kind == swc_es_ast::MethodKind::Method
@@ -3637,6 +3739,9 @@ impl<'a> Parser<'a> {
             self.ctx.insert(Context::IN_GENERATOR);
         }
 
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Lt {
+            let _ = self.parse_ts_type_params()?;
+        }
         let _ = self.expect(TokenKind::LParen, "(")?;
         let mut params = Vec::new();
         while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof {
@@ -3670,6 +3775,67 @@ impl<'a> Parser<'a> {
         }))
     }
 
+    fn can_parse_parenthesized_arrow_head(&mut self) -> bool {
+        if self.try_parse_parenthesized_arrow_head() {
+            return true;
+        }
+
+        self.parenthesized_head_followed_by_arrow()
+    }
+
+    fn try_parse_parenthesized_arrow_head(&mut self) -> bool {
+        let checkpoint = self.lexer.checkpoint_save();
+        let cur = self.cur.clone();
+        let next = self.next.clone();
+        let errors_len = self.errors.len();
+
+        let parsed = (|| -> PResult<()> {
+            let _ = self.expect(TokenKind::LParen, "(")?;
+            while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof {
+                let _ = self.parse_parameter_pat()?;
+                if self.cur.kind == TokenKind::Comma {
+                    self.bump();
+                } else {
+                    break;
+                }
+            }
+            let _ = self.expect(TokenKind::RParen, ")")?;
+            if self.syntax().typescript() && self.cur.kind == TokenKind::Colon {
+                self.bump();
+                let _ = self.parse_ts_type()?;
+            }
+            let _ = self.expect(TokenKind::Arrow, "=>")?;
+            Ok(())
+        })()
+        .is_ok();
+
+        self.lexer.checkpoint_load(checkpoint);
+        self.cur = cur;
+        self.next = next;
+        self.errors.truncate(errors_len);
+        parsed
+    }
+
+    fn parenthesized_head_followed_by_arrow(&mut self) -> bool {
+        let checkpoint = self.lexer.checkpoint_save();
+        let cur = self.cur.clone();
+        let next = self.next.clone();
+        let errors_len = self.errors.len();
+
+        let parsed = if self.cur.kind == TokenKind::LParen {
+            self.skip_balanced(TokenKind::LParen, TokenKind::RParen);
+            self.cur.kind == TokenKind::Arrow
+        } else {
+            false
+        };
+
+        self.lexer.checkpoint_load(checkpoint);
+        self.cur = cur;
+        self.next = next;
+        self.errors.truncate(errors_len);
+        parsed
+    }
+
     fn parse_array_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
         let start = self.cur.span.lo;
         let _ = self.expect(TokenKind::LBracket, "[")?;
@@ -3689,16 +3855,15 @@ impl<'a> Parser<'a> {
             let expr = self.parse_assignment_expr()?;
             elems.push(Some(ExprOrSpread { spread, expr }));
 
-            if spread && self.cur.kind == TokenKind::Comma {
-                self.errors.push(Error::new(
-                    self.cur.span,
-                    Severity::Error,
-                    ErrorCode::InvalidStatement,
-                    "rest element must be the last element",
-                ));
-            }
-
             if self.cur.kind == TokenKind::Comma {
+                if spread && self.peek_kind() == TokenKind::RBracket {
+                    self.errors.push(Error::new(
+                        self.cur.span,
+                        Severity::Error,
+                        ErrorCode::InvalidStatement,
+                        "rest element must be the last element",
+                    ));
+                }
                 self.bump();
             } else {
                 break;
@@ -3785,7 +3950,10 @@ impl<'a> Parser<'a> {
             let value = if matches!(self.cur.kind, TokenKind::Colon | TokenKind::Eq) {
                 self.bump();
                 self.parse_assignment_expr()?
-            } else if self.cur.kind == TokenKind::LParen || force_method {
+            } else if self.cur.kind == TokenKind::LParen
+                || (self.syntax().typescript() && self.cur.kind == TokenKind::Lt)
+                || force_method
+            {
                 let function =
                     self.parse_class_method_function(prop_start, is_async, is_generator)?;
                 self.store.alloc_expr(Expr::Function(function))
@@ -3830,6 +3998,9 @@ impl<'a> Parser<'a> {
             } else {
                 self.parse_jsx_name()?
             };
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Lt {
+            let _ = self.parse_ts_type_args()?;
+        }
         let mut attrs = Vec::new();
 
         while self.cur.kind != TokenKind::Gt
@@ -4068,7 +4239,7 @@ impl<'a> Parser<'a> {
             }
         }
 
-        let _ = self.expect(TokenKind::Gt, ">")?;
+        self.eat_ts_type_angle_close()?;
         Ok(params)
     }
 
@@ -4103,6 +4274,9 @@ impl<'a> Parser<'a> {
 
     fn parse_ts_union_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
         let start = self.cur.span.lo;
+        while self.cur.kind == TokenKind::Pipe {
+            self.bump();
+        }
         let mut types = vec![self.parse_ts_intersection_type()?];
 
         while self.cur.kind == TokenKind::Pipe {
@@ -4122,6 +4296,9 @@ impl<'a> Parser<'a> {
 
     fn parse_ts_intersection_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
         let start = self.cur.span.lo;
+        while self.cur.kind == TokenKind::Amp {
+            self.bump();
+        }
         let mut types = vec![self.parse_ts_postfix_type()?];
 
         while self.cur.kind == TokenKind::Amp {
@@ -4244,6 +4421,18 @@ impl<'a> Parser<'a> {
                     qualifier,
                     type_args,
                 })));
+        }
+
+        if self.cur.kind == TokenKind::Minus && self.peek_kind() == TokenKind::Num {
+            let start = self.cur.span.lo;
+            self.bump();
+            let mut lit = self.cur_number_value();
+            lit.span = Span::new_with_checked(start, lit.span.hi);
+            lit.value = -lit.value;
+            self.bump();
+            return Ok(self
+                .store
+                .alloc_ts_type(TsType::Lit(swc_es_ast::TsLitType::Num(lit))));
         }
 
         let ty = match self.cur.kind {
@@ -4584,6 +4773,25 @@ impl<'a> Parser<'a> {
             }
             bump(&mut cur, &mut next, &mut lexer);
         }
+
+        if self.syntax().typescript() && cur.kind == TokenKind::Colon {
+            bump(&mut cur, &mut next, &mut lexer);
+            let mut nested = 0usize;
+            while cur.kind != TokenKind::Eof {
+                match cur.kind {
+                    TokenKind::LParen | TokenKind::LBracket | TokenKind::LBrace | TokenKind::Lt => {
+                        nested += 1;
+                    }
+                    TokenKind::RParen | TokenKind::RBracket | TokenKind::RBrace | TokenKind::Gt => {
+                        nested = nested.saturating_sub(1);
+                    }
+                    TokenKind::Arrow if nested == 0 => break,
+                    _ => {}
+                }
+                bump(&mut cur, &mut next, &mut lexer);
+            }
+        }
+
         cur.kind == TokenKind::Arrow
     }
 
@@ -4664,7 +4872,7 @@ impl<'a> Parser<'a> {
             }
         }
 
-        let _ = self.expect(TokenKind::Gt, ">")?;
+        self.eat_ts_type_angle_close()?;
         Ok(args)
     }
 
@@ -4712,6 +4920,28 @@ impl<'a> Parser<'a> {
             span: Span::new_with_checked(start, self.last_pos()),
             sym: Atom::new(name),
         }
+    }
+
+    fn parse_ts_heritage_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let start = self.cur.span.lo;
+        let ident = self.expect_ident()?;
+        let mut expr = self.store.alloc_expr(Expr::Ident(ident));
+
+        while self.cur.kind == TokenKind::Dot {
+            self.bump();
+            let prop = self.expect_ident()?;
+            expr = self.store.alloc_expr(Expr::Member(MemberExpr {
+                span: Span::new_with_checked(start, self.last_pos()),
+                obj: expr,
+                prop: MemberProp::Ident(prop),
+            }));
+        }
+
+        if self.cur.kind == TokenKind::Lt {
+            let _ = self.parse_ts_type_args()?;
+        }
+
+        Ok(expr)
     }
 
     fn parse_parameter(&mut self) -> PResult<swc_es_ast::Param> {
@@ -5013,6 +5243,30 @@ impl<'a> Parser<'a> {
                     ));
                     return;
                 }
+                if ch == 'u' && chars.get(i + 1) == Some(&'{') {
+                    let mut j = i + 2;
+                    let mut saw_digit = false;
+                    let mut closed = false;
+                    while let Some(value) = chars.get(j) {
+                        if value.is_ascii_hexdigit() {
+                            saw_digit = true;
+                            j += 1;
+                            continue;
+                        }
+                        if *value == '}' && saw_digit {
+                            closed = true;
+                            break;
+                        }
+                        break;
+                    }
+                    if closed {
+                        if !in_class {
+                            last_atom = RegexAtomKind::Atom;
+                        }
+                        i = j + 1;
+                        continue;
+                    }
+                }
                 if !in_class {
                     last_atom = if matches!(ch, 'b' | 'B') {
                         RegexAtomKind::Assertion
@@ -5217,6 +5471,94 @@ impl<'a> Parser<'a> {
 
             self.bump();
         }
+    }
+
+    fn validate_assignment_target_expr(&mut self, expr: swc_es_ast::ExprId) {
+        match self.store.expr(expr).cloned() {
+            Some(Expr::Array(array)) => {
+                for (index, elem) in array.elems.iter().enumerate() {
+                    let Some(elem) = elem else {
+                        continue;
+                    };
+
+                    if elem.spread && index + 1 < array.elems.len() {
+                        self.errors.push(Error::new(
+                            self.expr_span(elem.expr),
+                            Severity::Error,
+                            ErrorCode::InvalidStatement,
+                            "rest element must be the last element",
+                        ));
+                    }
+
+                    self.validate_assignment_target_expr(elem.expr);
+                }
+            }
+            Some(Expr::Object(object)) => {
+                for (index, prop) in object.props.iter().enumerate() {
+                    if self.is_object_spread_prop(prop) && index + 1 < object.props.len() {
+                        self.errors.push(Error::new(
+                            self.expr_span(prop.value),
+                            Severity::Error,
+                            ErrorCode::InvalidStatement,
+                            "rest element must be the last element",
+                        ));
+                    }
+
+                    self.validate_assignment_target_expr(prop.value);
+                }
+            }
+            Some(Expr::Paren(paren)) => self.validate_assignment_target_expr(paren.expr),
+            Some(Expr::TsAs(expr)) => self.validate_assignment_target_expr(expr.expr),
+            Some(Expr::TsNonNull(expr)) => self.validate_assignment_target_expr(expr.expr),
+            Some(Expr::TsSatisfies(expr)) => self.validate_assignment_target_expr(expr.expr),
+            _ => {}
+        }
+    }
+
+    fn expr_span(&self, expr: swc_es_ast::ExprId) -> Span {
+        match self.store.expr(expr).cloned() {
+            Some(Expr::Ident(ident)) => ident.span,
+            Some(Expr::Lit(lit)) => match lit {
+                Lit::Str(lit) => lit.span,
+                Lit::Bool(lit) => lit.span,
+                Lit::Null(lit) => lit.span,
+                Lit::Num(lit) => lit.span,
+                Lit::BigInt(lit) => lit.span,
+                Lit::Regex(lit) => lit.span,
+            },
+            Some(Expr::TsAs(expr)) => expr.span,
+            Some(Expr::TsNonNull(expr)) => expr.span,
+            Some(Expr::TsSatisfies(expr)) => expr.span,
+            Some(Expr::Array(array)) => array.span,
+            Some(Expr::Object(object)) => object.span,
+            Some(Expr::Unary(expr)) => expr.span,
+            Some(Expr::Binary(expr)) => expr.span,
+            Some(Expr::Assign(expr)) => expr.span,
+            Some(Expr::Call(expr)) => expr.span,
+            Some(Expr::Member(expr)) => expr.span,
+            Some(Expr::Cond(expr)) => expr.span,
+            Some(Expr::Seq(expr)) => expr.span,
+            Some(Expr::New(expr)) => expr.span,
+            Some(Expr::Update(expr)) => expr.span,
+            Some(Expr::Await(expr)) => expr.span,
+            Some(Expr::Arrow(expr)) => expr.span,
+            Some(Expr::Template(expr)) => expr.span,
+            Some(Expr::Yield(expr)) => expr.span,
+            Some(Expr::TaggedTemplate(expr)) => expr.span,
+            Some(Expr::MetaProp(expr)) => expr.span,
+            Some(Expr::OptChain(expr)) => expr.span,
+            Some(Expr::Paren(expr)) => expr.span,
+            Some(Expr::Function(_)) | Some(Expr::Class(_)) | Some(Expr::JSXElement(_)) | None => {
+                DUMMY_SP
+            }
+        }
+    }
+
+    fn is_object_spread_prop(&self, prop: &KeyValueProp) -> bool {
+        matches!(
+            &prop.key,
+            PropName::Ident(ident) if ident.sym.as_ref() == "__spread__"
+        )
     }
 
     fn expr_to_assign_pat(&mut self, expr: swc_es_ast::ExprId) -> swc_es_ast::PatId {
@@ -5458,6 +5800,15 @@ impl<'a> Parser<'a> {
         }
     }
 
+    fn at_async_function_start(&mut self) -> bool {
+        if self.cur.kind != TokenKind::Ident || !self.cur_ident_is("async") {
+            return false;
+        }
+
+        let next = self.peek_token();
+        !next.had_line_break_before && next.kind == TokenKind::Keyword(Keyword::Function)
+    }
+
     fn cur_name_atom(&self) -> Option<Atom> {
         match self.cur.kind {
             TokenKind::Ident => match &self.cur.value {
@@ -5528,6 +5879,47 @@ impl<'a> Parser<'a> {
         Err(self.expected(">"))
     }
 
+    fn eat_ts_type_angle_close(&mut self) -> PResult<()> {
+        if self.cur.kind == TokenKind::Gt {
+            self.bump();
+            return Ok(());
+        }
+
+        let next = match self.cur.kind {
+            TokenKind::GtGt => Some(TokenKind::Gt),
+            TokenKind::GtGtEq => Some(TokenKind::GtEq),
+            TokenKind::GtGtGt => Some(TokenKind::GtGt),
+            TokenKind::GtGtGtEq => Some(TokenKind::GtGtEq),
+            _ => None,
+        };
+
+        if let Some(next_kind) = next {
+            self.cur.kind = next_kind;
+            self.cur.value = None;
+            return Ok(());
+        }
+
+        Err(self.expected(">"))
+    }
+
+    fn can_follow_ts_instantiation_expr(&self) -> bool {
+        matches!(
+            self.cur.kind,
+            TokenKind::Semi
+                | TokenKind::Comma
+                | TokenKind::Colon
+                | TokenKind::RParen
+                | TokenKind::RBracket
+                | TokenKind::RBrace
+                | TokenKind::Eof
+                | TokenKind::Dot
+                | TokenKind::QuestionDot
+                | TokenKind::LBracket
+                | TokenKind::Template
+                | TokenKind::Keyword(Keyword::As)
+        ) || self.cur_ident_is("satisfies")
+    }
+
     fn jsx_text_atom_for_current(&self) -> Option<Atom> {
         if let Some(atom) = self.cur_name_atom() {
             return Some(atom);
@@ -5562,72 +5954,6 @@ impl<'a> Parser<'a> {
             TokenKind::RParen => ")",
             TokenKind::LBracket => "[",
             TokenKind::RBracket => "]",
-            _ => return None,
-        };
-
-        Some(Atom::new(text))
-    }
-
-    fn regex_token_text_for_current(&self) -> Option<Atom> {
-        if let Some(atom) = self.cur_name_atom() {
-            return Some(atom);
-        }
-
-        let text = match self.cur.kind {
-            TokenKind::LParen => "(",
-            TokenKind::RParen => ")",
-            TokenKind::LBrace => "{",
-            TokenKind::RBrace => "}",
-            TokenKind::LBracket => "[",
-            TokenKind::RBracket => "]",
-            TokenKind::Dot => ".",
-            TokenKind::DotDotDot => "...",
-            TokenKind::Plus => "+",
-            TokenKind::Minus => "-",
-            TokenKind::Star => "*",
-            TokenKind::Slash => "/",
-            TokenKind::Percent => "%",
-            TokenKind::Bang => "!",
-            TokenKind::Tilde => "~",
-            TokenKind::Eq => "=",
-            TokenKind::Lt => "<",
-            TokenKind::Gt => ">",
-            TokenKind::Amp => "&",
-            TokenKind::Pipe => "|",
-            TokenKind::Caret => "^",
-            TokenKind::Question => "?",
-            TokenKind::Colon => ":",
-            TokenKind::Comma => ",",
-            TokenKind::Semi => ";",
-            TokenKind::PlusPlus => "++",
-            TokenKind::MinusMinus => "--",
-            TokenKind::PlusEq => "+=",
-            TokenKind::MinusEq => "-=",
-            TokenKind::StarEq => "*=",
-            TokenKind::StarStar => "**",
-            TokenKind::StarStarEq => "**=",
-            TokenKind::SlashEq => "/=",
-            TokenKind::PercentEq => "%=",
-            TokenKind::EqEq => "==",
-            TokenKind::EqEqEq => "===",
-            TokenKind::NotEq => "!=",
-            TokenKind::NotEqEq => "!==",
-            TokenKind::LtEq => "<=",
-            TokenKind::GtEq => ">=",
-            TokenKind::LtLt => "<<",
-            TokenKind::LtLtEq => "<<=",
-            TokenKind::GtGt => ">>",
-            TokenKind::GtGtEq => ">>=",
-            TokenKind::GtGtGt => ">>>",
-            TokenKind::GtGtGtEq => ">>>=",
-            TokenKind::AndAnd => "&&",
-            TokenKind::AndAndEq => "&&=",
-            TokenKind::OrOr => "||",
-            TokenKind::OrOrEq => "||=",
-            TokenKind::Nullish => "??",
-            TokenKind::NullishEq => "??=",
-            TokenKind::QuestionDot => "?.",
-            TokenKind::Arrow => "=>",
             _ => return None,
         };
 
@@ -6318,6 +6644,412 @@ mod tests {
                 .message()
                 .contains("ambiguous TypeScript arrow type-parameter syntax")),
             "expected ambiguous-arrow diagnostic, got: {errors:?}"
+        );
+    }
+
+    #[test]
+    fn parses_regex_literals_used_in_benchmark_fixtures() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "const a = /\\=[\\x20\\t\\r\\n\\f]*([^'\"\\]]*)[\\x20\\t\\r\\n\\f]*\\]/g; const b = \
+             /OS ([^\\s]*)/; const c = /\\\\/g;",
+            Syntax::Es(EsSyntax::default()),
+        );
+
+        assert!(parsed.is_ok(), "regex literals should parse");
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for regex literals: {errors:?}"
+        );
+    }
+
+    #[test]
+    fn accepts_unicode_escape_braces_in_unicode_regex_literals() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "const a = /\\uD834\\uDF06\\u{1d306}/u; const b = /[\\u{61}-b]\\u{1ffff}/u;",
+            Syntax::Es(EsSyntax::default()),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "unicode regex literals should parse: parsed={parsed:?}, errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for unicode regex literals: {errors:?}"
+        );
+    }
+
+    #[test]
+    fn parses_nested_object_pattern_initializer() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "const { options = {}, range: { pos } } = change;",
+            Syntax::Es(EsSyntax::default()),
+        );
+
+        assert!(parsed.is_ok(), "nested object pattern should parse");
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for nested object pattern: {errors:?}"
+        );
+    }
+
+    #[test]
+    fn parses_async_function_declarations_and_expressions() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "async function load(value) { return value; } const run = async function (value) { \
+             return value; };",
+            Syntax::Es(EsSyntax::default()),
+        );
+
+        assert!(parsed.is_ok(), "async functions should parse");
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for async functions: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_typed_object_parameter_with_array_union_type() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "function VariantsTable({ children }: { children: ReactElement<RowProps> | \
+             ReactElement<RowProps>[]; }) {}",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(parsed.is_ok(), "typed object parameter should parse");
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for typed object parameter: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_async_arrow_with_typed_parameter_and_block_body() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "const withAppDirSsg = <T extends Record<string, any>>(getStaticProps: \
+             GetStaticProps<T>) => async (context: GetStaticPropsContext) => { const ssgResponse \
+             = await getStaticProps(context); return ssgResponse; };",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "async arrow with typed parameter should parse: parsed={parsed:?}, errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for async arrow with typed parameter: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_typescript_generic_function_declarations_and_methods() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "export function WithLayout<T extends Record<string, any>>({ value }: T) { return \
+             value; } class Example { method<T>(value: T) { return value; } static<T>(value: T) { \
+             return value; } } const obj = { method<T>(value: T) { return value; } };",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "generic function declarations and methods should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for generic function declarations and methods: \
+             {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_async_generic_arrow_with_conditional_type_parameter() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "const build = async <P extends \"P\" | \"L\">(p: P extends \"P\" ? PageProps : \
+             LayoutProps) => { return p; };",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "async generic arrow with conditional type parameter should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for async generic arrow with conditional type \
+             parameter: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_async_arrow_with_return_type_annotation() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "const build = async (context: GetServerSidePropsContext): Promise<Result> => { \
+             return load(context); };",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "async arrow with return type annotation should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for async arrow with return type annotation: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_typescript_instantiation_expressions() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "const page = WithLayout({ getLayout })<\"L\">; const name = factory<string>.name;",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "TypeScript instantiation expressions should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for TypeScript instantiation expressions: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_type_only_named_imports() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "import type { InputHTMLAttributes, ReactNode } from \"react\";",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "type-only named imports should parse: parsed={parsed:?}, errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for type-only named imports: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_jsx_opening_elements_with_type_arguments() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "const el = <Select<LocationOption> name=\"location\" components={{ Option: () => \
+             <Option /> }} />;",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "jsx opening elements with type arguments should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for jsx opening elements with type arguments: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_readonly_optional_type_members() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "interface ICustomUsernameProps { readonly?: boolean; readonly value?: string; }",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "readonly optional type members should parse: parsed={parsed:?}, errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for readonly optional type members: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_typescript_heritage_clauses_with_type_arguments() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "interface LinkIconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> \
+             {} class Button extends React.Component<Props> { static async getInitialProps(ctx: \
+             DocumentContext) { return ctx; } }",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "TypeScript heritage clauses with type arguments should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for TypeScript heritage clauses with type arguments: \
+             {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_typescript_unions_with_leading_pipes() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "type ShouldHighlight = | { slug: string; shouldHighlight: true; } | { \
+             shouldHighlight?: never; slug?: never; };",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "TypeScript unions with leading pipes should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for TypeScript unions with leading pipes: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_typescript_function_overload_signatures() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "export function QueryCell<TData, TError extends ErrorLike>(opts: \
+             QueryCellOptionsWithEmpty<TData, TError>): JSXElementOrNull; export function \
+             QueryCell<TData, TError extends ErrorLike>(opts: QueryCellOptionsNoEmpty<TData, \
+             TError>) { return opts as any; }",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "TypeScript function overload signatures should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for TypeScript function overload signatures: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_typescript_negative_numeric_literal_types() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "async function moveEventType(index: number, increment: 1 | -1) { return index + \
+             increment; }",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "TypeScript negative numeric literal types should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for TypeScript negative numeric literal types: \
+             {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_arrow_with_typed_destructured_parameter_and_return_type() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "export const EventTypeList = ({\n  group,\n  groupIndex,\n  readOnly,\n  types,\n  \
+             bookerUrl,\n}: EventTypeListProps): JSX.Element => { return <div />; };",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "arrow with typed destructured parameter and return type should parse: \
+             parsed={parsed:?}, errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for arrow with typed destructured parameter and return \
+             type: {errors:?}"
+        );
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parenthesized_jsx_in_conditional_expression_is_not_treated_as_arrow_parameters() {
+        let (parsed, errors) = parse_program_with_syntax(
+            "const render = () => { return ready ? (<div onClick={() => setOpen(true)} />) : \
+             (<></>); };",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+        );
+
+        assert!(
+            parsed.is_ok(),
+            "parenthesized jsx conditional branches should parse: parsed={parsed:?}, \
+             errors={errors:?}"
+        );
+        assert!(
+            errors.is_empty(),
+            "unexpected parse diagnostics for parenthesized jsx conditional branches: {errors:?}"
         );
     }
 }

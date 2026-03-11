@@ -12,7 +12,7 @@
     "Ident(\n    Ident {\n        span: 3..4,\n        sym: \"x\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 7..8,\n            value: 0.0,\n        },\n    ),\n)",
     "Binary(\n    BinaryExpr {\n        span: 5..9,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 10..14,\n            exp: \"a\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 10..13,\n            exp: \"a\",\n            flags: \"\",\n        },\n    ),\n)",
     "Call(\n    CallExpr {\n        span: 2..15,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],

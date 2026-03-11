@@ -1,16 +1,19 @@
 {
   "programs": [
-    "Program {\n    span: 82..699,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 82..699,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 340..348,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    "Var(\n    VarDecl {\n        span: 90..127,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 90..119,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 90..127,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 90..119,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 128..234,\n        ident: Ident {\n            span: 137..144,\n            sym: \"require\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
-    "Ident(\n    Ident {\n        span: 94..100,\n        sym: \"module\",\n    },\n)"
+    "Ident(\n    Ident {\n        span: 94..100,\n        sym: \"module\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 145..149,\n        sym: \"name\",\n    },\n)"
   ],
   "exprs": [
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"

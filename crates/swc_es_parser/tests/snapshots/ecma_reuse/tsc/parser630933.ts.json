@@ -20,7 +20,7 @@
     "Lit(\n    Str(\n        StrLit {\n            span: 9..16,\n            value: \"Hello\",\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"a\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 27..34,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 28..33,\n                sym: \"match\",\n            },\n        ),\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 34..50,\n            exp: \"\\\\/ver=([^/]+)\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 34..49,\n            exp: \"\\\\/ver=([^/]+)\",\n            flags: \"\",\n        },\n    ),\n)",
     "Call(\n    CallExpr {\n        span: 33..51,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],

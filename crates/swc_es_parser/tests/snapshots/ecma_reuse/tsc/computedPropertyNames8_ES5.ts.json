@@ -1,17 +1,21 @@
 {
   "programs": [
-    "Program {\n    span: 17..134,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 17..134,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 133..134,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Var(\n    VarDecl {\n        span: 57..74,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 57..66,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 71..88,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 71..80,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 85..134,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 85..132,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 85..134,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 85..132,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 17..134,\n        ident: Ident {\n            span: 26..27,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 61..62,\n        sym: \"t\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 75..76,\n        sym: \"u\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 89..90,\n        sym: \"v\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 91..132,\n        left: _,\n        right: _,\n    },\n)"
@@ -21,8 +25,7 @@
     "Lit(\n    Num(\n        NumberLit {\n            span: 108..109,\n            value: 0.0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 120..121,\n        sym: \"u\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 124..125,\n            value: 1.0,\n        },\n    ),\n)",
-    "Object(\n    ObjectExpr {\n        span: 93..132,\n        props: [\n            KeyValueProp {\n                span: 103..110,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 119..131,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Object(\n    ObjectExpr {\n        span: 93..132,\n        props: [\n            KeyValueProp {\n                span: 103..110,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 119..131,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

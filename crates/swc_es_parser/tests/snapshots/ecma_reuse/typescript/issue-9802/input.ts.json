@@ -16,6 +16,7 @@
     "If(\n    IfStmt {\n        span: 356..1177,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
     "Return(\n    ReturnStmt {\n        span: 1171..1255,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 1261..1412,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
@@ -40,6 +41,7 @@
     "Ident(\n    Ident {\n        span: 857..864,\n        sym: \"success\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 865..887,\n        left: _,\n        right: _,\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 291..1256,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1278..1283,\n        sym: \"input\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 139..1416,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
@@ -98,7 +100,15 @@
     "Object(\n    ObjectExpr {\n        span: 1178..1244,\n        props: [\n            KeyValueProp {\n                span: 1192..1206,\n                key: Ident(\n                    Ident {\n                        span: 1192..1199,\n                        sym: \"success\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1219..1231,\n                key: Ident(\n                    Ident {\n                        span: 1219..1223,\n                        sym: \"data\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
     "TsAs(\n    TsAsExpr {\n        span: 1242..1249,\n        expr: _,\n        ty: _,\n    },\n)",
     "Arrow(\n    ArrowExpr {\n        span: 293..1256,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
-    "Arrow(\n    ArrowExpr {\n        span: 142..1413,\n        params: [],\n        body: Block(\n            [\n                _,\n                _,\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1373..1383,\n        sym: \"__validate\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1384..1388,\n        sym: \"JSON\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 1388..1395,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1389..1394,\n                sym: \"parse\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1395..1400,\n        sym: \"input\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1394..1402,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 1383..1405,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "TsAs(\n    TsAsExpr {\n        span: 1403..1410,\n        expr: _,\n        ty: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 1268..1410,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 142..1413,\n        params: [],\n        body: Block(\n            [\n                _,\n                _,\n                _,\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
     "Paren(\n    ParenExpr {\n        span: 141..1414,\n        expr: _,\n    },\n)",
     "Call(\n    CallExpr {\n        span: 1413..1416,\n        callee: _,\n        args: [],\n    },\n)"
   ],
@@ -112,6 +122,7 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
+    "Keyword(\n    Any,\n)",
     "Keyword(\n    Any,\n)",
     "Keyword(\n    Any,\n)",
     "Keyword(\n    Any,\n)"

@@ -1,20 +1,17 @@
 {
   "programs": [
-    "Program {\n    span: 36..93,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 36..93,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 36..50,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
-    "Fn(\n    FnDecl {\n        span: 42..85,\n        ident: Ident {\n            span: 51..52,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 36..85,\n        ident: Ident {\n            span: 51..52,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 77..93,\n        ident: Ident {\n            span: 86..87,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
   ],
   "pats": [],
-  "exprs": [
-    "Ident(\n    Ident {\n        span: 36..41,\n        sym: \"async\",\n    },\n)"
-  ],
+  "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [],

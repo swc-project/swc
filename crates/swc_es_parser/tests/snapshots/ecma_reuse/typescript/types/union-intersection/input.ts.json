@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 1..263,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..263,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -8,17 +8,15 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 188..213,\n        expr: _,\n    },\n)",
-    "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 242..263,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 1..42,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..38,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 39..77,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 39..73,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 74..121,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 74..117,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 118..166,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 118..161,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 162..194,\n        ident: Ident {\n            span: 167..179,\n            sym: \"LeadingUnion\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 209..248,\n        ident: Ident {\n            span: 214..233,\n            sym: \"LeadingIntersection\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 162..213,\n        ident: Ident {\n            span: 167..179,\n            sym: \"LeadingUnion\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 209..263,\n        ident: Ident {\n            span: 214..233,\n            sym: \"LeadingIntersection\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 5..10,\n        sym: \"union\",\n    },\n)",
@@ -26,21 +24,18 @@
     "Ident(\n    Ident {\n        span: 78..89,\n        sym: \"precedence1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 122..133,\n        sym: \"precedence2\",\n    },\n)"
   ],
-  "exprs": [
-    "Ident(\n    Ident {\n        span: 188..194,\n        sym: \"string\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 201..207,\n        sym: \"number\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 199..208,\n        op: BitOr,\n        left: _,\n        right: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 242..248,\n        sym: \"number\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 255..261,\n        sym: \"string\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 253..262,\n        op: BitAnd,\n        left: _,\n        right: _,\n    },\n)"
-  ],
+  "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [],
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    "Keyword(\n    Any,\n)",
-    "Keyword(\n    Any,\n)"
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Union(\n    TsUnionType {\n        span: 186..208,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "Keyword(\n    String,\n)",
+    "Intersection(\n    TsIntersectionType {\n        span: 240..262,\n        types: [\n            _,\n            _,\n        ],\n    },\n)"
   ]
 }

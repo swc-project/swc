@@ -9,11 +9,12 @@
     "Block(\n    BlockStmt {\n        span: 47..90,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
     "If(\n    IfStmt {\n        span: 20..90,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 184..185,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 1..22,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..19,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 86..139,\n        ident: Ident {\n            span: 91..101,\n            sym: \"StringTree\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 86..139,\n        ident: Ident {\n            span: 91..101,\n            sym: \"StringTree\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 130..185,\n        ident: Ident {\n            span: 140..155,\n            sym: \"StringTreeArray\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 164..170,\n                sym: \"Array\",\n            },\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"x\",\n    },\n)"
@@ -31,8 +32,7 @@
     "Member(\n    MemberExpr {\n        span: 70..76,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 71..75,\n                sym: \"push\",\n            },\n        ),\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 77..79,\n            value: \"\",\n        },\n    ),\n)",
     "Array(\n    ArrayExpr {\n        span: 76..81,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
-    "Call(\n    CallExpr {\n        span: 75..82,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Call(\n    CallExpr {\n        span: 75..82,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

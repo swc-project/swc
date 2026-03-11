@@ -9,10 +9,7 @@
   "pats": [],
   "exprs": [
     "Ident(\n    Ident {\n        span: 1..2,\n        sym: \"f\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 3..4,\n        sym: \"T\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 2..5,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
-    "Template(\n    TemplateExpr {\n        span: 5..7,\n        quasis: [\n            StrLit {\n                span: 5..7,\n                value: \"\",\n            },\n        ],\n        exprs: [],\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 4..8,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)"
+    "TaggedTemplate(\n    TaggedTemplateExpr {\n        span: 5..8,\n        tag: _,\n        template: TemplateExpr {\n            span: 5..7,\n            quasis: [\n                StrLit {\n                    span: 5..7,\n                    value: \"\",\n                },\n            ],\n            exprs: [],\n        },\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

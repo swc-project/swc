@@ -11,7 +11,7 @@
   "decls": [
     "Var(\n    VarDecl {\n        span: 139..172,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 139..172,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 169..208,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 169..175,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 260..318,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 260..317,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 260..318,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 260..287,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 260..317,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 143..144,\n        sym: \"x\",\n    },\n)",
@@ -23,18 +23,17 @@
     "Ident(\n    Ident {\n        span: 207..208,\n        sym: \"y\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 264..267,\n        sym: \"one\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 280..281,\n        sym: \"s\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 304..311,\n        sym: \"untyped\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 268..287,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 288..291,\n        sym: \"two\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 268..317,\n        left: _,\n        right: _,\n    },\n)"
+    "Ident(\n    Ident {\n        span: 304..311,\n        sym: \"untyped\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 292..317,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
     "Function(\n    _,\n)",
     "Function(\n    _,\n)",
     "Assign(\n    AssignExpr {\n        span: 209..263,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Function(\n    _,\n)",
-    "Function(\n    _,\n)",
-    "Assign(\n    AssignExpr {\n        span: 292..317,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 270..317,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)"
+    "Function(\n    _,\n)"
   ],
   "module_decls": [],
   "functions": [

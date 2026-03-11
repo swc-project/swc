@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 21..724,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 21..724,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -20,8 +20,7 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 677..680,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 679..690,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
@@ -30,12 +29,13 @@
     "Fn(\n    FnDecl {\n        span: 44..182,\n        ident: Ident {\n            span: 53..55,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 266..297,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 266..286,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 174..329,\n        ident: Ident {\n            span: 183..185,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 321..427,\n        ident: Ident {\n            span: 330..332,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 321..427,\n        ident: Ident {\n            span: 330..332,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 419..476,\n        ident: Ident {\n            span: 428..430,\n            sym: \"f4\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 468..514,\n        ident: Ident {\n            span: 477..479,\n            sym: \"f5\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 506..564,\n        ident: Ident {\n            span: 515..517,\n            sym: \"f6\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 595..617,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 595..615,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 556..624,\n        ident: Ident {\n            span: 565..567,\n            sym: \"f7\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 619..690,\n        ident: Ident {\n            span: 625..628,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 682..724,\n        ident: Ident {\n            span: 691..693,\n            sym: \"f8\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
@@ -49,8 +49,9 @@
     "Assign(\n    AssignPat {\n        span: 191..212,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 270..273,\n        sym: \"foo\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 334..337,\n        sym: \"bar\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 338..344,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 345..348,\n        sym: \"foo\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 338..353,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 349..353,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 432..435,\n        sym: \"foo\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 437..440,\n        sym: \"bar\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 441..447,\n        left: _,\n        right: _,\n    },\n)",
@@ -61,6 +62,10 @@
     "Ident(\n    Ident {\n        span: 576..579,\n        sym: \"bar\",\n    },\n)",
     "Object(\n    ObjectPat {\n        span: 568..581,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 569..580,\n                    key: Computed(\n                        _,\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 599..602,\n        sym: \"foo\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 654..655,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 656..661,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 669..670,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 671..675,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 694..698,\n        sym: \"foo1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 708..711,\n        sym: \"bar\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 712..719,\n        left: _,\n        right: _,\n    },\n)"
@@ -78,8 +83,6 @@
     "Call(\n    CallExpr {\n        span: 301..304,\n        callee: _,\n        args: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 340..343,\n        sym: \"foo\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 351..352,\n            value: 2.0,\n        },\n    ),\n)",
-    "Assign(\n    AssignExpr {\n        span: 349..353,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 340..353,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 411..414,\n        sym: \"bar\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 443..446,\n        sym: \"foo\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 461..464,\n        sym: \"bar\",\n    },\n)",
@@ -89,14 +92,20 @@
     "Ident(\n    Ident {\n        span: 547..552,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 570..573,\n        sym: \"foo\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 613..614,\n            value: 2.0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 658..660,\n            value: 12.0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 673..674,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 714..718,\n        sym: \"foo1\",\n    },\n)"
   ],
   "module_decls": [],
-  "functions": [],
-  "classes": [],
-  "class_members": [],
+  "functions": [
+    "Function {\n    span: 635..680,\n    params: [\n        Param {\n            span: 647..661,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 662..675,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 619..690,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 625..628,\n            sym: \"Foo\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Method(\n    ClassMethod {\n        span: 635..680,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 635..646,\n                sym: \"constructor\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Constructor,\n    },\n)"
+  ],
   "jsx_elements": [],
   "ts_types": []
 }

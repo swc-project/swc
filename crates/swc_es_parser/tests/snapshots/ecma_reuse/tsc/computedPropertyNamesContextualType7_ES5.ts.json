@@ -1,8 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 17..275,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 17..275,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 173..262,\n        expr: _,\n    },\n)",
@@ -10,9 +12,14 @@
   ],
   "decls": [
     "TsInterface(\n    TsInterfaceDecl {\n        span: 17..65,\n        ident: Ident {\n            span: 27..28,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 29..30,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 38..55,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 39..40,\n                        name: Some(\n                            Ident {\n                                span: 39..40,\n                                sym: \"n\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
-    "TsInterface(\n    TsInterfaceDecl {\n        span: 56..103,\n        ident: Ident {\n            span: 66..67,\n            sym: \"J\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 68..69,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 77..94,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 78..79,\n                        name: Some(\n                            Ident {\n                                span: 78..79,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 56..103,\n        ident: Ident {\n            span: 66..67,\n            sym: \"J\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 68..69,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 77..94,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 78..79,\n                        name: Some(\n                            Ident {\n                                span: 78..79,\n                                sym: \"s\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 104..142,\n        ident: Ident {\n            span: 113..116,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 143..176,\n        ident: Ident {\n            span: 152..153,\n            sym: \"g\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
-  "pats": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 120..123,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 157..160,\n        sym: \"obj\",\n    },\n)"
+  ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 173..176,\n        sym: \"foo\",\n    },\n)",
     "Arrow(\n    ArrowExpr {\n        span: 186..196,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: false,\n    },\n)",

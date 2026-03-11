@@ -23,7 +23,8 @@
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 348..371,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 434..437,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 424..435,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 436..454,\n        expr: _,\n    },\n)"
   ],
   "decls": [
@@ -38,7 +39,8 @@
     "Var(\n    VarDecl {\n        span: 271..282,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 271..280,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 335..347,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 335..345,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 317..349,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 324..325,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 368..406,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 368..396,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 368..406,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 368..396,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 398..437,\n        ident: Ident {\n            span: 407..408,\n            sym: \"i\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"a\",\n    },\n)",
@@ -58,6 +60,8 @@
     "Assign(\n    AssignPat {\n        span: 341..345,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 348..349,\n        sym: \"M\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 372..373,\n        sym: \"h\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 412..413,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 424..425,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 436..437,\n        sym: \"i\",\n    },\n)"
   ],
   "exprs": [
@@ -85,7 +89,8 @@
     "Lit(\n    Null(\n        NullLit {\n            span: 352..356,\n        },\n    ),\n)",
     "Assign(\n    AssignExpr {\n        span: 350..357,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 391..395,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Null(\n        NullLit {\n            span: 428..432,\n        },\n    ),\n)",
+    "Assign(\n    AssignExpr {\n        span: 426..433,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 440..444,\n        },\n    ),\n)",
     "Assign(\n    AssignExpr {\n        span: 438..445,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
   ],

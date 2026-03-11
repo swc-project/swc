@@ -1,27 +1,33 @@
 {
   "programs": [
-    "Program {\n    span: 1..309,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..309,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 202..262,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 176..262,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 260..308,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 307..309,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..117,\n        ident: Ident {\n            span: 6..15,\n            sym: \"Something\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 16..17,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)"
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..117,\n        ident: Ident {\n            span: 6..15,\n            sym: \"Something\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 16..17,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 109..309,\n        ident: Ident {\n            span: 118..127,\n            sym: \"testFunc2\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 146..147,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 152..154,\n        sym: \"sa\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 176..178,\n        sym: \"sa\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 260..262,\n        sym: \"sa\",\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 189..193,\n            value: \"hi\",\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 200..201,\n        sym: \"a\",\n    },\n)",
+    "Object(\n    ObjectExpr {\n        span: 181..204,\n        props: [\n            KeyValueProp {\n                span: 183..194,\n                key: Ident(\n                    Ident {\n                        span: 183..187,\n                        sym: \"test\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 195..203,\n                key: Ident(\n                    Ident {\n                        span: 195..198,\n                        sym: \"arg\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 179..204,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 273..278,\n            value: \"bye\",\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 285..286,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 293..294,\n        sym: \"a\",\n    },\n)",
     "Object(\n    ObjectExpr {\n        span: 265..308,\n        props: [\n            KeyValueProp {\n                span: 267..279,\n                key: Ident(\n                    Ident {\n                        span: 267..271,\n                        sym: \"test\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 280..287,\n                key: Ident(\n                    Ident {\n                        span: 280..283,\n                        sym: \"arg\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 288..296,\n                key: Ident(\n                    Ident {\n                        span: 288..291,\n                        sym: \"arr\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 263..308,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Assign(\n    AssignExpr {\n        span: 263..308,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

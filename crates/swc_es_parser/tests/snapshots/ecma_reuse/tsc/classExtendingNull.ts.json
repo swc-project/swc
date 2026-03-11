@@ -16,10 +16,10 @@
   ],
   "pats": [],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 18..22,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 18..22,\n        sym: \"null\",\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 45..49,\n        },\n    ),\n)",
     "Paren(\n    ParenExpr {\n        span: 44..52,\n        expr: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 72..76,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 72..76,\n        sym: \"null\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 83..84,\n            value: 1.0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 106..110,\n        },\n    ),\n)",
     "Paren(\n    ParenExpr {\n        span: 105..113,\n        expr: _,\n    },\n)",

@@ -14,11 +14,8 @@
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 12..13,\n        sym: \"f\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 14..20,\n        sym: \"number\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 13..21,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Call(\n    CallExpr {\n        span: 23..26,\n        callee: _,\n        args: [],\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 20..26,\n        op: Gt,\n        left: _,\n        right: _,\n    },\n)"
+    "Call(\n    CallExpr {\n        span: 21..26,\n        callee: _,\n        args: [],\n    },\n)",
+    "OptChain(\n    OptChainExpr {\n        span: 21..26,\n        base: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

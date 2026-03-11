@@ -25,8 +25,9 @@
     "Ident(\n    Ident {\n        span: 226..227,\n        sym: \"x\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 228..233,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 236..237,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 238..247,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 248..249,\n        sym: \"d\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 238..254,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 250..254,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 264..265,\n        sym: \"x\",\n    },\n)"
   ],
   "exprs": [
@@ -45,9 +46,7 @@
     "Member(\n    MemberExpr {\n        span: 243..247,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 245..246,\n                sym: \"d\",\n            },\n        ),\n    },\n)",
     "OptChain(\n    OptChainExpr {\n        span: 243..247,\n        base: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 252..253,\n        sym: \"x\",\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 250..254,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 240..254,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Arrow(\n    ArrowExpr {\n        span: 235..269,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 235..269,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
     "Paren(\n    ParenExpr {\n        span: 234..270,\n        expr: _,\n    },\n)",
     "Call(\n    CallExpr {\n        span: 269..272,\n        callee: _,\n        args: [],\n    },\n)"
   ],

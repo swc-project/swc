@@ -1,13 +1,21 @@
 {
   "programs": [
-    "Program {\n    span: 73..1993,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 73..1993,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 192..203,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 323..334,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 573..581,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 655..666,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 780..791,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 887..898,\n        expr: _,\n    },\n)",
@@ -21,17 +29,37 @@
     "Expr(\n    ExprStmt {\n        span: 1992..1993,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 73..105,\n        ident: Ident {\n            span: 82..86,\n            sym: \"foo1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 97..175,\n        ident: Ident {\n            span: 106..110,\n            sym: \"foo1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 167..203,\n        ident: Ident {\n            span: 176..180,\n            sym: \"foo1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 195..230,\n        ident: Ident {\n            span: 204..208,\n            sym: \"foo2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 222..303,\n        ident: Ident {\n            span: 231..235,\n            sym: \"foo2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 295..334,\n        ident: Ident {\n            span: 304..308,\n            sym: \"foo2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 364..398,\n        ident: Ident {\n            span: 373..378,\n            sym: \"inner\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 390..441,\n        ident: Ident {\n            span: 399..404,\n            sym: \"inner\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 433..471,\n        ident: Ident {\n            span: 442..447,\n            sym: \"inner\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 545..574,\n        ident: Ident {\n            span: 554..560,\n            sym: \"inner2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 463..498,\n        ident: Ident {\n            span: 472..478,\n            sym: \"inner2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 490..553,\n        ident: Ident {\n            span: 499..505,\n            sym: \"inner2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 545..574,\n        ident: Ident {\n            span: 554..560,\n            sym: \"inner2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 326..581,\n        ident: Ident {\n            span: 335..339,\n            sym: \"foo3\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 90..91,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 114..115,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 184..185,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 215..216,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 242..243,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 315..316,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 346..347,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 352..353,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 379..380,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 405..406,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 448..449,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 479..480,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 509..510,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 561..562,\n        sym: \"x\",\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",

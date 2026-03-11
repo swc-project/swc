@@ -1,10 +1,12 @@
 {
   "programs": [
-    "Program {\n    span: 91..1028,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 91..1028,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -26,6 +28,8 @@
   ],
   "decls": [
     "Class(\n    ClassDecl {\n        span: 98..135,\n        ident: Ident {\n            span: 104..105,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 185..225,\n        ident: Ident {\n            span: 194..206,\n            sym: \"getSpecifier\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 226..273,\n        ident: Ident {\n            span: 235..253,\n            sym: \"ValidSomeCondition\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 274..306,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 274..298,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 307..339,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 307..331,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 340..373,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 340..365,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",

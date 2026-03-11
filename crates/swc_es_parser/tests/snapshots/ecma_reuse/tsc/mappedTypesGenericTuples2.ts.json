@@ -1,14 +1,16 @@
 {
   "programs": [
-    "Program {\n    span: 109..320,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+    "Program {\n    span: 109..320,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 285..317,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 141..320,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 117..148,\n        ident: Ident {\n            span: 126..130,\n            sym: \"getT\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 208..249,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 208..231,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 244..289,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 244..273,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],

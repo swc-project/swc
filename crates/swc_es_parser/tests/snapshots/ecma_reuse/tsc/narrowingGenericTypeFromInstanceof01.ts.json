@@ -1,14 +1,16 @@
 {
   "programs": [
-    "Program {\n    span: 1..386,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..386,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 51..54,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 53..61,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 69..80,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 103..113,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 136..147,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 224..233,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 208..225,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 198..233,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 178..233,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 261..278,\n        expr: _,\n    },\n)",
     "Block(\n    BlockStmt {\n        span: 251..286,\n        stmts: [\n            _,\n        ],\n    },\n)",
     "If(\n    IfStmt {\n        span: 231..286,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
@@ -18,17 +20,28 @@
     "Expr(\n    ExprStmt {\n        span: 367..384,\n        expr: _,\n    },\n)",
     "Block(\n    BlockStmt {\n        span: 357..386,\n        stmts: [\n            _,\n        ],\n    },\n)",
     "If(\n    IfStmt {\n        span: 337..386,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 385..386,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
-  "decls": [],
-  "pats": [],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 72..113,\n        ident: Ident {\n            span: 81..88,\n            sym: \"acceptA\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 105..147,\n        ident: Ident {\n            span: 114..121,\n            sym: \"acceptB\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 139..386,\n        ident: Ident {\n            span: 148..152,\n            sym: \"test\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 92..93,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 125..126,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 156..157,\n        sym: \"x\",\n    },\n)"
+  ],
   "exprs": [
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 182..183,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 195..196,\n        sym: \"B\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 184..197,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 208..215,\n        sym: \"acceptA\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 216..217,\n        sym: \"x\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 215..219,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 235..236,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 248..249,\n        sym: \"A\",\n    },\n)",
     "Binary(\n    BinaryExpr {\n        span: 237..250,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
@@ -46,8 +59,7 @@
     "Binary(\n    BinaryExpr {\n        span: 343..356,\n        op: InstanceOf,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 367..374,\n        sym: \"acceptB\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 375..376,\n        sym: \"x\",\n    },\n)",
-    "Call(\n    CallExpr {\n        span: 374..378,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Call(\n    CallExpr {\n        span: 374..378,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

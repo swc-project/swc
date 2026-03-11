@@ -4,19 +4,17 @@
   ],
   "stmts": [
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 125..139,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 159..202,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "Fn(\n    FnDecl {\n        span: 99..130,\n        ident: Ident {\n            span: 108..113,\n            sym: \"other\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 131..207,\n        ident: Ident {\n            span: 140..142,\n            sym: \"fn\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 125..207,\n        ident: Ident {\n            span: 140..142,\n            sym: \"fn\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 69..210,\n        ident: Ident {\n            span: 75..76,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 125..130,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 165..170,\n        sym: \"other\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 170..177,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 171..176,\n                sym: \"apply\",\n            },\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 177..181,\n        sym: \"this\",\n    },\n)",
@@ -26,7 +24,7 @@
   ],
   "module_decls": [],
   "functions": [
-    "Function {\n    span: 82..209,\n    params: [],\n    body: [\n        _,\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+    "Function {\n    span: 82..209,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [
     "Class {\n    span: 69..210,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 75..76,\n            sym: \"C\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}"

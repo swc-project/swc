@@ -1,19 +1,28 @@
 {
   "programs": [
-    "Program {\n    span: 94..516,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
+    "Program {\n    span: 94..516,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 134..149,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 174..189,\n        expr: _,\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
-    "Class(\n    ClassDecl {\n        span: 101..318,\n        ident: Ident {\n            span: 107..108,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+    "Class(\n    ClassDecl {\n        span: 101..318,\n        ident: Ident {\n            span: 107..108,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 327..415,\n        ident: Ident {\n            span: 336..358,\n            sym: \"__classPrivateFieldGet\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 424..516,\n        ident: Ident {\n            span: 433..455,\n            sym: \"__classPrivateFieldSet\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
     "Expr(\n    _,\n)",
     "Ident(\n    Ident {\n        span: 161..162,\n        sym: \"v\",\n    },\n)",
-    "Expr(\n    _,\n)"
+    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 380..388,\n        sym: \"receiver\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 393..398,\n        sym: \"state\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 477..485,\n        sym: \"receiver\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 490..495,\n        sym: \"state\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 502..507,\n        sym: \"value\",\n    },\n)"
   ],
   "exprs": [
     "Lit(\n    Num(\n        NumberLit {\n            span: 120..121,\n            value: 1.0,\n        },\n    ),\n)",
@@ -27,7 +36,9 @@
     "Assign(\n    AssignExpr {\n        span: 182..187,\n        left: _,\n        op: AddAssign,\n        right: _,\n    },\n)"
   ],
   "module_decls": [
-    "ExportDecl(\n    ExportDecl {\n        span: 94..318,\n        decl: _,\n    },\n)"
+    "ExportDecl(\n    ExportDecl {\n        span: 94..318,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 312..415,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 409..516,\n        decl: _,\n    },\n)"
   ],
   "functions": [
     "Function {\n    span: 127..157,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",

@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 41..1212,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 41..1212,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -18,6 +18,8 @@
     "Expr(\n    ExprStmt {\n        span: 689..697,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 819..830,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1166..1195,\n        expr: _,\n    },\n)",
@@ -38,6 +40,8 @@
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 529..590,\n        ident: Ident {\n            span: 534..537,\n            sym: \"T11\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 586..636,\n        ident: Ident {\n            span: 591..594,\n            sym: \"T20\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 595..596,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 693..735,\n        ident: Ident {\n            span: 698..707,\n            sym: \"Container\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 708..709,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 831..908,\n        ident: Ident {\n            span: 840..855,\n            sym: \"createContainer\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 909..1037,\n        ident: Ident {\n            span: 918..919,\n            sym: \"f\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1032..1078,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1032..1078,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1073..1113,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1073..1113,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
@@ -50,6 +54,9 @@
     "Ident(\n    Ident {\n        span: 422..423,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 457..458,\n        sym: \"s\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 459..466,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 875..880,\n        sym: \"value\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 952..962,\n        sym: \"containers\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 972..980,\n        sym: \"callback\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1038..1048,\n        sym: \"container1\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 1049..1078,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 1079..1089,\n        sym: \"container2\",\n    },\n)",

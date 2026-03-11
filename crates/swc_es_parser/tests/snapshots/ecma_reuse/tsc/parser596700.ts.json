@@ -13,7 +13,7 @@
     "Assign(\n    AssignPat {\n        span: 12..25,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 14..25,\n            exp: \"[a-z/]$\",\n            flags: \"i\",\n        },\n    ),\n)"
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 14..24,\n            exp: \"[a-z/]$\",\n            flags: \"i\",\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

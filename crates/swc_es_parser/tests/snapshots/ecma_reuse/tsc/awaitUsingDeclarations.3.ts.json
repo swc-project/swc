@@ -8,14 +8,17 @@
     "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
-    "Var(\n    VarDecl {\n        span: 115..278,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 115..276,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 115..278,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 115..169,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 115..196,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 115..228,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 115..276,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 127..129,\n        sym: \"d1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 130..169,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 186..188,\n        sym: \"d2\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 189..196,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 213..215,\n        sym: \"d3\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 216..228,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 245..247,\n        sym: \"d4\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 130..276,\n        left: _,\n        right: _,\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 248..276,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 141..147,\n        sym: \"Symbol\",\n    },\n)",
@@ -23,15 +26,11 @@
     "Function(\n    _,\n)",
     "Object(\n    ObjectExpr {\n        span: 132..169,\n        props: [\n            KeyValueProp {\n                span: 134..168,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 191..195,\n        },\n    ),\n)",
-    "Assign(\n    AssignExpr {\n        span: 189..196,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 218..227,\n        sym: \"undefined\",\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 216..228,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 253..259,\n        sym: \"Symbol\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 259..268,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 260..267,\n                sym: \"dispose\",\n            },\n        ),\n    },\n)",
     "Function(\n    _,\n)",
-    "Object(\n    ObjectExpr {\n        span: 250..276,\n        props: [\n            KeyValueProp {\n                span: 252..275,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 248..276,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 132..276,\n        exprs: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+    "Object(\n    ObjectExpr {\n        span: 250..276,\n        props: [\n            KeyValueProp {\n                span: 252..275,\n                key: Computed(\n                    _,\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [
     "ExportNamed(\n    ExportNamedDecl {\n        span: 280..290,\n        src: None,\n        specifiers: [],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)"

@@ -1,23 +1,26 @@
 {
   "programs": [
-    "Program {\n    span: 52..235,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 52..235,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 100..116,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 228..233,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 232..235,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 180..235,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    "Var(\n    VarDecl {\n        span: 52..126,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 52..119,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 52..126,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 52..119,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 205..229,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 205..227,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 58..59,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 77..84,\n        sym: \"resolve\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 86..92,\n        sym: \"reject\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 60..119,\n        left: _,\n        right: _,\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 60..119,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 211..216,\n        sym: \"value\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 217..227,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 66..73,\n        sym: \"Promise\",\n    },\n)",
@@ -28,15 +31,19 @@
     "Call(\n    CallExpr {\n        span: 73..119,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
     "New(\n    NewExpr {\n        span: 62..119,\n        callee: _,\n        args: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"x\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 225..226,\n        sym: \"x\",\n    },\n)",
+    "Await(\n    AwaitExpr {\n        span: 219..227,\n        arg: _,\n    },\n)",
+    "Function(\n    _,\n)",
     "Call(\n    CallExpr {\n        span: 229..233,\n        callee: _,\n        args: [],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Paren(\n    ParenExpr {\n        span: 180..234,\n        expr: _,\n    },\n)"
   ],
   "module_decls": [
     "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 120..164,\n        expr: _,\n    },\n)",
     "Import(\n    ImportDecl {\n        span: 158..181,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 165..166,\n                        sym: \"x\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 172..177,\n            value: \"./a\",\n        },\n        with: [],\n    },\n)"
   ],
-  "functions": [],
+  "functions": [
+    "Function {\n    span: 182..230,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: true,\n    is_generator: false,\n}"
+  ],
   "classes": [],
   "class_members": [],
   "jsx_elements": [],

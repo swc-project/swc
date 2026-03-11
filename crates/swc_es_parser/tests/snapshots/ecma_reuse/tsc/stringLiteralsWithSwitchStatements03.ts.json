@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 1..489,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..489,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -21,7 +22,8 @@
   "decls": [
     "Var(\n    VarDecl {\n        span: 1..18,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..14,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 15..41,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 15..36,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 38..60,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 38..51,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 38..60,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 38..51,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 61..98,\n        ident: Ident {\n            span: 70..78,\n            sym: \"randBool\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 5..6,\n        sym: \"x\",\n    },\n)",

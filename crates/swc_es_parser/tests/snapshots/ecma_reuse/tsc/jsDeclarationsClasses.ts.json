@@ -111,7 +111,7 @@
     "Ident(\n    Ident {\n        span: 2122..2126,\n        sym: \"this\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 2126..2130,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2127..2129,\n                sym: \"p1\",\n            },\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 2163..2164,\n        sym: \"K\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 2192..2196,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 2192..2196,\n        sym: \"null\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 2227..2231,\n        sym: \"this\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 2231..2238,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 2232..2236,\n                sym: \"prop\",\n            },\n        ),\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 2239..2241,\n            value: 12.0,\n        },\n    ),\n)",

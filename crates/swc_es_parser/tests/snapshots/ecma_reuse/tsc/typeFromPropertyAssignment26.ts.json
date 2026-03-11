@@ -41,7 +41,7 @@
     "New(\n    NewExpr {\n        span: 213..240,\n        callee: _,\n        args: [],\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 211..240,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 251..253,\n        sym: \"UI\",\n    },\n)",
-    "Member(\n    MemberExpr {\n        span: 253..267,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 254..265,\n                sym: \"TreeElement\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 251..267,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 254..265,\n                sym: \"TreeElement\",\n            },\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 295..299,\n        sym: \"this\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 299..325,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 300..312,\n                sym: \"doesNotExist\",\n            },\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 321..325,\n        sym: \"this\",\n    },\n)",

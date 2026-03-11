@@ -181,7 +181,7 @@
     "Array(\n    ArrayExpr {\n        span: 144..160,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 203..205,\n        sym: \"fn\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 205..208,\n        callee: _,\n        args: [],\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 228..236,\n            exp: \"[a-z]\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 228..235,\n            exp: \"[a-z]\",\n            flags: \"\",\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 259..263,\n        sym: \"Date\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 263..266,\n        callee: _,\n        args: [],\n    },\n)",
     "New(\n    NewExpr {\n        span: 255..266,\n        callee: _,\n        args: [],\n    },\n)",

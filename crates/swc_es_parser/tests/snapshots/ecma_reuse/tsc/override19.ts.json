@@ -1,26 +1,22 @@
 {
   "programs": [
-    "Program {\n    span: 50..478,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 50..478,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 235..238,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 237..244,\n        expr: _,\n    },\n)",
-    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 254..262,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 50..73,\n        ident: Ident {\n            span: 55..58,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
-    "Class(\n    ClassDecl {\n        span: 239..262,\n        ident: Ident {\n            span: 245..252,\n            sym: \"Context\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 257..296,\n        ident: Ident {\n            span: 263..264,\n            sym: \"A\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 291..381,\n        ident: Ident {\n            span: 297..298,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 376..478,\n        ident: Ident {\n            span: 382..383,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 307..318,\n        sym: \"CreateMixin\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 319..326,\n        sym: \"Context\",\n    },\n)",
@@ -38,7 +34,6 @@
     "Function {\n    span: 431..477,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [
-    "Class {\n    span: 239..262,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 245..252,\n            sym: \"Context\",\n        },\n    ),\n    super_class: None,\n    body: [],\n}",
     "Class {\n    span: 257..296,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 263..264,\n            sym: \"A\",\n        },\n    ),\n    super_class: None,\n    body: [\n        _,\n    ],\n}",
     "Class {\n    span: 291..381,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 297..298,\n            sym: \"B\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}",
     "Class {\n    span: 376..478,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 382..383,\n            sym: \"C\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n    ],\n}"

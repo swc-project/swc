@@ -18,7 +18,7 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 993..1021,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1160..1183,\n        expr: _,\n    },\n)",
     "ModuleDecl(\n    _,\n)"
@@ -39,6 +39,7 @@
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 774..804,\n        ident: Ident {\n            span: 779..783,\n            sym: \"EMap\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 800..827,\n        ident: Ident {\n            span: 805..809,\n            sym: \"Keys\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 823..900,\n        ident: Ident {\n            span: 828..841,\n            sym: \"EPlusFallback\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 842..843,\n                sym: \"C\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 896..1021,\n        ident: Ident {\n            span: 901..913,\n            sym: \"VirtualEvent\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 914..915,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1022..1086,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 1022..1079,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1087..1185,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1087..1184,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
@@ -49,9 +50,6 @@
     "Assign(\n    AssignPat {\n        span: 1103..1184,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Str(\n        StrLit {\n            span: 995..1011,\n            value: \"bivarianceHack\",\n        },\n    ),\n)",
-    "Member(\n    MemberExpr {\n        span: 994..1013,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 1160..1170,\n        sym: \"_virtualOn\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1171..1179,\n        sym: \"eventQrl\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 1170..1181,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
@@ -121,6 +119,13 @@
     "TypeRef(\n    TsTypeRef {\n        span: 869..871,\n        name: Ident {\n            span: 869..871,\n            sym: \"C\",\n        },\n        type_args: [],\n    },\n)",
     "IndexedAccess(\n    TsIndexedAccessType {\n        span: 864..873,\n        obj_type: _,\n        index_type: _,\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 874..894,\n            value: \"unrecognised event\",\n        },\n    ),\n)",
-    "Conditional(\n    TsConditionalType {\n        span: 847..895,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)"
+    "Conditional(\n    TsConditionalType {\n        span: 847..895,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 982..985,\n        name: Ident {\n            span: 982..985,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 972..985,\n        name: Ident {\n            span: 972..982,\n            sym: \"Lowercase\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 958..986,\n        name: Ident {\n            span: 958..972,\n            sym: \"EPlusFallback\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "Keyword(\n    Any,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 934..995,\n        members: [\n            TsTypeMember {\n                span: 936..994,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 936..950,\n                            sym: \"bivarianceHack\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 951..986,\n                        name: Some(\n                            Ident {\n                                span: 951..956,\n                                sym: \"event\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 995..1011,\n            value: \"bivarianceHack\",\n        },\n    ),\n)",
+    "IndexedAccess(\n    TsIndexedAccessType {\n        span: 934..1013,\n        obj_type: _,\n        index_type: _,\n    },\n)"
   ]
 }

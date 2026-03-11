@@ -1,11 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 58..242,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 58..242,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Return(\n    ReturnStmt {\n        span: 89..105,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "ModuleDecl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 128..142,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 223..235,\n        expr: _,\n    },\n)",
@@ -16,7 +15,7 @@
     "Class(\n    ClassDecl {\n        span: 65..133,\n        ident: Ident {\n            span: 71..72,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 155..205,\n        ident: Ident {\n            span: 161..162,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Var(\n    VarDecl {\n        span: 202..224,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 202..218,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 134..239,\n        ident: Ident {\n            span: 143..146,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 128..239,\n        ident: Ident {\n            span: 143..146,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 206..207,\n        sym: \"c\",\n    },\n)",
@@ -24,7 +23,6 @@
   ],
   "exprs": [
     "Lit(\n    Str(\n        StrLit {\n            span: 96..104,\n            value: \"I am B\",\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 128..133,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 178..184,\n        sym: \"import\",\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 185..190,\n            value: \"./0\",\n        },\n    ),\n)",
     "Call(\n    CallExpr {\n        span: 184..192,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",

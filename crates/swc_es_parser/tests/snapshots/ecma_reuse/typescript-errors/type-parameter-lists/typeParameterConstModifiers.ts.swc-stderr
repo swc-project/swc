@@ -1,8 +1,8 @@
-  x expected (, got Lt
+  x expected >, got Ident
    ,-[/swc_ecma_parser/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:3:1]
  2 | 
  3 | declare function f1<const T>(x: T): T;
-   :                    ^
+   :                           ^
    `----
 
 Advice: 

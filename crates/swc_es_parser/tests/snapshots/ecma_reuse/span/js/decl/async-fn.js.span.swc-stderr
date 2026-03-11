@@ -4,16 +4,6 @@
  2 | |   
  3 | `-> }
    `----
-  x ExprStmt
-   ,-[/swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
- 1 | async function foo() {
-   : ^^^^^^^^^^^^^^
-   `----
-  x IdentExpr
-   ,-[/swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
- 1 | async function foo() {
-   : ^^^^^
-   `----
   x DeclStmt
    ,-[/swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
  1 | ,-> async function foo() {

@@ -1,8 +1,12 @@
 {
   "programs": [
-    "Program {\n    span: 19..2981,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 19..2981,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -63,6 +67,10 @@
     "Expr(\n    ExprStmt {\n        span: 2979..2981,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 27..79,\n        ident: Ident {\n            span: 36..39,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 80..127,\n        ident: Ident {\n            span: 89..99,\n            sym: \"overloaded\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 128..176,\n        ident: Ident {\n            span: 137..147,\n            sym: \"overloaded\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 177..211,\n        ident: Ident {\n            span: 186..193,\n            sym: \"generic\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 208..242,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 208..238,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 239..277,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 239..273,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 274..321,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 274..317,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -102,6 +110,11 @@
     "Var(\n    VarDecl {\n        span: 2091..2140,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2091..2127,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 40..41,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 51..52,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 100..101,\n        sym: \"s\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 148..149,\n        sym: \"n\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 197..198,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 212..215,\n        sym: \"f00\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 216..238,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 243..246,\n        sym: \"f01\",\n    },\n)",

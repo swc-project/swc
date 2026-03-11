@@ -1,5 +1,5 @@
   x expected ), got Ident
-   ,-[$DIR/../swc_ecma_parser/tests/errors/explicit-resource-management/.invalid-for-await-using-binding-of-of/input.mjs:1:1]
+   ,-[/swc_ecma_parser/tests/errors/explicit-resource-management/.invalid-for-await-using-binding-of-of/input.mjs:1:1]
  1 | for await (using of of of);
    :                        ^^
    `----

@@ -3,14 +3,29 @@
     "Program {\n    span: 1..132,\n    kind: Module,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 130..132,\n        expr: _,\n    },\n)"
+    "Return(\n    ReturnStmt {\n        span: 86..131,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
   ],
-  "decls": [],
-  "pats": [],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 8..132,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 8..132,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 14..18,\n        sym: \"test\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 22..25,\n        sym: \"str\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 19..132,\n        left: _,\n        right: _,\n    },\n)"
+  ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Ident(\n    Ident {\n        span: 93..96,\n        sym: \"str\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 101..110,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 97..112,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 113..122,\n        sym: \"undefined\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 125..128,\n        sym: \"str\",\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 111..129,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 21..132,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)"
   ],
-  "module_decls": [],
+  "module_decls": [
+    "ExportDecl(\n    ExportDecl {\n        span: 1..132,\n        decl: _,\n    },\n)"
+  ],
   "functions": [],
   "classes": [],
   "class_members": [],

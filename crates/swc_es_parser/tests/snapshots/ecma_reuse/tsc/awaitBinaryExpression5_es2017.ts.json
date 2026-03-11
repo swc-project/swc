@@ -1,11 +1,12 @@
 {
   "programs": [
-    "Program {\n    span: 44..280,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 44..280,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 166..180,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 209..226,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 251..275,\n        expr: _,\n    },\n)",
@@ -15,8 +16,10 @@
   "decls": [
     "Var(\n    VarDecl {\n        span: 52..75,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 52..67,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 76..108,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 76..100,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 109..141,\n        ident: Ident {\n            span: 118..124,\n            sym: \"before\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 142..171,\n        ident: Ident {\n            span: 151..156,\n            sym: \"after\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 223..252,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 223..246,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 172..280,\n        ident: Ident {\n            span: 181..185,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 166..280,\n        ident: Ident {\n            span: 181..185,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"a\",\n    },\n)",
@@ -25,7 +28,6 @@
     "Expr(\n    _,\n)"
   ],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 166..171,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 209..215,\n        sym: \"before\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 215..218,\n        callee: _,\n        args: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 251..252,\n        sym: \"o\",\n    },\n)",

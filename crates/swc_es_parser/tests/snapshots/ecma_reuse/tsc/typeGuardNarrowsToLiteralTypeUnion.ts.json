@@ -1,8 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 1..256,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..256,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 210..226,\n        expr: _,\n    },\n)",
     "Block(\n    BlockStmt {\n        span: 204..231,\n        stmts: [\n            _,\n        ],\n    },\n)",
@@ -11,9 +13,13 @@
     "If(\n    IfStmt {\n        span: 186..256,\n        test: _,\n        cons: _,\n        alt: Some(\n            _,\n        ),\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 75..127,\n        ident: Ident {\n            span: 84..90,\n            sym: \"doThis\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 128..170,\n        ident: Ident {\n            span: 137..143,\n            sym: \"doThat\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 167..188,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 167..185,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 91..96,\n        sym: \"value\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 144..149,\n        sym: \"value\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 171..176,\n        sym: \"value\",\n    },\n)"
   ],
   "exprs": [

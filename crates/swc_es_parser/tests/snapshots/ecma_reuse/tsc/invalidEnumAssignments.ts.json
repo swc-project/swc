@@ -14,13 +14,15 @@
     "Expr(\n    ExprStmt {\n        span: 105..112,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 111..120,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 119..136,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 161..162,\n        expr: _,\n    },\n)"
+    "Expr(\n    ExprStmt {\n        span: 154..162,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
     "TsEnum(\n    TsEnumDecl {\n        span: 1..30,\n        ident: Ident {\n            span: 6..7,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 14..16,\n                name: Ident(\n                    Ident {\n                        span: 14..15,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 21..24,\n                name: Ident(\n                    Ident {\n                        span: 21..22,\n                        sym: \"B\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
     "TsEnum(\n    TsEnumDecl {\n        span: 26..55,\n        ident: Ident {\n            span: 31..33,\n            sym: \"E2\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 40..42,\n                name: Ident(\n                    Ident {\n                        span: 40..41,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 47..50,\n                name: Ident(\n                    Ident {\n                        span: 47..48,\n                        sym: \"B\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 52..65,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 52..61,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 62..76,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 62..73,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 62..76,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 62..73,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 128..162,\n        ident: Ident {\n            span: 137..138,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 56..57,\n        sym: \"e\",\n    },\n)",
@@ -29,7 +31,9 @@
     "Ident(\n    Ident {\n        span: 85..87,\n        sym: \"e2\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 95..96,\n        sym: \"e\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 111..112,\n        sym: \"e\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 119..120,\n        sym: \"e\",\n    },\n)"
+    "Ident(\n    Ident {\n        span: 119..120,\n        sym: \"e\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 142..143,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 154..155,\n        sym: \"e\",\n    },\n)"
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 79..81,\n        sym: \"E2\",\n    },\n)",
@@ -47,7 +51,8 @@
     "Assign(\n    AssignExpr {\n        span: 113..118,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 123..125,\n            value: \"\",\n        },\n    ),\n)",
     "Assign(\n    AssignExpr {\n        span: 121..126,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Ident(\n    Ident {\n        span: 158..159,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 156..160,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
