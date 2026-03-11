@@ -23,8 +23,9 @@
     "Ident(\n    Ident {\n        span: 232..233,\n        sym: \"x\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 234..239,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 242..243,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 244..279,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 280..281,\n        sym: \"d\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 244..286,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 282..286,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 296..297,\n        sym: \"x\",\n    },\n)"
   ],
   "exprs": [
@@ -39,9 +40,7 @@
     "Lit(\n    Num(\n        NumberLit {\n            span: 275..276,\n            value: 1.0,\n        },\n    ),\n)",
     "Class(\n    _,\n)",
     "Ident(\n    Ident {\n        span: 284..285,\n        sym: \"x\",\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 282..286,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 246..286,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Arrow(\n    ArrowExpr {\n        span: 241..301,\n        params: [\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 241..301,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)",
     "Paren(\n    ParenExpr {\n        span: 240..302,\n        expr: _,\n    },\n)",
     "Call(\n    CallExpr {\n        span: 301..304,\n        callee: _,\n        args: [],\n    },\n)"
   ],

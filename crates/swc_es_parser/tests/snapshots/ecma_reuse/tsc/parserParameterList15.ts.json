@@ -1,18 +1,24 @@
 {
   "programs": [
-    "Program {\n    span: 1..43,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+    "Program {\n    span: 1..43,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..30,\n        ident: Ident {\n            span: 10..13,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 22..43,\n        ident: Ident {\n            span: 31..34,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 14..15,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 16..20,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 35..36,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 38..39,\n        sym: \"b\",\n    },\n)"
   ],
-  "exprs": [],
+  "exprs": [
+    "Lit(\n    Num(\n        NumberLit {\n            span: 18..19,\n            value: 4.0,\n        },\n    ),\n)"
+  ],
   "module_decls": [],
   "functions": [],
   "classes": [],

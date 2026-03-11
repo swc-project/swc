@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 1..754,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..754,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Block(\n    BlockStmt {\n        span: 139..182,\n        stmts: [\n            _,\n        ],\n    },\n)",
@@ -34,6 +35,7 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 9..65,\n        ident: Ident {\n            span: 18..35,\n            sym: \"getStringOrNumber\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 77..114,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 77..107,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 149..180,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 149..174,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 57..192,\n        ident: Ident {\n            span: 66..68,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",

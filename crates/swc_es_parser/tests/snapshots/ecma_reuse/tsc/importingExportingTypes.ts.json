@@ -4,6 +4,7 @@
   ],
   "stmts": [
     "ModuleDecl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
@@ -12,12 +13,19 @@
   ],
   "decls": [
     "TsInterface(\n    TsInterfaceDecl {\n        span: 137..175,\n        ident: Ident {\n            span: 147..163,\n            sym: \"WriteFileOptions\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [],\n    },\n)",
-    "TsModule(\n    TsModuleDecl {\n        span: 114..319,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 121..125,\n                value: \"fs\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 176..287,\n        ident: Ident {\n            span: 185..194,\n            sym: \"writeFile\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
+    "TsModule(\n    TsModuleDecl {\n        span: 114..319,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 121..125,\n                value: \"fs\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
   ],
-  "pats": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 195..199,\n        sym: \"path\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 209..213,\n        sym: \"data\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 220..227,\n        sym: \"options\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 247..255,\n        sym: \"callback\",\n    },\n)"
+  ],
   "exprs": [],
   "module_decls": [
     "ExportDecl(\n    ExportDecl {\n        span: 130..175,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 169..287,\n        decl: _,\n    },\n)",
     "Import(\n    ImportDecl {\n        span: 313..441,\n        specifiers: [\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 322..331,\n                        sym: \"writeFile\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 322..331,\n                            sym: \"writeFile\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 333..349,\n                        sym: \"WriteFileOptions\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 333..349,\n                            sym: \"WriteFileOptions\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n            Named(\n                ImportNamedSpecifier {\n                    local: Ident {\n                        span: 371..380,\n                        sym: \"OtherName\",\n                    },\n                    imported: Some(\n                        Ident {\n                            span: 351..367,\n                            sym: \"WriteFileOptions\",\n                        },\n                    ),\n                    is_type_only: false,\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 388..392,\n            value: \"fs\",\n        },\n        with: [],\n    },\n)",
     "ExportNamed(\n    ExportNamedDecl {\n        span: 435..463,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 444..453,\n                    sym: \"JSDocType\",\n                },\n                exported: None,\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",
     "ExportNamed(\n    ExportNamedDecl {\n        span: 457..499,\n        src: None,\n        specifiers: [\n            ExportSpecifier {\n                local: Ident {\n                    span: 466..475,\n                    sym: \"JSDocType\",\n                },\n                exported: Some(\n                    Ident {\n                        span: 479..489,\n                        sym: \"ThisIsFine\",\n                    },\n                ),\n                is_type_only: false,\n            },\n        ],\n        type_only: false,\n        decl: None,\n        with: [],\n    },\n)",

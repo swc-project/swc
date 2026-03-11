@@ -1,42 +1,34 @@
 {
   "programs": [
-    "Program {\n    span: 18..207,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 18..207,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 18..32,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 45..63,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 65..79,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 93..111,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 113..127,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 141..159,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 161..175,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 189..207,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
-    "Fn(\n    FnDecl {\n        span: 24..70,\n        ident: Ident {\n            span: 33..36,\n            sym: \"bar\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 71..118,\n        ident: Ident {\n            span: 80..84,\n            sym: \"bar1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 119..166,\n        ident: Ident {\n            span: 128..132,\n            sym: \"bar3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 167..207,\n        ident: Ident {\n            span: 176..180,\n            sym: \"bar4\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 18..70,\n        ident: Ident {\n            span: 33..36,\n            sym: \"bar\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 65..118,\n        ident: Ident {\n            span: 80..84,\n            sym: \"bar1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 113..166,\n        ident: Ident {\n            span: 128..132,\n            sym: \"bar3\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 161..207,\n        ident: Ident {\n            span: 176..180,\n            sym: \"bar4\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 18..23,\n        sym: \"async\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 52..54,\n            value: 42.0,\n        },\n    ),\n)",
     "Await(\n    AwaitExpr {\n        span: 46..55,\n        arg: _,\n    },\n)",
     "Unary(\n    UnaryExpr {\n        span: 45..55,\n        op: Bang,\n        arg: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 65..70,\n        sym: \"async\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 100..102,\n            value: 42.0,\n        },\n    ),\n)",
     "Await(\n    AwaitExpr {\n        span: 94..103,\n        arg: _,\n    },\n)",
     "Unary(\n    UnaryExpr {\n        span: 93..103,\n        op: Plus,\n        arg: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 113..118,\n        sym: \"async\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 148..150,\n            value: 42.0,\n        },\n    ),\n)",
     "Await(\n    AwaitExpr {\n        span: 142..151,\n        arg: _,\n    },\n)",
     "Unary(\n    UnaryExpr {\n        span: 141..151,\n        op: Minus,\n        arg: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 161..166,\n        sym: \"async\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 196..198,\n            value: 42.0,\n        },\n    ),\n)",
     "Await(\n    AwaitExpr {\n        span: 190..199,\n        arg: _,\n    },\n)",
     "Unary(\n    UnaryExpr {\n        span: 189..199,\n        op: Tilde,\n        arg: _,\n    },\n)"

@@ -3,19 +3,31 @@
     "Program {\n    span: 1..227,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 81..92,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 224..227,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 120..225,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
-  "decls": [],
-  "pats": [],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..92,\n        ident: Ident {\n            span: 11..12,\n            sym: \"G\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 13..14,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 22..77,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 22..23,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 76..82,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 76..77,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 84..227,\n        ident: Ident {\n            span: 93..95,\n            sym: \"ff\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"g\",\n    },\n)"
+  ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Ident(\n    Ident {\n        span: 120..122,\n        sym: \"ff\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 123..124,\n        sym: \"g\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 122..225,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
   "classes": [],
   "class_members": [],
   "jsx_elements": [],
-  "ts_types": []
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 29..32,\n        name: Ident {\n            span: 29..32,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 27..32,\n        name: Ident {\n            span: 27..29,\n            sym: \"G\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 25..77,\n        name: Ident {\n            span: 25..27,\n            sym: \"G\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 79..82,\n        name: Ident {\n            span: 79..82,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
+  ]
 }

@@ -1,20 +1,18 @@
 {
   "programs": [
-    "Program {\n    span: 93..224,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 93..224,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "ModuleDecl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 141..155,\n        expr: _,\n    },\n)",
     "Return(\n    ReturnStmt {\n        span: 168..223,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
-    "Fn(\n    FnDecl {\n        span: 147..224,\n        ident: Ident {\n            span: 156..159,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 141..224,\n        ident: Ident {\n            span: 156..159,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [],
   "exprs": [
     "Lit(\n    Str(\n        StrLit {\n            span: 108..115,\n            value: \"./foo\",\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 141..146,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 181..187,\n        sym: \"import\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 195..201,\n        sym: \"import\",\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 202..209,\n            value: \"./foo\",\n        },\n    ),\n)",

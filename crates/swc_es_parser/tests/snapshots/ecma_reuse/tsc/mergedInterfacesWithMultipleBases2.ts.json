@@ -26,8 +26,8 @@
     "Expr(\n    ExprStmt {\n        span: 588..600,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 627..639,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 666..682,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 728..744,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 801..813,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 871..888,\n        expr: _,\n    },\n)",
     "Labeled(\n    LabeledStmt {\n        span: 868..888,\n        label: Ident {\n            span: 868..869,\n            sym: \"b\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 890..908,\n        expr: _,\n    },\n)",
@@ -46,7 +46,9 @@
     "TsInterface(\n    TsInterfaceDecl {\n        span: 282..334,\n        ident: Ident {\n            span: 292..293,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 302..305,\n                sym: \"C2\",\n            },\n            Ident {\n                span: 306..310,\n                sym: \"C4\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 315..327,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 315..316,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 445..458,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 445..454,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 455..509,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 455..467,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "TsModule(\n    TsModuleDecl {\n        span: 503..561,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 510..511,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
+    "TsModule(\n    TsModuleDecl {\n        span: 503..561,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 510..511,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 673..744,\n        ident: Ident {\n            span: 683..684,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 685..686,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 696..698,\n                sym: \"C\",\n            },\n            Ident {\n                span: 702..705,\n                sym: \"C3\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 718..729,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 718..719,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 735..813,\n        ident: Ident {\n            span: 745..746,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 747..748,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 758..761,\n                sym: \"C2\",\n            },\n            Ident {\n                span: 770..773,\n                sym: \"C4\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 791..802,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 791..792,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 449..450,\n        sym: \"a\",\n    },\n)",
@@ -69,8 +71,6 @@
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 871..877,\n        sym: \"string\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 890..897,\n        sym: \"boolean\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 910..916,\n        sym: \"string\",\n    },\n)",
@@ -86,6 +86,8 @@
   "jsx_elements": [],
   "ts_types": [
     "Keyword(\n    String,\n)",
-    "Keyword(\n    String,\n)"
+    "Keyword(\n    String,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 721..723,\n        name: Ident {\n            span: 721..723,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 794..796,\n        name: Ident {\n            span: 794..796,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
   ]
 }

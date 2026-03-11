@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 99..442,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 99..442,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -17,6 +18,7 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 107..149,\n        ident: Ident {\n            span: 116..123,\n            sym: \"require\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 150..210,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 150..166,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 150..180,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 205..240,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 205..234,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 235..263,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 235..256,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -25,6 +27,7 @@
     "Fn(\n    FnDecl {\n        span: 393..429,\n        ident: Ident {\n            span: 402..403,\n            sym: \"A\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 124..126,\n        sym: \"id\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 154..160,\n        sym: \"module\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 167..174,\n        sym: \"exports\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 211..212,\n        sym: \"A\",\n    },\n)",

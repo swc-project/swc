@@ -1,9 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 112..489,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 112..489,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 137..148,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 229..247,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 246..265,\n        expr: _,\n    },\n)",
@@ -11,7 +12,7 @@
     "Expr(\n    ExprStmt {\n        span: 281..300,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 299..320,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 319..336,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 335..343,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 395..403,\n        expr: _,\n    },\n)",
     "Labeled(\n    LabeledStmt {\n        span: 392..403,\n        label: Ident {\n            span: 392..393,\n            sym: \"u\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 422..460,\n        expr: _,\n    },\n)",
@@ -20,9 +21,14 @@
     "Expr(\n    ExprStmt {\n        span: 488..489,\n        expr: _,\n    },\n)"
   ],
   "decls": [
-    "Var(\n    VarDecl {\n        span: 215..230,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 215..224,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 201..218,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 201..210,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 215..230,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 215..224,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 140..343,\n        ident: Ident {\n            span: 149..152,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 183..184,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 189..190,\n        sym: \"u\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 205..206,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 219..220,\n        sym: \"b\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 229..230,\n        sym: \"t\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 246..247,\n        sym: \"a\",\n    },\n)",
@@ -48,7 +54,6 @@
     "Assign(\n    AssignExpr {\n        span: 301..305,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 323..324,\n        sym: \"t\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 321..325,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 395..396,\n        sym: \"U\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 422..426,\n        sym: \"this\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 426..430,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 427..428,\n                sym: \"t\",\n            },\n        ),\n    },\n)",

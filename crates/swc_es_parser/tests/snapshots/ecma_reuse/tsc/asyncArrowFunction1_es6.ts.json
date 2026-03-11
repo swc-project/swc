@@ -1,24 +1,19 @@
 {
   "programs": [
-    "Program {\n    span: 42..83,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 42..83,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 76..80,\n        expr: _,\n    },\n)",
-    "Block(\n    BlockStmt {\n        span: 79..83,\n        stmts: [],\n    },\n)",
-    "Empty(\n    EmptyStmt {\n        span: 82..83,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
   "decls": [
-    "Var(\n    VarDecl {\n        span: 42..78,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 42..78,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 42..83,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 42..83,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 46..49,\n        sym: \"foo\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 50..61,\n        left: _,\n        right: _,\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 50..83,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 52..57,\n        sym: \"async\",\n    },\n)",
-    "Call(\n    CallExpr {\n        span: 58..61,\n        callee: _,\n        args: [],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Arrow(\n    ArrowExpr {\n        span: 58..83,\n        params: [],\n        body: Block(\n            [],\n        ),\n        is_async: true,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

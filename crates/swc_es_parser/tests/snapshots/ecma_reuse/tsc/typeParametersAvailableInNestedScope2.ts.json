@@ -1,27 +1,33 @@
 {
   "programs": [
-    "Program {\n    span: 1..177,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..177,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 168..175,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 174..177,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 176..177,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Var(\n    VarDecl {\n        span: 106..131,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 106..115,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 128..153,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 128..137,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 150..169,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 150..159,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 150..169,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 150..159,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 70..175,\n        ident: Ident {\n            span: 79..82,\n            sym: \"baz\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 38..177,\n        ident: Ident {\n            span: 47..50,\n            sym: \"bar\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1..177,\n        ident: Ident {\n            span: 10..13,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 20..21,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 54..55,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 86..87,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 110..111,\n        sym: \"c\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 132..133,\n        sym: \"d\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 154..155,\n        sym: \"e\",\n    },\n)"
   ],
-  "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-  ],
+  "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [],

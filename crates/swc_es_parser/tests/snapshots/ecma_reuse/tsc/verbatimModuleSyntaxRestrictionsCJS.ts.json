@@ -1,8 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 151..1355,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 151..1355,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
@@ -38,6 +40,8 @@
     "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 159..188,\n        ident: Ident {\n            span: 168..172,\n            sym: \"esmy\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 218..281,\n        ident: Ident {\n            span: 227..235,\n            sym: \"funciton\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 305..339,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 305..328,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 282..390,\n        declare: true,\n        global: false,\n        namespace: false,\n        id: Str(\n            StrLit {\n                span: 289..298,\n                value: \"ambient\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 601..624,\n        ident: Ident {\n            span: 606..607,\n            sym: \"T\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
@@ -83,6 +87,7 @@
   ],
   "module_decls": [
     "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 182..209,\n        expr: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 203..281,\n        decl: _,\n    },\n)",
     "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 333..359,\n        expr: _,\n    },\n)",
     "Import(\n    ImportDecl {\n        span: 384..426,\n        specifiers: [\n            Default(\n                ImportDefaultSpecifier {\n                    local: Ident {\n                        span: 391..395,\n                        sym: \"esmy\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 401..409,\n            value: \"./decl\",\n        },\n        with: [],\n    },\n)",
     "Import(\n    ImportDecl {\n        span: 420..468,\n        specifiers: [\n            Namespace(\n                ImportNamespaceSpecifier {\n                    local: Ident {\n                        span: 432..437,\n                        sym: \"esmy2\",\n                    },\n                },\n            ),\n        ],\n        type_only: false,\n        src: StrLit {\n            span: 443..451,\n            value: \"./decl\",\n        },\n        with: [],\n    },\n)",

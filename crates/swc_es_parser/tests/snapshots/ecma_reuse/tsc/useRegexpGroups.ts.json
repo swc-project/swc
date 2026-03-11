@@ -49,7 +49,7 @@
     "Assign(\n    AssignPat {\n        span: 332..373,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 47..95,\n            exp: \"(?<year>\\\\d{4})-(?<month>\\\\d{2})-(?<day>\\\\d{2})\",\n            flags: \"u\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 47..94,\n            exp: \"(?<year>\\\\d{4})-(?<month>\\\\d{2})-(?<day>\\\\d{2})\",\n            flags: \"u\",\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 109..111,\n        sym: \"re\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 111..117,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 112..116,\n                sym: \"exec\",\n            },\n        ),\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 117..129,\n            value: \"2015-01-02\",\n        },\n    ),\n)",
@@ -77,7 +77,7 @@
     "Member(\n    MemberExpr {\n        span: 318..322,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 334..339,\n            value: \"foo\",\n        },\n    ),\n)",
     "Member(\n    MemberExpr {\n        span: 339..346,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 340..345,\n                sym: \"match\",\n            },\n        ),\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 346..360,\n            exp: \"(?<bar>foo)\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 346..359,\n            exp: \"(?<bar>foo)\",\n            flags: \"\",\n        },\n    ),\n)",
     "Call(\n    CallExpr {\n        span: 345..361,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
     "TsNonNull(\n    TsNonNullExpr {\n        span: 360..362,\n        expr: _,\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 361..369,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 362..368,\n                sym: \"groups\",\n            },\n        ),\n    },\n)",

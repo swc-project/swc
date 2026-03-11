@@ -1,14 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 1..2258,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..2258,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 351..452,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 435..456,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 463..487,\n        expr: _,\n    },\n)",
-    "Block(\n    BlockStmt {\n        span: 455..498,\n        stmts: [\n            _,\n        ],\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 493..509,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 499..513,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 520..584,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 595..657,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
@@ -18,54 +13,51 @@
     "Expr(\n    ExprStmt {\n        span: 1320..1403,\n        expr: _,\n    },\n)",
     "Block(\n    BlockStmt {\n        span: 1310..1409,\n        stmts: [\n            _,\n        ],\n    },\n)",
     "Try(\n    TryStmt {\n        span: 581..1409,\n        block: _,\n        handler: Some(\n            CatchClause {\n                span: 1296..1409,\n                param: Some(\n                    _,\n                ),\n                body: _,\n            },\n        ),\n        finalizer: None,\n    },\n)",
-    "Block(\n    BlockStmt {\n        span: 512..1440,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1505..1545,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 1793..1844,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1853..1947,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1946..1974,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1953..1978,\n        expr: _,\n    },\n)",
     "Return(\n    ReturnStmt {\n        span: 1985..2059,\n        arg: Some(\n            _,\n        ),\n    },\n)",
-    "Block(\n    BlockStmt {\n        span: 1977..2071,\n        stmts: [\n            _,\n        ],\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 2065..2075,\n        expr: _,\n    },\n)",
     "Return(\n    ReturnStmt {\n        span: 2082..2218,\n        arg: Some(\n            _,\n        ),\n    },\n)",
-    "Block(\n    BlockStmt {\n        span: 2074..2222,\n        stmts: [\n            _,\n        ],\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 2221..2231,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 652..797,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 652..784,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1485..1545,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1485..1533,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1540..1660,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1540..1648,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1731..1799,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1731..1784,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 1655..1857,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1655..1846,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 1655..1857,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1655..1846,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 1..2231,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..2223,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
-    "Ident(\n    Ident {\n        span: 351..356,\n        sym: \"state\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 7..23,\n        sym: \"withTeamsForUser\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 60..76,\n        sym: \"WrappedComponent\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 658..675,\n        sym: \"teamsWithProjects\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1303..1308,\n        sym: \"error\",\n    },\n)",
-    "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 1441..1446,\n        sym: \"teams\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1456..1464,\n        sym: \"projects\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 1491..1508,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 1493..1506,\n                    key: Ident {\n                        span: 1493..1504,\n                        sym: \"isSuperuser\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
     "Object(\n    ObjectPat {\n        span: 1546..1566,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 1548..1564,\n                    key: Ident {\n                        span: 1548..1562,\n                        sym: \"projectsByTeam\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 1661..1678,\n        sym: \"teamsWithProjects\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1712..1716,\n        sym: \"team\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1737..1749,\n        sym: \"teamProjects\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 1750..1784,\n        left: _,\n        right: _,\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 1750..1784,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 24..2223,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
+    "Ident(\n    Ident {\n        span: 122..127,\n        sym: \"React\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 122..138,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 128..137,\n                sym: \"Component\",\n            },\n        ),\n    },\n)",
+    "Template(\n    TemplateExpr {\n        span: 291..344,\n        quasis: [\n            StrLit {\n                span: 291..344,\n                value: \"withUsersTeams(${getDisplayName(WrappedComponent)})\",\n            },\n        ],\n        exprs: [],\n    },\n)",
     "Array(\n    ArrayExpr {\n        span: 374..377,\n        elems: [],\n    },\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 398..402,\n            value: true,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 417..421,\n        },\n    ),\n)",
     "Object(\n    ObjectExpr {\n        span: 359..429,\n        props: [\n            KeyValueProp {\n                span: 367..377,\n                key: Ident(\n                    Ident {\n                        span: 367..372,\n                        sym: \"teams\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 384..403,\n                key: Ident(\n                    Ident {\n                        span: 384..396,\n                        sym: \"loadingTeams\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 410..422,\n                key: Ident(\n                    Ident {\n                        span: 410..415,\n                        sym: \"error\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 357..429,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 435..452,\n        sym: \"componentDidMount\",\n    },\n)",
-    "Call(\n    CallExpr {\n        span: 452..456,\n        callee: _,\n        args: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 463..467,\n        sym: \"this\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 467..479,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 468..478,\n                sym: \"fetchTeams\",\n            },\n        ),\n    },\n)",
     "Call(\n    CallExpr {\n        span: 478..481,\n        callee: _,\n        args: [],\n    },\n)",
-    "Ident(\n    Ident {\n        span: 493..498,\n        sym: \"async\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 499..509,\n        sym: \"fetchTeams\",\n    },\n)",
-    "Call(\n    CallExpr {\n        span: 509..513,\n        callee: _,\n        args: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 520..524,\n        sym: \"this\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 524..534,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 525..533,\n                sym: \"setState\",\n            },\n        ),\n    },\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 558..562,\n            value: true,\n        },\n    ),\n)",
@@ -114,12 +106,10 @@
     "Lit(\n    Bool(\n        BoolLit {\n            span: 1377..1382,\n            value: false,\n        },\n    ),\n)",
     "Object(\n    ObjectExpr {\n        span: 1334..1394,\n        props: [\n            KeyValueProp {\n                span: 1346..1352,\n                key: Ident(\n                    Ident {\n                        span: 1346..1351,\n                        sym: \"error\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1363..1383,\n                key: Ident(\n                    Ident {\n                        span: 1363..1375,\n                        sym: \"loadingTeams\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
     "Call(\n    CallExpr {\n        span: 1333..1395,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 1509..1520,\n        sym: \"ConfigStore\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 1520..1525,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1521..1524,\n                sym: \"get\",\n            },\n        ),\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 1525..1531,\n            value: \"user\",\n        },\n    ),\n)",
     "Call(\n    CallExpr {\n        span: 1524..1533,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 1507..1533,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 1567..1585,\n        sym: \"getProjectsByTeams\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1595..1600,\n        sym: \"teams\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1610..1618,\n        sym: \"projects\",\n    },\n)",
@@ -144,23 +134,35 @@
     "Lit(\n    Bool(\n        BoolLit {\n            span: 1925..1930,\n            value: false,\n        },\n    ),\n)",
     "Object(\n    ObjectExpr {\n        span: 1867..1940,\n        props: [\n            KeyValueProp {\n                span: 1877..1902,\n                key: Ident(\n                    Ident {\n                        span: 1877..1882,\n                        sym: \"teams\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 1911..1931,\n                key: Ident(\n                    Ident {\n                        span: 1911..1923,\n                        sym: \"loadingTeams\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
     "Call(\n    CallExpr {\n        span: 1866..1941,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 1953..1974,\n        sym: \"getUsersTeamsEndpoint\",\n    },\n)",
-    "Call(\n    CallExpr {\n        span: 1974..1978,\n        callee: _,\n        args: [],\n    },\n)",
     "Template(\n    TemplateExpr {\n        span: 1992..2052,\n        quasis: [\n            StrLit {\n                span: 1992..2052,\n                value: \"/organizations/${this.props.organization.slug}/user-teams/\",\n            },\n        ],\n        exprs: [],\n    },\n)",
-    "Ident(\n    Ident {\n        span: 2065..2071,\n        sym: \"render\",\n    },\n)",
-    "Call(\n    CallExpr {\n        span: 2071..2075,\n        callee: _,\n        args: [],\n    },\n)",
     "JSXElement(\n    _,\n)",
     "Paren(\n    ParenExpr {\n        span: 2089..2212,\n        expr: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Class(\n    _,\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 56..2223,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
     "Ident(\n    Ident {\n        span: 2240..2256,\n        sym: \"withTeamsForUser\",\n    },\n)"
   ],
   "module_decls": [
     "ExportDefaultExpr(\n    ExportDefaultExprDecl {\n        span: 2225..2258,\n        expr: _,\n    },\n)"
   ],
-  "functions": [],
-  "classes": [],
-  "class_members": [],
+  "functions": [
+    "Function {\n    span: 435..498,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 493..1440,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: true,\n    is_generator: false,\n}",
+    "Function {\n    span: 1415..1974,\n    params: [\n        Param {\n            span: 1441..1455,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 1456..1476,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 1953..2071,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 2065..2222,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
+  "classes": [
+    "Class {\n    span: 108..2223,\n    decorators: [],\n    ident: None,\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+  ],
+  "class_members": [
+    "Prop(\n    ClassProp {\n        span: 270..356,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 277..288,\n                sym: \"displayName\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: true,\n    },\n)",
+    "Prop(\n    ClassProp {\n        span: 351..452,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 351..356,\n                sym: \"state\",\n            },\n        ),\n        value: Some(\n            _,\n        ),\n        is_static: false,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 435..498,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 435..452,\n                sym: \"componentDidMount\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 493..1440,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 499..509,\n                sym: \"fetchTeams\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 1415..1974,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1415..1440,\n                sym: \"populateTeamsWithProjects\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 1953..2071,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 1953..1974,\n                sym: \"getUsersTeamsEndpoint\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)",
+    "Method(\n    ClassMethod {\n        span: 2065..2222,\n        decorators: [],\n        key: Ident(\n            Ident {\n                span: 2065..2071,\n                sym: \"render\",\n            },\n        ),\n        function: _,\n        is_static: false,\n        kind: Method,\n    },\n)"
+  ],
   "jsx_elements": [
     "JSXElement {\n    span: 2099..2211,\n    opening: JSXOpeningElement {\n        span: 2099..2211,\n        name: Ident(\n            Ident {\n                span: 2100..2128,\n                sym: \"WrappedComponent\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 2127..2178,\n                name: \"...\",\n                value: Some(\n                    _,\n                ),\n            },\n            JSXAttr {\n                span: 2177..2202,\n                name: \"...\",\n                value: Some(\n                    _,\n                ),\n            },\n        ],\n        self_closing: true,\n    },\n    children: [],\n    closing: None,\n}"
   ],

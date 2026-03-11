@@ -1,11 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 41..174,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 41..174,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 96..110,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
@@ -13,13 +12,12 @@
     "Class(\n    ClassDecl {\n        span: 49..68,\n        ident: Ident {\n            span: 55..56,\n            sym: \"C\",\n        },\n        declare: true,\n        class: _,\n    },\n)",
     "Var(\n    VarDecl {\n        span: 69..101,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 69..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 139..174,\n        ident: Ident {\n            span: 145..146,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 102..174,\n        ident: Ident {\n            span: 111..115,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 96..174,\n        ident: Ident {\n            span: 111..115,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 73..74,\n        sym: \"p\",\n    },\n)"
   ],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 96..101,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 162..163,\n        sym: \"p\",\n    },\n)",
     "Await(\n    AwaitExpr {\n        span: 156..164,\n        arg: _,\n    },\n)",
     "Paren(\n    ParenExpr {\n        span: 155..166,\n        expr: _,\n    },\n)"

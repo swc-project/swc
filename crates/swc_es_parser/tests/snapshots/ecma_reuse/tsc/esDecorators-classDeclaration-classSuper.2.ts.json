@@ -1,11 +1,14 @@
 {
   "programs": [
-    "Program {\n    span: 73..536,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 73..536,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 214..231,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 197..205,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 214..231,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 204..233,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 191..302,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 369..386,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 516..533,\n        expr: _,\n    },\n)",
@@ -13,7 +16,7 @@
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 81..160,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 81..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Class(\n    ClassDecl {\n        span: 164..302,\n        ident: Ident {\n            span: 170..172,\n            sym: \"C1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 164..192,\n        ident: Ident {\n            span: 170..172,\n            sym: \"C1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 306..452,\n        ident: Ident {\n            span: 312..314,\n            sym: \"C2\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 456..536,\n        ident: Ident {\n            span: 462..464,\n            sym: \"C3\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
@@ -22,7 +25,8 @@
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 160..163,\n        sym: \"dec\",\n    },\n)",
-    "Class(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 181..186,\n        sym: \"class\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 197..203,\n        sym: \"static\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 214..219,\n        sym: \"super\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 219..225,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 220..224,\n                sym: \"name\",\n            },\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 302..305,\n        sym: \"dec\",\n    },\n)",
@@ -44,13 +48,11 @@
     "Function {\n    span: 324..340,\n    params: [],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [
-    "Class {\n    span: 181..192,\n    decorators: [],\n    ident: None,\n    super_class: None,\n    body: [],\n}",
-    "Class {\n    span: 164..302,\n    decorators: [\n        Decorator {\n            span: 159..169,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 170..172,\n            sym: \"C1\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}",
+    "Class {\n    span: 164..192,\n    decorators: [\n        Decorator {\n            span: 159..169,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 170..172,\n            sym: \"C1\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
     "Class {\n    span: 306..452,\n    decorators: [\n        Decorator {\n            span: 301..311,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 312..314,\n            sym: \"C2\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}",
     "Class {\n    span: 456..536,\n    decorators: [\n        Decorator {\n            span: 451..461,\n            expr: _,\n        },\n    ],\n    ident: Some(\n        Ident {\n            span: 462..464,\n            sym: \"C3\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}"
   ],
   "class_members": [
-    "StaticBlock(\n    ClassStaticBlock {\n        span: 197..233,\n        body: [\n            _,\n        ],\n    },\n)",
     "StaticBlock(\n    ClassStaticBlock {\n        span: 352..388,\n        body: [\n            _,\n        ],\n    },\n)",
     "StaticBlock(\n    ClassStaticBlock {\n        span: 499..535,\n        body: [\n            _,\n        ],\n    },\n)"
   ],

@@ -1,8 +1,15 @@
 {
   "programs": [
-    "Program {\n    span: 24..1659,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 24..1659,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 638..654,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Block(\n    BlockStmt {\n        span: 628..661,\n        stmts: [\n            _,\n        ],\n    },\n)",
@@ -37,6 +44,13 @@
   ],
   "decls": [
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 24..87,\n        ident: Ident {\n            span: 29..42,\n            sym: \"PrimitiveName\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 79..136,\n        ident: Ident {\n            span: 88..105,\n            sym: \"getFalsyPrimitive\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 128..185,\n        ident: Ident {\n            span: 137..154,\n            sym: \"getFalsyPrimitive\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 177..236,\n        ident: Ident {\n            span: 186..203,\n            sym: \"getFalsyPrimitive\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 228..307,\n        ident: Ident {\n            span: 237..254,\n            sym: \"getFalsyPrimitive\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 299..378,\n        ident: Ident {\n            span: 308..325,\n            sym: \"getFalsyPrimitive\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 370..447,\n        ident: Ident {\n            span: 379..396,\n            sym: \"getFalsyPrimitive\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 439..538,\n        ident: Ident {\n            span: 448..465,\n            sym: \"getFalsyPrimitive\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 530..830,\n        ident: Ident {\n            span: 539..556,\n            sym: \"getFalsyPrimitive\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 845..904,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 845..894,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 899..950,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 899..940,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -59,6 +73,13 @@
     "TsModule(\n    TsModuleDecl {\n        span: 1285..1659,\n        declare: false,\n        global: false,\n        namespace: true,\n        id: Ident(\n            Ident {\n                span: 1295..1302,\n                sym: \"Consts2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                    _,\n                    _,\n                    _,\n                    _,\n                    _,\n                    _,\n                ],\n            ),\n        ),\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 106..107,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 155..156,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 204..205,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 255..256,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 326..327,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 397..398,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 466..467,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 557..558,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 851..863,\n        sym: \"EMPTY_STRING\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 864..894,\n        left: _,\n        right: _,\n    },\n)",

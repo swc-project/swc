@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 55..374,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 55..374,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 273..342,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Return(\n    ReturnStmt {\n        span: 167..349,\n        arg: Some(\n            _,\n        ),\n    },\n)",
@@ -10,10 +11,13 @@
     "Expr(\n    ExprStmt {\n        span: 350..374,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 63..133,\n        ident: Ident {\n            span: 72..91,\n            sym: \"connectionFromArray\",\n        },\n        declare: true,\n        params: [\n            _,\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 224..279,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 224..266,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 125..364,\n        ident: Ident {\n            span: 134..148,\n            sym: \"rootConnection\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 92..99,\n        sym: \"objects\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 109..113,\n        sym: \"args\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 149..153,\n        sym: \"name\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 196..203,\n        sym: \"context\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 205..209,\n        sym: \"args\",\n    },\n)",

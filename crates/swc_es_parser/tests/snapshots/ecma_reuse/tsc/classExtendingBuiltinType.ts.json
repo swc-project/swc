@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 1..288,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..288,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -22,7 +23,8 @@
     "Class(\n    ClassDecl {\n        span: 144..175,\n        ident: Ident {\n            span: 150..152,\n            sym: \"C6\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 170..203,\n        ident: Ident {\n            span: 176..178,\n            sym: \"C7\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 198..230,\n        ident: Ident {\n            span: 204..206,\n            sym: \"C8\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
-    "Class(\n    ClassDecl {\n        span: 225..257,\n        ident: Ident {\n            span: 231..233,\n            sym: \"C9\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
+    "Class(\n    ClassDecl {\n        span: 225..257,\n        ident: Ident {\n            span: 231..233,\n            sym: \"C9\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 252..288,\n        ident: Ident {\n            span: 258..261,\n            sym: \"C10\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [
@@ -34,7 +36,8 @@
     "Ident(\n    Ident {\n        span: 161..165,\n        sym: \"Date\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 187..193,\n        sym: \"RegExp\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 215..220,\n        sym: \"Error\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 242..247,\n        sym: \"Array\",\n    },\n)"
+    "Ident(\n    Ident {\n        span: 242..247,\n        sym: \"Array\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 270..275,\n        sym: \"Array\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],
@@ -47,7 +50,8 @@
     "Class {\n    span: 144..175,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 150..152,\n            sym: \"C6\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
     "Class {\n    span: 170..203,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 176..178,\n            sym: \"C7\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
     "Class {\n    span: 198..230,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 204..206,\n            sym: \"C8\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
-    "Class {\n    span: 225..257,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 231..233,\n            sym: \"C9\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+    "Class {\n    span: 225..257,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 231..233,\n            sym: \"C9\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
+    "Class {\n    span: 252..288,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 258..261,\n            sym: \"C10\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
   ],
   "class_members": [],
   "jsx_elements": [],

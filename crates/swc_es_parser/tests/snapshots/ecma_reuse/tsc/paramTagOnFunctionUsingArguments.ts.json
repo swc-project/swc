@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 96..444,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 96..444,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 308..329,\n        expr: _,\n    },\n)",
     "Block(\n    BlockStmt {\n        span: 302..338,\n        stmts: [\n            _,\n        ],\n    },\n)",
@@ -14,17 +15,20 @@
     "Expr(\n    ExprStmt {\n        span: 420..444,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 104..201,\n        ident: Ident {\n            span: 113..120,\n            sym: \"factory\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 239..255,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 239..255,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 257..289,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 257..289,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 257..289,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 257..267,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 257..289,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 193..390,\n        ident: Ident {\n            span: 202..208,\n            sym: \"concat\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 382..427,\n        ident: Ident {\n            span: 391..398,\n            sym: \"correct\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 121..125,\n        sym: \"type\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 243..244,\n        sym: \"s\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 245..255,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 261..262,\n        sym: \"i\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 263..267,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 268..269,\n        sym: \"l\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 263..289,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 270..289,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 308..309,\n        sym: \"s\",\n    },\n)"
   ],
   "exprs": [
@@ -32,8 +36,6 @@
     "Lit(\n    Num(\n        NumberLit {\n            span: 265..266,\n            value: 0.0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 272..281,\n        sym: \"arguments\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 281..289,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 282..288,\n                sym: \"length\",\n            },\n        ),\n    },\n)",
-    "Assign(\n    AssignExpr {\n        span: 270..289,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 265..289,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 290..291,\n        sym: \"i\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 294..295,\n        sym: \"l\",\n    },\n)",
     "Binary(\n    BinaryExpr {\n        span: 292..296,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",

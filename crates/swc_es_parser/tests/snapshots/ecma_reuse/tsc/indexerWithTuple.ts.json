@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 1..1614,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..1614,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -68,7 +69,8 @@
     "Var(\n    VarDecl {\n        span: 1384..1433,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1384..1418,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1430..1489,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1430..1464,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1485..1531,\n        ident: Ident {\n            span: 1490..1492,\n            sym: \"t1\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1527..1573,\n        ident: Ident {\n            span: 1532..1534,\n            sym: \"t2\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1527..1573,\n        ident: Ident {\n            span: 1532..1534,\n            sym: \"t2\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1569..1614,\n        ident: Ident {\n            span: 1574..1576,\n            sym: \"t3\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 5..16,\n        sym: \"strNumTuple\",\n    },\n)",
@@ -234,6 +236,11 @@
     "Keyword(\n    Number,\n)",
     "Tuple(\n    TsTupleType {\n        span: 1537..1554,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 1554..1555,\n            value: 1.0,\n        },\n    ),\n)",
-    "IndexedAccess(\n    TsIndexedAccessType {\n        span: 1537..1557,\n        obj_type: _,\n        index_type: _,\n    },\n)"
+    "IndexedAccess(\n    TsIndexedAccessType {\n        span: 1537..1557,\n        obj_type: _,\n        index_type: _,\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "Tuple(\n    TsTupleType {\n        span: 1579..1596,\n        elem_types: [\n            _,\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1596..1598,\n            value: -1.0,\n        },\n    ),\n)",
+    "IndexedAccess(\n    TsIndexedAccessType {\n        span: 1579..1600,\n        obj_type: _,\n        index_type: _,\n    },\n)"
   ]
 }

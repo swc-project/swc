@@ -11,7 +11,7 @@
   ],
   "pats": [],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 17..21,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 17..21,\n        sym: \"null\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 68..72,\n        sym: \"this\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 72..76,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 73..75,\n                sym: \"_t\",\n            },\n        ),\n    },\n)"
   ],

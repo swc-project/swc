@@ -1,28 +1,23 @@
 {
   "programs": [
-    "Program {\n    span: 1..188,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..188,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 54..79,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..34,\n        ident: Ident {\n            span: 6..13,\n            sym: \"MyAlias\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 30..60,\n        ident: Ident {\n            span: 35..45,\n            sym: \"OtherAlias\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 30..79,\n        ident: Ident {\n            span: 35..45,\n            sym: \"OtherAlias\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 75..112,\n        ident: Ident {\n            span: 80..89,\n            sym: \"MultiLine\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 108..149,\n        ident: Ident {\n            span: 113..122,\n            sym: \"WithTypes\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 145..188,\n        ident: Ident {\n            span: 150..160,\n            sym: \"WithTypes2\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
   ],
   "pats": [],
-  "exprs": [
-    "Template(\n    TemplateExpr {\n        span: 54..60,\n        quasis: [\n            StrLit {\n                span: 54..60,\n                value: \"some\",\n            },\n        ],\n        exprs: [],\n    },\n)",
-    "Template(\n    TemplateExpr {\n        span: 67..73,\n        quasis: [\n            StrLit {\n                span: 67..73,\n                value: \"text\",\n            },\n        ],\n        exprs: [],\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 65..74,\n        op: BitOr,\n        left: _,\n        right: _,\n    },\n)"
-  ],
+  "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [],
@@ -31,6 +26,8 @@
   "ts_types": [
     "Keyword(\n    Any,\n)",
     "Keyword(\n    Any,\n)",
+    "Keyword(\n    Any,\n)",
+    "Union(\n    TsUnionType {\n        span: 52..74,\n        types: [\n            _,\n            _,\n        ],\n    },\n)",
     "Keyword(\n    Any,\n)",
     "Keyword(\n    Any,\n)",
     "Keyword(\n    Any,\n)"

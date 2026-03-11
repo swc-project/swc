@@ -1,17 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 71..811,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 71..811,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
-    "Block(\n    BlockStmt {\n        span: 94..120,\n        stmts: [],\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 119..122,\n        expr: _,\n    },\n)",
-    "Block(\n    BlockStmt {\n        span: 121..153,\n        stmts: [],\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 152..155,\n        expr: _,\n    },\n)",
-    "Block(\n    BlockStmt {\n        span: 154..209,\n        stmts: [],\n    },\n)",
-    "Empty(\n    EmptyStmt {\n        span: 208..209,\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 244..283,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 379..396,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Block(\n    BlockStmt {\n        span: 369..405,\n        stmts: [\n            _,\n        ],\n    },\n)",
@@ -39,8 +32,8 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 71..95,\n        ident: Ident {\n            span: 76..85,\n            sym: \"WeakTypes\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 211..247,\n        ident: Ident {\n            span: 216..235,\n            sym: \"LiteralsOrWeakTypes\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 71..215,\n        ident: Ident {\n            span: 76..85,\n            sym: \"WeakTypes\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 211..283,\n        ident: Ident {\n            span: 216..235,\n            sym: \"LiteralsOrWeakTypes\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "Var(\n    VarDecl {\n        span: 284..311,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 284..304,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 306..442,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 306..442,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 437..563,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 437..563,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -63,13 +56,6 @@
     "Assign(\n    AssignPat {\n        span: 698..811,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Str(\n        StrLit {\n            span: 244..247,\n            value: \"A\",\n        },\n    ),\n)",
-    "Lit(\n    Str(\n        StrLit {\n            span: 254..257,\n            value: \"B\",\n        },\n    ),\n)",
-    "Binary(\n    BinaryExpr {\n        span: 252..263,\n        op: BitOr,\n        left: _,\n        right: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 264..273,\n        sym: \"WeakTypes\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 262..274,\n        op: BitOr,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 356..359,\n        sym: \"arg\",\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 364..367,\n            value: \"A\",\n        },\n    ),\n)",
     "Binary(\n    BinaryExpr {\n        span: 360..368,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
@@ -101,7 +87,17 @@
   "class_members": [],
   "jsx_elements": [],
   "ts_types": [
-    "Keyword(\n    Any,\n)",
-    "Keyword(\n    Any,\n)"
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 107..111,\n            value: true,\n        },\n    ),\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 94..120,\n        members: [\n            TsTypeMember {\n                span: 96..114,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 96..104,\n                            sym: \"optional\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 121..153,\n        members: [\n            TsTypeMember {\n                span: 123..147,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 123..134,\n                            sym: \"toLowerCase\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Keyword(\n    String,\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeLit(\n    TsTypeLit {\n        span: 154..209,\n        members: [\n            TsTypeMember {\n                span: 156..197,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 156..167,\n                            sym: \"toUpperCase\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 180..208,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 180..197,\n                            sym: \"otherOptionalProp\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 92..209,\n        types: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 244..247,\n            value: \"A\",\n        },\n    ),\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 254..257,\n            value: \"B\",\n        },\n    ),\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 264..274,\n        name: Ident {\n            span: 264..274,\n            sym: \"WeakTypes\",\n        },\n        type_args: [],\n    },\n)",
+    "Union(\n    TsUnionType {\n        span: 242..274,\n        types: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ]
 }

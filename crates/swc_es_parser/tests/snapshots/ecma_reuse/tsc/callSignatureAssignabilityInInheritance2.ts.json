@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 103..3101,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 103..3101,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 129..136,\n        expr: _,\n    },\n)",
@@ -41,14 +41,10 @@
     "Labeled(\n    LabeledStmt {\n        span: 2475..2530,\n        label: Ident {\n            span: 2475..2478,\n            sym: \"a10\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 2532..2580,\n        expr: _,\n    },\n)",
     "Labeled(\n    LabeledStmt {\n        span: 2527..2580,\n        label: Ident {\n            span: 2527..2530,\n            sym: \"a11\",\n        },\n        body: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 2582..2584,\n        expr: _,\n    },\n)",
-    "Labeled(\n    LabeledStmt {\n        span: 2577..2584,\n        label: Ident {\n            span: 2577..2580,\n            sym: \"a12\",\n        },\n        body: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 2583..2592,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 2585..2598,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 2692..2694,\n        expr: _,\n    },\n)",
-    "Labeled(\n    LabeledStmt {\n        span: 2687..2694,\n        label: Ident {\n            span: 2687..2690,\n            sym: \"a13\",\n        },\n        body: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 2693..2702,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 2695..2708,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 2582..2690,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 2577..2690,\n        label: Ident {\n            span: 2577..2580,\n            sym: \"a12\",\n        },\n        body: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 2692..2847,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 2687..2847,\n        label: Ident {\n            span: 2687..2690,\n            sym: \"a13\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 2849..2894,\n        expr: _,\n    },\n)",
     "Labeled(\n    LabeledStmt {\n        span: 2844..2894,\n        label: Ident {\n            span: 2844..2847,\n            sym: \"a14\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 3100..3101,\n        expr: _,\n    },\n)"
@@ -72,6 +68,10 @@
     "Rest(\n    RestPat {\n        span: 2500..2505,\n        arg: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 2549..2550,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 2555..2556,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2606..2607,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2622..2623,\n        sym: \"y\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2719..2720,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2735..2736,\n        sym: \"y\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 2856..2857,\n        sym: \"x\",\n    },\n)"
   ],
   "exprs": [
@@ -111,12 +111,10 @@
     "Arrow(\n    ArrowExpr {\n        span: 2499..2516,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
     "Ident(\n    Ident {\n        span: 2564..2565,\n        sym: \"T\",\n    },\n)",
     "Arrow(\n    ArrowExpr {\n        span: 2548..2566,\n        params: [\n            _,\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 2583..2584,\n        sym: \"T\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 2693..2694,\n        sym: \"T\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 2631..2636,\n        sym: \"Array\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 2605..2646,\n        params: [\n            _,\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 2744..2745,\n        sym: \"T\",\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 2718..2746,\n        params: [\n            _,\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
     "Ident(\n    Ident {\n        span: 2878..2879,\n        sym: \"T\",\n    },\n)",
     "Arrow(\n    ArrowExpr {\n        span: 2855..2880,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"

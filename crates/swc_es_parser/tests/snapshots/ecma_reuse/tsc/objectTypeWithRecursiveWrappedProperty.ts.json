@@ -29,12 +29,6 @@
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 65..69,\n        sym: \"List\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 70..74,\n        sym: \"List\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 69..75,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 75..76,\n        sym: \"T\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Binary(\n    BinaryExpr {\n        span: 76..81,\n        op: RShift,\n        left: _,\n        right: _,\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 74..81,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 99..103,\n        sym: \"List\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 111..114,\n        callee: _,\n        args: [],\n    },\n)",

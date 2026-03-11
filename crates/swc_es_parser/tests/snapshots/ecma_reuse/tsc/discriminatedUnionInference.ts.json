@@ -1,8 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 41..494,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 41..494,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -16,11 +18,14 @@
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 81..124,\n        ident: Ident {\n            span: 86..89,\n            sym: \"Bar\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 90..91,\n                sym: \"A\",\n            },\n        ],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 120..159,\n        ident: Ident {\n            span: 125..131,\n            sym: \"FooBar\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 132..133,\n                sym: \"A\",\n            },\n        ],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 155..216,\n        ident: Ident {\n            span: 160..166,\n            sym: \"InferA\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 167..168,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 212..283,\n        ident: Ident {\n            span: 217..221,\n            sym: \"FooA\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 279..353,\n        ident: Ident {\n            span: 284..288,\n            sym: \"Item\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 289..290,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 354..393,\n        ident: Ident {\n            span: 363..366,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 390..443,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 390..428,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 440..494,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 440..482,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 370..374,\n        sym: \"item\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 394..396,\n        sym: \"x1\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 397..428,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 444..446,\n        sym: \"x2\",\n    },\n)",
@@ -64,6 +69,9 @@
     "TypeRef(\n    TsTypeRef {\n        span: 200..203,\n        name: Ident {\n            span: 200..203,\n            sym: \"A\",\n        },\n        type_args: [],\n    },\n)",
     "Keyword(\n    Never,\n)",
     "Conditional(\n    TsConditionalType {\n        span: 172..210,\n        check_type: _,\n        extends_type: _,\n        true_type: _,\n        false_type: _,\n    },\n)",
+    "Keyword(\n    Number,\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 231..243,\n        name: Ident {\n            span: 231..235,\n            sym: \"Foo\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 224..244,\n        name: Ident {\n            span: 224..231,\n            sym: \"InferA\",\n        },\n        type_args: [\n            _,\n        ],\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 302..305,\n            value: \"a\",\n        },\n    ),\n)",
     "TypeRef(\n    TsTypeRef {\n        span: 313..316,\n        name: Ident {\n            span: 313..316,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
     "TypeLit(\n    TsTypeLit {\n        span: 294..318,\n        members: [\n            TsTypeMember {\n                span: 296..311,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 296..300,\n                            sym: \"kind\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 307..316,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 307..311,\n                            sym: \"data\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",

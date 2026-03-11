@@ -1,8 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 100..879,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 100..879,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -24,6 +26,8 @@
   ],
   "decls": [
     "Fn(\n    FnDecl {\n        span: 100..181,\n        ident: Ident {\n            span: 110..111,\n            sym: \"g\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 182..212,\n        ident: Ident {\n            span: 191..195,\n            sym: \"noop\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 213..253,\n        ident: Ident {\n            span: 222..223,\n            sym: \"f\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 266..311,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 266..286,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 245..321,\n        ident: Ident {\n            span: 255..257,\n            sym: \"g2\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 334..402,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 334..362,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
@@ -33,6 +37,7 @@
     "Fn(\n    FnDecl {\n        span: 800..879,\n        ident: Ident {\n            span: 810..812,\n            sym: \"g6\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 227..232,\n        sym: \"value\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 272..277,\n        sym: \"value\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 278..286,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 340..345,\n        sym: \"value\",\n    },\n)"

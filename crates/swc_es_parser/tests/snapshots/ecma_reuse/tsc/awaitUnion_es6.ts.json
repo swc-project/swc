@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 41..417,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 41..417,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -8,7 +8,6 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 275..289,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -27,7 +26,7 @@
     "Var(\n    VarDecl {\n        span: 345..372,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 345..367,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 369..396,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 369..391,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 393..417,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 393..415,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 281..417,\n        ident: Ident {\n            span: 290..291,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 275..417,\n        ident: Ident {\n            span: 290..291,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 53..54,\n        sym: \"a\",\n    },\n)",
@@ -47,7 +46,6 @@
     "Assign(\n    AssignPat {\n        span: 405..415,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 275..280,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 317..318,\n        sym: \"a\",\n    },\n)",
     "Await(\n    AwaitExpr {\n        span: 311..319,\n        arg: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 341..342,\n        sym: \"b\",\n    },\n)",

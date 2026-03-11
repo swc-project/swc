@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 300..2720,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 300..2720,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -23,6 +23,8 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
+    "Expr(\n    ExprStmt {\n        span: 1760..2013,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 2064..2193,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
@@ -41,6 +43,7 @@
     "Var(\n    VarDecl {\n        span: 1150..1173,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1150..1169,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1170..1191,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1170..1189,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1281..1329,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1281..1327,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1679..1713,\n        ident: Ident {\n            span: 1688..1696,\n            sym: \"identity\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1710..1721,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1710..1721,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1735..1746,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1735..1746,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 2010..2040,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2010..2036,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
@@ -68,8 +71,10 @@
     "Ident(\n    Ident {\n        span: 1174..1175,\n        sym: \"y\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1285..1289,\n        sym: \"data\",\n    },\n)",
     "Expr(\n    _,\n)",
+    "Ident(\n    Ident {\n        span: 1700..1701,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1714..1717,\n        sym: \"fn1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1739..1742,\n        sym: \"fn2\",\n    },\n)",
+    "Expr(\n    _,\n)",
     "Ident(\n    Ident {\n        span: 2014..2016,\n        sym: \"s1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 2041..2043,\n        sym: \"s2\",\n    },\n)",
     "Expr(\n    _,\n)",
@@ -190,6 +195,13 @@
     "Object(\n    ObjectExpr {\n        span: 1432..1445,\n        props: [\n            KeyValueProp {\n                span: 1434..1444,\n                key: Ident(\n                    Ident {\n                        span: 1434..1438,\n                        sym: \"prop\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 1430..1445,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 1761..1764,\n        sym: \"fn1\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1766..1769,\n        sym: \"fn2\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 1760..1772,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1774..1782,\n        sym: \"identity\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1792..1800,\n        sym: \"identity\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 1773..1810,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 1771..1810,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 2028..2035,\n            value: \"hello\",\n        },\n    ),\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 2055..2062,\n            value: \"world\",\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 2065..2067,\n        sym: \"s1\",\n    },\n)",

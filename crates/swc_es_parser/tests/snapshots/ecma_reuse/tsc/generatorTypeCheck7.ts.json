@@ -3,20 +3,21 @@
     "Program {\n    span: 16..121,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 90..100,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 16..100,\n        ident: Ident {\n            span: 26..35,\n            sym: \"WeirdIter\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 44..61,\n                sym: \"IterableIterator\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 75..91,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 75..80,\n                            sym: \"hello\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 92..121,\n        ident: Ident {\n            span: 102..104,\n            sym: \"g1\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
   ],
   "pats": [],
-  "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
-  ],
+  "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [],
   "class_members": [],
   "jsx_elements": [],
-  "ts_types": []
+  "ts_types": [
+    "Keyword(\n    String,\n)"
+  ]
 }

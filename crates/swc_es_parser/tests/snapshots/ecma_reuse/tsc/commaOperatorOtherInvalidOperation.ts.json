@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 116..346,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 116..346,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Return(\n    ReturnStmt {\n        span: 157..171,\n        arg: Some(\n            _,\n        ),\n    },\n)",
@@ -8,18 +8,22 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 345..346,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
     "Fn(\n    FnDecl {\n        span: 116..175,\n        ident: Ident {\n            span: 125..128,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 172..255,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 172..215,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 277..295,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 277..287,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 292..310,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 292..302,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 307..346,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 307..331,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 307..346,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 307..331,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 247..346,\n        ident: Ident {\n            span: 256..260,\n            sym: \"foo1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 129..130,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 140..141,\n        sym: \"y\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 176..190,\n        sym: \"resultIsString\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 281..282,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 296..297,\n        sym: \"y\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 311..317,\n        sym: \"result\",\n    },\n)"
   ],
@@ -34,8 +38,7 @@
     "Ident(\n    Ident {\n        span: 325..326,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 328..329,\n        sym: \"y\",\n    },\n)",
     "Seq(\n    SeqExpr {\n        span: 325..330,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Paren(\n    ParenExpr {\n        span: 324..331,\n        expr: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Paren(\n    ParenExpr {\n        span: 324..331,\n        expr: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

@@ -48,7 +48,7 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1822..1855,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1890..1901,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1897..1947,\n        expr: _,\n    },\n)",
     "ModuleDecl(\n    _,\n)"
   ],
@@ -90,7 +90,8 @@
     "Var(\n    VarDecl {\n        span: 1534..1590,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1534..1585,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1587..1639,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1587..1635,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1636..1725,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1636..1697,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1721..1776,\n        ident: Ident {\n            span: 1726..1730,\n            sym: \"Foo1\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1721..1776,\n        ident: Ident {\n            span: 1726..1730,\n            sym: \"Foo1\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1856..1901,\n        ident: Ident {\n            span: 1865..1869,\n            sym: \"mock\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 283..286,\n        sym: \"x01\",\n    },\n)",
@@ -131,7 +132,8 @@
     "Ident(\n    Ident {\n        span: 1499..1508,\n        sym: \"myChoices\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1538..1555,\n        sym: \"myChoicesAndEmpty\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1591..1605,\n        sym: \"unknownChoices\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 1640..1662,\n        sym: \"unknownChoicesAndEmpty\",\n    },\n)"
+    "Ident(\n    Ident {\n        span: 1640..1662,\n        sym: \"unknownChoicesAndEmpty\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1873..1874,\n        sym: \"_\",\n    },\n)"
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 772..778,\n        sym: \"Object\",\n    },\n)",
@@ -180,9 +182,6 @@
     "Ident(\n    Ident {\n        span: 1190..1192,\n        sym: \"d6\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 1189..1194,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 1894..1895,\n        sym: \"M\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 1892..1896,\n        op: BitAnd,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 1897..1901,\n        sym: \"mock\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1902..1908,\n        sym: \"import\",\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 1909..1915,\n            value: \"./ex\",\n        },\n    ),\n)",

@@ -1,14 +1,19 @@
 {
   "programs": [
-    "Program {\n    span: 71..191,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+    "Program {\n    span: 71..191,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 79..115,\n        ident: Ident {\n            span: 88..91,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 119..191,\n        ident: Ident {\n            span: 140..141,\n            sym: \"D\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
-  "pats": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 95..99,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 92..100,\n        arg: _,\n    },\n)"
+  ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 115..118,\n        sym: \"foo\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 159..160,\n            value: 0.0,\n        },\n    ),\n)",

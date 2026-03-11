@@ -4,18 +4,25 @@
   ],
   "stmts": [
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 66..92,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 56..67,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 183..209,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 172..184,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1..25,\n        ident: Ident {\n            span: 6..7,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 88..112,\n        ident: Ident {\n            span: 93..94,\n            sym: \"B\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 17..92,\n        ident: Ident {\n            span: 26..27,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 88..112,\n        ident: Ident {\n            span: 93..94,\n            sym: \"B\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 104..209,\n        ident: Ident {\n            span: 113..115,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
-  "pats": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 41..42,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 142..144,\n        sym: \"ab\",\n    },\n)"
+  ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Ident(\n    Ident {\n        span: 63..64,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 179..181,\n        sym: \"ab\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

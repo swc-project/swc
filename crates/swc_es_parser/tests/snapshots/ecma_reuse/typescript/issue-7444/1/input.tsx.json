@@ -16,7 +16,7 @@
   "classes": [],
   "class_members": [],
   "jsx_elements": [
-    "JSXElement {\n    span: 7..36,\n    opening: JSXOpeningElement {\n        span: 7..36,\n        name: Ident(\n            Ident {\n                span: 8..18,\n                sym: \"Component\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 18..23,\n                name: \"any\",\n                value: None,\n            },\n            JSXAttr {\n                span: 25..35,\n                name: \"Component\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [],\n    closing: None,\n}"
+    "JSXElement {\n    span: 7..36,\n    opening: JSXOpeningElement {\n        span: 7..36,\n        name: Ident(\n            Ident {\n                span: 8..18,\n                sym: \"Component\",\n            },\n        ),\n        attrs: [],\n        self_closing: false,\n    },\n    children: [],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 25..35,\n                sym: \"Component\",\n            },\n        ),\n    ),\n}"
   ],
   "ts_types": []
 }

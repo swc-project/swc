@@ -1,13 +1,14 @@
 {
   "programs": [
-    "Program {\n    span: 1..1148,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..1148,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 215..221,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 246..252,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 283..289,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 319..329,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 425..458,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 454..480,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 476..495,\n        expr: _,\n    },\n)",
@@ -17,11 +18,15 @@
     "Expr(\n    ExprStmt {\n        span: 786..789,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 788..848,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1017..1027,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "TsInterface(\n    TsInterfaceDecl {\n        span: 1..91,\n        ident: Ident {\n            span: 11..15,\n            sym: \"Base\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 16..17,\n                sym: \"T\",\n            },\n            Ident {\n                span: 19..20,\n                sym: \"U\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 28..39,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 28..29,\n                            sym: \"x\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 38..45,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 38..39,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Class(\n    ClassDecl {\n        span: 86..138,\n        ident: Ident {\n            span: 92..94,\n            sym: \"D0\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 330..373,\n        ident: Ident {\n            span: 339..346,\n            sym: \"getBase\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 368..504,\n        ident: Ident {\n            span: 374..376,\n            sym: \"D1\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1028..1119,\n        ident: Ident {\n            span: 1037..1047,\n            sym: \"getBadBase\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 1114..1148,\n        ident: Ident {\n            span: 1120..1122,\n            sym: \"D5\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [
@@ -31,8 +36,7 @@
     "Expr(\n    _,\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "New(\n    NewExpr {\n        span: 215..221,\n        callee: _,\n        args: [],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 103..107,\n        sym: \"Base\",\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "New(\n    NewExpr {\n        span: 246..252,\n        callee: _,\n        args: [],\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
@@ -71,6 +75,7 @@
     "Function {\n    span: 401..497,\n    params: [],\n    body: [\n        _,\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}"
   ],
   "classes": [
+    "Class {\n    span: 86..138,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 92..94,\n            sym: \"D0\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}",
     "Class {\n    span: 368..504,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 374..376,\n            sym: \"D1\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [\n        _,\n    ],\n}",
     "Class {\n    span: 1114..1148,\n    decorators: [],\n    ident: Some(\n        Ident {\n            span: 1120..1122,\n            sym: \"D5\",\n        },\n    ),\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
   ],

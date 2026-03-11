@@ -1,20 +1,17 @@
 {
   "programs": [
-    "Program {\n    span: 41..119,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 41..119,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 77..91,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 41..82,\n        ident: Ident {\n            span: 46..58,\n            sym: \"PromiseAlias\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 59..60,\n                sym: \"T\",\n            },\n        ],\n        ty: _,\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 83..119,\n        ident: Ident {\n            span: 92..93,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 77..119,\n        ident: Ident {\n            span: 92..93,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)"
   ],
   "pats": [],
-  "exprs": [
-    "Ident(\n    Ident {\n        span: 77..82,\n        sym: \"async\",\n    },\n)"
-  ],
+  "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [],

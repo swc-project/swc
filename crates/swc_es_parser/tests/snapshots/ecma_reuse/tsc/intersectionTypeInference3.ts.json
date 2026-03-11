@@ -1,9 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 60..363,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 60..363,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 139..147,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -15,6 +16,7 @@
     "Var(\n    VarDecl {\n        span: 183..207,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 183..199,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 208..231,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 208..224,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 226..300,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 226..273,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 301..331,\n        ident: Ident {\n            span: 310..314,\n            sym: \"from\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 326..363,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 326..362,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [

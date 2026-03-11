@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 83..3667,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 83..3667,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 106..116,\n        expr: _,\n    },\n)",
@@ -27,7 +27,8 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 1178..1187,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1358..1365,\n        expr: _,\n    },\n)",
     "Labeled(\n    LabeledStmt {\n        span: 1353..1365,\n        label: Ident {\n            span: 1353..1356,\n            sym: \"foo\",\n        },\n        body: _,\n    },\n)",
@@ -88,6 +89,7 @@
     "Expr(\n    ExprStmt {\n        span: 3666..3667,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Var(\n    VarDecl {\n        span: 207..237,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 207..229,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 234..275,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 234..256,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 272..302,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 272..294,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 299..340,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 299..321,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -111,10 +113,16 @@
     "Var(\n    VarDecl {\n        span: 1054..1107,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1054..1088,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1104..1146,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1104..1138,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1143..1179,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1143..1177,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 108..1187,\n        ident: Ident {\n            span: 117..118,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 1181..1245,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 1188..1190,\n                sym: \"M1\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 2418..2488,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 2425..2427,\n                sym: \"M2\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [],\n            ),\n        ),\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 173..174,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 179..180,\n        sym: \"u\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 185..186,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 211..213,\n        sym: \"r1\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 214..229,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 238..240,\n        sym: \"r1\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 241..256,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 276..278,\n        sym: \"r2\",\n    },\n)",
@@ -164,6 +172,10 @@
   ],
   "exprs": [
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 216..220,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 223..224,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 227..228,\n        sym: \"u\",\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 221..229,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 243..247,\n            value: true,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 250..251,\n        sym: \"u\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 254..255,\n        sym: \"t\",\n    },\n)",
@@ -292,7 +304,6 @@
     "New(\n    NewExpr {\n        span: 1160..1174,\n        callee: _,\n        args: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 1175..1176,\n        sym: \"v\",\n    },\n)",
     "Cond(\n    CondExpr {\n        span: 1158..1177,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 1358..1359,\n        sym: \"T\",\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 1489..1490,\n        sym: \"U\",\n    },\n)",

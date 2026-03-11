@@ -1,27 +1,27 @@
 {
   "programs": [
-    "Program {\n    span: 16..267,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 16..267,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 69..97,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 96..99,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 98..102,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 101..111,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 155..158,\n        expr: _,\n    },\n)",
-    "Labeled(\n    LabeledStmt {\n        span: 152..158,\n        label: Ident {\n            span: 152..153,\n            sym: \"u\",\n        },\n        body: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 157..164,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 161..267,\n        expr: _,\n    },\n)"
   ],
-  "decls": [],
-  "pats": [],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 112..164,\n        ident: Ident {\n            span: 121..124,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 131..132,\n        sym: \"p\",\n    },\n)"
+  ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 70..76,\n        sym: \"Symbol\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 76..96,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 77..95,\n                sym: \"isConcatSpreadable\",\n            },\n        ),\n    },\n)",
     "Array(\n    ArrayExpr {\n        span: 69..97,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 98..99,\n        sym: \"U\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 155..156,\n        sym: \"U\",\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 161..164,\n        sym: \"foo\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 172..178,\n        sym: \"Symbol\",\n    },\n)",

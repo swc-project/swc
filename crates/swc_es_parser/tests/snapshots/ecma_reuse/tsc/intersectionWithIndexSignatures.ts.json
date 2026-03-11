@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 19..836,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 19..836,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -16,9 +16,7 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 366..414,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 467..498,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 495..512,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 506..521,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 467..521,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 593..616,\n        expr: _,\n    },\n)",
@@ -74,19 +72,7 @@
     "Assign(\n    AssignExpr {\n        span: 370..376,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 471..475,\n        sym: \"Pick\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 476..479,\n        sym: \"Tgt\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 475..480,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 469..480,\n        op: BitAnd,\n        left: _,\n        right: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 481..488,\n        sym: \"Exclude\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 489..494,\n        sym: \"keyof\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 488..498,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 467..498,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Ident(\n    Ident {\n        span: 495..498,\n        sym: \"Tgt\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 500..505,\n        sym: \"keyof\",\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 495..512,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Ident(\n    Ident {\n        span: 506..512,\n        sym: \"Source\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Binary(\n    BinaryExpr {\n        span: 512..521,\n        op: RShift,\n        left: _,\n        right: _,\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 469..515,\n        op: BitAnd,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 593..594,\n        sym: \"q\",\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 595..600,\n            value: \"asd\",\n        },\n    ),\n)",
     "Member(\n    MemberExpr {\n        span: 594..602,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",

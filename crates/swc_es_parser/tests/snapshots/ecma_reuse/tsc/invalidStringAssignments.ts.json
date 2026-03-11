@@ -17,7 +17,8 @@
     "ModuleDecl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 271..287,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 312..315,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 305..313,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 314..326,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
@@ -35,6 +36,7 @@
     "Var(\n    VarDecl {\n        span: 212..246,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 212..238,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 258..270,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 258..268,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 240..272,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 247..248,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 279..315,\n        ident: Ident {\n            span: 288..289,\n            sym: \"i\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "TsEnum(\n    TsEnumDecl {\n        span: 322..338,\n        ident: Ident {\n            span: 327..328,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 331..334,\n                name: Ident(\n                    Ident {\n                        span: 331..332,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 335..348,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 335..348,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
@@ -52,6 +54,8 @@
     "Ident(\n    Ident {\n        span: 262..263,\n        sym: \"x\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 264..268,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 271..272,\n        sym: \"M\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 293..294,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 305..306,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 314..315,\n        sym: \"i\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 339..340,\n        sym: \"j\",\n    },\n)"
   ],
@@ -69,7 +73,8 @@
     "Lit(\n    Num(\n        NumberLit {\n            span: 266..267,\n            value: 1.0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 275..276,\n        sym: \"x\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 273..277,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 309..310,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 307..311,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 318..319,\n        sym: \"x\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 316..320,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 346..347,\n        sym: \"x\",\n    },\n)"

@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 24..171,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 24..171,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -10,6 +11,7 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 32..68,\n        ident: Ident {\n            span: 41..51,\n            sym: \"myRandBool\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 65..90,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 65..86,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 87..110,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 87..106,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 107..128,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 107..124,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",

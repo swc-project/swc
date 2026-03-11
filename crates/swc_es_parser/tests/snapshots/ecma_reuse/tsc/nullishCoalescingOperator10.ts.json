@@ -1,11 +1,13 @@
 {
   "programs": [
-    "Program {\n    span: 19..85,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+    "Program {\n    span: 19..85,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 27..65,\n        ident: Ident {\n            span: 36..37,\n            sym: \"f\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 62..85,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 62..85,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [

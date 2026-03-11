@@ -1,14 +1,14 @@
 {
   "programs": [
-    "Program {\n    span: 1..569,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..569,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 32..42,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 119..122,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 121..128,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 91..122,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 169..172,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 171..181,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 238..241,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 240..269,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 314..321,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 376..381,\n        expr: _,\n    },\n)",
@@ -22,6 +22,8 @@
     "Expr(\n    ExprStmt {\n        span: 550..569,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 34..128,\n        ident: Ident {\n            span: 43..45,\n            sym: \"B1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 173..241,\n        ident: Ident {\n            span: 182..184,\n            sym: \"B3\",\n        },\n        declare: false,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 378..412,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 378..406,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 461..481,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 461..477,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 478..498,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 478..494,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -42,9 +44,8 @@
   ],
   "exprs": [
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 112..113,\n        sym: \"A\",\n    },\n)",
+    "Class(\n    _,\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
@@ -77,7 +78,9 @@
   ],
   "module_decls": [],
   "functions": [],
-  "classes": [],
+  "classes": [
+    "Class {\n    span: 98..122,\n    decorators: [],\n    ident: None,\n    super_class: Some(\n        _,\n    ),\n    body: [],\n}"
+  ],
   "class_members": [],
   "jsx_elements": [],
   "ts_types": []

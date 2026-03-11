@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 58..453,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 58..453,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Return(\n    ReturnStmt {\n        span: 89..105,\n        arg: Some(\n            _,\n        ),\n    },\n)",
@@ -13,12 +13,14 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "Class(\n    ClassDecl {\n        span: 65..115,\n        ident: Ident {\n            span: 71..72,\n            sym: \"B\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 116..174,\n        ident: Ident {\n            span: 125..128,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 175..241,\n        ident: Ident {\n            span: 184..190,\n            sym: \"backup\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 242..272,\n        ident: Ident {\n            span: 251..254,\n            sym: \"bar\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 267..313,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 267..309,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 310..345,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 310..341,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 342..380,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 342..376,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",

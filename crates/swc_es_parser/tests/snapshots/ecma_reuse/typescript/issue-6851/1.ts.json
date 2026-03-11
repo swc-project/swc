@@ -13,15 +13,7 @@
     "Assign(\n    AssignPat {\n        span: 32..92,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 34..44,\n        sym: \"useAccount\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 50..68,\n        sym: \"WithAccountHelpers\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 44..69,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 69..76,\n        sym: \"Account\",\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 68..77,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)",
-    "Ident(\n    Ident {\n        span: 77..88,\n        sym: \"AccountType\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Binary(\n    BinaryExpr {\n        span: 88..92,\n        op: RShift,\n        left: _,\n        right: _,\n    },\n)",
-    "Binary(\n    BinaryExpr {\n        span: 76..92,\n        op: Lt,\n        left: _,\n        right: _,\n    },\n)"
+    "Ident(\n    Ident {\n        span: 34..44,\n        sym: \"useAccount\",\n    },\n)"
   ],
   "module_decls": [
     "ExportDecl(\n    ExportDecl {\n        span: 1..92,\n        decl: _,\n    },\n)"

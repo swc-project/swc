@@ -10,7 +10,7 @@
   "exprs": [
     "Ident(\n    Ident {\n        span: 1..5,\n        sym: \"href\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 5..12,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 6..11,\n                sym: \"match\",\n            },\n        ),\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 12..28,\n            exp: \":\\\\/\\\\/(.[^/]+)\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 12..27,\n            exp: \":\\\\/\\\\/(.[^/]+)\",\n            flags: \"\",\n        },\n    ),\n)",
     "Call(\n    CallExpr {\n        span: 11..29,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 29..30,\n            value: 1.0,\n        },\n    ),\n)",
     "Member(\n    MemberExpr {\n        span: 28..32,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)"

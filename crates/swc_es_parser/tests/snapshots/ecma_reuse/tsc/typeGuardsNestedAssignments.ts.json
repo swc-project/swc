@@ -1,9 +1,11 @@
 {
   "programs": [
-    "Program {\n    span: 29..890,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 29..890,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 56..66,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 265..283,\n        expr: _,\n    },\n)",
     "Block(\n    BlockStmt {\n        span: 255..285,\n        stmts: [\n            _,\n        ],\n    },\n)",
@@ -33,6 +35,8 @@
     "While(\n    WhileStmt {\n        span: 793..890,\n        test: _,\n        body: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 67..111,\n        ident: Ident {\n            span: 76..88,\n            sym: \"getFooOrNull\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 112..181,\n        ident: Ident {\n            span: 121..144,\n            sym: \"getStringOrNumberOrNull\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 193..220,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 193..213,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 173..295,\n        ident: Ident {\n            span: 182..184,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 307..336,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 307..328,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -99,7 +103,7 @@
     "Lit(\n    Str(\n        StrLit {\n            span: 689..697,\n            value: \"number\",\n        },\n    ),\n)",
     "Binary(\n    BinaryExpr {\n        span: 685..698,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 709..710,\n        sym: \"x\",\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 753..761,\n            exp: \".\",\n            flags: \"g\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 753..757,\n            exp: \".\",\n            flags: \"g\",\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 809..811,\n        sym: \"re\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 811..817,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 812..816,\n                sym: \"exec\",\n            },\n        ),\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 817..822,\n            value: \"xxx\",\n        },\n    ),\n)",

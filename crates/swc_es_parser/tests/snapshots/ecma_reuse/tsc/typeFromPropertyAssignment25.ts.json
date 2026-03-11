@@ -45,7 +45,7 @@
     "Ident(\n    Ident {\n        span: 163..169,\n        sym: \"Common\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 169..173,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 170..171,\n                sym: \"O\",\n            },\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 188..194,\n        sym: \"Common\",\n    },\n)",
-    "Member(\n    MemberExpr {\n        span: 194..198,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 195..196,\n                sym: \"I\",\n            },\n        ),\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 188..198,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 195..196,\n                sym: \"I\",\n            },\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 227..232,\n        sym: \"super\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 232..247,\n        callee: _,\n        args: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 243..247,\n        sym: \"this\",\n    },\n)",

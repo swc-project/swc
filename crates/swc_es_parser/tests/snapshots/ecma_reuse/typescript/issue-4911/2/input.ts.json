@@ -4,24 +4,55 @@
   ],
   "stmts": [
     "Decl(\n    _,\n)",
+    "Return(\n    ReturnStmt {\n        span: 83..261,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "ModuleDecl(\n    _,\n)"
   ],
   "decls": [
-    "Var(\n    VarDecl {\n        span: 55..89,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 55..78,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 16..261,\n        ident: Ident {\n            span: 25..31,\n            sym: \"cumsum\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 55..89,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 55..67,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 55..78,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 16..261,\n        ident: Ident {\n            span: 25..31,\n            sym: \"cumsum\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 32..38,\n        sym: \"values\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 40..47,\n        sym: \"valueof\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 59..62,\n        sym: \"sum\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 63..67,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 68..73,\n        sym: \"index\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 63..78,\n        left: _,\n        right: _,\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 74..78,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 169..170,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 175..178,\n        sym: \"sum\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 205..206,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 211..214,\n        sym: \"sum\",\n    },\n)"
   ],
   "exprs": [
     "Lit(\n    Num(\n        NumberLit {\n            span: 65..66,\n            value: 0.0,\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 76..77,\n            value: 0.0,\n        },\n    ),\n)",
-    "Assign(\n    AssignExpr {\n        span: 74..78,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 65..78,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)"
+    "Ident(\n    Ident {\n        span: 90..102,\n        sym: \"Float64Array\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 102..108,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 103..107,\n                sym: \"from\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 117..123,\n        sym: \"values\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 133..140,\n        sym: \"valueof\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 145..154,\n        sym: \"undefined\",\n    },\n)",
+    "Binary(\n    BinaryExpr {\n        span: 141..168,\n        op: EqEqEq,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 183..184,\n        sym: \"v\",\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 182..187,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 188..189,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 185..190,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 179..190,\n        left: _,\n        op: AddAssign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 174..204,\n        expr: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 169..204,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 219..226,\n        sym: \"valueof\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 227..228,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 230..235,\n        sym: \"index\",\n    },\n)",
+    "Update(\n    UpdateExpr {\n        span: 235..238,\n        op: PlusPlus,\n        arg: _,\n        prefix: false,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 239..245,\n        sym: \"values\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 226..249,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Unary(\n    UnaryExpr {\n        span: 218..249,\n        op: Plus,\n        arg: _,\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 250..251,\n            value: 0.0,\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 247..252,\n        op: LogicalOr,\n        left: _,\n        right: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 215..252,\n        left: _,\n        op: AddAssign,\n        right: _,\n    },\n)",
+    "Paren(\n    ParenExpr {\n        span: 210..258,\n        expr: _,\n    },\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 205..258,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 167..258,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 107..259,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [
     "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 1..261,\n        decl: _,\n    },\n)"

@@ -1,8 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 54..525,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 54..525,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 235..273,\n        expr: _,\n    },\n)",
@@ -14,12 +16,16 @@
   ],
   "decls": [
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 54..102,\n        ident: Ident {\n            span: 59..64,\n            sym: \"Facts\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 103..148,\n        ident: Ident {\n            span: 112..123,\n            sym: \"checkTruths\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 149..196,\n        ident: Ident {\n            span: 158..164,\n            sym: \"checkM\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 191..246,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 191..217,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 354..400,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 354..377,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 396..470,\n        ident: Ident {\n            span: 401..402,\n            sym: \"M\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "Var(\n    VarDecl {\n        span: 465..525,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 465..524,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 124..125,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 165..166,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 197..198,\n        sym: \"x\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 199..217,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 360..361,\n        sym: \"m\",\n    },\n)",

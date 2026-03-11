@@ -10,8 +10,8 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 1741..1752,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1793..1798,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
@@ -24,6 +24,8 @@
     "Var(\n    VarDecl {\n        span: 1537..1563,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1537..1559,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1560..1638,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1560..1627,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 1629..1708,\n        ident: Ident {\n            span: 1639..1642,\n            sym: \"tup\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 1649..1676,\n                kind: Property,\n                name: Some(\n                    Num(\n                        NumberLit {\n                            span: 1649..1650,\n                            value: 0.0,\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 1675..1698,\n                kind: Property,\n                name: Some(\n                    Num(\n                        NumberLit {\n                            span: 1675..1676,\n                            value: 1.0,\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1699..1752,\n        ident: Ident {\n            span: 1709..1716,\n            sym: \"myArray\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 1725..1731,\n                sym: \"Array\",\n            },\n        ],\n        body: [],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1743..1798,\n        ident: Ident {\n            span: 1753..1761,\n            sym: \"myArray2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 1770..1776,\n                sym: \"Array\",\n            },\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1795..1857,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1795..1820,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1854..1967,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1854..1900,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1964..2067,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1964..2002,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
@@ -70,8 +72,6 @@
     "Lit(\n    Str(\n        StrLit {\n            span: 1616..1624,\n            value: \"string\",\n        },\n    ),\n)",
     "Array(\n    ArrayExpr {\n        span: 1606..1626,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
     "Array(\n    ArrayExpr {\n        span: 1594..1627,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 1813..1818,\n        sym: \"temp2\",\n    },\n)",
     "Array(\n    ArrayExpr {\n        span: 1809..1820,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: true,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 1893..1898,\n        sym: \"temp1\",\n    },\n)",

@@ -17,8 +17,10 @@
     "Ident(\n    Ident {\n        span: 20..25,\n        sym: \"array\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 26..49,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 59..60,\n        sym: \"a\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 61..69,\n        left: _,\n        right: _,\n    },\n)",
-    "Object(\n    ObjectPat {\n        span: 55..82,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 56..69,\n                    key: Ident(\n                        Ident {\n                            span: 56..57,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 70..79,\n                    key: Ident {\n                        span: 70..71,\n                        sym: \"b\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 61..66,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 70..71,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 72..79,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 55..82,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 56..66,\n                    key: Ident(\n                        Ident {\n                            span: 56..57,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 67..79,\n                    key: Ident(\n                        Ident {\n                            span: 67..68,\n                            sym: \"y\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
   ],
   "exprs": [
     "Lit(\n    Str(\n        StrLit {\n            span: 34..36,\n            value: \"\",\n        },\n    ),\n)",
@@ -26,8 +28,6 @@
     "Object(\n    ObjectExpr {\n        span: 29..45,\n        props: [\n            KeyValueProp {\n                span: 31..37,\n                key: Ident(\n                    Ident {\n                        span: 31..32,\n                        sym: \"x\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 38..44,\n                key: Ident(\n                    Ident {\n                        span: 38..39,\n                        sym: \"y\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
     "Array(\n    ArrayExpr {\n        span: 28..49,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 63..65,\n            value: \"\",\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 67..68,\n        sym: \"y\",\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 63..69,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 74..78,\n            value: true,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 83..88,\n        sym: \"array\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 96..97,\n        sym: \"a\",\n    },\n)",

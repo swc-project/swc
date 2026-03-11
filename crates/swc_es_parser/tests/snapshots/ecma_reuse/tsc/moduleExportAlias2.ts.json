@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 78..449,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 78..449,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 246..282,\n        expr: _,\n    },\n)",
@@ -14,6 +15,7 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 86..130,\n        ident: Ident {\n            span: 95..102,\n            sym: \"require\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 131..156,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 131..148,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 157..253,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 157..186,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 298..393,\n        ident: Ident {\n            span: 307..308,\n            sym: \"C\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)",
@@ -22,6 +24,7 @@
     "Var(\n    VarDecl {\n        span: 435..449,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 435..449,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 103..107,\n        sym: \"name\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 135..142,\n        sym: \"exports\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 161..167,\n        sym: \"module\",\n    },\n)",
     "Expr(\n    _,\n)",

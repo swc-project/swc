@@ -1,7 +1,6 @@
-  x expected identifier, got LParen
-   ,-[/swc_ecma_parser/tests/typescript-errors/missing-fn-expr-body/async/input.ts:1:1]
+  x expected {, got Eof
+   ,-[/swc_ecma_parser/tests/typescript-errors/missing-fn-expr-body/async/input.ts:1:27]
  1 | let f = async function ()
-   :                        ^
    `----
 
 Advice: 

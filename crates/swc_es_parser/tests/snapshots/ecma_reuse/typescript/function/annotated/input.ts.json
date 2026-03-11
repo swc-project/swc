@@ -3,13 +3,15 @@
     "Program {\n    span: 1..28,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 26..28,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
-  "decls": [],
-  "pats": [],
-  "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 1..28,\n        ident: Ident {\n            span: 10..11,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 15..16,\n        sym: \"x\",\n    },\n)"
+  ],
+  "exprs": [],
   "module_decls": [],
   "functions": [],
   "classes": [],

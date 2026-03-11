@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 83..326,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 83..326,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -8,16 +8,24 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 325..326,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Var(\n    VarDecl {\n        span: 147..176,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 147..168,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 173..213,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 173..194,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 210..240,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 210..232,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 237..278,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 237..259,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 275..305,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 275..297,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 302..326,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 302..324,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 302..326,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 302..324,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 83..326,\n        ident: Ident {\n            span: 92..93,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 113..114,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 119..120,\n        sym: \"u\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 125..126,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 151..152,\n        sym: \"r\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 153..168,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 177..178,\n        sym: \"r\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 179..194,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 214..216,\n        sym: \"r2\",\n    },\n)",
@@ -30,6 +38,10 @@
     "Assign(\n    AssignPat {\n        span: 309..324,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 155..159,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 162..163,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 166..167,\n        sym: \"u\",\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 160..168,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 181..185,\n            value: true,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 188..189,\n        sym: \"u\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 192..193,\n        sym: \"t\",\n    },\n)",
@@ -49,8 +61,7 @@
     "Lit(\n    Bool(\n        BoolLit {\n            span: 311..315,\n            value: true,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 318..319,\n        sym: \"u\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 322..323,\n        sym: \"v\",\n    },\n)",
-    "Cond(\n    CondExpr {\n        span: 316..324,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Cond(\n    CondExpr {\n        span: 316..324,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

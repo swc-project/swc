@@ -29,11 +29,15 @@
     "Assign(\n    AssignPat {\n        span: 160..179,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 14..23,\n            exp: \"asdf\",\n            flags: \"\",\n        },\n    ),\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 41..50,\n            exp: \"asdf\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 14..22,\n            exp: \" asdf \",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 41..49,\n            exp: \" asdf \",\n            flags: \"\",\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 115..116,\n            value: 1.0,\n        },\n    ),\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 135..148,\n            exp: \"asdf\",\n            flags: \"\",\n        },\n    ),\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 166..179,\n            exp: \"asdf\",\n            flags: \"\",\n        },\n    ),\n)"
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 135..138,\n            exp: \" \",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 140..147,\n            exp: \"asdf \",\n            flags: \"\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 138..148,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 166..173,\n            exp: \" asdf\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 175..178,\n            exp: \" \",\n            flags: \"\",\n        },\n    ),\n)",
+    "Binary(\n    BinaryExpr {\n        span: 173..179,\n        op: Exp,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

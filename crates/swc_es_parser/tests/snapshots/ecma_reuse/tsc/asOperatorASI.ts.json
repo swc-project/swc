@@ -1,18 +1,22 @@
 {
   "programs": [
-    "Program {\n    span: 1..164,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 1..164,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "Class(\n    ClassDecl {\n        span: 1..22,\n        ident: Ident {\n            span: 7..10,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 23..69,\n        ident: Ident {\n            span: 32..34,\n            sym: \"as\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 66..132,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 66..94,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 129..164,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 129..148,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 38..42,\n        sym: \"args\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 35..43,\n        arg: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 70..71,\n        sym: \"x\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 72..94,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 133..134,\n        sym: \"y\",\n    },\n)",

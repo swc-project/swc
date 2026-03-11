@@ -5,7 +5,7 @@
   "stmts": [
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 736..748,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 909..936,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 930..960,\n        expr: _,\n    },\n)",
@@ -34,7 +34,7 @@
     "Expr(\n    ExprStmt {\n        span: 1561..1583,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 1702..1713,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1832..1862,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1856..1893,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1887..1919,\n        expr: _,\n    },\n)",
@@ -52,10 +52,12 @@
   "decls": [
     "TsInterface(\n    TsInterfaceDecl {\n        span: 576..632,\n        ident: Ident {\n            span: 586..594,\n            sym: \"StringTo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 595..596,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 604..621,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 605..606,\n                        name: Some(\n                            Ident {\n                                span: 605..606,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 623..679,\n        ident: Ident {\n            span: 633..641,\n            sym: \"NumberTo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 642..643,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 651..668,\n                kind: Index,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 652..653,\n                        name: Some(\n                            Ident {\n                                span: 652..653,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 670..748,\n        ident: Ident {\n            span: 680..697,\n            sym: \"StringAndNumberTo\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 698..699,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 709..718,\n                sym: \"StringTo\",\n            },\n            Ident {\n                span: 722..731,\n                sym: \"NumberTo\",\n            },\n        ],\n        body: [],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 739..804,\n        ident: Ident {\n            span: 749..752,\n            sym: \"Obj\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 759..783,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 759..764,\n                            sym: \"hello\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 778..794,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 778..783,\n                            sym: \"world\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 796..1195,\n        ident: Ident {\n            span: 805..807,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 1187..1589,\n        ident: Ident {\n            span: 1196..1198,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1585..1635,\n        ident: Ident {\n            span: 1590..1604,\n            sym: \"NumberToNumber\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1626..1713,\n        ident: Ident {\n            span: 1636..1661,\n            sym: \"StringToAnyNumberToNumber\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 1670..1679,\n                sym: \"StringTo\",\n            },\n            Ident {\n                span: 1685..1701,\n                sym: \"NumberToNumber\",\n            },\n        ],\n        body: [],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 1705..2159,\n        ident: Ident {\n            span: 1714..1716,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n            _,\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
@@ -109,7 +111,6 @@
     "Ident(\n    Ident {\n        span: 2139..2146,\n        sym: \"someObj\",\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 918..924,\n        sym: \"nToAny\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 916..925,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 939..948,\n        sym: \"bothToAny\",\n    },\n)",
@@ -158,7 +159,6 @@
     "Assign(\n    AssignExpr {\n        span: 1547..1556,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 1571..1580,\n        sym: \"bothToAny\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 1569..1581,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 1841..1850,\n        sym: \"nToNumber\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 1839..1851,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 1865..1881,\n        sym: \"strToAnyNumToNum\",\n    },\n)",

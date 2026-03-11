@@ -1,11 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 41..182,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 41..182,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 98..112,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 141..162,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
@@ -14,7 +13,7 @@
     "Var(\n    VarDecl {\n        span: 49..72,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 49..64,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 73..103,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 73..97,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 159..182,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 159..180,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 104..182,\n        ident: Ident {\n            span: 113..117,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 98..182,\n        ident: Ident {\n            span: 113..117,\n            sym: \"func\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 53..54,\n        sym: \"a\",\n    },\n)",
@@ -23,7 +22,6 @@
     "Assign(\n    AssignPat {\n        span: 165..180,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 98..103,\n        sym: \"async\",\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 141..153,\n            value: \"use strict\",\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 173..174,\n        sym: \"p\",\n    },\n)",
     "Await(\n    AwaitExpr {\n        span: 167..177,\n        arg: _,\n    },\n)",

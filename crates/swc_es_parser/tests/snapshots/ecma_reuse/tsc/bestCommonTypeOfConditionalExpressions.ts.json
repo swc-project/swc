@@ -20,7 +20,8 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 996..997,\n        expr: _,\n    },\n)"
+    "Return(\n    ReturnStmt {\n        span: 958..997,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 172..209,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 172..205,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -36,7 +37,8 @@
     "Var(\n    VarDecl {\n        span: 620..702,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 620..697,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 699..785,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 699..755,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 782..880,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 782..824,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
-    "Var(\n    VarDecl {\n        span: 877..920,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 877..910,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 877..920,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 877..910,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 912..997,\n        ident: Ident {\n            span: 921..925,\n            sym: \"foo5\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 176..177,\n        sym: \"a\",\n    },\n)",
@@ -65,7 +67,9 @@
     "Assign(\n    AssignPat {\n        span: 706..755,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 786..789,\n        sym: \"r10\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 881..884,\n        sym: \"r11\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 885..910,\n        left: _,\n        right: _,\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 885..910,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 932..933,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 938..939,\n        sym: \"u\",\n    },\n)"
   ],
   "exprs": [
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
@@ -107,7 +111,10 @@
     "Ident(\n    Ident {\n        span: 894..898,\n        sym: \"base\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 901..909,\n        sym: \"derived2\",\n    },\n)",
     "Cond(\n    CondExpr {\n        span: 892..910,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Lit(\n    Bool(\n        BoolLit {\n            span: 965..969,\n            value: true,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 972..973,\n        sym: \"t\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 976..977,\n        sym: \"u\",\n    },\n)",
+    "Cond(\n    CondExpr {\n        span: 970..978,\n        test: _,\n        cons: _,\n        alt: _,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

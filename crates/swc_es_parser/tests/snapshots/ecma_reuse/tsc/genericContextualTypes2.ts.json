@@ -1,11 +1,13 @@
 {
   "programs": [
-    "Program {\n    span: 36..880,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 36..880,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 276..284,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -16,9 +18,13 @@
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 64..174,\n        ident: Ident {\n            span: 69..84,\n            sym: \"PartialAssigner\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 85..93,\n                sym: \"TContext\",\n            },\n            Ident {\n                span: 95..99,\n                sym: \"TKey\",\n            },\n        ],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 280..350,\n        ident: Ident {\n            span: 285..289,\n            sym: \"Meta\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 290..298,\n                sym: \"TContext\",\n            },\n        ],\n        ty: _,\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 341..466,\n        ident: Ident {\n            span: 351..363,\n            sym: \"AssignAction\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 364..372,\n                sym: \"TContext\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 378..407,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 378..382,\n                            sym: \"type\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 403..457,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 403..407,\n                            sym: \"exec\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
-    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 573..665,\n        ident: Ident {\n            span: 578..584,\n            sym: \"Config\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 585..593,\n                sym: \"TContext\",\n            },\n        ],\n        ty: _,\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 467..577,\n        ident: Ident {\n            span: 476..482,\n            sym: \"assign\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 573..665,\n        ident: Ident {\n            span: 578..584,\n            sym: \"Config\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 585..593,\n                sym: \"TContext\",\n            },\n        ],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 666..746,\n        ident: Ident {\n            span: 675..688,\n            sym: \"createMachine\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 496..506,\n        sym: \"assignment\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 699..705,\n        sym: \"config\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 830..833,\n        sym: \"ctx\",\n    },\n)"
   ],
   "exprs": [

@@ -1,16 +1,19 @@
 {
   "programs": [
-    "Program {\n    span: 70..228,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 70..228,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 78..134,\n        ident: Ident {\n            span: 87..104,\n            sym: \"someOtherFunction\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 129..182,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 129..182,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 177..228,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 177..228,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 105..106,\n        sym: \"i\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 135..136,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 145..146,\n        sym: \"i\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 137..182,\n        left: _,\n        right: _,\n    },\n)",

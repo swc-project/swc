@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 11..1146,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 11..1146,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 61..71,\n        expr: _,\n    },\n)",
@@ -8,11 +8,14 @@
     "Expr(\n    ExprStmt {\n        span: 215..222,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 369..380,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 496..511,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 513..544,\n        expr: _,\n    },\n)",
+    "Labeled(\n    LabeledStmt {\n        span: 506..544,\n        label: Ident {\n            span: 506..511,\n            sym: \"dummy\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 543..553,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 953..964,\n        expr: _,\n    },\n)",
+    "Throw(\n    ThrowStmt {\n        span: 934..954,\n        arg: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 975..1145,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)"
   ],
@@ -20,10 +23,13 @@
     "Var(\n    VarDecl {\n        span: 548..613,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 548..613,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 604..693,\n        ident: Ident {\n            span: 614..621,\n            sym: \"BookReq\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 628..664,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 637..642,\n                            sym: \"title\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 656..682,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 665..671,\n                            sym: \"serial\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 684..783,\n        ident: Ident {\n            span: 694..701,\n            sym: \"BookDef\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 708..745,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 717..723,\n                            sym: \"author\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 737..772,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 746..754,\n                            sym: \"numPages\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: true,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 775..964,\n        ident: Ident {\n            span: 784..809,\n            sym: \"insertOnConflictDoNothing\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 956..1146,\n        ident: Ident {\n            span: 965..966,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
-    "Ident(\n    Ident {\n        span: 554..563,\n        sym: \"bookTable\",\n    },\n)"
+    "Ident(\n    Ident {\n        span: 554..563,\n        sym: \"bookTable\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 850..856,\n        sym: \"_table\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 875..890,\n        sym: \"_conflictTarget\",\n    },\n)"
   ],
   "exprs": [
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
@@ -31,10 +37,15 @@
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 496..505,\n        sym: \"protected\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 514..528,\n        sym: \"ConflictTarget\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 536..540,\n        sym: \"Cols\",\n    },\n)",
+    "Array(\n    ArrayExpr {\n        span: 513..542,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 591..595,\n        },\n    ),\n)",
     "TsAs(\n    TsAsExpr {\n        span: 596..613,\n        expr: _,\n        ty: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 944..949,\n        sym: \"Error\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 949..952,\n        callee: _,\n        args: [],\n    },\n)",
+    "New(\n    NewExpr {\n        span: 940..952,\n        callee: _,\n        args: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 975..1000,\n        sym: \"insertOnConflictDoNothing\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1001..1010,\n        sym: \"bookTable\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1012..1026,\n        sym: \"ConflictTarget\",\n    },\n)",

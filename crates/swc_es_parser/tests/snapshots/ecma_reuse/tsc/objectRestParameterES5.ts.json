@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 17..664,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 17..664,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 163..212,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 204..318,\n        expr: _,\n    },\n)",
@@ -14,16 +15,19 @@
   ],
   "decls": [
     "Fn(\n    FnDecl {\n        span: 17..98,\n        ident: Ident {\n            span: 26..36,\n            sym: \"cloneAgain\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 99..171,\n        ident: Ident {\n            span: 108..116,\n            sym: \"suddenly\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 313..545,\n        ident: Ident {\n            span: 319..320,\n            sym: \"C\",\n        },\n        declare: false,\n        class: _,\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 537..594,\n        ident: Ident {\n            span: 546..552,\n            sym: \"foobar\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 45..50,\n        sym: \"clone\",\n    },\n)",
     "Object(\n    ObjectPat {\n        span: 37..53,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 39..41,\n                    key: Ident {\n                        span: 39..40,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 42..52,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 117..118,\n        sym: \"f\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 178..179,\n        sym: \"a\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 184..188,\n        sym: \"rest\",\n    },\n)",
     "Object(\n    ObjectPat {\n        span: 173..191,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 175..180,\n                    key: Ident(\n                        Ident {\n                            span: 175..176,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 181..190,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
-    "Object(\n    ObjectPat {\n        span: 219..241,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 221..238,\n                    key: Ident {\n                        span: 221..222,\n                        sym: \"z\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 232..240,\n                    key: Ident {\n                        span: 232..238,\n                        sym: \"nested\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 232..238,\n        sym: \"nested\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 219..241,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 221..228,\n                    key: Ident {\n                        span: 221..222,\n                        sym: \"z\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 229..240,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 245..249,\n        sym: \"rest\",\n    },\n)",
     "Object(\n    ObjectPat {\n        span: 214..253,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 216..241,\n                    key: Ident(\n                        Ident {\n                            span: 216..217,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 242..251,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 252..287,\n        left: _,\n        right: _,\n    },\n)",
@@ -31,7 +35,8 @@
     "Object(\n    ObjectPat {\n        span: 329..345,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 331..333,\n                    key: Ident {\n                        span: 331..332,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 334..344,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 448..453,\n        sym: \"clone\",\n    },\n)",
     "Object(\n    ObjectPat {\n        span: 440..456,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 442..444,\n                    key: Ident {\n                        span: 442..443,\n                        sym: \"a\",\n                    },\n                    value: None,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 445..455,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
-    "Object(\n    ObjectPat {\n        span: 553..573,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 555..570,\n                    key: Ident {\n                        span: 555..558,\n                        sym: \"bar\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 566..572,\n                    key: Ident {\n                        span: 566..570,\n                        sym: \"opts\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 566..570,\n        sym: \"opts\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 553..573,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 555..562,\n                    key: Ident {\n                        span: 555..558,\n                        sym: \"bar\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 563..572,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 578..583,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
@@ -42,8 +47,6 @@
     "Call(\n    CallExpr {\n        span: 171..203,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 204..212,\n        sym: \"suddenly\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 225..227,\n            value: 12.0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Seq(\n    SeqExpr {\n        span: 225..238,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 264..265,\n            value: 1.0,\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 271..272,\n            value: 1.0,\n        },\n    ),\n)",
     "Object(\n    ObjectExpr {\n        span: 259..275,\n        props: [\n            KeyValueProp {\n                span: 261..266,\n                key: Ident(\n                    Ident {\n                        span: 261..262,\n                        sym: \"z\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 267..274,\n                key: Ident(\n                    Ident {\n                        span: 267..269,\n                        sym: \"ka\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
@@ -57,8 +60,6 @@
     "Arrow(\n    ArrowExpr {\n        span: 213..310,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
     "Call(\n    CallExpr {\n        span: 212..311,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
     "Object(\n    ObjectExpr {\n        span: 559..562,\n        props: [],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Seq(\n    SeqExpr {\n        span: 559..570,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Object(\n    ObjectExpr {\n        span: 580..583,\n        props: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 588..594,\n        sym: \"foobar\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 594..597,\n        callee: _,\n        args: [],\n    },\n)",

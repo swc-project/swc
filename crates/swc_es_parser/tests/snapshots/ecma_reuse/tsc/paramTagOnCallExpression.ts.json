@@ -1,12 +1,16 @@
 {
   "programs": [
-    "Program {\n    span: 79..258,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+    "Program {\n    span: 79..258,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 219..258,\n        expr: _,\n    },\n)"
   ],
-  "decls": [],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 87..226,\n        ident: Ident {\n            span: 96..103,\n            sym: \"factory\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
+  ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 104..108,\n        sym: \"type\",\n    },\n)",
     "Expr(\n    _,\n)"
   ],
   "exprs": [

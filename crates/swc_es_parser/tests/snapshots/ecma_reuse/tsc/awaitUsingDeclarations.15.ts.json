@@ -1,22 +1,20 @@
 {
   "programs": [
-    "Program {\n    span: 109..189,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 109..189,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 109..123,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 134..189,\n        kind: AwaitUsing,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 134..187,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 115..189,\n        ident: Ident {\n            span: 124..125,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 109..189,\n        ident: Ident {\n            span: 124..125,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 146..147,\n        sym: \"_\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 148..187,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 109..114,\n        sym: \"async\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 159..165,\n        sym: \"Symbol\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 165..179,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 166..178,\n                sym: \"asyncDispose\",\n            },\n        ),\n    },\n)",
     "Function(\n    _,\n)",

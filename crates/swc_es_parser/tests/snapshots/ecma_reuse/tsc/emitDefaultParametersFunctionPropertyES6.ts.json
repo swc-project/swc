@@ -1,31 +1,51 @@
 {
   "programs": [
-    "Program {\n    span: 16..199,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 16..199,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 58..85,\n        expr: _,\n    },\n)",
-    "Block(\n    BlockStmt {\n        span: 84..88,\n        stmts: [],\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 87..98,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 195..199,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
-  "decls": [],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 16..199,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 16..199,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
   "pats": [
-    "Ident(\n    Ident {\n        span: 71..72,\n        sym: \"x\",\n    },\n)"
+    "Ident(\n    Ident {\n        span: 20..24,\n        sym: \"obj2\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 39..40,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 41..46,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 50..54,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 47..55,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 71..72,\n        sym: \"x\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 73..83,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 110..111,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 121..122,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 123..133,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 149..150,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 160..161,\n        sym: \"z\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 171..172,\n        sym: \"y\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 173..183,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 187..191,\n        sym: \"rest\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 184..192,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 25..199,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 65..70,\n        sym: \"func2\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 43..45,\n            value: 10.0,\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 75..82,\n            value: \"hello\",\n        },\n    ),\n)",
-    "Assign(\n    AssignExpr {\n        span: 73..83,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Call(\n    CallExpr {\n        span: 70..85,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 58..85,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Seq(\n    SeqExpr {\n        span: 195..199,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)"
+    "Function(\n    _,\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 125..132,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Lit(\n    Str(\n        StrLit {\n            span: 175..182,\n            value: \"hello\",\n        },\n    ),\n)",
+    "Function(\n    _,\n)",
+    "Object(\n    ObjectExpr {\n        span: 27..199,\n        props: [\n            KeyValueProp {\n                span: 33..60,\n                key: Ident(\n                    Ident {\n                        span: 33..38,\n                        sym: \"func1\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 65..88,\n                key: Ident(\n                    Ident {\n                        span: 65..70,\n                        sym: \"func2\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 93..138,\n                key: Ident(\n                    Ident {\n                        span: 93..98,\n                        sym: \"func3\",\n                    },\n                ),\n                value: _,\n            },\n            KeyValueProp {\n                span: 143..197,\n                key: Ident(\n                    Ident {\n                        span: 143..148,\n                        sym: \"func4\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)"
   ],
   "module_decls": [],
-  "functions": [],
+  "functions": [
+    "Function {\n    span: 33..60,\n    params: [\n        Param {\n            span: 39..46,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 47..55,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 65..88,\n    params: [\n        Param {\n            span: 71..83,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 93..138,\n    params: [\n        Param {\n            span: 99..109,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 110..120,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 121..133,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}",
+    "Function {\n    span: 143..197,\n    params: [\n        Param {\n            span: 149..159,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 160..170,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 171..183,\n            decorators: [],\n            pat: _,\n        },\n        Param {\n            span: 184..192,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: false,\n}"
+  ],
   "classes": [],
   "class_members": [],
   "jsx_elements": [],

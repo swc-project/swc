@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 41..1044,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 41..1044,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 129..142,\n        arg: None,\n    },\n)",
     "Block(\n    BlockStmt {\n        span: 119..149,\n        stmts: [\n            _,\n        ],\n    },\n)",
     "If(\n    IfStmt {\n        span: 111..149,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
@@ -58,6 +59,7 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 49..89,\n        ident: Ident {\n            span: 58..61,\n            sym: \"obj\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 81..209,\n        ident: Ident {\n            span: 90..92,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 201..337,\n        ident: Ident {\n            span: 210..212,\n            sym: \"f2\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 329..464,\n        ident: Ident {\n            span: 338..340,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
@@ -66,6 +68,7 @@
     "Fn(\n    FnDecl {\n        span: 817..1044,\n        ident: Ident {\n            span: 826..828,\n            sym: \"f6\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 93..94,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 213..214,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 341..342,\n        sym: \"x\",\n    },\n)",

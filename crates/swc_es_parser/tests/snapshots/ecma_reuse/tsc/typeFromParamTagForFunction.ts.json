@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 99..1380,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 99..1380,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 235..248,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 205..275,\n        expr: _,\n    },\n)",
@@ -43,6 +44,7 @@
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 107..149,\n        ident: Ident {\n            span: 116..123,\n            sym: \"require\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 150..212,\n        kind: Var,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 150..166,\n                name: _,\n                init: None,\n            },\n            VarDeclarator {\n                span: 150..180,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 270..333,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 270..303,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 325..379,\n        ident: Ident {\n            span: 334..335,\n            sym: \"a\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
@@ -65,6 +67,7 @@
     "Fn(\n    FnDecl {\n        span: 1358..1380,\n        ident: Ident {\n            span: 1367..1368,\n            sym: \"h\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 124..126,\n        sym: \"id\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 154..160,\n        sym: \"module\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 167..174,\n        sym: \"exports\",\n    },\n)",
     "Expr(\n    _,\n)",

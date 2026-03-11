@@ -135,7 +135,8 @@
     "Object(\n    ObjectPat {\n        span: 1242..1299,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 1244..1270,\n                    key: Computed(\n                        _,\n                    ),\n                    value: _,\n                },\n            ),\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 1271..1289,\n                    key: Computed(\n                        _,\n                    ),\n                    value: _,\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 1291..1297,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
     "Expr(\n    _,\n)",
     "Ident(\n    Ident {\n        span: 1370..1386,\n        sym: \"noContextualType\",\n    },\n)",
-    "Object(\n    ObjectPat {\n        span: 1390..1426,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 1392..1423,\n                    key: Ident {\n                        span: 1392..1399,\n                        sym: \"aNumber\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 1409..1425,\n                    key: Ident {\n                        span: 1409..1423,\n                        sym: \"notEmptyObject\",\n                    },\n                    value: None,\n                },\n            ),\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1409..1423,\n        sym: \"notEmptyObject\",\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 1390..1426,\n        props: [\n            Assign(\n                ObjectPatAssign {\n                    span: 1392..1405,\n                    key: Ident {\n                        span: 1392..1399,\n                        sym: \"aNumber\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n            Rest(\n                RestPat {\n                    span: 1406..1425,\n                    arg: _,\n                },\n            ),\n        ],\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 1387..1468,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
@@ -213,8 +214,6 @@
     "Assign(\n    AssignExpr {\n        span: 1359..1363,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Paren(\n    ParenExpr {\n        span: 1303..1364,\n        expr: _,\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 1402..1404,\n            value: 12.0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Seq(\n    SeqExpr {\n        span: 1402..1423,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Ident(\n    Ident {\n        span: 1430..1437,\n        sym: \"aNumber\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1440..1454,\n        sym: \"notEmptyObject\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 1454..1468,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 1455..1467,\n                sym: \"anythingGoes\",\n            },\n        ),\n    },\n)",

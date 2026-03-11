@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 24..786,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 24..786,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Expr(\n    ExprStmt {\n        span: 53..60,\n        expr: _,\n    },\n)",
@@ -18,9 +18,13 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 119..167,\n        ident: Ident {\n            span: 128..134,\n            sym: \"boxify\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 168..221,\n        ident: Ident {\n            span: 177..185,\n            sym: \"unboxify\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 212..286,\n        ident: Ident {\n            span: 222..227,\n            sym: \"Bacon\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 234..264,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 234..243,\n                            sym: \"isPerfect\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 258..275,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 258..264,\n                            sym: \"weight\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 277..368,\n        ident: Ident {\n            span: 287..300,\n            sym: \"BoxifiedBacon\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 307..342,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 307..316,\n                            sym: \"isPerfect\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 336..358,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 336..342,\n                            sym: \"weight\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 388..415,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 388..407,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -37,6 +41,8 @@
     "Fn(\n    FnDecl {\n        span: 626..786,\n        ident: Ident {\n            span: 635..637,\n            sym: \"f3\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 138..141,\n        sym: \"obj\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 189..192,\n        sym: \"obj\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 372..373,\n        sym: \"b\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 392..394,\n        sym: \"bb\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 395..407,\n        left: _,\n        right: _,\n    },\n)",

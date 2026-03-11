@@ -1,6 +1,6 @@
 {
   "programs": [
-    "Program {\n    span: 20..3453,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 20..3453,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
@@ -52,10 +52,7 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 1973..1975,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1974..1976,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1975..1978,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1977..1988,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
@@ -84,7 +81,8 @@
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 3211..3245,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 3309..3318,\n        expr: _,\n    },\n)",
     "Labeled(\n    LabeledStmt {\n        span: 3306..3318,\n        label: Ident {\n            span: 3306..3307,\n            sym: \"a\",\n        },\n        body: _,\n    },\n)",
@@ -96,7 +94,8 @@
     "Expr(\n    ExprStmt {\n        span: 3374..3382,\n        expr: _,\n    },\n)",
     "Labeled(\n    LabeledStmt {\n        span: 3371..3382,\n        label: Ident {\n            span: 3371..3372,\n            sym: \"y\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 3381..3393,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 3451..3453,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)"
   ],
   "decls": [
     "Var(\n    VarDecl {\n        span: 28..62,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 28..54,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -145,6 +144,7 @@
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1784..1864,\n        ident: Ident {\n            span: 1789..1791,\n            sym: \"M3\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1860..1902,\n        ident: Ident {\n            span: 1865..1866,\n            sym: \"D\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
     "TsTypeAlias(\n    TsTypeAliasDecl {\n        span: 1898..1944,\n        ident: Ident {\n            span: 1903..1904,\n            sym: \"E\",\n        },\n        declare: false,\n        type_params: [],\n        ty: _,\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1945..1988,\n        ident: Ident {\n            span: 1954..1957,\n            sym: \"f10\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1989..2011,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 1989..2003,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 2012..2035,\n        kind: Let,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 2012..2030,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 2032..2065,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 2032..2049,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
@@ -167,7 +167,11 @@
     "TsInterface(\n    TsInterfaceDecl {\n        span: 2991..3046,\n        ident: Ident {\n            span: 3001..3003,\n            sym: \"B2\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 3010..3026,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 3010..3014,\n                            sym: \"kind\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n            TsTypeMember {\n                span: 3025..3037,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 3025..3026,\n                            sym: \"b\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 3047..3085,\n        kind: Const,\n        declare: true,\n        declarators: [\n            VarDeclarator {\n                span: 3047..3079,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 3080..3123,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3080..3104,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
-    "TsInterface(\n    TsInterfaceDecl {\n        span: 3236..3283,\n        ident: Ident {\n            span: 3246..3249,\n            sym: \"ABI\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 3256..3274,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 3256..3260,\n                            sym: \"kind\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+    "Var(\n    VarDecl {\n        span: 3182..3212,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3182..3210,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 3115..3245,\n        ident: Ident {\n            span: 3124..3133,\n            sym: \"inGeneric\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 3236..3283,\n        ident: Ident {\n            span: 3246..3249,\n            sym: \"ABI\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 3256..3274,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 3256..3260,\n                            sym: \"kind\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 3434..3452,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 3434..3450,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 3385..3453,\n        ident: Ident {\n            span: 3394..3397,\n            sym: \"bar\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 34..38,\n        sym: \"sym1\",\n    },\n)",
@@ -175,6 +179,7 @@
     "Ident(\n    Ident {\n        span: 1082..1084,\n        sym: \"ab\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1125..1126,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1151..1152,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1961..1962,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1993..1995,\n        sym: \"a1\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 2016..2018,\n        sym: \"a2\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 2036..2038,\n        sym: \"r1\",\n    },\n)",
@@ -209,7 +214,11 @@
     "Ident(\n    Ident {\n        span: 2838..2839,\n        sym: \"t\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 2835..2919,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 3053..3062,\n        sym: \"shouldBeB\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 3086..3087,\n        sym: \"b\",\n    },\n)"
+    "Ident(\n    Ident {\n        span: 3086..3087,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 3153..3166,\n        sym: \"alsoShouldBeB\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 3188..3189,\n        sym: \"b\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 3417..3418,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 3438..3440,\n        sym: \"ab\",\n    },\n)"
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 1093..1095,\n        sym: \"ab\",\n    },\n)",
@@ -217,10 +226,6 @@
     "Ident(\n    Ident {\n        span: 1158..1159,\n        sym: \"x\",\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 1977..1978,\n        sym: \"T\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 2041..2044,\n        sym: \"f10\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 2045..2047,\n        sym: \"a1\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 2044..2049,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
@@ -262,14 +267,14 @@
     "Ident(\n    Ident {\n        span: 2917..2918,\n        sym: \"t\",\n    },\n)",
     "Arrow(\n    ArrowExpr {\n        span: 2837..2919,\n        params: [\n            _,\n        ],\n        body: Expr(\n            _,\n        ),\n        is_async: false,\n    },\n)",
     "Ident(\n    Ident {\n        span: 3094..3103,\n        sym: \"shouldBeB\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 3196..3209,\n        sym: \"alsoShouldBeB\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 3309..3315,\n        sym: \"string\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 3320..3326,\n        sym: \"number\",\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 3363..3369,\n        sym: \"string\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 3374..3380,\n        sym: \"number\",\n    },\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Ident(\n    Ident {\n        span: 3448..3449,\n        sym: \"x\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

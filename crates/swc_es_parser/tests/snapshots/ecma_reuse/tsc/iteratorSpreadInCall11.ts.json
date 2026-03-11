@@ -3,18 +3,25 @@
     "Program {\n    span: 16..266,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 57..64,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 45..58,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 103..181,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Return(\n    ReturnStmt {\n        span: 217..235,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 239..266,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 16..64,\n        ident: Ident {\n            span: 25..28,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 59..242,\n        ident: Ident {\n            span: 65..79,\n            sym: \"SymbolIterator\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
-  "pats": [],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 35..36,\n        sym: \"s\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 32..37,\n        arg: _,\n    },\n)"
+  ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 52..53,\n        sym: \"s\",\n    },\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 54..55,\n            value: 0.0,\n        },\n    ),\n)",
+    "Member(\n    MemberExpr {\n        span: 53..58,\n        obj: _,\n        prop: Computed(\n            _,\n        ),\n    },\n)",
     "Ident(\n    Ident {\n        span: 131..137,\n        sym: \"Symbol\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 137..140,\n        callee: _,\n        args: [],\n    },\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 159..164,\n            value: false,\n        },\n    ),\n)",

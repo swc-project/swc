@@ -7,8 +7,8 @@
     "Expr(\n    ExprStmt {\n        span: 170..178,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 197..205,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 224..236,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 284..296,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 344..352,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 401..412,\n        expr: _,\n    },\n)",
     "Labeled(\n    LabeledStmt {\n        span: 398..412,\n        label: Ident {\n            span: 398..399,\n            sym: \"b\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 414..427,\n        expr: _,\n    },\n)",
@@ -21,11 +21,12 @@
     "Labeled(\n    LabeledStmt {\n        span: 457..470,\n        label: Ident {\n            span: 457..458,\n            sym: \"z\",\n        },\n        body: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 469..470,\n        expr: _,\n    },\n)"
   ],
-  "decls": [],
+  "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 227..296,\n        ident: Ident {\n            span: 237..238,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 239..240,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 250..252,\n                sym: \"C\",\n            },\n            Ident {\n                span: 261..264,\n                sym: \"C3\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 278..285,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 278..279,\n                            sym: \"y\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 287..352,\n        ident: Ident {\n            span: 297..298,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 299..300,\n                sym: \"T\",\n            },\n        ],\n        extends: [\n            Ident {\n                span: 310..312,\n                sym: \"C\",\n            },\n            Ident {\n                span: 321..324,\n                sym: \"C4\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 338..345,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 338..339,\n                            sym: \"z\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
+  ],
   "pats": [],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
@@ -42,5 +43,8 @@
   "classes": [],
   "class_members": [],
   "jsx_elements": [],
-  "ts_types": []
+  "ts_types": [
+    "TypeRef(\n    TsTypeRef {\n        span: 281..283,\n        name: Ident {\n            span: 281..283,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)",
+    "TypeRef(\n    TsTypeRef {\n        span: 341..343,\n        name: Ident {\n            span: 341..343,\n            sym: \"T\",\n        },\n        type_args: [],\n    },\n)"
+  ]
 }

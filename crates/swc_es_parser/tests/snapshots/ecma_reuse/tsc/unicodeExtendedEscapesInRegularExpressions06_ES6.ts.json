@@ -13,7 +13,7 @@
     "Assign(\n    AssignPat {\n        span: 120..136,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 122..136,\n            exp: \"\\u{10ffff}\",\n            flags: \"g\",\n        },\n    ),\n)"
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 122..135,\n            exp: \"\\\\u{10FFFF}\",\n            flags: \"g\",\n        },\n    ),\n)"
   ],
   "module_decls": [],
   "functions": [],

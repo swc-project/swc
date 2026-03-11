@@ -21,7 +21,8 @@
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 209..218,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 217..242,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 267..270,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 260..268,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 269..281,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 290..298,\n        expr: _,\n    },\n)",
@@ -35,6 +36,7 @@
     "Var(\n    VarDecl {\n        span: 160..171,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 160..169,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 196..208,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 196..206,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "TsModule(\n    TsModuleDecl {\n        span: 178..210,\n        declare: false,\n        global: false,\n        namespace: false,\n        id: Ident(\n            Ident {\n                span: 185..186,\n                sym: \"M\",\n            },\n        ),\n        body: Some(\n            ModuleBlock(\n                [\n                    _,\n                ],\n            ),\n        ),\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 234..270,\n        ident: Ident {\n            span: 243..244,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "TsEnum(\n    TsEnumDecl {\n        span: 277..291,\n        ident: Ident {\n            span: 282..283,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 286..289,\n                name: Ident(\n                    Ident {\n                        span: 286..287,\n                        sym: \"A\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
@@ -54,6 +56,8 @@
     "Assign(\n    AssignPat {\n        span: 202..206,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 209..210,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 217..218,\n        sym: \"x\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 248..249,\n        sym: \"a\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 260..261,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 269..270,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 290..291,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 297..298,\n        sym: \"x\",\n    },\n)"
@@ -82,7 +86,8 @@
     "Function(\n    _,\n)",
     "Object(\n    ObjectExpr {\n        span: 221..242,\n        props: [\n            KeyValueProp {\n                span: 223..232,\n                key: Ident(\n                    Ident {\n                        span: 223..224,\n                        sym: \"f\",\n                    },\n                ),\n                value: _,\n            },\n        ],\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 219..242,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Ident(\n    Ident {\n        span: 264..265,\n        sym: \"a\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 262..266,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 273..274,\n        sym: \"f\",\n    },\n)",
     "Assign(\n    AssignExpr {\n        span: 271..275,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 294..295,\n        sym: \"E\",\n    },\n)",

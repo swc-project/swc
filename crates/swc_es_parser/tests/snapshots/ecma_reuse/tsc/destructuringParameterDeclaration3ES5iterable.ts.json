@@ -23,12 +23,12 @@
     "Expr(\n    ExprStmt {\n        span: 907..979,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 976..1048,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1045..1157,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1178..1183,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1180..1218,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1215..1243,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 1323..1329,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 1325..1349,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1345..1373,\n        expr: _,\n    },\n)"
   ],
@@ -46,8 +46,10 @@
     "Fn(\n    FnDecl {\n        span: 618..667,\n        ident: Ident {\n            span: 627..630,\n            sym: \"a11\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 664..690,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 664..686,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 687..726,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 687..723,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1149..1183,\n        ident: Ident {\n            span: 1158..1161,\n            sym: \"foo\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "TsEnum(\n    TsEnumDecl {\n        span: 1239..1260,\n        ident: Ident {\n            span: 1244..1245,\n            sym: \"E\",\n        },\n        declare: false,\n        is_const: false,\n        members: [\n            TsEnumMember {\n                span: 1248..1250,\n                name: Ident(\n                    Ident {\n                        span: 1248..1249,\n                        sym: \"a\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 1251..1254,\n                name: Ident(\n                    Ident {\n                        span: 1251..1252,\n                        sym: \"b\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
-    "TsEnum(\n    TsEnumDecl {\n        span: 1255..1286,\n        ident: Ident {\n            span: 1266..1268,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: true,\n        members: [\n            TsEnumMember {\n                span: 1271..1273,\n                name: Ident(\n                    Ident {\n                        span: 1271..1272,\n                        sym: \"a\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 1274..1277,\n                name: Ident(\n                    Ident {\n                        span: 1274..1275,\n                        sym: \"b\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)"
+    "TsEnum(\n    TsEnumDecl {\n        span: 1255..1286,\n        ident: Ident {\n            span: 1266..1268,\n            sym: \"E1\",\n        },\n        declare: false,\n        is_const: true,\n        members: [\n            TsEnumMember {\n                span: 1271..1273,\n                name: Ident(\n                    Ident {\n                        span: 1271..1272,\n                        sym: \"a\",\n                    },\n                ),\n                init: None,\n            },\n            TsEnumMember {\n                span: 1274..1277,\n                name: Ident(\n                    Ident {\n                        span: 1274..1275,\n                        sym: \"b\",\n                    },\n                ),\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 1278..1329,\n        ident: Ident {\n            span: 1287..1291,\n            sym: \"foo1\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 389..390,\n        sym: \"x\",\n    },\n)",
@@ -83,7 +85,11 @@
     "Ident(\n    Ident {\n        span: 668..673,\n        sym: \"array\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 674..686,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 691..697,\n        sym: \"array2\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 698..723,\n        left: _,\n        right: _,\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 698..723,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1168..1169,\n        sym: \"a\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 1165..1170,\n        arg: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1313..1314,\n        sym: \"a\",\n    },\n)",
+    "Rest(\n    RestPat {\n        span: 1310..1315,\n        arg: _,\n    },\n)"
   ],
   "exprs": [
     "Lit(\n    Num(\n        NumberLit {\n            span: 677..678,\n            value: 1.0,\n        },\n    ),\n)",
@@ -139,7 +145,6 @@
     "Lit(\n    Num(\n        NumberLit {\n            span: 1053..1054,\n            value: 2.0,\n        },\n    ),\n)",
     "Array(\n    ArrayExpr {\n        span: 1049..1056,\n        elems: [\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n            Some(\n                ExprOrSpread {\n                    spread: false,\n                    expr: _,\n                },\n            ),\n        ],\n    },\n)",
     "Call(\n    CallExpr {\n        span: 1048..1057,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 1180..1183,\n        sym: \"foo\",\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 1199..1206,\n            value: \"hello\",\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 1208..1209,\n            value: 1.0,\n        },\n    ),\n)",
@@ -149,7 +154,6 @@
     "Lit(\n    Str(\n        StrLit {\n            span: 1219..1226,\n            value: \"hello\",\n        },\n    ),\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 1228..1235,\n            value: \"world\",\n        },\n    ),\n)",
     "Call(\n    CallExpr {\n        span: 1218..1237,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 1325..1329,\n        sym: \"foo1\",\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 1330..1331,\n            value: 1.0,\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 1333..1334,\n            value: 2.0,\n        },\n    ),\n)",

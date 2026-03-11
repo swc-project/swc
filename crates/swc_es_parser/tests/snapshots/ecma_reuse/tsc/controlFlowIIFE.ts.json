@@ -1,8 +1,9 @@
 {
   "programs": [
-    "Program {\n    span: 48..1247,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 48..1247,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 227..253,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Decl(\n    _,\n)",
@@ -46,12 +47,13 @@
     "Expr(\n    ExprStmt {\n        span: 1105..1128,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 1215..1225,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1197..1215,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 1169..1225,\n        expr: _,\n    },\n)",
     "Expr(\n    ExprStmt {\n        span: 1224..1247,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 1246..1247,\n        expr: _,\n    },\n)"
+    "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 56..112,\n        ident: Ident {\n            span: 65..82,\n            sym: \"getStringOrNumber\",\n        },\n        declare: true,\n        params: [],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 124..159,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 124..152,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 194..262,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 194..256,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 104..274,\n        ident: Ident {\n            span: 113..115,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)",
@@ -69,7 +71,7 @@
     "Var(\n    VarDecl {\n        span: 1025..1045,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1025..1039,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 1005..1138,\n        ident: Ident {\n            span: 1014..1016,\n            sym: \"f5\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 1150..1170,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1150..1164,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 1130..1216,\n        ident: Ident {\n            span: 1139..1141,\n            sym: \"f6\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 1130..1247,\n        ident: Ident {\n            span: 1139..1141,\n            sym: \"f6\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 128..129,\n        sym: \"x\",\n    },\n)",
@@ -94,7 +96,8 @@
     "Ident(\n    Ident {\n        span: 978..979,\n        sym: \"v\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1029..1030,\n        sym: \"v\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 1084..1085,\n        sym: \"v\",\n    },\n)",
-    "Ident(\n    Ident {\n        span: 1154..1155,\n        sym: \"v\",\n    },\n)"
+    "Ident(\n    Ident {\n        span: 1154..1155,\n        sym: \"v\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 1197..1198,\n        sym: \"v\",\n    },\n)"
   ],
   "exprs": [
     "Ident(\n    Ident {\n        span: 132..149,\n        sym: \"getStringOrNumber\",\n    },\n)",
@@ -174,10 +177,13 @@
     "Paren(\n    ParenExpr {\n        span: 1044..1098,\n        expr: _,\n    },\n)",
     "Call(\n    CallExpr {\n        span: 1097..1100,\n        callee: _,\n        args: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 1105..1106,\n        sym: \"v\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Lit(\n    Num(\n        NumberLit {\n            span: 1207..1208,\n            value: 1.0,\n        },\n    ),\n)",
+    "Await(\n    AwaitExpr {\n        span: 1201..1209,\n        arg: _,\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 1199..1209,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
+    "Function(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 1169..1217,\n        expr: _,\n    },\n)",
     "Call(\n    CallExpr {\n        span: 1216..1219,\n        callee: _,\n        args: [],\n    },\n)",
-    "Ident(\n    Ident {\n        span: 1224..1225,\n        sym: \"v\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Ident(\n    Ident {\n        span: 1224..1225,\n        sym: \"v\",\n    },\n)"
   ],
   "module_decls": [],
   "functions": [
@@ -185,7 +191,8 @@
     "Function {\n    span: 365..417,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
     "Function {\n    span: 648..685,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
     "Function {\n    span: 957..991,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: false,\n}",
-    "Function {\n    span: 1045..1097,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: true,\n}"
+    "Function {\n    span: 1045..1097,\n    params: [],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: true,\n}",
+    "Function {\n    span: 1170..1216,\n    params: [],\n    body: [\n        _,\n    ],\n    is_async: true,\n    is_generator: false,\n}"
   ],
   "classes": [],
   "class_members": [],

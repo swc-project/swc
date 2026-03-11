@@ -3,12 +3,13 @@
     "Program {\n    span: 38..137,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 78..89,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Return(\n    ReturnStmt {\n        span: 125..136,\n        arg: Some(\n            _,\n        ),\n    },\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 38..89,\n        ident: Ident {\n            span: 48..50,\n            sym: \"I1\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 59..68,\n                sym: \"Iterator\",\n            },\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 104..131,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 104..122,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Fn(\n    FnDecl {\n        span: 81..137,\n        ident: Ident {\n            span: 91..93,\n            sym: \"f1\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n        ],\n    },\n)"
   ],
@@ -17,7 +18,6 @@
     "Assign(\n    AssignPat {\n        span: 112..122,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 120..121,\n            value: 0.0,\n        },\n    ),\n)",
     "Yield(\n    YieldExpr {\n        span: 114..122,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 132..133,\n            value: 1.0,\n        },\n    ),\n)"

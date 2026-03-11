@@ -4,13 +4,14 @@
   ],
   "stmts": [
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 262..268,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
     "TsInterface(\n    TsInterfaceDecl {\n        span: 176..228,\n        ident: Ident {\n            span: 186..187,\n            sym: \"I\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 188..189,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 197..217,\n                kind: Method,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 197..200,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 201..211,\n                        name: Some(\n                            Ident {\n                                span: 201..202,\n                                sym: \"x\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 219..268,\n        ident: Ident {\n            span: 229..230,\n            sym: \"A\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 239..241,\n                sym: \"I\",\n            },\n            Ident {\n                span: 250..252,\n                sym: \"I\",\n            },\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 265..292,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 265..274,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 289..322,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 289..306,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 319..348,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 319..338,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
@@ -23,7 +24,6 @@
     "Assign(\n    AssignPat {\n        span: 326..338,\n        left: _,\n        right: _,\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 297..298,\n        sym: \"x\",\n    },\n)",
     "Member(\n    MemberExpr {\n        span: 298..303,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 299..302,\n                sym: \"foo\",\n            },\n        ),\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 303..304,\n            value: 1.0,\n        },\n    ),\n)",

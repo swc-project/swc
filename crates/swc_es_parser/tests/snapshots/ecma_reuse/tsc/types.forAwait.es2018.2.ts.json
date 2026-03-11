@@ -1,11 +1,10 @@
 {
   "programs": [
-    "Program {\n    span: 53..439,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 53..439,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 147..161,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Block(\n    BlockStmt {\n        span: 236..251,\n        stmts: [],\n    },\n)",
@@ -29,7 +28,7 @@
     "Var(\n    VarDecl {\n        span: 191..213,\n        kind: Let,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 191..205,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 221..231,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 221..231,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 366..376,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 366..376,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
-    "Fn(\n    FnDecl {\n        span: 153..439,\n        ident: Ident {\n            span: 162..163,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
+    "Fn(\n    FnDecl {\n        span: 147..439,\n        ident: Ident {\n            span: 162..163,\n            sym: \"f\",\n        },\n        declare: false,\n        params: [],\n        body: [\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n            _,\n        ],\n    },\n)"
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 67..80,\n        sym: \"asyncIterable\",\n    },\n)",
@@ -44,7 +43,6 @@
     "Ident(\n    Ident {\n        span: 409..410,\n        sym: \"y\",\n    },\n)"
   ],
   "exprs": [
-    "Ident(\n    Ident {\n        span: 147..152,\n        sym: \"async\",\n    },\n)",
     "Object(\n    ObjectExpr {\n        span: 232..235,\n        props: [],\n    },\n)",
     "Object(\n    ObjectExpr {\n        span: 264..267,\n        props: [],\n    },\n)",
     "Ident(\n    Ident {\n        span: 296..309,\n        sym: \"asyncIterable\",\n    },\n)",

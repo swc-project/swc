@@ -163,7 +163,7 @@
     "Ident(\n    Ident {\n        span: 894..898,\n        sym: \"cond\",\n    },\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 918..922,\n            value: true,\n        },\n    ),\n)",
     "Assign(\n    AssignExpr {\n        span: 916..923,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 968..972,\n            exp: \"a\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 968..971,\n            exp: \"a\",\n            flags: \"\",\n        },\n    ),\n)",
     "Assign(\n    AssignExpr {\n        span: 966..972,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 986..990,\n        sym: \"cond\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 996..997,\n        sym: \"x\",\n    },\n)",
@@ -175,7 +175,7 @@
     "Ident(\n    Ident {\n        span: 1205..1209,\n        sym: \"cond\",\n    },\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 1229..1233,\n            value: true,\n        },\n    ),\n)",
     "Assign(\n    AssignExpr {\n        span: 1227..1234,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 1279..1283,\n            exp: \"a\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 1279..1282,\n            exp: \"a\",\n            flags: \"\",\n        },\n    ),\n)",
     "Assign(\n    AssignExpr {\n        span: 1277..1283,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Lit(\n    Bool(\n        BoolLit {\n            span: 1297..1301,\n            value: true,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 1307..1308,\n        sym: \"x\",\n    },\n)"

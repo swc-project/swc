@@ -9,7 +9,7 @@
   "pats": [],
   "exprs": [
     "Ident(\n    Ident {\n        span: 1..4,\n        sym: \"Foo\",\n    },\n)",
-    "Lit(\n    Regex(\n        RegexLit {\n            span: 6..22,\n            exp: \"(\\\\\\\\?|&)adurl=\",\n            flags: \"\",\n        },\n    ),\n)",
+    "Lit(\n    Regex(\n        RegexLit {\n            span: 6..21,\n            exp: \"(\\\\\\\\?|&)adurl=\",\n            flags: \"\",\n        },\n    ),\n)",
     "Unary(\n    UnaryExpr {\n        span: 5..22,\n        op: Bang,\n        arg: _,\n    },\n)",
     "Call(\n    CallExpr {\n        span: 4..23,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)"
   ],

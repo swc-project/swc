@@ -1,15 +1,17 @@
 {
   "programs": [
-    "Program {\n    span: 63..1095,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 63..1095,\n    kind: Module,\n    body: [\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
     "ModuleDecl(\n    _,\n)",
-    "Expr(\n    ExprStmt {\n        span: 458..477,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 472..482,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 478..493,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 492..499,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 498..501,\n        expr: _,\n    },\n)",
-    "Expr(\n    ExprStmt {\n        span: 500..509,\n        expr: _,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 408..459,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 390..477,\n        stmts: [\n            _,\n        ],\n    },\n)",
+    "If(\n    IfStmt {\n        span: 380..477,\n        test: _,\n        cons: _,\n        alt: None,\n    },\n)",
+    "Expr(\n    ExprStmt {\n        span: 472..493,\n        expr: _,\n    },\n)",
+    "Block(\n    BlockStmt {\n        span: 366..499,\n        stmts: [\n            _,\n            _,\n        ],\n    },\n)",
+    "For(\n    ForStmt {\n        span: 335..499,\n        head: Of(\n            ForOfHead {\n                is_await: false,\n                left: Decl(\n                    _,\n                ),\n                right: _,\n            },\n        ),\n        body: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 301..501,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "ModuleDecl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 741..760,\n        expr: _,\n    },\n)",
@@ -24,6 +26,8 @@
   ],
   "decls": [
     "TsInterface(\n    TsInterfaceDecl {\n        span: 70..140,\n        ident: Ident {\n            span: 80..94,\n            sym: \"StrategicState\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 101..132,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 101..120,\n                            sym: \"lastStrategyApplied\",\n                        },\n                    ),\n                ),\n                optional: true,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
+    "Var(\n    VarDecl {\n        span: 340..353,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 340..353,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)",
+    "Fn(\n    FnDecl {\n        span: 141..509,\n        ident: Ident {\n            span: 150..158,\n            sym: \"strategy\",\n        },\n        declare: false,\n        params: [\n            _,\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 510..588,\n        ident: Ident {\n            span: 520..528,\n            sym: \"Strategy\",\n        },\n        declare: false,\n        type_params: [\n            Ident {\n                span: 529..530,\n                sym: \"T\",\n            },\n        ],\n        extends: [],\n        body: [\n            TsTypeMember {\n                span: 538..580,\n                kind: Call,\n                name: None,\n                optional: false,\n                readonly: false,\n                params: [\n                    TsFnParam {\n                        span: 539..544,\n                        name: Some(\n                            Ident {\n                                span: 539..540,\n                                sym: \"a\",\n                            },\n                        ),\n                        ty: Some(\n                            _,\n                        ),\n                        is_rest: false,\n                        optional: false,\n                    },\n                ],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "TsInterface(\n    TsInterfaceDecl {\n        span: 589..656,\n        ident: Ident {\n            span: 599..604,\n            sym: \"State\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 613..629,\n                sym: \"StrategicState\",\n            },\n        ],\n        body: [\n            TsTypeMember {\n                span: 634..648,\n                kind: Property,\n                name: Some(\n                    Ident(\n                        Ident {\n                            span: 634..637,\n                            sym: \"foo\",\n                        },\n                    ),\n                ),\n                optional: false,\n                readonly: false,\n                params: [],\n                ty: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 657..779,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 657..771,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)",
@@ -32,6 +36,11 @@
     "Var(\n    VarDecl {\n        span: 980..1095,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 980..1095,\n                name: _,\n                init: Some(\n                    _,\n                ),\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 185..194,\n        sym: \"stratName\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 204..207,\n        sym: \"gen\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 318..323,\n        sym: \"state\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 346..350,\n        sym: \"next\",\n    },\n)",
+    "Expr(\n    _,\n)",
     "Ident(\n    Ident {\n        span: 663..670,\n        sym: \"Nothing\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 721..726,\n        sym: \"state\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 786..794,\n        sym: \"Nothing1\",\n    },\n)",
@@ -42,12 +51,17 @@
     "Ident(\n    Ident {\n        span: 1045..1050,\n        sym: \"state\",\n    },\n)"
   ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 472..477,\n        sym: \"yield\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 354..357,\n        sym: \"gen\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 358..363,\n        sym: \"state\",\n    },\n)",
+    "Call(\n    CallExpr {\n        span: 357..365,\n        callee: _,\n        args: [\n            ExprOrSpread {\n                spread: false,\n                expr: _,\n            },\n        ],\n    },\n)",
+    "Ident(\n    Ident {\n        span: 384..388,\n        sym: \"next\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 408..412,\n        sym: \"next\",\n    },\n)",
+    "Member(\n    MemberExpr {\n        span: 412..434,\n        obj: _,\n        prop: Ident(\n            Ident {\n                span: 413..432,\n                sym: \"lastStrategyApplied\",\n            },\n        ),\n    },\n)",
+    "Ident(\n    Ident {\n        span: 435..444,\n        sym: \"stratName\",\n    },\n)",
+    "Assign(\n    AssignExpr {\n        span: 433..445,\n        left: _,\n        op: Assign,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 478..482,\n        sym: \"next\",\n    },\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
+    "Yield(\n    YieldExpr {\n        span: 472..483,\n        arg: Some(\n            _,\n        ),\n        delegate: false,\n    },\n)",
+    "Function(\n    _,\n)",
     "Ident(\n    Ident {\n        span: 690..698,\n        sym: \"strategy\",\n    },\n)",
     "Lit(\n    Str(\n        StrLit {\n            span: 699..708,\n            value: \"Nothing\",\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 747..748,\n            value: 1.0,\n        },\n    ),\n)",
@@ -74,6 +88,7 @@
   ],
   "module_decls": [
     "ExportDecl(\n    ExportDecl {\n        span: 63..140,\n        decl: _,\n    },\n)",
+    "ExportDecl(\n    ExportDecl {\n        span: 134..509,\n        decl: _,\n    },\n)",
     "ExportDecl(\n    ExportDecl {\n        span: 503..588,\n        decl: _,\n    },\n)",
     "ExportDecl(\n    ExportDecl {\n        span: 582..656,\n        decl: _,\n    },\n)",
     "ExportDecl(\n    ExportDecl {\n        span: 650..779,\n        decl: _,\n    },\n)",
@@ -82,6 +97,7 @@
     "ExportDecl(\n    ExportDecl {\n        span: 973..1095,\n        decl: _,\n    },\n)"
   ],
   "functions": [
+    "Function {\n    span: 308..501,\n    params: [\n        Param {\n            span: 308..308,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: true,\n}",
     "Function {\n    span: 710..770,\n    params: [\n        Param {\n            span: 710..710,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n        _,\n    ],\n    is_async: false,\n    is_generator: true,\n}",
     "Function {\n    span: 834..863,\n    params: [\n        Param {\n            span: 834..834,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [],\n    is_async: false,\n    is_generator: true,\n}",
     "Function {\n    span: 927..970,\n    params: [\n        Param {\n            span: 927..927,\n            decorators: [],\n            pat: _,\n        },\n    ],\n    body: [\n        _,\n    ],\n    is_async: false,\n    is_generator: true,\n}",

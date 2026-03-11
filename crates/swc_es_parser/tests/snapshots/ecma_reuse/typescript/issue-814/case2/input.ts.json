@@ -3,12 +3,21 @@
     "Program {\n    span: 1..146,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 144..146,\n        expr: _,\n    },\n)"
+    "Return(\n    ReturnStmt {\n        span: 134..145,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "Decl(\n    _,\n)"
   ],
-  "decls": [],
-  "pats": [],
+  "decls": [
+    "Var(\n    VarDecl {\n        span: 1..146,\n        kind: Const,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 1..146,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Ident(\n    Ident {\n        span: 7..14,\n        sym: \"testing\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 23..28,\n        sym: \"param\",\n    },\n)",
+    "Ident(\n    Ident {\n        span: 42..47,\n        sym: \"other\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 15..146,\n        left: _,\n        right: _,\n    },\n)"
+  ],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)"
+    "Lit(\n    Num(\n        NumberLit {\n            span: 141..142,\n            value: 5.0,\n        },\n    ),\n)",
+    "Arrow(\n    ArrowExpr {\n        span: 17..146,\n        params: [\n            _,\n            _,\n        ],\n        body: Block(\n            [\n                _,\n            ],\n        ),\n        is_async: false,\n    },\n)"
   ],
   "module_decls": [],
   "functions": [],

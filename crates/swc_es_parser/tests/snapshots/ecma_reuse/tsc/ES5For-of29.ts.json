@@ -13,13 +13,13 @@
   ],
   "pats": [
     "Ident(\n    Ident {\n        span: 16..17,\n        sym: \"a\",\n    },\n)",
-    "Assign(\n    AssignPat {\n        span: 18..25,\n        left: _,\n        right: _,\n    },\n)",
-    "Object(\n    ObjectPat {\n        span: 12..35,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 13..25,\n                    key: Ident(\n                        Ident {\n                            span: 13..14,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            Assign(\n                ObjectPatAssign {\n                    span: 26..32,\n                    key: Ident {\n                        span: 26..27,\n                        sym: \"b\",\n                    },\n                    value: Some(\n                        _,\n                    ),\n                },\n            ),\n        ],\n    },\n)"
+    "Assign(\n    AssignPat {\n        span: 18..22,\n        left: _,\n        right: _,\n    },\n)",
+    "Ident(\n    Ident {\n        span: 26..27,\n        sym: \"b\",\n    },\n)",
+    "Assign(\n    AssignPat {\n        span: 28..32,\n        left: _,\n        right: _,\n    },\n)",
+    "Object(\n    ObjectPat {\n        span: 12..35,\n        props: [\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 13..22,\n                    key: Ident(\n                        Ident {\n                            span: 13..14,\n                            sym: \"x\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n            KeyValue(\n                ObjectPatKeyValue {\n                    span: 23..32,\n                    key: Ident(\n                        Ident {\n                            span: 23..24,\n                            sym: \"y\",\n                        },\n                    ),\n                    value: _,\n                },\n            ),\n        ],\n    },\n)"
   ],
   "exprs": [
     "Lit(\n    Num(\n        NumberLit {\n            span: 20..21,\n            value: 0.0,\n        },\n    ),\n)",
-    "Ident(\n    Ident {\n        span: 23..24,\n        sym: \"y\",\n    },\n)",
-    "Seq(\n    SeqExpr {\n        span: 20..25,\n        exprs: [\n            _,\n            _,\n        ],\n    },\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 30..31,\n            value: 1.0,\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 37..38,\n            value: 2.0,\n        },\n    ),\n)",
     "Lit(\n    Num(\n        NumberLit {\n            span: 40..41,\n            value: 3.0,\n        },\n    ),\n)",

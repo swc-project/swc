@@ -1,14 +1,17 @@
 {
   "programs": [
-    "Program {\n    span: 1..104,\n    kind: Script,\n    body: [\n        _,\n    ],\n}"
+    "Program {\n    span: 1..104,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 9..65,\n        ident: Ident {\n            span: 18..22,\n            sym: \"foo3\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 62..104,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 62..95,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 23..25,\n        sym: \"cb\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 66..68,\n        sym: \"r5\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 77..78,\n        sym: \"x\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 69..95,\n        left: _,\n        right: _,\n    },\n)"

@@ -1,15 +1,18 @@
 {
   "programs": [
-    "Program {\n    span: 24..108,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
+    "Program {\n    span: 24..108,\n    kind: Script,\n    body: [\n        _,\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
+    "Decl(\n    _,\n)",
     "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 99..108,\n        expr: _,\n    },\n)"
   ],
   "decls": [
+    "Fn(\n    FnDecl {\n        span: 32..76,\n        ident: Ident {\n            span: 41..44,\n            sym: \"foo\",\n        },\n        declare: true,\n        params: [\n            _,\n        ],\n        body: [],\n    },\n)",
     "Var(\n    VarDecl {\n        span: 73..100,\n        kind: Var,\n        declare: false,\n        declarators: [\n            VarDeclarator {\n                span: 73..98,\n                name: _,\n                init: None,\n            },\n        ],\n    },\n)"
   ],
   "pats": [
+    "Ident(\n    Ident {\n        span: 62..63,\n        sym: \"x\",\n    },\n)",
     "Ident(\n    Ident {\n        span: 77..78,\n        sym: \"y\",\n    },\n)",
     "Assign(\n    AssignPat {\n        span: 79..98,\n        left: _,\n        right: _,\n    },\n)",
     "Ident(\n    Ident {\n        span: 99..100,\n        sym: \"y\",\n    },\n)"

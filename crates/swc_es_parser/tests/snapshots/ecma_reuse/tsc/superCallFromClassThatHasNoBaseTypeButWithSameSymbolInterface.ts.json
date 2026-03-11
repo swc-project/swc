@@ -3,16 +3,16 @@
     "Program {\n    span: 1..107,\n    kind: Script,\n    body: [\n        _,\n        _,\n    ],\n}"
   ],
   "stmts": [
-    "Expr(\n    ExprStmt {\n        span: 38..46,\n        expr: _,\n    },\n)",
+    "Decl(\n    _,\n)",
     "Expr(\n    ExprStmt {\n        span: 81..104,\n        expr: _,\n    },\n)",
     "Decl(\n    _,\n)"
   ],
   "decls": [
+    "TsInterface(\n    TsInterfaceDecl {\n        span: 1..46,\n        ident: Ident {\n            span: 11..14,\n            sym: \"Foo\",\n        },\n        declare: false,\n        type_params: [],\n        extends: [\n            Ident {\n                span: 23..29,\n                sym: \"Array\",\n            },\n        ],\n        body: [],\n    },\n)",
     "Class(\n    ClassDecl {\n        span: 41..107,\n        ident: Ident {\n            span: 47..50,\n            sym: \"Foo\",\n        },\n        declare: false,\n        class: _,\n    },\n)"
   ],
   "pats": [],
   "exprs": [
-    "Lit(\n    Null(\n        NullLit {\n            span: 0..0,\n        },\n    ),\n)",
     "Ident(\n    Ident {\n        span: 81..86,\n        sym: \"super\",\n    },\n)",
     "Call(\n    CallExpr {\n        span: 86..89,\n        callee: _,\n        args: [],\n    },\n)"
   ],
