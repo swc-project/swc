@@ -984,7 +984,7 @@
         node.innerHTML = html;
     }, "u" > typeof MSApp && MSApp.execUnsafeLocalFunction ? function(arg0, arg1, arg2, arg3) {
         MSApp.execUnsafeLocalFunction(function() {
-            return func(arg0, arg1, arg2, arg3);
+            return func(arg0, arg1);
         });
     } : func), setTextContent = function(node, text) {
         if (text) {

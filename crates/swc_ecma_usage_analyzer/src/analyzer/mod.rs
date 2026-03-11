@@ -320,6 +320,45 @@ where
                     v.as_mut().unwrap().add_infects_to(id.clone());
                 }
             }
+
+            if let Some(id) = &n.left.as_ident() {
+                match &*n.right {
+                    Expr::Fn(n) => {
+                        let scope = self.data.scope(n.function.ctxt);
+                        let known = !scope.used_arguments()
+                            && !scope.used_eval()
+                            && !n.function.params.iter().any(|p| p.pat.is_rest());
+                        let data = self.data.var_or_default(id.id.to_id());
+
+                        if known {
+                            data.mark_param_count(Value::Known(n.function.params.len() as u8));
+                        } else {
+                            data.mark_param_count(Value::Unknown);
+                        }
+                    }
+                    Expr::Arrow(n) => {
+                        let scope = self.data.scope(n.ctxt);
+                        let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
+                        let data = self.data.var_or_default(id.id.to_id());
+
+                        if known {
+                            data.mark_param_count(Value::Known(n.params.len() as u8));
+                        } else {
+                            data.mark_param_count(Value::Unknown)
+                        }
+                    }
+                    _ => self
+                        .data
+                        .var_or_default(id.id.to_id())
+                        .mark_param_count(Value::Unknown),
+                }
+            } else {
+                for id in find_pat_ids(&n.left) {
+                    self.data
+                        .var_or_default(id)
+                        .mark_param_count(Value::Unknown)
+                }
+            }
         }
     }
 
@@ -810,6 +849,19 @@ where
 
                 v.as_mut().unwrap().add_infects_to(id.clone());
             }
+        }
+
+        let scope = self.data.scope(n.function.ctxt);
+        let known = !scope.used_arguments()
+            && !scope.used_eval()
+            && !n.function.params.iter().any(|p| p.pat.is_rest());
+
+        let data = self.data.var_or_default(n.ident.to_id());
+
+        if known {
+            data.mark_param_count(Value::Known(n.function.params.len() as u8));
+        } else {
+            data.mark_param_count(Value::Unknown);
         }
     }
 
@@ -1412,6 +1464,37 @@ where
                     }
 
                     v.as_mut().unwrap().add_infects_to(id.clone());
+                }
+
+                match init {
+                    Expr::Fn(n) => {
+                        let scope = self.data.scope(n.function.ctxt);
+                        let known = !scope.used_arguments()
+                            && !scope.used_eval()
+                            && !n.function.params.iter().any(|p| p.pat.is_rest());
+                        let data = self.data.var_or_default(var.id.to_id());
+
+                        if known {
+                            data.mark_param_count(Value::Known(n.function.params.len() as u8));
+                        } else {
+                            data.mark_param_count(Value::Unknown);
+                        }
+                    }
+                    Expr::Arrow(n) => {
+                        let scope = self.data.scope(n.ctxt);
+                        let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
+                        let data = self.data.var_or_default(var.id.to_id());
+
+                        if known {
+                            data.mark_param_count(Value::Known(n.params.len() as u8));
+                        } else {
+                            data.mark_param_count(Value::Unknown)
+                        }
+                    }
+                    _ => self
+                        .data
+                        .var_or_default(var.id.to_id())
+                        .mark_param_count(Value::Unknown),
                 }
             }
         }
