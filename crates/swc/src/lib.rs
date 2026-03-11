@@ -307,13 +307,14 @@ impl Compiler {
                                         if fallback_map_path.exists() {
                                             map_path = fallback_map_path;
                                         } else {
-                                            bail!(
+                                            tracing::warn!(
                                                 "failed to find input source map file {:?} in \
                                                  {:?} file as either {:?} or with appended .map",
                                                 data_url,
                                                 filename.display(),
                                                 map_path.display(),
-                                            )
+                                            );
+                                            return Ok(None);
                                         }
                                     }
 
@@ -397,7 +398,7 @@ impl Compiler {
                 match result {
                     Ok(r) => r,
                     Err(err) => {
-                        tracing::error!("failed to read input source map: {:?}", err);
+                        tracing::warn!("failed to read input source map: {:?}", err);
                         None
                     }
                 }
