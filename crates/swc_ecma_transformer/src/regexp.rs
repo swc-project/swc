@@ -1,9 +1,13 @@
 use swc_atoms::Atom;
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_regexp::transform_unicode_property_escapes;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_regexp::{LiteralParser, Options as RegexpOptions};
+use swc_ecma_regexp::{
+    ast::{Disjunction, IndexedReference, Term},
+    LiteralParser, Options as RegexpOptions,
+};
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory};
 
 use crate::TraverseCtx;
@@ -140,22 +144,138 @@ impl RegexpPass {
         pattern_lit.value = transformed_pattern.into();
         pattern_lit.raw = None;
     }
+
+    /// Parse a regex pattern, extract named capturing groups, strip them,
+    /// convert named backreferences to indexed ones, and return the stripped
+    /// pattern string along with the name-to-index mapping.
+    ///
+    /// Returns `None` if parsing fails or if there are no named groups.
+    fn extract_and_strip_named_groups(
+        &self,
+        pattern: &str,
+        flags: &str,
+    ) -> Option<(String, Vec<(Atom, u32)>)> {
+        let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
+            .parse()
+            .ok()?;
+
+        // First pass: collect all named capturing groups and their indices
+        let mut mapping = Vec::new();
+        let mut counter = 0u32;
+        collect_named_groups(&ast.body, &mut counter, &mut mapping);
+
+        if mapping.is_empty() {
+            return None;
+        }
+
+        // Second pass: strip names from groups and convert named references
+        strip_named_groups(&mut ast.body, &mapping);
+
+        Some((ast.to_string(), mapping))
+    }
+
+    /// Check if non-named-group transforms require converting to RegExp()
+    /// constructor.
+    fn needs_regexp_constructor(&self, pattern: &str, flags: &str) -> bool {
+        (self.options.dot_all_regex && flags.contains('s'))
+            || (self.options.sticky_regex && flags.contains('y'))
+            || (self.options.unicode_regex && flags.contains('u'))
+            || (self.options.unicode_sets_regex && flags.contains('v'))
+            || (self.options.has_indices && flags.contains('d'))
+            || (self.options.lookbehind_assertion
+                && (pattern.contains("(?<=") || pattern.contains("(?<!")))
+            || (self.options.unicode_property_regex
+                && (pattern.contains("\\p{") || pattern.contains("\\P{")))
+    }
+
+    /// Build an object expression for the group name-to-index mapping.
+    fn build_mapping_object(&self, mapping: Vec<(Atom, u32)>) -> Expr {
+        let props = mapping
+            .into_iter()
+            .map(|(name, idx)| {
+                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(IdentName {
+                        span: DUMMY_SP,
+                        sym: name,
+                    }),
+                    value: Box::new(Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: idx as f64,
+                        raw: None,
+                    }))),
+                })))
+            })
+            .collect();
+
+        Expr::Object(ObjectLit {
+            span: DUMMY_SP,
+            props,
+        })
+    }
 }
 
 impl VisitMutHook<TraverseCtx> for RegexpPass {
     fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
         match expr {
             Expr::Lit(Lit::Regex(regex)) => {
-                let needs_transform = (self.options.dot_all_regex && regex.flags.contains('s'))
-                    || (self.options.sticky_regex && regex.flags.contains('y'))
-                    || (self.options.unicode_regex && regex.flags.contains('u'))
-                    || (self.options.unicode_sets_regex && regex.flags.contains('v'))
-                    || (self.options.has_indices && regex.flags.contains('d'))
-                    || (self.options.named_capturing_groups_regex && regex.exp.contains("(?<"))
-                    || (self.options.lookbehind_assertion
-                        && (regex.exp.contains("(?<=") || regex.exp.contains("(?<!")))
-                    || (self.options.unicode_property_regex
-                        && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")));
+                // Try named groups transform first
+                if self.options.named_capturing_groups_regex && regex.exp.contains("(?<") {
+                    if let Some((stripped_exp, group_mapping)) =
+                        self.extract_and_strip_named_groups(&regex.exp, &regex.flags)
+                    {
+                        let Regex { flags, span, .. } = regex.take();
+
+                        // Check if other transforms also need the regex to be a
+                        // RegExp() constructor call
+                        let needs_constructor =
+                            self.needs_regexp_constructor(&stripped_exp, &flags);
+
+                        let regex_arg: Expr = if needs_constructor {
+                            // Apply unicode property transform if needed
+                            let pattern = self
+                                .transform_pattern(&stripped_exp, &flags)
+                                .unwrap_or(stripped_exp);
+
+                            let exp: Expr = Atom::from(pattern).into();
+                            let mut args = vec![exp.into()];
+                            if !flags.is_empty() {
+                                let f: Expr = flags.into();
+                                args.push(f.into());
+                            }
+
+                            CallExpr {
+                                span,
+                                callee: quote_ident!("RegExp").as_callee(),
+                                args,
+                                ..Default::default()
+                            }
+                            .into()
+                        } else {
+                            // Keep as regex literal with stripped named groups
+                            Lit::Regex(Regex {
+                                span,
+                                exp: stripped_exp.into(),
+                                flags,
+                            })
+                            .into()
+                        };
+
+                        let mapping_expr = self.build_mapping_object(group_mapping);
+
+                        *expr = CallExpr {
+                            span,
+                            callee: helper!(span, wrap_reg_exp),
+                            args: vec![regex_arg.as_arg(), mapping_expr.as_arg()],
+                            ..Default::default()
+                        }
+                        .into();
+
+                        return;
+                    }
+                }
+
+                // Non-named-group transforms (or named group extraction failed)
+                let needs_transform = self.needs_regexp_constructor(&regex.exp, &regex.flags);
 
                 if needs_transform {
                     let Regex { exp, flags, span } = regex.take();
@@ -198,5 +318,91 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
             }
             _ => {}
         }
+    }
+}
+
+/// First pass: collect all named capturing groups and their 1-based indices.
+/// Groups are counted in left-to-right order by the position of their opening
+/// parenthesis.
+fn collect_named_groups(
+    disjunction: &Disjunction,
+    counter: &mut u32,
+    mapping: &mut Vec<(Atom, u32)>,
+) {
+    for alt in &disjunction.body {
+        for term in &alt.body {
+            collect_named_groups_term(term, counter, mapping);
+        }
+    }
+}
+
+fn collect_named_groups_term(term: &Term, counter: &mut u32, mapping: &mut Vec<(Atom, u32)>) {
+    match term {
+        Term::CapturingGroup(g) => {
+            *counter += 1;
+            if let Some(name) = &g.name {
+                mapping.push((name.clone(), *counter));
+            }
+            collect_named_groups(&g.body, counter, mapping);
+        }
+        Term::Quantifier(q) => {
+            collect_named_groups_term(&q.body, counter, mapping);
+        }
+        Term::LookAroundAssertion(la) => {
+            collect_named_groups(&la.body, counter, mapping);
+        }
+        Term::IgnoreGroup(ig) => {
+            collect_named_groups(&ig.body, counter, mapping);
+        }
+        _ => {}
+    }
+}
+
+/// Second pass: strip names from named groups and convert named references
+/// to indexed references.
+fn strip_named_groups(disjunction: &mut Disjunction, mapping: &[(Atom, u32)]) {
+    for alt in &mut disjunction.body {
+        for term in &mut alt.body {
+            strip_named_groups_term(term, mapping);
+        }
+    }
+}
+
+fn strip_named_groups_term(term: &mut Term, mapping: &[(Atom, u32)]) {
+    // Check if this is a NamedReference that needs conversion
+    let replacement = if let Term::NamedReference(nr) = &*term {
+        mapping.iter().find(|(n, _)| *n == nr.name).map(|(_, idx)| {
+            Term::IndexedReference(Box::new(IndexedReference {
+                span: nr.span,
+                index: *idx,
+            }))
+        })
+    } else {
+        None
+    };
+
+    if let Some(new_term) = replacement {
+        *term = new_term;
+        return;
+    }
+
+    // Recurse into children
+    match term {
+        Term::CapturingGroup(g) => {
+            if g.name.is_some() {
+                g.name = None;
+            }
+            strip_named_groups(&mut g.body, mapping);
+        }
+        Term::Quantifier(q) => {
+            strip_named_groups_term(&mut q.body, mapping);
+        }
+        Term::LookAroundAssertion(la) => {
+            strip_named_groups(&mut la.body, mapping);
+        }
+        Term::IgnoreGroup(ig) => {
+            strip_named_groups(&mut ig.body, mapping);
+        }
+        _ => {}
     }
 }

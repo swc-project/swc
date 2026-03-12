@@ -206,7 +206,7 @@ impl<'a> Lexer<'a> {
                         kind: TokenKind::Ident,
                         span,
                         had_line_break_before,
-                        value: Some(TokenValue::Ident(Atom::new(ch.to_string()))),
+                        value: Some(TokenValue::Ident(Self::atom_from_char(ch))),
                         flags: TokenFlags::default(),
                     };
                 }
@@ -326,7 +326,7 @@ impl<'a> Lexer<'a> {
                         kind: TokenKind::Ident,
                         span,
                         had_line_break_before,
-                        value: Some(TokenValue::Ident(Atom::new(ch.to_string()))),
+                        value: Some(TokenValue::Ident(Self::atom_from_char(ch))),
                         flags: TokenFlags::default(),
                     }
                 }
@@ -582,6 +582,13 @@ impl<'a> Lexer<'a> {
         }
     }
 
+    #[inline]
+    fn atom_from_char(ch: char) -> Atom {
+        let mut buf = [0u8; 4];
+        let encoded = ch.encode_utf8(&mut buf);
+        Atom::new(encoded as &str)
+    }
+
     #[inline(always)]
     fn scan_decimal_digits_or_sep(&mut self) {
         while let Some(ch) = self.input.cur_as_ascii() {
@@ -628,11 +635,18 @@ impl<'a> Lexer<'a> {
 
     #[inline]
     fn strip_numeric_separators<'b>(raw: &'b str) -> Cow<'b, str> {
-        if raw.as_bytes().contains(&b'_') {
-            Cow::Owned(raw.chars().filter(|&c| c != '_').collect())
-        } else {
-            Cow::Borrowed(raw)
+        if !raw.as_bytes().contains(&b'_') {
+            return Cow::Borrowed(raw);
         }
+
+        let mut out = Vec::with_capacity(raw.len());
+        for &byte in raw.as_bytes() {
+            if byte != b'_' {
+                out.push(byte);
+            }
+        }
+        // Safety: numeric literal bytes are always valid utf-8 ascii.
+        Cow::Owned(unsafe { String::from_utf8_unchecked(out) })
     }
 
     fn read_number(&mut self, had_line_break_before: bool) -> Token {
@@ -693,15 +707,17 @@ impl<'a> Lexer<'a> {
             let end = self.input.cur_pos();
             let raw = unsafe { self.input.slice_str(start, end) };
             let raw = raw.trim_end_matches('n');
-            let mut value = Self::strip_numeric_separators(raw).into_owned();
-            if radix != 10 && value.len() >= 2 {
-                value = value[2..].to_string();
-            }
+            let cleaned = Self::strip_numeric_separators(raw);
+            let value = if radix == 10 {
+                Atom::new(cleaned)
+            } else {
+                Atom::new(cleaned.as_ref().get(2..).unwrap_or_default())
+            };
             return self.value_token(
                 TokenKind::BigInt,
                 Span::new_with_checked(start, end),
                 had_line_break_before,
-                TokenValue::BigInt(Atom::new(value)),
+                TokenValue::BigInt(value),
             );
         }
 

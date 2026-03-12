@@ -24,8 +24,8 @@ use crate::{
     path::Resolver,
     top_level_this::top_level_this,
     util::{
-        define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
-        VecStmtLike,
+        define_es_module, emit_export_stmts, local_name_for_src, sort_export_obj_prop_list,
+        use_strict, ImportInterop, VecStmtLike,
     },
     SpanCtx,
 };
@@ -491,7 +491,7 @@ where
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by_cached_key(|(key, ..)| key.clone());
+            sort_export_obj_prop_list(&mut export_obj_prop_list);
 
             let exports = self.exports();
 

@@ -379,6 +379,7 @@ define_helpers!(Helpers {
         set_prototype_of,
         is_native_function
     ),
+    wrap_reg_exp: (inherits, set_prototype_of),
     write_only_error: (),
 
     class_private_field_destructure: (
