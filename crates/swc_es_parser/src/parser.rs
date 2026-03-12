@@ -16,7 +16,7 @@ use swc_es_ast::{
 use crate::{
     context::Context,
     error::{Error, ErrorCode, Severity},
-    lexer::Lexer,
+    lexer::{Lexer, LexerCheckpoint},
     token::{Keyword, Token, TokenFlags, TokenKind, TokenValue},
     Syntax,
 };
@@ -58,6 +58,13 @@ pub struct Parser<'a> {
     string_token_flags: Vec<(Span, TokenFlags)>,
 }
 
+struct ParserCheckpoint<'a> {
+    lexer: LexerCheckpoint<'a>,
+    cur: Token,
+    next: Option<Token>,
+    errors_len: usize,
+}
+
 impl<'a> Parser<'a> {
     /// Creates a parser from lexer.
     pub fn new_from(mut lexer: Lexer<'a>) -> Self {
@@ -81,6 +88,24 @@ impl<'a> Parser<'a> {
     /// Returns parser syntax.
     pub fn syntax(&self) -> Syntax {
         self.lexer.syntax()
+    }
+
+    #[inline]
+    fn checkpoint_save(&self) -> ParserCheckpoint<'a> {
+        ParserCheckpoint {
+            lexer: self.lexer.checkpoint_save(),
+            cur: self.cur.clone(),
+            next: self.next.clone(),
+            errors_len: self.errors.len(),
+        }
+    }
+
+    #[inline]
+    fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<'a>) {
+        self.lexer.checkpoint_load(checkpoint.lexer);
+        self.cur = checkpoint.cur;
+        self.next = checkpoint.next;
+        self.errors.truncate(checkpoint.errors_len);
     }
 
     /// Takes recoverable parser errors.
@@ -213,6 +238,8 @@ impl<'a> Parser<'a> {
             && self.peek_kind() == TokenKind::Keyword(Keyword::Enum);
         let is_dynamic_import = self.cur.kind == TokenKind::Keyword(Keyword::Import)
             && matches!(self.peek_kind(), TokenKind::LParen | TokenKind::Dot);
+        let is_let_decl =
+            self.cur.kind == TokenKind::Keyword(Keyword::Let) && self.is_let_decl_start();
 
         match self.cur.kind {
             TokenKind::At if self.syntax().decorators() => self.parse_decorated_stmt(),
@@ -242,9 +269,7 @@ impl<'a> Parser<'a> {
                 self.parse_ts_declare_stmt()
             }
             TokenKind::Keyword(Keyword::Var | Keyword::Const) => self.parse_var_decl_stmt(),
-            TokenKind::Keyword(Keyword::Let) if self.is_let_decl_start() => {
-                self.parse_var_decl_stmt()
-            }
+            TokenKind::Keyword(Keyword::Let) if is_let_decl => self.parse_var_decl_stmt(),
             TokenKind::Keyword(Keyword::Await) if is_await_using => {
                 self.parse_using_decl_stmt(true)
             }
@@ -2425,10 +2450,7 @@ impl<'a> Parser<'a> {
 
     fn parse_assignment_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
         if self.syntax().typescript() && self.cur.kind == TokenKind::Lt {
-            let checkpoint = self.lexer.checkpoint_save();
-            let cur = self.cur.clone();
-            let next = self.next.clone();
-            let errors_len = self.errors.len();
+            let checkpoint = self.checkpoint_save();
             let ambiguous_start = self.cur.span;
 
             let type_params_ok = self.parse_ts_type_params().is_ok();
@@ -2450,10 +2472,7 @@ impl<'a> Parser<'a> {
                 return self.parse_arrow_expr(false, parenthesized);
             }
 
-            self.lexer.checkpoint_load(checkpoint);
-            self.cur = cur;
-            self.next = next;
-            self.errors.truncate(errors_len);
+            self.checkpoint_load(checkpoint);
         }
 
         if self.syntax().typescript()
@@ -2461,10 +2480,7 @@ impl<'a> Parser<'a> {
             && self.cur_ident_is("async")
             && self.peek_kind() == TokenKind::Lt
         {
-            let checkpoint = self.lexer.checkpoint_save();
-            let cur = self.cur.clone();
-            let next = self.next.clone();
-            let errors_len = self.errors.len();
+            let checkpoint = self.checkpoint_save();
 
             self.bump();
             let type_params_ok = self.parse_ts_type_params().is_ok();
@@ -2475,10 +2491,7 @@ impl<'a> Parser<'a> {
                 return self.parse_arrow_expr(true, true);
             }
 
-            self.lexer.checkpoint_load(checkpoint);
-            self.cur = cur;
-            self.next = next;
-            self.errors.truncate(errors_len);
+            self.checkpoint_load(checkpoint);
         }
 
         if self.cur_can_be_arrow_param() && self.peek_kind() == TokenKind::Arrow {
@@ -3165,10 +3178,7 @@ impl<'a> Parser<'a> {
                         }));
                 }
                 TokenKind::Lt if self.syntax().typescript() => {
-                    let checkpoint = self.lexer.checkpoint_save();
-                    let cur = self.cur.clone();
-                    let next = self.next.clone();
-                    let errors_len = self.errors.len();
+                    let checkpoint = self.checkpoint_save();
 
                     if self.parse_ts_type_args().is_ok() {
                         if self.cur.kind == TokenKind::LParen {
@@ -3202,10 +3212,7 @@ impl<'a> Parser<'a> {
                         }
                     }
 
-                    self.lexer.checkpoint_load(checkpoint);
-                    self.cur = cur;
-                    self.next = next;
-                    self.errors.truncate(errors_len);
+                    self.checkpoint_load(checkpoint);
                     break;
                 }
                 TokenKind::PlusPlus | TokenKind::MinusMinus if !self.cur.had_line_break_before => {
@@ -3527,26 +3534,17 @@ impl<'a> Parser<'a> {
             if self.syntax().typescript()
                 && matches!(self.cur.kind, TokenKind::Ident | TokenKind::Keyword(_))
             {
-                let checkpoint = self.lexer.checkpoint_save();
-                let cur = self.cur.clone();
-                let next = self.next.clone();
-                let errors_len = self.errors.len();
+                let checkpoint = self.checkpoint_save();
 
                 if let Ok(expr) = self.parse_ts_heritage_expr() {
                     if self.cur.kind == TokenKind::LBrace {
                         Some(expr)
                     } else {
-                        self.lexer.checkpoint_load(checkpoint);
-                        self.cur = cur;
-                        self.next = next;
-                        self.errors.truncate(errors_len);
+                        self.checkpoint_load(checkpoint);
                         Some(self.parse_expr()?)
                     }
                 } else {
-                    self.lexer.checkpoint_load(checkpoint);
-                    self.cur = cur;
-                    self.next = next;
-                    self.errors.truncate(errors_len);
+                    self.checkpoint_load(checkpoint);
                     Some(self.parse_expr()?)
                 }
             } else {
@@ -3784,10 +3782,7 @@ impl<'a> Parser<'a> {
     }
 
     fn try_parse_parenthesized_arrow_head(&mut self) -> bool {
-        let checkpoint = self.lexer.checkpoint_save();
-        let cur = self.cur.clone();
-        let next = self.next.clone();
-        let errors_len = self.errors.len();
+        let checkpoint = self.checkpoint_save();
 
         let parsed = (|| -> PResult<()> {
             let _ = self.expect(TokenKind::LParen, "(")?;
@@ -3809,18 +3804,12 @@ impl<'a> Parser<'a> {
         })()
         .is_ok();
 
-        self.lexer.checkpoint_load(checkpoint);
-        self.cur = cur;
-        self.next = next;
-        self.errors.truncate(errors_len);
+        self.checkpoint_load(checkpoint);
         parsed
     }
 
     fn parenthesized_head_followed_by_arrow(&mut self) -> bool {
-        let checkpoint = self.lexer.checkpoint_save();
-        let cur = self.cur.clone();
-        let next = self.next.clone();
-        let errors_len = self.errors.len();
+        let checkpoint = self.checkpoint_save();
 
         let parsed = if self.cur.kind == TokenKind::LParen {
             self.skip_balanced(TokenKind::LParen, TokenKind::RParen);
@@ -3829,10 +3818,7 @@ impl<'a> Parser<'a> {
             false
         };
 
-        self.lexer.checkpoint_load(checkpoint);
-        self.cur = cur;
-        self.next = next;
-        self.errors.truncate(errors_len);
+        self.checkpoint_load(checkpoint);
         parsed
     }
 
@@ -4181,7 +4167,7 @@ impl<'a> Parser<'a> {
         };
         self.bump();
 
-        let mut text = first.to_string();
+        let mut text: Option<String> = None;
         let mut has_separator = false;
 
         while matches!(
@@ -4201,17 +4187,29 @@ impl<'a> Parser<'a> {
             let Some(segment) = self.cur_name_atom() else {
                 return Err(self.expected("jsx name segment"));
             };
-            text.push(sep);
-            text.push_str(segment.as_ref());
+            let buf = text.get_or_insert_with(|| {
+                let mut buf = String::with_capacity(first.len() + 8);
+                buf.push_str(first.as_ref());
+                buf
+            });
+            buf.push(sep);
+            buf.push_str(segment.as_ref());
             self.bump();
         }
 
-        if has_separator {
-            Ok(swc_es_ast::JSXElementName::Qualified(Atom::new(text)))
+        if let Some(text) = text {
+            if has_separator {
+                Ok(swc_es_ast::JSXElementName::Qualified(Atom::new(text)))
+            } else {
+                Ok(swc_es_ast::JSXElementName::Ident(Ident {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    sym: Atom::new(text),
+                }))
+            }
         } else {
             Ok(swc_es_ast::JSXElementName::Ident(Ident {
                 span: Span::new_with_checked(start, self.last_pos()),
-                sym: Atom::new(text),
+                sym: first,
             }))
         }
     }
@@ -4349,6 +4347,7 @@ impl<'a> Parser<'a> {
 
     fn parse_ts_primary_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
         let start = self.cur.span.lo;
+        let paren_is_arrow = self.cur.kind == TokenKind::LParen && self.paren_followed_by_arrow();
         if self.cur.kind == TokenKind::Keyword(Keyword::TypeOf) || self.cur_ident_is("typeof") {
             self.bump();
             let expr_name = self.parse_ts_type_name();
@@ -4519,7 +4518,7 @@ impl<'a> Parser<'a> {
                 TsType::Keyword(TsKeywordType::Any)
             }
             TokenKind::Ident | TokenKind::Keyword(_) => self.parse_ts_type_ref(start)?,
-            TokenKind::LParen if self.paren_followed_by_arrow() => {
+            TokenKind::LParen if paren_is_arrow => {
                 return self.parse_ts_function_type();
             }
             TokenKind::LParen => {
@@ -4681,42 +4680,41 @@ impl<'a> Parser<'a> {
         })))
     }
 
-    fn paren_followed_by_arrow(&self) -> bool {
+    fn paren_followed_by_arrow(&mut self) -> bool {
         if self.cur.kind != TokenKind::LParen {
             return false;
         }
 
-        let mut lexer = self.lexer.clone();
-        let mut cur = self.cur.clone();
-        let mut next = self.next.clone();
+        let checkpoint = self.lexer.checkpoint_save();
         let mut depth = 0usize;
+        let mut cur_kind = self.cur.kind;
+        let mut next_kind = self.next.as_ref().map(|token| token.kind);
 
         let bump =
-            |cur: &mut Token, next: &mut Option<Token>, lexer: &mut Lexer<'a>| -> TokenKind {
-                *cur = next.take().unwrap_or_else(|| lexer.next_token());
-                cur.kind
+            |cur_kind: &mut TokenKind, next_kind: &mut Option<TokenKind>, lexer: &mut Lexer<'a>| {
+                *cur_kind = next_kind.take().unwrap_or_else(|| lexer.next_token().kind);
             };
 
-        while cur.kind != TokenKind::Eof {
-            match cur.kind {
+        while cur_kind != TokenKind::Eof {
+            match cur_kind {
                 TokenKind::LParen => depth += 1,
                 TokenKind::RParen => {
                     depth = depth.saturating_sub(1);
                     if depth == 0 {
-                        bump(&mut cur, &mut next, &mut lexer);
+                        bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
                         break;
                     }
                 }
                 _ => {}
             }
-            bump(&mut cur, &mut next, &mut lexer);
+            bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
         }
 
-        if self.syntax().typescript() && cur.kind == TokenKind::Colon {
-            bump(&mut cur, &mut next, &mut lexer);
+        if self.syntax().typescript() && cur_kind == TokenKind::Colon {
+            bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
             let mut nested = 0usize;
-            while cur.kind != TokenKind::Eof {
-                match cur.kind {
+            while cur_kind != TokenKind::Eof {
+                match cur_kind {
                     TokenKind::LParen | TokenKind::LBracket | TokenKind::LBrace | TokenKind::Lt => {
                         nested += 1;
                     }
@@ -4726,73 +4724,82 @@ impl<'a> Parser<'a> {
                     TokenKind::Arrow if nested == 0 => break,
                     _ => {}
                 }
-                bump(&mut cur, &mut next, &mut lexer);
+                bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
             }
         }
 
-        cur.kind == TokenKind::Arrow
+        let result = cur_kind == TokenKind::Arrow;
+        self.lexer.checkpoint_load(checkpoint);
+        result
     }
 
-    fn ident_followed_by_arrow(&self) -> bool {
+    fn ident_followed_by_arrow(&mut self) -> bool {
         if !matches!(self.cur.kind, TokenKind::Ident | TokenKind::Keyword(_)) {
             return false;
         }
 
-        let mut lexer = self.lexer.clone();
-        let mut cur = self.cur.clone();
-        let mut next = self.next.clone();
+        let checkpoint = self.lexer.checkpoint_save();
+        let mut cur_kind = self.cur.kind;
+        let mut next_kind = self.next.as_ref().map(|token| token.kind);
 
         let bump =
-            |cur: &mut Token, next: &mut Option<Token>, lexer: &mut Lexer<'a>| -> TokenKind {
-                *cur = next.take().unwrap_or_else(|| lexer.next_token());
-                cur.kind
+            |cur_kind: &mut TokenKind, next_kind: &mut Option<TokenKind>, lexer: &mut Lexer<'a>| {
+                *cur_kind = next_kind.take().unwrap_or_else(|| lexer.next_token().kind);
             };
 
-        bump(&mut cur, &mut next, &mut lexer);
-        if matches!(cur.kind, TokenKind::Ident | TokenKind::Keyword(_)) {
-            bump(&mut cur, &mut next, &mut lexer);
-            return cur.kind == TokenKind::Arrow;
-        }
-
-        if cur.kind != TokenKind::LParen {
-            return false;
-        }
-        let mut depth = 1usize;
-        bump(&mut cur, &mut next, &mut lexer);
-        while cur.kind != TokenKind::Eof {
-            match cur.kind {
-                TokenKind::LParen => depth += 1,
-                TokenKind::RParen => {
-                    depth = depth.saturating_sub(1);
-                    if depth == 0 {
-                        bump(&mut cur, &mut next, &mut lexer);
-                        break;
+        bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
+        let result = if matches!(cur_kind, TokenKind::Ident | TokenKind::Keyword(_)) {
+            bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
+            cur_kind == TokenKind::Arrow
+        } else if cur_kind != TokenKind::LParen {
+            false
+        } else {
+            let mut depth = 1usize;
+            bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
+            while cur_kind != TokenKind::Eof {
+                match cur_kind {
+                    TokenKind::LParen => depth += 1,
+                    TokenKind::RParen => {
+                        depth = depth.saturating_sub(1);
+                        if depth == 0 {
+                            bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
+                            break;
+                        }
                     }
-                }
-                _ => {}
-            }
-            bump(&mut cur, &mut next, &mut lexer);
-        }
-
-        if self.syntax().typescript() && cur.kind == TokenKind::Colon {
-            bump(&mut cur, &mut next, &mut lexer);
-            let mut nested = 0usize;
-            while cur.kind != TokenKind::Eof {
-                match cur.kind {
-                    TokenKind::LParen | TokenKind::LBracket | TokenKind::LBrace | TokenKind::Lt => {
-                        nested += 1;
-                    }
-                    TokenKind::RParen | TokenKind::RBracket | TokenKind::RBrace | TokenKind::Gt => {
-                        nested = nested.saturating_sub(1);
-                    }
-                    TokenKind::Arrow if nested == 0 => break,
                     _ => {}
                 }
-                bump(&mut cur, &mut next, &mut lexer);
+                bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
             }
-        }
 
-        cur.kind == TokenKind::Arrow
+            if self.syntax().typescript() && cur_kind == TokenKind::Colon {
+                bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
+                let mut nested = 0usize;
+                while cur_kind != TokenKind::Eof {
+                    match cur_kind {
+                        TokenKind::LParen
+                        | TokenKind::LBracket
+                        | TokenKind::LBrace
+                        | TokenKind::Lt => {
+                            nested += 1;
+                        }
+                        TokenKind::RParen
+                        | TokenKind::RBracket
+                        | TokenKind::RBrace
+                        | TokenKind::Gt => {
+                            nested = nested.saturating_sub(1);
+                        }
+                        TokenKind::Arrow if nested == 0 => break,
+                        _ => {}
+                    }
+                    bump(&mut cur_kind, &mut next_kind, &mut self.lexer);
+                }
+            }
+
+            cur_kind == TokenKind::Arrow
+        };
+
+        self.lexer.checkpoint_load(checkpoint);
+        result
     }
 
     fn peek_starts_property_name(&mut self) -> bool {
@@ -4894,26 +4901,31 @@ impl<'a> Parser<'a> {
 
     fn parse_ts_type_name(&mut self) -> Ident {
         let start = self.cur.span.lo;
-        let mut name = String::new();
+        let Some(first) = self.cur_name_atom() else {
+            return Ident {
+                span: Span::new_with_checked(start, self.last_pos()),
+                sym: Atom::new("_"),
+            };
+        };
+        self.bump();
 
-        loop {
+        if self.cur.kind != TokenKind::Dot {
+            return Ident {
+                span: Span::new_with_checked(start, self.last_pos()),
+                sym: first,
+            };
+        }
+
+        let mut name = String::with_capacity(first.len() + 8);
+        name.push_str(first.as_ref());
+        while self.cur.kind == TokenKind::Dot {
+            self.bump();
             let Some(segment) = self.cur_name_atom() else {
                 break;
             };
-            if !name.is_empty() {
-                name.push('.');
-            }
+            name.push('.');
             name.push_str(segment.as_ref());
             self.bump();
-
-            if self.cur.kind != TokenKind::Dot {
-                break;
-            }
-            self.bump();
-        }
-
-        if name.is_empty() {
-            name.push('_');
         }
 
         Ident {
@@ -5044,9 +5056,13 @@ impl<'a> Parser<'a> {
             self.bump();
         }
         let ident = self.expect_ident()?;
+        let ident_sym = ident.sym.as_ref();
+        let mut sym = String::with_capacity(ident_sym.len() + 1);
+        sym.push('#');
+        sym.push_str(ident_sym);
         Ok(Ident {
             span: Span::new_with_checked(start, ident.span.hi),
-            sym: Atom::new(format!("#{}", ident.sym)),
+            sym: Atom::new(sym),
         })
     }
 
@@ -5191,18 +5207,32 @@ impl<'a> Parser<'a> {
     fn validate_regex_literal(&mut self, lit: &swc_es_ast::RegexLit) {
         let flags = lit.flags.as_ref();
         let mut has_u = false;
-        let mut seen = std::collections::BTreeSet::<char>::new();
+        let mut seen_flags = 0u8;
         for flag in flags.chars() {
-            if !matches!(flag, 'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y') {
-                self.errors.push(Error::new(
-                    lit.span,
-                    Severity::Error,
-                    ErrorCode::InvalidRegex,
-                    format!("unknown regular expression flag `{flag}`"),
-                ));
-                return;
-            }
-            if !seen.insert(flag) {
+            let bit = match flag {
+                'd' => 1 << 0,
+                'g' => 1 << 1,
+                'i' => 1 << 2,
+                'm' => 1 << 3,
+                's' => 1 << 4,
+                'u' => {
+                    has_u = true;
+                    1 << 5
+                }
+                'v' => 1 << 6,
+                'y' => 1 << 7,
+                _ => {
+                    self.errors.push(Error::new(
+                        lit.span,
+                        Severity::Error,
+                        ErrorCode::InvalidRegex,
+                        format!("unknown regular expression flag `{flag}`"),
+                    ));
+                    return;
+                }
+            };
+
+            if (seen_flags & bit) != 0 {
                 self.errors.push(Error::new(
                     lit.span,
                     Severity::Error,
@@ -5211,9 +5241,7 @@ impl<'a> Parser<'a> {
                 ));
                 return;
             }
-            if flag == 'u' {
-                has_u = true;
-            }
+            seen_flags |= bit;
         }
 
         if has_u {
@@ -5222,16 +5250,13 @@ impl<'a> Parser<'a> {
     }
 
     fn validate_unicode_regex_pattern(&mut self, span: Span, pattern: &str) {
-        let chars = pattern.chars().collect::<Vec<_>>();
-        let mut i = 0usize;
+        let mut chars = pattern.chars().peekable();
         let mut in_class = false;
         let mut escaped = false;
         let mut group_stack = Vec::<RegexGroupKind>::new();
         let mut last_atom = RegexAtomKind::None;
 
-        while i < chars.len() {
-            let ch = chars[i];
-
+        while let Some(ch) = chars.next() {
             if escaped {
                 escaped = false;
                 if ch.is_ascii_digit() {
@@ -5243,27 +5268,31 @@ impl<'a> Parser<'a> {
                     ));
                     return;
                 }
-                if ch == 'u' && chars.get(i + 1) == Some(&'{') {
-                    let mut j = i + 2;
+                if ch == 'u' && chars.peek().copied() == Some('{') {
+                    let mut probe = chars.clone();
+                    let _ = probe.next();
+                    let mut consumed = 1usize;
                     let mut saw_digit = false;
                     let mut closed = false;
-                    while let Some(value) = chars.get(j) {
+                    for value in probe {
+                        consumed += 1;
                         if value.is_ascii_hexdigit() {
                             saw_digit = true;
-                            j += 1;
                             continue;
                         }
-                        if *value == '}' && saw_digit {
+                        if value == '}' && saw_digit {
                             closed = true;
                             break;
                         }
                         break;
                     }
                     if closed {
+                        for _ in 0..consumed {
+                            let _ = chars.next();
+                        }
                         if !in_class {
                             last_atom = RegexAtomKind::Atom;
                         }
-                        i = j + 1;
                         continue;
                     }
                 }
@@ -5274,7 +5303,6 @@ impl<'a> Parser<'a> {
                         RegexAtomKind::Atom
                     };
                 }
-                i += 1;
                 continue;
             }
 
@@ -5287,24 +5315,23 @@ impl<'a> Parser<'a> {
                     }
                     _ => {}
                 }
-                i += 1;
                 continue;
             }
 
             match ch {
                 '\\' => {
                     escaped = true;
-                    i += 1;
                 }
                 '[' => {
                     in_class = true;
-                    i += 1;
                 }
                 '(' => {
-                    let kind = if matches!(chars.get(i + 1), Some('?')) {
-                        match chars.get(i + 2) {
+                    let kind = if chars.peek().copied() == Some('?') {
+                        let mut probe = chars.clone();
+                        let _ = probe.next();
+                        match probe.next() {
                             Some('=') | Some('!') => RegexGroupKind::Assertion,
-                            Some('<') if matches!(chars.get(i + 3), Some('=') | Some('!')) => {
+                            Some('<') if matches!(probe.next(), Some('=') | Some('!')) => {
                                 RegexGroupKind::Assertion
                             }
                             _ => RegexGroupKind::Group,
@@ -5314,7 +5341,6 @@ impl<'a> Parser<'a> {
                     };
                     group_stack.push(kind);
                     last_atom = RegexAtomKind::None;
-                    i += 1;
                 }
                 ')' => {
                     let Some(kind) = group_stack.pop() else {
@@ -5331,11 +5357,9 @@ impl<'a> Parser<'a> {
                     } else {
                         RegexAtomKind::Atom
                     };
-                    i += 1;
                 }
                 '|' => {
                     last_atom = RegexAtomKind::None;
-                    i += 1;
                 }
                 '*' | '+' | '?' => {
                     if last_atom != RegexAtomKind::Atom {
@@ -5348,10 +5372,9 @@ impl<'a> Parser<'a> {
                         return;
                     }
                     last_atom = RegexAtomKind::Atom;
-                    i += 1;
                 }
                 '{' => {
-                    if let Some(next_i) = Self::consume_regex_brace_quantifier(&chars, i) {
+                    if Self::consume_regex_brace_quantifier(&mut chars) {
                         if last_atom != RegexAtomKind::Atom {
                             self.errors.push(Error::new(
                                 span,
@@ -5362,7 +5385,6 @@ impl<'a> Parser<'a> {
                             return;
                         }
                         last_atom = RegexAtomKind::Atom;
-                        i = next_i;
                     } else {
                         self.errors.push(Error::new(
                             span,
@@ -5384,11 +5406,9 @@ impl<'a> Parser<'a> {
                 }
                 '^' | '$' => {
                     last_atom = RegexAtomKind::Assertion;
-                    i += 1;
                 }
                 _ => {
                     last_atom = RegexAtomKind::Atom;
-                    i += 1;
                 }
             }
         }
@@ -5403,35 +5423,33 @@ impl<'a> Parser<'a> {
         }
     }
 
-    fn consume_regex_brace_quantifier(chars: &[char], start: usize) -> Option<usize> {
-        if chars.get(start) != Some(&'{') {
-            return None;
-        }
-        let mut i = start + 1;
+    fn consume_regex_brace_quantifier(
+        chars: &mut std::iter::Peekable<std::str::Chars<'_>>,
+    ) -> bool {
         let mut lower_digits = 0usize;
-        while matches!(chars.get(i), Some(ch) if ch.is_ascii_digit()) {
+        while matches!(chars.peek(), Some(ch) if ch.is_ascii_digit()) {
             lower_digits += 1;
-            i += 1;
+            let _ = chars.next();
         }
         if lower_digits == 0 {
-            return None;
+            return false;
         }
 
-        if chars.get(i) == Some(&',') {
-            i += 1;
-            while matches!(chars.get(i), Some(ch) if ch.is_ascii_digit()) {
-                i += 1;
+        if chars.peek().copied() == Some(',') {
+            let _ = chars.next();
+            while matches!(chars.peek(), Some(ch) if ch.is_ascii_digit()) {
+                let _ = chars.next();
             }
         }
 
-        if chars.get(i) != Some(&'}') {
-            return None;
+        if chars.peek().copied() != Some('}') {
+            return false;
         }
-        i += 1;
-        if chars.get(i) == Some(&'?') {
-            i += 1;
+        let _ = chars.next();
+        if chars.peek().copied() == Some('?') {
+            let _ = chars.next();
         }
-        Some(i)
+        true
     }
 
     fn recover_stmt(&mut self) {
@@ -5620,7 +5638,7 @@ impl<'a> Parser<'a> {
         )
     }
 
-    fn is_await_using_decl_start(&self) -> bool {
+    fn is_await_using_decl_start(&mut self) -> bool {
         if self.cur.kind != TokenKind::Keyword(Keyword::Await)
             || !self.peek_nth_ident_is(1, "using")
         {
@@ -5636,7 +5654,7 @@ impl<'a> Parser<'a> {
         )
     }
 
-    fn is_using_decl_start(&self) -> bool {
+    fn is_using_decl_start(&mut self) -> bool {
         if self.cur.kind != TokenKind::Ident || !self.cur_ident_is("using") {
             return false;
         }
@@ -5652,7 +5670,7 @@ impl<'a> Parser<'a> {
         )
     }
 
-    fn is_let_decl_start(&self) -> bool {
+    fn is_let_decl_start(&mut self) -> bool {
         if self.cur.kind != TokenKind::Keyword(Keyword::Let) {
             return false;
         }
@@ -5663,7 +5681,7 @@ impl<'a> Parser<'a> {
         )
     }
 
-    fn is_let_decl_for_head_start(&self) -> bool {
+    fn is_let_decl_for_head_start(&mut self) -> bool {
         if self.cur.kind != TokenKind::Keyword(Keyword::Let) {
             return false;
         }
@@ -5682,35 +5700,53 @@ impl<'a> Parser<'a> {
         )
     }
 
-    fn peek_nth_ident_is(&self, n: usize, value: &str) -> bool {
-        let mut lexer = self.lexer.clone();
-        let mut cur = self.cur.clone();
-        let mut next = self.next.clone();
-        let mut remaining = n;
-
-        while remaining > 0 {
-            cur = next.take().unwrap_or_else(|| lexer.next_token());
-            remaining -= 1;
+    fn peek_nth_ident_is(&mut self, n: usize, value: &str) -> bool {
+        if n == 0 {
+            if self.cur.kind != TokenKind::Ident || self.cur.flags.escaped {
+                return false;
+            }
+            return matches!(&self.cur.value, Some(TokenValue::Ident(sym)) if sym.as_ref() == value);
         }
 
-        if cur.kind != TokenKind::Ident || cur.flags.escaped {
-            return false;
+        if n == 1 {
+            let token = self.peek_token();
+            if token.kind != TokenKind::Ident || token.flags.escaped {
+                return false;
+            }
+            return matches!(&token.value, Some(TokenValue::Ident(sym)) if sym.as_ref() == value);
         }
-        matches!(&cur.value, Some(TokenValue::Ident(sym)) if sym.as_ref() == value)
+
+        let _ = self.peek_token();
+        let checkpoint = self.lexer.checkpoint_save();
+        let mut token = self.lexer.next_token();
+        for _ in 3..=n {
+            token = self.lexer.next_token();
+        }
+        self.lexer.checkpoint_load(checkpoint);
+
+        let matched = if token.kind != TokenKind::Ident || token.flags.escaped {
+            false
+        } else {
+            matches!(&token.value, Some(TokenValue::Ident(sym)) if sym.as_ref() == value)
+        };
+        matched
     }
 
-    fn peek_nth_kind(&self, n: usize) -> TokenKind {
-        let mut lexer = self.lexer.clone();
-        let mut cur = self.cur.clone();
-        let mut next = self.next.clone();
-        let mut remaining = n;
-
-        while remaining > 0 {
-            cur = next.take().unwrap_or_else(|| lexer.next_token());
-            remaining -= 1;
+    fn peek_nth_kind(&mut self, n: usize) -> TokenKind {
+        if n == 0 {
+            return self.cur.kind;
         }
-
-        cur.kind
+        if n == 1 {
+            return self.peek_kind();
+        }
+        let _ = self.peek_token();
+        let checkpoint = self.lexer.checkpoint_save();
+        let mut kind = self.lexer.next_token().kind;
+        for _ in 3..=n {
+            kind = self.lexer.next_token().kind;
+        }
+        self.lexer.checkpoint_load(checkpoint);
+        kind
     }
 
     fn is_module_start(&mut self) -> bool {
