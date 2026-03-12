@@ -275,15 +275,7 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                 }
 
                 // Non-named-group transforms (or named group extraction failed)
-                let needs_transform = (self.options.dot_all_regex && regex.flags.contains('s'))
-                    || (self.options.sticky_regex && regex.flags.contains('y'))
-                    || (self.options.unicode_regex && regex.flags.contains('u'))
-                    || (self.options.unicode_sets_regex && regex.flags.contains('v'))
-                    || (self.options.has_indices && regex.flags.contains('d'))
-                    || (self.options.lookbehind_assertion
-                        && (regex.exp.contains("(?<=") || regex.exp.contains("(?<!")))
-                    || (self.options.unicode_property_regex
-                        && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")));
+                let needs_transform = self.needs_regexp_constructor(&regex.exp, &regex.flags);
 
                 if needs_transform {
                     let Regex { exp, flags, span } = regex.take();
@@ -397,7 +389,9 @@ fn strip_named_groups_term(term: &mut Term, mapping: &[(Atom, u32)]) {
     // Recurse into children
     match term {
         Term::CapturingGroup(g) => {
-            g.name = None;
+            if g.name.is_some() {
+                g.name = None;
+            }
             strip_named_groups(&mut g.body, mapping);
         }
         Term::Quantifier(q) => {

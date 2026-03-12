@@ -3,17 +3,17 @@ import { _ as _set_prototype_of } from "./_set_prototype_of.js";
 
 function _wrap_reg_exp(re, groups) {
     _wrap_reg_exp = function(re, groups) {
-        return new BabelRegExp(re, undefined, groups);
+        return new WrappedRegExp(re, undefined, groups);
     };
     var _super = RegExp.prototype;
     var _groups = new WeakMap();
-    function BabelRegExp(re, flags, groups) {
+    function WrappedRegExp(re, flags, groups) {
         var _re = new RegExp(re, flags);
         _groups.set(_re, groups || _groups.get(re));
-        return _set_prototype_of(_re, BabelRegExp.prototype);
+        return _set_prototype_of(_re, WrappedRegExp.prototype);
     }
-    _inherits(BabelRegExp, RegExp);
-    BabelRegExp.prototype.exec = function(str) {
+    _inherits(WrappedRegExp, RegExp);
+    WrappedRegExp.prototype.exec = function(str) {
         var result = _super.exec.call(this, str);
         if (result) {
             result.groups = buildGroups(result, this);
@@ -22,14 +22,15 @@ function _wrap_reg_exp(re, groups) {
         }
         return result;
     };
-    BabelRegExp.prototype[Symbol.replace] = function(str, substitution) {
+    WrappedRegExp.prototype[Symbol.replace] = function(str, substitution) {
         if (typeof substitution === "string") {
             var groups = _groups.get(this);
             return _super[Symbol.replace].call(
                 this,
                 str,
                 substitution.replace(/\$<([^>]+)>/g, function(_, name) {
-                    var group = groups[name];
+                    var group = groups ? groups[name] : undefined;
+                    if (group === undefined) return "";
                     return "$" + (Array.isArray(group) ? group.join("$") : group);
                 })
             );

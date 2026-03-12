@@ -10,3 +10,14 @@ var re2 = _wrap_reg_exp(/IJobHeader\[\[([A-Za-z]+)\]\]/, {
 var re3 = _wrap_reg_exp(RegExp("<(\\d)+>.*?<\\/\\1>", "su"), {
     tag: 1
 });
+var re4 = _wrap_reg_exp(/(unnamed)(\d+)/, {
+    named: 2
+});
+var re5 = _wrap_reg_exp(/((\d+))/, {
+    outer: 1,
+    inner: 2
+});
+var re6 = _wrap_reg_exp(/(x)|(y)/, {
+    a: 1,
+    b: 2
+});
