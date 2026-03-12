@@ -113,88 +113,235 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
 
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
         // First pass: collect all (index, adjacent_stmts) pairs while addresses are
-        // valid
+        // valid.
         let mut insertions = Vec::new();
+        let mut insertion_count = 0;
         for (i, item) in node.iter().enumerate() {
             // Only process ModuleItem::Stmt variants
             if let ModuleItem::Stmt(stmt) = item {
                 let address = stmt as *const Stmt;
                 if let Some(adjacent_stmts) = ctx.statement_injector.take_stmts(address) {
+                    insertion_count += adjacent_stmts.len();
                     insertions.push((i, adjacent_stmts));
                 }
             }
         }
 
-        // Second pass: process in reverse order to avoid index invalidation
-        for (i, adjacent_stmts) in insertions.into_iter().rev() {
-            let mut before_stmts = Vec::new();
-            let mut after_stmts = Vec::new();
-
-            // Separate statements by direction
-            for adjacent in adjacent_stmts {
-                match adjacent.direction {
-                    Direction::Before => before_stmts.push(adjacent.stmt),
-                    Direction::After => after_stmts.push(adjacent.stmt),
-                }
-            }
-
-            // Insert statements after (insert first since we're going backwards)
-            if !after_stmts.is_empty() {
-                // Insert all after statements at position i + 1
-                for (offset, stmt) in after_stmts.into_iter().enumerate() {
-                    node.insert(i + 1 + offset, ModuleItem::Stmt(stmt));
-                }
-            }
-
-            // Insert statements before
-            if !before_stmts.is_empty() {
-                // Insert all before statements at position i
-                for (offset, stmt) in before_stmts.into_iter().enumerate() {
-                    node.insert(i + offset, ModuleItem::Stmt(stmt));
-                }
-            }
+        if insertions.is_empty() {
+            return;
         }
+
+        let mut next_insertion = insertions.into_iter().peekable();
+        let original = node.take();
+        let mut rewritten = Vec::with_capacity(original.len() + insertion_count);
+
+        for (i, item) in original.into_iter().enumerate() {
+            let mut after = Vec::new();
+
+            if matches!(
+                next_insertion.peek(),
+                Some(&(insertion_idx, _)) if insertion_idx == i
+            ) {
+                let (_, adjacent_stmts) = next_insertion.next().unwrap();
+
+                for adjacent in adjacent_stmts {
+                    match adjacent.direction {
+                        Direction::Before => rewritten.push(ModuleItem::Stmt(adjacent.stmt)),
+                        Direction::After => after.push(ModuleItem::Stmt(adjacent.stmt)),
+                    }
+                }
+            }
+
+            rewritten.push(item);
+            rewritten.extend(after);
+        }
+
+        *node = rewritten;
     }
 
     fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
         // First pass: collect all (index, adjacent_stmts) pairs while addresses are
-        // valid
+        // valid.
         let mut insertions = Vec::new();
+        let mut insertion_count = 0;
         for (i, stmt) in stmts.iter().enumerate() {
             let address = stmt as *const Stmt;
             if let Some(adjacent_stmts) = ctx.statement_injector.take_stmts(address) {
+                insertion_count += adjacent_stmts.len();
                 insertions.push((i, adjacent_stmts));
             }
         }
 
-        // Second pass: process in reverse order to avoid index invalidation
-        for (i, adjacent_stmts) in insertions.into_iter().rev() {
-            let mut before_stmts = Vec::new();
-            let mut after_stmts = Vec::new();
-
-            // Separate statements by direction
-            for adjacent in adjacent_stmts {
-                match adjacent.direction {
-                    Direction::Before => before_stmts.push(adjacent.stmt),
-                    Direction::After => after_stmts.push(adjacent.stmt),
-                }
-            }
-
-            // Insert statements after (insert first since we're going backwards)
-            if !after_stmts.is_empty() {
-                // Insert all after statements at position i + 1
-                for (offset, stmt) in after_stmts.into_iter().enumerate() {
-                    stmts.insert(i + 1 + offset, stmt);
-                }
-            }
-
-            // Insert statements before
-            if !before_stmts.is_empty() {
-                // Insert all before statements at position i
-                for (offset, stmt) in before_stmts.into_iter().enumerate() {
-                    stmts.insert(i + offset, stmt);
-                }
-            }
+        if insertions.is_empty() {
+            return;
         }
+
+        let mut next_insertion = insertions.into_iter().peekable();
+        let original = stmts.take();
+        let mut rewritten = Vec::with_capacity(original.len() + insertion_count);
+
+        for (i, stmt) in original.into_iter().enumerate() {
+            let mut after = Vec::new();
+
+            if matches!(
+                next_insertion.peek(),
+                Some(&(insertion_idx, _)) if insertion_idx == i
+            ) {
+                let (_, adjacent_stmts) = next_insertion.next().unwrap();
+
+                for adjacent in adjacent_stmts {
+                    match adjacent.direction {
+                        Direction::Before => rewritten.push(adjacent.stmt),
+                        Direction::After => after.push(adjacent.stmt),
+                    }
+                }
+            }
+
+            rewritten.push(stmt);
+            rewritten.extend(after);
+        }
+
+        *stmts = rewritten;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn labeled_stmt(label: &str) -> Stmt {
+        Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: label.into(),
+                raw: None,
+            }))),
+        })
+    }
+
+    fn stmt_label(stmt: &Stmt) -> String {
+        let Stmt::Expr(ExprStmt { expr, .. }) = stmt else {
+            panic!("expected expression statement")
+        };
+        let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr else {
+            panic!("expected string literal expression")
+        };
+
+        value.to_string_lossy().into_owned()
+    }
+
+    fn empty_named_export() -> ModuleItem {
+        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+            span: DUMMY_SP,
+            specifiers: Vec::new(),
+            src: None,
+            type_only: false,
+            with: None,
+        }))
+    }
+
+    #[test]
+    fn exit_stmts_keeps_before_and_after_order_for_one_target() {
+        let mut stmts = vec![labeled_stmt("base")];
+        let target = &stmts[0] as *const Stmt;
+
+        let mut ctx = TraverseCtx::default();
+        ctx.statement_injector
+            .insert_before(target, labeled_stmt("before_1"));
+        ctx.statement_injector
+            .insert_before(target, labeled_stmt("before_2"));
+        ctx.statement_injector
+            .insert_after(target, labeled_stmt("after_1"));
+        ctx.statement_injector
+            .insert_after(target, labeled_stmt("after_2"));
+
+        StmtInjector::default().exit_stmts(&mut stmts, &mut ctx);
+
+        let labels = stmts.iter().map(stmt_label).collect::<Vec<_>>();
+        assert_eq!(
+            labels,
+            vec![
+                "before_1".to_string(),
+                "before_2".to_string(),
+                "base".to_string(),
+                "after_1".to_string(),
+                "after_2".to_string(),
+            ]
+        );
+    }
+
+    #[test]
+    fn exit_stmts_keeps_order_for_multiple_targets() {
+        let mut stmts = vec![labeled_stmt("s0"), labeled_stmt("s1"), labeled_stmt("s2")];
+
+        let s0 = &stmts[0] as *const Stmt;
+        let s1 = &stmts[1] as *const Stmt;
+        let s2 = &stmts[2] as *const Stmt;
+
+        let mut ctx = TraverseCtx::default();
+        ctx.statement_injector.insert_after(s0, labeled_stmt("a0"));
+        ctx.statement_injector.insert_before(s1, labeled_stmt("b1"));
+        ctx.statement_injector.insert_after(s2, labeled_stmt("a2"));
+
+        StmtInjector::default().exit_stmts(&mut stmts, &mut ctx);
+
+        let labels = stmts.iter().map(stmt_label).collect::<Vec<_>>();
+        assert_eq!(
+            labels,
+            vec![
+                "s0".to_string(),
+                "a0".to_string(),
+                "b1".to_string(),
+                "s1".to_string(),
+                "s2".to_string(),
+                "a2".to_string(),
+            ]
+        );
+    }
+
+    #[test]
+    fn exit_module_items_only_targets_statement_entries() {
+        let mut items = vec![
+            empty_named_export(),
+            ModuleItem::Stmt(labeled_stmt("s0")),
+            empty_named_export(),
+            ModuleItem::Stmt(labeled_stmt("s1")),
+        ];
+
+        let s0 = match &items[1] {
+            ModuleItem::Stmt(stmt) => stmt as *const Stmt,
+            _ => unreachable!(),
+        };
+        let s1 = match &items[3] {
+            ModuleItem::Stmt(stmt) => stmt as *const Stmt,
+            _ => unreachable!(),
+        };
+
+        let mut ctx = TraverseCtx::default();
+        ctx.statement_injector.insert_after(s0, labeled_stmt("a0"));
+        ctx.statement_injector.insert_before(s1, labeled_stmt("b1"));
+
+        StmtInjector::default().exit_module_items(&mut items, &mut ctx);
+
+        let labels = items
+            .iter()
+            .map(|item| match item {
+                ModuleItem::Stmt(stmt) => stmt_label(stmt),
+                _ => "module".to_string(),
+            })
+            .collect::<Vec<_>>();
+
+        assert_eq!(
+            labels,
+            vec![
+                "module".to_string(),
+                "s0".to_string(),
+                "a0".to_string(),
+                "module".to_string(),
+                "b1".to_string(),
+                "s1".to_string(),
+            ]
+        );
     }
 }
