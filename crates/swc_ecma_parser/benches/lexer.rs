@@ -109,6 +109,14 @@ fn bench_files(c: &mut Criterion) {
             include_str!("../../swc_ecma_parser/benches/files/typescript.js"),
         )
     });
+
+    c.bench_function("es/lexer/numeric-separators", |b| {
+        bench_module(
+            b,
+            Default::default(),
+            include_str!("../../swc_ecma_parser/benches/files/numeric-separators.js"),
+        )
+    });
 }
 
 criterion_group!(benches, bench_files);
