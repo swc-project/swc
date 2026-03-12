@@ -779,6 +779,22 @@ test!(
         ..Default::default()
     }),
     tr,
+    avoid_duplicate_hook_collection_for_multi_declarator_var,
+    r#"
+    function App() {
+      var a = foo(), b = useState(0);
+      return <div>{b}</div>;
+    }
+  "#
+);
+
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
     nested_hook,
     r#"
 const a = (a) => {
