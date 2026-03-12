@@ -113,6 +113,28 @@ fn error(input: PathBuf) {
     .unwrap();
 }
 
+#[testing::fixture("tests/fixture/test-1.ts")]
+fn transform_without_deprecated_ts_module_as_error(input: PathBuf) {
+    let input_code = std::fs::read_to_string(&input).unwrap();
+    let output_file = input.with_extension("transform.js");
+
+    testing::run_test(false, |cm, handler| {
+        let mut options = opts(Mode::Transform);
+        options.deprecated_ts_module_as_error = None;
+
+        let code = operate(&cm, handler, input_code, options)
+            .expect("should not return Err()")
+            .code;
+
+        NormalizedOutput::new_raw(code)
+            .compare_to_file(output_file)
+            .unwrap();
+
+        Ok(())
+    })
+    .expect("should not fail");
+}
+
 fn opts(mode: Mode) -> Options {
     Options {
         module: None,
