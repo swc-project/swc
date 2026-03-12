@@ -1,7 +1,7 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
+use swc_ecma_utils::{for_each_binding_ident, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
@@ -207,12 +207,14 @@ impl SemanticAnalyzer {
     fn collect_decl(&mut self, decl: &Decl) {
         match decl {
             Decl::Var(var_decl) => {
-                let ids: Vec<Id> = find_pat_ids(&var_decl.decls);
-                self.info.id_value.extend(ids);
+                for_each_binding_ident(&var_decl.decls, |ident| {
+                    self.info.id_value.insert(ident.to_id());
+                });
             }
             Decl::Using(using_decl) => {
-                let ids: Vec<Id> = find_pat_ids(&using_decl.decls);
-                self.info.id_value.extend(ids);
+                for_each_binding_ident(&using_decl.decls, |ident| {
+                    self.info.id_value.insert(ident.to_id());
+                });
             }
             Decl::Fn(fn_decl) => {
                 self.info.id_value.insert(fn_decl.ident.to_id());
@@ -250,7 +252,7 @@ impl SemanticAnalyzer {
     }
 
     fn transform_ts_enum_member(
-        member: TsEnumMember,
+        member: &TsEnumMember,
         enum_id: &Id,
         default_init: &TsEnumRecordValue,
         record: &TsEnumRecord,
@@ -258,6 +260,7 @@ impl SemanticAnalyzer {
     ) -> TsEnumRecordValue {
         member
             .init
+            .clone()
             .map(|expr| {
                 EnumValueComputer {
                     enum_id,
@@ -389,11 +392,12 @@ impl Visit for SemanticAnalyzer {
 
         match &node.decl {
             Decl::Var(var_decl) => {
-                let ids: Vec<Id> = find_pat_ids(&var_decl.decls);
-                self.info.exported_binding.extend(
-                    ids.into_iter()
-                        .zip(std::iter::repeat(self.namespace_id.clone())),
-                );
+                let namespace_id = self.namespace_id.clone();
+                for_each_binding_ident(&var_decl.decls, |ident| {
+                    self.info
+                        .exported_binding
+                        .insert(ident.to_id(), namespace_id.clone());
+                });
             }
             Decl::TsEnum(ts_enum_decl) => {
                 self.info
@@ -536,16 +540,17 @@ impl Visit for SemanticAnalyzer {
             ..
         } = node;
 
+        let enum_id = id.to_id();
         if *is_const {
-            self.info.const_enum.insert(id.to_id());
+            self.info.const_enum.insert(enum_id.clone());
         }
 
         let mut default_init = 0.0.into();
 
         for member in members {
             let value = Self::transform_ts_enum_member(
-                member.clone(),
-                &id.to_id(),
+                member,
+                &enum_id,
                 &default_init,
                 &self.info.enum_record,
                 self.unresolved_ctxt,
@@ -555,7 +560,7 @@ impl Visit for SemanticAnalyzer {
 
             let member_name = enum_member_id_atom(&member.id);
             let key = TsEnumRecordKey {
-                enum_id: id.to_id(),
+                enum_id: enum_id.clone(),
                 member_name,
             };
 

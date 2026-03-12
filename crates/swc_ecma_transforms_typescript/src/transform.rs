@@ -157,8 +157,11 @@ impl VisitMut for Transform {
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
         let var_list = self.var_list.take();
-        node.retain(|item| should_retain_module_item(item, self.in_namespace));
         node.retain_mut(|item| {
+            if !should_retain_module_item(item, self.in_namespace) {
+                return false;
+            }
+
             let is_empty = item.as_stmt().map(Stmt::is_empty).unwrap_or(false);
             item.visit_mut_with(self);
             // Remove those folded into Empty
@@ -294,10 +297,11 @@ impl VisitMut for Transform {
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
         let var_list = self.var_list.take();
         node.retain_mut(|stmt| {
-            let is_empty = stmt.is_empty();
+            let can_keep_empty = stmt.is_empty();
             stmt.visit_mut_with(self);
-            // Remove those folded into Empty
-            is_empty || !stmt.is_empty()
+            // Keep original empties, but remove newly folded empties and dummy empties.
+            (can_keep_empty || !stmt.is_empty())
+                && !matches!(stmt, Stmt::Empty(empty_stmt) if empty_stmt.span.is_dummy())
         });
         let var_list = mem::replace(&mut self.var_list, var_list);
         if !var_list.is_empty() {
@@ -310,8 +314,6 @@ impl VisitMut for Transform {
                 .into(),
             )
         }
-
-        node.retain(|stmt| !matches!(stmt, Stmt::Empty(empty_stmt) if empty_stmt.span.is_dummy()));
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
@@ -961,7 +963,6 @@ impl Transform {
 
         let stmts = member_list
             .into_iter()
-            .filter(|item| !ts_enum_safe_remove || !item.is_const())
             .map(|item| item.build_assign(&id.to_id()));
 
         let namespace_export = self.namespace_id.is_some() && is_export;

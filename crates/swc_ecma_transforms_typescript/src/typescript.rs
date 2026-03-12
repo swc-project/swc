@@ -1,8 +1,11 @@
 use std::mem;
 
+use bytes_str::BytesStr;
 use rustc_hash::FxHashSet;
 use swc_atoms::atom;
-use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
+use swc_common::{
+    comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned, SyntaxContext,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
@@ -169,6 +172,19 @@ where
     unresolved_mark: Mark,
 }
 
+impl<C> TypeScriptReact<C>
+where
+    C: Comments,
+{
+    #[inline]
+    fn react_id_for_pragma(&self) -> Id {
+        (
+            atom!("React"),
+            SyntaxContext::empty().apply_mark(self.top_level_mark),
+        )
+    }
+}
+
 impl<C> VisitMut for TypeScriptReact<C>
 where
     C: Comments,
@@ -179,28 +195,33 @@ where
         // But in `verbatim_module_syntax` mode, we do not remove any unused imports.
         // So we do not need to collect usage info.
         if !self.config.verbatim_module_syntax {
-            let pragma = parse_expr_for_jsx(
-                &self.cm,
-                "pragma",
-                self.tsx_config
-                    .pragma
-                    .clone()
-                    .unwrap_or_else(|| static_str!("React.createElement")),
-                self.top_level_mark,
-            );
+            let default_pragma: BytesStr = static_str!("React.createElement");
+            let default_pragma_frag: BytesStr = static_str!("React.Fragment");
 
-            let pragma_frag = parse_expr_for_jsx(
-                &self.cm,
-                "pragma",
-                self.tsx_config
-                    .pragma_frag
-                    .clone()
-                    .unwrap_or_else(|| static_str!("React.Fragment")),
-                self.top_level_mark,
-            );
+            let pragma = self
+                .tsx_config
+                .pragma
+                .clone()
+                .unwrap_or_else(|| default_pragma.clone());
+            let pragma_id = if pragma == default_pragma {
+                self.react_id_for_pragma()
+            } else {
+                let pragma = parse_expr_for_jsx(&self.cm, "pragma", pragma, self.top_level_mark);
+                id_for_jsx(&pragma).unwrap()
+            };
 
-            let pragma_id = id_for_jsx(&pragma).unwrap();
-            let pragma_frag_id = id_for_jsx(&pragma_frag).unwrap();
+            let pragma_frag = self
+                .tsx_config
+                .pragma_frag
+                .clone()
+                .unwrap_or_else(|| default_pragma_frag.clone());
+            let pragma_frag_id = if pragma_frag == default_pragma_frag {
+                self.react_id_for_pragma()
+            } else {
+                let pragma_frag =
+                    parse_expr_for_jsx(&self.cm, "pragma", pragma_frag, self.top_level_mark);
+                id_for_jsx(&pragma_frag).unwrap()
+            };
 
             self.id_usage.insert(pragma_id);
             self.id_usage.insert(pragma_frag_id);

@@ -186,9 +186,9 @@ impl EnumValueComputer<'_> {
     }
 
     fn compute_bin(&self, expr: BinExpr) -> TsEnumRecordValue {
-        let origin_expr = expr.clone();
+        let mut origin_expr = expr;
         if !matches!(
-            expr.op,
+            origin_expr.op,
             op!(bin, "+")
                 | op!(bin, "-")
                 | op!("*")
@@ -205,10 +205,10 @@ impl EnumValueComputer<'_> {
             return TsEnumRecordValue::Opaque(origin_expr.into());
         }
 
-        let left = self.compute_rec(expr.left);
-        let right = self.compute_rec(expr.right);
+        let left = self.compute_rec(origin_expr.left.clone());
+        let right = self.compute_rec(origin_expr.right.clone());
 
-        match (left, right, expr.op) {
+        match (left, right, origin_expr.op) {
             (TsEnumRecordValue::Number(left), TsEnumRecordValue::Number(right), op) => {
                 let value = match op {
                     op!(bin, "+") => left + right,
@@ -242,8 +242,6 @@ impl EnumValueComputer<'_> {
                 TsEnumRecordValue::String(format!("{left}{right}").into())
             }
             (left, right, _) => {
-                let mut origin_expr = origin_expr;
-
                 if left.is_const() {
                     origin_expr.left = Box::new(left.into());
                 }
@@ -258,60 +256,107 @@ impl EnumValueComputer<'_> {
     }
 
     fn compute_member(&self, expr: MemberExpr) -> TsEnumRecordValue {
-        if matches!(expr.prop, MemberProp::PrivateName(..)) {
-            return TsEnumRecordValue::Opaque(expr.into());
+        let MemberExpr { span, obj, prop } = expr;
+        if matches!(prop, MemberProp::PrivateName(..)) {
+            return TsEnumRecordValue::Opaque(MemberExpr { span, obj, prop }.into());
         }
 
-        let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
-
-        let member_name = match expr.prop {
-            MemberProp::Ident(ident) => ident.sym,
+        let member_name = match &prop {
+            MemberProp::Ident(ident) => ident.sym.clone(),
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                let Expr::Lit(Lit::Str(s)) = *expr else {
-                    return opaque_expr;
+                let Expr::Lit(Lit::Str(s)) = &**expr else {
+                    return TsEnumRecordValue::Opaque(MemberExpr { span, obj, prop }.into());
                 };
 
                 atom_from_wtf8_atom(&s.value)
             }
-            _ => return opaque_expr,
+            _ => return TsEnumRecordValue::Opaque(MemberExpr { span, obj, prop }.into()),
         };
 
-        let Expr::Ident(ident) = *expr.obj else {
-            return opaque_expr;
+        let ident = match *obj {
+            Expr::Ident(ident) => ident,
+            expr => {
+                return TsEnumRecordValue::Opaque(
+                    MemberExpr {
+                        span,
+                        obj: Box::new(expr),
+                        prop,
+                    }
+                    .into(),
+                );
+            }
         };
 
-        self.record
+        if let Some(value) = self
+            .record
             .get(&TsEnumRecordKey {
                 enum_id: ident.to_id(),
                 member_name,
             })
             .cloned()
             .filter(TsEnumRecordValue::has_value)
-            .unwrap_or(opaque_expr)
+        {
+            value
+        } else {
+            TsEnumRecordValue::Opaque(
+                MemberExpr {
+                    span,
+                    obj: Box::new(ident.into()),
+                    prop,
+                }
+                .into(),
+            )
+        }
     }
 
     fn compute_tpl(&self, expr: Tpl) -> TsEnumRecordValue {
-        let opaque_expr = TsEnumRecordValue::Opaque(expr.clone().into());
+        let Tpl {
+            span,
+            exprs,
+            quasis,
+        } = expr;
 
-        let Tpl { exprs, quasis, .. } = expr;
-
-        let mut quasis_iter = quasis.into_iter();
-
-        let Some(mut string) = quasis_iter.next().map(|q| q.raw.to_string()) else {
-            return opaque_expr;
+        let Some(mut string) = quasis.first().map(|q| q.raw.to_string()) else {
+            return TsEnumRecordValue::Opaque(
+                Tpl {
+                    span,
+                    exprs,
+                    quasis,
+                }
+                .into(),
+            );
         };
 
-        for (q, expr) in quasis_iter.zip(exprs) {
-            let expr = self.compute_rec(expr);
+        for idx in 0..exprs.len() {
+            let Some(quasi) = quasis.get(idx + 1) else {
+                return TsEnumRecordValue::Opaque(
+                    Tpl {
+                        span,
+                        exprs,
+                        quasis,
+                    }
+                    .into(),
+                );
+            };
+            let expr = self.compute_rec(exprs[idx].clone());
 
             let expr = match expr {
                 TsEnumRecordValue::String(s) => s.to_string(),
                 TsEnumRecordValue::Number(n) => n.to_js_string(),
-                _ => return opaque_expr,
+                _ => {
+                    return TsEnumRecordValue::Opaque(
+                        Tpl {
+                            span,
+                            exprs,
+                            quasis,
+                        }
+                        .into(),
+                    )
+                }
             };
 
             string.push_str(&expr);
-            string.push_str(&q.raw);
+            string.push_str(&quasi.raw);
         }
 
         TsEnumRecordValue::String(string.into())
