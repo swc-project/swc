@@ -266,30 +266,47 @@ impl crate::input::Tokens for Lexer<'_> {
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
         let token = self.state.token_type.unwrap();
         debug_assert!(token.is_word());
+        let prefix_end = self.cur_pos();
         let mut v = String::with_capacity(16);
         while let Some(ch) = self.input().cur() {
             if ch == b'-' {
-                v.push(ch as char);
+                v.push('-');
                 self.bump(1); // `-`
-            } else {
-                let old_pos = self.cur_pos();
-                v.push_str(&self.scan_identifier_parts());
-                if self.cur_pos() == old_pos {
-                    break;
-                }
+            } else if !self.scan_identifier_parts_into(&mut v) {
+                break;
             }
         }
         let v = if !v.is_empty() {
-            let v = if token.is_known_ident() || token.is_keyword() {
-                format!("{token}{v}")
-            } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
-                format!("{value}{v}")
+            let mut value = String::new();
+            if token.is_known_ident() || token.is_keyword() {
+                let prefix = unsafe {
+                    // Safety: start and end are valid position because we got them from
+                    // `self.input`
+                    self.input_slice_str(start, prefix_end)
+                };
+                value.reserve(prefix.len() + v.len());
+                value.push_str(prefix);
+            } else if let Some(TokenValue::Word(prefix)) = self.state.token_value.take() {
+                value.reserve(prefix.len() + v.len());
+                value.push_str(&prefix);
             } else {
-                format!("{token}{v}")
-            };
-            self.atom(v)
+                let prefix = unsafe {
+                    // Safety: start and end are valid position because we got them from
+                    // `self.input`
+                    self.input_slice_str(start, prefix_end)
+                };
+                value.reserve(prefix.len() + v.len());
+                value.push_str(prefix);
+            }
+            value.push_str(&v);
+            self.atom(value)
         } else if token.is_known_ident() || token.is_keyword() {
-            self.atom(token.to_string())
+            let prefix = unsafe {
+                // Safety: start and end are valid position because we got them from
+                // `self.input`
+                self.input_slice_str(start, prefix_end)
+            };
+            self.atom(prefix)
         } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
             value
         } else {
@@ -549,23 +566,39 @@ impl Lexer<'_> {
         }
     }
 
-    fn scan_identifier_parts(&mut self) -> String {
-        let mut v = String::with_capacity(16);
+    fn scan_identifier_parts_into(&mut self, v: &mut String) -> bool {
+        let start = self.cur_pos();
         while let Some(ch) = self.input().cur() {
             // For ASCII, check if it's an identifier part quickly
             if ch <= 0x7f {
                 if ch.is_ident_part() {
-                    v.push(ch as char);
-                    unsafe {
-                        self.input_mut().bump_bytes(1);
+                    let chunk_start = self.cur_pos();
+                    loop {
+                        let Some(chunk_ch) = self.input().cur() else {
+                            break;
+                        };
+                        if chunk_ch <= 0x7f && chunk_ch.is_ident_part() {
+                            unsafe {
+                                // Safety: `chunk_ch` is current ASCII byte.
+                                self.input_mut().bump_bytes(1);
+                            }
+                        } else {
+                            break;
+                        }
                     }
+
+                    let chunk = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`.
+                        self.input_slice_str(chunk_start, self.cur_pos())
+                    };
+                    v.push_str(chunk);
                 } else if ch == b'\\' {
                     self.bump(1); // bump '\'
                     if !self.is(b'u') {
                         self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                         continue;
                     }
-                    self.bump(1); // bump 'u'
                     let Ok(value) = self.read_unicode_escape() else {
                         self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                         break;
@@ -593,7 +626,7 @@ impl Lexer<'_> {
                 }
             }
         }
-        v
+        self.cur_pos() != start
     }
 }
 

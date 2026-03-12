@@ -332,6 +332,13 @@ pub(crate) fn esm_export() -> Function {
     }
 }
 
+/// Sort export properties by key without allocating cached keys or cloning
+/// `Atom`s for each entry.
+#[inline]
+pub(crate) fn sort_export_obj_prop_list(prop_list: &mut [ExportKV]) {
+    prop_list.sort_unstable_by(|a, b| a.0.cmp(&b.0));
+}
+
 pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) -> Vec<Stmt> {
     match prop_list.len() {
         0 | 1 => prop_list
