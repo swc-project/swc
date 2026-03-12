@@ -1,10 +1,12 @@
+use std::rc::Rc;
+
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
+    lexer::{LexResult, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
     Context,
 };
@@ -83,6 +85,50 @@ pub trait Tokens: Clone {
         -> TokenAndSpan;
 }
 
+#[inline(always)]
+fn unwrap_shared_token_value(value: Rc<TokenValue>) -> TokenValue {
+    Rc::try_unwrap(value).unwrap_or_else(|value| (*value).clone())
+}
+
+#[derive(Clone)]
+pub(crate) struct BufferedNextTokenAndSpan {
+    token_and_span: TokenAndSpan,
+    value: Option<Rc<TokenValue>>,
+}
+
+impl BufferedNextTokenAndSpan {
+    #[inline(always)]
+    pub(crate) fn new(token_and_span: TokenAndSpan, value: Option<TokenValue>) -> Self {
+        Self {
+            token_and_span,
+            value: value.map(Rc::new),
+        }
+    }
+
+    #[inline(always)]
+    pub(crate) fn token(&self) -> Token {
+        self.token_and_span.token
+    }
+
+    #[inline(always)]
+    pub(crate) fn span(&self) -> Span {
+        self.token_and_span.span
+    }
+
+    #[inline(always)]
+    pub(crate) fn had_line_break(&self) -> bool {
+        self.token_and_span.had_line_break
+    }
+
+    #[inline(always)]
+    pub(crate) fn into_parts(self) -> (TokenAndSpan, Option<TokenValue>) {
+        (
+            self.token_and_span,
+            self.value.map(unwrap_shared_token_value),
+        )
+    }
+}
+
 /// This struct is responsible for managing current token and peeked token.
 #[derive(Clone)]
 pub struct Buffer<I> {
@@ -91,7 +137,7 @@ pub struct Buffer<I> {
     pub prev_span: Span,
     pub cur: TokenAndSpan,
     /// Peeked token
-    pub next: Option<NextTokenAndSpan>,
+    pub(super) next: Option<BufferedNextTokenAndSpan>,
 }
 
 impl<I: Tokens> Buffer<I> {
@@ -231,17 +277,17 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline(always)]
-    pub fn next(&self) -> Option<&NextTokenAndSpan> {
+    pub(super) fn next(&self) -> Option<&BufferedNextTokenAndSpan> {
         self.next.as_ref()
     }
 
     #[inline(always)]
-    pub fn set_next(&mut self, token: Option<NextTokenAndSpan>) {
+    pub(super) fn set_next(&mut self, token: Option<BufferedNextTokenAndSpan>) {
         self.next = token;
     }
 
     #[inline(always)]
-    pub fn next_mut(&mut self) -> &mut Option<NextTokenAndSpan> {
+    pub(super) fn next_mut(&mut self) -> &mut Option<BufferedNextTokenAndSpan> {
         &mut self.next
     }
 
@@ -279,14 +325,14 @@ impl<I: Tokens> Buffer<I> {
         if self.next.is_none() {
             let old = self.iter.take_token_value();
             let next_token = self.iter.next_token();
-            self.next = Some(NextTokenAndSpan {
-                token_and_span: next_token,
-                value: self.iter.take_token_value(),
-            });
+            self.next = Some(BufferedNextTokenAndSpan::new(
+                next_token,
+                self.iter.take_token_value(),
+            ));
             self.iter.set_token_value(old);
         }
 
-        self.next.as_ref().map(|ts| ts.token_and_span.token)
+        self.next.as_ref().map(BufferedNextTokenAndSpan::token)
     }
 
     pub fn store(&mut self, token: Token) {
@@ -306,8 +352,9 @@ impl<I: Tokens> Buffer<I> {
     pub fn bump(&mut self) {
         let next = match self.next.take() {
             Some(next) => {
-                self.iter.set_token_value(next.value);
-                next.token_and_span
+                let (token, value) = next.into_parts();
+                self.iter.set_token_value(value);
+                token
             }
             None => self.iter.next_token(),
         };

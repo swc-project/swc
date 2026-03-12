@@ -1,4 +1,4 @@
-use std::mem::take;
+use std::{mem::take, rc::Rc};
 
 use swc_atoms::{wtf8::CodePoint, Atom};
 use swc_common::{BytePos, Span};
@@ -40,7 +40,7 @@ pub struct State {
     pub next_regexp: Option<BytePos>,
     pub prev_hi: BytePos,
 
-    pub(super) token_value: Option<TokenValue>,
+    pub(super) token_value: Option<Rc<TokenValue>>,
     token_type: Option<Token>,
 }
 
@@ -162,19 +162,19 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn clone_token_value(&self) -> Option<TokenValue> {
-        self.state.token_value.clone()
+        self.state.clone_token_value()
     }
 
     fn get_token_value(&self) -> Option<&TokenValue> {
-        self.state.token_value.as_ref()
+        self.state.get_token_value()
     }
 
     fn set_token_value(&mut self, token_value: Option<TokenValue>) {
-        self.state.token_value = token_value;
+        self.state.set_optional_token_value(token_value);
     }
 
     fn take_token_value(&mut self) -> Option<TokenValue> {
-        self.state.token_value.take()
+        self.state.take_token_value()
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
@@ -286,7 +286,7 @@ impl crate::input::Tokens for Lexer<'_> {
                 };
                 value.reserve(prefix.len() + v.len());
                 value.push_str(prefix);
-            } else if let Some(TokenValue::Word(prefix)) = self.state.token_value.take() {
+            } else if let Some(TokenValue::Word(prefix)) = self.state.take_token_value() {
                 value.reserve(prefix.len() + v.len());
                 value.push_str(&prefix);
             } else {
@@ -307,12 +307,12 @@ impl crate::input::Tokens for Lexer<'_> {
                 self.input_slice_str(start, prefix_end)
             };
             self.atom(prefix)
-        } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
+        } else if let Some(TokenValue::Word(value)) = self.state.take_token_value() {
             value
         } else {
             unreachable!(
                 "`token_value` should be a word, but got: {:?}",
-                self.state.token_value
+                self.state.get_token_value()
             )
         };
         self.state.set_token_value(TokenValue::Word(v));
@@ -656,7 +656,29 @@ impl State {
     }
 
     pub(crate) fn set_token_value(&mut self, token_value: TokenValue) {
-        self.token_value = Some(token_value);
+        self.token_value = Some(Rc::new(token_value));
+    }
+
+    #[inline(always)]
+    pub(crate) fn set_optional_token_value(&mut self, token_value: Option<TokenValue>) {
+        self.token_value = token_value.map(Rc::new);
+    }
+
+    #[inline(always)]
+    pub(crate) fn clone_token_value(&self) -> Option<TokenValue> {
+        self.token_value.as_deref().cloned()
+    }
+
+    #[inline(always)]
+    pub(crate) fn get_token_value(&self) -> Option<&TokenValue> {
+        self.token_value.as_deref()
+    }
+
+    #[inline(always)]
+    pub(crate) fn take_token_value(&mut self) -> Option<TokenValue> {
+        self.token_value
+            .take()
+            .map(|value| Rc::try_unwrap(value).unwrap_or_else(|value| (*value).clone()))
     }
 }
 

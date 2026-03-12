@@ -55,7 +55,7 @@ pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
     buffer_prev_span: Span,
     buffer_cur: TokenAndSpan,
-    buffer_next: Option<crate::lexer::NextTokenAndSpan>,
+    buffer_next: Option<self::input::BufferedNextTokenAndSpan>,
 }
 
 /// EcmaScript parser.
