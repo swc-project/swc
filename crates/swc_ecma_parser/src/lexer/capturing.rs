@@ -38,6 +38,13 @@ impl<I> Capturing<I> {
         }
     }
 
+    pub fn with_capacity(input: I, capacity: usize) -> Self {
+        Capturing {
+            inner: input,
+            captured: Vec::with_capacity(capacity),
+        }
+    }
+
     pub fn tokens(&self) -> &[TokenAndSpan] {
         &self.captured
     }
