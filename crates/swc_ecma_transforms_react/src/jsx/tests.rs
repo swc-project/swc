@@ -1219,6 +1219,47 @@ fn build_entity_mask_valid_invalid_and_numeric_entities() {
     );
 }
 
+#[test]
+fn build_entity_mask_handles_entity_like_edge_cases() {
+    assert_eq!(
+        build_entity_mask("&bogus and text", "&bogus and text"),
+        vec![false; "&bogus and text".chars().count()],
+        "unterminated entity-like sequence should remain literal"
+    );
+    assert_eq!(
+        build_entity_mask("&xxxxxxxxxxx;", "&xxxxxxxxxxx;"),
+        vec![false; "&xxxxxxxxxxx;".chars().count()],
+        "entities exceeding lookahead should remain literal"
+    );
+    assert_eq!(
+        build_entity_mask("&;x", "&;x"),
+        vec![false, false, false],
+        "empty named entities are invalid and should not be marked"
+    );
+}
+
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| {
+        tr(
+            t,
+            Options {
+                runtime: Some(Runtime::Automatic),
+                ..Default::default()
+            },
+            Mark::fresh(Mark::root()),
+        )
+    },
+    automatic_runtime_without_custom_pragma,
+    r#"
+const App = () => <div className="x" />;
+"#
+);
+
 // https://github.com/swc-project/swc/issues/542
 test!(
     module,

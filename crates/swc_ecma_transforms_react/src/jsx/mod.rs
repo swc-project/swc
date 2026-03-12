@@ -216,6 +216,15 @@ pub fn hook<C>(
 where
     C: Comments,
 {
+    let pragma = options
+        .pragma
+        .clone()
+        .map(|src| Lrc::new(parse_expr_for_jsx(&cm, "pragma", src, top_level_mark)));
+    let pragma_frag = options
+        .pragma_frag
+        .clone()
+        .map(|src| Lrc::new(parse_expr_for_jsx(&cm, "pragmaFrag", src, top_level_mark)));
+
     Jsx {
         cm: cm.clone(),
         top_level_mark,
@@ -227,19 +236,11 @@ where
         import_fragment: None,
         import_create_element: None,
 
-        pragma: Lrc::new(parse_expr_for_jsx(
-            &cm,
-            "pragma",
-            options.pragma.unwrap_or_else(default_pragma),
-            top_level_mark,
-        )),
+        pragma,
+        pragma_src: options.pragma.unwrap_or_else(default_pragma),
         comments,
-        pragma_frag: Lrc::new(parse_expr_for_jsx(
-            &cm,
-            "pragmaFrag",
-            options.pragma_frag.unwrap_or_else(default_pragma_frag),
-            top_level_mark,
-        )),
+        pragma_frag,
+        pragma_frag_src: options.pragma_frag.unwrap_or_else(default_pragma_frag),
         development: options.development.unwrap_or_default(),
         throw_if_namespace: options
             .throw_if_namespace
@@ -290,9 +291,11 @@ where
     import_fragment: Option<Ident>,
     top_level_node: bool,
 
-    pragma: Lrc<Box<Expr>>,
+    pragma: Option<Lrc<Box<Expr>>>,
+    pragma_src: BytesStr,
     comments: Option<C>,
-    pragma_frag: Lrc<Box<Expr>>,
+    pragma_frag: Option<Lrc<Box<Expr>>>,
+    pragma_frag_src: BytesStr,
     development: bool,
     throw_if_namespace: bool,
 }
@@ -446,7 +449,7 @@ fn cache_source(src: &str) -> BytesStr {
         Lazy::new(|| RwLock::new(FxHashSet::default()));
 
     {
-        let cache = CACHE.write().unwrap();
+        let cache = CACHE.read().unwrap();
 
         if let Some(cached) = cache.get(src) {
             return cached.clone();
@@ -456,6 +459,9 @@ fn cache_source(src: &str) -> BytesStr {
     let cached: BytesStr = src.to_string().into();
     {
         let mut cache = CACHE.write().unwrap();
+        if let Some(cached) = cache.get(src) {
+            return cached.clone();
+        }
         cache.insert(cached.clone());
     }
     cached
@@ -489,6 +495,40 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
+    #[inline]
+    fn pragma_expr(&mut self) -> Lrc<Box<Expr>> {
+        if let Some(pragma) = self.pragma.as_ref() {
+            return pragma.clone();
+        }
+
+        let pragma = Lrc::new(parse_expr_for_jsx(
+            &self.cm,
+            "pragma",
+            self.pragma_src.clone(),
+            self.top_level_mark,
+        ));
+        self.pragma = Some(pragma.clone());
+
+        pragma
+    }
+
+    #[inline]
+    fn pragma_frag_expr(&mut self) -> Lrc<Box<Expr>> {
+        if let Some(pragma_frag) = self.pragma_frag.as_ref() {
+            return pragma_frag.clone();
+        }
+
+        let pragma_frag = Lrc::new(parse_expr_for_jsx(
+            &self.cm,
+            "pragmaFrag",
+            self.pragma_frag_src.clone(),
+            self.top_level_mark,
+        ));
+        self.pragma_frag = Some(pragma_frag.clone());
+
+        pragma_frag
+    }
+
     /// Process JSX attribute value, handling JSXElements and JSXFragments
     fn process_attr_value(&mut self, value: Option<JSXAttrValue>) -> Box<Expr> {
         match value {
@@ -650,11 +690,14 @@ where
                 .into()
             }
             Runtime::Classic => {
+                let pragma = self.pragma_expr();
+                let pragma_frag = self.pragma_frag_expr();
+
                 // Build args Vec directly for better performance
                 let children_capacity = el.children.len();
                 let mut args = Vec::with_capacity(2 + children_capacity);
 
-                args.push((*self.pragma_frag).clone().as_arg());
+                args.push((*pragma_frag).clone().as_arg());
                 args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
 
                 // Add children
@@ -666,7 +709,7 @@ where
 
                 CallExpr {
                     span,
-                    callee: (*self.pragma).clone().as_callee(),
+                    callee: (*pragma).clone().as_callee(),
                     args,
                     ..Default::default()
                 }
@@ -949,6 +992,8 @@ where
                 .into()
             }
             Runtime::Classic => {
+                let pragma = self.pragma_expr();
+
                 // Build args Vec directly for better performance
                 let children_capacity = el.children.len();
                 let mut args = Vec::with_capacity(2 + children_capacity);
@@ -965,7 +1010,7 @@ where
 
                 CallExpr {
                     span,
-                    callee: (*self.pragma).clone().as_callee(),
+                    callee: (*pragma).clone().as_callee(),
                     args,
                     ..Default::default()
                 }
@@ -1131,7 +1176,7 @@ where
             }
 
             found = true;
-            self.pragma = pragma;
+            self.pragma = Some(pragma);
         }
 
         if let Some(pragma_frag) = pragma_frag {
@@ -1149,7 +1194,7 @@ where
             }
 
             found = true;
-            self.pragma_frag = pragma_frag;
+            self.pragma_frag = Some(pragma_frag);
         }
 
         found
@@ -1478,63 +1523,76 @@ fn jsx_text_to_str_with_raw(value: &Atom, raw: &Atom) -> Wtf8Atom {
 /// entity.
 fn build_entity_mask(value: &str, raw: &str) -> Vec<bool> {
     let mut mask = vec![false; value.chars().count()];
-    let mut value_char_idx = 0;
-    let mut raw_chars = raw.chars().peekable();
+    let mut value_char_idx = 0usize;
+    let mut raw_byte_idx = 0usize;
 
-    while let Some(raw_c) = raw_chars.next() {
+    while raw_byte_idx < raw.len() && value_char_idx < mask.len() {
+        let raw_c = raw[raw_byte_idx..]
+            .chars()
+            .next()
+            .expect("raw_byte_idx should always point to a valid char boundary");
+
         if raw_c == '&' {
-            // Possible HTML entity
-            let mut entity_chars: Vec<char> = vec!['&'];
-            let mut found_semicolon = false;
-
-            // Collect up to 10 characters to match entity pattern
-            for _ in 0..10 {
-                if let Some(&next_c) = raw_chars.peek() {
-                    entity_chars.push(next_c);
-                    raw_chars.next();
-                    if next_c == ';' {
-                        found_semicolon = true;
-                        break;
-                    }
-                } else {
-                    break;
-                }
-            }
-
-            if found_semicolon && is_valid_entity(&entity_chars) {
-                // This was a valid entity - mark this position in value as from
-                // entity
-                if value_char_idx < mask.len() {
-                    mask[value_char_idx] = true;
-                }
+            if let Some(entity_len) = valid_entity_len(raw, raw_byte_idx) {
+                mask[value_char_idx] = true;
                 value_char_idx += 1;
-            } else {
-                // Not a valid entity, the '&' is literal
-                value_char_idx += 1;
-                // The other characters we consumed are also literal
-                for _ in 1..entity_chars.len() {
-                    value_char_idx += 1;
-                }
+                raw_byte_idx += entity_len;
+                continue;
             }
-        } else {
-            // Regular character
-            value_char_idx += 1;
         }
+
+        value_char_idx += 1;
+        raw_byte_idx += raw_c.len_utf8();
     }
 
     mask
 }
 
-/// Check if the collected characters form a valid HTML entity
-fn is_valid_entity(chars: &[char]) -> bool {
-    if chars.len() < 3 {
+/// Returns length in bytes of a valid HTML entity starting at `start_idx`.
+///
+/// This keeps the same bounded lookahead as before (`&` + up to 10 chars).
+fn valid_entity_len(raw: &str, start_idx: usize) -> Option<usize> {
+    const MAX_ENTITY_CHARS_AFTER_AMP: usize = 10;
+
+    let mut consumed = 0usize;
+    let mut semicolon_idx = None;
+
+    for (offset, ch) in raw[start_idx + 1..].char_indices() {
+        consumed += 1;
+
+        if consumed > MAX_ENTITY_CHARS_AFTER_AMP {
+            break;
+        }
+
+        if ch == ';' {
+            semicolon_idx = Some(start_idx + 1 + offset);
+            break;
+        }
+    }
+
+    let semicolon_idx = semicolon_idx?;
+    let entity = &raw[start_idx..=semicolon_idx];
+
+    if is_valid_entity(entity) {
+        Some(entity.len())
+    } else {
+        None
+    }
+}
+
+/// Check if `entity` (including `&` and `;`) forms a valid HTML entity.
+fn is_valid_entity(entity: &str) -> bool {
+    if entity.len() < 3 {
         return false;
     }
-    if chars[0] != '&' || chars[chars.len() - 1] != ';' {
+    if !entity.starts_with('&') || !entity.ends_with(';') {
         return false;
     }
 
-    let inner: String = chars[1..chars.len() - 1].iter().collect();
+    let inner = &entity[1..entity.len() - 1];
+    if inner.is_empty() {
+        return false;
+    }
 
     if let Some(stripped) = inner.strip_prefix('#') {
         // Numeric entity
@@ -1550,7 +1608,7 @@ fn is_valid_entity(chars: &[char]) -> bool {
         }
     } else {
         // Named entity - check against known entities
-        is_known_html_entity(&inner)
+        is_known_html_entity(inner)
     }
 }
 
@@ -1819,60 +1877,39 @@ fn is_known_html_entity(name: &str) -> bool {
 /// JSX text processing with entity mask - preserves whitespace from HTML
 /// entities
 fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
-    // Fast path: if no line terminators and no trimmable whitespace
-    // (whitespace that's not from entities at the leading edge)
-    let chars: Vec<char> = t.chars().collect();
-    let has_line_terminator = chars.iter().any(|&c| is_line_terminator(c));
-
     // For single-line text, we keep all whitespace (matching original behavior)
     // The original jsx_text_to_str_impl preserves leading/trailing whitespace on
     // single-line text
-    if !t.is_empty() && !has_line_terminator {
+    if !t.is_empty() && !t.chars().any(is_line_terminator) {
         return t.into();
     }
 
     let mut acc: Option<String> = None;
-    let mut only_line: Option<String> = None;
-    let mut line_start: Option<usize> = Some(0);
-    let mut line_end: Option<usize> = None;
-    // The first line preserves leading whitespace; subsequent lines trim it.
-    let mut is_first_line = true;
+    let mut only_line: Option<&str> = None;
+    let mut line_start_byte: Option<usize> = Some(0);
+    let mut line_end_byte: Option<usize> = None;
 
-    for (char_idx, c) in chars.iter().enumerate() {
-        let is_from_entity = *entity_mask.get(char_idx).unwrap_or(&false);
+    for (char_idx, (byte_idx, c)) in t.char_indices().enumerate() {
+        let is_from_entity = entity_mask.get(char_idx).copied().unwrap_or(false);
 
-        if is_line_terminator(*c) {
-            // Process current line - trim both leading AND trailing (intermediate
-            // line)
-            if let (Some(start), Some(end)) = (line_start, line_end) {
-                let line_text =
-                    extract_line_content(&chars, start, end, entity_mask, !is_first_line, true);
-                add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
+        if is_line_terminator(c) {
+            if let (Some(start), Some(end)) = (line_start_byte, line_end_byte) {
+                add_line_of_jsx_text(&t[start..end], &mut acc, &mut only_line);
             }
-            is_first_line = false;
-            line_start = None;
-            line_end = None;
-        } else if !is_white_space_single_line(*c) || is_from_entity {
+
+            line_start_byte = None;
+            line_end_byte = None;
+        } else if !is_white_space_single_line(c) || is_from_entity {
             // Non-whitespace or entity-derived whitespace - counts as content
-            line_end = Some(char_idx + 1);
-            if line_start.is_none() {
-                line_start = Some(char_idx);
+            line_end_byte = Some(byte_idx + c.len_utf8());
+            if line_start_byte.is_none() {
+                line_start_byte = Some(byte_idx);
             }
         }
     }
 
-    // Handle final line. Leading whitespace is preserved only if this is still
-    // the first line (single-line input).
-    if let Some(start) = line_start {
-        let line_text = extract_line_content(
-            &chars,
-            start,
-            chars.len(),
-            entity_mask,
-            !is_first_line,
-            false,
-        );
-        add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
+    if let Some(start) = line_start_byte {
+        add_line_of_jsx_text(&t[start..], &mut acc, &mut only_line);
     }
 
     if let Some(acc) = acc {
@@ -1881,71 +1918,6 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
         only_line.into()
     } else {
         "".into()
-    }
-}
-
-/// Extract line content, optionally trimming non-entity whitespace from edges
-///
-/// - `trim_leading`: if true, trim leading non-entity whitespace
-/// - `trim_trailing`: if true, trim trailing non-entity whitespace
-fn extract_line_content(
-    chars: &[char],
-    start: usize,
-    end: usize,
-    entity_mask: &[bool],
-    trim_leading: bool,
-    trim_trailing: bool,
-) -> String {
-    // Find first non-trimmable position (if trim_leading is true)
-    let mut actual_start = start;
-    if trim_leading {
-        while actual_start < end {
-            let c = chars[actual_start];
-            let is_from_entity = *entity_mask.get(actual_start).unwrap_or(&false);
-            if !is_white_space_single_line(c) || is_from_entity {
-                break;
-            }
-            actual_start += 1;
-        }
-    }
-
-    // Find last non-trimmable position (if trim_trailing is true)
-    let mut actual_end = end;
-    if trim_trailing {
-        while actual_end > actual_start {
-            let c = chars[actual_end - 1];
-            let is_from_entity = *entity_mask.get(actual_end - 1).unwrap_or(&false);
-            if !is_white_space_single_line(c) || is_from_entity {
-                break;
-            }
-            actual_end -= 1;
-        }
-    }
-
-    chars[actual_start..actual_end].iter().collect()
-}
-
-/// Owned version of add_line_of_jsx_text for use with entity mask processing
-fn add_line_of_jsx_text_owned(
-    line: String,
-    acc: &mut Option<String>,
-    only_line: &mut Option<String>,
-) {
-    if line.is_empty() {
-        return;
-    }
-
-    if let Some(buffer) = acc.as_mut() {
-        buffer.push(' ');
-        buffer.push_str(&line);
-    } else if let Some(only_line_content) = only_line.take() {
-        let mut buffer = String::with_capacity(line.len() * 2);
-        buffer.push_str(&only_line_content);
-        buffer.push(' ');
-        buffer.push_str(&line);
-        *acc = Some(buffer);
-    } else {
-        *only_line = Some(line);
     }
 }
 
