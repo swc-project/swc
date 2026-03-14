@@ -129,10 +129,10 @@ struct ClassData {
     privates: FxHashSet<Atom>,
 
     /// Name of private methods.
-    methods: Vec<Atom>,
+    methods: FxHashSet<Atom>,
 
     /// Name of private statics.
-    statics: Vec<Atom>,
+    statics: FxHashSet<Atom>,
 
     constructor_exprs: Vec<Expr>,
 
@@ -165,17 +165,17 @@ impl PrivatePropertyInObjectPass {
             match m {
                 ClassMember::PrivateMethod(m) => {
                     self.cls.privates.insert(m.key.name.clone());
-                    self.cls.methods.push(m.key.name.clone());
+                    self.cls.methods.insert(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.name.clone());
+                        self.cls.statics.insert(m.key.name.clone());
                     }
                 }
                 ClassMember::PrivateProp(m) => {
                     self.cls.privates.insert(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.name.clone());
+                        self.cls.statics.insert(m.key.name.clone());
                     }
                 }
                 _ => {}

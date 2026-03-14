@@ -108,7 +108,20 @@ pub type LexResult<T> = Result<T, crate::error::Error>;
 fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
     if has_underscore {
         debug_assert!(s.contains('_'));
-        s.chars().filter(|&c| c != '_').collect::<String>().into()
+        // Numeric literal text in lexer hot paths is ASCII, so byte-level filtering
+        // avoids UTF-8 char iteration overhead.
+        let bytes = s.as_bytes();
+        let mut stripped = Vec::with_capacity(bytes.len().saturating_sub(1));
+
+        for &b in bytes {
+            if b != b'_' {
+                stripped.push(b);
+            }
+        }
+
+        // Safety: `stripped` is derived from valid UTF-8 by removing only `_` (0x5F),
+        // which is a single-byte ASCII code point.
+        Cow::Owned(unsafe { String::from_utf8_unchecked(stripped) })
     } else {
         debug_assert!(!s.contains('_'));
         Cow::Borrowed(s)

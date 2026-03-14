@@ -1,0 +1,5 @@
+  x Invalid unicode escape
+   ,-[$DIR/tests/jsx/errors/issue-11650/input.js:1:1]
+ 1 | <if-\u{2F804}></if-\u{2F804}>
+   :  ^^^^^^^^^^^^
+   `----

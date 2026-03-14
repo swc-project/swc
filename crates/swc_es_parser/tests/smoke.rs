@@ -29,17 +29,15 @@ fn parse_fixture(path: &Path, syntax: Syntax) {
 }
 
 fn parse_program_with_recovered(src: &str) -> (bool, Vec<swc_es_parser::Error>) {
+    parse_program_with_syntax(src, Syntax::Es(EsSyntax::default()))
+}
+
+fn parse_program_with_syntax(src: &str, syntax: Syntax) -> (bool, Vec<swc_es_parser::Error>) {
     let cm = SourceMap::default();
     let fm = cm.new_source_file(FileName::Custom("inline.js".into()).into(), src.to_string());
     let comments = SingleThreadedComments::default();
     let mut recovered = Vec::new();
-    let fatal = parse_file_as_program(
-        &fm,
-        Syntax::Es(EsSyntax::default()),
-        Some(&comments),
-        &mut recovered,
-    )
-    .is_err();
+    let fatal = parse_file_as_program(&fm, syntax, Some(&comments), &mut recovered).is_err();
     (fatal, recovered)
 }
 
@@ -181,4 +179,90 @@ fn accepts_new_target_with_escaped_target_identifier() {
         parse_program_with_recovered("function f(){ return new.\\u0074arget; }");
     assert!(!fatal);
     assert!(recovered.is_empty());
+}
+
+#[test]
+fn parses_async_generic_arrow_fixture() {
+    parse_fixture(
+        Path::new("../swc_ecma_parser/tests/typescript/arrow-function/async-generic/input.ts"),
+        Syntax::Typescript(TsSyntax::default()),
+    );
+}
+
+#[test]
+fn parses_async_generic_false_positive_fixture() {
+    parse_fixture(
+        Path::new(
+            "../swc_ecma_parser/tests/typescript/arrow-function/async-generic-false-positive/\
+             input.ts",
+        ),
+        Syntax::Typescript(TsSyntax::default()),
+    );
+}
+
+#[test]
+fn parses_using_lookahead_fixtures() {
+    parse_fixture(
+        Path::new(
+            "../swc_ecma_parser/tests/js/explicit-resource-management/\
+             valid-using-as-identifier-for-of/input.js",
+        ),
+        Syntax::Es(EsSyntax {
+            explicit_resource_management: true,
+            ..Default::default()
+        }),
+    );
+    parse_fixture(
+        Path::new(
+            "../swc_ecma_parser/tests/js/explicit-resource-management/valid-using-binding-using/\
+             input.js",
+        ),
+        Syntax::Es(EsSyntax {
+            explicit_resource_management: true,
+            ..Default::default()
+        }),
+    );
+}
+
+#[test]
+fn parses_let_for_head_variants() {
+    let (fatal_for_of, recovered_for_of) = parse_program_with_syntax(
+        "for (let item of items) { item; }",
+        Syntax::Es(EsSyntax::default()),
+    );
+    assert!(!fatal_for_of);
+    assert!(recovered_for_of.is_empty());
+
+    let (fatal_for_in, recovered_for_in) = parse_program_with_syntax(
+        "for (let key in obj) { key; }",
+        Syntax::Es(EsSyntax::default()),
+    );
+    assert!(!fatal_for_in);
+    assert!(recovered_for_in.is_empty());
+}
+
+#[test]
+fn parses_typescript_import_type_fixture() {
+    parse_fixture(
+        Path::new("../swc_ecma_parser/tests/typescript/custom/import-type/typeof/simple/input.ts"),
+        Syntax::Typescript(TsSyntax::default()),
+    );
+}
+
+#[test]
+fn rejects_duplicate_regex_flags() {
+    let (fatal, recovered) = parse_program_with_recovered("/a/gg;");
+    assert!(!fatal);
+    assert!(recovered
+        .iter()
+        .any(|error| matches!(error.code(), ErrorCode::InvalidRegex)));
+}
+
+#[test]
+fn rejects_unknown_regex_flag() {
+    let (fatal, recovered) = parse_program_with_recovered("/a/z;");
+    assert!(!fatal);
+    assert!(recovered
+        .iter()
+        .any(|error| matches!(error.code(), ErrorCode::InvalidRegex)));
 }

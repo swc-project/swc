@@ -233,6 +233,12 @@ pub fn operate(
     input: String,
     options: Options,
 ) -> Result<TransformOutput, TsError> {
+    let deprecated_ts_module_as_error = options.deprecated_ts_module_as_error.unwrap_or_default();
+    // Token capture is only needed for strip-only and deprecated `module`
+    // diagnostics.
+    let should_capture_tokens =
+        matches!(&options.mode, Mode::StripOnly) || deprecated_ts_module_as_error;
+
     let filename = options
         .filename
         .map_or(FileName::Anon, |f| FileName::Real(f.into()));
@@ -245,21 +251,37 @@ pub fn operate(
 
     let comments = SingleThreadedComments::default();
 
-    let lexer = Capturing::new(Lexer::new(
-        syntax,
-        target,
-        StringInput::from(&*fm),
-        Some(&comments),
-    ));
-    let mut parser = Parser::new_from(lexer);
+    let (program, errors, mut tokens) = if should_capture_tokens {
+        let lexer = Capturing::new(Lexer::new(
+            syntax,
+            target,
+            StringInput::from(&*fm),
+            Some(&comments),
+        ));
+        let mut parser = Parser::new_from(lexer);
 
-    let program = match options.module {
-        Some(true) => parser.parse_module().map(Program::Module),
-        Some(false) => parser.parse_script().map(Program::Script),
-        None => parser.parse_program(),
+        let program = match options.module {
+            Some(true) => parser.parse_module().map(Program::Module),
+            Some(false) => parser.parse_script().map(Program::Script),
+            None => parser.parse_program(),
+        };
+        let errors = parser.take_errors();
+        let tokens = parser.input_mut().iter_mut().take();
+
+        (program, errors, tokens)
+    } else {
+        let lexer = Lexer::new(syntax, target, StringInput::from(&*fm), Some(&comments));
+        let mut parser = Parser::new_from(lexer);
+
+        let program = match options.module {
+            Some(true) => parser.parse_module().map(Program::Module),
+            Some(false) => parser.parse_script().map(Program::Script),
+            None => parser.parse_program(),
+        };
+        let errors = parser.take_errors();
+
+        (program, errors, Vec::new())
     };
-    let errors = parser.take_errors();
-    let mut tokens = parser.input_mut().iter_mut().take();
 
     let mut program = match program {
         Ok(program) => program,
@@ -293,10 +315,6 @@ pub fn operate(
             code: ErrorCode::InvalidSyntax,
         });
     }
-
-    drop(parser);
-
-    let deprecated_ts_module_as_error = options.deprecated_ts_module_as_error.unwrap_or_default();
 
     match options.mode {
         Mode::StripOnly => {
