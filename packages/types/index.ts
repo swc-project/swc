@@ -295,6 +295,10 @@ export interface TerserCompressOptions {
 
     unsafe_undefined?: boolean;
 
+    unsafe_hoist_static_method_alias?: boolean;
+
+    unsafe_hoist_global_objects_alias?: boolean;
+
     unused?: boolean;
 
     const_to_let?: boolean;
