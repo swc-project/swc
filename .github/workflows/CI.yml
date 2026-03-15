@@ -191,8 +191,15 @@ jobs:
       settings: ${{ steps.list-tests.outputs.settings }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: ./.github/actions/setup-node
+
+      - name: Install cargo-mono
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-mono@0.5.0
 
       - name: List crates
         id: list-tests
@@ -208,21 +215,29 @@ jobs:
       matrix:
         settings: ${{fromJson(needs.list-cargo-tests.outputs.settings)}}
     steps:
+      - name: No-op when no changed crates
+        if: matrix.settings.crate == '__noop__'
+        run: |
+          echo "No affected crates detected. Skipping cargo-test matrix run."
+
       - name: Handle line endings
         shell: bash
-        if: runner.os == 'Windows'
+        if: runner.os == 'Windows' && matrix.settings.crate != '__noop__'
         run: |
           git config --system core.autocrlf false
           git config --system core.eol lf
 
       - uses: actions/checkout@v4
+        if: matrix.settings.crate != '__noop__'
         with:
           submodules: true
 
       - run: corepack enable
+        if: matrix.settings.crate != '__noop__'
 
       # Source map format
       - uses: actions/setup-node@v4
+        if: matrix.settings.crate != '__noop__'
         with:
           node-version: "20"
           cache: "yarn"
@@ -230,6 +245,7 @@ jobs:
       # We explicitly do this to cache properly.
       - name: Install Rust
         uses: actions-rs/toolchain@v1
+        if: matrix.settings.crate != '__noop__'
         with:
           profile: minimal
           target: wasm32-wasip1
@@ -239,11 +255,12 @@ jobs:
           # override: true
 
       - uses: denoland/setup-deno@v1
-        if: matrix.settings.crate == 'swc_bundler'
+        if: matrix.settings.crate != '__noop__' && matrix.settings.crate == 'swc_bundler'
         with:
           deno-version: v1.x
 
       - name: Install node dependencies
+        if: matrix.settings.crate != '__noop__'
         shell: bash
         run: |
           corepack enable
@@ -260,16 +277,18 @@ jobs:
 
       - name: Configure path (windows)
         shell: bash
-        if: runner.os == 'Windows'
+        if: runner.os == 'Windows' && matrix.settings.crate != '__noop__'
         run: |
           echo $(yarn global bin) >> $GITHUB_PATH
 
       - name: Verify dependencies
+        if: matrix.settings.crate != '__noop__'
         shell: bash
         run: |
           yarn jest --version && yarn mocha --version
 
       - name: Configure execution cache
+        if: matrix.settings.crate != '__noop__'
         shell: bash
         run: |
           mkdir -p .swc-exec-cache
@@ -277,14 +296,14 @@ jobs:
 
       - name: Cache execution results
         uses: actions/cache@v3
-        if: ${{ matrix.settings.crate }} == 'swc' || ${{ startsWith(matrix.settings.crate, 'swc_ecma_transforms_') }}
+        if: matrix.settings.crate != '__noop__' && (matrix.settings.crate == 'swc' || startsWith(matrix.settings.crate, 'swc_ecma_transforms_'))
         with:
           path: |
             .swc-exec-cache
           key: swc-exec-cache-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Run cargo test
-        if: matrix.settings.crate != 'swc_plugin_backend_tests' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm' && matrix.settings.crate != 'hstr'
+        if: matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_plugin_backend_tests' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm' && matrix.settings.crate != 'hstr'
         run: |
           cargo test -p ${{ matrix.settings.crate }}
 
@@ -336,19 +355,19 @@ jobs:
           cargo test -p ${{ matrix.settings.crate }} --all-features --features swc_ecma_utils/stacker
 
       - name: Run cargo test (concurrent)
-        if: runner.os == 'Linux' && matrix.settings.crate != 'swc_ecma_minifier'
+        if: runner.os == 'Linux' && matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_ecma_minifier'
         shell: bash
         run: |
           ./scripts/github/test-concurrent.sh ${{ matrix.settings.crate }}
 
       - name: Install cargo-hack
         uses: taiki-e/install-action@v2
-        if: matrix.settings.os == 'ubuntu-latest'
+        if: matrix.settings.os == 'ubuntu-latest' && matrix.settings.crate != '__noop__'
         with:
           tool: cargo-hack@0.5.29
 
       - name: Check compilation
-        if: matrix.settings.os == 'ubuntu-latest'
+        if: matrix.settings.os == 'ubuntu-latest' && matrix.settings.crate != '__noop__'
         run: |
           ./scripts/github/run-cargo-hack.sh ${{ matrix.settings.crate }}
 
