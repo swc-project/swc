@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     number::ToJsString,
     unicode::{is_high_surrogate, is_low_surrogate},
-    ExprExt, IsEmpty, Type, Value,
+    ExprCtx, ExprExt, IsEmpty, Type, Value,
 };
 
 use super::Pure;
@@ -524,12 +524,19 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if args
-            .iter()
-            .any(|arg| arg.expr.may_have_side_effects(self.expr_ctx))
+        if args.len() > 1
+            || args.first().is_some_and(|arg| {
+                if arg.spread.is_some() {
+                    true
+                } else {
+                    arg.expr.may_have_side_effects(self.expr_ctx)
+                }
+            })
         {
             return;
         }
+
+        let first_arg = get_first_arg(args.iter().map(Some), &self.expr_ctx);
 
         if &*method.sym == "toFixed" {
             // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
@@ -547,11 +554,8 @@ impl Pure<'_> {
 
             // 1. Let x be ? thisNumberValue(this value).
             // 2. Let f be ? ToIntegerOrInfinity(fractionDigits).
-            if let Some(precision) = args
-                .first()
-                // 3. Assert: If fractionDigits is undefined, then f is 0.
-                .map_or(Some(0f64), |arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
+            // 3. Assert: If fractionDigits is undefined, then f is 0.
+            if let Some(precision) = first_arg.unwrap_or(Some(0f64)) {
                 let f = precision.trunc() as u8;
 
                 // 4. If f is not finite, throw a RangeError exception.
@@ -586,109 +590,108 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toPrecision" {
-            // TODO: handle num.toPrecision(undefined)
-            if args.is_empty() {
-                // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
-                // 2. If precision is undefined, return ! ToString(x).
-                let value = num.value.to_js_string().into();
-
-                self.changed = true;
-                report_change!(
-                    "evaluate: Evaluating `{}.toPrecision()` as `{:?}`",
-                    num,
-                    value
-                );
-
-                *e = Lit::Str(Str {
-                    span: e.span(),
-                    raw: None,
-                    value,
-                })
-                .into();
-                return;
-            }
-
-            if let Some(precision) = args
-                .first()
-                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
-                let p = precision.trunc() as usize;
-                // 5. If p < 1 or p > 100, throw a RangeError exception.
-                if !(1..=21).contains(&p) {
+            match first_arg {
+                Some(None) => {
                     return;
                 }
+                None => {
+                    // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
+                    // 2. If precision is undefined, return ! ToString(x).
+                    let value = num.value.to_js_string().into();
 
-                let value = f64_to_precision(num.value, p);
-                self.changed = true;
-                report_change!(
-                    "evaluate: Evaluating `{}.toPrecision()` as `{}`",
-                    num,
-                    value
-                );
-                *e = Lit::Str(Str {
-                    span: e.span(),
-                    raw: None,
-                    value: value.into(),
-                })
-                .into();
-                return;
+                    self.changed = true;
+                    report_change!(
+                        "evaluate: Evaluating `{}.toPrecision()` as `{:?}`",
+                        num,
+                        value
+                    );
+
+                    *e = Lit::Str(Str {
+                        span: e.span(),
+                        raw: None,
+                        value,
+                    })
+                    .into();
+                    return;
+                }
+                Some(Some(precision)) => {
+                    let p = precision.trunc() as usize;
+                    // 5. If p < 1 or p > 100, throw a RangeError exception.
+                    if !(1..=21).contains(&p) {
+                        return;
+                    }
+
+                    let value = f64_to_precision(num.value, p);
+                    self.changed = true;
+                    report_change!(
+                        "evaluate: Evaluating `{}.toPrecision()` as `{}`",
+                        num,
+                        value
+                    );
+                    *e = Lit::Str(Str {
+                        span: e.span(),
+                        raw: None,
+                        value: value.into(),
+                    })
+                    .into();
+                    return;
+                }
             }
         }
 
         if &*method.sym == "toExponential" {
-            // TODO: handle num.toExponential(undefined)
-            if args.is_empty() {
-                let value = f64_to_exponential(num.value).into();
-
-                self.changed = true;
-                report_change!(
-                    "evaluate: Evaluating `{}.toExponential()` as `{:?}`",
-                    num,
-                    value
-                );
-
-                *e = Lit::Str(Str {
-                    span: e.span(),
-                    raw: None,
-                    value,
-                })
-                .into();
-                return;
-            } else if let Some(precision) = args
-                .first()
-                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
-                let p = precision.trunc() as usize;
-                // 5. If p < 1 or p > 100, throw a RangeError exception.
-                if !(0..=20).contains(&p) {
+            match first_arg {
+                Some(None) => {
                     return;
                 }
+                None => {
+                    let value = f64_to_exponential(num.value).into();
 
-                let value = f64_to_exponential_with_precision(num.value, p).into();
+                    self.changed = true;
+                    report_change!(
+                        "evaluate: Evaluating `{}.toExponential()` as `{:?}`",
+                        num,
+                        value
+                    );
 
-                self.changed = true;
-                report_change!(
-                    "evaluate: Evaluating `{}.toPrecision({})` as `{:?}`",
-                    num,
-                    precision,
-                    value
-                );
+                    *e = Lit::Str(Str {
+                        span: e.span(),
+                        raw: None,
+                        value,
+                    })
+                    .into();
+                    return;
+                }
+                Some(Some(precision)) => {
+                    let p = precision.trunc() as usize;
+                    // 5. If p < 1 or p > 100, throw a RangeError exception.
+                    if !(0..=20).contains(&p) {
+                        return;
+                    }
 
-                *e = Lit::Str(Str {
-                    span: e.span(),
-                    raw: None,
-                    value,
-                })
-                .into();
-                return;
+                    let value = f64_to_exponential_with_precision(num.value, p).into();
+
+                    self.changed = true;
+                    report_change!(
+                        "evaluate: Evaluating `{}.toExponential({})` as `{:?}`",
+                        num,
+                        precision,
+                        value
+                    );
+
+                    *e = Lit::Str(Str {
+                        span: e.span(),
+                        raw: None,
+                        value,
+                    })
+                    .into();
+                    return;
+                }
             }
         }
 
         if &*method.sym == "toString" {
-            if let Some(base) = args
-                .first()
-                .map_or(Some(10f64), |arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
+            if let Some(base) = first_arg.unwrap_or(Some(10f64)) {
                 if base.trunc() == 10. {
                     let value = num.value.to_js_string().into();
                     *e = Lit::Str(Str {
@@ -1170,4 +1173,53 @@ fn f64_to_exponential_with_precision(n: f64, prec: usize) -> String {
         res.insert(idx + 1, '+');
     }
     res
+}
+
+/// Helper function to get the first argument of a call expression,
+///  taking into account spread elements.
+///
+/// `Some(None)` means that the first argument is a spread element, but we can't
+/// evaluate it.
+///
+/// `None` means that there is no argument.
+fn get_first_arg<'a>(
+    args: impl IntoIterator<Item = Option<&'a ExprOrSpread>>,
+    expr_ctx: &ExprCtx,
+) -> Option<Option<f64>> {
+    // A stack of iterators to process
+    let mut stack: Vec<Box<dyn Iterator<Item = Option<&'a ExprOrSpread>>>> =
+        vec![Box::new(args.into_iter())];
+
+    while let Some(current_iter) = stack.last_mut() {
+        // Get the next item from the top-most iterator
+        let Some(arg_opt) = current_iter.next() else {
+            // This iterator is exhausted, pop it and continue with the previous one
+            stack.pop();
+            continue;
+        };
+
+        if let Some(arg) = arg_opt {
+            if arg.spread.is_some() {
+                let Some(args_array) = arg.expr.as_array() else {
+                    // It's a spread we can't evaluate (like ...x)
+                    return Some(None);
+                };
+                if args_array.elems.is_empty() {
+                    // next argument is used if the first spread argument is empty
+                    // so we can't evaluate the call.
+                    continue;
+                } else {
+                    // Instead of recursing, push a new iterator onto the stack
+                    stack.push(Box::new(args_array.elems.iter().map(Option::as_ref)));
+                    continue;
+                }
+            } else if !arg.expr.is_undefined(*expr_ctx) {
+                // We found our first concrete argument!
+                return Some(eval_as_number(*expr_ctx, &arg.expr));
+            }
+        }
+    }
+
+    // If we exhausted all iterators and found nothing
+    None
 }
