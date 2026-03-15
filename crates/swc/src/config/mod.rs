@@ -16,6 +16,8 @@ use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
+#[cfg(feature = "module")]
+use path_clean::PathClean;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
@@ -1618,9 +1620,55 @@ impl ModuleConfig {
             return None;
         }
 
+        // Normalize the base path without resolving symlinks.
+        // Using `.clean()` instead of `.canonicalize()` keeps symlinked
+        // paths intact, which is required for correct relative-path
+        // computation in `diff_paths` (both base and target must live
+        // in the same "path space").
+        //
+        // On Windows, we still canonicalize absolute paths to keep the base
+        // path in UNC form. `build_resolver` canonicalizes `jsc.baseUrl` to
+        // UNC as well, and `diff_paths` requires both paths to be in the same
+        // form to produce relative paths consistently.
+        //
+        // https://github.com/swc-project/swc/issues/8265
+        // https://github.com/swc-project/swc/issues/11584
         let base = match base {
             FileName::Real(v) if !skip_resolver => {
-                FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
+                let cleaned = if v.is_absolute() {
+                    v.clean()
+                } else {
+                    let relative = v.clean();
+
+                    // If the relative input filename points to an existing file from
+                    // cwd (CLI/manual use-cases), keep it in cwd path space.
+                    // Otherwise (virtual/in-memory filenames), keep it relative so
+                    // resolver logic can rebase through `jsc.baseUrl`.
+                    env::current_dir()
+                        .ok()
+                        .map(|cwd| cwd.join(&relative).clean())
+                        .filter(|abs| abs.exists())
+                        .unwrap_or(relative)
+                };
+
+                #[cfg(target_os = "windows")]
+                let cleaned = if cleaned.is_absolute()
+                    && !matches!(
+                        cleaned.components().next(),
+                        Some(std::path::Component::Prefix(prefix))
+                            if matches!(
+                                prefix.kind(),
+                                std::path::Prefix::Verbatim(_)
+                                    | std::path::Prefix::VerbatimDisk(_)
+                                    | std::path::Prefix::VerbatimUNC(_, _)
+                            )
+                    ) {
+                    cleaned.canonicalize().unwrap_or(cleaned)
+                } else {
+                    cleaned
+                };
+
+                FileName::Real(cleaned)
             }
             _ => base.clone(),
         };

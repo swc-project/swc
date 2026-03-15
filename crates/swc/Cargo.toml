@@ -71,6 +71,7 @@ indexmap      = { workspace = true, features = ["serde"] }
 jsonc-parser  = { workspace = true, features = ["serde"] }
 once_cell     = { workspace = true }
 par-core      = { workspace = true }
+path-clean    = { workspace = true }
 par-iter      = { workspace = true }
 parking_lot   = { workspace = true }
 regex         = { workspace = true }

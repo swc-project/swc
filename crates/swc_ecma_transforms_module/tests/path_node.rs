@@ -13,6 +13,7 @@ use swc_ecma_transforms_module::{
     rewriter::import_rewriter,
 };
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
+use tempfile::TempDir;
 use testing::run_test2;
 
 type TestProvider = NodeImportResolver<NodeModulesResolver>;
@@ -167,4 +168,120 @@ fn fixture(input_dir: PathBuf) {
             ..Default::default()
         },
     );
+}
+
+/// Test for https://github.com/swc-project/swc/issues/11584
+///
+/// `NodeImportResolver` should not resolve symlinks when computing
+/// relative import paths. This ensures that symlinked source files
+/// resolve imports relative to the symlink location, not the real
+/// file location.
+///
+/// Directory structure:
+///   tmpdir/
+///     real/
+///       lib/
+///         dep.js       <- real file
+///     project/
+///       lib/           <- symlink -> ../../real/lib
+///       src/
+///         index.js     <- real file, imports ../lib/dep
+#[cfg(unix)]
+#[test]
+fn issue_11584_symlink_not_canonicalized() {
+    use std::{fs, os::unix::fs as unix_fs};
+
+    let tmpdir = TempDir::new().unwrap();
+    let base_dir = tmpdir.path().canonicalize().unwrap();
+
+    let real_lib = base_dir.join("real").join("lib");
+    let project_dir = base_dir.join("project");
+    let project_src = project_dir.join("src");
+
+    fs::create_dir_all(&real_lib).unwrap();
+    fs::create_dir_all(&project_src).unwrap();
+
+    // Create the real dep file
+    fs::write(
+        real_lib.join("dep.js"),
+        "module.exports.VALUE = \"hello\";\n",
+    )
+    .unwrap();
+
+    // Create source file in project/src/
+    fs::write(
+        project_src.join("index.js"),
+        "import { VALUE } from \"../lib/dep\";\n",
+    )
+    .unwrap();
+
+    // Create symlink: project/lib -> ../real/lib
+    unix_fs::symlink(&real_lib, project_dir.join("lib")).unwrap();
+
+    // The base filename is in project/src/ (a real file, not a symlink).
+    // The import ../lib/dep resolves to project/lib/dep.js through the symlink.
+    let base = FileName::Real(project_src.join("index.js"));
+
+    let resolver = NodeImportResolver::with_config(
+        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
+        swc_ecma_transforms_module::path::Config {
+            base_dir: Some(base_dir.clone()),
+            ..Default::default()
+        },
+    );
+
+    let result = resolver.resolve_import(&base, "../lib/dep").unwrap();
+    // The resolved path should stay relative to the symlink location
+    // (project/lib/) instead of being canonicalized to the real location
+    // (real/lib/), which would produce ../../real/lib/dep.js.
+    assert_eq!(
+        &*result, "../lib/dep.js",
+        "Symlink path should be preserved, not canonicalized to real path"
+    );
+}
+
+/// Test for use cases discussed in
+/// https://github.com/swc-project/swc/pull/11585#issuecomment-3993466331
+///
+/// In a pnpm-like layout, `node_modules/@a/pkg` may be a symlink to
+/// `node_modules/.pnpm/.../node_modules/@a/pkg`. Both a package import and
+/// an explicit `./node_modules` import should preserve the original specifier.
+#[cfg(unix)]
+#[test]
+fn issue_11585_pnpm_node_modules_symlink() {
+    use std::{fs, os::unix::fs as unix_fs};
+
+    let tmpdir = TempDir::new().unwrap();
+    let project_dir = tmpdir.path().join("project");
+    let node_modules = project_dir.join("node_modules");
+    let pnpm_pkg = node_modules
+        .join(".pnpm")
+        .join("@a+pkg@1.0.0")
+        .join("node_modules")
+        .join("@a")
+        .join("pkg");
+
+    fs::create_dir_all(&pnpm_pkg).unwrap();
+    fs::create_dir_all(node_modules.join("@a")).unwrap();
+    fs::write(pnpm_pkg.join("index.js"), "export const value = 1;\n").unwrap();
+    fs::write(project_dir.join("index.js"), "import '@a/pkg';\n").unwrap();
+
+    unix_fs::symlink(&pnpm_pkg, node_modules.join("@a").join("pkg")).unwrap();
+
+    let base = FileName::Real(project_dir.join("index.js"));
+    let resolver = NodeImportResolver::with_config(
+        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
+        swc_ecma_transforms_module::path::Config {
+            base_dir: Some(project_dir.clone()),
+            ..Default::default()
+        },
+    );
+
+    let package_import = resolver.resolve_import(&base, "@a/pkg").unwrap();
+    assert_eq!(&*package_import, "@a/pkg");
+
+    let explicit_node_modules_import = resolver
+        .resolve_import(&base, "./node_modules/@a/pkg")
+        .unwrap();
+    assert_eq!(&*explicit_node_modules_import, "./node_modules/@a/pkg");
 }
