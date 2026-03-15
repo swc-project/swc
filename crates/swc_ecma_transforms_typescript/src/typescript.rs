@@ -5,7 +5,6 @@ use swc_atoms::atom;
 use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
-use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
 use crate::{semantic::analyze_program, transform::transform};
@@ -133,7 +132,7 @@ pub fn tsx<C>(
 where
     C: Comments,
 {
-    visit_mut_pass(TypeScriptReact {
+    TypeScriptReact {
         config,
         tsx_config,
         id_usage: Default::default(),
@@ -141,7 +140,7 @@ where
         cm,
         top_level_mark,
         unresolved_mark,
-    })
+    }
 }
 
 /// Get an [Id] which will used by expression.
@@ -169,11 +168,31 @@ where
     unresolved_mark: Mark,
 }
 
-impl<C> VisitMut for TypeScriptReact<C>
+fn module_leading_comment_span(module: &Module) -> Span {
+    if module.shebang.is_some() {
+        module.span.with_lo(
+            module
+                .body
+                .first()
+                .map(|item| item.span_lo())
+                .unwrap_or(module.span.lo),
+        )
+    } else {
+        module.span
+    }
+}
+
+impl<C> TypeScriptReact<C>
 where
     C: Comments,
 {
-    fn visit_mut_module(&mut self, n: &mut Module) {
+    fn insert_jsx_id_usage(&mut self, expr: &Expr) {
+        if let Some(id) = id_for_jsx(expr) {
+            self.id_usage.insert(id);
+        }
+    }
+
+    fn collect_pragma_id_usage(&mut self, module: &Module) {
         // We count `React` or pragma from config as ident usage and do not strip it
         // from import statement.
         // But in `verbatim_module_syntax` mode, we do not remove any unused imports.
@@ -199,20 +218,10 @@ where
                 self.top_level_mark,
             );
 
-            let pragma_id = id_for_jsx(&pragma).unwrap();
-            let pragma_frag_id = id_for_jsx(&pragma_frag).unwrap();
+            self.insert_jsx_id_usage(&pragma);
+            self.insert_jsx_id_usage(&pragma_frag);
 
-            self.id_usage.insert(pragma_id);
-            self.id_usage.insert(pragma_frag_id);
-        }
-
-        if !self.config.verbatim_module_syntax {
-            let span = if n.shebang.is_some() {
-                n.span
-                    .with_lo(n.body.first().map(|s| s.span_lo()).unwrap_or(n.span.lo))
-            } else {
-                n.span
-            };
+            let span = module_leading_comment_span(module);
 
             let JsxDirectives {
                 pragma,
@@ -223,31 +232,68 @@ where
             });
 
             if let Some(pragma) = pragma {
-                if let Some(pragma_id) = id_for_jsx(&pragma) {
-                    self.id_usage.insert(pragma_id);
-                }
+                self.insert_jsx_id_usage(&pragma);
             }
 
             if let Some(pragma_frag) = pragma_frag {
-                if let Some(pragma_frag_id) = id_for_jsx(&pragma_frag) {
-                    self.id_usage.insert(pragma_frag_id);
-                }
+                self.insert_jsx_id_usage(&pragma_frag);
             }
         }
     }
+}
 
-    fn visit_mut_script(&mut self, _: &mut Script) {
-        // skip script
-    }
+impl<C> Pass for TypeScriptReact<C>
+where
+    C: Comments,
+{
+    fn process(&mut self, n: &mut Program) {
+        if let Program::Module(module) = n {
+            self.collect_pragma_id_usage(module);
+        }
 
-    fn visit_mut_program(&mut self, n: &mut Program) {
-        n.visit_mut_children_with(self);
-
-        n.mutate(&mut TypeScript {
+        let mut pass = TypeScript {
             config: mem::take(&mut self.config),
             unresolved_mark: self.unresolved_mark,
             top_level_mark: self.top_level_mark,
             id_usage: mem::take(&mut self.id_usage),
+        };
+
+        pass.process(n);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_common::{BytePos, Span, DUMMY_SP};
+
+    use super::*;
+
+    fn span(lo: u32, hi: u32) -> Span {
+        Span::new(BytePos(lo), BytePos(hi))
+    }
+
+    #[test]
+    fn id_for_jsx_resolves_root_ident() {
+        let react = Ident::new_no_ctxt("React".into(), DUMMY_SP);
+        let expr = Expr::Member(MemberExpr {
+            span: DUMMY_SP,
+            obj: Box::new(Expr::Ident(react.clone())),
+            prop: MemberProp::Ident(IdentName::new("createElement".into(), DUMMY_SP)),
         });
+
+        assert_eq!(id_for_jsx(&expr), Some(react.to_id()));
+    }
+
+    #[test]
+    fn module_leading_comment_span_uses_first_item_when_shebang_exists() {
+        let module = Module {
+            span: span(1, 10),
+            body: vec![ModuleItem::Stmt(Stmt::Empty(EmptyStmt {
+                span: span(4, 5),
+            }))],
+            shebang: Some("usr/bin/env node".into()),
+        };
+
+        assert_eq!(module_leading_comment_span(&module), span(4, 10));
     }
 }
