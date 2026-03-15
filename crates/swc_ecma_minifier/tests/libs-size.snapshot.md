@@ -10,5 +10,5 @@
 | terser.js | 1.08 MiB | 446.63 KiB | 120.49 KiB |
 | three.js | 1.19 MiB | 630.55 KiB | 154.77 KiB |
 | typescript.js | 10.45 MiB | 3.17 MiB | 840.61 KiB |
-| victory.js | 2.30 MiB | 694.04 KiB | 154.19 KiB |
+| victory.js | 2.30 MiB | 694.04 KiB | 154.18 KiB |
 | vue.js | 334.13 KiB | 113.56 KiB | 41.81 KiB |

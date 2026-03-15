@@ -125,6 +125,7 @@ pub(crate) struct VarUsageInfo {
     pub(crate) merged_var_type: Option<Value<Type>>,
 
     pub(crate) callee_count: u32,
+    pub(crate) param_count: Option<Value<u8>>,
 
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
@@ -147,6 +148,7 @@ impl Default for VarUsageInfo {
             var_kind: Default::default(),
             merged_var_type: Default::default(),
             callee_count: Default::default(),
+            param_count: Default::default(),
             infects_to: Default::default(),
             accessed_props: Default::default(),
         }
@@ -593,6 +595,14 @@ impl ScopeDataLike for ScopeData {
     fn mark_with_stmt(&mut self) {
         *self |= Self::HAS_WITH_STMT;
     }
+
+    fn used_arguments(&self) -> bool {
+        self.intersects(ScopeData::USED_ARGUMENTS)
+    }
+
+    fn used_eval(&self) -> bool {
+        self.intersects(ScopeData::HAS_EVAL_CALL)
+    }
 }
 
 impl VarDataLike for VarUsageInfo {
@@ -677,6 +687,16 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_used_as_jsx_callee(&mut self) {
         self.flags.insert(VarUsageInfoFlags::USED_AS_JSX_CALLEE);
+    }
+
+    fn mark_param_count(&mut self, count: Value<u8>) {
+        match (self.param_count, count) {
+            (Some(Value::Known(prev)), Value::Known(count)) if prev == count => {}
+            (Some(Value::Known(_)), Value::Known(_))
+            | (Some(Value::Unknown), _)
+            | (_, Value::Unknown) => self.param_count = Some(Value::Unknown),
+            (None, count) => self.param_count = Some(count),
+        }
     }
 }
 

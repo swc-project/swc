@@ -9648,7 +9648,7 @@ function(global, factory) {
             }
         }
         function initializeStrength() {
-            if (nodes) for(var i = 0, n = links.length; i < n; ++i)strengths[i] = +strength(links[i], i, links);
+            if (nodes) for(var i = 0, n = links.length; i < n; ++i)strengths[i] = +strength(links[i]);
         }
         function initializeDistance() {
             if (nodes) for(var i = 0, n = links.length; i < n; ++i)distances[i] = +distance(links[i], i, links);

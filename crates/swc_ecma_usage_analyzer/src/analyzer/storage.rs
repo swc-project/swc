@@ -56,6 +56,9 @@ pub trait ScopeDataLike: Sized + Default + Clone {
     fn mark_eval_called(&mut self);
 
     fn mark_with_stmt(&mut self);
+
+    fn used_arguments(&self) -> bool;
+    fn used_eval(&self) -> bool;
 }
 
 pub trait VarDataLike: Sized {
@@ -95,6 +98,8 @@ pub trait VarDataLike: Sized {
     fn mark_used_above_decl(&mut self);
 
     fn mark_used_recursively(&mut self);
+
+    fn mark_param_count(&mut self, count: Value<u8>);
 
     fn is_declared(&self) -> bool;
 

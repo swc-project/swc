@@ -1709,6 +1709,7 @@ impl VisitMut for Optimizer<'_> {
         }
 
         self.ignore_unused_args_of_iife(e);
+        self.ignore_unused_args_of_call(e);
         self.inline_args_of_iife(e);
         self.drop_arguments_of_symbol_call(e);
 
