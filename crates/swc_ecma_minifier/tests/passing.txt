@@ -441,6 +441,7 @@ drop_unused/drop_value/input.js
 drop_unused/function_argument_modified_by_function_statement/input.js
 drop_unused/global_var/input.js
 drop_unused/iife/input.js
+drop_unused/issue_11089/input.js
 drop_unused/issue_1539/input.js
 drop_unused/issue_1656/input.js
 drop_unused/issue_1709/input.js

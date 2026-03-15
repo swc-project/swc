@@ -38,6 +38,7 @@ use crate::{
 
 mod arguments;
 mod bools;
+mod call_args;
 mod conditionals;
 mod dead_code;
 mod drop_console;
@@ -336,21 +337,40 @@ impl Repeated for Optimizer<'_> {
 #[derive(Debug, Clone, Copy)]
 struct FnMetadata {
     len: usize,
+    param_count: usize,
+    has_rest: bool,
+    uses_arguments: bool,
 }
 
-impl From<&Function> for FnMetadata {
-    fn from(f: &Function) -> Self {
-        FnMetadata {
-            len: f
-                .params
-                .iter()
-                .filter(|p| matches!(&p.pat, Pat::Ident(..) | Pat::Array(..) | Pat::Object(..)))
-                .count(),
-        }
-    }
+fn function_length_from_params<'a>(params: impl IntoIterator<Item = &'a Pat>) -> usize {
+    params
+        .into_iter()
+        .filter(|p| matches!(p, Pat::Ident(..) | Pat::Array(..) | Pat::Object(..)))
+        .count()
 }
 
 impl Optimizer<'_> {
+    fn fn_metadata_of_function(&self, f: &Function) -> FnMetadata {
+        FnMetadata {
+            len: function_length_from_params(f.params.iter().map(|p| &p.pat)),
+            param_count: f.params.len(),
+            has_rest: f.params.iter().any(|p| p.pat.is_rest()),
+            uses_arguments: self
+                .data
+                .get_scope(f.ctxt)
+                .is_some_and(|scope| scope.contains(ScopeData::USED_ARGUMENTS)),
+        }
+    }
+
+    fn fn_metadata_of_arrow(&self, a: &ArrowExpr) -> FnMetadata {
+        FnMetadata {
+            len: function_length_from_params(a.params.iter()),
+            param_count: a.params.len(),
+            has_rest: a.params.iter().any(Pat::is_rest),
+            uses_arguments: false,
+        }
+    }
+
     fn may_remove_ident(&self, id: &Ident) -> bool {
         if self
             .data
@@ -1711,6 +1731,7 @@ impl VisitMut for Optimizer<'_> {
         self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
         self.drop_arguments_of_symbol_call(e);
+        self.drop_unused_args_of_known_fn_call(e);
 
         // Try to replace static method call with alias (after other transformations)
         if let Callee::Expr(callee) = &mut e.callee {
@@ -2135,9 +2156,8 @@ impl VisitMut for Optimizer<'_> {
         )
         .entered();
 
-        self.functions
-            .entry(f.ident.to_id())
-            .or_insert_with(|| FnMetadata::from(&*f.function));
+        let metadata = self.fn_metadata_of_function(&f.function);
+        self.functions.entry(f.ident.to_id()).or_insert(metadata);
 
         self.drop_unused_params(&mut f.function.params);
 
@@ -2154,9 +2174,8 @@ impl VisitMut for Optimizer<'_> {
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(ident) = &e.ident {
-            self.functions
-                .entry(ident.to_id())
-                .or_insert_with(|| FnMetadata::from(&*e.function));
+            let metadata = self.fn_metadata_of_function(&e.function);
+            self.functions.entry(ident.to_id()).or_insert(metadata);
         }
 
         if !self.options.keep_fnames {
@@ -3015,6 +3034,23 @@ impl VisitMut for Optimizer<'_> {
         self.remove_duplicate_name_of_function(var);
 
         debug_assert_valid(&var.init);
+
+        if let VarDeclarator {
+            name: Pat::Ident(id),
+            init: Some(init),
+            ..
+        } = var
+        {
+            let metadata = match &**init {
+                Expr::Fn(FnExpr { function, .. }) => Some(self.fn_metadata_of_function(function)),
+                Expr::Arrow(arrow) => Some(self.fn_metadata_of_arrow(arrow)),
+                _ => None,
+            };
+
+            if let Some(metadata) = metadata {
+                self.functions.entry(id.id.to_id()).or_insert(metadata);
+            }
+        }
 
         if let VarDeclarator {
             name: Pat::Ident(id),

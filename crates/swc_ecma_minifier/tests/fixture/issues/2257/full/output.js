@@ -1704,7 +1704,7 @@
             };
         } // CONCATENATED MODULE: ./node_modules/_@swc_helpers@0.2.13@@swc/helpers/src/_sliced_to_array.js
         function _slicedToArray(arr, i) {
-            return _arrayWithHoles(arr) || _iterableToArray(arr, i) || _nonIterableRest();
+            return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
         } // CONCATENATED MODULE: ./node_modules/_@swc_helpers@0.2.13@@swc/helpers/src/_sliced_to_array_loose.js
         function _slicedToArrayLoose(arr, i) {
             return _arrayWithHoles(arr) || _iterableToArrayLimitLoose(arr, i) || _nonIterableRest();
