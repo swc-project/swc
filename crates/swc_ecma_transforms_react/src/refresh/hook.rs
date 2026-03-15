@@ -486,10 +486,10 @@ impl Visit for HookCollector<'_> {
                         if let Some(hook) = self.get_hook_from_expr(init, Some(&decl.name)) {
                             self.state.push(hook)
                         } else {
-                            stmt.visit_children_with(self)
+                            decl.visit_children_with(self)
                         }
                     } else {
-                        stmt.visit_children_with(self)
+                        decl.visit_children_with(self)
                     }
                 }
             }

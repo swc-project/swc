@@ -1,8 +1,10 @@
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
 use swc_common::{
-    comments::Comments, sync::Lrc, util::take::Take, BytePos, Mark, SourceMap, SourceMapper, Span,
-    Spanned, SyntaxContext, DUMMY_SP,
+    comments::{Comment, Comments},
+    sync::Lrc,
+    util::take::Take,
+    BytePos, Mark, SourceMap, SourceMapper, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
@@ -21,6 +23,15 @@ mod util;
 
 #[cfg(test)]
 mod tests;
+
+const REFRESH_RESET_COMMENT: &str = "@refresh reset";
+
+#[inline]
+fn has_refresh_reset_comment(comments: &[Comment]) -> bool {
+    comments
+        .iter()
+        .any(|comment| comment.text.contains(REFRESH_RESET_COMMENT))
+}
 
 struct Hoc {
     insert: bool,
@@ -270,8 +281,46 @@ impl<C: Comments> VisitMutHook<()> for Refresh<C> {
 
 impl<C: Comments> Refresh<C> {
     fn visit_module(&mut self, module_items: &[ModuleItem]) {
+        if self.should_reset || self.comments.is_none() {
+            return;
+        }
+
         struct SpanVisitor<'a, C: Comments> {
             refresh: &'a mut Refresh<C>,
+            leading_cache: FxHashMap<BytePos, bool>,
+            trailing_cache: FxHashMap<BytePos, bool>,
+        }
+
+        impl<C: Comments> SpanVisitor<'_, C> {
+            #[inline]
+            fn has_leading_refresh_reset(&mut self, pos: BytePos) -> bool {
+                if let Some(cached) = self.leading_cache.get(&pos) {
+                    return *cached;
+                }
+
+                let should_reset =
+                    self.refresh.comments.as_ref().is_some_and(|comments| {
+                        comments.with_leading(pos, has_refresh_reset_comment)
+                    });
+                self.leading_cache.insert(pos, should_reset);
+
+                should_reset
+            }
+
+            #[inline]
+            fn has_trailing_refresh_reset(&mut self, pos: BytePos) -> bool {
+                if let Some(cached) = self.trailing_cache.get(&pos) {
+                    return *cached;
+                }
+
+                let should_reset =
+                    self.refresh.comments.as_ref().is_some_and(|comments| {
+                        comments.with_trailing(pos, has_refresh_reset_comment)
+                    });
+                self.trailing_cache.insert(pos, should_reset);
+
+                should_reset
+            }
         }
 
         impl<C: Comments> Visit for SpanVisitor<'_, C> {
@@ -280,35 +329,31 @@ impl<C: Comments> Refresh<C> {
                     return;
                 }
 
-                let mut should_refresh = self.refresh.should_reset;
-                if let Some(comments) = &self.refresh.comments {
-                    if !n.hi.is_dummy() {
-                        comments.with_leading(n.hi - BytePos(1), |comments| {
-                            if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                                should_refresh = true
-                            }
-                        });
-                    }
-
-                    comments.with_leading(n.lo, |comments| {
-                        if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                            should_refresh = true
-                        }
-                    });
-
-                    comments.with_trailing(n.lo, |comments| {
-                        if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                            should_refresh = true
-                        }
-                    });
+                if !n.hi.is_dummy() && self.has_leading_refresh_reset(n.hi - BytePos(1)) {
+                    self.refresh.should_reset = true;
+                    return;
                 }
 
-                self.refresh.should_reset = should_refresh;
+                if self.has_leading_refresh_reset(n.lo) {
+                    self.refresh.should_reset = true;
+                    return;
+                }
+
+                if self.has_trailing_refresh_reset(n.lo) {
+                    self.refresh.should_reset = true;
+                }
             }
         }
 
-        let mut visitor = SpanVisitor { refresh: self };
+        let mut visitor = SpanVisitor {
+            refresh: self,
+            leading_cache: FxHashMap::default(),
+            trailing_cache: FxHashMap::default(),
+        };
         for item in module_items {
+            if visitor.refresh.should_reset {
+                break;
+            }
             item.visit_with(&mut visitor);
         }
     }

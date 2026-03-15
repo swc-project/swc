@@ -1,4 +1,5 @@
-use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
+use swc_atoms::Wtf8Atom;
+use swc_common::{sync::Lrc, BytePos, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::quote_ident;
@@ -8,13 +9,18 @@ mod tests;
 
 /// `@babel/plugin-transform-react-jsx-source`
 pub fn hook(dev: bool, cm: Lrc<SourceMap>) -> impl VisitMutHook<()> {
-    JsxSrc { cm, dev }
+    JsxSrc {
+        cm,
+        dev,
+        cached_file_name: None,
+    }
 }
 
 #[derive(Clone)]
 struct JsxSrc {
     cm: Lrc<SourceMap>,
     dev: bool,
+    cached_file_name: Option<(BytePos, Wtf8Atom)>,
 }
 
 // For tests
@@ -30,13 +36,34 @@ fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Pass {
 }
 
 impl VisitMutHook<()> for JsxSrc {
+    fn enter_module(&mut self, _: &mut Module, _ctx: &mut ()) {
+        self.cached_file_name = None;
+    }
+
+    fn enter_script(&mut self, _: &mut Script, _ctx: &mut ()) {
+        self.cached_file_name = None;
+    }
+
     fn enter_jsx_opening_element(&mut self, e: &mut JSXOpeningElement, _ctx: &mut ()) {
         if !self.dev || e.span == DUMMY_SP {
             return;
         }
 
         let loc = self.cm.lookup_char_pos(e.span.lo);
-        let file_name = loc.file.name.to_string();
+        let file_start_pos = loc.file.start_pos;
+        let file_name = if let Some((cached_start_pos, cached_file_name)) = &self.cached_file_name {
+            if *cached_start_pos == file_start_pos {
+                cached_file_name.clone()
+            } else {
+                let file_name: Wtf8Atom = loc.file.name.to_string().into();
+                self.cached_file_name = Some((file_start_pos, file_name.clone()));
+                file_name
+            }
+        } else {
+            let file_name: Wtf8Atom = loc.file.name.to_string().into();
+            self.cached_file_name = Some((file_start_pos, file_name.clone()));
+            file_name
+        };
 
         e.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
             span: DUMMY_SP,
@@ -52,7 +79,7 @@ impl VisitMutHook<()> for JsxSrc {
                                 value: Box::new(Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
                                     raw: None,
-                                    value: file_name.into(),
+                                    value: file_name,
                                 }))),
                             }))),
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
