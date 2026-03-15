@@ -6,10 +6,12 @@ use swc_ecma_transforms_base::{helpers, resolver};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::{fold_pass, Fold};
 
-static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
+static SOURCE_COMMON: &str = include_str!("assets/AjaxObservable.ts");
+static SOURCE_ENUM_HEAVY: &str = include_str!("assets/EnumHeavy.ts");
+static SOURCE_MODULE_STRIP: &str = include_str!("assets/ModuleStripHeavy.ts");
 
-fn module(cm: Lrc<SourceMap>) -> Program {
-    let fm = cm.new_source_file(FileName::Anon.into(), SOURCE);
+fn module(cm: Lrc<SourceMap>, source: &str) -> Program {
+    let fm = cm.new_source_file(FileName::Anon.into(), source.to_string());
     let lexer = Lexer::new(
         Syntax::Typescript(Default::default()),
         Default::default(),
@@ -30,7 +32,7 @@ where
     V: Pass,
 {
     let _ = ::testing::run_test(false, |cm, _| {
-        let module = module(cm);
+        let module = module(cm, SOURCE_COMMON);
         let unresolved_mark = Mark::fresh(Mark::root());
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
@@ -58,6 +60,14 @@ fn baseline_group(c: &mut Criterion) {
         common_reserved_word,
     );
     c.bench_function("es/transform/baseline/common_typescript", common_typescript);
+    c.bench_function(
+        "es/transform/baseline/common_typescript_enum_heavy",
+        common_typescript_enum_heavy,
+    );
+    c.bench_function(
+        "es/transform/baseline/common_typescript_module_strip",
+        common_typescript_module_strip,
+    );
 }
 
 fn base(b: &mut Bencher) {
@@ -73,7 +83,49 @@ fn base(b: &mut Bencher) {
 
 fn common_typescript(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, _| {
-        let module = module(cm);
+        let module = module(cm, SOURCE_COMMON);
+        let unresolved_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh(Mark::root());
+        let module = module
+            .apply(resolver(unresolved_mark, top_level_mark, true))
+            .apply(strip(unresolved_mark, top_level_mark));
+
+        b.iter(|| {
+            let module = module.clone();
+
+            helpers::HELPERS.set(&Default::default(), || {
+                black_box(module.apply(strip(unresolved_mark, top_level_mark)));
+            });
+        });
+
+        Ok(())
+    });
+}
+
+fn common_typescript_enum_heavy(b: &mut Bencher) {
+    let _ = ::testing::run_test(false, |cm, _| {
+        let module = module(cm, SOURCE_ENUM_HEAVY);
+        let unresolved_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh(Mark::root());
+        let module = module
+            .apply(resolver(unresolved_mark, top_level_mark, true))
+            .apply(strip(unresolved_mark, top_level_mark));
+
+        b.iter(|| {
+            let module = module.clone();
+
+            helpers::HELPERS.set(&Default::default(), || {
+                black_box(module.apply(strip(unresolved_mark, top_level_mark)));
+            });
+        });
+
+        Ok(())
+    });
+}
+
+fn common_typescript_module_strip(b: &mut Bencher) {
+    let _ = ::testing::run_test(false, |cm, _| {
+        let module = module(cm, SOURCE_MODULE_STRIP);
         let unresolved_mark = Mark::fresh(Mark::root());
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
