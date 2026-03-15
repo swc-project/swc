@@ -772,6 +772,44 @@ impl<I: Tokens> Parser<I> {
         self.parse_formal_params()
     }
 
+    pub(super) fn parse_paren_items_as_params_from_ref(
+        &mut self,
+        exprs: &[AssignTargetOrSpread],
+        trailing_comma: Option<Span>,
+    ) -> PResult<Vec<Pat>> {
+        let pat_ty = PatType::BindingPat;
+
+        let len = exprs.len();
+        if len == 0 {
+            return Ok(Vec::new());
+        }
+
+        let mut params = Vec::with_capacity(len);
+
+        for expr in &exprs[..len - 1] {
+            match expr {
+                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                    spread: Some(..), ..
+                })
+                | AssignTargetOrSpread::Pat(Pat::Rest(..)) => {
+                    self.emit_err(expr.span(), SyntaxError::TS1014)
+                }
+                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                    spread: None, expr, ..
+                }) => params.push(self.reparse_expr_as_pat_for_param_ref(pat_ty, expr.as_ref())?),
+                AssignTargetOrSpread::Pat(pat) => params.push(pat.clone()),
+            }
+        }
+
+        let expr = exprs.last().expect("length is checked");
+        let last = self.parse_last_paren_item_as_param_ref(expr, pat_ty, trailing_comma)?;
+        params.push(last);
+
+        self.validate_arrow_params_in_strict_mode(&params);
+
+        Ok(params)
+    }
+
     pub(super) fn parse_paren_items_as_params(
         &mut self,
         mut exprs: Vec<AssignTargetOrSpread>,
@@ -796,39 +834,76 @@ impl<I: Tokens> Parser<I> {
                 }
                 AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
                     spread: None, expr, ..
-                }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
+                }) => params.push(self.reparse_expr_as_pat_for_param_owned(pat_ty, expr)?),
                 AssignTargetOrSpread::Pat(pat) => params.push(pat),
             }
         }
 
         debug_assert_eq!(exprs.len(), 1);
         let expr = exprs.pop().unwrap();
+        let last = self.parse_last_paren_item_as_param_owned(expr, pat_ty, trailing_comma)?;
+        params.push(last);
+
+        self.validate_arrow_params_in_strict_mode(&params);
+
+        Ok(params)
+    }
+
+    #[inline]
+    fn reparse_expr_as_pat_for_param_owned(
+        &mut self,
+        pat_ty: PatType,
+        expr: Box<Expr>,
+    ) -> PResult<Pat> {
+        if let Expr::Ident(ident) = expr.as_ref() {
+            return Ok(ident.clone().into());
+        }
+
+        self.reparse_expr_as_pat(pat_ty, expr)
+    }
+
+    #[inline]
+    fn reparse_expr_as_pat_for_param_ref(&mut self, pat_ty: PatType, expr: &Expr) -> PResult<Pat> {
+        if let Expr::Ident(ident) = expr {
+            return Ok(ident.clone().into());
+        }
+
+        self.reparse_expr_as_pat(pat_ty, Box::new(expr.clone()))
+    }
+
+    fn parse_last_paren_item_as_param_owned(
+        &mut self,
+        expr: AssignTargetOrSpread,
+        pat_ty: PatType,
+        trailing_comma: Option<Span>,
+    ) -> PResult<Pat> {
         let outer_expr_span = expr.span();
-        let last = match expr {
-            // Rest
+
+        match expr {
             AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
                 spread: Some(dot3_token),
                 expr,
             }) => {
-                if let Expr::Assign(_) = *expr {
+                if matches!(expr.as_ref(), Expr::Assign(..)) {
                     self.emit_err(outer_expr_span, SyntaxError::TS1048)
                 };
                 if let Some(trailing_comma) = trailing_comma {
                     self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
                 }
                 let expr_span = expr.span();
-                self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
-                    RestPat {
-                        span: expr_span,
-                        dot3_token,
-                        arg: Box::new(pat),
-                        type_ann: None,
-                    }
-                    .into()
-                })?
+                self.reparse_expr_as_pat_for_param_owned(pat_ty, expr)
+                    .map(|pat| {
+                        RestPat {
+                            span: expr_span,
+                            dot3_token,
+                            arg: Box::new(pat),
+                            type_ann: None,
+                        }
+                        .into()
+                    })
             }
             AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
-                self.reparse_expr_as_pat(pat_ty, expr)?
+                self.reparse_expr_as_pat_for_param_owned(pat_ty, expr)
             }
             AssignTargetOrSpread::Pat(pat) => {
                 if let Some(trailing_comma) = trailing_comma {
@@ -836,17 +911,63 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
                     }
                 }
-                pat
+                Ok(pat)
             }
-        };
-        params.push(last);
+        }
+    }
 
+    fn parse_last_paren_item_as_param_ref(
+        &mut self,
+        expr: &AssignTargetOrSpread,
+        pat_ty: PatType,
+        trailing_comma: Option<Span>,
+    ) -> PResult<Pat> {
+        let outer_expr_span = expr.span();
+
+        match expr {
+            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                spread: Some(dot3_token),
+                expr,
+            }) => {
+                if matches!(expr.as_ref(), Expr::Assign(..)) {
+                    self.emit_err(outer_expr_span, SyntaxError::TS1048)
+                };
+                if let Some(trailing_comma) = trailing_comma {
+                    self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+                }
+                let expr_span = expr.span();
+                self.reparse_expr_as_pat_for_param_ref(pat_ty, expr.as_ref())
+                    .map(|pat| {
+                        RestPat {
+                            span: expr_span,
+                            dot3_token: *dot3_token,
+                            arg: Box::new(pat),
+                            type_ann: None,
+                        }
+                        .into()
+                    })
+            }
+            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
+                self.reparse_expr_as_pat_for_param_ref(pat_ty, expr.as_ref())
+            }
+            AssignTargetOrSpread::Pat(pat) => {
+                if let Some(trailing_comma) = trailing_comma {
+                    if let Pat::Rest(..) = pat {
+                        self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+                    }
+                }
+                Ok(pat.clone())
+            }
+        }
+    }
+
+    #[inline]
+    fn validate_arrow_params_in_strict_mode(&mut self, params: &[Pat]) {
         if self.ctx().contains(Context::Strict) {
-            for param in params.iter() {
+            for param in params {
                 self.pat_is_valid_argument_in_strict(param)
             }
         }
-        Ok(params)
     }
 }
 

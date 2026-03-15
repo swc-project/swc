@@ -2204,7 +2204,7 @@ impl<I: Tokens> Parser<I> {
                     _ => false,
                 }
             } {
-                let params: Vec<Pat> = self.parse_paren_items_as_params(items.clone(), None)?;
+                let params: Vec<Pat> = self.parse_paren_items_as_params_from_ref(&items, None)?;
 
                 let body: Box<BlockStmtOrExpr> = self.parse_fn_block_or_expr_body(
                     false,
@@ -2275,15 +2275,13 @@ impl<I: Tokens> Parser<I> {
             && self.ctx().contains(Context::InCondExpr)
             && self.input().is(Token::Colon)
         {
-            // TODO: Remove clone
-            let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
 
                 expect!(p, Token::Arrow);
 
                 let params: Vec<Pat> =
-                    p.parse_paren_items_as_params(items_ref.clone(), trailing_comma)?;
+                    p.parse_paren_items_as_params_from_ref(&paren_items, trailing_comma)?;
 
                 let body: Box<BlockStmtOrExpr> = p.parse_fn_block_or_expr_body(
                     async_span.is_some(),
