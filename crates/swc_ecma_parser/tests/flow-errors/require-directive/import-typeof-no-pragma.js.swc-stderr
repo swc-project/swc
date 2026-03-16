@@ -1,0 +1,5 @@
+  x Expected 'from', got 'typeOf'
+   ,-[$DIR/tests/flow-errors/require-directive/import-typeof-no-pragma.js:1:1]
+ 1 | import typeof Foo from "foo";
+   :        ^^^^^^
+   `----

@@ -175,9 +175,9 @@ impl<I: Tokens> Parser<I> {
                 // `import { type as as as } from 'mod'`
                 if self.syntax().typescript()
                     && (orig_token == Token::Type
-                        || (self.syntax().flow() && orig_token == Token::TypeOf))
+                        || (self.syntax().flow_types_enabled() && orig_token == Token::TypeOf))
                 {
-                    if self.syntax().flow()
+                    if self.syntax().flow_types_enabled()
                         && orig_token == Token::TypeOf
                         && self.input().cur().is_word()
                     {
@@ -835,19 +835,20 @@ impl<I: Tokens> Parser<I> {
 
         'import_maybe_ident: {
             if self.is_ident_ref()
-                || (self.input().syntax().flow() && self.input().is(Token::TypeOf))
+                || (self.input().syntax().flow_types_enabled() && self.input().is(Token::TypeOf))
             {
                 let local_token = self.input().cur();
-                let mut local = if self.input().syntax().flow() && local_token == Token::TypeOf {
-                    self.bump();
-                    type_only = true;
-                    if self.input().is(Token::LBrace) || self.input().is(Token::Asterisk) {
-                        break 'import_maybe_ident;
-                    }
-                    self.parse_imported_default_binding()?
-                } else {
-                    self.parse_imported_default_binding()?
-                };
+                let mut local =
+                    if self.input().syntax().flow_types_enabled() && local_token == Token::TypeOf {
+                        self.bump();
+                        type_only = true;
+                        if self.input().is(Token::LBrace) || self.input().is(Token::Asterisk) {
+                            break 'import_maybe_ident;
+                        }
+                        self.parse_imported_default_binding()?
+                    } else {
+                        self.parse_imported_default_binding()?
+                    };
 
                 if self.input().syntax().typescript() && local_token == Token::Type {
                     let cur = self.input().cur();

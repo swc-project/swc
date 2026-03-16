@@ -2889,12 +2889,73 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if p.input().syntax().flow() && p.input_mut().eat(Token::Export) {
+                if p.input().is(Token::Function) {
+                    return p
+                        .parse_fn_decl(decorators.clone())
+                        .map(|decl| match decl {
+                            Decl::Fn(f) => FnDecl {
+                                declare: true,
+                                function: Box::new(Function {
+                                    span: Span {
+                                        lo: declare_start,
+                                        ..f.function.span
+                                    },
+                                    ..*f.function
+                                }),
+                                ..f
+                            }
+                            .into(),
+                            _ => decl,
+                        })
+                        .map(Some);
+                }
+
+                if p.input().is(Token::Class) {
+                    return p
+                        .parse_class_decl(start, start, decorators.clone(), false)
+                        .map(|decl| match decl {
+                            Decl::Class(c) => ClassDecl {
+                                declare: true,
+                                class: Box::new(Class {
+                                    span: Span {
+                                        lo: declare_start,
+                                        ..c.class.span
+                                    },
+                                    ..*c.class
+                                }),
+                                ..c
+                            }
+                            .into(),
+                            _ => decl,
+                        })
+                        .map(Some);
+                }
+
+                let cur = p.input().cur();
+                if matches!(cur, Token::Const | Token::Var | Token::Let) {
+                    return p
+                        .parse_var_stmt(false)
+                        .map(|decl| VarDecl {
+                            declare: true,
+                            span: Span {
+                                lo: declare_start,
+                                ..decl.span
+                            },
+                            ..*decl
+                        })
+                        .map(Box::new)
+                        .map(From::from)
+                        .map(Some);
+                }
+
                 if p.input().cur().is_word() {
                     let value = p.input().cur().take_word(&p.input);
                     return p
                         .parse_ts_decl(start, decorators, value, /* next */ true)
                         .map(|v| v.map(make_decl_declare));
                 }
+
+                return Ok(None);
             } else if p.input().cur().is_word() {
                 let value = p.input().cur().take_word(&p.input);
                 return p
