@@ -2843,7 +2843,7 @@ impl<I: Tokens> Parser<I> {
                     .map(Some);
             }
 
-            if (!p.input().syntax().flow() || p.input().syntax().flow_enums())
+            if p.input().syntax().typescript_allows_enum()
                 && p.input().is(Token::Const)
                 && peek!(p).is_some_and(|peek| peek == Token::Enum)
             {
@@ -3015,8 +3015,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             "enum" => {
-                let allow_ts_enum =
-                    !self.input().syntax().flow() || self.input().syntax().flow_enums();
+                let allow_ts_enum = self.input().syntax().typescript_allows_enum();
                 if allow_ts_enum && (next || self.is_ident_ref()) {
                     if next {
                         self.bump();

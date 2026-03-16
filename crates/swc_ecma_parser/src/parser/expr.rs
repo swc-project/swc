@@ -2114,6 +2114,7 @@ impl<I: Tokens> Parser<I> {
                 // }
 
                 let mut explicit_type_ann = None;
+                #[cfg(feature = "flow")]
                 if self.input().syntax().flow()
                     && !optional
                     && arg.spread.is_none()

@@ -69,7 +69,7 @@ static SINGLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
 static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || b == b'_' || b == b'$'));
 
-#[cfg(feature = "typescript")]
+#[cfg(feature = "flow")]
 fn flow_pragma_in_comment(comment: &str) -> Option<bool> {
     if comment.contains("@noflow") {
         return Some(false);
@@ -80,7 +80,7 @@ fn flow_pragma_in_comment(comment: &str) -> Option<bool> {
     None
 }
 
-#[cfg(feature = "typescript")]
+#[cfg(feature = "flow")]
 fn has_flow_pragma(mut src: &str) -> bool {
     // Trim UTF-8 BOM.
     if let Some(rest) = src.strip_prefix('\u{feff}') {
@@ -268,9 +268,12 @@ impl<'a> Lexer<'a> {
         comments: Option<&'a dyn Comments>,
     ) -> Self {
         let start_pos = input.last_pos();
+        #[cfg(feature = "flow")]
         let mut syntax = syntax.into_flags();
+        #[cfg(not(feature = "flow"))]
+        let syntax = syntax.into_flags();
 
-        #[cfg(feature = "typescript")]
+        #[cfg(feature = "flow")]
         {
             if syntax.flow() && has_flow_pragma(input.as_str()) {
                 syntax |= SyntaxFlags::FLOW_PRAGMA;

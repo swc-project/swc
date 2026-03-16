@@ -1,4 +1,5 @@
 #![allow(clippy::needless_update)]
+#![cfg(feature = "flow")]
 
 use std::{
     fs::File,

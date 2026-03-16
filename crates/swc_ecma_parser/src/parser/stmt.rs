@@ -1029,7 +1029,7 @@ impl<I: Tokens> Parser<I> {
         let is_typescript = self.input().syntax().typescript();
 
         if is_typescript
-            && (!self.input().syntax().flow() || self.input().syntax().flow_enums())
+            && self.input().syntax().typescript_allows_enum()
             && self.input().is(Token::Const)
             && peek!(self).is_some_and(|peek| peek == Token::Enum)
         {
@@ -1195,7 +1195,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(self.parse_ts_type_alias_decl(start)?.into());
         } else if cur == Token::Enum
             && is_typescript
-            && (!self.input().syntax().flow() || self.input().syntax().flow_enums())
+            && self.input().syntax().typescript_allows_enum()
             && peek!(self).is_some_and(|peek| peek.is_word())
             && !self.input_mut().has_linebreak_between_cur_and_peeked()
         {

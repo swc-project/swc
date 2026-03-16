@@ -560,8 +560,7 @@ impl<I: Tokens> Parser<I> {
         } else if !type_only && self.input().is(Token::Function) {
             self.parse_fn_decl(decorators)?
         } else if !type_only
-            && self.input().syntax().typescript()
-            && (!self.input().syntax().flow() || self.input().syntax().flow_enums())
+            && self.input().syntax().typescript_allows_enum()
             && self.input().is(Token::Const)
             && peek!(self).is_some_and(|cur| cur == Token::Enum)
         {
