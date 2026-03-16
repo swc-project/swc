@@ -6516,8 +6516,10 @@ dependencies = [
 name = "swc_ecma_react_compiler"
 version = "14.0.0"
 dependencies = [
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_codegen",
  "swc_ecma_parser",
  "swc_ecma_visit",
  "testing",
