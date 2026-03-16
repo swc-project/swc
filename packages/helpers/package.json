@@ -66,6 +66,12 @@
             "import": "./esm/_apply_decs_2203_r.js",
             "default": "./cjs/_apply_decs_2203_r.cjs"
         },
+        "./_/_apply_decs_2311": {
+            "module-sync": "./esm/_apply_decs_2311.js",
+            "webpack": "./esm/_apply_decs_2311.js",
+            "import": "./esm/_apply_decs_2311.js",
+            "default": "./cjs/_apply_decs_2311.cjs"
+        },
         "./_/_array_like_to_array": {
             "module-sync": "./esm/_array_like_to_array.js",
             "webpack": "./esm/_array_like_to_array.js",

@@ -18,7 +18,7 @@ impl VisitMut for ClassNameTdzFolder<'_> {
             Expr::Ident(i) => {
                 //
 
-                if i.sym == self.class_name.sym {
+                if i.to_id() == self.class_name.to_id() {
                     *expr = SeqExpr {
                         span: DUMMY_SP,
                         exprs: vec![
@@ -38,6 +38,36 @@ impl VisitMut for ClassNameTdzFolder<'_> {
                         ],
                     }
                     .into();
+                }
+            }
+            Expr::Call(call) => {
+                let is_static_private_helper = matches!(
+                    &call.callee,
+                    Callee::Expr(callee_expr)
+                        if matches!(
+                            &**callee_expr,
+                            Expr::Ident(Ident { sym, .. })
+                                if matches!(
+                                    &**sym,
+                                    "_class_static_private_field_destructure"
+                                        | "_class_static_private_field_spec_set"
+                                        | "_class_static_private_field_update"
+                                        | "_class_static_private_method_get"
+                                        | "_class_static_private_field_spec_get"
+                                )
+                        )
+                );
+
+                call.callee.visit_mut_with(self);
+
+                for (idx, arg) in call.args.iter_mut().enumerate() {
+                    // Static-private helper's second argument is the class reference.
+                    // Rewriting it with class_name_tdz_error breaks delayed private access
+                    // that should resolve after class initialization.
+                    if is_static_private_helper && idx == 1 {
+                        continue;
+                    }
+                    arg.visit_mut_with(self);
                 }
             }
 

@@ -415,6 +415,7 @@ define_helpers!(Helpers {
     ts_rewrite_relative_import_extension: (),
 
     apply_decs_2203_r: (),
+    apply_decs_2311: (),
     identity: (),
     dispose: (),
     using: (),

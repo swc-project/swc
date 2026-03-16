@@ -1,7 +1,7 @@
 export function test() {
     var _dec, _initClass, _dec1, _dec2, _initProto;
-    let _Foo;
     _dec = decorate(), _dec1 = decorate(), _dec2 = decorate();
+    let _Foo;
     // try putting this in stmts instead of at the top level
     class Foo {
         static{

@@ -1,0 +1,7 @@
+  x Unexpected token `#`. Expected identifier, string literal, numeric literal or [ for the computed key
+    ,-[input.js:12:1]
+ 11 |     staticThis = this;
+ 12 |     getX = ({ #x: x }) => x;
+    :               ^
+ 13 |     getA = ({ #a: a }) => a;
+    `----

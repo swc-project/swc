@@ -1,0 +1,44 @@
+let _computedKey, _computedKey1, _initStatic;
+const dec = ()=>{};
+_computedKey = _to_property_key('b'), _computedKey1 = _to_property_key('b');
+let _computedKey2 = _computedKey, _computedKey3 = _computedKey1;
+class Foo {
+    static get a() {
+        return this.value;
+    }
+    static set a(v) {
+        this.value = v;
+    }
+    static get [_computedKey2]() {
+        return this.value;
+    }
+    static set [_computedKey3](v) {
+        this.value = v;
+    }
+}
+(()=>{
+    ({ e: [_initStatic] } = _apply_decs_2311(Foo, [], [
+        [
+            dec,
+            11,
+            "a"
+        ],
+        [
+            dec,
+            12,
+            "a"
+        ],
+        [
+            dec,
+            11,
+            _computedKey
+        ],
+        [
+            dec,
+            12,
+            _computedKey1
+        ]
+    ]));
+    _initStatic(Foo);
+})();
+_define_property(Foo, "value", 1);
