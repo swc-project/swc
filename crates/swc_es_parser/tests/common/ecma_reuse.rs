@@ -288,6 +288,11 @@ pub fn is_expected_fail(case: &Case, options: &FixtureOptions) -> bool {
     if case.category == "jsx" && path.contains("/jsx/errors/") {
         return true;
     }
+    // swc_es_parser does not expose Flow mode yet, so Flow fixtures are
+    // treated as expected failures in parity suites.
+    if case.category == "flow" || case.category == "flow-errors" {
+        return true;
+    }
     if case.category == "test262-parser" && path.contains("/test262-parser/fail/") {
         return true;
     }
