@@ -1576,6 +1576,7 @@ fn build_memoized_block(
     out
 }
 
+#[allow(clippy::too_many_arguments)]
 fn build_memoized_block_two_values(
     cache_ident: &Ident,
     slot_start: u32,
@@ -3231,6 +3232,7 @@ fn hoist_root_jsx_tag_alias_if_needed(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn hoist_string_calls_from_jsx_return(
     return_expr: &mut Box<Expr>,
     transformed: &mut Vec<Stmt>,

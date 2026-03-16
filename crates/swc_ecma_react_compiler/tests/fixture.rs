@@ -56,7 +56,7 @@ fn normalize_flow_component_syntax(source: &str) -> String {
 
 fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     let cm = Lrc::new(SourceMap::default());
-    let mut parse_with_source = |code: &str, syntax: Syntax| {
+    let parse_with_source = |code: &str, syntax: Syntax| {
         let fm = cm.new_source_file(FileName::Real(input.to_path_buf()).into(), code.to_string());
         let comments = SingleThreadedComments::default();
         let mut errors = Vec::new();
