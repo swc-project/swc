@@ -84,13 +84,40 @@ function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
                 };
             }
         }
-        ctx.access = get && set ? { get: get, set: set } : get ? { get: get } : { set: set };
 
-        try {
-            return dec(value, ctx);
-        } finally {
-            decoratorFinishedRef.v = true;
+        if (get) {
+            var originalGet = get;
+            get = function(target) {
+                if (arguments.length === 0) {
+                    target = this;
+                }
+                return originalGet.call(target);
+            };
         }
+
+        if (set) {
+            var originalSet = set;
+            set = function(target, value) {
+                if (arguments.length === 1) {
+                    value = target;
+                    target = this;
+                }
+                return originalSet.call(target, value);
+            };
+        }
+
+        if (isPrivate) {
+            ctx.access = get && set ? { get: get, set: set } : get ? { get: get } : { set: set };
+        } else {
+            var has = function(target) {
+                return name in target;
+            };
+            ctx.access = get && set ? { has: has, get: get, set: set } : get ? { has: has, get: get } : { has: has, set: set };
+        }
+
+        var newValue = dec(value, ctx);
+        decoratorFinishedRef.v = true;
+        return newValue;
     }
 
     function assertNotFinished(decoratorFinishedRef, fnName) {
@@ -356,11 +383,8 @@ function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
             for (var i = classDecs.length - 1; i >= 0; i--) {
                 var decoratorFinishedRef = { v: false };
 
-                try {
-                    var nextNewClass = classDecs[i](newClass, { kind: "class", name: name, addInitializer: createAddInitializerMethod(initializers, decoratorFinishedRef), metadata });
-                } finally {
-                    decoratorFinishedRef.v = true;
-                }
+                var nextNewClass = classDecs[i](newClass, { kind: "class", name: name, addInitializer: createAddInitializerMethod(initializers, decoratorFinishedRef), metadata });
+                decoratorFinishedRef.v = true;
 
                 if (nextNewClass !== undefined) {
                     assertValidReturnValue(10, /* CLASS */ nextNewClass);
