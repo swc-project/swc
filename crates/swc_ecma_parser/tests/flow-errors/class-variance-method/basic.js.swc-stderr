@@ -1,0 +1,14 @@
+  x Modifiers cannot appear here
+   ,-[$DIR/tests/flow-errors/class-variance-method/basic.js:2:1]
+ 1 | class C {
+ 2 |   +m(): number {
+   :   ^
+ 3 |     return 1;
+   `----
+  x Modifiers cannot appear here
+   ,-[$DIR/tests/flow-errors/class-variance-method/basic.js:6:1]
+ 5 | 
+ 6 |   -n(): number {
+   :   ^
+ 7 |     return 2;
+   `----
