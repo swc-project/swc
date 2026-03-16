@@ -864,6 +864,14 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
         {
             break;
         }
+        if matches!(&*init, Expr::Call(_) | Expr::OptChain(_))
+            && binding_only_used_in_terminal_return_literal(
+                &stmts[prefix_index + 1..],
+                binding.sym.as_ref(),
+            )
+        {
+            break;
+        }
         if let Expr::Call(call) = &*init {
             if call
                 .args
@@ -4049,6 +4057,35 @@ fn binding_only_used_in_terminal_return(stmts: &[Stmt], binding: &str) -> bool {
         .map(|stmt| count_binding_references_in_stmt(stmt, binding))
         .sum();
 
+    prior_refs == 0
+}
+
+fn binding_only_used_in_terminal_return_literal(stmts: &[Stmt], binding: &str) -> bool {
+    let Some((last, preceding)) = stmts.split_last() else {
+        return false;
+    };
+    let Stmt::Return(return_stmt) = last else {
+        return false;
+    };
+    let Some(return_arg) = &return_stmt.arg else {
+        return false;
+    };
+
+    if !matches!(
+        unwrap_transparent_expr(return_arg),
+        Expr::Array(_) | Expr::Object(_)
+    ) {
+        return false;
+    }
+
+    if count_binding_references_in_expr(return_arg, binding) == 0 {
+        return false;
+    }
+
+    let prior_refs: usize = preceding
+        .iter()
+        .map(|stmt| count_binding_references_in_stmt(stmt, binding))
+        .sum();
     prior_refs == 0
 }
 
