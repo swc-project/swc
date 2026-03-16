@@ -4,6 +4,7 @@ use crate::error::{CompilerError, CompilerErrorDetail, ErrorCategory, ErrorSever
 
 const DEFAULT_ESLINT_SUPPRESSIONS: &[&str] =
     &["react-hooks/exhaustive-deps", "react-hooks/rules-of-hooks"];
+const NEXT_LINE_SUPPRESSION_MAX_GAP_BYTES: u32 = 256;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum SuppressionSource {
@@ -16,6 +17,25 @@ pub struct SuppressionRange {
     pub disable_comment: Comment,
     pub enable_comment: Option<Comment>,
     pub source: SuppressionSource,
+}
+
+pub fn is_next_line_suppression(range: &SuppressionRange) -> bool {
+    if range.source != SuppressionSource::Eslint {
+        return false;
+    }
+
+    if !range
+        .disable_comment
+        .text
+        .contains("eslint-disable-next-line")
+    {
+        return false;
+    }
+
+    match range.enable_comment.as_ref() {
+        Some(enable) => enable.span == range.disable_comment.span,
+        None => false,
+    }
 }
 
 pub fn default_eslint_suppression_rules() -> Vec<String> {
@@ -122,7 +142,11 @@ pub fn filter_suppressions_that_affect_range(
                 None => true,
             };
 
-        if is_within_function || wraps_function {
+        let is_next_line_suppression = is_next_line_suppression(suppression_range)
+            && disable_span.hi <= span.lo
+            && span.lo.0.saturating_sub(disable_span.hi.0) <= NEXT_LINE_SUPPRESSION_MAX_GAP_BYTES;
+
+        if is_within_function || wraps_function || is_next_line_suppression {
             suppressions_in_scope.push(suppression_range.clone());
         }
     }
@@ -205,8 +229,22 @@ mod tests {
         assert_eq!(hits.len(), 1);
 
         let misses =
-            filter_suppressions_that_affect_range(&ranges, Span::new(BytePos(40), BytePos(100)));
+            filter_suppressions_that_affect_range(&ranges, Span::new(BytePos(400), BytePos(600)));
         assert_eq!(misses.len(), 0);
+    }
+
+    #[test]
+    fn next_line_suppression_affects_following_function() {
+        let comments = vec![comment(
+            10,
+            30,
+            " eslint-disable-next-line react-hooks/rules-of-hooks ",
+        )];
+        let ranges = find_program_suppressions(&comments, None, true);
+        let hits =
+            filter_suppressions_that_affect_range(&ranges, Span::new(BytePos(35), BytePos(200)));
+        assert_eq!(hits.len(), 1);
+        assert_eq!(hits[0].source, SuppressionSource::Eslint);
     }
 
     #[test]

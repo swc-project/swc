@@ -119,6 +119,7 @@ pub fn compile_program(
         function_depth: 0,
         class_depth: 0,
         program_suppressions,
+        consumed_next_line_suppressions: HashSet::new(),
         report,
         queued_outlined: Vec::new(),
         used_external_imports: Vec::new(),
@@ -346,6 +347,7 @@ struct ProgramCompiler<'a> {
     function_depth: u32,
     class_depth: u32,
     program_suppressions: Vec<suppression::SuppressionRange>,
+    consumed_next_line_suppressions: HashSet<usize>,
     report: CompileReport,
     queued_outlined: Vec<QueuedOutlinedFunction>,
     used_external_imports: Vec<crate::options::ExternalFunction>,
@@ -358,6 +360,32 @@ struct QueuedOutlinedFunction {
 }
 
 impl ProgramCompiler<'_> {
+    fn suppressions_for_span(&mut self, span: Span) -> Vec<suppression::SuppressionRange> {
+        let mut matched = Vec::new();
+
+        for (index, suppression_range) in self.program_suppressions.iter().enumerate() {
+            let is_next_line = suppression::is_next_line_suppression(suppression_range);
+            if is_next_line && self.consumed_next_line_suppressions.contains(&index) {
+                continue;
+            }
+
+            let hits = suppression::filter_suppressions_that_affect_range(
+                std::slice::from_ref(suppression_range),
+                span,
+            );
+            if hits.is_empty() {
+                continue;
+            }
+
+            matched.push(suppression_range.clone());
+            if is_next_line {
+                self.consumed_next_line_suppressions.insert(index);
+            }
+        }
+
+        matched
+    }
+
     fn compile_named_function(
         &mut self,
         name: Option<&Ident>,
@@ -370,10 +398,7 @@ impl ProgramCompiler<'_> {
             return;
         }
 
-        let suppression_ranges = suppression::filter_suppressions_that_affect_range(
-            &self.program_suppressions,
-            function.span,
-        );
+        let suppression_ranges = self.suppressions_for_span(function.span);
         if !suppression_ranges.is_empty() {
             let err = suppression::suppressions_to_compiler_error(&suppression_ranges);
             self.record_error(err, Some(fn_loc));
@@ -559,10 +584,7 @@ impl ProgramCompiler<'_> {
             }
         };
 
-        let suppression_ranges = suppression::filter_suppressions_that_affect_range(
-            &self.program_suppressions,
-            arrow.span,
-        );
+        let suppression_ranges = self.suppressions_for_span(arrow.span);
         if !suppression_ranges.is_empty() {
             let err = suppression::suppressions_to_compiler_error(&suppression_ranges);
             self.record_error(err, Some(fn_loc));

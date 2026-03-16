@@ -20,6 +20,10 @@ pub fn has_memo_cache_function_import(program: &Program, module_name: &str) -> b
             return false;
         };
 
+        if import_decl.type_only {
+            return false;
+        }
+
         if import_decl.src.value != module_name {
             return false;
         }
@@ -28,6 +32,10 @@ pub fn has_memo_cache_function_import(program: &Program, module_name: &str) -> b
             let ImportSpecifier::Named(named) = specifier else {
                 return false;
             };
+
+            if named.is_type_only {
+                return false;
+            }
 
             match &named.imported {
                 Some(ModuleExportName::Ident(imported)) => imported.sym == "c",
@@ -154,7 +162,7 @@ fn find_existing_import_mut<'a>(
             continue;
         };
 
-        if import_decl.src.value == module_name {
+        if import_decl.src.value == module_name && !import_decl.type_only {
             return Some(import_decl);
         }
     }
@@ -175,11 +183,17 @@ fn find_existing_named_import(
         if import_decl.src.value != module_name {
             continue;
         }
+        if import_decl.type_only {
+            continue;
+        }
 
         for specifier in &import_decl.specifiers {
             let ImportSpecifier::Named(named) = specifier else {
                 continue;
             };
+            if named.is_type_only {
+                continue;
+            }
 
             let imported_matches = match &named.imported {
                 Some(ModuleExportName::Ident(ident_name)) => ident_name.sym == imported_name,
@@ -210,4 +224,49 @@ fn _script_require_stub(_span: Span) -> Decl {
             definite: false,
         }],
     }))
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_common::FileName;
+    use swc_ecma_ast::EsVersion;
+    use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+
+    use super::*;
+
+    fn parse_module(code: &str) -> Program {
+        let cm = swc_common::sync::Lrc::new(swc_common::SourceMap::default());
+        let fm = cm.new_source_file(
+            FileName::Custom("fixture.ts".into()).into(),
+            code.to_string(),
+        );
+        Program::Module(
+            parse_file_as_module(
+                &fm,
+                Syntax::Typescript(TsSyntax::default()),
+                EsVersion::latest(),
+                None,
+                &mut vec![],
+            )
+            .expect("should parse"),
+        )
+    }
+
+    #[test]
+    fn ignores_type_only_cache_helper_import() {
+        let program = parse_module("import type { c } from \"react/compiler-runtime\";\n");
+        assert!(!has_memo_cache_function_import(
+            &program,
+            "react/compiler-runtime"
+        ));
+    }
+
+    #[test]
+    fn detects_runtime_cache_helper_import() {
+        let program = parse_module("import { c as _c } from \"react/compiler-runtime\";\n");
+        assert!(has_memo_cache_function_import(
+            &program,
+            "react/compiler-runtime"
+        ));
+    }
 }
