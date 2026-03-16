@@ -1,4 +1,4 @@
-var _init_a, _init_extra__init_a, _init_a1, _init_extra__init_a1, _get___a, _set___a, _computedKey, _init_computedKey, _init_extra__init_computedKey, _computedKey1, _init_computedKey1, _init_extra__init_computedKey1, _computedKey2, _init_computedKey2, _init_extra__init_computedKey2, _computedKey3, _init_computedKey3, _init_extra__init_computedKey3, _computedKey4, _init_computedKey4, _init_extra__init_computedKey4, _computedKey5, _init_computedKey5, _init_extra__init_computedKey5, _computedKey6, _init_computedKey6, _init_extra__init_computedKey6, _initStatic;
+var _init_a, _init_extra__init_a, _init_a1, _init_extra__init_a1, _get___a, _set___a, _computedKey, _init_computedKey, _init_extra__init_computedKey, _computedKey1, _init_computedKey1, _init_extra__init_computedKey1, _computedKey2, _init_computedKey2, _init_extra__init_computedKey2, _computedKey3, _init_computedKey3, _init_extra__init_computedKey3, _computedKey4, _init_computedKey4, _init_extra__init_computedKey4, _computedKey5, _init_computedKey5, _init_extra__init_computedKey5, _computedKey6, _init_computedKey6, _init_extra__init_computedKey6;
 const logs = [];
 const dec = (value, context)=>{
     logs.push(context.name);
@@ -65,62 +65,59 @@ var _a = {
     get: get_a,
     set: set_a
 };
-(()=>{
-    ({ e: [_init_a, _init_extra__init_a, _init_a1, _get___a, _set___a, _init_extra__init_a1, _init_computedKey, _init_extra__init_computedKey, _init_computedKey1, _init_extra__init_computedKey1, _init_computedKey2, _init_extra__init_computedKey2, _init_computedKey3, _init_extra__init_computedKey3, _init_computedKey4, _init_extra__init_computedKey4, _init_computedKey5, _init_extra__init_computedKey5, _init_computedKey6, _init_extra__init_computedKey6, _initStatic] } = _apply_decs_2311(Foo, [], [
-        [
-            dec,
-            9,
-            "a"
-        ],
-        [
-            dec,
-            9,
-            "a",
-            function(_this) {
-                return _class_static_private_field_spec_get(_this, Foo, ___a_2);
-            },
-            function(_this, _v) {
-                _class_static_private_field_spec_set(_this, Foo, ___a_2, _v);
-            }
-        ],
-        [
-            dec,
-            9,
-            _computedKey
-        ],
-        [
-            dec,
-            9,
-            _computedKey1
-        ],
-        [
-            dec,
-            9,
-            _computedKey2
-        ],
-        [
-            dec,
-            9,
-            _computedKey3
-        ],
-        [
-            dec,
-            9,
-            _computedKey4
-        ],
-        [
-            dec,
-            9,
-            _computedKey5
-        ],
-        [
-            dec,
-            9,
-            _computedKey6
-        ]
-    ]));
-    _initStatic(Foo);
-})();
+({ e: [_init_a, _init_extra__init_a, _init_a1, _get___a, _set___a, _init_extra__init_a1, _init_computedKey, _init_extra__init_computedKey, _init_computedKey1, _init_extra__init_computedKey1, _init_computedKey2, _init_extra__init_computedKey2, _init_computedKey3, _init_extra__init_computedKey3, _init_computedKey4, _init_extra__init_computedKey4, _init_computedKey5, _init_extra__init_computedKey5, _init_computedKey6, _init_extra__init_computedKey6] } = _apply_decs_2311(Foo, [], [
+    [
+        dec,
+        9,
+        "a"
+    ],
+    [
+        dec,
+        9,
+        "a",
+        function(_this) {
+            return _class_static_private_field_spec_get(_this, Foo, ___a_2);
+        },
+        function(_this, _v) {
+            _class_static_private_field_spec_set(_this, Foo, ___a_2, _v);
+        }
+    ],
+    [
+        dec,
+        9,
+        _computedKey
+    ],
+    [
+        dec,
+        9,
+        _computedKey1
+    ],
+    [
+        dec,
+        9,
+        _computedKey2
+    ],
+    [
+        dec,
+        9,
+        _computedKey3
+    ],
+    [
+        dec,
+        9,
+        _computedKey4
+    ],
+    [
+        dec,
+        9,
+        _computedKey5
+    ],
+    [
+        dec,
+        9,
+        _computedKey6
+    ]
+]));
 var ____private_a_1 = {
     writable: true,
     value: (()=>{

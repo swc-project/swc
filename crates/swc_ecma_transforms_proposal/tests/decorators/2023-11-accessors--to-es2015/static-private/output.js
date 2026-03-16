@@ -1,4 +1,4 @@
-var _init_a, _init_extra__init_a, _get___a, _set___a, _init_b, _init_extra__init_b, _get___b, _set___b, _initStatic;
+var _init_a, _init_extra__init_a, _get___a, _set___a, _init_b, _init_extra__init_b, _get___b, _set___b;
 const dec = ()=>{};
 class Foo {
 }
@@ -10,33 +10,30 @@ var _b = {
     get: get_b,
     set: set_b
 };
-(()=>{
-    ({ e: [_init_a, _get___a, _set___a, _init_extra__init_a, _init_b, _get___b, _set___b, _init_extra__init_b, _initStatic] } = _apply_decs_2311(Foo, [], [
-        [
-            dec,
-            9,
-            "a",
-            function(_this) {
-                return _class_static_private_field_spec_get(_this, Foo, ___a_1);
-            },
-            function(_this, _v) {
-                _class_static_private_field_spec_set(_this, Foo, ___a_1, _v);
-            }
-        ],
-        [
-            dec,
-            9,
-            "b",
-            function(_this) {
-                return _class_static_private_field_spec_get(_this, Foo, ___b_2);
-            },
-            function(_this, _v) {
-                _class_static_private_field_spec_set(_this, Foo, ___b_2, _v);
-            }
-        ]
-    ]));
-    _initStatic(Foo);
-})();
+({ e: [_init_a, _get___a, _set___a, _init_extra__init_a, _init_b, _get___b, _set___b, _init_extra__init_b] } = _apply_decs_2311(Foo, [], [
+    [
+        dec,
+        9,
+        "a",
+        function(_this) {
+            return _class_static_private_field_spec_get(_this, Foo, ___a_1);
+        },
+        function(_this, _v) {
+            _class_static_private_field_spec_set(_this, Foo, ___a_1, _v);
+        }
+    ],
+    [
+        dec,
+        9,
+        "b",
+        function(_this) {
+            return _class_static_private_field_spec_get(_this, Foo, ___b_2);
+        },
+        function(_this, _v) {
+            _class_static_private_field_spec_set(_this, Foo, ___b_2, _v);
+        }
+    ]
+]));
 var ___a_1 = {
     writable: true,
     value: (()=>{

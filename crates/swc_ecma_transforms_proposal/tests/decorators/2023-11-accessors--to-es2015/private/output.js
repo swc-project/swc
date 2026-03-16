@@ -1,4 +1,4 @@
-var _init_a, _init_extra__init_a, _get___a, _set___a, _init_b, _init_extra__init_b, _get___b, _set___b, _initProto;
+var _init_a, _init_extra__init_a, _get___a, _set___a, _init_b, _init_extra__init_b, _get___b, _set___b;
 const dec = ()=>{};
 var ___a_1 = /*#__PURE__*/ new WeakMap(), _a = /*#__PURE__*/ new WeakMap(), ___b_2 = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();
 class Foo {
@@ -13,11 +13,11 @@ class Foo {
         });
         _class_private_field_init(this, ___a_1, {
             writable: true,
-            value: (_initProto(this), (()=>{
+            value: (()=>{
                 const _value = _init_a(this);
                 _init_extra__init_a(this);
                 return _value;
-            })())
+            })()
         });
         _class_private_field_init(this, ___b_2, {
             writable: true,
@@ -29,7 +29,7 @@ class Foo {
         });
     }
 }
-({ e: [_init_a, _get___a, _set___a, _init_extra__init_a, _init_b, _get___b, _set___b, _init_extra__init_b, _initProto] } = _apply_decs_2311(Foo, [], [
+({ e: [_init_a, _get___a, _set___a, _init_extra__init_a, _init_b, _get___b, _set___b, _init_extra__init_b] } = _apply_decs_2311(Foo, [], [
     [
         dec,
         1,

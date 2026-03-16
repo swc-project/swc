@@ -1,8 +1,8 @@
-var _init_foo, _init_extra_foo, _initProto;
+var _init_foo, _init_extra_foo;
 var counter = 0;
 class A {
     static{
-        ({ e: [_init_foo, _init_extra_foo, _initProto] } = _apply_decs_2311(this, [], [
+        ({ e: [_init_foo, _init_extra_foo] } = _apply_decs_2311(this, [], [
             [
                 (_, { addInitializer })=>{
                     addInitializer(function() {
@@ -23,7 +23,7 @@ class A {
             ]
         ], 0, (o)=>#foo in o));
     }
-    #foo = (_initProto(this), (()=>{
+    #foo = (()=>{
         const _value = _init_foo(this, (()=>{
             counter++;
             expect(typeof this.method).toBe("function");
@@ -33,7 +33,7 @@ class A {
         })());
         _init_extra_foo(this);
         return _value;
-    })());
+    })();
     method() {}
     #bar = (()=>{
         counter++;

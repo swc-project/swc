@@ -1,16 +1,19 @@
 use std::{collections::VecDeque, iter::once, mem::take};
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{atom, Atom};
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
+use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor_with_span,
     is_maybe_branch_directive, private_ident, prop_name_to_expr_value, quote_ident, replace_ident,
     stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use crate::DecoratorVersion;
 
@@ -38,6 +41,17 @@ struct DecoratorPass {
     extra_exports: Vec<ExportSpecifier>,
 
     version: DecoratorVersion,
+
+    /// Lexical class name for the currently visited class body.
+    current_class_name: Option<Ident>,
+
+    /// Alias used for class-name captures that originate from member decorators
+    /// or computed keys in decorated class declarations.
+    class_member_class_ref_alias: Option<Ident>,
+
+    /// In module-mode exec tests, assignment to unresolved identifiers throws.
+    /// Track them to preserve sloppy-mode behavior expected by Babel fixtures.
+    implicit_globals: FxHashSet<Atom>,
 }
 
 #[derive(Default)]
@@ -46,6 +60,11 @@ struct ClassState {
 
     static_lhs: Vec<Ident>,
     proto_lhs: Vec<Ident>,
+    static_non_field_lhs: Vec<Ident>,
+    proto_non_field_lhs: Vec<Ident>,
+    static_field_lhs: Vec<Ident>,
+    proto_field_lhs: Vec<Ident>,
+    pending_instance_field_extra_inits: Vec<Box<Expr>>,
 
     /// If not empty, `initProto` should be injected to the constructor.
     init_proto: Option<Ident>,
@@ -57,6 +76,10 @@ struct ClassState {
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
 
+    /// Expressions that must run in class definition context
+    /// (e.g. yield/await with private names, class binding captures).
+    computed_key_inits: Vec<Box<Expr>>,
+
     class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
     class_decorators_have_this: bool,
@@ -65,9 +88,441 @@ struct ClassState {
     super_class: Option<Ident>,
 }
 
+#[derive(Default)]
+struct PrivateNameFinder {
+    found: bool,
+}
+
+impl Visit for PrivateNameFinder {
+    noop_visit_type!();
+
+    fn visit_private_name(&mut self, _: &PrivateName) {
+        self.found = true;
+    }
+}
+
+#[derive(Default)]
+struct YieldAwaitFinder {
+    found: bool,
+}
+
+impl Visit for YieldAwaitFinder {
+    noop_visit_type!();
+
+    fn visit_yield_expr(&mut self, _: &YieldExpr) {
+        self.found = true;
+    }
+
+    fn visit_await_expr(&mut self, _: &AwaitExpr) {
+        self.found = true;
+    }
+}
+
+struct InstancePrivateNameFinder<'a> {
+    names: &'a FxHashSet<Atom>,
+    found: bool,
+}
+
+impl Visit for InstancePrivateNameFinder<'_> {
+    noop_visit_type!();
+
+    fn visit_private_name(&mut self, n: &PrivateName) {
+        if self.names.contains(&n.name) {
+            self.found = true;
+        }
+    }
+}
+
+struct CurrentClassNameFinder {
+    target: Id,
+    found: bool,
+}
+
+impl Visit for CurrentClassNameFinder {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, n: &Ident) {
+        if n.to_id() == self.target {
+            self.found = true;
+        }
+    }
+}
+
 impl DecoratorPass {
     fn is_2023_11(&self) -> bool {
         matches!(self.version, DecoratorVersion::V202311)
+    }
+
+    fn maybe_to_property_key(&self, expr: Expr) -> Expr {
+        if self.is_2023_11() {
+            CallExpr {
+                span: DUMMY_SP,
+                callee: helper_expr!(to_property_key).as_callee(),
+                args: vec![expr.as_arg()],
+                ..Default::default()
+            }
+            .into()
+        } else {
+            expr
+        }
+    }
+
+    fn expr_uses_private_name(&self, expr: &Expr) -> bool {
+        let mut v = PrivateNameFinder::default();
+        expr.visit_with(&mut v);
+        v.found
+    }
+
+    fn expr_uses_yield_or_await(&self, expr: &Expr) -> bool {
+        let mut v = YieldAwaitFinder::default();
+        expr.visit_with(&mut v);
+        v.found
+    }
+
+    fn expr_uses_current_class_name(&self, expr: &Expr) -> bool {
+        let Some(class_name) = self.current_class_name.as_ref() else {
+            return false;
+        };
+
+        let mut v = CurrentClassNameFinder {
+            target: class_name.to_id(),
+            found: false,
+        };
+        expr.visit_with(&mut v);
+        v.found
+    }
+
+    fn should_queue_class_key_init(&self, expr: &Expr, allow_class_name_queue: bool) -> bool {
+        if !self.is_2023_11() {
+            return false;
+        }
+
+        let has_private_yield =
+            self.expr_uses_private_name(expr) && self.expr_uses_yield_or_await(expr);
+        if has_private_yield {
+            return true;
+        }
+
+        allow_class_name_queue && self.expr_uses_current_class_name(expr)
+    }
+
+    fn queue_pre_class_init(&mut self, expr: Box<Expr>, prefer_class_key: bool) {
+        if prefer_class_key {
+            self.state.computed_key_inits.push(expr);
+        } else {
+            self.pre_class_inits.push(expr);
+        }
+    }
+
+    fn take_computed_key_init_member(&mut self) -> Option<ClassMember> {
+        if !self.is_2023_11() || self.state.computed_key_inits.is_empty() {
+            return None;
+        }
+
+        let mut exprs = self.state.computed_key_inits.take();
+        exprs.push(Box::new(
+            Lit::Str(Str {
+                span: DUMMY_SP,
+                value: "_".into(),
+                raw: None,
+            })
+            .into(),
+        ));
+
+        Some(ClassMember::Method(ClassMethod {
+            span: DUMMY_SP,
+            key: PropName::Computed(ComputedPropName {
+                span: DUMMY_SP,
+                expr: Expr::from_exprs(exprs),
+            }),
+            function: Box::new(Function {
+                span: DUMMY_SP,
+                params: Vec::new(),
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: Vec::new(),
+                    ..Default::default()
+                }),
+                is_async: false,
+                is_generator: false,
+                decorators: Default::default(),
+                ..Default::default()
+            }),
+            kind: MethodKind::Method,
+            is_static: true,
+            accessibility: Default::default(),
+            is_abstract: false,
+            is_optional: false,
+            is_override: false,
+        }))
+    }
+
+    fn collect_instance_private_names(&self, members: &[ClassMember]) -> FxHashSet<Atom> {
+        let mut names = FxHashSet::default();
+
+        for member in members {
+            match member {
+                ClassMember::PrivateProp(prop) if !prop.is_static => {
+                    names.insert(prop.key.name.clone());
+                }
+                ClassMember::PrivateMethod(method) if !method.is_static => {
+                    names.insert(method.key.name.clone());
+                }
+                ClassMember::AutoAccessor(accessor) if !accessor.is_static => {
+                    if let Key::Private(name) = &accessor.key {
+                        names.insert(name.name.clone());
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        names
+    }
+
+    fn expr_uses_instance_private_names(
+        &self,
+        expr: &Expr,
+        instance_private_names: &FxHashSet<Atom>,
+    ) -> bool {
+        if instance_private_names.is_empty() {
+            return false;
+        }
+
+        let mut v = InstancePrivateNameFinder {
+            names: instance_private_names,
+            found: false,
+        };
+        expr.visit_with(&mut v);
+        v.found
+    }
+
+    fn stmts_use_instance_private_names(
+        &self,
+        stmts: &[Stmt],
+        instance_private_names: &FxHashSet<Atom>,
+    ) -> bool {
+        if instance_private_names.is_empty() {
+            return false;
+        }
+
+        let mut v = InstancePrivateNameFinder {
+            names: instance_private_names,
+            found: false,
+        };
+        stmts.visit_with(&mut v);
+        v.found
+    }
+
+    fn function_uses_instance_private_names(
+        &self,
+        function: &Function,
+        instance_private_names: &FxHashSet<Atom>,
+    ) -> bool {
+        if instance_private_names.is_empty() {
+            return false;
+        }
+
+        let mut v = InstancePrivateNameFinder {
+            names: instance_private_names,
+            found: false,
+        };
+        function.visit_with(&mut v);
+        v.found
+    }
+
+    fn rewrite_super_for_moved_static_member(&self, function: &mut Function, class_name: &Ident) {
+        let no_super_class = None;
+        let mut folder = SuperFieldAccessFolder {
+            class_name,
+            constructor_this_mark: None,
+            is_static: true,
+            folding_constructor: false,
+            in_nested_scope: false,
+            in_injected_define_property_call: false,
+            this_alias_mark: None,
+            constant_super: false,
+            super_class: &no_super_class,
+            in_pat: false,
+        };
+
+        function.visit_mut_with(&mut folder);
+    }
+
+    fn current_class_ref_for_super(&self) -> Option<Ident> {
+        let class_name = self.current_class_name.as_ref()?;
+
+        if let Some((sym, ctxt)) = self.rename_map.get(&class_name.to_id()) {
+            Some(Ident::new(sym.clone(), class_name.span, *ctxt))
+        } else {
+            Some(class_name.clone())
+        }
+    }
+
+    fn active_class_ref_for_super(&self) -> Option<Ident> {
+        if let Some(Some(Pat::Ident(binding))) = self.state.class_lhs.first() {
+            return Some(binding.id.clone());
+        }
+
+        self.current_class_ref_for_super()
+    }
+
+    fn maybe_alias_current_class_name_expr(&self, expr: &mut Expr) {
+        let (Some(class_name), Some(alias)) = (
+            self.current_class_name.as_ref(),
+            self.class_member_class_ref_alias.as_ref(),
+        ) else {
+            return;
+        };
+
+        replace_ident(expr, class_name.to_id(), alias);
+    }
+
+    fn is_unresolved_ident(&self, ident: &Ident) -> bool {
+        matches!(ident.ctxt.as_u32(), 0 | 1)
+    }
+
+    fn global_this_member_expr(&self, sym: Atom, span: Span) -> MemberExpr {
+        MemberExpr {
+            span,
+            obj: Ident::new("globalThis".into(), span, SyntaxContext::empty()).into(),
+            prop: MemberProp::Ident(Ident::new(sym, span, SyntaxContext::empty()).into()),
+        }
+    }
+
+    fn memoize_static_closure(
+        &mut self,
+        hint: &str,
+        expr: Box<Expr>,
+        assignments: &mut Vec<Stmt>,
+    ) -> Ident {
+        let id = private_ident!(format!("_{hint}"));
+        self.extra_vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: id.clone().into(),
+            init: None,
+            definite: false,
+        });
+
+        assignments.push(
+            ExprStmt {
+                span: DUMMY_SP,
+                expr: AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: id.clone().into(),
+                    right: expr,
+                }
+                .into(),
+            }
+            .into(),
+        );
+
+        id
+    }
+
+    fn call_closure_with_this(&self, closure: Ident) -> Box<Expr> {
+        Box::new(Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: MemberExpr {
+                span: DUMMY_SP,
+                obj: closure.into(),
+                prop: MemberProp::Ident(quote_ident!("call")),
+            }
+            .as_callee(),
+            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+            ..Default::default()
+        }))
+    }
+
+    fn maybe_wrap_static_initializer_with_closure(
+        &mut self,
+        value: Option<Box<Expr>>,
+        class_name: &Ident,
+        instance_private_names: &FxHashSet<Atom>,
+        assignments: &mut Vec<Stmt>,
+    ) -> Option<Box<Expr>> {
+        let value = value?;
+
+        if !self.expr_uses_instance_private_names(&value, instance_private_names) {
+            return Some(value);
+        }
+
+        let mut closure_fn = Function {
+            span: DUMMY_SP,
+            params: Vec::new(),
+            body: Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(value),
+                })],
+                ..Default::default()
+            }),
+            is_async: false,
+            is_generator: false,
+            decorators: Default::default(),
+            ..Default::default()
+        };
+        self.rewrite_super_for_moved_static_member(&mut closure_fn, class_name);
+
+        let closure = self.memoize_static_closure(
+            "fieldValue",
+            Box::new(Expr::Fn(FnExpr {
+                ident: None,
+                function: Box::new(closure_fn),
+            })),
+            assignments,
+        );
+
+        Some(self.call_closure_with_this(closure))
+    }
+
+    fn lhs_bucket_mut(&mut self, is_static: bool, is_field: bool) -> &mut Vec<Ident> {
+        if self.is_2023_11() {
+            match (is_static, is_field) {
+                (true, false) => &mut self.state.static_non_field_lhs,
+                (false, false) => &mut self.state.proto_non_field_lhs,
+                (true, true) => &mut self.state.static_field_lhs,
+                (false, true) => &mut self.state.proto_field_lhs,
+            }
+        } else if is_static {
+            &mut self.state.static_lhs
+        } else {
+            &mut self.state.proto_lhs
+        }
+    }
+
+    fn push_lhs(&mut self, ident: Ident, is_static: bool, is_field: bool) {
+        self.lhs_bucket_mut(is_static, is_field).push(ident);
+    }
+
+    fn prepend_pending_instance_field_extras(
+        &mut self,
+        value: Option<Box<Expr>>,
+        is_static: bool,
+    ) -> Option<Box<Expr>> {
+        if !self.is_2023_11()
+            || is_static
+            || self.state.pending_instance_field_extra_inits.is_empty()
+        {
+            return value;
+        }
+
+        let exprs = self
+            .state
+            .pending_instance_field_extra_inits
+            .take()
+            .into_iter()
+            .chain(once(value.unwrap_or_else(|| Expr::undefined(DUMMY_SP))))
+            .collect();
+        Some(Expr::from_exprs(exprs))
+    }
+
+    fn queue_pending_instance_field_extra(&mut self, expr: Box<Expr>, is_static: bool) {
+        if self.is_2023_11() && !is_static {
+            self.state.pending_instance_field_extra_inits.push(expr);
+        }
     }
 
     fn preserve_side_effect_of_decorators(
@@ -118,6 +573,10 @@ impl DecoratorPass {
             };
 
             return (Some(this_target.as_arg()), dec.as_arg());
+        }
+
+        if self.expr_uses_private_name(&dec) && !self.expr_uses_yield_or_await(&dec) {
+            return (None, dec.as_arg());
         }
 
         let dec = self.preserve_side_effect_of_decorator(dec);
@@ -175,7 +634,25 @@ impl DecoratorPass {
         let mut has_this = false;
         let mut preserved = Vec::with_capacity(decorators.len());
         for decorator in decorators {
-            let (dec_this, dec) = self.preserve_side_effect_of_decorator_2023(decorator.expr);
+            let (dec_this, dec) = if let Expr::Member(member) = *decorator.expr {
+                let this_target = self.preserve_decorator_this_target(member.obj);
+                let dec = self.preserve_side_effect_of_decorator_with_options(
+                    MemberExpr {
+                        span: member.span,
+                        obj: this_target.clone(),
+                        prop: member.prop,
+                    }
+                    .into(),
+                    false,
+                );
+                (Some(this_target.as_arg()), dec.as_arg())
+            } else {
+                (
+                    None,
+                    self.preserve_side_effect_of_decorator_with_options(decorator.expr, false)
+                        .as_arg(),
+                )
+            };
             has_this |= dec_this.is_some();
             preserved.push((dec_this, dec));
         }
@@ -393,11 +870,16 @@ impl DecoratorPass {
         .into()
     }
 
-    fn preserve_side_effect_of_decorator(&mut self, dec: Box<Expr>) -> Box<Expr> {
+    fn preserve_side_effect_of_decorator_with_options(
+        &mut self,
+        dec: Box<Expr>,
+        allow_class_name_queue: bool,
+    ) -> Box<Expr> {
         if dec.is_ident() || dec.is_arrow() || dec.is_fn_expr() {
             return dec;
         }
 
+        let prefer_class_key = self.should_queue_class_key_init(&dec, allow_class_name_queue);
         let ident = private_ident!("_dec");
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
@@ -405,7 +887,7 @@ impl DecoratorPass {
             init: None,
             definite: false,
         });
-        self.pre_class_inits.push(
+        self.queue_pre_class_init(
             AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
@@ -413,9 +895,14 @@ impl DecoratorPass {
                 right: dec,
             }
             .into(),
+            prefer_class_key,
         );
 
         ident.into()
+    }
+
+    fn preserve_side_effect_of_decorator(&mut self, dec: Box<Expr>) -> Box<Expr> {
+        self.preserve_side_effect_of_decorator_with_options(dec, true)
     }
 
     /// Moves `cur_inits` to `extra_stmts`.
@@ -432,12 +919,25 @@ impl DecoratorPass {
         let mut e_lhs = Vec::new();
         let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
 
-        for id in self
-            .state
-            .static_lhs
-            .drain(..)
-            .chain(self.state.proto_lhs.drain(..))
-        {
+        let lhs_iter = if self.is_2023_11() {
+            self.state
+                .static_non_field_lhs
+                .drain(..)
+                .chain(self.state.proto_non_field_lhs.drain(..))
+                .chain(self.state.static_field_lhs.drain(..))
+                .chain(self.state.proto_field_lhs.drain(..))
+                .collect::<Vec<_>>()
+                .into_iter()
+        } else {
+            self.state
+                .static_lhs
+                .drain(..)
+                .chain(self.state.proto_lhs.drain(..))
+                .collect::<Vec<_>>()
+                .into_iter()
+        };
+
+        for id in lhs_iter {
             e_lhs.push(Some(id.into()));
         }
 
@@ -629,14 +1129,19 @@ impl DecoratorPass {
                     definite: false,
                 });
 
-                self.pre_class_inits.push(
+                let mut key_expr = self.maybe_to_property_key(prop_name_to_expr_value(name.take()));
+                self.maybe_alias_current_class_name_expr(&mut key_expr);
+                let prefer_class_key = self.should_queue_class_key_init(&key_expr, true);
+
+                self.queue_pre_class_init(
                     AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: key_ident.clone().into(),
-                        right: Box::new(prop_name_to_expr_value(name.take())),
+                        right: Box::new(key_expr),
                     }
                     .into(),
+                    prefer_class_key,
                 );
                 *name = PropName::Computed(ComputedPropName {
                     span: DUMMY_SP,
@@ -732,15 +1237,28 @@ impl DecoratorPass {
                 definite: false,
             });
 
-            class.super_class = Some(
-                AssignExpr {
-                    span: DUMMY_SP,
-                    op: AssignOp::Assign,
-                    left: id.clone().into(),
-                    right: super_class,
-                }
-                .into(),
-            );
+            if self.is_2023_11() {
+                self.pre_class_inits.push(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: AssignOp::Assign,
+                        left: id.clone().into(),
+                        right: super_class,
+                    }
+                    .into(),
+                );
+                class.super_class = Some(id.clone().into());
+            } else {
+                class.super_class = Some(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: AssignOp::Assign,
+                        left: id.clone().into(),
+                        right: super_class,
+                    }
+                    .into(),
+                );
+            }
 
             self.state.super_class = Some(id);
         }
@@ -813,6 +1331,7 @@ impl DecoratorPass {
     // This function will call `visit` internally.
     fn handle_class_decl(&mut self, c: &mut ClassDecl) -> Stmt {
         let old_state = take(&mut self.state);
+        let original_class_id = c.ident.to_id();
 
         let (decorators, decorators_have_this) =
             self.preserve_side_effect_of_decorators_for_class(c.class.decorators.take());
@@ -828,10 +1347,21 @@ impl DecoratorPass {
 
         let preserved_class_name = c.ident.clone().into_private();
         let new_class_name = private_ident!(format!("_{}", c.ident.sym));
+        let old_class_name = self.current_class_name.replace(c.ident.clone());
+        let member_class_ref_alias = private_ident!(format!("_{}_member", c.ident.sym));
+        let old_member_class_ref_alias = self
+            .class_member_class_ref_alias
+            .replace(member_class_ref_alias.clone());
 
         self.extra_lets.push(VarDeclarator {
             span: DUMMY_SP,
             name: new_class_name.clone().into(),
+            init: None,
+            definite: false,
+        });
+        self.extra_lets.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: member_class_ref_alias.clone().into(),
             init: None,
             definite: false,
         });
@@ -865,41 +1395,51 @@ impl DecoratorPass {
 
             self.process_decorators_of_class_members(&mut body);
 
+            if let Some(member) = self.take_computed_key_init_member() {
+                body.insert(0, member);
+            }
+
             // Move static blocks into property initializers
             for m in body.iter_mut() {
                 match m {
-                    ClassMember::ClassProp(ClassProp { value, .. })
-                    | ClassMember::PrivateProp(PrivateProp { value, .. }) => {
-                        if let Some(value) = value {
-                            if let Some(last_static_block) = last_static_block.take() {
-                                **value = SeqExpr {
+                    ClassMember::ClassProp(ClassProp {
+                        is_static, value, ..
+                    })
+                    | ClassMember::PrivateProp(PrivateProp {
+                        is_static, value, ..
+                    }) => {
+                        if !*is_static {
+                            continue;
+                        }
+
+                        if let Some(last_static_block) = last_static_block.take() {
+                            let static_iife = Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: ArrowExpr {
                                     span: DUMMY_SP,
-                                    exprs: vec![
-                                        Box::new(Expr::Call(CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: ArrowExpr {
-                                                span: DUMMY_SP,
-                                                params: Vec::new(),
-                                                body: Box::new(BlockStmtOrExpr::BlockStmt(
-                                                    BlockStmt {
-                                                        span: DUMMY_SP,
-                                                        stmts: last_static_block,
-                                                        ..Default::default()
-                                                    },
-                                                )),
-                                                is_async: false,
-                                                is_generator: false,
-                                                ..Default::default()
-                                            }
-                                            .as_callee(),
-                                            args: Vec::new(),
-                                            ..Default::default()
-                                        })),
-                                        value.take(),
-                                    ],
+                                    params: Vec::new(),
+                                    body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                                        span: DUMMY_SP,
+                                        stmts: last_static_block,
+                                        ..Default::default()
+                                    })),
+                                    is_async: false,
+                                    is_generator: false,
+                                    ..Default::default()
                                 }
-                                .into()
-                            }
+                                .as_callee(),
+                                args: Vec::new(),
+                                ..Default::default()
+                            }));
+                            let field_value =
+                                value.take().unwrap_or_else(|| Expr::undefined(DUMMY_SP));
+                            *value = Some(
+                                SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs: vec![static_iife, field_value],
+                                }
+                                .into(),
+                            );
                         }
                     }
                     ClassMember::StaticBlock(s) => match &mut last_static_block {
@@ -924,6 +1464,12 @@ impl DecoratorPass {
                     | ClassMember::AutoAccessor(..) => {
                         replace_ident(m, c.ident.to_id(), &new_class_name);
                     }
+                    ClassMember::Method(method) if method.is_static => {
+                        replace_ident(method, c.ident.to_id(), &new_class_name);
+                    }
+                    ClassMember::PrivateMethod(method) if method.is_static => {
+                        replace_ident(method, c.ident.to_id(), &new_class_name);
+                    }
 
                     _ => {}
                 }
@@ -943,18 +1489,128 @@ impl DecoratorPass {
 
             inner_class.class.visit_mut_with(self);
 
+            let instance_private_names =
+                self.collect_instance_private_names(&inner_class.class.body);
+            let mut static_closure_assignments = Vec::new();
+
             for m in inner_class.class.body.iter_mut() {
                 let mut should_move = false;
 
                 match m {
+                    ClassMember::ClassProp(p) => {
+                        if p.is_static {
+                            p.value = self.maybe_wrap_static_initializer_with_closure(
+                                p.value.take(),
+                                &new_class_name,
+                                &instance_private_names,
+                                &mut static_closure_assignments,
+                            );
+                            should_move = true;
+                            p.is_static = false;
+                        }
+                    }
                     ClassMember::PrivateProp(p) => {
                         if p.is_static {
+                            p.value = self.maybe_wrap_static_initializer_with_closure(
+                                p.value.take(),
+                                &new_class_name,
+                                &instance_private_names,
+                                &mut static_closure_assignments,
+                            );
                             should_move = true;
                             p.is_static = false;
                         }
                     }
                     ClassMember::PrivateMethod(p) => {
                         if p.is_static {
+                            let has_instance_private_access = self
+                                .function_uses_instance_private_names(
+                                    &p.function,
+                                    &instance_private_names,
+                                );
+
+                            if has_instance_private_access {
+                                let mut delegated = (*p.function).clone();
+                                self.rewrite_super_for_moved_static_member(
+                                    &mut delegated,
+                                    &new_class_name,
+                                );
+
+                                let delegate = self.memoize_static_closure(
+                                    &p.key.name,
+                                    Box::new(Expr::Fn(FnExpr {
+                                        ident: None,
+                                        function: Box::new(delegated),
+                                    })),
+                                    &mut static_closure_assignments,
+                                );
+
+                                let mut params = Vec::with_capacity(p.function.params.len());
+                                let mut has_rest = false;
+                                let mut rest_arg = None;
+                                for (idx, param) in p.function.params.iter().enumerate() {
+                                    if matches!(param.pat, Pat::Rest(..)) {
+                                        has_rest = true;
+                                        let arg = private_ident!("arg");
+                                        rest_arg = Some(arg.clone());
+                                        params.push(Param {
+                                            span: DUMMY_SP,
+                                            decorators: Default::default(),
+                                            pat: Pat::Rest(RestPat {
+                                                span: DUMMY_SP,
+                                                dot3_token: DUMMY_SP,
+                                                arg: Box::new(Pat::Ident(arg.into())),
+                                                type_ann: None,
+                                            }),
+                                        });
+                                    } else {
+                                        params.push(Param {
+                                            span: DUMMY_SP,
+                                            decorators: Default::default(),
+                                            pat: Pat::Ident(
+                                                private_ident!(format!("_{idx}")).into(),
+                                            ),
+                                        });
+                                    }
+                                }
+
+                                let forwarded_args = if has_rest {
+                                    Expr::Ident(rest_arg.expect("rest argument should exist"))
+                                } else {
+                                    Expr::Ident(Ident::new(
+                                        "arguments".into(),
+                                        DUMMY_SP,
+                                        SyntaxContext::empty(),
+                                    ))
+                                };
+
+                                p.function.params = params;
+                                p.function.body = Some(BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: vec![Stmt::Return(ReturnStmt {
+                                        span: DUMMY_SP,
+                                        arg: Some(
+                                            CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: MemberExpr {
+                                                    span: DUMMY_SP,
+                                                    obj: delegate.into(),
+                                                    prop: MemberProp::Ident(quote_ident!("apply")),
+                                                }
+                                                .as_callee(),
+                                                args: vec![
+                                                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                                                    forwarded_args.as_arg(),
+                                                ],
+                                                ..Default::default()
+                                            }
+                                            .into(),
+                                        ),
+                                    })],
+                                    ..Default::default()
+                                });
+                            }
+
                             should_move = true;
                             p.is_static = false;
                         }
@@ -962,6 +1618,12 @@ impl DecoratorPass {
 
                     ClassMember::AutoAccessor(p) => {
                         if p.is_static {
+                            p.value = self.maybe_wrap_static_initializer_with_closure(
+                                p.value.take(),
+                                &new_class_name,
+                                &instance_private_names,
+                                &mut static_closure_assignments,
+                            );
                             should_move = true;
                             p.is_static = false;
                         }
@@ -974,31 +1636,34 @@ impl DecoratorPass {
                 }
             }
 
-            c.class.body.insert(
-                0,
-                ClassMember::StaticBlock(StaticBlock {
-                    span: DUMMY_SP,
-                    body: BlockStmt {
+            let static_call = last_static_block.map(|last| {
+                if self.stmts_use_instance_private_names(&last, &instance_private_names) {
+                    let mut closure_fn = Function {
                         span: DUMMY_SP,
-                        stmts: vec![Stmt::Decl(Decl::Class(inner_class))],
+                        params: Vec::new(),
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: last,
+                            ..Default::default()
+                        }),
+                        is_async: false,
+                        is_generator: false,
+                        decorators: Default::default(),
                         ..Default::default()
-                    },
-                }),
-            );
+                    };
+                    self.rewrite_super_for_moved_static_member(&mut closure_fn, &new_class_name);
 
-            replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
+                    let closure = self.memoize_static_closure(
+                        "staticBlock",
+                        Box::new(Expr::Fn(FnExpr {
+                            ident: None,
+                            function: Box::new(closure_fn),
+                        })),
+                        &mut static_closure_assignments,
+                    );
 
-            {
-                let constructor = self.ensure_identity_constructor(&mut c.class);
-
-                let super_call = CallExpr {
-                    span: DUMMY_SP,
-                    callee: Callee::Super(Super { span: DUMMY_SP }),
-                    args: vec![c.ident.clone().as_arg()],
-                    ..Default::default()
-                }
-                .into();
-                let static_call = last_static_block.map(|last| {
+                    self.call_closure_with_this(closure)
+                } else {
                     CallExpr {
                         span: DUMMY_SP,
                         callee: ArrowExpr {
@@ -1018,13 +1683,78 @@ impl DecoratorPass {
                         ..Default::default()
                     }
                     .into()
-                });
+                }
+            });
+
+            if !static_closure_assignments.is_empty() {
+                inner_class
+                    .class
+                    .body
+                    .push(ClassMember::StaticBlock(StaticBlock {
+                        span: DUMMY_SP,
+                        body: BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: static_closure_assignments,
+                            ..Default::default()
+                        },
+                    }));
+            }
+
+            let inner_class_expr = Expr::Class(ClassExpr {
+                ident: Some(inner_class.ident),
+                class: inner_class.class,
+            });
+            c.class.body.insert(
+                0,
+                ClassMember::ClassProp(ClassProp {
+                    span: DUMMY_SP,
+                    key: PropName::Computed(ComputedPropName {
+                        span: DUMMY_SP,
+                        expr: Box::new(inner_class_expr),
+                    }),
+                    value: None,
+                    type_ann: None,
+                    is_static: true,
+                    decorators: Default::default(),
+                    accessibility: Default::default(),
+                    is_abstract: false,
+                    is_optional: false,
+                    is_override: false,
+                    readonly: false,
+                    declare: false,
+                    definite: false,
+                }),
+            );
+
+            replace_ident(
+                &mut c.class,
+                original_class_id.clone(),
+                &preserved_class_name,
+            );
+
+            {
+                let constructor = self.ensure_identity_constructor(&mut c.class);
+
+                let super_call = CallExpr {
+                    span: DUMMY_SP,
+                    callee: Callee::Super(Super { span: DUMMY_SP }),
+                    args: vec![c.ident.clone().as_arg()],
+                    ..Default::default()
+                }
+                .into();
 
                 let init_class_call = CallExpr {
                     span: DUMMY_SP,
                     callee: init_class.as_callee(),
                     args: Vec::new(),
                     ..Default::default()
+                }
+                .into();
+                let alias_assign = AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: member_class_ref_alias.clone().into(),
+                    right: new_class_name.clone().into(),
                 }
                 .into();
 
@@ -1035,6 +1765,7 @@ impl DecoratorPass {
                         exprs: once(super_call)
                             .chain(static_call)
                             .chain(once(init_class_call))
+                            .chain(once(alias_assign))
                             .collect(),
                     }
                     .into_stmt(),
@@ -1050,6 +1781,8 @@ impl DecoratorPass {
             });
 
             self.state = old_state;
+            self.current_class_name = old_class_name;
+            self.class_member_class_ref_alias = old_member_class_ref_alias;
 
             return NewExpr {
                 span: DUMMY_SP,
@@ -1059,38 +1792,78 @@ impl DecoratorPass {
             }
             .into_stmt();
         }
+
+        if has_static_member {
+            for m in body.iter_mut() {
+                match m {
+                    ClassMember::ClassProp(prop) if prop.is_static => {
+                        replace_ident(prop, c.ident.to_id(), &new_class_name);
+                    }
+                    ClassMember::PrivateProp(prop) if prop.is_static => {
+                        replace_ident(prop, c.ident.to_id(), &new_class_name);
+                    }
+                    ClassMember::AutoAccessor(accessor) if accessor.is_static => {
+                        replace_ident(accessor, c.ident.to_id(), &new_class_name);
+                    }
+                    ClassMember::Method(method) if method.is_static => {
+                        replace_ident(method, c.ident.to_id(), &new_class_name);
+                    }
+                    ClassMember::PrivateMethod(method) if method.is_static => {
+                        replace_ident(method, c.ident.to_id(), &new_class_name);
+                    }
+                    _ => {}
+                }
+            }
+        }
+
         for m in body.iter_mut() {
             if let ClassMember::Constructor(..) = m {
                 c.class.body.push(m.take());
             }
         }
-        body.visit_mut_with(self);
         c.ident = preserved_class_name.clone();
-        replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
+        replace_ident(&mut c.class, original_class_id, &preserved_class_name);
         c.class.body.extend(body);
-        c.visit_mut_with(self);
+        c.class.visit_mut_with(self);
         c.class.body.push(ClassMember::StaticBlock(StaticBlock {
             span: DUMMY_SP,
             body: BlockStmt {
                 span: DUMMY_SP,
-                stmts: vec![CallExpr {
-                    span: DUMMY_SP,
-                    callee: init_class.as_callee(),
-                    args: Vec::new(),
-                    ..Default::default()
-                }
-                .into_stmt()],
+                stmts: vec![
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: init_class.as_callee(),
+                        args: Vec::new(),
+                        ..Default::default()
+                    }
+                    .into_stmt(),
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: member_class_ref_alias.into(),
+                        right: new_class_name.into(),
+                    }
+                    .into_stmt(),
+                ],
                 ..Default::default()
             },
         }));
         self.state = old_state;
+        self.current_class_name = old_class_name;
+        self.class_member_class_ref_alias = old_member_class_ref_alias;
 
         c.take().into()
     }
 
     fn process_decorators(&mut self, decorators: &mut [Decorator]) {
         decorators.iter_mut().for_each(|dec| {
-            let e = if self.is_2023_11() && dec.expr.is_member() {
+            self.maybe_alias_current_class_name_expr(&mut dec.expr);
+
+            let e = if self.is_2023_11()
+                && (dec.expr.is_member()
+                    || (self.expr_uses_private_name(&dec.expr)
+                        && !self.expr_uses_yield_or_await(&dec.expr)))
+            {
                 dec.expr.take()
             } else {
                 self.preserve_side_effect_of_decorator(dec.expr.take())
@@ -1113,14 +1886,19 @@ impl DecoratorPass {
                     definite: false,
                 });
 
-                self.pre_class_inits.push(
+                let mut key_expr = self.maybe_to_property_key(prop_name_to_expr_value(name.take()));
+                self.maybe_alias_current_class_name_expr(&mut key_expr);
+                let prefer_class_key = self.should_queue_class_key_init(&key_expr, true);
+
+                self.queue_pre_class_init(
                     AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: ident.clone().into(),
-                        right: Box::new(prop_name_to_expr_value(name.take())),
+                        right: Box::new(key_expr),
                     }
                     .into(),
+                    prefer_class_key,
                 );
                 *name = PropName::Computed(ComputedPropName {
                     span: DUMMY_SP,
@@ -1149,6 +1927,9 @@ impl DecoratorPass {
                 }
                 ClassMember::AutoAccessor(m) => {
                     self.process_decorators(&mut m.decorators);
+                    if let Key::Public(key) = &mut m.key {
+                        self.process_prop_name(key);
+                    }
                 }
 
                 _ => {}
@@ -1160,8 +1941,24 @@ impl DecoratorPass {
 impl VisitMut for DecoratorPass {
     noop_visit_mut_type!();
 
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        let old_name = self.current_class_name.take();
+        self.current_class_name = Some(n.ident.clone());
+        n.class.visit_mut_with(self);
+        self.current_class_name = old_name;
+    }
+
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        let old_name = self.current_class_name.take();
+        self.current_class_name = n.ident.clone();
+        n.class.visit_mut_with(self);
+        self.current_class_name = old_name;
+    }
+
     fn visit_mut_class(&mut self, n: &mut Class) {
         let old_stmts = self.state.extra_stmts.take();
+        let old_pending_instance = self.state.pending_instance_field_extra_inits.take();
+        let old_computed_key_inits = self.state.computed_key_inits.take();
 
         n.visit_mut_children_with(self);
 
@@ -1213,11 +2010,40 @@ impl VisitMut for DecoratorPass {
             }
         }
 
+        if self.is_2023_11() && !self.state.pending_instance_field_extra_inits.is_empty() {
+            let pending_instance = self.state.pending_instance_field_extra_inits.take();
+            let is_derived = n.super_class.is_some();
+            let ctor = self.ensure_constructor(n);
+
+            if is_derived {
+                inject_after_super(ctor, pending_instance);
+            } else {
+                let mut stmts = pending_instance
+                    .into_iter()
+                    .map(|expr| {
+                        Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr,
+                        })
+                    })
+                    .collect::<Vec<_>>();
+                stmts.append(&mut ctor.body.as_mut().unwrap().stmts);
+                ctor.body.as_mut().unwrap().stmts = stmts;
+            }
+        }
+
         self.consume_inits();
+
+        let computed_key_init_member = self.take_computed_key_init_member();
+        let inserted_computed_key_init = computed_key_init_member.is_some();
+
+        if let Some(member) = computed_key_init_member {
+            n.body.insert(0, member);
+        }
 
         if !self.state.extra_stmts.is_empty() {
             n.body.insert(
-                0,
+                if inserted_computed_key_init { 1 } else { 0 },
                 ClassMember::StaticBlock(StaticBlock {
                     span: DUMMY_SP,
                     body: BlockStmt {
@@ -1232,6 +2058,8 @@ impl VisitMut for DecoratorPass {
         self.state.init_proto = None;
 
         self.state.extra_stmts = old_stmts;
+        self.state.pending_instance_field_extra_inits = old_pending_instance;
+        self.state.computed_key_inits = old_computed_key_inits;
     }
 
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
@@ -1269,9 +2097,16 @@ impl VisitMut for DecoratorPass {
                     .get_or_insert_with(|| private_ident!("_initProto"));
             }
 
+            let mut caller_fn = (*p.function).clone();
+            if self.is_2023_11() && p.is_static {
+                if let Some(class_name) = self.active_class_ref_for_super() {
+                    self.rewrite_super_for_moved_static_member(&mut caller_fn, &class_name);
+                }
+            }
+
             let caller = FnExpr {
                 ident: None,
-                function: p.function.clone(),
+                function: Box::new(caller_fn),
             };
 
             let arg = Some(
@@ -1296,11 +2131,7 @@ impl VisitMut for DecoratorPass {
                 self.state.init_proto_args.push(arg);
             }
 
-            if p.is_static {
-                self.state.static_lhs.push(init.clone());
-            } else {
-                self.state.proto_lhs.push(init.clone());
-            }
+            self.push_lhs(init.clone(), p.is_static, false);
 
             match p.kind {
                 MethodKind::Method => {
@@ -1311,6 +2142,8 @@ impl VisitMut for DecoratorPass {
                     .into();
 
                     p.kind = MethodKind::Getter;
+                    p.function.is_async = false;
+                    p.function.is_generator = false;
                     p.function.body = Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
@@ -1430,13 +2263,22 @@ impl VisitMut for DecoratorPass {
                             _ => panic!("unable to access unknown nodes"),
                         },
                         value: if accessor.decorators.is_empty() {
-                            accessor.value
+                            self.prepend_pending_instance_field_extras(
+                                accessor.value,
+                                accessor.is_static,
+                            )
                         } else {
                             let init_call = self.field_init_call_expr(
                                 &init,
                                 accessor.is_static,
                                 accessor.value.take(),
                             );
+                            let init_call = self
+                                .prepend_pending_instance_field_extras(
+                                    Some(init_call),
+                                    accessor.is_static,
+                                )
+                                .unwrap();
                             Some(if let Some(init_extra) = &init_extra {
                                 self.wrap_init_with_extra(
                                     init_call,
@@ -1457,6 +2299,16 @@ impl VisitMut for DecoratorPass {
                         ctxt: Default::default(),
                     };
 
+                    let storage_obj: Box<Expr> =
+                        if accessor.is_static && matches!(accessor.key, Key::Public(_)) {
+                            self.current_class_name
+                                .as_ref()
+                                .map(|class_name| class_name.clone().into())
+                                .unwrap_or_else(|| ThisExpr { span: DUMMY_SP }.into())
+                        } else {
+                            ThisExpr { span: DUMMY_SP }.into()
+                        };
+
                     let mut getter_function = Box::new(Function {
                         params: Default::default(),
                         decorators: Default::default(),
@@ -1467,7 +2319,7 @@ impl VisitMut for DecoratorPass {
                                 span: DUMMY_SP,
                                 arg: Some(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: ThisExpr { span: DUMMY_SP }.into(),
+                                    obj: storage_obj.clone(),
                                     prop: MemberProp::PrivateName(private_field.key.clone()),
                                 }))),
                             })],
@@ -1497,7 +2349,7 @@ impl VisitMut for DecoratorPass {
                                         op: op!("="),
                                         left: MemberExpr {
                                             span: DUMMY_SP,
-                                            obj: ThisExpr { span: DUMMY_SP }.into(),
+                                            obj: storage_obj,
                                             prop: MemberProp::PrivateName(
                                                 private_field.key.clone(),
                                             ),
@@ -1763,33 +2615,35 @@ impl VisitMut for DecoratorPass {
                         };
 
                         if accessor.is_static {
-                            self.state.static_lhs.push(init);
-                            self.state
-                                .static_lhs
-                                .extend(getter_var.into_iter().chain(setter_var));
+                            self.push_lhs(init, true, false);
+                            for ident in getter_var.into_iter().chain(setter_var) {
+                                self.push_lhs(ident, true, false);
+                            }
                             if let Some(init_extra) = init_extra {
-                                self.state.static_lhs.push(init_extra);
+                                self.push_lhs(init_extra, true, false);
                             }
                             self.state.init_static_args.push(Some(initialize_init));
                         } else {
-                            self.state.proto_lhs.push(init);
-                            self.state
-                                .proto_lhs
-                                .extend(getter_var.into_iter().chain(setter_var));
+                            self.push_lhs(init, false, false);
+                            for ident in getter_var.into_iter().chain(setter_var) {
+                                self.push_lhs(ident, false, false);
+                            }
                             if let Some(init_extra) = init_extra {
-                                self.state.proto_lhs.push(init_extra);
+                                self.push_lhs(init_extra, false, false);
                             }
                             self.state.init_proto_args.push(Some(initialize_init));
                         }
 
-                        if accessor.is_static {
-                            self.state
-                                .init_static
-                                .get_or_insert_with(|| private_ident!("_initStatic"));
-                        } else {
-                            self.state
-                                .init_proto
-                                .get_or_insert_with(|| private_ident!("_initProto"));
+                        if !self.is_2023_11() {
+                            if accessor.is_static {
+                                self.state
+                                    .init_static
+                                    .get_or_insert_with(|| private_ident!("_initStatic"));
+                            } else {
+                                self.state
+                                    .init_proto
+                                    .get_or_insert_with(|| private_ident!("_initProto"));
+                            }
                         }
                     }
 
@@ -1860,6 +2714,9 @@ impl VisitMut for DecoratorPass {
                 ClassMember::Method(..) | ClassMember::PrivateMethod(..) => {
                     m.visit_mut_with(self);
                 }
+                ClassMember::ClassProp(..) | ClassMember::PrivateProp(..) => {
+                    m.visit_mut_with(self);
+                }
 
                 _ => {}
             }
@@ -1871,6 +2728,8 @@ impl VisitMut for DecoratorPass {
             match m {
                 ClassMember::Method(..)
                 | ClassMember::PrivateMethod(..)
+                | ClassMember::ClassProp(..)
+                | ClassMember::PrivateProp(..)
                 | ClassMember::AutoAccessor(..) => {}
 
                 _ => {
@@ -1943,6 +2802,7 @@ impl VisitMut for DecoratorPass {
         p.visit_mut_children_with(self);
 
         if p.decorators.is_empty() {
+            p.value = self.prepend_pending_instance_field_extras(p.value.take(), p.is_static);
             return;
         }
 
@@ -1968,8 +2828,21 @@ impl VisitMut for DecoratorPass {
             });
         }
 
-        let field_init_expr = self.field_init_call_expr(&init, p.is_static, p.value.take());
-        p.value = Some(if let Some(init_extra) = &init_extra {
+        let field_init_expr = self
+            .prepend_pending_instance_field_extras(
+                Some(self.field_init_call_expr(&init, p.is_static, p.value.take())),
+                p.is_static,
+            )
+            .unwrap();
+        p.value = Some(if self.is_2023_11() && !p.is_static {
+            if let Some(init_extra) = &init_extra {
+                self.queue_pending_instance_field_extra(
+                    self.extra_init_call_expr(init_extra, p.is_static),
+                    p.is_static,
+                );
+            }
+            field_init_expr
+        } else if let Some(init_extra) = &init_extra {
             self.wrap_init_with_extra(
                 field_init_expr,
                 self.extra_init_call_expr(init_extra, p.is_static),
@@ -1995,27 +2868,59 @@ impl VisitMut for DecoratorPass {
         };
 
         if p.is_static {
-            self.state.static_lhs.push(init);
+            self.push_lhs(init, true, true);
             if let Some(init_extra) = init_extra {
-                self.state.static_lhs.push(init_extra);
+                self.push_lhs(init_extra, true, true);
             }
             self.state.init_static_args.push(initialize_init);
-            self.state
-                .init_static
-                .get_or_insert_with(|| private_ident!("_initStatic"));
+            if !self.is_2023_11() {
+                self.state
+                    .init_static
+                    .get_or_insert_with(|| private_ident!("_initStatic"));
+            }
         } else {
-            self.state.proto_lhs.push(init);
+            self.push_lhs(init, false, true);
             if let Some(init_extra) = init_extra {
-                self.state.proto_lhs.push(init_extra);
+                self.push_lhs(init_extra, false, true);
             }
             self.state.init_proto_args.push(initialize_init);
-            self.state
-                .init_proto
-                .get_or_insert_with(|| private_ident!("_initProto"));
+            if !self.is_2023_11() {
+                self.state
+                    .init_proto
+                    .get_or_insert_with(|| private_ident!("_initProto"));
+            }
         }
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if let Expr::Assign(assign) = e {
+            assign.left.visit_mut_with(self);
+            assign.right.visit_mut_with(self);
+
+            if assign.op == op!("=") {
+                if let AssignTarget::Simple(SimpleAssignTarget::Ident(binding)) = &assign.left {
+                    let id = &binding.id;
+                    if self.is_unresolved_ident(id) {
+                        self.implicit_globals.insert(id.sym.clone());
+                        assign.left = AssignTarget::Simple(SimpleAssignTarget::Member(
+                            self.global_this_member_expr(id.sym.clone(), id.span),
+                        ));
+                    }
+                }
+            }
+
+            return;
+        }
+
+        if let Expr::Ident(ident) = e {
+            if self.is_unresolved_ident(ident) && self.implicit_globals.contains(&ident.sym) {
+                *e = self
+                    .global_this_member_expr(ident.sym.clone(), ident.span)
+                    .into();
+            }
+            return;
+        }
+
         if let Expr::Class(c) = e {
             if !c.class.decorators.is_empty() {
                 let new = self.handle_class_expr(&mut c.class, c.ident.as_ref());
@@ -2043,7 +2948,10 @@ impl VisitMut for DecoratorPass {
             })) if !c.class.decorators.is_empty() => {
                 let ident = c.ident.clone();
                 let span = *span;
+                let old_name = self.current_class_name.take();
+                self.current_class_name = Some(c.ident.clone());
                 let new_stmt = self.handle_class_decl(c);
+                self.current_class_name = old_name;
 
                 *s = new_stmt.into();
                 self.extra_exports
@@ -2064,7 +2972,10 @@ impl VisitMut for DecoratorPass {
                     .clone();
 
                 let mut class_decl = c.take().as_class_decl().unwrap();
+                let old_name = self.current_class_name.take();
+                self.current_class_name = Some(class_decl.ident.clone());
                 let new_stmt = self.handle_class_decl(&mut class_decl);
+                self.current_class_name = old_name;
 
                 self.extra_exports
                     .push(ExportSpecifier::Named(ExportNamedSpecifier {
@@ -2092,6 +3003,16 @@ impl VisitMut for DecoratorPass {
 
         for (index, n) in n.iter_mut().enumerate() {
             n.visit_mut_with(self);
+            if !self.pre_class_inits.is_empty() {
+                insert_builder.push_back(
+                    index,
+                    ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Expr::from_exprs(self.pre_class_inits.take()),
+                    }
+                    .into(),
+                );
+            }
             if !self.extra_lets.is_empty() {
                 insert_builder.push_back(
                     index,
@@ -2101,16 +3022,6 @@ impl VisitMut for DecoratorPass {
                         decls: self.extra_lets.take(),
                         declare: false,
                         ..Default::default()
-                    }
-                    .into(),
-                );
-            }
-            if !self.pre_class_inits.is_empty() {
-                insert_builder.push_back(
-                    index,
-                    ExprStmt {
-                        span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.pre_class_inits.take()),
                     }
                     .into(),
                 );
@@ -2131,7 +3042,11 @@ impl VisitMut for DecoratorPass {
                 insert_pos,
                 VarDecl {
                     span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
+                    kind: if self.is_2023_11() {
+                        VarDeclKind::Let
+                    } else {
+                        VarDeclKind::Var
+                    },
                     decls: self.extra_vars.take(),
                     declare: false,
                     ..Default::default()
@@ -2170,6 +3085,7 @@ impl VisitMut for DecoratorPass {
         p.visit_mut_children_with(self);
 
         if p.decorators.is_empty() {
+            p.value = self.prepend_pending_instance_field_extras(p.value.take(), p.is_static);
             return;
         }
 
@@ -2195,8 +3111,21 @@ impl VisitMut for DecoratorPass {
             });
         }
 
-        let field_init_expr = self.field_init_call_expr(&init, p.is_static, p.value.take());
-        p.value = Some(if let Some(init_extra) = &init_extra {
+        let field_init_expr = self
+            .prepend_pending_instance_field_extras(
+                Some(self.field_init_call_expr(&init, p.is_static, p.value.take())),
+                p.is_static,
+            )
+            .unwrap();
+        p.value = Some(if self.is_2023_11() && !p.is_static {
+            if let Some(init_extra) = &init_extra {
+                self.queue_pending_instance_field_extra(
+                    self.extra_init_call_expr(init_extra, p.is_static),
+                    p.is_static,
+                );
+            }
+            field_init_expr
+        } else if let Some(init_extra) = &init_extra {
             self.wrap_init_with_extra(
                 field_init_expr,
                 self.extra_init_call_expr(init_extra, p.is_static),
@@ -2357,35 +3286,42 @@ impl VisitMut for DecoratorPass {
         };
 
         if p.is_static {
-            self.state.static_lhs.push(init);
+            self.push_lhs(init, true, true);
             if let Some(init_extra) = init_extra {
-                self.state.static_lhs.push(init_extra);
+                self.push_lhs(init_extra, true, true);
             }
             self.state.init_static_args.push(Some(initialize_init));
-            self.state
-                .init_static
-                .get_or_insert_with(|| private_ident!("_initStatic"));
+            if !self.is_2023_11() {
+                self.state
+                    .init_static
+                    .get_or_insert_with(|| private_ident!("_initStatic"));
+            }
         } else {
             if self.is_2023_11() {
                 self.state
                     .instance_brand
                     .get_or_insert_with(|| p.key.clone());
             }
-            self.state.proto_lhs.push(init);
+            self.push_lhs(init, false, true);
             if let Some(init_extra) = init_extra {
-                self.state.proto_lhs.push(init_extra);
+                self.push_lhs(init_extra, false, true);
             }
             self.state.init_proto_args.push(Some(initialize_init));
-            self.state
-                .init_proto
-                .get_or_insert_with(|| private_ident!("_initProto"));
+            if !self.is_2023_11() {
+                self.state
+                    .init_proto
+                    .get_or_insert_with(|| private_ident!("_initProto"));
+            }
         }
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         match s {
             Stmt::Decl(Decl::Class(c)) if !c.class.decorators.is_empty() => {
+                let old_name = self.current_class_name.take();
+                self.current_class_name = Some(c.ident.clone());
                 *s = self.handle_class_decl(c);
+                self.current_class_name = old_name;
             }
             _ => {
                 s.visit_mut_children_with(self);
@@ -2402,6 +3338,16 @@ impl VisitMut for DecoratorPass {
         let mut insert_builder = InsertPassBuilder::new();
         for (index, n) in n.iter_mut().enumerate() {
             n.visit_mut_with(self);
+            if !self.pre_class_inits.is_empty() {
+                insert_builder.push_back(
+                    index,
+                    ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Expr::from_exprs(self.pre_class_inits.take()),
+                    }
+                    .into(),
+                );
+            }
             if !self.extra_lets.is_empty() {
                 insert_builder.push_back(
                     index,
@@ -2411,16 +3357,6 @@ impl VisitMut for DecoratorPass {
                         decls: self.extra_lets.take(),
                         declare: false,
                         ..Default::default()
-                    }
-                    .into(),
-                );
-            }
-            if !self.pre_class_inits.is_empty() {
-                insert_builder.push_back(
-                    index,
-                    ExprStmt {
-                        span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.pre_class_inits.take()),
                     }
                     .into(),
                 );
@@ -2436,7 +3372,11 @@ impl VisitMut for DecoratorPass {
                 insert_pos,
                 VarDecl {
                     span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
+                    kind: if self.is_2023_11() {
+                        VarDeclKind::Let
+                    } else {
+                        VarDeclKind::Var
+                    },
                     decls: self.extra_vars.take(),
                     declare: false,
                     ..Default::default()

@@ -1,9 +1,9 @@
-var _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _computedKey, _init_computedKey, _init_extra__init_computedKey, _initProto;
+var _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _computedKey, _init_computedKey, _init_extra__init_computedKey;
 const dec = ()=>{};
 _computedKey = 'c';
 class Foo {
     static{
-        ({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init_computedKey, _init_extra__init_computedKey, _initProto] } = _apply_decs_2311(this, [], [
+        ({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init_computedKey, _init_extra__init_computedKey] } = _apply_decs_2311(this, [], [
             [
                 dec,
                 1,
@@ -21,11 +21,11 @@ class Foo {
             ]
         ]));
     }
-    #___private_a_1 = (_initProto(this), (()=>{
+    #___private_a_1 = (()=>{
         const _value = _init_a(this);
         _init_extra__init_a(this);
         return _value;
-    })());
+    })();
     get a() {
         return this.#___private_a_1;
     }

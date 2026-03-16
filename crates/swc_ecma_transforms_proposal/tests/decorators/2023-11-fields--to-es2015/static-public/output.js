@@ -1,28 +1,25 @@
-var _computedKey, _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey, _initStatic;
+var _computedKey, _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey;
 const dec = ()=>{};
 _computedKey = 'c';
 class Foo {
 }
-(()=>{
-    ({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey, _initStatic] } = _apply_decs_2311(Foo, [], [
-        [
-            dec,
-            8,
-            "a"
-        ],
-        [
-            dec,
-            8,
-            "b"
-        ],
-        [
-            dec,
-            8,
-            _computedKey
-        ]
-    ]));
-    _initStatic(Foo);
-})();
+({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey] } = _apply_decs_2311(Foo, [], [
+    [
+        dec,
+        8,
+        "a"
+    ],
+    [
+        dec,
+        8,
+        "b"
+    ],
+    [
+        dec,
+        8,
+        _computedKey
+    ]
+]));
 _define_property(Foo, "a", (()=>{
     const _value = _init_a();
     _init_extra__init_a();

@@ -1,6 +1,6 @@
 {
     "class binding in plain class, decorated field, and computed keys";
-    var _dec, _dec1, _computedKey, _init__computedKey, _init_extra__init__computedKey, _initProto;
+    var _dec, _dec1, _computedKey, _init__computedKey, _init_extra__init__computedKey;
     const errs = [];
     const fns = [];
     const capture = function(fn) {
@@ -22,14 +22,14 @@
     let _computedKey1 = _computedKey;
     class K {
         constructor(){
-            _define_property(this, _computedKey1, (_initProto(this), (()=>{
+            _define_property(this, _computedKey1, (()=>{
                 const _value = _init__computedKey(this);
                 _init_extra__init__computedKey(this);
                 return _value;
-            })()));
+            })());
         }
     }
-    ({ e: [_init__computedKey, _init_extra__init__computedKey, _initProto] } = _apply_decs_2311(K, [], [
+    ({ e: [_init__computedKey, _init_extra__init__computedKey] } = _apply_decs_2311(K, [], [
         [
             [
                 _dec,
@@ -60,7 +60,7 @@
 }{
     "class binding in decorated class, decorated field, and computed keys";
     var _dec2, _dec3, _initClass, _dec4, _computedKey1, //todo: add the assertUninitialized decorator when we properly implement class tdz
-    _init__computedKey1, _init_extra__init__computedKey1, _initProto1;
+    _init__computedKey1, _init_extra__init__computedKey1;
     const errs = [];
     const fns = [];
     const capture = function(fn) {
@@ -81,14 +81,14 @@
     let _computedKey = _computedKey1;
     class K {
         constructor(){
-            _define_property(this, _computedKey, (_initProto1(this), (()=>{
+            _define_property(this, _computedKey, (()=>{
                 const _value = _init__computedKey1(this);
                 _init_extra__init__computedKey1(this);
                 return _value;
-            })()));
+            })());
         }
     }
-    ({ e: [_init__computedKey1, _init_extra__init__computedKey1, _initProto1], c: [_K, _initClass] } = _apply_decs_2311(K, [
+    ({ e: [_init__computedKey1, _init_extra__init__computedKey1], c: [_K, _initClass] } = _apply_decs_2311(K, [
         _dec2,
         _dec3
     ], [
@@ -119,7 +119,7 @@
     "class binding in decorated class, decorated static field, and computed keys";
     var _class;
     var _dec5, _dec6, _initClass1, _dec7, _computedKey2, //todo: add the assertUninitialized decorator when we properly implement class tdz
-    _init__computedKey2, _init_extra__init__computedKey2, _initStatic;
+    _init__computedKey2, _init_extra__init__computedKey2;
     const errs = [];
     const fns = [];
     const capture = function(fn) {
@@ -144,19 +144,16 @@
     }, (()=>{
         class K {
         }
-        (()=>{
-            ({ e: [_init__computedKey2, _init_extra__init__computedKey2, _initStatic], c: [_K, _initClass1] } = _apply_decs_2311(K, [
-                _dec5,
-                _dec6
-            ], [
-                [
-                    _dec7,
-                    8,
-                    _computedKey2
-                ]
-            ]));
-            _initStatic(K);
-        })();
+        ({ e: [_init__computedKey2, _init_extra__init__computedKey2], c: [_K, _initClass1] } = _apply_decs_2311(K, [
+            _dec5,
+            _dec6
+        ], [
+            [
+                _dec7,
+                8,
+                _computedKey2
+            ]
+        ]));
         _define_property(K, _computedKey2, (()=>{
             const _value = _init__computedKey2();
             _init_extra__init__computedKey2();

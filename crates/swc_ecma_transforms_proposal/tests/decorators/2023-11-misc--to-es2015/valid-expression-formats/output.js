@@ -7,16 +7,16 @@ class Foo {
     method() {}
     makeClass() {
         var _Nested;
-        var _init_bar, _init_extra__init_bar, _initProto;
+        var _init_bar, _init_extra__init_bar;
         return _Nested = class Nested {
             constructor(){
-                _define_property(this, "bar", (_initProto(this), (()=>{
+                _define_property(this, "bar", (()=>{
                     const _value = _init_bar(this);
                     _init_extra__init_bar(this);
                     return _value;
-                })()));
+                })());
             }
-        }, { e: [_init_bar, _init_extra__init_bar, _initProto] } = _apply_decs_2311(_Nested, [], [
+        }, { e: [_init_bar, _init_extra__init_bar] } = _apply_decs_2311(_Nested, [], [
             [
                 [
                     _Nested,

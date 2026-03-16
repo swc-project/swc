@@ -1,8 +1,8 @@
-var _init_a, _init_extra_a, _init_b, _init_extra_b, _initStatic;
+var _init_a, _init_extra_a, _init_b, _init_extra_b;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_init_a, _init_extra_a, _init_b, _init_extra_b, _initStatic] } = _apply_decs_2311(this, [], [
+        ({ e: [_init_a, _init_extra_a, _init_b, _init_extra_b] } = _apply_decs_2311(this, [], [
             [
                 dec,
                 8,
@@ -26,7 +26,6 @@ class Foo {
                 }
             ]
         ]));
-        _initStatic(this);
     }
     static #a = (()=>{
         const _value = _init_a();

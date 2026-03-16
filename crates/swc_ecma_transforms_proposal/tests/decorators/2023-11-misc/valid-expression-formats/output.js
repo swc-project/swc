@@ -40,10 +40,10 @@ class Foo {
     #a;
     method() {}
     makeClass() {
-        var _init_bar, _init_extra__init_bar, _initProto;
+        var _init_bar, _init_extra__init_bar;
         return class Nested {
             static{
-                ({ e: [_init_bar, _init_extra__init_bar, _initProto] } = _apply_decs_2311(this, [], [
+                ({ e: [_init_bar, _init_extra__init_bar] } = _apply_decs_2311(this, [], [
                     [
                         [
                             this,
@@ -54,11 +54,11 @@ class Foo {
                     ]
                 ]));
             }
-            bar = (_initProto(this), (()=>{
+            bar = (()=>{
                 const _value = _init_bar(this);
                 _init_extra__init_bar(this);
                 return _value;
-            })());
+            })();
         };
     }
     static{

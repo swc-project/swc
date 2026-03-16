@@ -1,4 +1,4 @@
-var _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _computedKey, _init_computedKey, _init_extra__init_computedKey, _initProto;
+var _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _computedKey, _init_computedKey, _init_extra__init_computedKey;
 const dec = ()=>{};
 _computedKey = 'c';
 var ____private_a_1 = /*#__PURE__*/ new WeakMap(), ____private_b_2 = /*#__PURE__*/ new WeakMap(), ____private_computedKey_3 = /*#__PURE__*/ new WeakMap();
@@ -25,11 +25,11 @@ class Foo {
     constructor(){
         _class_private_field_init(this, ____private_a_1, {
             writable: true,
-            value: (_initProto(this), (()=>{
+            value: (()=>{
                 const _value = _init_a(this);
                 _init_extra__init_a(this);
                 return _value;
-            })())
+            })()
         });
         _class_private_field_init(this, ____private_b_2, {
             writable: true,
@@ -49,7 +49,7 @@ class Foo {
         });
     }
 }
-({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init_computedKey, _init_extra__init_computedKey, _initProto] } = _apply_decs_2311(Foo, [], [
+({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init_computedKey, _init_extra__init_computedKey] } = _apply_decs_2311(Foo, [], [
     [
         dec,
         1,

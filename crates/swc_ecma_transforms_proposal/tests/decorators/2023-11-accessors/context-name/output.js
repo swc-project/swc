@@ -1,4 +1,4 @@
-var _init_a, _init_extra__init_a, _init_a1, _init_extra__init_a1, _get___a, _set___a, _computedKey, _init_computedKey, _init_extra__init_computedKey, _computedKey1, _init_computedKey1, _init_extra__init_computedKey1, _computedKey2, _init_computedKey2, _init_extra__init_computedKey2, _computedKey3, _init_computedKey3, _init_extra__init_computedKey3, _computedKey4, _init_computedKey4, _init_extra__init_computedKey4, _computedKey5, _init_computedKey5, _init_extra__init_computedKey5, _computedKey6, _init_computedKey6, _init_extra__init_computedKey6, _initStatic;
+var _init_a, _init_extra__init_a, _init_a1, _init_extra__init_a1, _get___a, _set___a, _computedKey, _init_computedKey, _init_extra__init_computedKey, _computedKey1, _init_computedKey1, _init_extra__init_computedKey1, _computedKey2, _init_computedKey2, _init_extra__init_computedKey2, _computedKey3, _init_computedKey3, _init_extra__init_computedKey3, _computedKey4, _init_computedKey4, _init_extra__init_computedKey4, _computedKey5, _init_computedKey5, _init_extra__init_computedKey5, _computedKey6, _init_computedKey6, _init_extra__init_computedKey6;
 const logs = [];
 const dec = (value, context)=>{
     logs.push(context.name);
@@ -12,7 +12,7 @@ const f = ()=>{
 _computedKey = "b", _computedKey1 = "c", _computedKey2 = 0, _computedKey3 = 1, _computedKey4 = 2n, _computedKey5 = 3n, _computedKey6 = f();
 class Foo {
     static{
-        ({ e: [_init_a, _init_extra__init_a, _init_a1, _get___a, _set___a, _init_extra__init_a1, _init_computedKey, _init_extra__init_computedKey, _init_computedKey1, _init_extra__init_computedKey1, _init_computedKey2, _init_extra__init_computedKey2, _init_computedKey3, _init_extra__init_computedKey3, _init_computedKey4, _init_extra__init_computedKey4, _init_computedKey5, _init_extra__init_computedKey5, _init_computedKey6, _init_extra__init_computedKey6, _initStatic] } = _apply_decs_2311(this, [], [
+        ({ e: [_init_a, _init_extra__init_a, _init_a1, _get___a, _set___a, _init_extra__init_a1, _init_computedKey, _init_extra__init_computedKey, _init_computedKey1, _init_extra__init_computedKey1, _init_computedKey2, _init_extra__init_computedKey2, _init_computedKey3, _init_extra__init_computedKey3, _init_computedKey4, _init_extra__init_computedKey4, _init_computedKey5, _init_extra__init_computedKey5, _init_computedKey6, _init_extra__init_computedKey6] } = _apply_decs_2311(this, [], [
             [
                 dec,
                 9,
@@ -65,7 +65,6 @@ class Foo {
                 _computedKey6
             ]
         ]));
-        _initStatic(this);
     }
     static #___private_a_1 = (()=>{
         const _value = _init_a();

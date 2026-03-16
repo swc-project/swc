@@ -1,5 +1,5 @@
 {
-    var _init_foo, _init_extra__init_foo, _initProto;
+    var _init_foo, _init_extra__init_foo;
     let self, a, initCalled;
     function deco(_, context) {
         context.addInitializer(()=>{
@@ -25,16 +25,16 @@
                 super(a),
                 _class_private_field_init(this, ____private_foo_1, {
                     writable: true,
-                    value: (_initProto(this), (()=>{
+                    value: (()=>{
                         const _value = _init_foo(this, 42);
                         _init_extra__init_foo(this);
                         return _value;
-                    })())
+                    })()
                 })
             ][0];
         }
     }
-    ({ e: [_init_foo, _init_extra__init_foo, _initProto] } = _apply_decs_2311(A, [], [
+    ({ e: [_init_foo, _init_extra__init_foo] } = _apply_decs_2311(A, [], [
         [
             deco,
             1,
@@ -65,7 +65,7 @@
         }
     }
     {
-        var _init_foo1, _init_extra__init_foo1, _initProto1;
+        var _init_foo1, _init_extra__init_foo1;
         "super() nested within another constructor should not be transformed";
         let log = [];
         var ____private_foo_11 = /*#__PURE__*/ new WeakMap();
@@ -81,11 +81,11 @@
                     super(3),
                     _class_private_field_init(this, ____private_foo_11, {
                         writable: true,
-                        value: (_initProto1(this), (()=>{
+                        value: (()=>{
                             const _value = _init_foo1(this, 42);
                             _init_extra__init_foo1(this);
                             return _value;
-                        })())
+                        })()
                     })
                 ][0].method());
                 new class Dummy extends B {
@@ -95,7 +95,7 @@
                 }();
             }
         }
-        ({ e: [_init_foo1, _init_extra__init_foo1, _initProto1] } = _apply_decs_2311(A, [], [
+        ({ e: [_init_foo1, _init_extra__init_foo1] } = _apply_decs_2311(A, [], [
             [
                 dec,
                 1,
@@ -111,7 +111,7 @@
         let log = [];
         new class Dummy extends B {
             constructor(){
-                var _computedKey, _init_foo, _init_extra__init_foo, _initProto;
+                var _computedKey, _init_foo, _init_extra__init_foo;
                 let key;
                 _computedKey = (key = super(5).method(), log.push(key), key);
                 var ____private_foo_1 = /*#__PURE__*/ new WeakMap();
@@ -128,17 +128,17 @@
                             super(6),
                             _class_private_field_init(this, ____private_foo_1, {
                                 writable: true,
-                                value: (_initProto(this), (()=>{
+                                value: (()=>{
                                     const _value = _init_foo(this, 42);
                                     _init_extra__init_foo(this);
                                     return _value;
-                                })())
+                                })()
                             }),
                             _define_property(this, _computedKey1, void 0)
                         ][0].method());
                     }
                 }
-                ({ e: [_init_foo, _init_extra__init_foo, _initProto] } = _apply_decs_2311(A, [], [
+                ({ e: [_init_foo, _init_extra__init_foo] } = _apply_decs_2311(A, [], [
                     [
                         dec,
                         1,
@@ -201,7 +201,7 @@
         expect(log + "").toBe("7,8");
     }
     {
-        var _init_foo2, _init_extra__init_foo2, _initProto2;
+        var _init_foo2, _init_extra__init_foo2;
         "super() within decorated derived constructor should be transformed: computed key";
         let log = [];
         var ____private_foo_12 = /*#__PURE__*/ new WeakMap();
@@ -220,11 +220,11 @@
                     super(9),
                     _class_private_field_init(this, ____private_foo_12, {
                         writable: true,
-                        value: (_initProto2(this), (()=>{
+                        value: (()=>{
                             const _value = _init_foo2(this, 42);
                             _init_extra__init_foo2(this);
                             return _value;
-                        })())
+                        })()
                     })
                 ][0].method(), log.push(key), key);
                 new (_computedKey = _computedKey1, class Dummy extends B {
@@ -237,7 +237,7 @@
                 })();
             }
         }
-        ({ e: [_init_foo2, _init_extra__init_foo2, _initProto2] } = _apply_decs_2311(A, [], [
+        ({ e: [_init_foo2, _init_extra__init_foo2] } = _apply_decs_2311(A, [], [
             [
                 dec,
                 1,
@@ -249,7 +249,7 @@
         expect(a.foo).toBe(142);
     }
     {
-        var _init_foo3, _init_extra__init_foo3, _initProto3;
+        var _init_foo3, _init_extra__init_foo3;
         "super() within decorated derived constructor should be transformed: decorator expression";
         let log = [];
         const noop = ()=>(fn)=>fn;
@@ -268,11 +268,11 @@
                     super(11),
                     _class_private_field_init(this, ____private_foo_13, {
                         writable: true,
-                        value: (_initProto3(this), (()=>{
+                        value: (()=>{
                             const _value = _init_foo3(this, 42);
                             _init_extra__init_foo3(this);
                             return _value;
-                        })())
+                        })()
                     })
                 ][0].method()));
                 new (_Dummy = class Dummy extends B {
@@ -292,7 +292,7 @@
                 ]), _Dummy)();
             }
         }
-        ({ e: [_init_foo3, _init_extra__init_foo3, _initProto3] } = _apply_decs_2311(A, [], [
+        ({ e: [_init_foo3, _init_extra__init_foo3] } = _apply_decs_2311(A, [], [
             [
                 dec,
                 1,
