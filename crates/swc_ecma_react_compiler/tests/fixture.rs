@@ -25,14 +25,39 @@ fn strict_upstream_mode() -> bool {
     true
 }
 
+fn normalize_flow_component_syntax(source: &str) -> String {
+    let mut out = String::with_capacity(source.len());
+
+    for line in source.lines() {
+        let mut rewritten = line.to_string();
+        let trimmed = rewritten.trim_start();
+        let indent_len = rewritten.len().saturating_sub(trimmed.len());
+
+        if trimmed.starts_with("export default component ") {
+            let start = indent_len;
+            let end = start + "export default component".len();
+            rewritten.replace_range(start..end, "export default function");
+        } else if trimmed.starts_with("component ") {
+            let start = indent_len;
+            let end = start + "component".len();
+            rewritten.replace_range(start..end, "function");
+        } else if trimmed.starts_with("hook ") {
+            let start = indent_len;
+            let end = start + "hook".len();
+            rewritten.replace_range(start..end, "function");
+        }
+
+        out.push_str(&rewritten);
+        out.push('\n');
+    }
+
+    out
+}
+
 fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     let cm = Lrc::new(SourceMap::default());
-    let fm = cm.new_source_file(
-        FileName::Real(input.to_path_buf()).into(),
-        source.to_string(),
-    );
-
-    let try_parse = |syntax: Syntax| {
+    let mut parse_with_source = |code: &str, syntax: Syntax| {
+        let fm = cm.new_source_file(FileName::Real(input.to_path_buf()).into(), code.to_string());
         let comments = SingleThreadedComments::default();
         let mut errors = Vec::new();
         let parsed = parse_file_as_module(
@@ -46,20 +71,61 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     };
 
     // Try TS/TSX first to support upstream fixtures that use TS syntax.
-    let (parsed_ts, ts_comments) = try_parse(Syntax::Typescript(TsSyntax {
-        tsx: true,
-        decorators: true,
-        ..Default::default()
-    }));
+    let (parsed_ts, ts_comments) = parse_with_source(
+        source,
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            decorators: true,
+            ..Default::default()
+        }),
+    );
     if let Ok(program) = parsed_ts {
         return (Program::Module(program), flatten_comments(&ts_comments));
     }
 
-    let (parsed_es, es_comments) = try_parse(Syntax::Es(EsSyntax {
-        jsx: true,
-        decorators: true,
-        ..Default::default()
-    }));
+    let (parsed_es, es_comments) = parse_with_source(
+        source,
+        Syntax::Es(EsSyntax {
+            jsx: true,
+            decorators: true,
+            ..Default::default()
+        }),
+    );
+
+    if parsed_es.is_err() {
+        let normalized = normalize_flow_component_syntax(source);
+        if normalized != source {
+            let (parsed_ts_normalized, ts_comments_normalized) = parse_with_source(
+                &normalized,
+                Syntax::Typescript(TsSyntax {
+                    tsx: true,
+                    decorators: true,
+                    ..Default::default()
+                }),
+            );
+            if let Ok(program) = parsed_ts_normalized {
+                return (
+                    Program::Module(program),
+                    flatten_comments(&ts_comments_normalized),
+                );
+            }
+
+            let (parsed_es_normalized, es_comments_normalized) = parse_with_source(
+                &normalized,
+                Syntax::Es(EsSyntax {
+                    jsx: true,
+                    decorators: true,
+                    ..Default::default()
+                }),
+            );
+            if let Ok(program) = parsed_es_normalized {
+                return (
+                    Program::Module(program),
+                    flatten_comments(&es_comments_normalized),
+                );
+            }
+        }
+    }
 
     let program = parsed_es.unwrap_or_else(|err| {
         let allow_upstream_oracle = std::env::var("RUN_UPSTREAM_FIXTURES").ok().as_deref()

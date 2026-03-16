@@ -3,7 +3,7 @@ use std::{any::Any, collections::HashSet, panic::AssertUnwindSafe, time::Instant
 use swc_common::{comments::Comment, Span, DUMMY_SP};
 use swc_ecma_ast::{
     op, ArrowExpr, AssignExpr, BindingIdent, BlockStmt, BlockStmtOrExpr, Callee, Decl, DefaultDecl,
-    Expr, FnDecl, Function, Ident, ModuleItem, Param, Pat, Program, Stmt,
+    Expr, FnDecl, Function, Ident, ModuleDecl, ModuleItem, Param, Pat, Program, Stmt,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -135,11 +135,14 @@ pub fn compile_program(
     let mut report = compiler.report;
     let used_external_imports = compiler.used_external_imports;
     let mut queued_outlined = compiler.queued_outlined;
+    let requires_runtime_import = report.events.iter().any(|event| {
+        matches!(
+            event,
+            LoggerEvent::CompileSuccess { memo_slots, .. } if *memo_slots > 0
+        )
+    });
 
-    if !module_scope_opt_out
-        && report.compiled_functions > 0
-        && output_mode != CompilerOutputMode::Lint
-    {
+    if !module_scope_opt_out && requires_runtime_import && output_mode != CompilerOutputMode::Lint {
         if imports::add_memo_cache_import(program, pass.opts.target.runtime_module().as_ref()) {
             report.inserted_imports += 1;
             report.changed = true;
@@ -360,6 +363,7 @@ struct ProgramCompiler<'a> {
 #[derive(Clone)]
 struct QueuedOutlinedFunction {
     function: CodegenFunction,
+    anchor_name: Option<String>,
 }
 
 impl ProgramCompiler<'_> {
@@ -540,6 +544,11 @@ impl ProgramCompiler<'_> {
         for outlined in &codegen.outlined {
             self.queued_outlined.push(QueuedOutlinedFunction {
                 function: outlined.function.clone(),
+                anchor_name: if is_top_level {
+                    name.map(|ident| ident.sym.to_string())
+                } else {
+                    None
+                },
             });
         }
 
@@ -734,6 +743,11 @@ impl ProgramCompiler<'_> {
         for outlined in &codegen.outlined {
             self.queued_outlined.push(QueuedOutlinedFunction {
                 function: outlined.function.clone(),
+                anchor_name: if is_top_level {
+                    name.map(|ident| ident.sym.to_string())
+                } else {
+                    None
+                },
             });
         }
 
@@ -993,6 +1007,16 @@ fn insert_queued_outlined(program: &mut Program, queue: &mut Vec<QueuedOutlinedF
     let mut known_names = collect_top_level_names(program);
     let mut inserted = 0;
     let queued = std::mem::take(queue);
+    let mut anchor_offsets: std::collections::HashMap<String, usize> =
+        std::collections::HashMap::new();
+    let mut module_insert_index = match program {
+        Program::Module(module) => module
+            .body
+            .iter()
+            .position(is_fixture_entrypoint_export)
+            .unwrap_or(module.body.len()),
+        Program::Script(_) => 0,
+    };
 
     for (index, outlined) in queued.into_iter().enumerate() {
         let mut id = outlined.function.id.unwrap_or_else(|| {
@@ -1042,7 +1066,25 @@ fn insert_queued_outlined(program: &mut Program, queue: &mut Vec<QueuedOutlinedF
 
         match program {
             Program::Module(module) => {
-                module.body.push(ModuleItem::Stmt(decl));
+                let insert_index = if let Some(anchor_name) = outlined.anchor_name.as_deref() {
+                    if let Some(anchor_index) =
+                        find_top_level_item_index_by_name(module, anchor_name)
+                    {
+                        let offset = anchor_offsets.entry(anchor_name.to_string()).or_insert(0);
+                        let index = anchor_index + 1 + *offset;
+                        *offset += 1;
+                        index
+                    } else {
+                        module_insert_index
+                    }
+                } else {
+                    module_insert_index
+                };
+
+                module.body.insert(insert_index, ModuleItem::Stmt(decl));
+                if insert_index <= module_insert_index {
+                    module_insert_index += 1;
+                }
             }
             Program::Script(script) => {
                 script.body.push(decl);
@@ -1053,6 +1095,38 @@ fn insert_queued_outlined(program: &mut Program, queue: &mut Vec<QueuedOutlinedF
     }
 
     inserted
+}
+
+fn find_top_level_item_index_by_name(module: &swc_ecma_ast::Module, name: &str) -> Option<usize> {
+    module.body.iter().position(|item| {
+        let ModuleItem::Stmt(stmt) = item else {
+            return false;
+        };
+
+        match stmt {
+            Stmt::Decl(Decl::Fn(fn_decl)) => fn_decl.ident.sym == name,
+            Stmt::Decl(Decl::Class(class_decl)) => class_decl.ident.sym == name,
+            Stmt::Decl(Decl::Var(var_decl)) => var_decl.decls.iter().any(
+                |decl| matches!(&decl.name, Pat::Ident(BindingIdent { id, .. }) if id.sym == name),
+            ),
+            _ => false,
+        }
+    })
+}
+
+fn is_fixture_entrypoint_export(item: &ModuleItem) -> bool {
+    let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = item else {
+        return false;
+    };
+    let Decl::Var(var_decl) = &export_decl.decl else {
+        return false;
+    };
+    var_decl.decls.iter().any(|declarator| {
+        matches!(
+            &declarator.name,
+            Pat::Ident(BindingIdent { id, .. }) if id.sym == "FIXTURE_ENTRYPOINT"
+        )
+    })
 }
 
 fn collect_top_level_names(program: &Program) -> HashSet<String> {
@@ -1583,6 +1657,7 @@ mod tests {
                 pruned_memo_values: 0,
                 outlined: Vec::new(),
             },
+            anchor_name: None,
         }];
 
         let inserted = insert_queued_outlined(&mut program, &mut queue);
