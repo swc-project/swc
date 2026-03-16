@@ -212,6 +212,28 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    fn try_parse_flow_predicate(&mut self) -> PResult<()> {
+        if !self.input().syntax().flow() || !self.input_mut().eat(Token::Percent) {
+            return Ok(());
+        }
+
+        let is_checks = self.input().cur().is_word()
+            && self.input().cur().take_word(&self.input) == atom!("checks");
+        if !is_checks {
+            unexpected!(self, "checks");
+        }
+        self.bump();
+
+        if self.input_mut().eat(Token::LParen) {
+            if !self.input().is(Token::RParen) {
+                self.allow_in_expr(Self::parse_assignment_expr)?;
+            }
+            expect!(self, Token::RParen);
+        }
+
+        Ok(())
+    }
+
     /// `parse_args` closure should not eat '(' or ')'.
     pub(crate) fn parse_fn_args_body<F>(
         &mut self,
@@ -271,6 +293,8 @@ impl<I: Tokens> Parser<I> {
             } else {
                 None
             };
+
+            p.try_parse_flow_predicate()?;
 
             let body: Option<_> = p.parse_fn_block_body(
                 is_async,
@@ -948,9 +972,24 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
+        let mut flow_variance_span = None;
+        let mut flow_variance_readonly = false;
+        if self.input().syntax().flow() {
+            let variance_start = self.cur_pos();
+            if self.input_mut().eat(Token::Plus) {
+                flow_variance_span = Some(self.span(variance_start));
+                flow_variance_readonly = true;
+            } else if self.input_mut().eat(Token::Minus) {
+                flow_variance_span = Some(self.span(variance_start));
+            }
+        }
+
         if self.input_mut().eat(Token::Asterisk) {
             // generator method
             let key = self.parse_class_prop_name()?;
+            if let Some(variance_span) = flow_variance_span {
+                self.emit_err(variance_span, SyntaxError::TS1184);
+            }
             if readonly.is_some() {
                 self.emit_err(self.span(start), SyntaxError::ReadOnlyMethod);
             }
@@ -998,6 +1037,9 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(token, SyntaxError::TS1031)
             }
 
+            if let Some(variance_span) = flow_variance_span {
+                self.emit_err(variance_span, SyntaxError::TS1184);
+            }
             if readonly.is_some() {
                 syntax_error!(self, self.span(start), SyntaxError::ReadOnlyMethod);
             }
@@ -1138,7 +1180,7 @@ impl<I: Tokens> Parser<I> {
                 is_static,
                 accessor_token,
                 is_optional,
-                readonly.is_some(),
+                readonly.is_some() || flow_variance_readonly,
                 declare,
                 is_abstract,
                 is_override,
@@ -1148,6 +1190,9 @@ impl<I: Tokens> Parser<I> {
         if key_token == Token::Async && !self.input_mut().had_line_break_before_cur() {
             // handle async foo(){}
 
+            if let Some(variance_span) = flow_variance_span {
+                self.emit_err(variance_span, SyntaxError::TS1184);
+            }
             if self.input().syntax().typescript()
                 && self.parse_ts_modifier(&[Token::Override], false)?.is_some()
             {
@@ -1190,6 +1235,9 @@ impl<I: Tokens> Parser<I> {
 
         if getter_or_setter_ident {
             let key_span = key.span();
+            if let Some(variance_span) = flow_variance_span {
+                self.emit_err(variance_span, SyntaxError::TS1184);
+            }
 
             // handle get foo(){} / set foo(v){}
             let key = self.parse_class_prop_name()?;
