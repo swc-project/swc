@@ -19,6 +19,7 @@ swc_ecma_ast   = { version = "21.0.0", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "21.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
+serde_json = { workspace = true }
 swc_ecma_codegen = { version = "24.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "35.0.0", path = "../swc_ecma_parser" }
 testing         = { version = "20.0.0", path = "../testing" }

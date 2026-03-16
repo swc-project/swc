@@ -150,20 +150,21 @@ impl Default for EnvironmentConfig {
         Self {
             validate_blocklisted_imports: Vec::new(),
             validate_hooks_usage: true,
-            validate_no_capitalized_calls: true,
+            // Upstream default is nullable (disabled unless configured).
+            validate_no_capitalized_calls: false,
             validate_ref_access_during_render: true,
             validate_no_set_state_in_render: true,
-            validate_no_derived_computations_in_effects: true,
-            validate_no_set_state_in_effects: true,
-            validate_no_jsx_in_try_statements: true,
-            validate_exhaustive_memoization_dependencies: false,
+            validate_no_derived_computations_in_effects: false,
+            validate_no_set_state_in_effects: false,
+            validate_no_jsx_in_try_statements: false,
+            validate_exhaustive_memoization_dependencies: true,
             validate_exhaustive_effect_dependencies: false,
-            validate_preserve_existing_memoization_guarantees: false,
-            enable_preserve_existing_memoization_guarantees: false,
+            validate_preserve_existing_memoization_guarantees: true,
+            enable_preserve_existing_memoization_guarantees: true,
             validate_static_components: false,
             validate_source_locations: false,
-            enable_name_anonymous_functions: true,
-            enable_jsx_outlining: true,
+            enable_name_anonymous_functions: false,
+            enable_jsx_outlining: false,
             enable_function_outlining: true,
         }
     }
@@ -335,6 +336,42 @@ pub fn parse_plugin_options(options: PluginOptions) -> Result<ParsedPluginOption
         parsed.target = target;
     }
 
+    // Phase 1 scope:
+    // - output_mode: client only
+    // - no_emit/lint mode: unsupported
+    // - compilation_mode: infer only
+    // - target: react 19 only
+    if parsed.no_emit {
+        return Err(CompilerError::invalid_config(
+            "React Compiler phase 1 does not support `noEmit`",
+            "Use emitted client output (`outputMode: client`, `noEmit: false`).",
+        ));
+    }
+
+    if parsed
+        .output_mode
+        .is_some_and(|mode| mode != CompilerOutputMode::Client)
+    {
+        return Err(CompilerError::invalid_config(
+            "React Compiler phase 1 only supports `outputMode: client`",
+            "Use `outputMode: client` or omit `outputMode`.",
+        ));
+    }
+
+    if parsed.compilation_mode != CompilationMode::Infer {
+        return Err(CompilerError::invalid_config(
+            "React Compiler phase 1 only supports `compilationMode: infer`",
+            "Use `compilationMode: infer` or omit `compilationMode`.",
+        ));
+    }
+
+    if parsed.target != CompilerReactTarget::React19 {
+        return Err(CompilerError::invalid_config(
+            "React Compiler phase 1 only supports `target: 19`",
+            "Use `target: 19` or omit `target`.",
+        ));
+    }
+
     Ok(parsed)
 }
 
@@ -386,5 +423,66 @@ mod tests {
 
         assert!(result.is_err());
         assert!(result.err().is_some_and(|err| err.has_any_errors()));
+    }
+
+    #[test]
+    fn rejects_non_client_output_mode() {
+        let result = parse_plugin_options(PluginOptions {
+            output_mode: Some(CompilerOutputMode::Lint),
+            ..Default::default()
+        });
+
+        assert!(result.is_err());
+        let err = result.err().expect("expected config error");
+        assert!(err.has_any_errors());
+        assert!(err
+            .details
+            .iter()
+            .any(|detail| detail.category == ErrorCategory::Config));
+    }
+
+    #[test]
+    fn rejects_no_emit_mode() {
+        let result = parse_plugin_options(PluginOptions {
+            no_emit: Some(true),
+            ..Default::default()
+        });
+
+        assert!(result.is_err());
+        let err = result.err().expect("expected config error");
+        assert!(err
+            .details
+            .iter()
+            .any(|detail| detail.category == ErrorCategory::Config));
+    }
+
+    #[test]
+    fn rejects_non_infer_compilation_mode() {
+        let result = parse_plugin_options(PluginOptions {
+            compilation_mode: Some(CompilationMode::Annotation),
+            ..Default::default()
+        });
+
+        assert!(result.is_err());
+        let err = result.err().expect("expected config error");
+        assert!(err
+            .details
+            .iter()
+            .any(|detail| detail.category == ErrorCategory::Config));
+    }
+
+    #[test]
+    fn rejects_legacy_targets() {
+        let result = parse_plugin_options(PluginOptions {
+            target: Some(CompilerReactTarget::React18),
+            ..Default::default()
+        });
+
+        assert!(result.is_err());
+        let err = result.err().expect("expected config error");
+        assert!(err
+            .details
+            .iter()
+            .any(|detail| detail.category == ErrorCategory::Config));
     }
 }

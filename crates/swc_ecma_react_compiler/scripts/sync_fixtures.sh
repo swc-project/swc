@@ -2,8 +2,50 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-MANIFEST="$ROOT_DIR/tests/fixtures/upstream_manifest.txt"
-OUT_DIR="$ROOT_DIR/tests/fixtures/upstream"
+DEFAULT_MANIFEST="$ROOT_DIR/tests/fixtures/upstream_manifest.txt"
+DEFAULT_OUT_DIR="$ROOT_DIR/tests/fixtures/upstream"
+DEFAULT_REF="main"
+
+MANIFEST="$DEFAULT_MANIFEST"
+OUT_DIR="$DEFAULT_OUT_DIR"
+REF="$DEFAULT_REF"
+
+usage() {
+  cat <<'EOF'
+Usage: sync_fixtures.sh [--manifest <path>] [--out-dir <path>] [--ref <git-ref>]
+
+Options:
+  --manifest  Manifest file with fixture names (without .expect.md extension)
+  --out-dir   Output fixture directory
+  --ref       Git ref in facebook/react (default: main)
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --manifest)
+      MANIFEST="$2"
+      shift 2
+      ;;
+    --out-dir)
+      OUT_DIR="$2"
+      shift 2
+      ;;
+    --ref)
+      REF="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
 
 if ! command -v gh >/dev/null 2>&1; then
   echo "gh CLI is required" >&2
@@ -12,6 +54,11 @@ fi
 
 if ! command -v jq >/dev/null 2>&1; then
   echo "jq is required" >&2
+  exit 1
+fi
+
+if [[ ! -f "$MANIFEST" ]]; then
+  echo "manifest not found: $MANIFEST" >&2
   exit 1
 fi
 
@@ -50,7 +97,7 @@ while IFS= read -r raw_name; do
     continue
   fi
 
-  api_path="repos/facebook/react/contents/compiler/packages/babel-plugin-react-compiler/src/__tests__/fixtures/compiler/${name}.expect.md?ref=main"
+  api_path="repos/facebook/react/contents/compiler/packages/babel-plugin-react-compiler/src/__tests__/fixtures/compiler/${name}.expect.md?ref=${REF}"
   tmp_file="$(mktemp)"
 
   gh api "$api_path" | jq -r '.content' | base64 --decode > "$tmp_file"
