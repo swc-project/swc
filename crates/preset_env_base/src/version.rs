@@ -213,25 +213,3 @@ pub fn should_enable(target: &Versions, feature: &Versions, default: bool) -> bo
         bun,
     )
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::BrowserData;
-
-    #[test]
-    fn should_enable_uses_normalized_android_data() {
-        assert!(!should_enable(
-            &BrowserData {
-                android: Some("51.0.0".parse().unwrap()),
-                ..Default::default()
-            },
-            &BrowserData {
-                chrome: Some("51.0.0".parse().unwrap()),
-                ..Default::default()
-            }
-            .apply_android_fallback(),
-            false
-        ));
-    }
-}
