@@ -1,16 +1,22 @@
 var _call_x, _initProto;
-const dec = () => { };
+const dec = ()=>{};
 class Foo extends Bar {
-  static {
-    [_call_x, _initProto] = _applyDecs2203R(this, [[dec, 3, "x", function () {
-      return Bar.prototype.foo.call(this);
-    }]], []).e;
-  }
-  constructor(...args) {
-    super(...args);
-    _initProto(this);
-  }
-  get #x() {
-    return _call_x(this);
-  }
+    static{
+        ({ e: [_call_x, _initProto] } = _apply_decs_2203_r(this, [
+            [
+                dec,
+                3,
+                "x",
+                function() {
+                    return super.foo();
+                }
+            ]
+        ], []));
+    }
+    constructor(...args){
+        super(...args), _initProto(this);
+    }
+    get #x() {
+        return _call_x(this);
+    }
 }

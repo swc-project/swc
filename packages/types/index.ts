@@ -870,7 +870,7 @@ export interface TransformConfig {
     /**
      * https://swc.rs/docs/configuration/compilation#jsctransformdecoratorversion
      */
-    decoratorVersion?: "2021-12" | "2022-03";
+    decoratorVersion?: "2021-12" | "2022-03" | "2023-11";
 
     treatConstEnumAsEnum?: boolean;
 

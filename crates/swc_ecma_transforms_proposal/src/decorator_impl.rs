@@ -37,7 +37,6 @@ struct DecoratorPass {
 
     extra_exports: Vec<ExportSpecifier>,
 
-    #[allow(unused)]
     version: DecoratorVersion,
 }
 
@@ -60,11 +59,17 @@ struct ClassState {
 
     class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
+    class_decorators_have_this: bool,
+    instance_brand: Option<PrivateName>,
 
     super_class: Option<Ident>,
 }
 
 impl DecoratorPass {
+    fn is_2023_11(&self) -> bool {
+        matches!(self.version, DecoratorVersion::V202311)
+    }
+
     fn preserve_side_effect_of_decorators(
         &mut self,
         decorators: Vec<Decorator>,
@@ -73,6 +78,231 @@ impl DecoratorPass {
             .into_iter()
             .map(|e| Some(self.preserve_side_effect_of_decorator(e.expr).as_arg()))
             .collect()
+    }
+
+    fn preserve_decorator_this_target(&mut self, target: Box<Expr>) -> Box<Expr> {
+        if target.is_ident() || target.is_this() {
+            return target;
+        }
+
+        let ident = private_ident!("_dec_this");
+        self.extra_vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: ident.clone().into(),
+            init: None,
+            definite: false,
+        });
+        self.pre_class_inits.push(
+            AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: ident.clone().into(),
+                right: target,
+            }
+            .into(),
+        );
+
+        ident.into()
+    }
+
+    fn preserve_side_effect_of_decorator_2023(
+        &mut self,
+        dec: Box<Expr>,
+    ) -> (Option<ExprOrSpread>, ExprOrSpread) {
+        if let Expr::Member(member) = *dec {
+            let this_target = self.preserve_decorator_this_target(member.obj);
+            let dec = MemberExpr {
+                span: member.span,
+                obj: this_target.clone(),
+                prop: member.prop,
+            };
+
+            return (Some(this_target.as_arg()), dec.as_arg());
+        }
+
+        let dec = self.preserve_side_effect_of_decorator(dec);
+        (None, dec.as_arg())
+    }
+
+    fn merge_decorators_for_member(
+        &mut self,
+        decorators: Vec<Decorator>,
+    ) -> (Option<ExprOrSpread>, bool) {
+        if !self.is_2023_11() {
+            let decorators = self.preserve_side_effect_of_decorators(decorators);
+            return (merge_decorators(decorators), false);
+        }
+
+        let mut has_this = false;
+        let mut preserved = Vec::with_capacity(decorators.len());
+        for decorator in decorators {
+            let (dec_this, dec) = self.preserve_side_effect_of_decorator_2023(decorator.expr);
+            has_this |= dec_this.is_some();
+            preserved.push((dec_this, dec));
+        }
+
+        let merged = if has_this {
+            let mut elems = Vec::with_capacity(preserved.len() * 2);
+            for (dec_this, dec) in preserved {
+                elems.push(Some(
+                    dec_this.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg()),
+                ));
+                elems.push(Some(dec));
+            }
+            Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems,
+                }
+                .as_arg(),
+            )
+        } else {
+            let decorators = preserved.into_iter().map(|(_, dec)| Some(dec)).collect();
+            merge_decorators(decorators)
+        };
+
+        (merged, has_this)
+    }
+
+    fn preserve_side_effect_of_decorators_for_class(
+        &mut self,
+        decorators: Vec<Decorator>,
+    ) -> (Vec<Option<ExprOrSpread>>, bool) {
+        if !self.is_2023_11() {
+            return (self.preserve_side_effect_of_decorators(decorators), false);
+        }
+
+        let mut has_this = false;
+        let mut preserved = Vec::with_capacity(decorators.len());
+        for decorator in decorators {
+            let (dec_this, dec) = self.preserve_side_effect_of_decorator_2023(decorator.expr);
+            has_this |= dec_this.is_some();
+            preserved.push((dec_this, dec));
+        }
+
+        let decorators = if has_this {
+            let mut elems = Vec::with_capacity(preserved.len() * 2);
+            for (dec_this, dec) in preserved {
+                elems.push(Some(
+                    dec_this.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg()),
+                ));
+                elems.push(Some(dec));
+            }
+            elems
+        } else {
+            preserved.into_iter().map(|(_, dec)| Some(dec)).collect()
+        };
+
+        (decorators, has_this)
+    }
+
+    fn with_this_flag(&self, kind: i32, decorators_have_this: bool) -> i32 {
+        if self.is_2023_11() && decorators_have_this {
+            kind | 16
+        } else {
+            kind
+        }
+    }
+
+    fn method_kind_code(
+        &self,
+        is_static: bool,
+        kind: MethodKind,
+        decorators_have_this: bool,
+    ) -> i32 {
+        let base = if self.is_2023_11() {
+            let kind = match kind {
+                MethodKind::Method => 2,
+                MethodKind::Setter => 4,
+                MethodKind::Getter => 3,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            };
+            if is_static {
+                kind | 8
+            } else {
+                kind
+            }
+        } else {
+            match (is_static, kind) {
+                (true, MethodKind::Method) => 7,
+                (false, MethodKind::Method) => 2,
+                (true, MethodKind::Setter) => 9,
+                (false, MethodKind::Setter) => 4,
+                (true, MethodKind::Getter) => 8,
+                (false, MethodKind::Getter) => 3,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            }
+        };
+
+        self.with_this_flag(base, decorators_have_this)
+    }
+
+    fn field_kind_code(&self, is_static: bool, decorators_have_this: bool) -> i32 {
+        let kind = if self.is_2023_11() {
+            if is_static {
+                8
+            } else {
+                0
+            }
+        } else if is_static {
+            5
+        } else {
+            0
+        };
+
+        self.with_this_flag(kind, decorators_have_this)
+    }
+
+    fn accessor_kind_code(&self, is_static: bool, decorators_have_this: bool) -> i32 {
+        let kind = if self.is_2023_11() {
+            if is_static {
+                9
+            } else {
+                1
+            }
+        } else if is_static {
+            6
+        } else {
+            1
+        };
+
+        self.with_this_flag(kind, decorators_have_this)
+    }
+
+    fn instance_brand_arg(&self) -> Option<ExprOrSpread> {
+        let brand = self.state.instance_brand.as_ref()?;
+        let arg = quote_ident!("o");
+
+        Some(
+            ArrowExpr {
+                span: DUMMY_SP,
+                params: vec![arg.clone().into()],
+                body: Box::new(BlockStmtOrExpr::Expr(
+                    BinExpr {
+                        span: DUMMY_SP,
+                        left: Expr::PrivateName(brand.clone()).into(),
+                        op: op!("in"),
+                        right: arg.into(),
+                    }
+                    .into(),
+                )),
+                is_async: false,
+                is_generator: false,
+                ..Default::default()
+            }
+            .as_arg(),
+        )
+    }
+
+    fn int_arg(value: i32) -> ExprOrSpread {
+        Lit::Num(Number {
+            span: DUMMY_SP,
+            value: value as _,
+            raw: None,
+        })
+        .as_arg()
     }
 
     fn preserve_side_effect_of_decorator(&mut self, dec: Box<Expr>) -> Box<Expr> {
@@ -145,30 +375,56 @@ impl DecoratorPass {
             e_lhs.push(Some(init.into()));
         }
 
-        combined_args.push(
-            ArrayLit {
-                span: DUMMY_SP,
-                elems: self
-                    .state
-                    .init_static_args
-                    .drain(..)
-                    .chain(self.state.init_proto_args.drain(..))
-                    .collect(),
-            }
-            .as_arg(),
-        );
+        let member_decs = ArrayLit {
+            span: DUMMY_SP,
+            elems: self
+                .state
+                .init_static_args
+                .drain(..)
+                .chain(self.state.init_proto_args.drain(..))
+                .collect(),
+        };
+        let class_decs = ArrayLit {
+            span: DUMMY_SP,
+            elems: self.state.class_decorators.take(),
+        };
 
-        combined_args.push(
-            ArrayLit {
-                span: DUMMY_SP,
-                elems: self.state.class_decorators.take(),
-            }
-            .as_arg(),
-        );
+        let callee = if self.is_2023_11() {
+            helper!(apply_decs_2311)
+        } else {
+            helper!(apply_decs_2203_r)
+        };
 
-        if let Some(super_class) = self.state.super_class.as_ref() {
-            combined_args.push(super_class.clone().as_arg());
+        if self.is_2023_11() {
+            let class_decorators_have_this = self.state.class_decorators_have_this;
+            let instance_brand = self.instance_brand_arg();
+            let has_super_class = self.state.super_class.is_some();
+
+            combined_args.push(class_decs.as_arg());
+            combined_args.push(member_decs.as_arg());
+
+            if class_decorators_have_this || instance_brand.is_some() || has_super_class {
+                combined_args.push(Self::int_arg(class_decorators_have_this as i32));
+            }
+
+            if instance_brand.is_some() || has_super_class {
+                combined_args
+                    .push(instance_brand.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg()));
+            }
+
+            if let Some(super_class) = self.state.super_class.as_ref() {
+                combined_args.push(super_class.clone().as_arg());
+            }
+        } else {
+            combined_args.push(member_decs.as_arg());
+            combined_args.push(class_decs.as_arg());
+
+            if let Some(super_class) = self.state.super_class.as_ref() {
+                combined_args.push(super_class.clone().as_arg());
+            }
         }
+        self.state.class_decorators_have_this = false;
+        self.state.instance_brand = None;
 
         let e_pat = if e_lhs.is_empty() {
             None
@@ -213,7 +469,7 @@ impl DecoratorPass {
             right: Box::new(
                 CallExpr {
                     span: DUMMY_SP,
-                    callee: helper!(apply_decs_2203_r),
+                    callee,
                     args: combined_args,
                     ..Default::default()
                 }
@@ -438,8 +694,10 @@ impl DecoratorPass {
             definite: false,
         });
 
-        let decorators = self.preserve_side_effect_of_decorators(class.decorators.take());
+        let (decorators, decorators_have_this) =
+            self.preserve_side_effect_of_decorators_for_class(class.decorators.take());
         self.state.class_decorators.extend(decorators);
+        self.state.class_decorators_have_this |= decorators_have_this;
         self.handle_super_class(class);
 
         {
@@ -468,7 +726,8 @@ impl DecoratorPass {
     fn handle_class_decl(&mut self, c: &mut ClassDecl) -> Stmt {
         let old_state = take(&mut self.state);
 
-        let decorators = self.preserve_side_effect_of_decorators(c.class.decorators.take());
+        let (decorators, decorators_have_this) =
+            self.preserve_side_effect_of_decorators_for_class(c.class.decorators.take());
 
         let init_class = private_ident!("_initClass");
 
@@ -498,6 +757,7 @@ impl DecoratorPass {
         self.state.class_lhs.push(Some(init_class.clone().into()));
 
         self.state.class_decorators.extend(decorators);
+        self.state.class_decorators_have_this |= decorators_have_this;
         self.handle_super_class(&mut c.class);
 
         let mut body = c.class.body.take();
@@ -742,7 +1002,11 @@ impl DecoratorPass {
 
     fn process_decorators(&mut self, decorators: &mut [Decorator]) {
         decorators.iter_mut().for_each(|dec| {
-            let e = self.preserve_side_effect_of_decorator(dec.expr.take());
+            let e = if self.is_2023_11() && dec.expr.is_member() {
+                dec.expr.take()
+            } else {
+                self.preserve_side_effect_of_decorator(dec.expr.take())
+            };
 
             dec.expr = e;
         })
@@ -890,8 +1154,8 @@ impl VisitMut for DecoratorPass {
                 return;
             }
 
-            let decorators = self.preserve_side_effect_of_decorators(p.function.decorators.take());
-            let dec = merge_decorators(decorators);
+            let (dec, decorators_have_this) =
+                self.merge_decorators_for_member(p.function.decorators.take());
 
             let init = private_ident!(format!("_call_{}", p.key.name));
 
@@ -907,6 +1171,11 @@ impl VisitMut for DecoratorPass {
                     .init_static
                     .get_or_insert_with(|| private_ident!("_initStatic"));
             } else {
+                if self.is_2023_11() {
+                    self.state
+                        .instance_brand
+                        .get_or_insert_with(|| p.key.clone());
+                }
                 self.state
                     .init_proto
                     .get_or_insert_with(|| private_ident!("_initProto"));
@@ -922,26 +1191,11 @@ impl VisitMut for DecoratorPass {
                     span: DUMMY_SP,
                     elems: vec![
                         dec,
-                        Some(
-                            if p.is_static {
-                                match p.kind {
-                                    MethodKind::Method => 7,
-                                    MethodKind::Setter => 9,
-                                    MethodKind::Getter => 8,
-                                    #[cfg(swc_ast_unknown)]
-                                    _ => panic!("unable to access unknown nodes"),
-                                }
-                            } else {
-                                match p.kind {
-                                    MethodKind::Method => 2,
-                                    MethodKind::Setter => 4,
-                                    MethodKind::Getter => 3,
-                                    #[cfg(swc_ast_unknown)]
-                                    _ => panic!("unable to access unknown nodes"),
-                                }
-                            }
-                            .as_arg(),
-                        ),
+                        Some(Self::int_arg(self.method_kind_code(
+                            p.is_static,
+                            p.kind,
+                            decorators_have_this,
+                        ))),
                         Some(p.key.name.clone().as_arg()),
                         Some(caller.as_arg()),
                     ],
@@ -1164,9 +1418,14 @@ impl VisitMut for DecoratorPass {
                     };
 
                     if !accessor.decorators.is_empty() {
-                        let decorators =
-                            self.preserve_side_effect_of_decorators(accessor.decorators.take());
-                        let dec = merge_decorators(decorators);
+                        let (dec, decorators_have_this) =
+                            self.merge_decorators_for_member(accessor.decorators.take());
+
+                        if self.is_2023_11() && !accessor.is_static {
+                            if let Key::Private(key) = &accessor.key {
+                                self.state.instance_brand.get_or_insert_with(|| key.clone());
+                            }
+                        }
 
                         self.extra_vars.push(VarDeclarator {
                             span: accessor.span,
@@ -1192,11 +1451,10 @@ impl VisitMut for DecoratorPass {
                                     Key::Private(_) => {
                                         let data = vec![
                                             dec,
-                                            Some(if accessor.is_static {
-                                                6.as_arg()
-                                            } else {
-                                                1.as_arg()
-                                            }),
+                                            Some(Self::int_arg(self.accessor_kind_code(
+                                                accessor.is_static,
+                                                decorators_have_this,
+                                            ))),
                                             Some(name.as_arg()),
                                             Some(
                                                 FnExpr {
@@ -1292,11 +1550,10 @@ impl VisitMut for DecoratorPass {
                                     Key::Public(_) => {
                                         vec![
                                             dec,
-                                            Some(if accessor.is_static {
-                                                6.as_arg()
-                                            } else {
-                                                1.as_arg()
-                                            }),
+                                            Some(Self::int_arg(self.accessor_kind_code(
+                                                accessor.is_static,
+                                                decorators_have_this,
+                                            ))),
                                             Some(name.as_arg()),
                                         ]
                                     }
@@ -1437,8 +1694,8 @@ impl VisitMut for DecoratorPass {
             return;
         }
 
-        let decorators = self.preserve_side_effect_of_decorators(n.function.decorators.take());
-        let dec = merge_decorators(decorators);
+        let (dec, decorators_have_this) =
+            self.merge_decorators_for_member(n.function.decorators.take());
 
         let (name, _init) = self.initializer_name(&mut n.key, "call");
 
@@ -1457,19 +1714,11 @@ impl VisitMut for DecoratorPass {
                 span: DUMMY_SP,
                 elems: vec![
                     dec,
-                    Some(
-                        match (n.is_static, n.kind) {
-                            (true, MethodKind::Method) => 7,
-                            (false, MethodKind::Method) => 2,
-                            (true, MethodKind::Setter) => 9,
-                            (false, MethodKind::Setter) => 4,
-                            (true, MethodKind::Getter) => 8,
-                            (false, MethodKind::Getter) => 3,
-                            #[cfg(swc_ast_unknown)]
-                            _ => panic!("unable to access unknown nodes"),
-                        }
-                        .as_arg(),
-                    ),
+                    Some(Self::int_arg(self.method_kind_code(
+                        n.is_static,
+                        n.kind,
+                        decorators_have_this,
+                    ))),
                     Some(name.as_arg()),
                 ],
             }
@@ -1493,8 +1742,7 @@ impl VisitMut for DecoratorPass {
             return;
         }
 
-        let decorators = self.preserve_side_effect_of_decorators(p.decorators.take());
-        let dec = merge_decorators(decorators);
+        let (dec, decorators_have_this) = self.merge_decorators_for_member(p.decorators.take());
 
         let (name, init) = self.initializer_name(&mut p.key, "init");
 
@@ -1524,7 +1772,9 @@ impl VisitMut for DecoratorPass {
                     span: DUMMY_SP,
                     elems: vec![
                         dec,
-                        Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
+                        Some(Self::int_arg(
+                            self.field_kind_code(p.is_static, decorators_have_this),
+                        )),
                         Some(name.as_arg()),
                     ],
                 }
@@ -1705,8 +1955,7 @@ impl VisitMut for DecoratorPass {
             return;
         }
 
-        let decorators = self.preserve_side_effect_of_decorators(p.decorators.take());
-        let dec = merge_decorators(decorators);
+        let (dec, decorators_have_this) = self.merge_decorators_for_member(p.decorators.take());
 
         let init = private_ident!(format!("_init_{}", p.key.name));
 
@@ -1781,7 +2030,9 @@ impl VisitMut for DecoratorPass {
                 span: DUMMY_SP,
                 elems: vec![
                     dec,
-                    Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
+                    Some(Self::int_arg(
+                        self.field_kind_code(p.is_static, decorators_have_this),
+                    )),
                     Some((&*p.key.name).as_arg()),
                     Some(
                         FnExpr {
@@ -1809,6 +2060,11 @@ impl VisitMut for DecoratorPass {
                 .init_static
                 .get_or_insert_with(|| private_ident!("_initStatic"));
         } else {
+            if self.is_2023_11() {
+                self.state
+                    .instance_brand
+                    .get_or_insert_with(|| p.key.clone());
+            }
             self.state.proto_lhs.push(init);
             self.state.init_proto_args.push(Some(initialize_init));
             self.state

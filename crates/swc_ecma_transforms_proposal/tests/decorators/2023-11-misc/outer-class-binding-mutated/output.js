@@ -1,0 +1,234 @@
+{
+    "class binding in plain class, decorated field, and computed keys";
+    var _dec, _dec1, _computedKey, _init__computedKey, _initProto;
+    const errs = [];
+    const fns = [];
+    const capture = function(fn) {
+        fns.push(fn);
+        return ()=>{};
+    };
+    const assertUninitialized = function(fn) {
+        try {
+            fn();
+        } catch (err) {
+            errs.push(err);
+        } finally{
+            return ()=>{};
+        }
+    };
+    capture(()=>K);
+    assertUninitialized(()=>K);
+    _dec = capture(()=>K), _dec1 = assertUninitialized(()=>K), _computedKey = (capture(()=>K), assertUninitialized(()=>K));
+    class K {
+        static{
+            ({ e: [_init__computedKey, _initProto] } = _apply_decs_2311(this, [], [
+                [
+                    [
+                        _dec,
+                        _dec1
+                    ],
+                    0,
+                    _computedKey
+                ]
+            ]));
+        }
+        [_computedKey] = (_initProto(this), _init__computedKey(this));
+    }
+    const E = ReferenceError;
+    expect(errs.map((e)=>e.constructor)).toEqual([
+        E,
+        E,
+        E
+    ]);
+    const C = K;
+    expect(fns.map((fn)=>fn())).toEqual([
+        C,
+        C,
+        C
+    ]);
+    K = null;
+    expect(fns.map((fn)=>fn())).toEqual([
+        null,
+        C,
+        C
+    ]);
+}{
+    "class binding in decorated class, decorated field, and computed keys";
+    var _dec2, _dec3, _initClass, _dec4, _computedKey1, //todo: add the assertUninitialized decorator when we properly implement class tdz
+    _init__computedKey1, _initProto1;
+    const errs = [];
+    const fns = [];
+    const capture = function(fn) {
+        fns.push(fn);
+        return ()=>{};
+    };
+    const assertUninitialized = function(fn) {
+        try {
+            fn();
+        } catch (err) {
+            errs.push(err);
+        } finally{
+            return ()=>{};
+        }
+    };
+    let _K;
+    _dec2 = capture(()=>_K), _dec3 = assertUninitialized(()=>_K), _dec4 = capture(()=>_K), _computedKey1 = capture(()=>_K);
+    class K {
+        static{
+            ({ e: [_init__computedKey1, _initProto1], c: [_K, _initClass] } = _apply_decs_2311(this, [
+                _dec2,
+                _dec3
+            ], [
+                [
+                    _dec4,
+                    0,
+                    _computedKey1
+                ]
+            ]));
+        }
+        [_computedKey1] = (_initProto1(this), _init__computedKey1(this));
+        static{
+            _initClass();
+        }
+    }
+    const E = ReferenceError;
+    expect(errs.map((e)=>e.constructor)).toEqual([
+        E
+    ]);
+    const C = _K;
+    expect(fns.map((fn)=>fn())).toEqual([
+        C,
+        C,
+        C
+    ]);
+    [_K = null] = [];
+    expect(fns.map((fn)=>fn())).toEqual([
+        null,
+        C,
+        C
+    ]);
+}{
+    "class binding in decorated class, decorated static field, and computed keys";
+    var _dec5, _dec6, _initClass1, _dec7, _computedKey2, //todo: add the assertUninitialized decorator when we properly implement class tdz
+    _init__computedKey2, _initStatic;
+    const errs = [];
+    const fns = [];
+    const capture = function(fn) {
+        fns.push(fn);
+        return ()=>{};
+    };
+    const assertUninitialized = function(fn) {
+        try {
+            fn();
+        } catch (err) {
+            errs.push(err);
+        } finally{
+            return ()=>{};
+        }
+    };
+    let _K;
+    _dec5 = capture(()=>_K), _dec6 = assertUninitialized(()=>_K), _dec7 = capture(()=>_K), _computedKey2 = capture(()=>_K);
+    new class extends _identity {
+        constructor(){
+            super(_K), _initClass1();
+        }
+        static{
+            class K {
+                static{
+                    ({ e: [_init__computedKey2, _initStatic], c: [_K, _initClass1] } = _apply_decs_2311(this, [
+                        _dec5,
+                        _dec6
+                    ], [
+                        [
+                            _dec7,
+                            8,
+                            _computedKey2
+                        ]
+                    ]));
+                    _initStatic(this);
+                }
+                static [_computedKey2] = _init__computedKey2(this);
+            }
+        }
+    }();
+    const E = ReferenceError;
+    expect(errs.map((e)=>e.constructor)).toEqual([
+        E
+    ]);
+    const C = _K;
+    expect(fns.map((fn)=>fn())).toEqual([
+        C,
+        C,
+        C
+    ]);
+    ({ K: _K = null } = {});
+    expect(fns.map((fn)=>fn())).toEqual([
+        null,
+        C,
+        C
+    ]);
+}{
+    "class binding in decorated class, decorated static method, and computed keys with await";
+    (async ()=>{
+        var _dec, _dec1, _initClass, _dec2, _computedKey, _initStatic;
+        const errs = [];
+        const fns = [];
+        const capture = function(fn) {
+            fns.push(fn);
+            return ()=>{};
+        };
+        const assertUninitialized = function(fn) {
+            try {
+                fn();
+            } catch (err) {
+                errs.push(err);
+            } finally{
+                return ()=>{};
+            }
+        };
+        let _K;
+        _dec = capture(await (()=>_K)), _dec1 = assertUninitialized(await (()=>_K)), _dec2 = capture(await (()=>_K)), _computedKey = capture(await (()=>_K));
+        new class extends _identity {
+            constructor(){
+                super(_K), _initClass();
+            }
+            static{
+                class K {
+                    static{
+                        ({ e: [_initStatic], c: [_K, _initClass] } = _apply_decs_2311(this, [
+                            _dec,
+                            _dec1
+                        ], [
+                            [
+                                _dec2,
+                                10,
+                                _computedKey
+                            ]
+                        ]));
+                        _initStatic(this);
+                    }
+                    //todo: add the assertUninitialized decorator when we properly implement class tdz
+                    static [_computedKey]() {}
+                }
+            }
+        }();
+        const E = ReferenceError;
+        expect(errs.map((e)=>e.constructor)).toEqual([
+            E
+        ]);
+        const C = _K;
+        expect(fns.map((fn)=>fn())).toEqual([
+            C,
+            C,
+            C
+        ]);
+        [_K] = [
+            null
+        ];
+        expect(fns.map((fn)=>fn())).toEqual([
+            null,
+            C,
+            C
+        ]);
+    })();
+}
