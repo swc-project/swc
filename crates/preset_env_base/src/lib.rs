@@ -94,6 +94,17 @@ where
 pub type Versions = BrowserData<Option<Version>>;
 
 impl BrowserData<Option<Version>> {
+    /// Copies the Chrome support version into Android when Android data is
+    /// missing.
+    #[inline]
+    pub fn apply_android_fallback(mut self) -> Self {
+        if self.android.is_none() {
+            self.android = self.chrome;
+        }
+
+        self
+    }
+
     /// Returns true if all fields are [None].
     pub fn is_any_target(&self) -> bool {
         self.iter().all(|(_, v)| v.is_none())

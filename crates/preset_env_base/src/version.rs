@@ -158,30 +158,59 @@ impl<'de> Deserialize<'de> for Version {
     }
 }
 
+#[inline]
 pub fn should_enable(target: &Versions, feature: &Versions, default: bool) -> bool {
-    if target
-        .iter()
-        .zip(feature.iter())
-        .all(|((_, target_version), (_, f))| target_version.is_none() && f.is_none())
-    {
-        return default;
+    macro_rules! check {
+        ($($field:ident),+ $(,)?) => {{
+            let mut has_data = false;
+
+            $(
+                let target_version = target.$field;
+                let feature_version = feature.$field;
+                has_data |= target_version.is_some() || feature_version.is_some();
+
+                if let Some(target_version) = target_version {
+                    if feature_version.map_or(true, |feature_version| feature_version > target_version) {
+                        return true;
+                    }
+                }
+            )+
+
+            if !has_data {
+                return default;
+            }
+
+            false
+        }};
     }
 
-    target.iter().zip(feature.iter()).any(
-        |((target_name, maybe_target_version), (_, maybe_feature_version))| {
-            maybe_target_version.is_some_and(|target_version| {
-                let feature_or_fallback_version =
-                    maybe_feature_version.or_else(|| match target_name {
-                        // Fall back to Chrome versions if Android browser data
-                        // is missing from the feature data. It appears the
-                        // Android browser has aligned its versioning with Chrome.
-                        "android" => feature.chrome,
-                        _ => None,
-                    });
-
-                feature_or_fallback_version.map_or(true, |v| v > target_version)
-            })
-        },
+    check!(
+        chrome,
+        chrome_android,
+        firefox_android,
+        opera_android,
+        quest,
+        react_native,
+        and_chr,
+        and_ff,
+        op_mob,
+        ie,
+        edge,
+        firefox,
+        safari,
+        node,
+        ios,
+        samsung,
+        opera,
+        android,
+        electron,
+        phantom,
+        opera_mobile,
+        rhino,
+        deno,
+        hermes,
+        oculus,
+        bun,
     )
 }
 
@@ -191,7 +220,7 @@ mod tests {
     use crate::BrowserData;
 
     #[test]
-    fn should_enable_android_falls_back_to_chrome() {
+    fn should_enable_uses_normalized_android_data() {
         assert!(!should_enable(
             &BrowserData {
                 android: Some("51.0.0".parse().unwrap()),
@@ -200,7 +229,8 @@ mod tests {
             &BrowserData {
                 chrome: Some("51.0.0".parse().unwrap()),
                 ..Default::default()
-            },
+            }
+            .apply_android_fallback(),
             false
         ));
     }

@@ -19,7 +19,7 @@ pub(crate) static BUILTINS: Lazy<FxHashMap<&str, Versions>> = Lazy::new(|| {
                 let version = version.as_str().parse().unwrap();
                 versions.insert(browser.as_str(), Some(version));
             }
-            (feature.as_str(), versions)
+            (feature.as_str(), versions.apply_android_fallback())
         })
         .collect()
 });
