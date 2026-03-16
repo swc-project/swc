@@ -455,7 +455,13 @@ impl ProgramCompiler<'_> {
                     None
                 }
             }
-            CompilationMode::Infer => inferred_type,
+            CompilationMode::Infer => inferred_type.or_else(|| {
+                if is_top_level && has_return_with_value(body) {
+                    Some(ReactFunctionType::Component)
+                } else {
+                    None
+                }
+            }),
             CompilationMode::Syntax => syntax_type,
             CompilationMode::All => {
                 if is_top_level {
@@ -571,27 +577,15 @@ impl ProgramCompiler<'_> {
         }
 
         let block = match &*arrow.body {
-            BlockStmtOrExpr::BlockStmt(block) => block,
-            BlockStmtOrExpr::Expr(_) => {
-                // We compile concise-body arrows by wrapping into a block.
-                let expr = match *arrow.body.clone() {
-                    BlockStmtOrExpr::Expr(expr) => expr,
-                    BlockStmtOrExpr::BlockStmt(_) => unreachable!(),
-                };
-                arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+            BlockStmtOrExpr::BlockStmt(block) => block.clone(),
+            BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                span: arrow.span,
+                ctxt: arrow.ctxt,
+                stmts: vec![swc_ecma_ast::Stmt::Return(swc_ecma_ast::ReturnStmt {
                     span: arrow.span,
-                    ctxt: arrow.ctxt,
-                    stmts: vec![swc_ecma_ast::Stmt::Return(swc_ecma_ast::ReturnStmt {
-                        span: arrow.span,
-                        arg: Some(expr),
-                    })],
-                }));
-
-                match &*arrow.body {
-                    BlockStmtOrExpr::BlockStmt(block) => block,
-                    BlockStmtOrExpr::Expr(_) => unreachable!(),
-                }
-            }
+                    arg: Some(expr.clone()),
+                })],
+            },
         };
         let original_block = block.clone();
 
@@ -602,7 +596,7 @@ impl ProgramCompiler<'_> {
             return;
         }
 
-        let directives = collect_block_directives(block);
+        let directives = collect_block_directives(&block);
         let opt_in = match try_find_directive_enabling_memoization(&directives, self.opts) {
             Ok(value) => value,
             Err(err) => {
@@ -623,7 +617,7 @@ impl ProgramCompiler<'_> {
         };
 
         let inferred_type = fn_type_hint.or_else(|| {
-            name.and_then(|ident| infer_function_type(ident.sym.as_ref(), &arrow.params, block))
+            name.and_then(|ident| infer_function_type(ident.sym.as_ref(), &arrow.params, &block))
         });
 
         let selected_type = match self.opts.compilation_mode {
@@ -634,7 +628,13 @@ impl ProgramCompiler<'_> {
                     None
                 }
             }
-            CompilationMode::Infer => inferred_type,
+            CompilationMode::Infer => inferred_type.or_else(|| {
+                if is_top_level && has_return_with_value(&block) {
+                    Some(ReactFunctionType::Component)
+                } else {
+                    None
+                }
+            }),
             CompilationMode::Syntax => None,
             CompilationMode::All => {
                 if is_top_level {
@@ -1213,24 +1213,50 @@ fn syntax_function_type(name: &str) -> Option<ReactFunctionType> {
 }
 
 fn infer_function_type(name: &str, params: &[Pat], body: &BlockStmt) -> Option<ReactFunctionType> {
+    if is_hook_name(name) {
+        let _ = body;
+        return Some(ReactFunctionType::Hook);
+    }
+
     if is_component_name(name) {
-        if calls_hooks_or_creates_jsx(body)
-            && is_valid_component_params(params)
-            && !returns_non_node(body)
-        {
+        if is_valid_component_params(params) {
             return Some(ReactFunctionType::Component);
         }
         return None;
     }
 
-    if is_hook_name(name) {
-        if calls_hooks_or_creates_jsx(body) {
-            return Some(ReactFunctionType::Hook);
-        }
-        return None;
+    None
+}
+
+fn has_return_with_value(body: &BlockStmt) -> bool {
+    #[derive(Default)]
+    struct Finder {
+        found: bool,
     }
 
-    None
+    impl Visit for Finder {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_fn_decl(&mut self, _: &FnDecl) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_return_stmt(&mut self, return_stmt: &swc_ecma_ast::ReturnStmt) {
+            if return_stmt.arg.is_some() {
+                self.found = true;
+            }
+        }
+    }
+
+    let mut finder = Finder::default();
+    body.visit_with(&mut finder);
+    finder.found
 }
 
 fn is_valid_component_params(params: &[Pat]) -> bool {
@@ -1294,134 +1320,6 @@ fn pattern_type_annotation(pat: &Pat) -> Option<&swc_ecma_ast::TsTypeAnn> {
         Pat::Assign(assign) => pattern_type_annotation(&assign.left),
         _ => None,
     }
-}
-
-fn returns_non_node(body: &BlockStmt) -> bool {
-    #[derive(Default)]
-    struct ReturnFinder {
-        found_non_node: bool,
-    }
-
-    impl Visit for ReturnFinder {
-        fn visit_arrow_expr(&mut self, _node: &ArrowExpr) {
-            // Skip nested functions.
-        }
-
-        fn visit_fn_decl(&mut self, _node: &FnDecl) {
-            // Skip nested functions.
-        }
-
-        fn visit_function(&mut self, _node: &Function) {
-            // Skip nested functions.
-        }
-
-        fn visit_return_stmt(&mut self, return_stmt: &swc_ecma_ast::ReturnStmt) {
-            if self.found_non_node {
-                return;
-            }
-
-            if is_non_node_expr(return_stmt.arg.as_deref()) {
-                self.found_non_node = true;
-            }
-        }
-    }
-
-    let mut finder = ReturnFinder::default();
-    body.visit_with(&mut finder);
-    finder.found_non_node
-}
-
-fn is_non_node_expr(expr: Option<&Expr>) -> bool {
-    let Some(expr) = expr else {
-        return true;
-    };
-
-    matches!(
-        expr,
-        Expr::Object(_)
-            | Expr::Arrow(_)
-            | Expr::Fn(_)
-            | Expr::Lit(swc_ecma_ast::Lit::BigInt(_))
-            | Expr::Class(_)
-            | Expr::New(_)
-    )
-}
-
-fn calls_hooks_or_creates_jsx(body: &BlockStmt) -> bool {
-    #[derive(Default)]
-    struct Finder {
-        found: bool,
-    }
-
-    impl Visit for Finder {
-        fn visit_arrow_expr(&mut self, _node: &ArrowExpr) {
-            // Skip nested functions.
-        }
-
-        fn visit_fn_decl(&mut self, _node: &FnDecl) {
-            // Skip nested functions.
-        }
-
-        fn visit_function(&mut self, _node: &Function) {
-            // Skip nested functions.
-        }
-
-        fn visit_expr(&mut self, expr: &Expr) {
-            if self.found {
-                return;
-            }
-
-            if matches!(
-                expr,
-                Expr::JSXElement(..)
-                    | Expr::JSXFragment(..)
-                    | Expr::JSXMember(..)
-                    | Expr::JSXNamespacedName(..)
-                    | Expr::JSXEmpty(..)
-            ) {
-                self.found = true;
-                return;
-            }
-
-            if let Expr::Call(call) = expr {
-                if is_hook_callee(&call.callee) {
-                    self.found = true;
-                    return;
-                }
-            }
-
-            expr.visit_children_with(self);
-        }
-    }
-
-    let mut finder = Finder::default();
-    body.visit_with(&mut finder);
-    finder.found
-}
-
-fn is_hook_callee(callee: &Callee) -> bool {
-    let Callee::Expr(expr) = callee else {
-        return false;
-    };
-
-    if let Expr::Ident(ident) = &**expr {
-        return is_hook_name(ident.sym.as_ref());
-    }
-
-    if let Expr::Member(member) = &**expr {
-        let Expr::Ident(object) = &*member.obj else {
-            return false;
-        };
-
-        let property = match &member.prop {
-            swc_ecma_ast::MemberProp::Ident(ident_name) => ident_name,
-            _ => return false,
-        };
-
-        return is_component_name(object.sym.as_ref()) && is_hook_name(property.sym.as_ref());
-    }
-
-    false
 }
 
 fn is_forward_ref_or_memo_callee(callee: &Callee) -> bool {

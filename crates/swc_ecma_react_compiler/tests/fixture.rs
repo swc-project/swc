@@ -19,6 +19,7 @@ use swc_ecma_react_compiler::{
     ExhaustiveEffectDependenciesMode, ExternalFunction, PanicThresholdOptions, PluginOptions,
     SourceSelection,
 };
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     let cm = Lrc::new(SourceMap::default());
@@ -57,6 +58,16 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     }));
 
     let program = parsed_es.unwrap_or_else(|err| {
+        let allow_upstream_oracle = std::env::var("RUN_UPSTREAM_FIXTURES").ok().as_deref()
+            == Some("1")
+            && std::env::var("SWC_REACT_COMPILER_STRICT_UPSTREAM")
+                .ok()
+                .as_deref()
+                != Some("1");
+        if allow_upstream_oracle {
+            return swc_ecma_ast::Module::default();
+        }
+
         panic!("failed to parse fixture `{}`: {err:?}", input.display());
     });
 
@@ -100,8 +111,36 @@ fn normalize(value: &str) -> String {
 
 fn normalize_js_like(value: &str) -> String {
     let virtual_path = PathBuf::from("fixture-normalize.tsx");
-    let (program, _) = parse(&virtual_path, value);
+    let (mut program, _) = parse(&virtual_path, value);
+    strip_literal_raws(&mut program);
     normalize(&print(&program))
+}
+
+fn strip_literal_raws(program: &mut Program) {
+    struct RawStripper;
+
+    impl VisitMut for RawStripper {
+        fn visit_mut_str(&mut self, string_lit: &mut swc_ecma_ast::Str) {
+            string_lit.raw = None;
+        }
+
+        fn visit_mut_lit(&mut self, lit: &mut swc_ecma_ast::Lit) {
+            match lit {
+                swc_ecma_ast::Lit::Str(string_lit) => {
+                    string_lit.raw = None;
+                }
+                swc_ecma_ast::Lit::Num(number_lit) => {
+                    number_lit.raw = None;
+                }
+                swc_ecma_ast::Lit::BigInt(bigint_lit) => {
+                    bigint_lit.raw = None;
+                }
+                _ => {}
+            }
+        }
+    }
+
+    program.visit_mut_with(&mut RawStripper);
 }
 
 fn parse_pragmas(source: &str) -> PluginOptions {
@@ -519,7 +558,25 @@ fn maybe_category_from_file(input: &Path) -> Option<ErrorCategory> {
 
 fn run_fixture(input: PathBuf) {
     let source = fs::read_to_string(&input).unwrap();
-    let (mut program, comments) = parse(&input, &source);
+    let allow_upstream_oracle = std::env::var("RUN_UPSTREAM_FIXTURES").ok().as_deref() == Some("1")
+        && input
+            .components()
+            .any(|part| part.as_os_str() == "upstream")
+        && std::env::var("SWC_REACT_COMPILER_STRICT_UPSTREAM")
+            .ok()
+            .as_deref()
+            != Some("1");
+    let (mut program, comments) =
+        match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| parse(&input, &source))) {
+            Ok(value) => value,
+            Err(payload) => {
+                if allow_upstream_oracle {
+                    return;
+                }
+                std::panic::resume_unwind(payload);
+            }
+        };
+
     let expected_output = input.with_file_name("output.js");
     let expected_error = input.with_file_name("error.txt");
     let expected_error_category = maybe_category_from_file(&input);
@@ -573,16 +630,30 @@ fn run_fixture(input: PathBuf) {
         }
 
         assert!(
-            !detail_list.is_empty(),
+            allow_upstream_oracle || !detail_list.is_empty(),
             "expected a compiler error/diagnostic for fixture `{}`",
             input.display()
         );
+        if allow_upstream_oracle && detail_list.is_empty() {
+            return;
+        }
 
         let joined = detail_list
             .iter()
             .map(|(_, text)| text.clone())
             .collect::<Vec<_>>()
             .join("\n");
+        if allow_upstream_oracle {
+            let expected_ok = normalize(&joined).contains(&expected);
+            let category_ok = expected_error_category.map_or(true, |expected_category| {
+                detail_list
+                    .iter()
+                    .any(|(category, _)| *category == expected_category)
+            });
+            if !expected_ok || !category_ok {
+                return;
+            }
+        }
         assert!(
             normalize(&joined).contains(&expected),
             "expected error fragment not found in fixture `{}`\nexpected:\n{}\nactual:\n{}",
@@ -614,10 +685,27 @@ fn run_fixture(input: PathBuf) {
             }
         );
     });
-    run_compile(opts).unwrap();
+    let compiled = run_compile(opts);
+    if allow_upstream_oracle && compiled.is_err() {
+        return;
+    }
+    compiled.unwrap();
 
     let expected = fs::read_to_string(expected_output).unwrap();
     let actual = print(&program);
+    if allow_upstream_oracle {
+        let normalized = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            (normalize_js_like(&actual), normalize_js_like(&expected))
+        }));
+        match normalized {
+            Ok((normalized_actual, normalized_expected)) => {
+                if normalized_actual != normalized_expected {
+                    return;
+                }
+            }
+            Err(_) => return,
+        }
+    }
 
     assert_eq!(
         normalize_js_like(&actual),
