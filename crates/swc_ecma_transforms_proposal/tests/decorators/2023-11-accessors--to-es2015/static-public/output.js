@@ -1,46 +1,68 @@
-var _init_a, _init_b, _computedKey, _init_computedKey, _initStatic;
+var _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _computedKey, _init_computedKey, _init_extra__init_computedKey, _initStatic;
 const dec = ()=>{};
 _computedKey = 'c';
+let _computedKey1 = _computedKey, _computedKey2 = _computedKey;
 class Foo {
-    static{
-        ({ e: [_init_a, _init_b, _init_computedKey, _initStatic] } = _apply_decs_2311(this, [], [
-            [
-                dec,
-                9,
-                "a"
-            ],
-            [
-                dec,
-                9,
-                "b"
-            ],
-            [
-                dec,
-                9,
-                _computedKey
-            ]
-        ]));
-        _initStatic(this);
-    }
-    static #___private_a_1 = _init_a(this);
     static get a() {
-        return this.#___private_a_1;
+        return _class_static_private_field_spec_get(this, Foo, ____private_a_1);
     }
     static set a(_v) {
-        this.#___private_a_1 = _v;
+        _class_static_private_field_spec_set(this, Foo, ____private_a_1, _v);
     }
-    static #___private_b_2 = _init_b(this, 123);
     static get b() {
-        return this.#___private_b_2;
+        return _class_static_private_field_spec_get(this, Foo, ____private_b_2);
     }
     static set b(_v) {
-        this.#___private_b_2 = _v;
+        _class_static_private_field_spec_set(this, Foo, ____private_b_2, _v);
     }
-    static #___private_computedKey_3 = _init_computedKey(this, 456);
-    static get [_computedKey]() {
-        return this.#___private_computedKey_3;
+    static get [_computedKey1]() {
+        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_3);
     }
-    static set [_computedKey](_v) {
-        this.#___private_computedKey_3 = _v;
+    static set [_computedKey2](_v) {
+        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_3, _v);
     }
 }
+(()=>{
+    ({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init_computedKey, _init_extra__init_computedKey, _initStatic] } = _apply_decs_2311(Foo, [], [
+        [
+            dec,
+            9,
+            "a"
+        ],
+        [
+            dec,
+            9,
+            "b"
+        ],
+        [
+            dec,
+            9,
+            _computedKey
+        ]
+    ]));
+    _initStatic(Foo);
+})();
+var ____private_a_1 = {
+    writable: true,
+    value: (()=>{
+        const _value = _init_a();
+        _init_extra__init_a();
+        return _value;
+    })()
+};
+var ____private_b_2 = {
+    writable: true,
+    value: (()=>{
+        const _value = _init_b(123);
+        _init_extra__init_b();
+        return _value;
+    })()
+};
+var ____private_computedKey_3 = {
+    writable: true,
+    value: (()=>{
+        const _value = _init_computedKey(456);
+        _init_extra__init_computedKey();
+        return _value;
+    })()
+};

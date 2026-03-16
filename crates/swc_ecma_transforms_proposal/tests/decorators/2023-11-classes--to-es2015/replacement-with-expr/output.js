@@ -1,14 +1,11 @@
-var _initClass, _Bar;
+var _Bar;
+var _initClass, _Bar1;
 const dec = ()=>{};
-const Foo = (class Bar {
-    static{
-        ({ c: [_Bar, _initClass] } = _apply_decs_2311(this, [
-            dec
-        ], []));
+const Foo = ((_Bar = class Bar {
+    constructor(){
+        _define_property(this, "bar", new _Bar1());
     }
-    bar = new _Bar();
-    static{
-        _initClass();
-    }
-}, _Bar);
+}, { c: [_Bar1, _initClass] } = _apply_decs_2311(_Bar, [
+    dec
+], []), _initClass(), _Bar), _Bar1);
 const foo = new Foo();

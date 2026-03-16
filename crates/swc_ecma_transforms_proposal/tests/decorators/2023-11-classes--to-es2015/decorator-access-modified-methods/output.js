@@ -7,22 +7,18 @@ const classDec = (Class)=>{
 const memberDec = ()=>()=>42;
 let _C;
 class C {
-    static{
-        ({ e: [_initProto], c: [_C, _initClass] } = _apply_decs_2311(this, [
-            classDec
-        ], [
-            [
-                memberDec,
-                2,
-                "m"
-            ]
-        ]));
-    }
+    m() {}
     constructor(){
         _initProto(this);
     }
-    m() {}
-    static{
-        _initClass();
-    }
 }
+({ e: [_initProto], c: [_C, _initClass] } = _apply_decs_2311(C, [
+    classDec
+], [
+    [
+        memberDec,
+        2,
+        "m"
+    ]
+]));
+_initClass();

@@ -1,4 +1,4 @@
-var _computedKey, _computedKey1, _computedKey2, _computedKey3, _computedKey4, _computedKey5, _computedKey6, _init_a, _init_a1, _init__computedKey, _init__computedKey1, _init__computedKey2, _init__computedKey3, _init__computedKey4, _init__computedKey5, _init__computedKey6, _initStatic;
+var _computedKey, _computedKey1, _computedKey2, _computedKey3, _computedKey4, _computedKey5, _computedKey6, _init_a, _init_extra__init_a, _init_a1, _init_extra_a, _init__computedKey, _init_extra__init__computedKey, _init__computedKey1, _init_extra__init__computedKey1, _init__computedKey2, _init_extra__init__computedKey2, _init__computedKey3, _init_extra__init__computedKey3, _init__computedKey4, _init_extra__init__computedKey4, _init__computedKey5, _init_extra__init__computedKey5, _init__computedKey6, _init_extra__init__computedKey6, _initStatic;
 const logs = [];
 const dec = (value, context)=>{
     logs.push(context.name);
@@ -12,7 +12,7 @@ const f = ()=>{
 _computedKey = "b", _computedKey1 = "c", _computedKey2 = 0, _computedKey3 = 1, _computedKey4 = 2n, _computedKey5 = 3n, _computedKey6 = f();
 class Foo {
     static{
-        ({ e: [_init_a, _init_a1, _init__computedKey, _init__computedKey1, _init__computedKey2, _init__computedKey3, _init__computedKey4, _init__computedKey5, _init__computedKey6, _initStatic] } = _apply_decs_2311(this, [], [
+        ({ e: [_init_a, _init_extra__init_a, _init_a1, _init_extra_a, _init__computedKey, _init_extra__init__computedKey, _init__computedKey1, _init_extra__init__computedKey1, _init__computedKey2, _init_extra__init__computedKey2, _init__computedKey3, _init_extra__init__computedKey3, _init__computedKey4, _init_extra__init__computedKey4, _init__computedKey5, _init_extra__init__computedKey5, _init__computedKey6, _init_extra__init__computedKey6, _initStatic] } = _apply_decs_2311(this, [], [
             [
                 dec,
                 8,
@@ -22,11 +22,11 @@ class Foo {
                 dec,
                 8,
                 "a",
-                function() {
-                    return this.#a;
+                function(_this) {
+                    return _this.#a;
                 },
-                function(value) {
-                    this.#a = value;
+                function(_this, value) {
+                    _this.#a = value;
                 }
             ],
             [
@@ -67,15 +67,51 @@ class Foo {
         ]));
         _initStatic(this);
     }
-    static a = _init_a(this);
-    static #a = _init_a1(this);
-    static [_computedKey] = _init__computedKey(this);
-    static [_computedKey1] = _init__computedKey1(this);
-    static [_computedKey2] = _init__computedKey2(this);
-    static [_computedKey3] = _init__computedKey3(this);
-    static [_computedKey4] = _init__computedKey4(this);
-    static [_computedKey5] = _init__computedKey5(this);
-    static [_computedKey6] = _init__computedKey6(this);
+    static a = (()=>{
+        const _value = _init_a();
+        _init_extra__init_a();
+        return _value;
+    })();
+    static #a = (()=>{
+        const _value = _init_a1();
+        _init_extra_a();
+        return _value;
+    })();
+    static [_computedKey] = (()=>{
+        const _value = _init__computedKey();
+        _init_extra__init__computedKey();
+        return _value;
+    })();
+    static [_computedKey1] = (()=>{
+        const _value = _init__computedKey1();
+        _init_extra__init__computedKey1();
+        return _value;
+    })();
+    static [_computedKey2] = (()=>{
+        const _value = _init__computedKey2();
+        _init_extra__init__computedKey2();
+        return _value;
+    })();
+    static [_computedKey3] = (()=>{
+        const _value = _init__computedKey3();
+        _init_extra__init__computedKey3();
+        return _value;
+    })();
+    static [_computedKey4] = (()=>{
+        const _value = _init__computedKey4();
+        _init_extra__init__computedKey4();
+        return _value;
+    })();
+    static [_computedKey5] = (()=>{
+        const _value = _init__computedKey5();
+        _init_extra__init__computedKey5();
+        return _value;
+    })();
+    static [_computedKey6] = (()=>{
+        const _value = _init__computedKey6();
+        _init_extra__init__computedKey6();
+        return _value;
+    })();
 }
 expect(logs).toStrictEqual([
     "computing f",

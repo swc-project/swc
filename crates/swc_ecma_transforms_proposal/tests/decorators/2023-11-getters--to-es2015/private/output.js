@@ -1,23 +1,28 @@
 var _call_a, _initProto;
 const dec = ()=>{};
+var _a = /*#__PURE__*/ new WeakMap();
 class Foo {
-    static{
-        ({ e: [_call_a, _initProto] } = _apply_decs_2311(this, [], [
-            [
-                dec,
-                3,
-                "a",
-                function() {
-                    return this.value;
-                }
-            ]
-        ], 0, (o)=>#a in o));
-    }
-    value = (_initProto(this), 1);
-    get #a() {
-        return _call_a(this);
-    }
     getA() {
-        return this.#a;
+        return _class_private_field_get(this, _a);
     }
+    constructor(){
+        _class_private_field_init(this, _a, {
+            get: get_a,
+            set: void 0
+        });
+        _define_property(this, "value", (_initProto(this), 1));
+    }
+}
+({ e: [_call_a, _initProto] } = _apply_decs_2311(Foo, [], [
+    [
+        dec,
+        3,
+        "a",
+        function() {
+            return this.value;
+        }
+    ]
+], 0, (o)=>_a.has(o)));
+function get_a() {
+    return _call_a(this);
 }

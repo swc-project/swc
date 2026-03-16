@@ -1,4 +1,4 @@
-var _initClass, _init_d, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_m, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _init_a, _init_e, _init_i, _init_n, _initProto, _initStatic;
+var _initClass, _init_d, _init_extra__init_d, _call_f, _call_g, _call_g1, _init_h, _init_extra__init_h, _get___h, _set___h, _init_m, _init_extra__init_m, _call_o, _call_p, _call_q, _init_r, _init_extra__init_r, _get___r, _set___r, _init_a, _init_extra__init_a, _init_e, _init_extra_e, _init_i, _init_extra__init_i, _init_n, _init_extra_n, _initProto, _initStatic;
 const dec = ()=>{};
 let _Class;
 new class extends _identity {
@@ -8,7 +8,7 @@ new class extends _identity {
     static{
         class Class {
             static{
-                ({ e: [_init_m, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _init_i, _init_n, _init_d, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_a, _init_e, _initProto, _initStatic], c: [_Class, _initClass] } = _apply_decs_2311(this, [
+                ({ e: [_init_m, _init_extra__init_m, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _init_extra__init_r, _init_i, _init_extra__init_i, _init_n, _init_extra_n, _init_d, _init_extra__init_d, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_extra__init_h, _init_a, _init_extra__init_a, _init_e, _init_extra_e, _initProto, _initStatic], c: [_Class, _initClass] } = _apply_decs_2311(this, [
                     dec
                 ], [
                     [
@@ -53,11 +53,11 @@ new class extends _identity {
                         dec,
                         9,
                         "r",
-                        function() {
-                            return this.#__r_4;
+                        function(_this) {
+                            return _this.#__r_4;
                         },
-                        function(_v) {
-                            this.#__r_4 = _v;
+                        function(_this, _v) {
+                            _this.#__r_4 = _v;
                         }
                     ],
                     [
@@ -69,11 +69,11 @@ new class extends _identity {
                         dec,
                         8,
                         "n",
-                        function() {
-                            return this.#n;
+                        function(_this) {
+                            return _this.#n;
                         },
-                        function(value) {
-                            this.#n = value;
+                        function(_this, value) {
+                            _this.#n = value;
                         }
                     ],
                     [
@@ -118,11 +118,11 @@ new class extends _identity {
                         dec,
                         1,
                         "h",
-                        function() {
-                            return this.#__h_2;
+                        function(_this) {
+                            return _this.#__h_2;
                         },
-                        function(_v) {
-                            this.#__h_2 = _v;
+                        function(_this, _v) {
+                            _this.#__h_2 = _v;
                         }
                     ],
                     [
@@ -134,28 +134,40 @@ new class extends _identity {
                         dec,
                         0,
                         "e",
-                        function() {
-                            return this.#e;
+                        function(_this) {
+                            return _this.#e;
                         },
-                        function(value) {
-                            this.#e = value;
+                        function(_this, value) {
+                            _this.#e = value;
                         }
                     ]
                 ], 0, (o)=>#f in o));
                 _initStatic(this);
             }
-            a = (_initProto(this), _init_a(this));
+            a = (_initProto(this), (()=>{
+                const _value = _init_a(this);
+                _init_extra__init_a(this);
+                return _value;
+            })());
             b() {}
             get c() {}
             set c(v) {}
-            #___private_d_1 = _init_d(this);
+            #___private_d_1 = (()=>{
+                const _value = _init_d(this);
+                _init_extra__init_d(this);
+                return _value;
+            })();
             get d() {
                 return this.#___private_d_1;
             }
             set d(_v) {
                 this.#___private_d_1 = _v;
             }
-            #e = _init_e(this);
+            #e = (()=>{
+                const _value = _init_e(this);
+                _init_extra_e(this);
+                return _value;
+            })();
             get #f() {
                 return _call_f;
             }
@@ -165,14 +177,22 @@ new class extends _identity {
             set #g(v) {
                 return _call_g1(this, v);
             }
-            #__h_2 = _init_h(this);
+            #__h_2 = (()=>{
+                const _value = _init_h(this);
+                _init_extra__init_h(this);
+                return _value;
+            })();
             get #h() {
                 return _get___h(this);
             }
             set #h(_v) {
                 _set___h(this, _v);
             }
-            static i = _init_i(this);
+            static i = (()=>{
+                const _value = _init_i();
+                _init_extra__init_i();
+                return _value;
+            })();
             static j() {}
             static get k() {}
             static set l(v) {}
@@ -184,8 +204,16 @@ new class extends _identity {
             }
         }
     }
-    #___private_m_3 = _init_m(this);
-    #n = _init_n(this);
+    #___private_m_3 = (()=>{
+        const _value = _init_m();
+        _init_extra__init_m();
+        return _value;
+    })();
+    #n = (()=>{
+        const _value = _init_n();
+        _init_extra_n();
+        return _value;
+    })();
     get #o() {
         return _call_o;
     }
@@ -195,11 +223,15 @@ new class extends _identity {
     set #q(v) {
         return _call_q(this, v);
     }
-    #__r_4 = _init_r(this);
+    #__r_4 = (()=>{
+        const _value = _init_r();
+        _init_extra__init_r();
+        return _value;
+    })();
     get #r() {
-        return _get___r(this);
+        return _get___r();
     }
     set #r(_v) {
-        _set___r(this, _v);
+        _set___r(_v);
     }
 }();

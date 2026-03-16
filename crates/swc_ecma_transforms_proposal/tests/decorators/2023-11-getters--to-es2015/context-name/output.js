@@ -10,69 +10,74 @@ const f = ()=>{
     };
 };
 _computedKey = "b", _computedKey1 = "c", _computedKey2 = 0, _computedKey3 = 1, _computedKey4 = 2n, _computedKey5 = 3n, _computedKey6 = f();
+let _computedKey7 = _computedKey, _computedKey8 = _computedKey1, _computedKey9 = _computedKey2, _computedKey10 = _computedKey3, _computedKey11 = _computedKey4, _computedKey12 = _computedKey5, _computedKey13 = _computedKey6;
 class Foo {
-    static{
-        ({ e: [_call_a, _initStatic] } = _apply_decs_2311(this, [], [
-            [
-                dec,
-                11,
-                "a"
-            ],
-            [
-                dec,
-                11,
-                "a",
-                function() {}
-            ],
-            [
-                dec,
-                11,
-                _computedKey
-            ],
-            [
-                dec,
-                11,
-                _computedKey1
-            ],
-            [
-                dec,
-                11,
-                _computedKey2
-            ],
-            [
-                dec,
-                11,
-                _computedKey3
-            ],
-            [
-                dec,
-                11,
-                _computedKey4
-            ],
-            [
-                dec,
-                11,
-                _computedKey5
-            ],
-            [
-                dec,
-                11,
-                _computedKey6
-            ]
-        ]));
-        _initStatic(this);
-    }
     static get a() {}
-    static get #a() {
-        return _call_a(this);
-    }
-    static get [_computedKey]() {}
-    static get [_computedKey1]() {}
-    static get [_computedKey2]() {}
-    static get [_computedKey3]() {}
-    static get [_computedKey4]() {}
-    static get [_computedKey5]() {}
-    static get [_computedKey6]() {}
+    static get [_computedKey7]() {}
+    static get [_computedKey8]() {}
+    static get [_computedKey9]() {}
+    static get [_computedKey10]() {}
+    static get [_computedKey11]() {}
+    static get [_computedKey12]() {}
+    static get [_computedKey13]() {}
+}
+var _a = {
+    get: get_a,
+    set: void 0
+};
+(()=>{
+    ({ e: [_call_a, _initStatic] } = _apply_decs_2311(Foo, [], [
+        [
+            dec,
+            11,
+            "a"
+        ],
+        [
+            dec,
+            11,
+            "a",
+            function() {}
+        ],
+        [
+            dec,
+            11,
+            _computedKey
+        ],
+        [
+            dec,
+            11,
+            _computedKey1
+        ],
+        [
+            dec,
+            11,
+            _computedKey2
+        ],
+        [
+            dec,
+            11,
+            _computedKey3
+        ],
+        [
+            dec,
+            11,
+            _computedKey4
+        ],
+        [
+            dec,
+            11,
+            _computedKey5
+        ],
+        [
+            dec,
+            11,
+            _computedKey6
+        ]
+    ]));
+    _initStatic(Foo);
+})();
+function get_a() {
+    return _call_a(this);
 }
 expect(logs).toStrictEqual([
     "computing f",

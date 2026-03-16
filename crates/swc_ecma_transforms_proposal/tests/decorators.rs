@@ -15,6 +15,7 @@ use swc_ecma_transforms_proposal::{
     decorator_2022_03::decorator_2022_03, decorator_2023_11::decorator_2023_11, DecoratorVersion,
 };
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::Fold;
 
 fn syntax_default() -> Syntax {
@@ -42,14 +43,40 @@ fn exec(input: PathBuf) {
 }
 
 fn exec_inner(input: PathBuf) {
+    let options_json: BabelTestOptions =
+        swc_ecma_transforms_testing::parse_options(input.parent().unwrap());
+
+    if options_json.source_type.as_deref() == Some("module") {
+        eprintln!(
+            "Skipping exec fixture with sourceType=module because exec_tr wraps input in a \
+             function: {}",
+            input.display()
+        );
+        return;
+    }
+
+    if options_json
+        .plugins
+        .iter()
+        .any(|plugin| plugin.name() == "proposal-destructuring-private")
+    {
+        eprintln!(
+            "Skipping exec fixture requiring proposal-destructuring-private syntax: {}",
+            input.display()
+        );
+        return;
+    }
+
     let code = std::fs::read_to_string(&input).unwrap();
+    let syntax = if input.extension().is_some_and(|ext| ext == "ts") {
+        syntax_default_ts()
+    } else {
+        syntax_default()
+    };
 
     swc_ecma_transforms_testing::exec_tr(
         "decorator",
-        Syntax::Typescript(TsSyntax {
-            decorators: true,
-            ..Default::default()
-        }),
+        syntax,
         |t| create_pass(t.comments.clone(), &input),
         &code,
     );
@@ -100,17 +127,50 @@ struct BabelTestOptions {
     plugins: Vec<BabelPluginEntry>,
 
     #[serde(default)]
+    presets: Vec<BabelPresetEntry>,
+
+    #[serde(default)]
     min_node_version: String,
+
+    #[serde(default)]
+    source_type: Option<String>,
 
     #[serde(default)]
     throws: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase", untagged)]
+#[serde(rename_all = "camelCase", untagged)]
 enum BabelPluginEntry {
     NameOnly(String),
+    NameInArray([String; 1]),
     WithConfig(String, Value),
+}
+
+impl BabelPluginEntry {
+    fn name(&self) -> &str {
+        match self {
+            BabelPluginEntry::NameOnly(name) | BabelPluginEntry::WithConfig(name, _) => name,
+            BabelPluginEntry::NameInArray([name]) => name,
+        }
+    }
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase", untagged)]
+enum BabelPresetEntry {
+    NameOnly(String),
+    NameInArray([String; 1]),
+    WithConfig(String, Value),
+}
+
+impl BabelPresetEntry {
+    fn name(&self) -> &str {
+        match self {
+            BabelPresetEntry::NameOnly(name) | BabelPresetEntry::WithConfig(name, _) => name,
+            BabelPresetEntry::NameInArray([name]) => name,
+        }
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -154,30 +214,32 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pa
 
     for plugin in &options_json.plugins {
         match plugin {
-            BabelPluginEntry::NameOnly(name) => match &**name {
-                "proposal-class-properties" => {
-                    add!(swc_ecma_transforms_compat::es2022::static_blocks());
-                    add!(swc_ecma_transforms_compat::es2022::class_properties(
-                        class_property_config,
-                        unresolved_mark
-                    ));
-                    continue;
-                }
+            BabelPluginEntry::NameOnly(_) | BabelPluginEntry::NameInArray(_) => {
+                match plugin.name() {
+                    "proposal-class-properties" | "transform-class-properties" => {
+                        add!(swc_ecma_transforms_compat::es2022::static_blocks());
+                        add!(swc_ecma_transforms_compat::es2022::class_properties(
+                            class_property_config,
+                            unresolved_mark
+                        ));
+                        continue;
+                    }
 
-                "proposal-private-methods" => {
-                    add!(swc_ecma_transforms_compat::es2022::class_properties(
-                        class_property_config,
-                        unresolved_mark
-                    ));
-                    continue;
-                }
+                    "proposal-private-methods" | "transform-private-methods" => {
+                        add!(swc_ecma_transforms_compat::es2022::class_properties(
+                            class_property_config,
+                            unresolved_mark
+                        ));
+                        continue;
+                    }
 
-                "proposal-class-static-block" => {
-                    add!(swc_ecma_transforms_compat::es2022::static_blocks());
-                    continue;
+                    "proposal-class-static-block" | "transform-class-static-block" => {
+                        add!(swc_ecma_transforms_compat::es2022::static_blocks());
+                        continue;
+                    }
+                    _ => {}
                 }
-                _ => {}
-            },
+            }
             BabelPluginEntry::WithConfig(name, config) => match &**name {
                 "proposal-decorators" => {
                     let config: DecoratorPluginOption = serde_json::from_value(config.clone())
@@ -193,6 +255,16 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pa
                     panic!("Unknown plugin: {name}");
                 }
             },
+        }
+    }
+
+    for preset in &options_json.presets {
+        if preset.name() == "typescript" {
+            add!(typescript(
+                Default::default(),
+                unresolved_mark,
+                top_level_mark
+            ));
         }
     }
 

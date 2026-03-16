@@ -305,6 +305,94 @@ impl DecoratorPass {
         .as_arg()
     }
 
+    fn field_init_call_expr(
+        &self,
+        init: &Ident,
+        is_static: bool,
+        value: Option<Box<Expr>>,
+    ) -> Box<Expr> {
+        let args: Vec<ExprOrSpread> = if self.is_2023_11() && is_static {
+            value.into_iter().map(|v| v.as_arg()).collect()
+        } else {
+            once(ThisExpr { span: DUMMY_SP }.as_arg())
+                .chain(value.into_iter().map(|v| v.as_arg()))
+                .collect()
+        };
+
+        CallExpr {
+            span: DUMMY_SP,
+            callee: init.clone().as_callee(),
+            args,
+            ..Default::default()
+        }
+        .into()
+    }
+
+    fn extra_init_call_expr(&self, init_extra: &Ident, is_static: bool) -> Box<Expr> {
+        let args = if self.is_2023_11() && is_static {
+            Vec::new()
+        } else {
+            vec![ThisExpr { span: DUMMY_SP }.as_arg()]
+        };
+
+        CallExpr {
+            span: DUMMY_SP,
+            callee: init_extra.clone().as_callee(),
+            args,
+            ..Default::default()
+        }
+        .into()
+    }
+
+    fn wrap_init_with_extra(&self, init_expr: Box<Expr>, extra_expr: Box<Expr>) -> Box<Expr> {
+        let value_ident = private_ident!("_value");
+
+        CallExpr {
+            span: DUMMY_SP,
+            callee: ArrowExpr {
+                span: DUMMY_SP,
+                params: Vec::new(),
+                body: BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Const,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: value_ident.clone().into(),
+                                init: Some(init_expr),
+                                definite: false,
+                            }],
+                            declare: false,
+                            ..Default::default()
+                        }
+                        .into(),
+                        ExprStmt {
+                            span: DUMMY_SP,
+                            expr: extra_expr,
+                        }
+                        .into(),
+                        ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(value_ident.into()),
+                        }
+                        .into(),
+                    ],
+                    ..Default::default()
+                })
+                .into(),
+                is_async: false,
+                is_generator: false,
+                ..Default::default()
+            }
+            .as_callee(),
+            args: Vec::new(),
+            ..Default::default()
+        }
+        .into()
+    }
+
     fn preserve_side_effect_of_decorator(&mut self, dec: Box<Expr>) -> Box<Expr> {
         if dec.is_ident() || dec.is_arrow() || dec.is_fn_expr() {
             return dec;
@@ -1230,13 +1318,14 @@ impl VisitMut for DecoratorPass {
                     });
                 }
                 MethodKind::Getter => {
+                    let args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
                     let call_stmt = ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: init.as_callee(),
-                                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                args,
                                 ..Default::default()
                             }
                             .into(),
@@ -1251,17 +1340,16 @@ impl VisitMut for DecoratorPass {
                     });
                 }
                 MethodKind::Setter => {
+                    let value_arg =
+                        Ident::from(p.function.params[0].pat.as_ident().unwrap()).as_arg();
+                    let args = vec![ThisExpr { span: DUMMY_SP }.as_arg(), value_arg];
                     let call_stmt = ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: init.as_callee(),
-                                args: vec![
-                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                    Ident::from(p.function.params[0].pat.as_ident().unwrap())
-                                        .as_arg(),
-                                ],
+                                args,
                                 ..Default::default()
                             }
                             .into(),
@@ -1293,6 +1381,7 @@ impl VisitMut for DecoratorPass {
 
                     let name;
                     let init;
+                    let init_extra;
                     let field_name_like: Atom;
                     let private_field = PrivateProp {
                         span: DUMMY_SP,
@@ -1305,6 +1394,9 @@ impl VisitMut for DecoratorPass {
                                 })
                                 .into();
                                 init = private_ident!(format!("_init_{}", k.name));
+                                init_extra = self
+                                    .is_2023_11()
+                                    .then(|| private_ident!(format!("_init_extra_{}", init.sym)));
                                 field_name_like = format!("__{}", k.name).into();
 
                                 self.state.private_id_index += 1;
@@ -1316,6 +1408,9 @@ impl VisitMut for DecoratorPass {
                             }
                             Key::Public(k) => {
                                 (name, init) = self.initializer_name(k, "init");
+                                init_extra = self
+                                    .is_2023_11()
+                                    .then(|| private_ident!(format!("_init_extra_{}", init.sym)));
                                 field_name_like = format!("__{}", init.sym)
                                     .replacen("init", "private", 1)
                                     .into();
@@ -1337,17 +1432,19 @@ impl VisitMut for DecoratorPass {
                         value: if accessor.decorators.is_empty() {
                             accessor.value
                         } else {
-                            let init_call = CallExpr {
-                                span: DUMMY_SP,
-                                callee: init.clone().as_callee(),
-                                args: once(ThisExpr { span: DUMMY_SP }.as_arg())
-                                    .chain(accessor.value.take().map(|v| v.as_arg()))
-                                    .collect(),
-                                ..Default::default()
-                            }
-                            .into();
-
-                            Some(init_call)
+                            let init_call = self.field_init_call_expr(
+                                &init,
+                                accessor.is_static,
+                                accessor.value.take(),
+                            );
+                            Some(if let Some(init_extra) = &init_extra {
+                                self.wrap_init_with_extra(
+                                    init_call,
+                                    self.extra_init_call_expr(init_extra, accessor.is_static),
+                                )
+                            } else {
+                                init_call
+                            })
                         },
                         type_ann: None,
                         is_static: accessor.is_static,
@@ -1433,6 +1530,14 @@ impl VisitMut for DecoratorPass {
                             init: None,
                             definite: false,
                         });
+                        if let Some(init_extra) = &init_extra {
+                            self.extra_vars.push(VarDeclarator {
+                                span: accessor.span,
+                                name: init_extra.clone().into(),
+                                init: None,
+                                definite: false,
+                            });
+                        }
 
                         let (getter_var, setter_var) = match &accessor.key {
                             Key::Private(_) => (
@@ -1449,6 +1554,87 @@ impl VisitMut for DecoratorPass {
                                 span: DUMMY_SP,
                                 elems: match &accessor.key {
                                     Key::Private(_) => {
+                                        let private_slot_getter = if self.is_2023_11() {
+                                            let receiver = private_ident!("_this");
+                                            Box::new(Function {
+                                                span: DUMMY_SP,
+                                                body: Some(BlockStmt {
+                                                    span: DUMMY_SP,
+                                                    stmts: vec![Stmt::Return(ReturnStmt {
+                                                        span: DUMMY_SP,
+                                                        arg: Some(
+                                                            MemberExpr {
+                                                                span: DUMMY_SP,
+                                                                obj: receiver.clone().into(),
+                                                                prop: MemberProp::PrivateName(
+                                                                    private_field.key.clone(),
+                                                                ),
+                                                            }
+                                                            .into(),
+                                                        ),
+                                                    })],
+                                                    ..Default::default()
+                                                }),
+                                                is_async: false,
+                                                is_generator: false,
+                                                decorators: Default::default(),
+                                                params: vec![Param {
+                                                    span: DUMMY_SP,
+                                                    decorators: Default::default(),
+                                                    pat: Pat::Ident(receiver.into()),
+                                                }],
+                                                ..Default::default()
+                                            })
+                                        } else {
+                                            getter_function.clone()
+                                        };
+                                        let private_slot_setter = if self.is_2023_11() {
+                                            let receiver = private_ident!("_this");
+                                            let setter_arg = private_ident!("_v");
+                                            Box::new(Function {
+                                                span: DUMMY_SP,
+                                                body: Some(BlockStmt {
+                                                    span: DUMMY_SP,
+                                                    stmts: vec![Stmt::Expr(ExprStmt {
+                                                        span: DUMMY_SP,
+                                                        expr: Box::new(Expr::Assign(AssignExpr {
+                                                            span: DUMMY_SP,
+                                                            op: op!("="),
+                                                            left: MemberExpr {
+                                                                span: DUMMY_SP,
+                                                                obj: receiver.clone().into(),
+                                                                prop: MemberProp::PrivateName(
+                                                                    private_field.key.clone(),
+                                                                ),
+                                                            }
+                                                            .into(),
+                                                            right: Box::new(Expr::Ident(
+                                                                setter_arg.clone(),
+                                                            )),
+                                                        })),
+                                                    })],
+                                                    ..Default::default()
+                                                }),
+                                                is_async: false,
+                                                is_generator: false,
+                                                decorators: Default::default(),
+                                                params: vec![
+                                                    Param {
+                                                        span: DUMMY_SP,
+                                                        decorators: Default::default(),
+                                                        pat: Pat::Ident(receiver.into()),
+                                                    },
+                                                    Param {
+                                                        span: DUMMY_SP,
+                                                        decorators: Default::default(),
+                                                        pat: Pat::Ident(setter_arg.into()),
+                                                    },
+                                                ],
+                                                ..Default::default()
+                                            })
+                                        } else {
+                                            setter_function.clone()
+                                        };
                                         let data = vec![
                                             dec,
                                             Some(Self::int_arg(self.accessor_kind_code(
@@ -1459,14 +1645,14 @@ impl VisitMut for DecoratorPass {
                                             Some(
                                                 FnExpr {
                                                     ident: None,
-                                                    function: getter_function,
+                                                    function: private_slot_getter,
                                                 }
                                                 .as_arg(),
                                             ),
                                             Some(
                                                 FnExpr {
                                                     ident: None,
-                                                    function: setter_function,
+                                                    function: private_slot_setter,
                                                 }
                                                 .as_arg(),
                                             ),
@@ -1498,9 +1684,14 @@ impl VisitMut for DecoratorPass {
                                                             .clone()
                                                             .unwrap()
                                                             .as_callee(),
-                                                        args: vec![
-                                                            ThisExpr { span: DUMMY_SP }.as_arg()
-                                                        ],
+                                                        args: if self.is_2023_11()
+                                                            && accessor.is_static
+                                                        {
+                                                            Vec::new()
+                                                        } else {
+                                                            vec![ThisExpr { span: DUMMY_SP }
+                                                                .as_arg()]
+                                                        },
                                                         ..Default::default()
                                                     }))),
                                                 })],
@@ -1531,10 +1722,17 @@ impl VisitMut for DecoratorPass {
                                                             .clone()
                                                             .unwrap()
                                                             .as_callee(),
-                                                        args: vec![
-                                                            ThisExpr { span: DUMMY_SP }.as_arg(),
-                                                            param.as_arg(),
-                                                        ],
+                                                        args: if self.is_2023_11()
+                                                            && accessor.is_static
+                                                        {
+                                                            vec![param.as_arg()]
+                                                        } else {
+                                                            vec![
+                                                                ThisExpr { span: DUMMY_SP }
+                                                                    .as_arg(),
+                                                                param.as_arg(),
+                                                            ]
+                                                        },
                                                         ..Default::default()
                                                     })),
                                                 })],
@@ -1566,16 +1764,22 @@ impl VisitMut for DecoratorPass {
 
                         if accessor.is_static {
                             self.state.static_lhs.push(init);
-                            self.state.init_static_args.push(Some(initialize_init));
                             self.state
                                 .static_lhs
                                 .extend(getter_var.into_iter().chain(setter_var));
+                            if let Some(init_extra) = init_extra {
+                                self.state.static_lhs.push(init_extra);
+                            }
+                            self.state.init_static_args.push(Some(initialize_init));
                         } else {
                             self.state.proto_lhs.push(init);
-                            self.state.init_proto_args.push(Some(initialize_init));
                             self.state
                                 .proto_lhs
                                 .extend(getter_var.into_iter().chain(setter_var));
+                            if let Some(init_extra) = init_extra {
+                                self.state.proto_lhs.push(init_extra);
+                            }
+                            self.state.init_proto_args.push(Some(initialize_init));
                         }
 
                         if accessor.is_static {
@@ -1745,6 +1949,9 @@ impl VisitMut for DecoratorPass {
         let (dec, decorators_have_this) = self.merge_decorators_for_member(p.decorators.take());
 
         let (name, init) = self.initializer_name(&mut p.key, "init");
+        let init_extra = self
+            .is_2023_11()
+            .then(|| private_ident!(format!("_init_extra_{}", init.sym)));
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
@@ -1752,19 +1959,24 @@ impl VisitMut for DecoratorPass {
             init: None,
             definite: false,
         });
+        if let Some(init_extra) = &init_extra {
+            self.extra_vars.push(VarDeclarator {
+                span: p.span,
+                name: init_extra.clone().into(),
+                init: None,
+                definite: false,
+            });
+        }
 
-        p.value = Some(
-            CallExpr {
-                span: DUMMY_SP,
-                callee: init.clone().as_callee(),
-                args: once(ThisExpr { span: DUMMY_SP }.as_arg())
-                    .chain(p.value.take().map(|v| v.as_arg()))
-                    .collect(),
-
-                ..Default::default()
-            }
-            .into(),
-        );
+        let field_init_expr = self.field_init_call_expr(&init, p.is_static, p.value.take());
+        p.value = Some(if let Some(init_extra) = &init_extra {
+            self.wrap_init_with_extra(
+                field_init_expr,
+                self.extra_init_call_expr(init_extra, p.is_static),
+            )
+        } else {
+            field_init_expr
+        });
 
         let initialize_init = {
             Some(
@@ -1784,12 +1996,18 @@ impl VisitMut for DecoratorPass {
 
         if p.is_static {
             self.state.static_lhs.push(init);
+            if let Some(init_extra) = init_extra {
+                self.state.static_lhs.push(init_extra);
+            }
             self.state.init_static_args.push(initialize_init);
             self.state
                 .init_static
                 .get_or_insert_with(|| private_ident!("_initStatic"));
         } else {
             self.state.proto_lhs.push(init);
+            if let Some(init_extra) = init_extra {
+                self.state.proto_lhs.push(init_extra);
+            }
             self.state.init_proto_args.push(initialize_init);
             self.state
                 .init_proto
@@ -1958,6 +2176,9 @@ impl VisitMut for DecoratorPass {
         let (dec, decorators_have_this) = self.merge_decorators_for_member(p.decorators.take());
 
         let init = private_ident!(format!("_init_{}", p.key.name));
+        let init_extra = self
+            .is_2023_11()
+            .then(|| private_ident!(format!("_init_extra_{}", p.key.name)));
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
@@ -1965,66 +2186,148 @@ impl VisitMut for DecoratorPass {
             init: None,
             definite: false,
         });
+        if let Some(init_extra) = &init_extra {
+            self.extra_vars.push(VarDeclarator {
+                span: p.span,
+                name: init_extra.clone().into(),
+                init: None,
+                definite: false,
+            });
+        }
 
-        p.value = Some(
-            CallExpr {
-                span: DUMMY_SP,
-                callee: init.clone().as_callee(),
-                args: once(ThisExpr { span: DUMMY_SP }.as_arg())
-                    .chain(p.value.take().map(|v| v.as_arg()))
-                    .collect(),
-                ..Default::default()
-            }
-            .into(),
-        );
+        let field_init_expr = self.field_init_call_expr(&init, p.is_static, p.value.take());
+        p.value = Some(if let Some(init_extra) = &init_extra {
+            self.wrap_init_with_extra(
+                field_init_expr,
+                self.extra_init_call_expr(init_extra, p.is_static),
+            )
+        } else {
+            field_init_expr
+        });
 
         let initialize_init = {
-            let access_expr = MemberExpr {
-                span: DUMMY_SP,
-                obj: ThisExpr { span: DUMMY_SP }.into(),
-                prop: MemberProp::PrivateName(p.key.clone()),
-            };
+            let (getter, setter) = if self.is_2023_11() {
+                let receiver = private_ident!("_this");
+                let getter_receiver = receiver.clone();
+                let setter_arg = private_ident!("value");
 
-            let getter = Box::new(Function {
-                span: DUMMY_SP,
-                body: Some(BlockStmt {
+                let getter = Box::new(Function {
                     span: DUMMY_SP,
-                    stmts: vec![Stmt::Return(ReturnStmt {
+                    body: Some(BlockStmt {
                         span: DUMMY_SP,
-                        arg: Some(access_expr.clone().into()),
-                    })],
-                    ..Default::default()
-                }),
-                is_async: false,
-                is_generator: false,
-                ..Default::default()
-            });
-            let settter_arg = private_ident!("value");
-            let setter = Box::new(Function {
-                span: DUMMY_SP,
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
-                        expr: Box::new(Expr::Assign(AssignExpr {
+                        stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            op: op!("="),
-                            left: access_expr.into(),
-                            right: Box::new(Expr::Ident(settter_arg.clone())),
-                        })),
-                    })],
-                    ..Default::default()
-                }),
-                is_async: false,
-                is_generator: false,
-                decorators: Default::default(),
-                params: vec![Param {
-                    span: DUMMY_SP,
+                            arg: Some(
+                                MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: receiver.clone().into(),
+                                    prop: MemberProp::PrivateName(p.key.clone()),
+                                }
+                                .into(),
+                            ),
+                        })],
+                        ..Default::default()
+                    }),
+                    is_async: false,
+                    is_generator: false,
                     decorators: Default::default(),
-                    pat: Pat::Ident(settter_arg.into()),
-                }],
-                ..Default::default()
-            });
+                    params: vec![Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: Pat::Ident(getter_receiver.into()),
+                    }],
+                    ..Default::default()
+                });
+
+                let setter = Box::new(Function {
+                    span: DUMMY_SP,
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: receiver.clone().into(),
+                                    prop: MemberProp::PrivateName(p.key.clone()),
+                                }
+                                .into(),
+                                right: Box::new(Expr::Ident(setter_arg.clone())),
+                            })),
+                        })],
+                        ..Default::default()
+                    }),
+                    is_async: false,
+                    is_generator: false,
+                    decorators: Default::default(),
+                    params: vec![
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: Pat::Ident(receiver.into()),
+                        },
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: Pat::Ident(setter_arg.into()),
+                        },
+                    ],
+                    ..Default::default()
+                });
+
+                (getter, setter)
+            } else {
+                let access_expr = MemberExpr {
+                    span: DUMMY_SP,
+                    obj: ThisExpr { span: DUMMY_SP }.into(),
+                    prop: MemberProp::PrivateName(p.key.clone()),
+                };
+
+                let getter = Box::new(Function {
+                    span: DUMMY_SP,
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(access_expr.clone().into()),
+                        })],
+                        ..Default::default()
+                    }),
+                    is_async: false,
+                    is_generator: false,
+                    ..Default::default()
+                });
+                let setter_arg = private_ident!("value");
+                let setter = Box::new(Function {
+                    span: DUMMY_SP,
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: access_expr.into(),
+                                right: Box::new(Expr::Ident(setter_arg.clone())),
+                            })),
+                        })],
+                        ..Default::default()
+                    }),
+                    is_async: false,
+                    is_generator: false,
+                    decorators: Default::default(),
+                    params: vec![Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: Pat::Ident(setter_arg.into()),
+                    }],
+                    ..Default::default()
+                });
+
+                (getter, setter)
+            };
 
             ArrayLit {
                 span: DUMMY_SP,
@@ -2055,6 +2358,9 @@ impl VisitMut for DecoratorPass {
 
         if p.is_static {
             self.state.static_lhs.push(init);
+            if let Some(init_extra) = init_extra {
+                self.state.static_lhs.push(init_extra);
+            }
             self.state.init_static_args.push(Some(initialize_init));
             self.state
                 .init_static
@@ -2066,6 +2372,9 @@ impl VisitMut for DecoratorPass {
                     .get_or_insert_with(|| p.key.clone());
             }
             self.state.proto_lhs.push(init);
+            if let Some(init_extra) = init_extra {
+                self.state.proto_lhs.push(init_extra);
+            }
             self.state.init_proto_args.push(Some(initialize_init));
             self.state
                 .init_proto

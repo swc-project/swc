@@ -1,40 +1,48 @@
-var _init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto;
+var _init_a, _init_extra__init_a, _get___a, _set___a, _init_b, _init_extra__init_b, _get___b, _set___b, _initProto;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] } = _apply_decs_2311(this, [], [
+        ({ e: [_init_a, _get___a, _set___a, _init_extra__init_a, _init_b, _get___b, _set___b, _init_extra__init_b, _initProto] } = _apply_decs_2311(this, [], [
             [
                 dec,
                 1,
                 "a",
-                function() {
-                    return this.#__a_1;
+                function(_this) {
+                    return _this.#__a_1;
                 },
-                function(_v) {
-                    this.#__a_1 = _v;
+                function(_this, _v) {
+                    _this.#__a_1 = _v;
                 }
             ],
             [
                 dec,
                 1,
                 "b",
-                function() {
-                    return this.#__b_2;
+                function(_this) {
+                    return _this.#__b_2;
                 },
-                function(_v) {
-                    this.#__b_2 = _v;
+                function(_this, _v) {
+                    _this.#__b_2 = _v;
                 }
             ]
         ], 0, (o)=>#a in o));
     }
-    #__a_1 = (_initProto(this), _init_a(this));
+    #__a_1 = (_initProto(this), (()=>{
+        const _value = _init_a(this);
+        _init_extra__init_a(this);
+        return _value;
+    })());
     get #a() {
         return _get___a(this);
     }
     set #a(_v) {
         _set___a(this, _v);
     }
-    #__b_2 = _init_b(this, 123);
+    #__b_2 = (()=>{
+        const _value = _init_b(this, 123);
+        _init_extra__init_b(this);
+        return _value;
+    })();
     get #b() {
         return _get___b(this);
     }

@@ -1,4 +1,4 @@
-var _initClass, _dec, _dec1, _dec2, _dec3, _dec4, _init_accessor, _init_property, _initStatic;
+var _initClass, _dec, _dec1, _dec2, _dec3, _dec4, _init_accessor, _init_extra__init_accessor, _init_property, _init_extra__init_property, _initStatic;
 let original, replaced, accessorThis, getterThis, setterThis, methodThis, propertyThis, classThis;
 function dec(Klass, context) {
     original = Klass;
@@ -25,7 +25,7 @@ new class extends _identity {
     static{
         class Foo {
             static{
-                ({ e: [_init_accessor, _init_property, _initStatic], c: [_Foo, _initClass] } = _apply_decs_2311(this, [
+                ({ e: [_init_accessor, _init_extra__init_accessor, _init_property, _init_extra__init_property, _initStatic], c: [_Foo, _initClass] } = _apply_decs_2311(this, [
                     dec
                 ], [
                     [
@@ -65,8 +65,16 @@ new class extends _identity {
             static get getter() {}
             static set setter(_) {}
             static method() {}
-            static property = _init_property(this);
+            static property = (()=>{
+                const _value = _init_property();
+                _init_extra__init_property();
+                return _value;
+            })();
         }
     }
-    #___private_accessor_1 = _init_accessor(this);
+    #___private_accessor_1 = (()=>{
+        const _value = _init_accessor();
+        _init_extra__init_accessor();
+        return _value;
+    })();
 }();

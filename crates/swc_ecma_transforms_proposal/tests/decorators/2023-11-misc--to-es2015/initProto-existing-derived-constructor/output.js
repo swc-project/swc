@@ -12,15 +12,7 @@
         }
     }
     class A extends B {
-        static{
-            ({ e: [_initProto] } = _apply_decs_2311(this, [], [
-                [
-                    deco,
-                    2,
-                    "method"
-                ]
-            ]));
-        }
+        method() {}
         constructor(){
             let a = 2;
             self = [
@@ -28,8 +20,14 @@
                 _initProto(this)
             ][0];
         }
-        method() {}
     }
+    ({ e: [_initProto] } = _apply_decs_2311(A, [], [
+        [
+            deco,
+            2,
+            "method"
+        ]
+    ]));
     let instance = new A();
     expect(self).toBe(instance);
     expect(a).toBe(2);
@@ -41,11 +39,11 @@
         };
     };
     class B {
-        constructor(v){
-            this.a = v;
-        }
         method() {
             return this.a;
+        }
+        constructor(v){
+            this.a = v;
         }
     }
     {
@@ -53,14 +51,8 @@
         "super() nested within another constructor should not be transformed";
         let log = [];
         class A extends B {
-            static{
-                ({ e: [_initProto1] } = _apply_decs_2311(this, [], [
-                    [
-                        dec,
-                        2,
-                        "method"
-                    ]
-                ]));
+            method() {
+                return this.a;
             }
             constructor(){
                 log.push([
@@ -73,10 +65,14 @@
                     }
                 }();
             }
-            method() {
-                return this.a;
-            }
         }
+        ({ e: [_initProto1] } = _apply_decs_2311(A, [], [
+            [
+                dec,
+                2,
+                "method"
+            ]
+        ]));
         new A();
         expect(log + "").toBe("103,4");
     }
@@ -88,27 +84,28 @@
                 var _computedKey, _initProto;
                 let key;
                 _computedKey = (key = super(5).method(), log.push(key), key);
+                let _computedKey1 = _computedKey;
                 class A extends B {
-                    static{
-                        ({ e: [_initProto] } = _apply_decs_2311(this, [], [
-                            [
-                                dec,
-                                2,
-                                "method"
-                            ]
-                        ]));
-                    }
-                    constructor(){
-                        log.push([
-                            super(6),
-                            _initProto(this)
-                        ][0].method());
-                    }
                     method() {
                         return this.a;
                     }
-                    [_computedKey];
+                    constructor(){
+                        log.push([
+                            [
+                                super(6),
+                                _define_property(this, _computedKey1, void 0)
+                            ][0],
+                            _initProto(this)
+                        ][0].method());
+                    }
                 }
+                ({ e: [_initProto] } = _apply_decs_2311(A, [], [
+                    [
+                        dec,
+                        2,
+                        "method"
+                    ]
+                ]));
                 new A();
             }
         }();
@@ -123,31 +120,29 @@
                 var _dec, _initProto;
                 _dec = noop(log.push(super(7).method()));
                 class A extends B {
-                    static{
-                        ({ e: [_initProto] } = _apply_decs_2311(this, [], [
-                            [
-                                dec,
-                                2,
-                                "method"
-                            ],
-                            [
-                                _dec,
-                                2,
-                                "noop"
-                            ]
-                        ]));
+                    method() {
+                        return this.a;
                     }
+                    noop() {}
                     constructor(){
                         log.push([
                             super(8),
                             _initProto(this)
                         ][0].method());
                     }
-                    method() {
-                        return this.a;
-                    }
-                    noop() {}
                 }
+                ({ e: [_initProto] } = _apply_decs_2311(A, [], [
+                    [
+                        dec,
+                        2,
+                        "method"
+                    ],
+                    [
+                        _dec,
+                        2,
+                        "noop"
+                    ]
+                ]));
                 new A();
             }
         }();
@@ -158,33 +153,34 @@
         "super() within decorated derived constructor should be transformed: computed key";
         let log = [];
         class A extends B {
-            static{
-                ({ e: [_initProto2] } = _apply_decs_2311(this, [], [
-                    [
-                        dec,
-                        2,
-                        "method"
-                    ]
-                ]));
-            }
-            constructor(){
-                var _computedKey;
-                let key;
-                _computedKey = (key = [
-                    super(9),
-                    _initProto2(this)
-                ][0].method(), log.push(key), key);
-                new class Dummy extends B {
-                    constructor(){
-                        log.push(super(10).method());
-                    }
-                    [_computedKey];
-                }();
-            }
             method() {
                 return this.a;
             }
+            constructor(){
+                let _computedKey;
+                var _computedKey1;
+                let key;
+                _computedKey1 = (key = [
+                    super(9),
+                    _initProto2(this)
+                ][0].method(), log.push(key), key);
+                new (_computedKey = _computedKey1, class Dummy extends B {
+                    constructor(){
+                        log.push([
+                            super(10),
+                            _define_property(this, _computedKey, void 0)
+                        ][0].method());
+                    }
+                })();
+            }
         }
+        ({ e: [_initProto2] } = _apply_decs_2311(A, [], [
+            [
+                dec,
+                2,
+                "method"
+            ]
+        ]));
         new A();
         expect(log + "").toBe("109,10");
     }
@@ -194,44 +190,40 @@
         let log = [];
         const noop = ()=>(fn)=>fn;
         class A extends B {
-            static{
-                ({ e: [_initProto3] } = _apply_decs_2311(this, [], [
-                    [
-                        dec,
-                        2,
-                        "method"
-                    ]
-                ]));
+            method() {
+                return this.a;
             }
             constructor(){
+                var _Dummy;
                 var _dec, _initProto;
                 _dec = noop(log.push([
                     super(11),
                     _initProto3(this)
                 ][0].method()));
-                new class Dummy extends B {
-                    static{
-                        ({ e: [_initProto] } = _apply_decs_2311(this, [], [
-                            [
-                                _dec,
-                                2,
-                                "noop"
-                            ]
-                        ]));
-                    }
+                new (_Dummy = class Dummy extends B {
+                    noop() {}
                     constructor(){
                         log.push([
                             super(12),
                             _initProto(this)
                         ][0].method());
                     }
-                    noop() {}
-                }();
-            }
-            method() {
-                return this.a;
+                }, { e: [_initProto] } = _apply_decs_2311(_Dummy, [], [
+                    [
+                        _dec,
+                        2,
+                        "noop"
+                    ]
+                ]), _Dummy)();
             }
         }
+        ({ e: [_initProto3] } = _apply_decs_2311(A, [], [
+            [
+                dec,
+                2,
+                "method"
+            ]
+        ]));
         new A();
         expect(log + "").toBe("111,12");
     }

@@ -1,33 +1,41 @@
-var _init_a, _init_b, _initStatic;
+var _init_a, _init_extra_a, _init_b, _init_extra_b, _initStatic;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_init_a, _init_b, _initStatic] } = _apply_decs_2311(this, [], [
+        ({ e: [_init_a, _init_extra_a, _init_b, _init_extra_b, _initStatic] } = _apply_decs_2311(this, [], [
             [
                 dec,
                 8,
                 "a",
-                function() {
-                    return this.#a;
+                function(_this) {
+                    return _this.#a;
                 },
-                function(value) {
-                    this.#a = value;
+                function(_this, value) {
+                    _this.#a = value;
                 }
             ],
             [
                 dec,
                 8,
                 "b",
-                function() {
-                    return this.#b;
+                function(_this) {
+                    return _this.#b;
                 },
-                function(value) {
-                    this.#b = value;
+                function(_this, value) {
+                    _this.#b = value;
                 }
             ]
         ]));
         _initStatic(this);
     }
-    static #a = _init_a(this);
-    static #b = _init_b(this, 123);
+    static #a = (()=>{
+        const _value = _init_a();
+        _init_extra_a();
+        return _value;
+    })();
+    static #b = (()=>{
+        const _value = _init_b(123);
+        _init_extra_b();
+        return _value;
+    })();
 }

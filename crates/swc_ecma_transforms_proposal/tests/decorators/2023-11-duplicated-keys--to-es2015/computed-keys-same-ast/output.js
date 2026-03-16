@@ -1,28 +1,27 @@
 var _computedKey, _computedKey1, _initProto;
 const dec = ()=>{};
 _computedKey = getKey(), _computedKey1 = getKey();
+let _computedKey2 = _computedKey, _computedKey3 = _computedKey1;
 class Foo {
-    static{
-        ({ e: [_initProto] } = _apply_decs_2311(this, [], [
-            [
-                dec,
-                2,
-                _computedKey
-            ],
-            [
-                dec,
-                2,
-                _computedKey1
-            ]
-        ]));
+    [_computedKey2]() {
+        return 1;
+    }
+    [_computedKey3]() {
+        return 2;
     }
     constructor(){
         _initProto(this);
     }
-    [_computedKey]() {
-        return 1;
-    }
-    [_computedKey1]() {
-        return 2;
-    }
 }
+({ e: [_initProto] } = _apply_decs_2311(Foo, [], [
+    [
+        dec,
+        2,
+        _computedKey
+    ],
+    [
+        dec,
+        2,
+        _computedKey1
+    ]
+]));

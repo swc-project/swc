@@ -3,23 +3,15 @@ const dec1 = ()=>{};
 const dec2 = ()=>{};
 let _Bar1;
 class Bar {
-    static{
-        ({ c: [_Bar1, _initClass] } = _apply_decs_2311(this, [
-            dec1
-        ], []));
-    }
-    static{
-        _initClass();
-    }
 }
+({ c: [_Bar1, _initClass] } = _apply_decs_2311(Bar, [
+    dec1
+], []));
+_initClass();
 let _Foo;
 class Foo extends (_Bar = _Bar1) {
-    static{
-        ({ c: [_Foo, _initClass1] } = _apply_decs_2311(this, [
-            dec2
-        ], [], 0, void 0, _Bar));
-    }
-    static{
-        _initClass1();
-    }
 }
+({ c: [_Foo, _initClass1] } = _apply_decs_2311(Foo, [
+    dec2
+], [], 0, void 0, _Bar));
+_initClass1();
