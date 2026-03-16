@@ -3,6 +3,9 @@ opaque type ID = string;
 type Box = {| +a: number, ...Other |};
 declare module.exports: { value: number };
 declare export default number;
+declare export { Foo, type Bar as Baz } from "./foo";
+declare export * from "./foo";
+declare export * as ns from "./foo";
 
 class C {
   +x: number;

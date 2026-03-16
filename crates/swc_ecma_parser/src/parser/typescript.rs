@@ -50,6 +50,129 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 }
 
 impl<I: Tokens> Parser<I> {
+    fn make_flow_any_keyword_type(&mut self, start: BytePos) -> Box<TsType> {
+        Box::new(TsType::TsKeywordType(TsKeywordType {
+            span: self.span(start),
+            kind: TsKeywordTypeKind::TsAnyKeyword,
+        }))
+    }
+
+    fn make_flow_synthetic_declare_export_alias_decl(&mut self, start: BytePos) -> Decl {
+        let mut id = String::with_capacity(40);
+        id.push_str("__flow_declare_export_");
+        write!(&mut id, "{}", start.0).unwrap();
+        let type_ann = self.make_flow_any_keyword_type(start);
+
+        Decl::TsTypeAlias(self.make_flow_synthetic_type_alias_decl(start, id.into(), type_ann))
+    }
+
+    fn parse_flow_declare_export_from_clause(&mut self) -> PResult<()> {
+        expect!(self, Token::From);
+
+        if self.input().is(Token::Str) {
+            let _ = self.parse_str_lit();
+            Ok(())
+        } else {
+            unexpected!(self, "a string literal")
+        }
+    }
+
+    fn parse_flow_declare_export_named_specifier(&mut self) -> PResult<()> {
+        if self.input().is(Token::Type) || self.input().is(Token::TypeOf) {
+            self.bump();
+        }
+
+        let cur = self.input().cur();
+        if cur == Token::Str || cur.is_word() {
+            let _ = self.parse_module_export_name()?;
+        } else {
+            unexpected!(self, "an identifier or string literal")
+        }
+
+        if self.input_mut().eat(Token::As) {
+            let _ = self.parse_module_export_name()?;
+        }
+
+        Ok(())
+    }
+
+    fn parse_flow_declare_export_named_or_all(&mut self, start: BytePos) -> PResult<Decl> {
+        if self.input_mut().eat(Token::Asterisk) {
+            if self.input_mut().eat(Token::As) {
+                let _ = self.parse_ident_name()?;
+            }
+
+            self.parse_flow_declare_export_from_clause()?;
+            self.expect_general_semi()?;
+            return Ok(self.make_flow_synthetic_declare_export_alias_decl(start));
+        }
+
+        expect!(self, Token::LBrace);
+        while !self.input().is(Token::RBrace) {
+            self.parse_flow_declare_export_named_specifier()?;
+            if !self.input_mut().eat(Token::Comma) {
+                break;
+            }
+        }
+        expect!(self, Token::RBrace);
+
+        if self.input().is(Token::From) {
+            self.parse_flow_declare_export_from_clause()?;
+        }
+
+        self.expect_general_semi()?;
+        Ok(self.make_flow_synthetic_declare_export_alias_decl(start))
+    }
+
+    fn normalize_flow_declare_export_default(
+        &mut self,
+        declare_start: BytePos,
+        decl: ExportDefaultDecl,
+    ) -> Decl {
+        match decl.decl {
+            DefaultDecl::Class(ClassExpr {
+                ident: Some(ident),
+                class,
+            }) => Decl::Class(ClassDecl {
+                declare: true,
+                ident,
+                class: Box::new(Class {
+                    span: Span {
+                        lo: declare_start,
+                        ..class.span
+                    },
+                    ..*class
+                }),
+            }),
+            DefaultDecl::Fn(FnExpr {
+                ident: Some(ident),
+                function,
+            }) => Decl::Fn(FnDecl {
+                declare: true,
+                ident,
+                function: Box::new(Function {
+                    span: Span {
+                        lo: declare_start,
+                        ..function.span
+                    },
+                    ..*function
+                }),
+            }),
+            DefaultDecl::Class(ClassExpr { ident: None, .. })
+            | DefaultDecl::Fn(FnExpr { ident: None, .. }) => {
+                let type_ann = self.make_flow_any_keyword_type(declare_start);
+                Decl::TsTypeAlias(self.make_flow_synthetic_type_alias_decl(
+                    declare_start,
+                    atom!("__flow_default_export"),
+                    type_ann,
+                ))
+            }
+            DefaultDecl::TsInterfaceDecl(..) => unreachable!(),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
+        }
+    }
+
     /// `tsParseList`
     fn parse_ts_list<T, F>(&mut self, kind: ParsingContext, mut parse_element: F) -> PResult<Vec<T>>
     where
@@ -1757,10 +1880,7 @@ impl<I: Tokens> Parser<I> {
         let type_ann = if self.input_mut().eat(Token::Eq) {
             self.in_type(Self::parse_ts_type)?
         } else {
-            Box::new(TsType::TsKeywordType(TsKeywordType {
-                span: self.span(start),
-                kind: TsKeywordTypeKind::TsAnyKeyword,
-            }))
+            self.make_flow_any_keyword_type(start)
         };
 
         self.expect_general_semi()?;
@@ -2907,21 +3027,14 @@ impl<I: Tokens> Parser<I> {
                 if p.input_mut().eat(Token::Default) {
                     if p.input().is(Token::Class) {
                         return p
-                            .parse_class_decl(start, start, decorators.clone(), false)
-                            .map(|decl| match decl {
-                                Decl::Class(c) => ClassDecl {
-                                    declare: true,
-                                    class: Box::new(Class {
-                                        span: Span {
-                                            lo: declare_start,
-                                            ..c.class.span
-                                        },
-                                        ..*c.class
-                                    }),
-                                    ..c
-                                }
-                                .into(),
-                                _ => decl,
+                            .parse_default_class(
+                                declare_start,
+                                declare_start,
+                                decorators.clone(),
+                                false,
+                            )
+                            .map(|decl| {
+                                p.normalize_flow_declare_export_default(declare_start, decl)
                             })
                             .map(Some);
                     }
@@ -2931,42 +3044,18 @@ impl<I: Tokens> Parser<I> {
                         && !p.input_mut().has_linebreak_between_cur_and_peeked()
                     {
                         return p
-                            .parse_async_fn_decl(decorators.clone())
-                            .map(|decl| match decl {
-                                Decl::Fn(f) => FnDecl {
-                                    declare: true,
-                                    function: Box::new(Function {
-                                        span: Span {
-                                            lo: declare_start,
-                                            ..f.function.span
-                                        },
-                                        ..*f.function
-                                    }),
-                                    ..f
-                                }
-                                .into(),
-                                _ => decl,
+                            .parse_default_async_fn(declare_start, decorators.clone())
+                            .map(|decl| {
+                                p.normalize_flow_declare_export_default(declare_start, decl)
                             })
                             .map(Some);
                     }
 
                     if p.input().is(Token::Function) {
                         return p
-                            .parse_fn_decl(decorators.clone())
-                            .map(|decl| match decl {
-                                Decl::Fn(f) => FnDecl {
-                                    declare: true,
-                                    function: Box::new(Function {
-                                        span: Span {
-                                            lo: declare_start,
-                                            ..f.function.span
-                                        },
-                                        ..*f.function
-                                    }),
-                                    ..f
-                                }
-                                .into(),
-                                _ => decl,
+                            .parse_default_fn(declare_start, decorators.clone())
+                            .map(|decl| {
+                                p.normalize_flow_declare_export_default(declare_start, decl)
                             })
                             .map(Some);
                     }
@@ -2980,6 +3069,13 @@ impl<I: Tokens> Parser<I> {
                         type_ann,
                     ));
                     return Ok(Some(make_decl_declare(decl)));
+                }
+
+                if p.input().is(Token::LBrace) || p.input().is(Token::Asterisk) {
+                    return p
+                        .parse_flow_declare_export_named_or_all(declare_start)
+                        .map(make_decl_declare)
+                        .map(Some);
                 }
 
                 if p.input().is(Token::Function) {
