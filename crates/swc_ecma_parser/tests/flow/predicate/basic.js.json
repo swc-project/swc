@@ -1,0 +1,270 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 162
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 18
+        },
+        "ctxt": 0,
+        "value": "isString",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 19,
+            "end": 27
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 19,
+              "end": 20
+            },
+            "ctxt": 0,
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 20,
+                "end": 27
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 22,
+                  "end": 27
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 22,
+                    "end": 27
+                  },
+                  "ctxt": 0,
+                  "value": "mixed",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 81
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 46,
+          "end": 81
+        },
+        "ctxt": 0,
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 50,
+              "end": 79
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 57,
+                "end": 78
+              },
+              "operator": "===",
+              "left": {
+                "type": "UnaryExpression",
+                "span": {
+                  "start": 57,
+                  "end": 65
+                },
+                "operator": "typeof",
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 64,
+                    "end": 65
+                  },
+                  "ctxt": 0,
+                  "value": "x",
+                  "optional": false
+                }
+              },
+              "right": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 70,
+                  "end": 78
+                },
+                "value": "string",
+                "raw": "\"string\""
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 28,
+          "end": 37
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 30,
+            "end": 37
+          },
+          "kind": "boolean"
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 92,
+          "end": 100
+        },
+        "ctxt": 0,
+        "value": "hasValue",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 101,
+            "end": 109
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 101,
+              "end": 102
+            },
+            "ctxt": 0,
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 102,
+                "end": 109
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 104,
+                  "end": 109
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 104,
+                    "end": 109
+                  },
+                  "ctxt": 0,
+                  "value": "mixed",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 83,
+        "end": 162
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 139,
+          "end": 162
+        },
+        "ctxt": 0,
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 143,
+              "end": 160
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 150,
+                "end": 159
+              },
+              "operator": "!=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 150,
+                  "end": 151
+                },
+                "ctxt": 0,
+                "value": "x",
+                "optional": false
+              },
+              "right": {
+                "type": "NullLiteral",
+                "span": {
+                  "start": 155,
+                  "end": 159
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 110,
+          "end": 119
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 112,
+            "end": 119
+          },
+          "kind": "boolean"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

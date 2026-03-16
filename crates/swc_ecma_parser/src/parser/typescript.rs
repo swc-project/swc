@@ -1724,6 +1724,21 @@ impl<I: Tokens> Parser<I> {
         }))
     }
 
+    fn make_flow_synthetic_type_alias_decl(
+        &mut self,
+        start: BytePos,
+        id: Atom,
+        type_ann: Box<TsType>,
+    ) -> Box<TsTypeAliasDecl> {
+        Box::new(TsTypeAliasDecl {
+            declare: false,
+            span: self.span(start),
+            id: Ident::new_no_ctxt(id, self.span(start)),
+            type_params: None,
+            type_ann,
+        })
+    }
+
     fn parse_flow_opaque_type_alias_decl(
         &mut self,
         start: BytePos,
@@ -2889,6 +2904,84 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if p.input().syntax().flow() && p.input_mut().eat(Token::Export) {
+                if p.input_mut().eat(Token::Default) {
+                    if p.input().is(Token::Class) {
+                        return p
+                            .parse_class_decl(start, start, decorators.clone(), false)
+                            .map(|decl| match decl {
+                                Decl::Class(c) => ClassDecl {
+                                    declare: true,
+                                    class: Box::new(Class {
+                                        span: Span {
+                                            lo: declare_start,
+                                            ..c.class.span
+                                        },
+                                        ..*c.class
+                                    }),
+                                    ..c
+                                }
+                                .into(),
+                                _ => decl,
+                            })
+                            .map(Some);
+                    }
+
+                    if p.input().is(Token::Async)
+                        && peek!(p).is_some_and(|peek| peek == Token::Function)
+                        && !p.input_mut().has_linebreak_between_cur_and_peeked()
+                    {
+                        return p
+                            .parse_async_fn_decl(decorators.clone())
+                            .map(|decl| match decl {
+                                Decl::Fn(f) => FnDecl {
+                                    declare: true,
+                                    function: Box::new(Function {
+                                        span: Span {
+                                            lo: declare_start,
+                                            ..f.function.span
+                                        },
+                                        ..*f.function
+                                    }),
+                                    ..f
+                                }
+                                .into(),
+                                _ => decl,
+                            })
+                            .map(Some);
+                    }
+
+                    if p.input().is(Token::Function) {
+                        return p
+                            .parse_fn_decl(decorators.clone())
+                            .map(|decl| match decl {
+                                Decl::Fn(f) => FnDecl {
+                                    declare: true,
+                                    function: Box::new(Function {
+                                        span: Span {
+                                            lo: declare_start,
+                                            ..f.function.span
+                                        },
+                                        ..*f.function
+                                    }),
+                                    ..f
+                                }
+                                .into(),
+                                _ => decl,
+                            })
+                            .map(Some);
+                    }
+
+                    let type_ann = p.in_type(Self::parse_ts_type)?;
+                    p.expect_general_semi()?;
+
+                    let decl = Decl::TsTypeAlias(p.make_flow_synthetic_type_alias_decl(
+                        declare_start,
+                        atom!("__flow_default_export"),
+                        type_ann,
+                    ));
+                    return Ok(Some(make_decl_declare(decl)));
+                }
+
                 if p.input().is(Token::Function) {
                     return p
                         .parse_fn_decl(decorators.clone())
@@ -3043,6 +3136,31 @@ impl<I: Tokens> Parser<I> {
             "module" if !self.input().had_line_break_before_cur() => {
                 if next {
                     self.bump();
+                }
+
+                if self.input().syntax().flow()
+                    && self.ctx().contains(Context::InDeclare)
+                    && self.input_mut().eat(Token::Dot)
+                {
+                    let is_exports = self.input().cur().is_word()
+                        && self.input().cur().take_word(&self.input) == atom!("exports");
+
+                    if !is_exports {
+                        unexpected!(self, "exports")
+                    }
+                    self.bump();
+
+                    expect!(self, Token::Colon);
+                    let type_ann = self.in_type(Self::parse_ts_type)?;
+                    self.expect_general_semi()?;
+
+                    return Ok(Some(Decl::TsTypeAlias(
+                        self.make_flow_synthetic_type_alias_decl(
+                            start,
+                            atom!("__flow_module_exports"),
+                            type_ann,
+                        ),
+                    )));
                 }
 
                 let cur = self.input().cur();
