@@ -1,0 +1,5 @@
+# React Compiler upstream fixture names (without extension).
+# Sync script downloads `<name>.expect.md` and creates local fixture directories.
+component
+custom-opt-out-directive
+error.invalid-setState-in-useMemo
