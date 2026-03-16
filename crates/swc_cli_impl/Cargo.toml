@@ -43,6 +43,7 @@ swc_core = { version = "58.0.4", features = [
   "common_concurrent",
   "base_concurrent",
   "base_module",
+  "ecma_helpers_inline",
 ], path = "../swc_core" }
 
 [dev-dependencies]

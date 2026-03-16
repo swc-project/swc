@@ -158,6 +158,54 @@ fn issue_9559() -> Result<()> {
     Ok(())
 }
 
+#[test]
+fn issue_11643_external_helpers_false_respected() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    fs::write(
+        sandbox.path().join(".swcrc"),
+        r#"{
+            "jsc": {
+                "externalHelpers": false
+            },
+            "module": {
+                "type": "commonjs"
+            }
+        }"#,
+    )?;
+    fs::write(
+        sandbox.path().join("index.ts"),
+        r#"export * from "./my-file";"#,
+    )?;
+    fs::write(sandbox.path().join("my-file.ts"), "export const foo = 1;")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--config-file")
+        .arg(".swcrc")
+        .arg("--out-file")
+        .arg("index.js")
+        .arg("index.ts");
+
+    cmd.assert().success();
+
+    let output = fs::read_to_string(sandbox.path().join("index.js"))?;
+    assert!(
+        !output.contains("@swc/helpers"),
+        "Expected no external helper imports/requires when externalHelpers is false. Got: {output}",
+    );
+    assert!(
+        output.contains("function _export_star("),
+        "Expected inline _export_star helper when externalHelpers is false. Got: {output}",
+    );
+    assert!(
+        output.contains("_export_star(require(\"./my-file\"), exports);"),
+        "Expected re-export call to use inline helper. Got: {output}",
+    );
+
+    Ok(())
+}
+
 /// Tests that `--root-mode upward` finds a `.swcrc` in a parent directory.
 #[test]
 fn root_mode_upward_finds_parent_config() -> Result<()> {
