@@ -52,6 +52,9 @@ struct DecoratorPass {
     /// In module-mode exec tests, assignment to unresolved identifiers throws.
     /// Track them to preserve sloppy-mode behavior expected by Babel fixtures.
     implicit_globals: FxHashSet<Atom>,
+
+    /// Stack of private names declared by currently visited classes.
+    class_private_names: Vec<FxHashSet<Atom>>,
 }
 
 #[derive(Default)]
@@ -171,6 +174,23 @@ impl DecoratorPass {
         v.found
     }
 
+    fn expr_uses_current_class_private_name(&self, expr: &Expr) -> bool {
+        let Some(names) = self.class_private_names.last() else {
+            return false;
+        };
+
+        if names.is_empty() {
+            return false;
+        }
+
+        let mut v = InstancePrivateNameFinder {
+            names,
+            found: false,
+        };
+        expr.visit_with(&mut v);
+        v.found
+    }
+
     fn expr_uses_yield_or_await(&self, expr: &Expr) -> bool {
         let mut v = YieldAwaitFinder::default();
         expr.visit_with(&mut v);
@@ -267,6 +287,29 @@ impl DecoratorPass {
                     names.insert(method.key.name.clone());
                 }
                 ClassMember::AutoAccessor(accessor) if !accessor.is_static => {
+                    if let Key::Private(name) = &accessor.key {
+                        names.insert(name.name.clone());
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        names
+    }
+
+    fn collect_class_private_names(&self, members: &[ClassMember]) -> FxHashSet<Atom> {
+        let mut names = FxHashSet::default();
+
+        for member in members {
+            match member {
+                ClassMember::PrivateProp(prop) => {
+                    names.insert(prop.key.name.clone());
+                }
+                ClassMember::PrivateMethod(method) => {
+                    names.insert(method.key.name.clone());
+                }
+                ClassMember::AutoAccessor(accessor) => {
                     if let Key::Private(name) = &accessor.key {
                         names.insert(name.name.clone());
                     }
@@ -905,7 +948,7 @@ impl DecoratorPass {
         if dec.is_ident()
             || dec.is_arrow()
             || dec.is_fn_expr()
-            || (!self.is_2023_11() && self.expr_uses_private_name(&dec))
+            || (!self.is_2023_11() && self.expr_uses_current_class_private_name(&dec))
         {
             return dec;
         }
@@ -2023,6 +2066,8 @@ impl VisitMut for DecoratorPass {
         let old_stmts = self.state.extra_stmts.take();
         let old_pending_instance = self.state.pending_instance_field_extra_inits.take();
         let old_computed_key_inits = self.state.computed_key_inits.take();
+        self.class_private_names
+            .push(self.collect_class_private_names(&n.body));
 
         n.visit_mut_children_with(self);
 
@@ -2180,6 +2225,7 @@ impl VisitMut for DecoratorPass {
         self.state.extra_stmts = old_stmts;
         self.state.pending_instance_field_extra_inits = old_pending_instance;
         self.state.computed_key_inits = old_computed_key_inits;
+        self.class_private_names.pop();
     }
 
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
