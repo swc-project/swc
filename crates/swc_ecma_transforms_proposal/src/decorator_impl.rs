@@ -1348,10 +1348,13 @@ impl DecoratorPass {
         let preserved_class_name = c.ident.clone().into_private();
         let new_class_name = private_ident!(format!("_{}", c.ident.sym));
         let old_class_name = self.current_class_name.replace(c.ident.clone());
-        let member_class_ref_alias = private_ident!(format!("_{}_member", c.ident.sym));
-        let old_member_class_ref_alias = self
-            .class_member_class_ref_alias
-            .replace(member_class_ref_alias.clone());
+        let member_class_ref_alias = self
+            .is_2023_11()
+            .then(|| private_ident!(format!("_{}_member", c.ident.sym)));
+        let old_member_class_ref_alias = std::mem::replace(
+            &mut self.class_member_class_ref_alias,
+            member_class_ref_alias.clone(),
+        );
 
         self.extra_lets.push(VarDeclarator {
             span: DUMMY_SP,
@@ -1359,12 +1362,14 @@ impl DecoratorPass {
             init: None,
             definite: false,
         });
-        self.extra_lets.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: member_class_ref_alias.clone().into(),
-            init: None,
-            definite: false,
-        });
+        if let Some(member_class_ref_alias) = member_class_ref_alias.as_ref() {
+            self.extra_lets.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: member_class_ref_alias.clone().into(),
+                init: None,
+                definite: false,
+            });
+        }
 
         self.rename_map
             .insert(c.ident.to_id(), new_class_name.to_id());
@@ -1750,13 +1755,17 @@ impl DecoratorPass {
                     ..Default::default()
                 }
                 .into();
-                let alias_assign = AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: member_class_ref_alias.clone().into(),
-                    right: new_class_name.clone().into(),
-                }
-                .into();
+                let alias_assign = member_class_ref_alias
+                    .clone()
+                    .map(|member_class_ref_alias| {
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: member_class_ref_alias.into(),
+                            right: new_class_name.clone().into(),
+                        }
+                        .into()
+                    });
 
                 constructor.body.as_mut().unwrap().stmts.insert(
                     0,
@@ -1765,7 +1774,7 @@ impl DecoratorPass {
                         exprs: once(super_call)
                             .chain(static_call)
                             .chain(once(init_class_call))
-                            .chain(once(alias_assign))
+                            .chain(alias_assign)
                             .collect(),
                     }
                     .into_stmt(),
@@ -1825,26 +1834,31 @@ impl DecoratorPass {
         replace_ident(&mut c.class, original_class_id, &preserved_class_name);
         c.class.body.extend(body);
         c.class.visit_mut_with(self);
+        let mut class_inits = vec![CallExpr {
+            span: DUMMY_SP,
+            callee: init_class.as_callee(),
+            args: Vec::new(),
+            ..Default::default()
+        }
+        .into_stmt()];
+
+        if let Some(member_class_ref_alias) = member_class_ref_alias {
+            class_inits.push(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: member_class_ref_alias.into(),
+                    right: new_class_name.into(),
+                }
+                .into_stmt(),
+            );
+        }
+
         c.class.body.push(ClassMember::StaticBlock(StaticBlock {
             span: DUMMY_SP,
             body: BlockStmt {
                 span: DUMMY_SP,
-                stmts: vec![
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: init_class.as_callee(),
-                        args: Vec::new(),
-                        ..Default::default()
-                    }
-                    .into_stmt(),
-                    AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: member_class_ref_alias.into(),
-                        right: new_class_name.into(),
-                    }
-                    .into_stmt(),
-                ],
+                stmts: class_inits,
                 ..Default::default()
             },
         }));
@@ -2897,7 +2911,7 @@ impl VisitMut for DecoratorPass {
             assign.left.visit_mut_with(self);
             assign.right.visit_mut_with(self);
 
-            if assign.op == op!("=") {
+            if self.is_2023_11() && assign.op == op!("=") {
                 if let AssignTarget::Simple(SimpleAssignTarget::Ident(binding)) = &assign.left {
                     let id = &binding.id;
                     if self.is_unresolved_ident(id) {
@@ -2913,7 +2927,10 @@ impl VisitMut for DecoratorPass {
         }
 
         if let Expr::Ident(ident) = e {
-            if self.is_unresolved_ident(ident) && self.implicit_globals.contains(&ident.sym) {
+            if self.is_2023_11()
+                && self.is_unresolved_ident(ident)
+                && self.implicit_globals.contains(&ident.sym)
+            {
                 *e = self
                     .global_this_member_expr(ident.sym.clone(), ident.span)
                     .into();
