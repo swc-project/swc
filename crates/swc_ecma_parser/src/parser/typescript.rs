@@ -3060,6 +3060,15 @@ impl<I: Tokens> Parser<I> {
                             .map(Some);
                     }
 
+                    if p.input().is(Token::Interface) {
+                        p.assert_and_bump(Token::Interface);
+                        return p
+                            .parse_ts_interface_decl(declare_start)
+                            .map(Decl::from)
+                            .map(make_decl_declare)
+                            .map(Some);
+                    }
+
                     let type_ann = p.in_type(Self::parse_ts_type)?;
                     p.expect_general_semi()?;
 
