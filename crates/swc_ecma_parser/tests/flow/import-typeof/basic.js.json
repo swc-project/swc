@@ -1,0 +1,119 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 83
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 32
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 15,
+            "end": 18
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 15,
+              "end": 18
+            },
+            "ctxt": 0,
+            "value": "Foo",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 26,
+          "end": 31
+        },
+        "value": "foo",
+        "raw": "\"foo\""
+      },
+      "typeOnly": true,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 33,
+        "end": 62
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 47,
+            "end": 50
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 47,
+              "end": 50
+            },
+            "ctxt": 0,
+            "value": "Bar",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 56,
+          "end": 61
+        },
+        "value": "bar",
+        "raw": "\"bar\""
+      },
+      "typeOnly": true,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 63,
+        "end": 83
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 77,
+            "end": 80
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 77,
+              "end": 80
+            },
+            "ctxt": 0,
+            "value": "Foo",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": true,
+      "with": null
+    }
+  ],
+  "interpreter": null
+}

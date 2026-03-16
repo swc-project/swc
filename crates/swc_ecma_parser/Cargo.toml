@@ -23,6 +23,7 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 # Used for debugging
 debug         = ["tracing-spans"]
 default       = ["typescript", "stacker"]
+flow          = ["typescript"]
 tracing-spans = []
 typescript    = []
 unstable      = []

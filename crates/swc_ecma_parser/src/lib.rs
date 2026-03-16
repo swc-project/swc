@@ -92,6 +92,10 @@
 //!
 //! Enables typescript parser.
 //!
+//! ### `flow`
+//!
+//! Enables flow parser. This feature requires `typescript`.
+//!
 //! ### `verify`
 //!
 //! Verify more errors, using `swc_ecma_visit`.
@@ -161,6 +165,8 @@ pub use legacy::token;
 pub use lexer::Lexer;
 pub use parser::*;
 pub use swc_common::input::{Input, StringInput};
+#[cfg(feature = "flow")]
+pub use syntax::FlowSyntax;
 pub use syntax::{EsSyntax, Syntax, SyntaxFlags, TsSyntax};
 
 #[cfg(test)]

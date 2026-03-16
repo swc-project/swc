@@ -231,11 +231,18 @@ impl<I: Tokens> Parser<I> {
     fn parse_ts_type_member_semicolon(&mut self) -> PResult<()> {
         debug_assert!(self.input().syntax().typescript());
 
-        if !self.input_mut().eat(Token::Comma) {
-            self.expect_general_semi()
-        } else {
-            Ok(())
+        if self.input_mut().eat(Token::Comma) || self.input_mut().eat(Token::Semi) {
+            return Ok(());
         }
+
+        if self.input().syntax().flow()
+            && self.input().is(Token::Pipe)
+            && peek!(self).is_some_and(|peek| peek == Token::RBrace)
+        {
+            return Ok(());
+        }
+
+        self.expect_general_semi()
     }
 
     /// `tsIsStartOfConstructSignature`
@@ -283,10 +290,24 @@ impl<I: Tokens> Parser<I> {
         let ty = parse_constituent_type(self)?;
         trace_cur!(self, parse_ts_union_or_intersection_type__after_first);
 
+        let is_flow_exact_object_end = |p: &mut Self| {
+            p.input().syntax().flow()
+                && operator == Token::Pipe
+                && p.input().is(Token::Pipe)
+                && peek!(p).is_some_and(|peek| peek == Token::RBrace)
+        };
+        if is_flow_exact_object_end(self) {
+            return Ok(ty);
+        }
+
         if self.input().is(operator) {
             let mut types = vec![ty];
 
-            while self.input_mut().eat(operator) {
+            while self.input().is(operator) {
+                if is_flow_exact_object_end(self) {
+                    break;
+                }
+                self.bump();
                 trace_cur!(self, parse_ts_union_or_intersection_type__constituent);
 
                 types.push(parse_constituent_type(self)?);
@@ -1703,6 +1724,41 @@ impl<I: Tokens> Parser<I> {
         }))
     }
 
+    fn parse_flow_opaque_type_alias_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<Box<TsTypeAliasDecl>> {
+        debug_assert!(self.input().syntax().flow());
+
+        expect!(self, Token::Type);
+        let id = self.parse_ident_name()?;
+        let type_params = self.try_parse_ts_type_params(true, false)?;
+
+        // Flow opaque type may have a supertype annotation before `=`.
+        if self.input_mut().eat(Token::Colon) {
+            let _ = self.in_type(Self::parse_ts_type)?;
+        }
+
+        let type_ann = if self.input_mut().eat(Token::Eq) {
+            self.in_type(Self::parse_ts_type)?
+        } else {
+            Box::new(TsType::TsKeywordType(TsKeywordType {
+                span: self.span(start),
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+            }))
+        };
+
+        self.expect_general_semi()?;
+
+        Ok(Box::new(TsTypeAliasDecl {
+            declare: false,
+            span: self.span(start),
+            id: id.into(),
+            type_params,
+            type_ann,
+        }))
+    }
+
     /// `tsParseFunctionOrConstructorType`
     fn parse_ts_fn_or_constructor_type(
         &mut self,
@@ -2071,7 +2127,48 @@ impl<I: Tokens> Parser<I> {
         }
         // Instead of fullStart, we create a node here.
         let start = self.cur_pos();
-        let readonly = self.parse_ts_modifier(&[Token::Readonly], false)?.is_some();
+        let mut readonly = self.parse_ts_modifier(&[Token::Readonly], false)?.is_some();
+
+        if self.input().syntax().flow() {
+            if self.input_mut().eat(Token::Plus) {
+                readonly = true;
+            } else {
+                self.input_mut().eat(Token::Minus);
+            }
+        }
+
+        if self.input().syntax().flow() && self.input_mut().eat(Token::DotDotDot) {
+            let type_ann = if self.input().is(Token::Comma)
+                || self.input().is(Token::Semi)
+                || self.input().is(Token::RBrace)
+                || (self.input().is(Token::Pipe)
+                    && peek!(self).is_some_and(|peek| peek == Token::RBrace))
+            {
+                None
+            } else {
+                let type_ann = self.parse_ts_type()?;
+                Some(Box::new(TsTypeAnn {
+                    span: Span::new_with_checked(start, self.input().prev_span().hi),
+                    type_ann,
+                }))
+            };
+
+            self.input_mut().eat(Token::Comma);
+            self.input_mut().eat(Token::Semi);
+
+            return Ok(TsPropertySignature {
+                span: self.span(start),
+                computed: false,
+                readonly: false,
+                key: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                    atom!("__flow_spread"),
+                    self.span(start),
+                ))),
+                optional: false,
+                type_ann,
+            }
+            .into());
+        }
 
         let idx = self.try_parse_ts_index_signature(start, readonly, false)?;
         if let Some(idx) = idx {
@@ -2140,8 +2237,19 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         expect!(self, Token::LBrace);
-        let members =
-            self.parse_ts_list(ParsingContext::TypeMembers, |p| p.parse_ts_type_member())?;
+        let exact = self.input().syntax().flow() && self.input_mut().eat(Token::Pipe);
+        let members = if exact {
+            let mut members = Vec::new();
+            while !(self.input().is(Token::Pipe)
+                && peek!(self).is_some_and(|peek| peek == Token::RBrace))
+            {
+                members.push(self.parse_ts_type_member()?);
+            }
+            expect!(self, Token::Pipe);
+            members
+        } else {
+            self.parse_ts_list(ParsingContext::TypeMembers, |p| p.parse_ts_type_member())?
+        };
         expect!(self, Token::RBrace);
         Ok(members)
     }
@@ -2576,6 +2684,12 @@ impl<I: Tokens> Parser<I> {
                 span: self.span(start),
                 lit,
             })));
+        } else if self.input().syntax().flow() && cur == Token::Asterisk {
+            self.bump();
+            return Ok(Box::new(TsType::TsKeywordType(TsKeywordType {
+                span: self.span(start),
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+            })));
         } else if cur == Token::Import {
             return self.parse_ts_import_type().map(TsType::from).map(Box::new);
         } else if cur == Token::This {
@@ -2729,7 +2843,10 @@ impl<I: Tokens> Parser<I> {
                     .map(Some);
             }
 
-            if p.input().is(Token::Const) && peek!(p).is_some_and(|peek| peek == Token::Enum) {
+            if p.input().syntax().typescript_allows_enum()
+                && p.input().is(Token::Const)
+                && peek!(p).is_some_and(|peek| peek == Token::Enum)
+            {
                 p.assert_and_bump(Token::Const);
                 p.assert_and_bump(Token::Enum);
 
@@ -2771,6 +2888,74 @@ impl<I: Tokens> Parser<I> {
                     .map(Decl::from)
                     .map(make_decl_declare)
                     .map(Some);
+            } else if p.input().syntax().flow() && p.input_mut().eat(Token::Export) {
+                if p.input().is(Token::Function) {
+                    return p
+                        .parse_fn_decl(decorators.clone())
+                        .map(|decl| match decl {
+                            Decl::Fn(f) => FnDecl {
+                                declare: true,
+                                function: Box::new(Function {
+                                    span: Span {
+                                        lo: declare_start,
+                                        ..f.function.span
+                                    },
+                                    ..*f.function
+                                }),
+                                ..f
+                            }
+                            .into(),
+                            _ => decl,
+                        })
+                        .map(Some);
+                }
+
+                if p.input().is(Token::Class) {
+                    return p
+                        .parse_class_decl(start, start, decorators.clone(), false)
+                        .map(|decl| match decl {
+                            Decl::Class(c) => ClassDecl {
+                                declare: true,
+                                class: Box::new(Class {
+                                    span: Span {
+                                        lo: declare_start,
+                                        ..c.class.span
+                                    },
+                                    ..*c.class
+                                }),
+                                ..c
+                            }
+                            .into(),
+                            _ => decl,
+                        })
+                        .map(Some);
+                }
+
+                let cur = p.input().cur();
+                if matches!(cur, Token::Const | Token::Var | Token::Let) {
+                    return p
+                        .parse_var_stmt(false)
+                        .map(|decl| VarDecl {
+                            declare: true,
+                            span: Span {
+                                lo: declare_start,
+                                ..decl.span
+                            },
+                            ..*decl
+                        })
+                        .map(Box::new)
+                        .map(From::from)
+                        .map(Some);
+                }
+
+                if p.input().cur().is_word() {
+                    let value = p.input().cur().take_word(&p.input);
+                    return p
+                        .parse_ts_decl(start, decorators, value, /* next */ true)
+                        .map(|v| v.map(make_decl_declare));
+                }
+
+                return Ok(None);
             } else if p.input().cur().is_word() {
                 let value = p.input().cur().take_word(&p.input);
                 return p
@@ -2830,7 +3015,8 @@ impl<I: Tokens> Parser<I> {
             }
 
             "enum" => {
-                if next || self.is_ident_ref() {
+                let allow_ts_enum = self.input().syntax().typescript_allows_enum();
+                if allow_ts_enum && (next || self.is_ident_ref()) {
                     if next {
                         self.bump();
                     }
@@ -2897,6 +3083,18 @@ impl<I: Tokens> Parser<I> {
                     }
                     return self
                         .parse_ts_type_alias_decl(start)
+                        .map(From::from)
+                        .map(Some);
+                }
+            }
+
+            "opaque" if self.input().syntax().flow() => {
+                if next {
+                    self.bump();
+                }
+                if self.input().is(Token::Type) && !self.input().had_line_break_before_cur() {
+                    return self
+                        .parse_flow_opaque_type_alias_decl(start)
                         .map(From::from)
                         .map(Some);
                 }

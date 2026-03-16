@@ -1,0 +1,10 @@
+  x 'const' declarations must be initialized
+   ,-[$DIR/tests/flow-errors/require-directive/no-pragma.js:1:1]
+ 1 | const value: number = 1;
+   :       ^^^^^
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/flow-errors/require-directive/no-pragma.js:1:1]
+ 1 | const value: number = 1;
+   :            ^
+   `----

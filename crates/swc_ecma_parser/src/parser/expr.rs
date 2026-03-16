@@ -2113,6 +2113,39 @@ impl<I: Tokens> Parser<I> {
                 //     self.emit_err(self.input().prev_span(), SyntaxError::TS1047)
                 // }
 
+                let mut explicit_type_ann = None;
+                #[cfg(feature = "flow")]
+                if self.input().syntax().flow()
+                    && !optional
+                    && arg.spread.is_none()
+                    && self.input().is(Token::Colon)
+                {
+                    let type_ann = self.parse_ts_type_ann(true, self.cur_pos())?;
+
+                    if !self.input().is(Token::Eq) {
+                        if has_modifier {
+                            self.emit_err(self.span(modifier_start), SyntaxError::TS2369);
+                        }
+
+                        let cast_span =
+                            Span::new_with_checked(arg.expr.span_lo(), self.input().prev_span().hi);
+                        items.push(AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(
+                                TsAsExpr {
+                                    span: cast_span,
+                                    expr: arg.expr,
+                                    type_ann: type_ann.type_ann,
+                                }
+                                .into(),
+                            ),
+                        }));
+                        continue;
+                    }
+
+                    explicit_type_ann = Some(type_ann);
+                }
+
                 let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
                 if optional {
                     match pat {
@@ -2150,7 +2183,11 @@ impl<I: Tokens> Parser<I> {
                         ref mut span,
                         ..
                     }) => {
-                        let new_type_ann = self.try_parse_ts_type_ann()?;
+                        let new_type_ann = if explicit_type_ann.is_some() {
+                            explicit_type_ann.take()
+                        } else {
+                            self.try_parse_ts_type_ann()?
+                        };
                         if new_type_ann.is_some() {
                             *span = Span::new_with_checked(pat_start, self.input().prev_span().hi);
                         }

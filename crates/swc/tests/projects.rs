@@ -790,6 +790,16 @@ fn ts_id(input_dir: PathBuf) {
 }
 
 fn tests(input_dir: PathBuf) {
+    #[cfg(not(feature = "flow"))]
+    {
+        let input_dir_norm = input_dir.to_string_lossy().replace('\\', "/");
+        if input_dir_norm.ends_with("/tests/fixture/flow-strip/input")
+            || input_dir_norm.ends_with("tests/fixture/flow-strip/input")
+        {
+            return;
+        }
+    }
+
     let output_dir = input_dir.parent().unwrap().join("output");
 
     for entry in WalkDir::new(&input_dir) {

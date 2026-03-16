@@ -72,6 +72,30 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    fn assign_pat_type_ann(&mut self, pat: &mut Pat, span: Span, type_ann: Box<TsType>) {
+        let type_ann = Some(Box::new(TsTypeAnn { span, type_ann }));
+
+        match pat {
+            Pat::Ident(BindingIdent {
+                type_ann: target, ..
+            })
+            | Pat::Array(ArrayPat {
+                type_ann: target, ..
+            })
+            | Pat::Object(ObjectPat {
+                type_ann: target, ..
+            })
+            | Pat::Rest(RestPat {
+                type_ann: target, ..
+            }) => {
+                *target = type_ann;
+            }
+            _ => {
+                self.emit_err(pat.span(), SyntaxError::InvalidPat);
+            }
+        }
+    }
+
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
     pub(super) fn reparse_expr_as_pat(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {
@@ -98,6 +122,32 @@ impl<I: Tokens> Parser<I> {
         // In dts, we do not reparse.
         debug_assert!(!self.input().syntax().dts());
         let span = expr.span();
+
+        if pat_ty == PatType::BindingPat {
+            match *expr {
+                Expr::TsAs(TsAsExpr {
+                    expr,
+                    type_ann,
+                    span,
+                })
+                | Expr::TsTypeAssertion(TsTypeAssertion {
+                    expr,
+                    type_ann,
+                    span,
+                })
+                | Expr::TsSatisfies(TsSatisfiesExpr {
+                    expr,
+                    type_ann,
+                    span,
+                }) => {
+                    let mut pat = self.reparse_expr_as_pat_inner(pat_ty, expr)?;
+                    self.assign_pat_type_ann(&mut pat, span, type_ann);
+                    return Ok(pat);
+                }
+                _ => {}
+            }
+        }
+
         if pat_ty == PatType::AssignPat {
             match *expr {
                 Expr::Object(..) | Expr::Array(..) => {
