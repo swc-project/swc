@@ -16,7 +16,8 @@ use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax, TsSyntax};
 use swc_ecma_react_compiler::{
     compile_program, parse_plugin_options, CompilationMode, CompilerError, CompilerOutputMode,
     CompilerPass, CompilerReactTarget, DynamicGatingOptions, EnvironmentConfig, ErrorCategory,
-    ExternalFunction, PanicThresholdOptions, PluginOptions,
+    ExhaustiveEffectDependenciesMode, ExternalFunction, PanicThresholdOptions, PluginOptions,
+    SourceSelection,
 };
 
 fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
@@ -185,6 +186,11 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                         "19" => Some(CompilerReactTarget::React19),
                         "18" => Some(CompilerReactTarget::React18),
                         "17" => Some(CompilerReactTarget::React17),
+                        "donotuse_meta_internal" => {
+                            Some(CompilerReactTarget::DoNotUseMetaInternal {
+                                runtime_module: "react".into(),
+                            })
+                        }
                         _ => options.target,
                     };
                 } else if let Some(value) = parsed_value.as_i64() {
@@ -194,6 +200,14 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                         17 => Some(CompilerReactTarget::React17),
                         _ => options.target,
                     };
+                } else if let Some(object) = parsed_value.as_object() {
+                    let kind = object.get("kind").and_then(Value::as_str);
+                    let runtime_module = object.get("runtimeModule").and_then(Value::as_str);
+                    if kind == Some("donotuse_meta_internal") {
+                        options.target = Some(CompilerReactTarget::DoNotUseMetaInternal {
+                            runtime_module: runtime_module.unwrap_or("react").into(),
+                        });
+                    }
                 }
             }
             "ignoreUseNoForget" => {
@@ -226,7 +240,7 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                         .iter()
                         .filter_map(|item| item.as_str().map(ToOwned::to_owned))
                         .collect::<Vec<_>>();
-                    options.sources = Some(sources);
+                    options.sources = Some(SourceSelection::Prefixes(sources));
                 }
             }
             "dynamicGating" => {
@@ -271,7 +285,16 @@ fn parse_pragmas(source: &str) -> PluginOptions {
             }
             "validateNoCapitalizedCalls" => {
                 if let Some(value) = parsed_value.as_bool() {
-                    env.validate_no_capitalized_calls = value;
+                    env.validate_no_capitalized_calls = if value { Some(Vec::new()) } else { None };
+                    env_changed = true;
+                } else if let Some(value) = parsed_value.as_array() {
+                    env.validate_no_capitalized_calls = Some(
+                        value
+                            .iter()
+                            .filter_map(|item| item.as_str())
+                            .map(Atom::from)
+                            .collect(),
+                    );
                     env_changed = true;
                 }
             }
@@ -313,11 +336,20 @@ fn parse_pragmas(source: &str) -> PluginOptions {
             }
             "validateExhaustiveEffectDependencies" => {
                 if let Some(value) = parsed_value.as_bool() {
-                    env.validate_exhaustive_effect_dependencies = value;
+                    env.validate_exhaustive_effect_dependencies = if value {
+                        ExhaustiveEffectDependenciesMode::All
+                    } else {
+                        ExhaustiveEffectDependenciesMode::Off
+                    };
                     env_changed = true;
                 } else if let Some(value) = parsed_value.as_str() {
                     env.validate_exhaustive_effect_dependencies =
-                        !value.eq_ignore_ascii_case("off");
+                        match value.to_ascii_lowercase().as_str() {
+                            "all" => ExhaustiveEffectDependenciesMode::All,
+                            "missing-only" => ExhaustiveEffectDependenciesMode::MissingOnly,
+                            "extra-only" => ExhaustiveEffectDependenciesMode::ExtraOnly,
+                            _ => ExhaustiveEffectDependenciesMode::Off,
+                        };
                     env_changed = true;
                 }
             }
@@ -427,6 +459,9 @@ fn parse_pragma_value(raw: &str) -> Option<Value> {
             | "lint"
             | "all_errors"
             | "critical_errors"
+            | "off"
+            | "missing-only"
+            | "extra-only"
             | "none"
     ) {
         return Some(Value::String(token));
@@ -446,13 +481,38 @@ fn maybe_category_from_file(input: &Path) -> Option<ErrorCategory> {
     let raw = fs::read_to_string(path).ok()?;
     let key = raw.trim().to_ascii_lowercase();
     match key.as_str() {
+        "capitalizedcalls" | "capitalized_calls" => Some(ErrorCategory::CapitalizedCalls),
         "config" => Some(ErrorCategory::Config),
+        "effectdependencies" | "effect_dependencies" => Some(ErrorCategory::EffectDependencies),
+        "effectexhaustivedependencies" | "effect_exhaustive_dependencies" => {
+            Some(ErrorCategory::EffectExhaustiveDependencies)
+        }
+        "effectderivationsofstate" | "effect_derivations_of_state" => {
+            Some(ErrorCategory::EffectDerivationsOfState)
+        }
+        "effectsetstate" | "effect_set_state" => Some(ErrorCategory::EffectSetState),
+        "errorboundaries" | "error_boundaries" => Some(ErrorCategory::ErrorBoundaries),
+        "fbt" => Some(ErrorCategory::Fbt),
         "gating" => Some(ErrorCategory::Gating),
+        "globals" => Some(ErrorCategory::Globals),
+        "hooks" => Some(ErrorCategory::Hooks),
+        "immutability" => Some(ErrorCategory::Immutability),
+        "incompatiblelibrary" | "incompatible_library" => Some(ErrorCategory::IncompatibleLibrary),
         "invariant" => Some(ErrorCategory::Invariant),
+        "memodependencies" | "memo_dependencies" => Some(ErrorCategory::MemoDependencies),
+        "preservemanualmemo" | "preserve_manual_memo" => Some(ErrorCategory::PreserveManualMemo),
+        "purity" => Some(ErrorCategory::Purity),
+        "refs" => Some(ErrorCategory::Refs),
+        "rendersetstate" | "render_set_state" => Some(ErrorCategory::RenderSetState),
+        "staticcomponents" | "static_components" => Some(ErrorCategory::StaticComponents),
+        "syntax" => Some(ErrorCategory::Syntax),
         "todo" => Some(ErrorCategory::Todo),
+        "unsupportedsyntax" | "unsupported_syntax" => Some(ErrorCategory::UnsupportedSyntax),
         "suppression" => Some(ErrorCategory::Suppression),
         "pipeline" => Some(ErrorCategory::Pipeline),
+        "usememo" | "use_memo" => Some(ErrorCategory::UseMemo),
         "validation" => Some(ErrorCategory::Validation),
+        "voidusememo" | "void_use_memo" => Some(ErrorCategory::VoidUseMemo),
         _ => None,
     }
 }
@@ -631,8 +691,36 @@ fn fixture_cases_local() {
 }
 
 #[test]
-fn fixture_cases_upstream_phase1() {
+fn fixture_cases_upstream() {
     if std::env::var("RUN_UPSTREAM_FIXTURES").ok().as_deref() != Some("1") {
+        return;
+    }
+
+    let fixture_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("tests")
+        .join("fixtures");
+    let manifest = fixture_root.join("upstream_manifest.txt");
+    let upstream_root = fixture_root.join("upstream");
+
+    let inputs = upstream_inputs(&manifest, &upstream_root);
+    assert!(
+        !inputs.is_empty(),
+        "no upstream fixtures found. run `scripts/sync_fixtures.sh --manifest \
+         tests/fixtures/upstream_manifest.txt --out-dir tests/fixtures/upstream` first"
+    );
+
+    for input in inputs {
+        run_fixture(input);
+    }
+}
+
+#[test]
+fn fixture_cases_upstream_phase1() {
+    if std::env::var("RUN_UPSTREAM_FIXTURES_PHASE1")
+        .ok()
+        .as_deref()
+        != Some("1")
+    {
         return;
     }
 
@@ -645,7 +733,9 @@ fn fixture_cases_upstream_phase1() {
     let inputs = upstream_inputs(&manifest, &upstream_root);
     assert!(
         !inputs.is_empty(),
-        "no upstream fixtures found. run `scripts/sync_fixtures.sh` first"
+        "no upstream phase1 fixtures found. run `scripts/sync_fixtures.sh --manifest \
+         tests/fixtures/upstream_phase1_manifest.txt --out-dir tests/fixtures/upstream_phase1` \
+         first"
     );
 
     for input in inputs {

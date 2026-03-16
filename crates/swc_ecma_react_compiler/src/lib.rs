@@ -22,8 +22,9 @@ pub use crate::{
     error::{CompilerDiagnostic, CompilerError, CompilerErrorDetail, ErrorCategory, ErrorSeverity},
     options::{
         default_options, parse_plugin_options, CompilationMode, CompilerOutputMode,
-        CompilerReactTarget, DynamicGatingOptions, EnvironmentConfig, ExternalFunction, Logger,
-        LoggerEvent, PanicThresholdOptions, ParsedPluginOptions, PluginOptions,
+        CompilerReactTarget, DynamicGatingOptions, EnvironmentConfig,
+        ExhaustiveEffectDependenciesMode, ExternalFunction, Logger, LoggerEvent,
+        PanicThresholdOptions, ParsedPluginOptions, PluginOptions, SourceSelection,
     },
     reactive_scopes::CodegenFunction,
 };
