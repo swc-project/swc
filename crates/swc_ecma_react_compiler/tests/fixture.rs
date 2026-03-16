@@ -21,6 +21,10 @@ use swc_ecma_react_compiler::{
 };
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
+fn strict_upstream_mode() -> bool {
+    true
+}
+
 fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     let cm = Lrc::new(SourceMap::default());
     let fm = cm.new_source_file(
@@ -60,10 +64,7 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     let program = parsed_es.unwrap_or_else(|err| {
         let allow_upstream_oracle = std::env::var("RUN_UPSTREAM_FIXTURES").ok().as_deref()
             == Some("1")
-            && std::env::var("SWC_REACT_COMPILER_STRICT_UPSTREAM")
-                .ok()
-                .as_deref()
-                != Some("1");
+            && !strict_upstream_mode();
         if allow_upstream_oracle {
             return swc_ecma_ast::Module::default();
         }
@@ -122,6 +123,14 @@ fn strip_literal_raws(program: &mut Program) {
     impl VisitMut for RawStripper {
         fn visit_mut_str(&mut self, string_lit: &mut swc_ecma_ast::Str) {
             string_lit.raw = None;
+        }
+
+        fn visit_mut_jsx_text(&mut self, jsx_text: &mut swc_ecma_ast::JSXText) {
+            let value = jsx_text.value.as_ref();
+            if value.contains('\n') && value.trim().is_empty() {
+                jsx_text.value = "\n".into();
+                jsx_text.raw = "\n".into();
+            }
         }
 
         fn visit_mut_lit(&mut self, lit: &mut swc_ecma_ast::Lit) {
@@ -562,10 +571,7 @@ fn run_fixture(input: PathBuf) {
         && input
             .components()
             .any(|part| part.as_os_str() == "upstream")
-        && std::env::var("SWC_REACT_COMPILER_STRICT_UPSTREAM")
-            .ok()
-            .as_deref()
-            != Some("1");
+        && !strict_upstream_mode();
     let (mut program, comments) =
         match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| parse(&input, &source))) {
             Ok(value) => value,
