@@ -58,8 +58,6 @@ struct DecoratorPass {
 struct ClassState {
     private_id_index: u32,
 
-    static_lhs: Vec<Ident>,
-    proto_lhs: Vec<Ident>,
     static_non_field_lhs: Vec<Ident>,
     proto_non_field_lhs: Vec<Ident>,
     static_field_lhs: Vec<Ident>,
@@ -479,17 +477,11 @@ impl DecoratorPass {
     }
 
     fn lhs_bucket_mut(&mut self, is_static: bool, is_field: bool) -> &mut Vec<Ident> {
-        if self.is_2023_11() {
-            match (is_static, is_field) {
-                (true, false) => &mut self.state.static_non_field_lhs,
-                (false, false) => &mut self.state.proto_non_field_lhs,
-                (true, true) => &mut self.state.static_field_lhs,
-                (false, true) => &mut self.state.proto_field_lhs,
-            }
-        } else if is_static {
-            &mut self.state.static_lhs
-        } else {
-            &mut self.state.proto_lhs
+        match (is_static, is_field) {
+            (true, false) => &mut self.state.static_non_field_lhs,
+            (false, false) => &mut self.state.proto_non_field_lhs,
+            (true, true) => &mut self.state.static_field_lhs,
+            (false, true) => &mut self.state.proto_field_lhs,
         }
     }
 
@@ -782,6 +774,41 @@ impl DecoratorPass {
         .as_arg()
     }
 
+    fn member_kind_value(dec: &Option<ExprOrSpread>) -> Option<i32> {
+        let dec = dec.as_ref()?;
+        let Expr::Array(arr) = dec.expr.as_ref() else {
+            return None;
+        };
+        let kind = arr.elems.get(1)?.as_ref()?;
+        let Expr::Lit(Lit::Num(kind)) = kind.expr.as_ref() else {
+            return None;
+        };
+        Some(kind.value as i32)
+    }
+
+    fn is_2022_field_dec(dec: &Option<ExprOrSpread>) -> bool {
+        Self::member_kind_value(dec)
+            .map(|kind| kind.rem_euclid(5) == 0)
+            .unwrap_or(false)
+    }
+
+    fn partition_2022_member_decs(
+        args: Vec<Option<ExprOrSpread>>,
+    ) -> (Vec<Option<ExprOrSpread>>, Vec<Option<ExprOrSpread>>) {
+        let mut non_fields = Vec::with_capacity(args.len());
+        let mut fields = Vec::new();
+
+        for arg in args {
+            if Self::is_2022_field_dec(&arg) {
+                fields.push(arg);
+            } else {
+                non_fields.push(arg);
+            }
+        }
+
+        (non_fields, fields)
+    }
+
     fn field_init_call_expr(
         &self,
         init: &Ident,
@@ -930,9 +957,11 @@ impl DecoratorPass {
                 .into_iter()
         } else {
             self.state
-                .static_lhs
+                .static_non_field_lhs
                 .drain(..)
-                .chain(self.state.proto_lhs.drain(..))
+                .chain(self.state.static_field_lhs.drain(..))
+                .chain(self.state.proto_non_field_lhs.drain(..))
+                .chain(self.state.proto_field_lhs.drain(..))
                 .collect::<Vec<_>>()
                 .into_iter()
         };
@@ -963,14 +992,31 @@ impl DecoratorPass {
             e_lhs.push(Some(init.into()));
         }
 
-        let member_decs = ArrayLit {
-            span: DUMMY_SP,
-            elems: self
-                .state
-                .init_static_args
-                .drain(..)
-                .chain(self.state.init_proto_args.drain(..))
-                .collect(),
+        let member_decs = if self.is_2023_11() {
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: self
+                    .state
+                    .init_static_args
+                    .drain(..)
+                    .chain(self.state.init_proto_args.drain(..))
+                    .collect(),
+            }
+        } else {
+            let (static_non_fields, static_fields) =
+                Self::partition_2022_member_decs(self.state.init_static_args.take());
+            let (proto_non_fields, proto_fields) =
+                Self::partition_2022_member_decs(self.state.init_proto_args.take());
+
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: static_non_fields
+                    .into_iter()
+                    .chain(static_fields)
+                    .chain(proto_non_fields)
+                    .chain(proto_fields)
+                    .collect(),
+            }
         };
         let class_decs = ArrayLit {
             span: DUMMY_SP,

@@ -1,4 +1,4 @@
-var _init_a, _init_extra_a, _init_b, _init_extra_b;
+let _init_a, _init_extra_a, _init_b, _init_extra_b;
 const dec = ()=>{};
 class Foo {
     static{
@@ -27,14 +27,9 @@ class Foo {
             ]
         ], 0, (o)=>#a in o));
     }
-    #a = (()=>{
-        const _value = _init_a(this);
-        _init_extra_a(this);
-        return _value;
-    })();
-    #b = (()=>{
-        const _value = _init_b(this, 123);
+    constructor(){
         _init_extra_b(this);
-        return _value;
-    })();
+    }
+    #a = _init_a(this);
+    #b = (_init_extra_a(this), _init_b(this, 123));
 }

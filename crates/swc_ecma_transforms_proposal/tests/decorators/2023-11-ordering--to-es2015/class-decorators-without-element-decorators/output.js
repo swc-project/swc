@@ -9,10 +9,10 @@ const classDec2 = (log)=>(cls, ctxClass)=>{
         ctxClass.addInitializer(()=>log.push("c4"));
     };
 {
-    var _dec, _dec1, _initClass, _computedKey, _computedKey1, _computedKey2;
+    let _dec, _dec1, _initClass, _computedKey, _computedKey1, _computedKey2;
     const log = [];
-    let _C;
-    _dec = classDec1(log), _dec1 = classDec2(log), _computedKey = log.push("k1"), _computedKey1 = log.push("k2"), _computedKey2 = log.push("k3");
+    _dec = classDec1(log), _dec1 = classDec2(log), _computedKey = _to_property_key(log.push("k1")), _computedKey1 = _to_property_key(log.push("k2")), _computedKey2 = _to_property_key(log.push("k3"));
+    let _C, _C_member;
     let _computedKey3 = _computedKey, _computedKey4 = _computedKey1, _computedKey5 = _computedKey2;
     class C {
         constructor(){
@@ -25,149 +25,130 @@ const classDec2 = (log)=>(cls, ctxClass)=>{
         _dec,
         _dec1
     ], []));
-    _initClass();
+    (()=>{
+        _initClass();
+        _C_member = _C;
+    })();
     expect(log.join()).toBe("k1,k2,k3," + // ClassElementEvaluation
     "c1,c2," + // ApplyDecoratorsToClassDefinition
     "c3,c4,c5,c6");
 }{
-    var _class;
-    var _dec2, _dec3, _initClass1, _computedKey3, _computedKey4, _computedKey5;
+    let _computedKey, _computedKey1, _ref, _computedKey2;
+    var _C, _class;
+    let _dec, _dec1, _initClass, _computedKey3, _computedKey4, _computedKey5;
     const log = [];
-    let _C;
-    _dec2 = classDec1(log), _dec3 = classDec2(log), _computedKey3 = log.push("k1"), _computedKey4 = log.push("k2"), _computedKey5 = log.push("k3");
-    new (_class = class extends _identity {
+    _dec = classDec1(log), _dec1 = classDec2(log), _computedKey3 = _to_property_key(log.push("k1")), _computedKey4 = _to_property_key(log.push("k2")), _computedKey5 = _to_property_key(log.push("k3"));
+    let _C1, _C_member;
+    new (_ref = (_computedKey = _computedKey4, _computedKey1 = _computedKey5, _C = class C {
+        async [_computedKey](v) {}
         constructor(){
-            super(_C), _initClass1();
+            _define_property(this, _computedKey1, void 0);
         }
-    }, (()=>{
-        let _computedKey = _computedKey4, _computedKey1 = _computedKey5;
-        class C {
-            async [_computedKey](v) {}
-            constructor(){
-                _define_property(this, _computedKey1, void 0);
-            }
+    }, { c: [_C1, _initClass] } = _apply_decs_2311(_C, [
+        _dec,
+        _dec1
+    ], []), _C), _computedKey2 = _computedKey3, _class = class extends _identity {
+        constructor(){
+            super(_C1), _define_property(this, _computedKey2, void 0), _initClass(), _C_member = _C1;
         }
-        ({ c: [_C, _initClass1] } = _apply_decs_2311(C, [
-            _dec2,
-            _dec3
-        ], []));
-        _define_property(C, _computedKey3, void 0);
-    })(), _class)();
+    }, _define_property(_class, _ref, void 0), _class)();
     expect(log.join()).toBe("k1,k2,k3," + // ClassElementEvaluation
     "c1,c2," + // ApplyDecoratorsToClassDefinition
     "c3,c4,c5,c6");
 }{
-    var _class1;
-    var _dec4, _dec5, _initClass2, _computedKey6, _computedKey7, _computedKey8;
+    let _computedKey, _computedKey1, _ref, _computedKey2;
+    var _C1, _class1;
+    let _dec, _dec1, _initClass, _computedKey3, _computedKey4, _computedKey5;
     const log = [];
-    let _C;
-    _dec4 = classDec1(log), _dec5 = classDec2(log), _computedKey6 = log.push("k1"), _computedKey7 = log.push("k2"), _computedKey8 = log.push("k3");
-    new (_class1 = class extends _identity {
+    _dec = classDec1(log), _dec1 = classDec2(log), _computedKey3 = _to_property_key(log.push("k1")), _computedKey4 = _to_property_key(log.push("k2")), _computedKey5 = _to_property_key(log.push("k3"));
+    let _C, _C_member;
+    new (_ref = (_computedKey = _computedKey3, _computedKey1 = _computedKey5, _C1 = class C {
+        get [_computedKey]() {}
         constructor(){
-            super(_C), _initClass2();
+            _define_property(this, _computedKey1, void 0);
         }
-    }, (()=>{
-        let _computedKey = _computedKey6, _computedKey1 = _computedKey8;
-        class C {
-            get [_computedKey]() {}
-            constructor(){
-                _define_property(this, _computedKey1, void 0);
-            }
+    }, { c: [_C, _initClass] } = _apply_decs_2311(_C1, [
+        _dec,
+        _dec1
+    ], []), _C1), _computedKey2 = _computedKey4, _class1 = class extends _identity {
+        constructor(){
+            super(_C), _define_property(this, _computedKey2, void 0), _initClass(), _C_member = _C;
         }
-        ({ c: [_C, _initClass2] } = _apply_decs_2311(C, [
-            _dec4,
-            _dec5
-        ], []));
-        _define_property(C, _computedKey7, void 0);
-    })(), _class1)();
+    }, _define_property(_class1, _ref, void 0), _class1)();
     expect(log.join()).toBe("k1,k2,k3," + // ClassElementEvaluation
     "c1,c2," + // ApplyDecoratorsToClassDefinition
     "c3,c4,c5,c6");
 }{
-    var _class2;
-    var _dec6, _dec7, _initClass3, _computedKey9, _computedKey10, _computedKey11;
+    let _computedKey, _computedKey1, _computedKey2, _ref, _computedKey3;
+    var ____private__computedKey_1, _C2, _class2;
+    let _dec, _dec1, _initClass, _computedKey4, _computedKey5, _computedKey6;
     const log = [];
-    let _C;
-    _dec6 = classDec1(log), _dec7 = classDec2(log), _computedKey9 = log.push("k1"), _computedKey10 = log.push("k3"), _computedKey11 = log.push("k2");
-    new (_class2 = class extends _identity {
+    _dec = classDec1(log), _dec1 = classDec2(log), _computedKey4 = _to_property_key(log.push("k1")), _computedKey5 = _to_property_key(log.push("k2")), _computedKey6 = _to_property_key(log.push("k3"));
+    let _C, _C_member;
+    new (_ref = (____private__computedKey_1 = /*#__PURE__*/ new WeakMap(), _computedKey = _computedKey4, _computedKey1 = _computedKey5, _computedKey2 = _computedKey5, _C2 = class C {
+        get [_computedKey1]() {
+            return _class_private_field_get(this, ____private__computedKey_1);
+        }
+        set [_computedKey2](_v) {
+            _class_private_field_set(this, ____private__computedKey_1, _v);
+        }
         constructor(){
-            super(_C), _initClass3();
+            _define_property(this, _computedKey, void 0);
+            _class_private_field_init(this, ____private__computedKey_1, {
+                writable: true,
+                value: void 0
+            });
         }
-    }, (()=>{
-        var ____private_computedKey_1 = /*#__PURE__*/ new WeakMap();
-        let _computedKey = _computedKey9, _computedKey1 = _computedKey11, _computedKey2 = _computedKey11, _computedKey3 = _computedKey10;
-        class C {
-            get [_computedKey1]() {
-                return _class_private_field_get(this, ____private_computedKey_1);
-            }
-            set [_computedKey2](_v) {
-                _class_private_field_set(this, ____private_computedKey_1, _v);
-            }
-            constructor(){
-                _define_property(this, _computedKey, void 0);
-                _class_private_field_init(this, ____private_computedKey_1, {
-                    writable: true,
-                    value: void 0
-                });
-            }
+    }, { c: [_C, _initClass] } = _apply_decs_2311(_C2, [
+        _dec,
+        _dec1
+    ], []), _C2), _computedKey3 = _computedKey6, _class2 = class extends _identity {
+        constructor(){
+            super(_C), _define_property(this, _computedKey3, void 0), _initClass(), _C_member = _C;
         }
-        ({ c: [_C, _initClass3] } = _apply_decs_2311(C, [
-            _dec6,
-            _dec7
-        ], []));
-        _define_property(C, _computedKey3, void 0);
-    })(), _class2)();
+    }, _define_property(_class2, _ref, void 0), _class2)();
     expect(log.join()).toBe("k1,k2,k3," + // ClassElementEvaluation
     "c1,c2," + // ApplyDecoratorsToClassDefinition
     "c3,c4,c5,c6");
 }{
-    var _class3;
-    var _dec8, _dec9, _initClass4, _computedKey12, _computedKey13, _computedKey14;
+    let _computedKey, _computedKey1, _ref, _computedKey2;
+    var _C3, _class3;
+    let _dec, _dec1, _initClass, _computedKey3, _computedKey4, _computedKey5;
     const log = [];
-    let _C;
-    _dec8 = classDec1(log), _dec9 = classDec2(log), _computedKey12 = log.push("k1"), _computedKey13 = log.push("k2"), _computedKey14 = log.push("k3");
-    new (_class3 = class extends _identity {
+    _dec = classDec1(log), _dec1 = classDec2(log), _computedKey3 = _to_property_key(log.push("k1")), _computedKey4 = _to_property_key(log.push("k2")), _computedKey5 = _to_property_key(log.push("k3"));
+    let _C, _C_member;
+    new (_ref = (_computedKey = _computedKey3, _computedKey1 = _computedKey4, _C3 = class C {
+        static set [_computedKey](v) {}
         constructor(){
-            super(_C), _initClass4();
+            _define_property(this, _computedKey1, void 0);
         }
-    }, (()=>{
-        let _computedKey = _computedKey12, _computedKey1 = _computedKey13, _computedKey2 = _computedKey14;
-        class C {
-            static set [_computedKey](v) {}
-            constructor(){
-                _define_property(this, _computedKey1, void 0);
-            }
+    }, { c: [_C, _initClass] } = _apply_decs_2311(_C3, [
+        _dec,
+        _dec1
+    ], []), _C3), _computedKey2 = _computedKey5, _class3 = class extends _identity {
+        constructor(){
+            super(_C), _define_property(this, _computedKey2, void 0), _initClass(), _C_member = _C;
         }
-        ({ c: [_C, _initClass4] } = _apply_decs_2311(C, [
-            _dec8,
-            _dec9
-        ], []));
-        _define_property(C, _computedKey2, void 0);
-    })(), _class3)();
+    }, _define_property(_class3, _ref, void 0), _class3)();
     expect(log.join()).toBe("k1,k2,k3," + // ClassElementEvaluation
     "c1,c2," + // ApplyDecoratorsToClassDefinition
     "c3,c4,c5,c6");
 }{
-    var _class4;
-    var _dec10, _dec11, _initClass5, _computedKey15, _computedKey16, _computedKey17;
+    let _ref, _computedKey, _computedKey1, _computedKey2;
+    var _C4, _class4;
+    let _dec, _dec1, _initClass, _computedKey3, _computedKey4, _computedKey5;
     const log = [];
-    let _C;
-    _dec10 = classDec1(log), _dec11 = classDec2(log), _computedKey15 = log.push("k1"), _computedKey16 = log.push("k2"), _computedKey17 = log.push("k3");
-    new (_class4 = class extends _identity {
+    _dec = classDec1(log), _dec1 = classDec2(log), _computedKey3 = _to_property_key(log.push("k1")), _computedKey4 = _to_property_key(log.push("k2")), _computedKey5 = _to_property_key(log.push("k3"));
+    let _C, _C_member;
+    new (_ref = (_C4 = class C {
+    }, { c: [_C, _initClass] } = _apply_decs_2311(_C4, [
+        _dec,
+        _dec1
+    ], []), _C4), _computedKey = _computedKey3, _computedKey1 = _computedKey4, _computedKey2 = _computedKey5, _class4 = class extends _identity {
         constructor(){
-            super(_C), _initClass5();
+            super(_C), _define_property(this, _computedKey, void 0), _define_property(this, _computedKey1, void 0), _define_property(this, _computedKey2, void 0), _initClass(), _C_member = _C;
         }
-    }, (()=>{
-        class C {
-        }
-        ({ c: [_C, _initClass5] } = _apply_decs_2311(C, [
-            _dec10,
-            _dec11
-        ], []));
-        _define_property(C, _computedKey15, void 0);
-        _define_property(C, _computedKey16, void 0);
-        _define_property(C, _computedKey17, void 0);
-    })(), _class4)();
+    }, _define_property(_class4, _ref, void 0), _class4)();
     expect(log.join()).toBe("k1,k2,k3," + // ClassElementEvaluation
     "c1,c2," + // ApplyDecoratorsToClassDefinition
     "c3,c4,c5,c6");

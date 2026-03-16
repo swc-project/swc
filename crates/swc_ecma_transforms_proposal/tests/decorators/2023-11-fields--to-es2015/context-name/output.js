@@ -1,4 +1,4 @@
-var _computedKey, _computedKey1, _computedKey2, _computedKey3, _computedKey4, _computedKey5, _computedKey6, _init_a, _init_extra__init_a, _init_a1, _init_extra_a, _init__computedKey, _init_extra__init__computedKey, _init__computedKey1, _init_extra__init__computedKey1, _init__computedKey2, _init_extra__init__computedKey2, _init__computedKey3, _init_extra__init__computedKey3, _init__computedKey4, _init_extra__init__computedKey4, _init__computedKey5, _init_extra__init__computedKey5, _init__computedKey6, _init_extra__init__computedKey6;
+let _computedKey, _computedKey1, _computedKey2, _computedKey3, _computedKey4, _computedKey5, _computedKey6, _init_a, _init_extra__init_a, _init_a1, _init_extra_a, _init__computedKey, _init_extra__init__computedKey, _init__computedKey1, _init_extra__init__computedKey1, _init__computedKey2, _init_extra__init__computedKey2, _init__computedKey3, _init_extra__init__computedKey3, _init__computedKey4, _init_extra__init__computedKey4, _init__computedKey5, _init_extra__init__computedKey5, _init__computedKey6, _init_extra__init__computedKey6;
 const logs = [];
 const dec = (value, context)=>{
     logs.push(context.name);
@@ -9,7 +9,7 @@ const f = ()=>{
         [Symbol.toPrimitive]: ()=>(logs.push("calling toPrimitive"), "f()")
     };
 };
-_computedKey = "b", _computedKey1 = "c", _computedKey2 = 0, _computedKey3 = 1, _computedKey4 = 2n, _computedKey5 = 3n, _computedKey6 = f();
+_computedKey = _to_property_key("b"), _computedKey1 = _to_property_key("c"), _computedKey2 = _to_property_key(0), _computedKey3 = _to_property_key(1), _computedKey4 = _to_property_key(2n), _computedKey5 = _to_property_key(3n), _computedKey6 = _to_property_key(f());
 class Foo {
 }
 ({ e: [_init_a, _init_extra__init_a, _init_a1, _init_extra_a, _init__computedKey, _init_extra__init__computedKey, _init__computedKey1, _init_extra__init__computedKey1, _init__computedKey2, _init_extra__init__computedKey2, _init__computedKey3, _init_extra__init__computedKey3, _init__computedKey4, _init_extra__init__computedKey4, _init__computedKey5, _init_extra__init__computedKey5, _init__computedKey6, _init_extra__init__computedKey6] } = _apply_decs_2311(Foo, [], [

@@ -1,28 +1,28 @@
-var _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _computedKey, _init_computedKey, _init_extra__init_computedKey;
+let _computedKey, _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
+_computedKey = _to_property_key('c');
 let _computedKey1 = _computedKey, _computedKey2 = _computedKey;
 class Foo {
     static get a() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_a_1);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private_a_1);
     }
     static set a(_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_a_1, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private_a_1, _v);
     }
     static get b() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_b_2);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private_b_2);
     }
     static set b(_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_b_2, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private_b_2, _v);
     }
     static get [_computedKey1]() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_3);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private__computedKey_3);
     }
     static set [_computedKey2](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_3, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private__computedKey_3, _v);
     }
 }
-({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init_computedKey, _init_extra__init_computedKey] } = _apply_decs_2311(Foo, [], [
+({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey] } = _apply_decs_2311(Foo, [], [
     [
         dec,
         9,
@@ -55,11 +55,11 @@ var ____private_b_2 = {
         return _value;
     })()
 };
-var ____private_computedKey_3 = {
+var ____private__computedKey_3 = {
     writable: true,
     value: (()=>{
-        const _value = _init_computedKey(456);
-        _init_extra__init_computedKey();
+        const _value = _init__computedKey(456);
+        _init_extra__init__computedKey();
         return _value;
     })()
 };

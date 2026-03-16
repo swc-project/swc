@@ -1,6 +1,6 @@
-var _computedKey, _computedKey1, _initProto;
+let _computedKey, _computedKey1, _initProto;
 const dec = ()=>{};
-_computedKey = getKey(), _computedKey1 = getKey();
+_computedKey = _to_property_key(getKey()), _computedKey1 = _to_property_key(getKey());
 let _computedKey2 = _computedKey, _computedKey3 = _computedKey1;
 class Foo {
     [_computedKey2]() {

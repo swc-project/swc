@@ -1,6 +1,6 @@
-var _computedKey, _initStatic;
+let _computedKey, _initStatic;
 const dec = ()=>{};
-_computedKey = 'b';
+_computedKey = _to_property_key('b');
 let _computedKey1 = _computedKey;
 class Foo {
     static get a() {

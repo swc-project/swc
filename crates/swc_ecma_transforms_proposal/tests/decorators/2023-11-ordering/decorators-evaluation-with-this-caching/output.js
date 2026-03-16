@@ -1,4 +1,4 @@
-var _dec, _dec_this, _initProto;
+let _dec, _dec_this, _initProto;
 let fn, obj;
 _dec = fn(), _dec_this = obj.prop;
 class A {

@@ -4,8 +4,8 @@ function noopFactory() {
     };
 }
 {
-    var _computedKey, _dec, _init_p, _init_extra_p;
-    _computedKey = ("a1", "a2"), _dec = noopFactory(0);
+    let _computedKey, _dec, _init_p, _init_extra_p;
+    _computedKey = _to_property_key(("a1", "a2")), _dec = noopFactory(0);
     class C {
         static{
             ({ e: [_init_p, _init_extra_p] } = _apply_decs_2311(this, [], [
@@ -22,22 +22,21 @@ function noopFactory() {
                 ]
             ], 0, (o)=>#p in o));
         }
-        [_computedKey]() {}
-        #p = (()=>{
-            const _value = _init_p(this);
+        constructor(){
             _init_extra_p(this);
-            return _value;
-        })();
+        }
+        [_computedKey]() {}
+        #p = _init_p(this);
     }
     expect(new C()).toHaveProperty("a2");
 }{
-    var _computedKey1, _dec1, _init_p1, _init_extra_p1;
-    _computedKey1 = ("a1", "b2"), _dec1 = noopFactory(1);
+    let _computedKey, _dec, _init_p, _init_extra_p;
+    _computedKey = _to_property_key(("a1", "b2")), _dec = noopFactory(1);
     class C {
         static{
-            ({ e: [_init_p1, _init_extra_p1] } = _apply_decs_2311(this, [], [
+            ({ e: [_init_p, _init_extra_p] } = _apply_decs_2311(this, [], [
                 [
-                    _dec1,
+                    _dec,
                     0,
                     "p",
                     function(_this) {
@@ -49,12 +48,11 @@ function noopFactory() {
                 ]
             ], 0, (o)=>#p in o));
         }
-        [_computedKey1]() {}
-        #p = (()=>{
-            const _value = _init_p1(this);
-            _init_extra_p1(this);
-            return _value;
-        })();
+        constructor(){
+            _init_extra_p(this);
+        }
+        [_computedKey]() {}
+        #p = _init_p(this);
     }
     expect(new C()).toHaveProperty("b2");
 }

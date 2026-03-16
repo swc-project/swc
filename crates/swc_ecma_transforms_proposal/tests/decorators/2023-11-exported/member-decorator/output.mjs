@@ -1,4 +1,4 @@
-var _init_x, _init_extra__init_x;
+let _init_x, _init_extra__init_x;
 export class A {
     static{
         ({ e: [_init_x, _init_extra__init_x] } = _apply_decs_2311(this, [], [
@@ -9,9 +9,8 @@ export class A {
             ]
         ]));
     }
-    x = (()=>{
-        const _value = _init_x(this);
+    constructor(){
         _init_extra__init_x(this);
-        return _value;
-    })();
+    }
+    x = _init_x(this);
 }

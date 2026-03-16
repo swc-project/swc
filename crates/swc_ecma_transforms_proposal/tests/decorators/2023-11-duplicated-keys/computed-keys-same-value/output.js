@@ -1,6 +1,6 @@
-var _computedKey, _computedKey1, _initProto;
+let _computedKey, _computedKey1, _initProto;
 const dec = ()=>{};
-_computedKey = getKeyI(), _computedKey1 = getKeyJ();
+_computedKey = _to_property_key(getKeyI()), _computedKey1 = _to_property_key(getKeyJ());
 class Foo {
     static{
         ({ e: [_initProto] } = _apply_decs_2311(this, [], [

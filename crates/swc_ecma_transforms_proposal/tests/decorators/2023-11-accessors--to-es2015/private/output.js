@@ -1,4 +1,4 @@
-var _init_a, _init_extra__init_a, _get___a, _set___a, _init_b, _init_extra__init_b, _get___b, _set___b;
+let _init_a, _init_extra__init_a, _get___a, _set___a, _init_b, _init_extra__init_b, _get___b, _set___b;
 const dec = ()=>{};
 var ___a_1 = /*#__PURE__*/ new WeakMap(), _a = /*#__PURE__*/ new WeakMap(), ___b_2 = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();
 class Foo {

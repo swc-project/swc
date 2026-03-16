@@ -1,5 +1,5 @@
 var _Bar;
-var _initClass, _Bar1;
+let _initClass, _Bar1;
 const dec = ()=>{};
 const Foo = ((_Bar = class Bar {
     constructor(){

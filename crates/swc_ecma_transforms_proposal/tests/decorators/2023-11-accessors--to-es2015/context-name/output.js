@@ -1,4 +1,4 @@
-var _init_a, _init_extra__init_a, _init_a1, _init_extra__init_a1, _get___a, _set___a, _computedKey, _init_computedKey, _init_extra__init_computedKey, _computedKey1, _init_computedKey1, _init_extra__init_computedKey1, _computedKey2, _init_computedKey2, _init_extra__init_computedKey2, _computedKey3, _init_computedKey3, _init_extra__init_computedKey3, _computedKey4, _init_computedKey4, _init_extra__init_computedKey4, _computedKey5, _init_computedKey5, _init_extra__init_computedKey5, _computedKey6, _init_computedKey6, _init_extra__init_computedKey6;
+let _computedKey, _computedKey1, _computedKey2, _computedKey3, _computedKey4, _computedKey5, _computedKey6, _init_a, _init_extra__init_a, _init_a1, _init_extra__init_a1, _get___a, _set___a, _init__computedKey, _init_extra__init__computedKey, _init__computedKey1, _init_extra__init__computedKey1, _init__computedKey2, _init_extra__init__computedKey2, _init__computedKey3, _init_extra__init__computedKey3, _init__computedKey4, _init_extra__init__computedKey4, _init__computedKey5, _init_extra__init__computedKey5, _init__computedKey6, _init_extra__init__computedKey6;
 const logs = [];
 const dec = (value, context)=>{
     logs.push(context.name);
@@ -9,63 +9,63 @@ const f = ()=>{
         [Symbol.toPrimitive]: ()=>(logs.push("calling toPrimitive"), "f()")
     };
 };
-_computedKey = "b", _computedKey1 = "c", _computedKey2 = 0, _computedKey3 = 1, _computedKey4 = 2n, _computedKey5 = 3n, _computedKey6 = f();
+_computedKey = _to_property_key("b"), _computedKey1 = _to_property_key("c"), _computedKey2 = _to_property_key(0), _computedKey3 = _to_property_key(1), _computedKey4 = _to_property_key(2n), _computedKey5 = _to_property_key(3n), _computedKey6 = _to_property_key(f());
 let _computedKey7 = _computedKey, _computedKey8 = _computedKey, _computedKey9 = _computedKey1, _computedKey10 = _computedKey1, _computedKey11 = _computedKey2, _computedKey12 = _computedKey2, _computedKey13 = _computedKey3, _computedKey14 = _computedKey3, _computedKey15 = _computedKey4, _computedKey16 = _computedKey4, _computedKey17 = _computedKey5, _computedKey18 = _computedKey5, _computedKey19 = _computedKey6, _computedKey20 = _computedKey6;
 class Foo {
     static get a() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_a_1);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private_a_1);
     }
     static set a(_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_a_1, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private_a_1, _v);
     }
     static get [_computedKey7]() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_3);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private__computedKey_3);
     }
     static set [_computedKey8](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_3, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private__computedKey_3, _v);
     }
     static get [_computedKey9]() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_4);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private__computedKey_4);
     }
     static set [_computedKey10](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_4, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private__computedKey_4, _v);
     }
     static get [_computedKey11]() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_5);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private__computedKey_5);
     }
     static set [_computedKey12](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_5, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private__computedKey_5, _v);
     }
     static get [_computedKey13]() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_6);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private__computedKey_6);
     }
     static set [_computedKey14](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_6, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private__computedKey_6, _v);
     }
     static get [_computedKey15]() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_7);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private__computedKey_7);
     }
     static set [_computedKey16](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_7, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private__computedKey_7, _v);
     }
     static get [_computedKey17]() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_8);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private__computedKey_8);
     }
     static set [_computedKey18](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_8, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private__computedKey_8, _v);
     }
     static get [_computedKey19]() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_9);
+        return _class_static_private_field_spec_get(Foo, Foo, ____private__computedKey_9);
     }
     static set [_computedKey20](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_9, _v);
+        _class_static_private_field_spec_set(Foo, Foo, ____private__computedKey_9, _v);
     }
 }
 var _a = {
     get: get_a,
     set: set_a
 };
-({ e: [_init_a, _init_extra__init_a, _init_a1, _get___a, _set___a, _init_extra__init_a1, _init_computedKey, _init_extra__init_computedKey, _init_computedKey1, _init_extra__init_computedKey1, _init_computedKey2, _init_extra__init_computedKey2, _init_computedKey3, _init_extra__init_computedKey3, _init_computedKey4, _init_extra__init_computedKey4, _init_computedKey5, _init_extra__init_computedKey5, _init_computedKey6, _init_extra__init_computedKey6] } = _apply_decs_2311(Foo, [], [
+({ e: [_init_a, _init_extra__init_a, _init_a1, _get___a, _set___a, _init_extra__init_a1, _init__computedKey, _init_extra__init__computedKey, _init__computedKey1, _init_extra__init__computedKey1, _init__computedKey2, _init_extra__init__computedKey2, _init__computedKey3, _init_extra__init__computedKey3, _init__computedKey4, _init_extra__init__computedKey4, _init__computedKey5, _init_extra__init__computedKey5, _init__computedKey6, _init_extra__init__computedKey6] } = _apply_decs_2311(Foo, [], [
     [
         dec,
         9,
@@ -134,59 +134,59 @@ var ___a_2 = {
         return _value;
     })()
 };
-var ____private_computedKey_3 = {
+var ____private__computedKey_3 = {
     writable: true,
     value: (()=>{
-        const _value = _init_computedKey();
-        _init_extra__init_computedKey();
+        const _value = _init__computedKey();
+        _init_extra__init__computedKey();
         return _value;
     })()
 };
-var ____private_computedKey_4 = {
+var ____private__computedKey_4 = {
     writable: true,
     value: (()=>{
-        const _value = _init_computedKey1();
-        _init_extra__init_computedKey1();
+        const _value = _init__computedKey1();
+        _init_extra__init__computedKey1();
         return _value;
     })()
 };
-var ____private_computedKey_5 = {
+var ____private__computedKey_5 = {
     writable: true,
     value: (()=>{
-        const _value = _init_computedKey2();
-        _init_extra__init_computedKey2();
+        const _value = _init__computedKey2();
+        _init_extra__init__computedKey2();
         return _value;
     })()
 };
-var ____private_computedKey_6 = {
+var ____private__computedKey_6 = {
     writable: true,
     value: (()=>{
-        const _value = _init_computedKey3();
-        _init_extra__init_computedKey3();
+        const _value = _init__computedKey3();
+        _init_extra__init__computedKey3();
         return _value;
     })()
 };
-var ____private_computedKey_7 = {
+var ____private__computedKey_7 = {
     writable: true,
     value: (()=>{
-        const _value = _init_computedKey4();
-        _init_extra__init_computedKey4();
+        const _value = _init__computedKey4();
+        _init_extra__init__computedKey4();
         return _value;
     })()
 };
-var ____private_computedKey_8 = {
+var ____private__computedKey_8 = {
     writable: true,
     value: (()=>{
-        const _value = _init_computedKey5();
-        _init_extra__init_computedKey5();
+        const _value = _init__computedKey5();
+        _init_extra__init__computedKey5();
         return _value;
     })()
 };
-var ____private_computedKey_9 = {
+var ____private__computedKey_9 = {
     writable: true,
     value: (()=>{
-        const _value = _init_computedKey6();
-        _init_extra__init_computedKey6();
+        const _value = _init__computedKey6();
+        _init_extra__init__computedKey6();
         return _value;
     })()
 };

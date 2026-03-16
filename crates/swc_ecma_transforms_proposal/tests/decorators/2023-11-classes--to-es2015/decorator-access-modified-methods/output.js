@@ -1,11 +1,11 @@
-var _initClass, _initProto;
+let _initClass, _initProto;
 var value;
 const classDec = (Class)=>{
     value = (new Class).m();
     return Class;
 };
 const memberDec = ()=>()=>42;
-let _C;
+let _C, _C_member;
 class C {
     m() {}
     constructor(){
@@ -21,4 +21,7 @@ class C {
         "m"
     ]
 ]));
-_initClass();
+(()=>{
+    _initClass();
+    _C_member = _C;
+})();

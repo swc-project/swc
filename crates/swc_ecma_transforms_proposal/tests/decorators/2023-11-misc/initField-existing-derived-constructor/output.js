@@ -1,5 +1,5 @@
 {
-    var _init_foo, _init_extra__init_foo;
+    let _init_foo, _init_extra__init_foo;
     let self, a, initCalled;
     function deco(_, context) {
         context.addInitializer(()=>{
@@ -61,12 +61,12 @@
         }
     }
     {
-        var _init_foo1, _init_extra__init_foo1;
+        let _init_foo, _init_extra__init_foo;
         "super() nested within another constructor should not be transformed";
         let log = [];
         class A extends B {
             static{
-                ({ e: [_init_foo1, _init_extra__init_foo1] } = _apply_decs_2311(this, [], [
+                ({ e: [_init_foo, _init_extra__init_foo] } = _apply_decs_2311(this, [], [
                     [
                         dec,
                         1,
@@ -83,8 +83,8 @@
                 }();
             }
             #___private_foo_1 = (()=>{
-                const _value = _init_foo1(this, 42);
-                _init_extra__init_foo1(this);
+                const _value = _init_foo(this, 42);
+                _init_extra__init_foo(this);
                 return _value;
             })();
             get foo() {
@@ -103,9 +103,9 @@
         let log = [];
         new class Dummy extends B {
             constructor(){
-                var _computedKey, _init_foo, _init_extra__init_foo;
+                let _computedKey, _init_foo, _init_extra__init_foo;
                 let key;
-                _computedKey = (key = super(5).method(), log.push(key), key);
+                _computedKey = _to_property_key((key = super(5).method(), log.push(key), key));
                 class A extends B {
                     static{
                         ({ e: [_init_foo, _init_extra__init_foo] } = _apply_decs_2311(this, [], [
@@ -144,7 +144,7 @@
         const noop = ()=>(fn)=>fn;
         new class extends B {
             constructor(){
-                var _dec, _init_foo, _init_extra__init_foo, _initProto;
+                let _dec, _init_foo, _init_extra__init_foo, _initProto;
                 _dec = noop(log.push(super(7).method()));
                 class A extends B {
                     static{
@@ -184,12 +184,12 @@
         expect(log + "").toBe("7,8");
     }
     {
-        var _init_foo2, _init_extra__init_foo2;
+        let _init_foo, _init_extra__init_foo;
         "super() within decorated derived constructor should be transformed: computed key";
         let log = [];
         class A extends B {
             static{
-                ({ e: [_init_foo2, _init_extra__init_foo2] } = _apply_decs_2311(this, [], [
+                ({ e: [_init_foo, _init_extra__init_foo] } = _apply_decs_2311(this, [], [
                     [
                         dec,
                         1,
@@ -198,9 +198,9 @@
                 ]));
             }
             constructor(){
-                var _computedKey;
+                let _computedKey;
                 let key;
-                _computedKey = (key = super(9).method(), log.push(key), key);
+                _computedKey = _to_property_key((key = super(9).method(), log.push(key), key));
                 new class Dummy extends B {
                     constructor(){
                         log.push(super(10).method());
@@ -209,8 +209,8 @@
                 }();
             }
             #___private_foo_1 = (()=>{
-                const _value = _init_foo2(this, 42);
-                _init_extra__init_foo2(this);
+                const _value = _init_foo(this, 42);
+                _init_extra__init_foo(this);
                 return _value;
             })();
             get foo() {
@@ -225,13 +225,13 @@
         expect(a.foo).toBe(142);
     }
     {
-        var _init_foo3, _init_extra__init_foo3;
+        let _init_foo, _init_extra__init_foo;
         "super() within decorated derived constructor should be transformed: decorator expression";
         let log = [];
         const noop = ()=>(fn)=>fn;
         class A extends B {
             static{
-                ({ e: [_init_foo3, _init_extra__init_foo3] } = _apply_decs_2311(this, [], [
+                ({ e: [_init_foo, _init_extra__init_foo] } = _apply_decs_2311(this, [], [
                     [
                         dec,
                         1,
@@ -240,7 +240,7 @@
                 ]));
             }
             constructor(){
-                var _dec, _initProto;
+                let _dec, _initProto;
                 _dec = noop(log.push(super(11).method()));
                 new class Dummy extends B {
                     static{
@@ -262,8 +262,8 @@
                 }();
             }
             #___private_foo_1 = (()=>{
-                const _value = _init_foo3(this, 42);
-                _init_extra__init_foo3(this);
+                const _value = _init_foo(this, 42);
+                _init_extra__init_foo(this);
                 return _value;
             })();
             get foo() {

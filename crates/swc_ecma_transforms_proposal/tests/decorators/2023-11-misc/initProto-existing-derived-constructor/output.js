@@ -1,5 +1,5 @@
 {
-    var _initProto;
+    let _initProto;
     let self, a, initCalled;
     function deco(_, context) {
         context.addInitializer(()=>{
@@ -49,12 +49,12 @@
         }
     }
     {
-        var _initProto1;
+        let _initProto;
         "super() nested within another constructor should not be transformed";
         let log = [];
         class A extends B {
             static{
-                ({ e: [_initProto1] } = _apply_decs_2311(this, [], [
+                ({ e: [_initProto] } = _apply_decs_2311(this, [], [
                     [
                         dec,
                         2,
@@ -65,7 +65,7 @@
             constructor(){
                 log.push([
                     super(3),
-                    _initProto1(this)
+                    _initProto(this)
                 ][0].method());
                 new class Dummy extends B {
                     constructor(){
@@ -85,9 +85,9 @@
         let log = [];
         new class Dummy extends B {
             constructor(){
-                var _computedKey, _initProto;
+                let _computedKey, _initProto;
                 let key;
-                _computedKey = (key = super(5).method(), log.push(key), key);
+                _computedKey = _to_property_key((key = super(5).method(), log.push(key), key));
                 class A extends B {
                     static{
                         ({ e: [_initProto] } = _apply_decs_2311(this, [], [
@@ -120,7 +120,7 @@
         const noop = ()=>(fn)=>fn;
         new class extends B {
             constructor(){
-                var _dec, _initProto;
+                let _dec, _initProto;
                 _dec = noop(log.push(super(7).method()));
                 class A extends B {
                     static{
@@ -154,12 +154,12 @@
         expect(log + "").toBe("7,108");
     }
     {
-        var _initProto2;
+        let _initProto;
         "super() within decorated derived constructor should be transformed: computed key";
         let log = [];
         class A extends B {
             static{
-                ({ e: [_initProto2] } = _apply_decs_2311(this, [], [
+                ({ e: [_initProto] } = _apply_decs_2311(this, [], [
                     [
                         dec,
                         2,
@@ -168,12 +168,12 @@
                 ]));
             }
             constructor(){
-                var _computedKey;
+                let _computedKey;
                 let key;
-                _computedKey = (key = [
+                _computedKey = _to_property_key((key = [
                     super(9),
-                    _initProto2(this)
-                ][0].method(), log.push(key), key);
+                    _initProto(this)
+                ][0].method(), log.push(key), key));
                 new class Dummy extends B {
                     constructor(){
                         log.push(super(10).method());
@@ -189,13 +189,13 @@
         expect(log + "").toBe("109,10");
     }
     {
-        var _initProto3;
+        let _initProto;
         "super() within decorated derived constructor should be transformed: decorator expression";
         let log = [];
         const noop = ()=>(fn)=>fn;
         class A extends B {
             static{
-                ({ e: [_initProto3] } = _apply_decs_2311(this, [], [
+                ({ e: [_initProto] } = _apply_decs_2311(this, [], [
                     [
                         dec,
                         2,
@@ -204,14 +204,14 @@
                 ]));
             }
             constructor(){
-                var _dec, _initProto;
+                let _dec, _initProto1;
                 _dec = noop(log.push([
                     super(11),
-                    _initProto3(this)
+                    _initProto(this)
                 ][0].method()));
                 new class Dummy extends B {
                     static{
-                        ({ e: [_initProto] } = _apply_decs_2311(this, [], [
+                        ({ e: [_initProto1] } = _apply_decs_2311(this, [], [
                             [
                                 _dec,
                                 2,
@@ -222,7 +222,7 @@
                     constructor(){
                         log.push([
                             super(12),
-                            _initProto(this)
+                            _initProto1(this)
                         ][0].method());
                     }
                     noop() {}

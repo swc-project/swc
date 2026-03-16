@@ -1,6 +1,6 @@
-var _initClass, _initClass1, _Bar;
+let _initClass, _initClass1, _Bar;
 const dec = ()=>{};
-let _Bar1;
+let _Bar1, _Bar_member;
 class Bar {
     static{
         ({ c: [_Bar1, _initClass] } = _apply_decs_2311(this, [
@@ -9,10 +9,12 @@ class Bar {
     }
     static{
         _initClass();
+        _Bar_member = _Bar1;
     }
 }
-let _Foo;
-class Foo extends (_Bar = _Bar1) {
+_Bar = _Bar1;
+let _Foo, _Foo_member;
+class Foo extends _Bar {
     static{
         ({ c: [_Foo, _initClass1] } = _apply_decs_2311(this, [
             dec2
@@ -20,5 +22,6 @@ class Foo extends (_Bar = _Bar1) {
     }
     static{
         _initClass1();
+        _Foo_member = _Foo;
     }
 }

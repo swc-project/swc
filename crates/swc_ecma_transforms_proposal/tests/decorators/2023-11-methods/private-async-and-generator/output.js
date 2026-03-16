@@ -1,4 +1,4 @@
-var _call_a, _call_g, _call_ag, _initProto;
+let _call_a, _call_g, _call_ag, _initProto;
 class Foo {
     static{
         ({ e: [_call_a, _call_g, _call_ag, _initProto] } = _apply_decs_2311(this, [], [

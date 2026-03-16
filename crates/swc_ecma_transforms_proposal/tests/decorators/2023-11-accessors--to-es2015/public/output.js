@@ -1,7 +1,7 @@
-var _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _computedKey, _init_computedKey, _init_extra__init_computedKey;
+let _computedKey, _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
-var ____private_a_1 = /*#__PURE__*/ new WeakMap(), ____private_b_2 = /*#__PURE__*/ new WeakMap(), ____private_computedKey_3 = /*#__PURE__*/ new WeakMap();
+_computedKey = _to_property_key('c');
+var ____private_a_1 = /*#__PURE__*/ new WeakMap(), ____private_b_2 = /*#__PURE__*/ new WeakMap(), ____private__computedKey_3 = /*#__PURE__*/ new WeakMap();
 let _computedKey1 = _computedKey, _computedKey2 = _computedKey;
 class Foo {
     get a() {
@@ -17,10 +17,10 @@ class Foo {
         _class_private_field_set(this, ____private_b_2, _v);
     }
     get [_computedKey1]() {
-        return _class_private_field_get(this, ____private_computedKey_3);
+        return _class_private_field_get(this, ____private__computedKey_3);
     }
     set [_computedKey2](_v) {
-        _class_private_field_set(this, ____private_computedKey_3, _v);
+        _class_private_field_set(this, ____private__computedKey_3, _v);
     }
     constructor(){
         _class_private_field_init(this, ____private_a_1, {
@@ -39,17 +39,17 @@ class Foo {
                 return _value;
             })()
         });
-        _class_private_field_init(this, ____private_computedKey_3, {
+        _class_private_field_init(this, ____private__computedKey_3, {
             writable: true,
             value: (()=>{
-                const _value = _init_computedKey(this, 456);
-                _init_extra__init_computedKey(this);
+                const _value = _init__computedKey(this, 456);
+                _init_extra__init__computedKey(this);
                 return _value;
             })()
         });
     }
 }
-({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init_computedKey, _init_extra__init_computedKey] } = _apply_decs_2311(Foo, [], [
+({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey] } = _apply_decs_2311(Foo, [], [
     [
         dec,
         1,

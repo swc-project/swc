@@ -1,24 +1,17 @@
-var _init_a, _init_extra_a, _init_b, _init_extra_b;
+let _init_a, _init_extra_a, _init_b, _init_extra_b;
 const dec = ()=>{};
 var _a = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();
 class Foo {
     constructor(){
         _class_private_field_init(this, _a, {
             writable: true,
-            value: (()=>{
-                const _value = _init_a(this);
-                _init_extra_a(this);
-                return _value;
-            })()
+            value: _init_a(this)
         });
         _class_private_field_init(this, _b, {
             writable: true,
-            value: (()=>{
-                const _value = _init_b(this, 123);
-                _init_extra_b(this);
-                return _value;
-            })()
+            value: (_init_extra_a(this), _init_b(this, 123))
         });
+        _init_extra_b(this);
     }
 }
 ({ e: [_init_a, _init_extra_a, _init_b, _init_extra_b] } = _apply_decs_2311(Foo, [], [

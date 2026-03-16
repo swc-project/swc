@@ -1,6 +1,6 @@
-var _computedKey, _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey;
+let _computedKey, _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
+_computedKey = _to_property_key('c');
 class Foo {
     static{
         ({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey] } = _apply_decs_2311(this, [], [
@@ -21,19 +21,10 @@ class Foo {
             ]
         ]));
     }
-    a = (()=>{
-        const _value = _init_a(this);
-        _init_extra__init_a(this);
-        return _value;
-    })();
-    b = (()=>{
-        const _value = _init_b(this, 123);
-        _init_extra__init_b(this);
-        return _value;
-    })();
-    [_computedKey] = (()=>{
-        const _value = _init__computedKey(this, 456);
+    constructor(){
         _init_extra__init__computedKey(this);
-        return _value;
-    })();
+    }
+    a = _init_a(this);
+    b = (_init_extra__init_a(this), _init_b(this, 123));
+    [_computedKey] = (_init_extra__init_b(this), _init__computedKey(this, 456));
 }

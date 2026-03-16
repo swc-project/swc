@@ -1,36 +1,33 @@
-var _initClass, _initClass1, _Foo;
+let _initClass, _initClass1, _Foo;
 const dec = ()=>{};
-let _Foo1;
+let _Foo1, _Foo_member;
 new class extends _identity {
     constructor(){
-        super(_Foo1), _initClass();
+        super(_Foo1), _initClass(), _Foo_member = _Foo1;
     }
-    static{
-        class Foo {
-            static{
-                ({ c: [_Foo1, _initClass] } = _apply_decs_2311(this, [
-                    dec
-                ], []));
-            }
-            static field = 123;
+    static [class Foo {
+        static{
+            ({ c: [_Foo1, _initClass] } = _apply_decs_2311(this, [
+                dec
+            ], []));
         }
-    }
+    }];
+    field = 123;
 }();
-let _Bar;
+_Foo = _Foo1;
+let _Bar, _Bar_member;
 new class extends _identity {
     constructor(){
-        super(_Bar), _initClass1();
+        super(_Bar), _initClass1(), _Bar_member = _Bar;
     }
-    static{
-        class Bar extends (_Foo = _Foo1) {
-            static{
-                ({ c: [_Bar, _initClass1] } = _apply_decs_2311(this, [
-                    dec
-                ], [], 0, void 0, _Foo));
-            }
-            static field = ((()=>{
-                this.otherField = 456;
-            })(), 123);
+    static [class Bar extends _Foo {
+        static{
+            ({ c: [_Bar, _initClass1] } = _apply_decs_2311(this, [
+                dec
+            ], [], 0, void 0, _Foo));
         }
-    }
+    }];
+    field = ((()=>{
+        this.otherField = 456;
+    })(), 123);
 }();

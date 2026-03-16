@@ -1,4 +1,4 @@
-var _init_foo, _init_extra_foo;
+let _init_foo, _init_extra_foo;
 var counter = 0;
 class A {
     static{
@@ -23,24 +23,20 @@ class A {
             ]
         ], 0, (o)=>#foo in o));
     }
-    #foo = (()=>{
-        const _value = _init_foo(this, (()=>{
-            counter++;
-            expect(typeof this.method).toBe("function");
-            expect(()=>this.#foo).toThrow();
-            expect(()=>this.#bar).toThrow();
-            return "#foo";
-        })());
-        _init_extra_foo(this);
-        return _value;
-    })();
+    #foo = _init_foo(this, (()=>{
+        counter++;
+        expect(typeof this.method).toBe("function");
+        expect(()=>this.#foo).toThrow();
+        expect(()=>this.#bar).toThrow();
+        return "#foo";
+    })());
     method() {}
-    #bar = (()=>{
+    #bar = (_init_extra_foo(this), (()=>{
         counter++;
         expect(typeof this.method).toBe("function");
         expect(this.#foo).toBe("#foo");
         expect(()=>this.#bar).toThrow();
-    })();
+    })());
 }
 expect(counter).toBe(0);
 new A();

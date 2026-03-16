@@ -1,8 +1,8 @@
 class A extends B {
     m() {
-        var _dec, _initClass, _dec1, _initProto;
-        let _C;
+        let _dec, _initClass, _dec1, _initProto;
         _dec = super.dec1, _dec1 = super.dec2;
+        let _C, _C_member;
         class C {
             m2() {}
             constructor(){
@@ -18,6 +18,9 @@ class A extends B {
                 "m2"
             ]
         ]));
-        _initClass();
+        (()=>{
+            _initClass();
+            _C_member = _C;
+        })();
     }
 }

@@ -1,6 +1,6 @@
-var _computedKey, _computedKey1, _initStatic;
+let _computedKey, _computedKey1, _initStatic;
 const dec = ()=>{};
-_computedKey = 'b', _computedKey1 = 'b';
+_computedKey = _to_property_key('b'), _computedKey1 = _to_property_key('b');
 class Foo {
     static{
         ({ e: [_initStatic] } = _apply_decs_2311(this, [], [

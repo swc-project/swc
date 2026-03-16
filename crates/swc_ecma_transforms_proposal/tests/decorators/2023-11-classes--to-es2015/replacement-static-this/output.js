@@ -1,20 +1,17 @@
-var _class;
-var _initClass;
+let _ref;
+var _Foo, _class;
+let _initClass;
 const dec = ()=>{};
-let _Foo;
-new (_class = class extends _identity {
+let _Foo1, _Foo_member;
+new (_ref = (_Foo = class Foo {
+}, { c: [_Foo1, _initClass] } = _apply_decs_2311(_Foo, [
+    dec
+], []), _Foo), _class = class extends _identity {
     constructor(){
-        super(_Foo), (()=>{
+        super(_Foo1), _define_property(this, "field", ((()=>{
             this;
-        })(), _initClass();
+        })(), this)), (()=>{
+            this;
+        })(), _initClass(), _Foo_member = _Foo1;
     }
-}, (()=>{
-    class Foo {
-    }
-    ({ c: [_Foo, _initClass] } = _apply_decs_2311(Foo, [
-        dec
-    ], []));
-    _define_property(Foo, "field", ((()=>{
-        Foo;
-    })(), Foo));
-})(), _class)();
+}, _define_property(_class, _ref, void 0), _class)();

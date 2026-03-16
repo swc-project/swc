@@ -1,6 +1,6 @@
 {
     "class binding in plain class, decorated field, and computed keys";
-    var _dec, _dec1, _computedKey, _init__computedKey, _init_extra__init__computedKey;
+    let _dec, _dec1, _computedKey, _init__computedKey, _init_extra__init__computedKey;
     const errs = [];
     const fns = [];
     const capture = function(fn) {
@@ -18,8 +18,8 @@
     };
     capture(()=>K);
     assertUninitialized(()=>K);
-    _dec = capture(()=>K), _dec1 = assertUninitialized(()=>K), _computedKey = (capture(()=>K), assertUninitialized(()=>K));
     class K {
+        static [(_dec = capture(()=>K), _dec1 = assertUninitialized(()=>K), _computedKey = _to_property_key((capture(()=>K), assertUninitialized(()=>K))), "_")]() {}
         static #_ = { e: [_init__computedKey, _init_extra__init__computedKey] } = _apply_decs_2311(this, [], [
             [
                 [
@@ -30,11 +30,10 @@
                 _computedKey
             ]
         ]);
-        [_computedKey] = (()=>{
-            const _value = _init__computedKey(this);
+        constructor(){
             _init_extra__init__computedKey(this);
-            return _value;
-        })();
+        }
+        [_computedKey] = _init__computedKey(this);
     }
     const E = ReferenceError;
     expect(errs.map((e)=>e.constructor)).toEqual([
@@ -56,8 +55,8 @@
     ]);
 }{
     "class binding in decorated class, decorated field, and computed keys";
-    var _dec2, _dec3, _initClass, _dec4, _computedKey1, //todo: add the assertUninitialized decorator when we properly implement class tdz
-    _init__computedKey1, _init_extra__init__computedKey1;
+    let _dec, _dec1, _initClass, _dec2, _computedKey, //todo: add the assertUninitialized decorator when we properly implement class tdz
+    _init__computedKey, _init_extra__init__computedKey;
     const errs = [];
     const fns = [];
     const capture = function(fn) {
@@ -73,25 +72,27 @@
             return ()=>{};
         }
     };
-    let _K;
-    _dec2 = capture(()=>_K), _dec3 = assertUninitialized(()=>_K), _dec4 = capture(()=>_K), _computedKey1 = capture(()=>_K);
+    _dec = capture(()=>_K), _dec1 = assertUninitialized(()=>_K), _dec2 = capture(()=>_K_member), _computedKey = _to_property_key(capture(()=>_K_member));
+    let _K, _K_member;
     class K {
-        static #_ = { e: [_init__computedKey1, _init_extra__init__computedKey1], c: [_K, _initClass] } = _apply_decs_2311(this, [
-            _dec2,
-            _dec3
+        static #_ = { e: [_init__computedKey, _init_extra__init__computedKey], c: [_K, _initClass] } = _apply_decs_2311(this, [
+            _dec,
+            _dec1
         ], [
             [
-                _dec4,
+                _dec2,
                 0,
-                _computedKey1
+                _computedKey
             ]
         ]);
-        [_computedKey1] = (()=>{
-            const _value = _init__computedKey1(this);
-            _init_extra__init__computedKey1(this);
-            return _value;
+        constructor(){
+            _init_extra__init__computedKey(this);
+        }
+        [_computedKey] = _init__computedKey(this);
+        static #_2 = (()=>{
+            _initClass();
+            _K_member = _K;
         })();
-        static #_2 = _initClass();
     }
     const E = ReferenceError;
     expect(errs.map((e)=>e.constructor)).toEqual([
@@ -111,8 +112,8 @@
     ]);
 }{
     "class binding in decorated class, decorated static field, and computed keys";
-    var _dec5, _dec6, _initClass1, _dec7, _computedKey2, //todo: add the assertUninitialized decorator when we properly implement class tdz
-    _init__computedKey2, _init_extra__init__computedKey2;
+    let _dec, _dec1, _initClass, _dec2, _computedKey, //todo: add the assertUninitialized decorator when we properly implement class tdz
+    _init__computedKey, _init_extra__init__computedKey;
     const errs = [];
     const fns = [];
     const capture = function(fn) {
@@ -128,30 +129,28 @@
             return ()=>{};
         }
     };
-    let _K;
-    _dec5 = capture(()=>_K), _dec6 = assertUninitialized(()=>_K), _dec7 = capture(()=>_K), _computedKey2 = capture(()=>_K);
+    _dec = capture(()=>_K), _dec1 = assertUninitialized(()=>_K), _dec2 = capture(()=>_K_member), _computedKey = _to_property_key(capture(()=>_K_member));
+    let _K, _K_member;
     new class extends _identity {
         constructor(){
-            super(_K), _initClass1();
+            super(_K), _initClass(), _K_member = _K;
         }
-        static #_ = (()=>{
-            class K {
-                static #_ = { e: [_init__computedKey2, _init_extra__init__computedKey2], c: [_K, _initClass1] } = _apply_decs_2311(this, [
-                    _dec5,
-                    _dec6
-                ], [
-                    [
-                        _dec7,
-                        8,
-                        _computedKey2
-                    ]
-                ]);
-                static [_computedKey2] = (()=>{
-                    const _value = _init__computedKey2();
-                    _init_extra__init__computedKey2();
-                    return _value;
-                })();
-            }
+        static [class K {
+            static #_ = { e: [_init__computedKey, _init_extra__init__computedKey], c: [_K, _initClass] } = _apply_decs_2311(this, [
+                _dec,
+                _dec1
+            ], [
+                [
+                    _dec2,
+                    8,
+                    _computedKey
+                ]
+            ]);
+        }];
+        [_computedKey] = (()=>{
+            const _value = _init__computedKey();
+            _init_extra__init__computedKey();
+            return _value;
         })();
     }();
     const E = ReferenceError;
@@ -173,7 +172,7 @@
 }{
     "class binding in decorated class, decorated static method, and computed keys with await";
     (async ()=>{
-        var _dec, _dec1, _initClass, _dec2, _computedKey, _initStatic;
+        let _dec, _dec1, _initClass, _dec2, _computedKey, _initStatic;
         const errs = [];
         const fns = [];
         const capture = function(fn) {
@@ -189,31 +188,29 @@
                 return ()=>{};
             }
         };
-        let _K;
-        _dec = capture(await (()=>_K)), _dec1 = assertUninitialized(await (()=>_K)), _dec2 = capture(await (()=>_K)), _computedKey = capture(await (()=>_K));
+        _dec = capture(await (()=>_K)), _dec1 = assertUninitialized(await (()=>_K)), _dec2 = capture(await (()=>_K_member)), _computedKey = _to_property_key(capture(await (()=>_K_member)));
+        let _K, _K_member;
         new class extends _identity {
             constructor(){
-                super(_K), _initClass();
+                super(_K), _initClass(), _K_member = _K;
             }
-            static #_ = (()=>{
-                class K {
-                    static #_ = (()=>{
-                        ({ e: [_initStatic], c: [_K, _initClass] } = _apply_decs_2311(this, [
-                            _dec,
-                            _dec1
-                        ], [
-                            [
-                                _dec2,
-                                10,
-                                _computedKey
-                            ]
-                        ]));
-                        _initStatic(this);
-                    })();
-                    //todo: add the assertUninitialized decorator when we properly implement class tdz
-                    static [_computedKey]() {}
-                }
-            })();
+            static [class K {
+                static #_ = (()=>{
+                    ({ e: [_initStatic], c: [_K, _initClass] } = _apply_decs_2311(this, [
+                        _dec,
+                        _dec1
+                    ], [
+                        [
+                            _dec2,
+                            10,
+                            _computedKey
+                        ]
+                    ]));
+                    _initStatic(this);
+                })();
+                //todo: add the assertUninitialized decorator when we properly implement class tdz
+                static [_computedKey]() {}
+            }];
         }();
         const E = ReferenceError;
         expect(errs.map((e)=>e.constructor)).toEqual([

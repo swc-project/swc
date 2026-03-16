@@ -1,11 +1,11 @@
-var _initClass, _initProto;
+let _initClass, _initProto;
 var value;
 const classDec = (Class)=>{
     value = (new Class).m();
     return Class;
 };
 const memberDec = ()=>()=>42;
-let _C;
+let _C, _C_member;
 class C {
     static{
         ({ e: [_initProto], c: [_C, _initClass] } = _apply_decs_2311(this, [
@@ -24,5 +24,6 @@ class C {
     m() {}
     static{
         _initClass();
+        _C_member = _C;
     }
 }

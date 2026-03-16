@@ -1,4 +1,4 @@
-var _call_a, _call_g, _call_ag, _initProto;
+let _call_a, _call_g, _call_ag, _initProto;
 var _a = /*#__PURE__*/ new WeakMap(), _g = /*#__PURE__*/ new WeakMap(), _ag = /*#__PURE__*/ new WeakMap();
 class Foo {
     constructor(){
@@ -37,12 +37,12 @@ class Foo {
         async function*() {}
     ]
 ], 0, (o)=>_a.has(o)));
-async function get_a() {
+function get_a() {
     return _call_a;
 }
-function* get_g() {
+function get_g() {
     return _call_g;
 }
-async function* get_ag() {
+function get_ag() {
     return _call_ag;
 }

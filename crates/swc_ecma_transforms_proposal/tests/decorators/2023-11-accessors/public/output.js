@@ -1,9 +1,9 @@
-var _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _computedKey, _init_computedKey, _init_extra__init_computedKey;
+let _computedKey, _init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
+_computedKey = _to_property_key('c');
 class Foo {
     static{
-        ({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init_computedKey, _init_extra__init_computedKey] } = _apply_decs_2311(this, [], [
+        ({ e: [_init_a, _init_extra__init_a, _init_b, _init_extra__init_b, _init__computedKey, _init_extra__init__computedKey] } = _apply_decs_2311(this, [], [
             [
                 dec,
                 1,
@@ -43,15 +43,15 @@ class Foo {
     set b(_v) {
         this.#___private_b_2 = _v;
     }
-    #___private_computedKey_3 = (()=>{
-        const _value = _init_computedKey(this, 456);
-        _init_extra__init_computedKey(this);
+    #___private__computedKey_3 = (()=>{
+        const _value = _init__computedKey(this, 456);
+        _init_extra__init__computedKey(this);
         return _value;
     })();
     get [_computedKey]() {
-        return this.#___private_computedKey_3;
+        return this.#___private__computedKey_3;
     }
     set [_computedKey](_v) {
-        this.#___private_computedKey_3 = _v;
+        this.#___private__computedKey_3 = _v;
     }
 }

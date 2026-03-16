@@ -1,6 +1,6 @@
-var _computedKey;
+let _computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
+_computedKey = _to_property_key('c');
 class Foo {
     #___private_a_1;
     get a() {
@@ -16,11 +16,11 @@ class Foo {
     set b(_v) {
         this.#___private_b_2 = _v;
     }
-    #___private_computedKey_3 = 456;
+    #___private__computedKey_3 = 456;
     get [_computedKey]() {
-        return this.#___private_computedKey_3;
+        return this.#___private__computedKey_3;
     }
     set [_computedKey](_v) {
-        this.#___private_computedKey_3 = _v;
+        this.#___private__computedKey_3 = _v;
     }
 }

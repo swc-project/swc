@@ -1,17 +1,17 @@
-var _dec_this, _initClass, _dec_this1, _dec_this2, _init_x, _init_extra__init_x, _init_y, _init_extra__init_y;
-let _A;
-_dec_this = o4.o(), _dec_this1 = o3.o, _dec_this2 = o4.o();
+let _dec, _dec1, _dec_this, _dec2, _initClass, _dec_this1, _dec_this2, _init_x, _init_extra__init_x, _init_y, _init_extra__init_y;
+_dec = o1.dec, _dec1 = o2.dec, _dec_this = o4.o(), _dec2 = _dec_this.dec, _dec_this1 = o3.o, _dec_this2 = o4.o();
+let _A, _A_member;
 class A {
     static{
         ({ e: [_init_x, _init_extra__init_x, _init_y, _init_extra__init_y], c: [_A, _initClass] } = _apply_decs_2311(this, [
             o1,
-            o1.dec,
+            _dec,
             void 0,
             dec,
             o2,
-            o2.dec,
+            _dec1,
             _dec_this,
-            _dec_this.dec
+            _dec2
         ], [
             [
                 [
@@ -37,17 +37,13 @@ class A {
             ]
         ], 1));
     }
-    x = (()=>{
-        const _value = _init_x(this);
-        _init_extra__init_x(this);
-        return _value;
-    })();
-    y = (()=>{
-        const _value = _init_y(this);
+    constructor(){
         _init_extra__init_y(this);
-        return _value;
-    })();
+    }
+    x = _init_x(this);
+    y = (_init_extra__init_x(this), _init_y(this));
     static{
         _initClass();
+        _A_member = _A;
     }
 }

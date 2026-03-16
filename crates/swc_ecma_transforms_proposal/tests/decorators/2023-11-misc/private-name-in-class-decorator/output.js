@@ -4,22 +4,21 @@ class A {
         called = true;
     }
     constructor(){
-        var _initClass, _A;
-        let _B;
+        let _dec, _initClass, _A;
+        _dec = A.#x, _A = A;
+        let _B, _B_member;
         new class extends _identity {
             constructor(){
-                super(_B), _initClass();
+                super(_B), _initClass(), _B_member = _B;
             }
-            static{
-                class B extends (_A = A) {
-                    static{
-                        ({ c: [_B, _initClass] } = _apply_decs_2311(this, [
-                            A,
-                            A.#x
-                        ], [], 1, void 0, _A));
-                    }
+            static [class B extends _A {
+                static{
+                    ({ c: [_B, _initClass] } = _apply_decs_2311(this, [
+                        A,
+                        _dec
+                    ], [], 1, void 0, _A));
                 }
-            }
+            }];
             #x() {
                 throw new Error("Should not be called");
             }

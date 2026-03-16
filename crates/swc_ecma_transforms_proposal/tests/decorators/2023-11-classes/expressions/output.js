@@ -1,4 +1,4 @@
-var _initClass, _A, _initClass1, _C, _initClass2, _class, _initClass3, _class1, _initClass4, _G, _initClass5, _class2, _initClass6, _class3, _I, _initClass7, _K, _L;
+let _initClass, _A, _initClass1, _C, _initClass2, _class, _initClass3, _class1, _initClass4, _G, _initClass5, _class2, _initClass6, _class3, _I, _initClass7, _K, _L;
 const dec = ()=>{};
 const A = (class A {
     static{
@@ -62,7 +62,8 @@ const F = [
         }
     }, _class2)
 ];
-const H = (class extends (_I = I) {
+_I = I;
+const H = (class extends _I {
     static{
         ({ c: [_class3, _initClass6] } = _apply_decs_2311(this, [
             dec
@@ -72,7 +73,8 @@ const H = (class extends (_I = I) {
         _initClass6();
     }
 }, _class3);
-const J = (class K extends (_L = L) {
+_L = L;
+const J = (class K extends _L {
     static{
         ({ c: [_K, _initClass7] } = _apply_decs_2311(this, [
             dec
@@ -83,7 +85,7 @@ const J = (class K extends (_L = L) {
     }
 }, _K);
 function classFactory() {
-    var _initClass, _class;
+    let _initClass, _class;
     return class {
         static{
             ({ c: [_class, _initClass] } = _apply_decs_2311(this, [

@@ -3,13 +3,14 @@ class C {
 }
 (()=>{
     var _class;
-    var _initClass, _class1;
+    let _initClass, _class1, _dec, _dec1;
+    _dec = _class_static_private_method_get(C, C, $), _dec1 = _class_static_private_method_get(C, C, _);
     var D = ((_class = class {
     }, { c: [_class1, _initClass] } = _apply_decs_2311(_class, [
         C,
-        _class_static_private_method_get(C, C, $),
+        _dec,
         C,
-        _class_static_private_field_spec_get(C, _class, __)
+        _dec1
     ], [], 1), _initClass(), _class), _class1);
 })();
 function $() {}
