@@ -275,6 +275,9 @@ impl<'a> Lexer<'a> {
             if syntax.flow() && has_flow_pragma(input.as_str()) {
                 syntax |= SyntaxFlags::FLOW_PRAGMA;
             }
+            if syntax.flow_types_enabled() {
+                syntax |= SyntaxFlags::TS;
+            }
         }
 
         Lexer {

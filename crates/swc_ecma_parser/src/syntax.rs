@@ -291,6 +291,11 @@ impl FlowSyntax {
         if self.enums {
             flags |= SyntaxFlags::FLOW_ENUMS;
         }
+        // Cache "type grammar enabled" for Flow configurations that do not
+        // depend on a file pragma. This keeps hot-path syntax checks cheap.
+        if self.all || !self.require_directive {
+            flags |= SyntaxFlags::TS;
+        }
 
         flags
     }
@@ -419,7 +424,7 @@ impl SyntaxFlags {
     #[cfg(feature = "typescript")]
     #[inline(always)]
     pub const fn typescript(&self) -> bool {
-        self.contains(SyntaxFlags::TS) || self.flow_types_enabled()
+        self.contains(SyntaxFlags::TS)
     }
 
     #[cfg(not(feature = "typescript"))]
