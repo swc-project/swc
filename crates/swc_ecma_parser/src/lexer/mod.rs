@@ -69,6 +69,55 @@ static SINGLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
 static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || b == b'_' || b == b'$'));
 
+#[cfg(feature = "typescript")]
+fn flow_pragma_in_comment(comment: &str) -> Option<bool> {
+    if comment.contains("@noflow") {
+        return Some(false);
+    }
+    if comment.contains("@flow") {
+        return Some(true);
+    }
+    None
+}
+
+#[cfg(feature = "typescript")]
+fn has_flow_pragma(mut src: &str) -> bool {
+    // Trim UTF-8 BOM.
+    if let Some(rest) = src.strip_prefix('\u{feff}') {
+        src = rest;
+    }
+
+    loop {
+        src = src.trim_start_matches(char::is_whitespace);
+
+        if let Some(rest) = src.strip_prefix("//") {
+            let end = rest.find('\n').unwrap_or(rest.len());
+            let comment = &rest[..end];
+            if let Some(is_flow) = flow_pragma_in_comment(comment) {
+                return is_flow;
+            }
+            src = &rest[end..];
+            continue;
+        }
+
+        if let Some(rest) = src.strip_prefix("/*") {
+            if let Some(end) = rest.find("*/") {
+                let comment = &rest[..end];
+                if let Some(is_flow) = flow_pragma_in_comment(comment) {
+                    return is_flow;
+                }
+                src = &rest[end + 2..];
+                continue;
+            }
+            return false;
+        }
+
+        break;
+    }
+
+    false
+}
+
 /// Converts UTF-16 surrogate pair to Unicode code point.
 /// `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
 #[inline]
@@ -219,6 +268,14 @@ impl<'a> Lexer<'a> {
         comments: Option<&'a dyn Comments>,
     ) -> Self {
         let start_pos = input.last_pos();
+        let mut syntax = syntax.into_flags();
+
+        #[cfg(feature = "typescript")]
+        {
+            if syntax.flow() && has_flow_pragma(input.as_str()) {
+                syntax |= SyntaxFlags::FLOW_PRAGMA;
+            }
+        }
 
         Lexer {
             comments,
@@ -227,7 +284,7 @@ impl<'a> Lexer<'a> {
             input,
             start_pos,
             state: State::new(start_pos),
-            syntax: syntax.into_flags(),
+            syntax,
             target,
             errors: Default::default(),
             module_errors: Default::default(),

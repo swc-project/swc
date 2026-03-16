@@ -990,8 +990,9 @@ impl Compiler {
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let program = config.program;
+            let is_typescript_syntax = matches!(config.syntax, Syntax::Typescript(..));
 
-            if config.emit_isolated_dts && !config.syntax.typescript() {
+            if config.emit_isolated_dts && !is_typescript_syntax {
                 handler.warn(
                     "jsc.experimental.emitIsolatedDts is enabled but the syntax is not TypeScript",
                 );
@@ -1009,7 +1010,7 @@ impl Compiler {
                 Default::default()
             };
             #[cfg(feature = "isolated-dts")]
-            let dts_code = if config.syntax.typescript() && config.emit_isolated_dts {
+            let dts_code = if is_typescript_syntax && config.emit_isolated_dts {
                 use std::cell::RefCell;
 
                 use swc_ecma_codegen::to_code_with_comments;

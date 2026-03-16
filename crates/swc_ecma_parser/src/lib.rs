@@ -161,7 +161,7 @@ pub use legacy::token;
 pub use lexer::Lexer;
 pub use parser::*;
 pub use swc_common::input::{Input, StringInput};
-pub use syntax::{EsSyntax, Syntax, SyntaxFlags, TsSyntax};
+pub use syntax::{EsSyntax, FlowSyntax, Syntax, SyntaxFlags, TsSyntax};
 
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>

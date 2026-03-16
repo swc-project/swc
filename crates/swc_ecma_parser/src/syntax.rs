@@ -11,6 +11,11 @@ pub enum Syntax {
     #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
     #[serde(rename = "typescript")]
     Typescript(TsSyntax),
+    /// This variant requires the cargo feature `typescript` to be enabled.
+    #[cfg(feature = "typescript")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
+    #[serde(rename = "flow")]
+    Flow(FlowSyntax),
 }
 
 impl Default for Syntax {
@@ -28,6 +33,8 @@ impl Syntax {
             }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(_) => false,
             _ => false,
         }
     }
@@ -42,6 +49,8 @@ impl Syntax {
             Syntax::Es(EsSyntax { jsx: true, .. }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(TsSyntax { tsx: true, .. }) => true,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(FlowSyntax { jsx: true, .. }) => true,
             _ => false,
         }
     }
@@ -59,6 +68,8 @@ impl Syntax {
             Syntax::Typescript(TsSyntax {
                 decorators: true, ..
             }) => true,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(_) => false,
             _ => false,
         }
     }
@@ -71,6 +82,8 @@ impl Syntax {
             }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(..) => true,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(_) => false,
             _ => false,
         }
     }
@@ -84,7 +97,21 @@ impl Syntax {
     /// Should we parse typescript?
     #[cfg(feature = "typescript")]
     pub const fn typescript(self) -> bool {
-        matches!(self, Syntax::Typescript(..))
+        matches!(self, Syntax::Typescript(..) | Syntax::Flow(..))
+    }
+
+    #[cfg(not(feature = "typescript"))]
+    pub const fn flow(self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "typescript")]
+    pub const fn flow(self) -> bool {
+        matches!(self, Syntax::Flow(..))
+    }
+
+    pub const fn types_like(self) -> bool {
+        self.typescript()
     }
 
     pub fn export_default_from(self) -> bool {
@@ -101,6 +128,8 @@ impl Syntax {
         match self {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => t.dts,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(_) => false,
             _ => false,
         }
     }
@@ -113,6 +142,8 @@ impl Syntax {
             }) => allow_super_outside_method,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(_) => false,
         }
     }
 
@@ -124,6 +155,8 @@ impl Syntax {
             }) => allow_return_outside_function,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => false,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(_) => false,
         }
     }
 
@@ -131,6 +164,8 @@ impl Syntax {
         match self {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => !t.no_early_errors,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(_) => true,
             Syntax::Es(..) => true,
         }
     }
@@ -139,6 +174,8 @@ impl Syntax {
         match self {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => t.disallow_ambiguous_jsx_like,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(_) => false,
             _ => false,
         }
     }
@@ -151,6 +188,8 @@ impl Syntax {
             }) => *using_decl,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(_) => false,
         }
     }
 
@@ -159,6 +198,8 @@ impl Syntax {
             Syntax::Es(es) => es.into_flags(),
             #[cfg(feature = "typescript")]
             Syntax::Typescript(ts) => ts.into_flags(),
+            #[cfg(feature = "typescript")]
+            Syntax::Flow(flow) => flow.into_flags(),
         }
     }
 }
@@ -213,6 +254,44 @@ impl TsSyntax {
         if self.disallow_ambiguous_jsx_like {
             flags |= SyntaxFlags::DISALLOW_AMBIGUOUS_JSX_LIKE;
         }
+        flags
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FlowSyntax {
+    #[serde(default)]
+    pub jsx: bool,
+
+    #[serde(default)]
+    pub all: bool,
+
+    #[serde(default)]
+    pub require_directive: bool,
+
+    #[serde(default)]
+    pub enums: bool,
+}
+
+#[cfg(feature = "typescript")]
+impl FlowSyntax {
+    fn into_flags(self) -> SyntaxFlags {
+        let mut flags = SyntaxFlags::FLOW.union(SyntaxFlags::IMPORT_ATTRIBUTES);
+
+        if self.jsx {
+            flags |= SyntaxFlags::JSX;
+        }
+        if self.all {
+            flags |= SyntaxFlags::FLOW_ALL;
+        }
+        if self.require_directive {
+            flags |= SyntaxFlags::FLOW_REQUIRE_DIRECTIVE;
+        }
+        if self.enums {
+            flags |= SyntaxFlags::FLOW_ENUMS;
+        }
+
         flags
     }
 }
@@ -340,7 +419,84 @@ impl SyntaxFlags {
     #[cfg(feature = "typescript")]
     #[inline(always)]
     pub const fn typescript(&self) -> bool {
-        self.contains(SyntaxFlags::TS)
+        self.contains(SyntaxFlags::TS) || self.flow_types_enabled()
+    }
+
+    #[cfg(not(feature = "typescript"))]
+    #[inline(always)]
+    pub const fn flow(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    pub const fn flow(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW)
+    }
+
+    #[cfg(not(feature = "typescript"))]
+    #[inline(always)]
+    pub const fn flow_all(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    pub const fn flow_all(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_ALL)
+    }
+
+    #[cfg(not(feature = "typescript"))]
+    #[inline(always)]
+    pub const fn flow_require_directive(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    pub const fn flow_require_directive(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_REQUIRE_DIRECTIVE)
+    }
+
+    #[cfg(not(feature = "typescript"))]
+    #[inline(always)]
+    pub const fn flow_enums(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    pub const fn flow_enums(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_ENUMS)
+    }
+
+    #[cfg(not(feature = "typescript"))]
+    #[inline(always)]
+    pub const fn flow_pragma(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    pub const fn flow_pragma(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_PRAGMA)
+    }
+
+    #[cfg(not(feature = "typescript"))]
+    #[inline(always)]
+    pub const fn flow_types_enabled(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    pub const fn flow_types_enabled(&self) -> bool {
+        self.flow() && (self.flow_all() || !self.flow_require_directive() || self.flow_pragma())
+    }
+
+    #[inline(always)]
+    pub const fn types_like(&self) -> bool {
+        self.typescript()
     }
 
     #[inline(always)]
@@ -381,7 +537,7 @@ impl SyntaxFlags {
 
 bitflags::bitflags! {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
-    pub struct SyntaxFlags: u16 {
+    pub struct SyntaxFlags: u32 {
         const JSX = 1 << 0;
         const FN_BIND = 1 << 1;
         const DECORATORS = 1 << 2;
@@ -396,5 +552,10 @@ bitflags::bitflags! {
         const NO_EARLY_ERRORS = 1 << 11;
         const DISALLOW_AMBIGUOUS_JSX_LIKE = 1 << 12;
         const TS = 1 << 13;
+        const FLOW = 1 << 14;
+        const FLOW_ALL = 1 << 15;
+        const FLOW_REQUIRE_DIRECTIVE = 1 << 16;
+        const FLOW_ENUMS = 1 << 17;
+        const FLOW_PRAGMA = 1 << 18;
     }
 }
