@@ -735,14 +735,20 @@ impl<I: Tokens> Parser<I> {
             is_simple_parameter_list,
             |p, is_simple_parameter_list| {
                 // allow omitting body and allow placing `{` on next line
-                let omitted_body_terminator = p.eat_general_semi()
+                let has_explicit_body_terminator = p.input_mut().eat(Token::Semi)
                     || (p.syntax().flow()
                         && p.ctx().contains(Context::InDeclare)
                         && p.ctx().contains(Context::InClass)
                         && p.input_mut().eat(Token::Comma));
+                let omitted_body_terminator = has_explicit_body_terminator
+                    || p.input().is(Token::RBrace)
+                    || p.input().had_line_break_before_cur()
+                    || p.input().is(Token::Eof);
                 if p.input().syntax().typescript()
-                    && !p.input().is(Token::LBrace)
                     && omitted_body_terminator
+                    // Keep `function f()\n{}` as a body, but treat `function f(); {}` as two
+                    // separate statements in TS fixtures.
+                    && (has_explicit_body_terminator || !p.input().is(Token::LBrace))
                 {
                     return Ok(None);
                 }
@@ -806,7 +812,7 @@ impl<I: Tokens> Parser<I> {
                 p.emit_err(p.span(start), SyntaxError::TS1183);
             }
 
-            if p.ctx().contains(Context::InDeclare) && type_ann.is_none() {
+            if p.syntax().flow() && p.ctx().contains(Context::InDeclare) && type_ann.is_none() {
                 p.emit_err(p.span(start), SyntaxError::TS1003);
             }
 
@@ -1115,7 +1121,7 @@ impl<I: Tokens> Parser<I> {
         if flow_proto_modifier && is_static {
             self.emit_err(self.span(start), SyntaxError::TS1003);
         }
-        if is_static && is_prototype(&key) {
+        if self.syntax().flow() && is_static && is_prototype(&key) {
             self.emit_err(key.span(), SyntaxError::TS1003);
         }
 
@@ -1383,7 +1389,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(key_span, SyntaxError::GetterSetterCannotBeReadonly);
             }
 
-            if is_static && is_prototype(&key) {
+            if self.syntax().flow() && is_static && is_prototype(&key) {
                 self.emit_err(key_span, SyntaxError::TS1003);
             }
 
