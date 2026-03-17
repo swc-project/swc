@@ -1,0 +1,72 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":10}},
+      "message":"`const` enums are not supported. Flow Enums are designed to allow for inlining, however the inlining itself needs to be part of the build system (whatever you use) rather than Flow itself."
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":10}},
+      "message":"Unexpected reserved word"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
+      "message":"Unexpected identifier, expected the token `;`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":10}},
+      "message":"Const must be initialized"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":14}},
+      "message":"Unexpected token `{`, expected the end of an expression statement (`;`)"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":15}},
+  "range":[0,15],
+  "body":[
+    {
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":10}},
+      "range":[0,10],
+      "declarations":[
+        {
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":10}},
+          "range":[6,10],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":10}},
+            "range":[6,10],
+            "name":"enum",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "init":null
+        }
+      ],
+      "kind":"const"
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
+      "range":[11,12],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
+        "range":[11,12],
+        "name":"E",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    },
+    {
+      "type":"BlockStatement",
+      "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":15}},
+      "range":[13,15],
+      "body":[]
+    }
+  ],
+  "comments":[]
+}

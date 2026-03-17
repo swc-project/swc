@@ -23,6 +23,11 @@ impl PatType {
     }
 }
 
+fn is_await_ident_or_expr(expr: &Expr) -> bool {
+    matches!(expr, Expr::Await(..))
+        || matches!(expr, Expr::Ident(Ident { sym, .. }) if &**sym == "await")
+}
+
 impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
         self.parse_binding_pat_or_ident(false)
@@ -441,6 +446,13 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::Eq) {
             let right = self.allow_in_expr(Self::parse_assignment_expr)?;
 
+            if self.ctx().contains(Context::InParameters)
+                && self.ctx().contains(Context::InAsync)
+                && is_await_ident_or_expr(&right)
+            {
+                self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
+            }
+
             if self.ctx().contains(Context::InDeclare) {
                 self.emit_err(self.span(start), SyntaxError::TS2371);
             }
@@ -621,11 +633,17 @@ impl<I: Tokens> Parser<I> {
 
         let pat = if self.input_mut().eat(Token::Eq) {
             // `=` cannot follow optional parameter.
-            if opt {
+            if opt && !self.input().syntax().flow() {
                 self.emit_err(pat.span(), SyntaxError::TS1015);
             }
 
             let right = self.parse_assignment_expr()?;
+            if self.ctx().contains(Context::InParameters)
+                && self.ctx().contains(Context::InAsync)
+                && is_await_ident_or_expr(&right)
+            {
+                self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
+            }
             if self.ctx().contains(Context::InDeclare) {
                 self.emit_err(self.span(start), SyntaxError::TS2371);
             }
@@ -810,6 +828,26 @@ impl<I: Tokens> Parser<I> {
                 expect!(self, Token::Comma);
                 if is_rest && self.input().is(Token::RParen) {
                     self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
+                }
+            }
+        }
+
+        if self.syntax().flow() && !self.ctx().contains(Context::InType) {
+            let in_declare = self.ctx().contains(Context::InDeclare);
+
+            for (idx, param) in params.iter().enumerate() {
+                if let Pat::Ident(ident) = &param.pat {
+                    if ident.id.sym == *"this" {
+                        if idx != 0 {
+                            self.emit_err(ident.id.span, SyntaxError::TS1003);
+                        }
+                        if ident.id.optional {
+                            self.emit_err(ident.id.span, SyntaxError::TS1003);
+                        }
+                        if ident.type_ann.is_none() && !in_declare {
+                            self.emit_err(ident.id.span, SyntaxError::TS1003);
+                        }
+                    }
                 }
             }
         }

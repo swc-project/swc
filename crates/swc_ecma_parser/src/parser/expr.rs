@@ -109,7 +109,10 @@ impl<I: Tokens> Parser<I> {
                     // looks like JSX.
                     // Valid alternatives: `<T,>() => {}` or `<T extends unknown>() =>
                     // {}`
-                    if p.input().syntax().jsx() && type_parameters.params.len() == 1 {
+                    if p.input().syntax().jsx()
+                        && !p.input().syntax().flow()
+                        && type_parameters.params.len() == 1
+                    {
                         let single_param = &type_parameters.params[0];
                         // Check if there was a trailing comma by examining spans.
                         // For `<T>`: decl.span.hi - param.span.hi = 1 (just `>`)
@@ -125,7 +128,15 @@ impl<I: Tokens> Parser<I> {
                         }
                     }
 
-                    let mut arrow = p.parse_assignment_expr_base()?;
+                    if p.input().syntax().flow() && !p.input().is(Token::LParen) {
+                        return Ok(None);
+                    }
+
+                    let mut arrow = if p.input().syntax().flow() {
+                        p.parse_paren_expr_or_arrow_fn(true, None)?
+                    } else {
+                        p.parse_assignment_expr_base()?
+                    };
                     match *arrow {
                         Expr::Arrow(ArrowExpr {
                             ref mut span,
@@ -282,6 +293,18 @@ impl<I: Tokens> Parser<I> {
             };
 
             if op == op!("delete") {
+                if self.input().syntax().flow()
+                    && matches!(
+                        arg.as_ref(),
+                        Expr::Member(MemberExpr {
+                            prop: MemberProp::PrivateName(..),
+                            ..
+                        })
+                    )
+                {
+                    self.emit_err(arg.span(), SyntaxError::TS1003);
+                }
+
                 // Skip emitting TS1102 in TypeScript mode because it's a semantic error
                 // that should be handled by the type checker, not the parser.
                 // See: https://github.com/swc-project/swc/issues/10558
@@ -1302,6 +1325,12 @@ impl<I: Tokens> Parser<I> {
                 Either::Left(p) => MemberProp::PrivateName(p),
                 Either::Right(i) => MemberProp::Ident(i),
             })?;
+            if self.syntax().flow()
+                && matches!(prop, MemberProp::PrivateName(..))
+                && !self.ctx().contains(Context::InClass)
+            {
+                self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
+            }
             let span = self.span(callee.span_lo());
             debug_assert_eq!(callee.span_lo(), span.lo());
             debug_assert_eq!(prop.span_hi(), span.hi());
@@ -1402,6 +1431,10 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             Token::LParen if !no_call => {
+                if !self.allow_super_call {
+                    syntax_error!(self, lhs.span, SyntaxError::InvalidSuperCall)
+                }
+
                 let args = self.parse_args(false)?;
                 Ok(Box::new(Expr::Call(CallExpr {
                     span: self.span(start),
@@ -1471,6 +1504,10 @@ impl<I: Tokens> Parser<I> {
                     self.span(start),
                     SyntaxError::ImportRequiresOneOrTwoArgs
                 );
+            }
+            if self.syntax().flow() && args.len() == 2 && !matches!(*args[1].expr, Expr::Object(..))
+            {
+                self.emit_err(args[1].span(), SyntaxError::ImportRequiresOneOrTwoArgs);
             }
 
             let expr = Box::new(Expr::Call(CallExpr {
@@ -1836,6 +1873,18 @@ impl<I: Tokens> Parser<I> {
 
             return Ok((left, None));
         }
+
+        let left_is_jsx = match left.as_ref() {
+            Expr::JSXElement(..) | Expr::JSXFragment(..) => true,
+            Expr::Paren(ParenExpr { expr, .. }) => {
+                matches!(expr.as_ref(), Expr::JSXElement(..) | Expr::JSXFragment(..))
+            }
+            _ => false,
+        };
+        if self.syntax().flow() && self.syntax().jsx() && op == op!("<") && left_is_jsx {
+            self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+        }
+
         self.bump();
         if cfg!(feature = "debug") {
             tracing::trace!(
@@ -1938,7 +1987,10 @@ impl<I: Tokens> Parser<I> {
         if !ctx.contains(Context::InAsync)
             && (self.is_general_semi() || {
                 let cur = self.input().cur();
-                matches!(cur, Token::RParen | Token::RBracket | Token::Comma)
+                matches!(
+                    cur,
+                    Token::RParen | Token::RBracket | Token::Comma | Token::Colon
+                )
             })
         {
             if ctx.contains(Context::Module) {
@@ -2315,7 +2367,9 @@ impl<I: Tokens> Parser<I> {
             // TODO: Remove clone
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                let return_type = p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
+                    p.parse_ts_type_or_type_predicate_ann(Token::Colon)
+                })?;
 
                 expect!(p, Token::Arrow);
 
@@ -2356,7 +2410,9 @@ impl<I: Tokens> Parser<I> {
             && self.input().is(Token::Colon)
         {
             self.try_parse_ts(|p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                let return_type = p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
+                    p.parse_ts_type_or_type_predicate_ann(Token::Colon)
+                })?;
 
                 if !p.input().is(Token::Arrow) {
                     unexpected!(p, "fail")
@@ -2366,6 +2422,34 @@ impl<I: Tokens> Parser<I> {
             })
         } else {
             None
+        };
+
+        let validate_arrow_params = |p: &mut Self, params: &[Pat], is_async: bool| {
+            for param in params {
+                if is_async {
+                    match param {
+                        Pat::Ident(BindingIdent { id, .. }) if id.sym == *"await" => {
+                            p.emit_err(id.span, SyntaxError::ExpectedIdent);
+                        }
+                        Pat::Assign(AssignPat { right, .. })
+                            if matches!(right.as_ref(), Expr::Await(..)) =>
+                        {
+                            p.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
+                        }
+                        _ => {}
+                    }
+                }
+
+                if p.ctx().contains(Context::InGenerator)
+                    && matches!(
+                        param,
+                        Pat::Assign(AssignPat { right, .. })
+                            if matches!(right.as_ref(), Expr::Yield(..))
+                    )
+                {
+                    p.emit_err(param.span(), SyntaxError::YieldParamInGen);
+                }
+            }
         };
 
         // we parse arrow function at here, to handle it efficiently.
@@ -2384,6 +2468,7 @@ impl<I: Tokens> Parser<I> {
             expect!(self, Token::Arrow);
 
             let params: Vec<Pat> = self.parse_paren_items_as_params(paren_items, trailing_comma)?;
+            validate_arrow_params(self, &params, async_span.is_some());
 
             let body: Box<BlockStmtOrExpr> = self.parse_fn_block_or_expr_body(
                 async_span.is_some(),
@@ -2401,7 +2486,12 @@ impl<I: Tokens> Parser<I> {
                 ..Default::default()
             };
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
-                if self.input().cur().is_bin_op() {
+                let cur = self.input().cur();
+                let should_parse_bin_op_after_arrow = cur.is_bin_op()
+                    && !(self.syntax().flow()
+                        && self.input().had_line_break_before_cur()
+                        && cur == Token::Lt);
+                if should_parse_bin_op_after_arrow {
                     // ) is required
                     self.emit_err(self.input().cur_span(), SyntaxError::TS1005);
                     let errorred_expr =
@@ -2432,6 +2522,10 @@ impl<I: Tokens> Parser<I> {
                         }
                     }
                 }
+            }
+
+            if let Some(trailing_comma) = trailing_comma {
+                self.emit_err(trailing_comma, SyntaxError::TS1005);
             }
         }
 
@@ -2633,6 +2727,9 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::Hash {
             self.bump(); // consume `#`
             let id = self.parse_ident_name()?;
+            if self.syntax().flow() {
+                self.emit_err(self.span(start), SyntaxError::TS1003);
+            }
             Ok(PrivateName {
                 span: self.span(start),
                 name: id.sym,

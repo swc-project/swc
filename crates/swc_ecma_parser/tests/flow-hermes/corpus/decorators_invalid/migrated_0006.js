@@ -1,0 +1,2 @@
+@blah
+function foo() {}

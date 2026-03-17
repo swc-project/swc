@@ -201,6 +201,16 @@ impl<I: Tokens> Parser<I> {
                             }
                         };
 
+                        if self.input().syntax().flow() {
+                            if let ModuleExportName::Ident(imported) = &imported {
+                                self.emit_flow_reserved_type_name_error(
+                                    imported.span,
+                                    &imported.sym,
+                                );
+                            }
+                            self.emit_flow_reserved_type_name_error(local.span, &local.sym);
+                        }
+
                         if type_only {
                             self.emit_err(orig_name.span, SyntaxError::TS2206);
                         }
@@ -211,6 +221,13 @@ impl<I: Tokens> Parser<I> {
                             imported: Some(imported),
                             is_type_only: true,
                         }));
+                    }
+
+                    if self.syntax().flow_types_enabled()
+                        && orig_token == Token::TypeOf
+                        && !self.input().cur().is_word()
+                    {
+                        self.emit_err(orig_name.span, SyntaxError::TS1003);
                     }
 
                     // Handle `import { type "string" as foo }` case
@@ -308,6 +325,9 @@ impl<I: Tokens> Parser<I> {
 
                 if self.input_mut().eat(Token::As) {
                     let local: Ident = self.parse_binding_ident(false)?.into();
+                    if self.input().syntax().flow() && (type_only || is_type_only) {
+                        self.emit_flow_reserved_type_name_error(local.span, &local.sym);
+                    }
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new_with_checked(start, local.span.hi()),
                         local,
@@ -320,11 +340,17 @@ impl<I: Tokens> Parser<I> {
                 //
                 // 'ImportedBinding'
                 // 'IdentifierName' as 'ImportedBinding'
+                if self.input().syntax().flow() && orig_name.sym == *"default" {
+                    self.emit_err(orig_name.span, SyntaxError::TS1003);
+                }
                 if self.ctx().is_reserved_word(&orig_name.sym) {
                     syntax_error!(self, orig_name.span, SyntaxError::ReservedWordInImport)
                 }
 
                 let local = orig_name;
+                if self.input().syntax().flow() && (type_only || is_type_only) {
+                    self.emit_flow_reserved_type_name_error(local.span, &local.sym);
+                }
                 Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                     span: self.span(start),
                     local,
@@ -515,6 +541,22 @@ impl<I: Tokens> Parser<I> {
             } else if self.input().is(Token::Function) {
                 let decl = self.parse_default_fn(start, decorators)?;
                 return Ok(decl.into());
+            } else if self.input().syntax().typescript_allows_enum()
+                && self.input().is(Token::Enum)
+                && peek!(self).is_some_and(|peek| peek.is_word())
+                && !self.input_mut().has_linebreak_between_cur_and_peeked()
+            {
+                let enum_start = self.cur_pos();
+                self.assert_and_bump(Token::Enum);
+                let decl = self.parse_ts_enum_decl(enum_start, false)?;
+
+                // `export default enum` is valid in Flow, but SWC's default export decl AST
+                // variant does not model enum declarations.
+                return Ok(ExportDecl {
+                    span: self.span(start),
+                    decl: Decl::TsEnum(decl),
+                }
+                .into());
             } else if self.input().syntax().export_default_from()
                 && ((self.input().is(Token::From)
                     && peek!(self).is_some_and(|peek| peek == Token::Str))
@@ -561,12 +603,25 @@ impl<I: Tokens> Parser<I> {
             self.parse_fn_decl(decorators)?
         } else if !type_only
             && self.input().syntax().typescript_allows_enum()
+            && self.input().is(Token::Enum)
+            && peek!(self).is_some_and(|peek| peek.is_word())
+            && !self.input_mut().has_linebreak_between_cur_and_peeked()
+        {
+            let enum_start = self.cur_pos();
+            self.assert_and_bump(Token::Enum);
+            self.parse_ts_enum_decl(enum_start, false)
+                .map(Decl::TsEnum)?
+        } else if !type_only
+            && self.input().syntax().typescript_allows_enum()
             && self.input().is(Token::Const)
             && peek!(self).is_some_and(|cur| cur == Token::Enum)
         {
             let enum_start = self.cur_pos();
             self.assert_and_bump(Token::Const);
             self.assert_and_bump(Token::Enum);
+            if self.input().syntax().flow() {
+                self.emit_err(self.span(enum_start), SyntaxError::TS1003);
+            }
             return self
                 .parse_ts_enum_decl(enum_start, /* is_const */ true)
                 .map(Decl::from)
@@ -661,6 +716,15 @@ impl<I: Tokens> Parser<I> {
                 self.assert_and_bump(Token::Asterisk);
                 expect!(self, Token::As);
                 let name = self.parse_module_export_name()?;
+                if self.input().syntax().flow() && type_only {
+                    let name_span = match &name {
+                        ModuleExportName::Ident(ident) => ident.span,
+                        ModuleExportName::Str(str_lit) => str_lit.span,
+                        #[cfg(swc_ast_unknown)]
+                        _ => unreachable!(),
+                    };
+                    self.emit_err(name_span, SyntaxError::TS1003);
+                }
                 specifiers.push(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
                     span: self.span(ns_export_specifier_start),
                     name,
@@ -831,9 +895,11 @@ impl<I: Tokens> Parser<I> {
         let mut type_only = false;
         let mut phase = ImportPhase::Evaluation;
         let mut specifiers = Vec::with_capacity(4);
+        let mut flow_leading_import_type = false;
 
         'import_maybe_ident: {
             if self.is_ident_ref()
+                || (self.input().syntax().flow() && self.input().cur().is_word())
                 || (self.input().syntax().flow_types_enabled() && self.input().is(Token::TypeOf))
             {
                 let local_token = self.input().cur();
@@ -853,20 +919,34 @@ impl<I: Tokens> Parser<I> {
                     let cur = self.input().cur();
                     if cur == Token::LBrace || cur == Token::Asterisk {
                         type_only = true;
+                        if self.input().syntax().flow() {
+                            flow_leading_import_type = true;
+                        }
                         break 'import_maybe_ident;
                     }
 
-                    if self.is_ident_ref() {
+                    if self.is_ident_ref()
+                        || (self.input().syntax().flow() && self.input().cur().is_word())
+                    {
                         if !self.input().is(Token::From)
                             || peek!(self).is_some_and(|cur| cur == Token::From)
                         {
                             type_only = true;
-                            local = self.parse_imported_default_binding()?;
+                            if self.input().syntax().flow() {
+                                flow_leading_import_type = true;
+                                local = self.parse_ident_name().map(Ident::from)?;
+                            } else {
+                                local = self.parse_imported_default_binding()?;
+                            }
                         } else if peek!(self).is_some_and(|cur| cur == Token::Eq) {
                             type_only = true;
                             local = self.parse_ident_name().map(From::from)?;
                         }
                     }
+                }
+
+                if self.input().syntax().flow() && type_only {
+                    self.emit_flow_reserved_type_name_error(local.span, &local.sym);
                 }
 
                 if self.input().syntax().typescript() && self.input().is(Token::Eq) {
@@ -917,8 +997,14 @@ impl<I: Tokens> Parser<I> {
             let import_spec_start = self.cur_pos();
             // Namespace imports are not allowed in source phase.
             if phase != ImportPhase::Source && self.input_mut().eat(Token::Asterisk) {
+                if self.input().syntax().flow() && flow_leading_import_type {
+                    self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
+                }
                 expect!(self, Token::As);
                 let local = self.parse_imported_binding()?;
+                if self.input().syntax().flow() && type_only {
+                    self.emit_flow_reserved_type_name_error(local.span, &local.sym);
+                }
                 specifiers.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
                     span: self.span(import_spec_start),
                     local,

@@ -118,6 +118,32 @@ fn has_flow_pragma(mut src: &str) -> bool {
     false
 }
 
+#[cfg(feature = "flow")]
+fn is_invalid_flow_type_comment(comment: &str) -> bool {
+    let comment = comment.trim_start();
+
+    let (mut rest, require_body) = if let Some(rest) = comment.strip_prefix("::") {
+        (rest, false)
+    } else if let Some(rest) = comment.strip_prefix(':') {
+        (rest, true)
+    } else if let Some(rest) = comment.strip_prefix("flow-include") {
+        (rest, false)
+    } else {
+        return false;
+    };
+
+    if rest.contains("/*") && !rest.contains("*-/") {
+        return true;
+    }
+
+    rest = rest.trim_start();
+    if let Some(after_colon) = rest.strip_prefix(':') {
+        rest = after_colon.trim_start();
+    }
+
+    require_body && rest.is_empty()
+}
+
 /// Converts UTF-16 surrogate pair to Unicode code point.
 /// `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
 #[inline]
@@ -860,6 +886,29 @@ impl<'a> Lexer<'a> {
                                 is_for_next = false;
                             }
 
+                            #[cfg(feature = "flow")]
+                            if self.syntax().flow() {
+                                let s = unsafe {
+                                    let cur = self.input().cur_pos();
+                                    // Safety: We got slice_start and end from self.input so those are
+                                    // valid.
+                                    let s = self.input_mut().slice(
+                                        slice_start,
+                                        slice_start + BytePos((pos_offset - 2) as u32),
+                                    );
+                                    self.input_mut().reset_to(cur);
+                                    s
+                                };
+
+                                if is_invalid_flow_type_comment(s) {
+                                    let span = Span::new_with_checked(
+                                        start,
+                                        slice_start + BytePos(pos_offset as u32),
+                                    );
+                                    self.emit_error_span(span, SyntaxError::TS1003);
+                                }
+                            }
+
                             if self.comments_buffer().is_some() {
                                 let s = unsafe {
                                     let cur = self.input().cur_pos();
@@ -922,7 +971,7 @@ impl<'a> Lexer<'a> {
 
     fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<f64> {
         self.ensure_not_ident()?;
-        if self.syntax().typescript() && self.target() >= EsVersion::Es5 {
+        if self.syntax().typescript() && !self.syntax().flow() && self.target() >= EsVersion::Es5 {
             self.emit_error(start, SyntaxError::TS1085);
         }
         self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
@@ -977,7 +1026,11 @@ impl<'a> Lexer<'a> {
 
                     let next = self.input().peek();
 
-                    if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
+                    if !is_allowed(prev)
+                        || !is_allowed(next)
+                        || is_forbidden(prev)
+                        || is_forbidden(next)
+                    {
                         self.emit_error(
                             start,
                             SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
@@ -1097,6 +1150,13 @@ impl<'a> Lexer<'a> {
             }
 
             if START_WITH_ZERO {
+                if lazy_integer.has_underscore {
+                    self.emit_error(
+                        start,
+                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
+                    );
+                }
+
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
                 if s.as_bytes().iter().all(|&c| c == b'0') {

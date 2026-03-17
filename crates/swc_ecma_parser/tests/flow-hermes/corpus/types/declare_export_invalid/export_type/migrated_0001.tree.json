@@ -1,0 +1,84 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":21}},
+      "message":"Unexpected token `{`, expected an identifier"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":23}},
+      "message":"Unexpected identifier, expected the token `=`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
+      "message":"Unexpected token `,`, expected a type"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
+      "message":"Unexpected token `,`, expected the token `;`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
+      "message":"Unexpected token `,`, expected the start of a statement"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":28}},
+      "message":"Unexpected token `}`, expected the start of a statement"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the start of a statement"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+  "range":[0,29],
+  "body":[
+    {
+      "type":"DeclareExportDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":23}},
+      "range":[0,23],
+      "default":false,
+      "declaration":{
+        "type":"TypeAlias",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":23}},
+        "range":[15,23],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":21}},
+          "range":[20,21],
+          "name":"",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "typeParameters":null,
+        "right":{
+          "type":"AnyTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
+          "range":[23,24]
+        }
+      },
+      "specifiers":[],
+      "source":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
+      "range":[25,26],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
+        "range":[25,26],
+        "name":"y",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    },
+    {
+      "type":"EmptyStatement",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "range":[29,29]
+    }
+  ],
+  "comments":[]
+}

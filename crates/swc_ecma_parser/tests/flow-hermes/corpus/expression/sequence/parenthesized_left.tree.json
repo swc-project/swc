@@ -1,0 +1,35 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+  "range":[0,6],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+      "range":[0,6],
+      "expression":{
+        "type":"SequenceExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+        "range":[0,6],
+        "expressions":[
+          {
+            "type":"Literal",
+            "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":2}},
+            "range":[1,2],
+            "value":1,
+            "raw":"1"
+          },
+          {
+            "type":"Literal",
+            "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+            "range":[5,6],
+            "value":2,
+            "raw":"2"
+          }
+        ]
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

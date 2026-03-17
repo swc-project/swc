@@ -31,6 +31,25 @@ enum SignatureParsingMode {
     TSConstructSignatureDeclaration,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum FlowEnumKind {
+    String,
+    Number,
+    Boolean,
+    Symbol,
+    BigInt,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum FlowEnumMemberKind {
+    Defaulted,
+    String,
+    Number,
+    Boolean,
+    BigInt,
+    Invalid,
+}
+
 /// Mark as declare
 fn make_decl_declare(mut decl: Decl) -> Decl {
     match decl {
@@ -49,12 +68,85 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
     decl
 }
 
+fn flow_binding_has_type_ann(pat: &Pat) -> bool {
+    match pat {
+        Pat::Ident(binding) => binding.type_ann.is_some(),
+        Pat::Array(array) => array.type_ann.is_some(),
+        Pat::Object(object) => object.type_ann.is_some(),
+        Pat::Rest(rest) => rest.type_ann.is_some() || flow_binding_has_type_ann(rest.arg.as_ref()),
+        Pat::Assign(assign) => flow_binding_has_type_ann(assign.left.as_ref()),
+        _ => false,
+    }
+}
+
+fn has_legacy_octal_escape(raw: &str) -> bool {
+    let bytes = raw.as_bytes();
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'\\' {
+            if i + 1 >= bytes.len() {
+                break;
+            }
+            let c = bytes[i + 1];
+            if (b'1'..=b'7').contains(&c)
+                || (c == b'0' && i + 2 < bytes.len() && bytes[i + 2].is_ascii_digit())
+            {
+                return true;
+            }
+            i += 2;
+            continue;
+        }
+        i += 1;
+    }
+
+    false
+}
+
+fn is_legacy_octal_number_raw(raw: &str) -> bool {
+    let raw = raw.strip_prefix('-').unwrap_or(raw);
+    let bytes = raw.as_bytes();
+    if bytes.len() <= 1 || bytes[0] != b'0' || !bytes[1].is_ascii_digit() {
+        return false;
+    }
+
+    bytes[1..].iter().all(|b| b.is_ascii_digit() && *b <= b'7')
+}
+
 impl<I: Tokens> Parser<I> {
     fn make_flow_any_keyword_type(&mut self, start: BytePos) -> Box<TsType> {
         Box::new(TsType::TsKeywordType(TsKeywordType {
             span: self.span(start),
             kind: TsKeywordTypeKind::TsAnyKeyword,
         }))
+    }
+
+    pub(super) fn is_flow_reserved_type_name(name: &str) -> bool {
+        matches!(
+            name,
+            "_" | "extends"
+                | "interface"
+                | "static"
+                | "keyof"
+                | "readonly"
+                | "never"
+                | "undefined"
+                | "unknown"
+                | "string"
+                | "number"
+                | "boolean"
+                | "symbol"
+                | "null"
+                | "void"
+                | "any"
+                | "true"
+                | "false"
+        )
+    }
+
+    pub(super) fn emit_flow_reserved_type_name_error(&mut self, span: Span, name: &str) {
+        if self.syntax().flow() && Self::is_flow_reserved_type_name(name) {
+            self.emit_err(span, SyntaxError::TS1003);
+        }
     }
 
     fn make_flow_synthetic_declare_export_alias_decl(&mut self, start: BytePos) -> Decl {
@@ -617,7 +709,7 @@ impl<I: Tokens> Parser<I> {
                 p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
                     trace_cur!(p, parse_ts_type_args__arg);
 
-                    p.parse_ts_type()
+                    p.do_outside_of_context(Context::DisallowFlowAnonFnType, Self::parse_ts_type)
                 })
             })
         })?;
@@ -629,7 +721,8 @@ impl<I: Tokens> Parser<I> {
         let span = Span::new_with_checked(start, self.input().cur_span().hi);
 
         // Report grammar error for empty type argument list like `I<>`.
-        if params.is_empty() {
+        // Flow allows this form in several positions.
+        if params.is_empty() && !self.syntax().flow() {
             self.emit_err(span, SyntaxError::EmptyTypeArgumentList);
         }
 
@@ -646,8 +739,13 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = self.eat_any_ts_modifier()?;
 
         let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
+        if let TsEntityName::Ident(ident) = &type_name {
+            if &*ident.sym != "readonly" {
+                self.emit_flow_reserved_type_name_error(ident.span, &ident.sym);
+            }
+        }
         trace_cur!(self, parse_ts_type_ref__type_args);
-        let type_params = if !self.input().had_line_break_before_cur()
+        let type_params = if (self.syntax().flow() || !self.input().had_line_break_before_cur())
             && (self.input().is(Token::Lt) || self.input().is(Token::LShift))
         {
             let ret = self.do_outside_of_context(
@@ -798,24 +896,100 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.input().cur_pos();
 
-        while let Some(modifier) = self.parse_ts_modifier(
-            &[
-                Token::Public,
-                Token::Private,
-                Token::Protected,
-                Token::Readonly,
-                Token::Abstract,
-                Token::Const,
-                Token::Override,
-                Token::In,
-                Token::Out,
-            ],
-            false,
-        )? {
+        loop {
+            if self.syntax().flow() {
+                if self.input_mut().eat(Token::Plus) {
+                    if is_out {
+                        self.emit_err(self.input().prev_span(), SyntaxError::TS1030(atom!("out")));
+                    } else if is_in {
+                        self.emit_err(
+                            self.input().prev_span(),
+                            SyntaxError::TS1029(atom!("in"), atom!("out")),
+                        );
+                    }
+                    is_out = true;
+                    continue;
+                }
+
+                if self.input_mut().eat(Token::Minus) {
+                    if is_in {
+                        self.emit_err(self.input().prev_span(), SyntaxError::TS1030(atom!("in")));
+                    } else if is_out {
+                        self.emit_err(
+                            self.input().prev_span(),
+                            SyntaxError::TS1029(atom!("in"), atom!("out")),
+                        );
+                    }
+                    is_in = true;
+                    continue;
+                }
+
+                let cur = self.input().cur();
+                if matches!(cur, Token::Const | Token::In | Token::Out) {
+                    let should_treat_as_modifier = if cur == Token::Const {
+                        true
+                    } else {
+                        peek!(self).is_some_and(|next| {
+                            next.is_word() || matches!(next, Token::Plus | Token::Minus)
+                        })
+                    };
+                    if !should_treat_as_modifier {
+                        // `in` / `out` can be identifiers in Flow type parameters.
+                        break;
+                    }
+
+                    self.bump();
+
+                    match cur {
+                        Token::Const => {
+                            is_const = true;
+                            if is_in || is_out {
+                                self.emit_err(
+                                    self.input().prev_span(),
+                                    SyntaxError::TS1277(atom!("const")),
+                                );
+                            }
+                        }
+                        Token::In => {
+                            is_in = true;
+                        }
+                        Token::Out => {
+                            is_out = true;
+                        }
+                        _ => unreachable!(),
+                    }
+
+                    continue;
+                }
+            }
+
+            let Some(modifier) = self.parse_ts_modifier(
+                &[
+                    Token::Public,
+                    Token::Private,
+                    Token::Protected,
+                    Token::Readonly,
+                    Token::Abstract,
+                    Token::Const,
+                    Token::Override,
+                    Token::In,
+                    Token::Out,
+                ],
+                false,
+            )?
+            else {
+                break;
+            };
+
             match modifier {
                 Token::Const => {
                     is_const = true;
-                    if !permit_const {
+                    if self.syntax().flow() && (is_in || is_out) {
+                        self.emit_err(
+                            self.input().prev_span(),
+                            SyntaxError::TS1277(atom!("const")),
+                        );
+                    } else if !permit_const && !self.syntax().flow() {
                         self.emit_err(
                             self.input().prev_span(),
                             SyntaxError::TS1277(atom!("const")),
@@ -850,8 +1024,18 @@ impl<I: Tokens> Parser<I> {
             };
         }
 
-        let name = self.in_type(Self::parse_ident_name)?.into();
-        let constraint = self.eat_then_parse_ts_type(Token::Extends)?;
+        let name = self.in_type(Self::parse_ident_name)?;
+        self.emit_flow_reserved_type_name_error(name.span, &name.sym);
+        let name = name.into();
+        let constraint = if self.syntax().flow() {
+            if self.input().is(Token::Colon) {
+                self.eat_then_parse_ts_type(Token::Colon)?
+            } else {
+                self.eat_then_parse_ts_type(Token::Extends)?
+            }
+        } else {
+            self.eat_then_parse_ts_type(Token::Extends)?
+        };
         let default = self.eat_then_parse_ts_type(Token::Eq)?;
 
         Ok(TsTypeParam {
@@ -887,6 +1071,23 @@ impl<I: Tokens> Parser<I> {
                     // skip_first_token
                     true,
                 )?;
+
+                if p.syntax().flow() && params.is_empty() {
+                    p.emit_err(p.span(start), SyntaxError::TS1005);
+                }
+
+                if p.syntax().flow() {
+                    let mut saw_default = false;
+                    for param in &params {
+                        if param.default.is_some() {
+                            saw_default = true;
+                        } else if saw_default {
+                            // Flow requires all subsequent parameters to provide defaults once
+                            // one default is introduced.
+                            p.emit_err(param.span, SyntaxError::TS1005);
+                        }
+                    }
+                }
 
                 Ok(Box::new(TsTypeParamDecl {
                     span: p.span(start),
@@ -934,6 +1135,27 @@ impl<I: Tokens> Parser<I> {
                 )
             }
 
+            if p.input().syntax().flow() && p.input_mut().eat(Token::Percent) {
+                let is_checks = p.input().cur().is_word()
+                    && p.input().cur().take_word(&p.input) == atom!("checks");
+                if !is_checks {
+                    unexpected!(p, "checks");
+                }
+                p.bump();
+
+                if p.input_mut().eat(Token::LParen) {
+                    if !p.input().is(Token::RParen) {
+                        p.allow_in_expr(Self::parse_assignment_expr)?;
+                    }
+                    expect!(p, Token::RParen);
+                }
+
+                return Ok(Box::new(TsTypeAnn {
+                    span: p.span(return_token_start),
+                    type_ann: p.make_flow_any_keyword_type(return_token_start),
+                }));
+            }
+
             let type_pred_start = p.input().cur_pos();
             let has_type_pred_asserts = p.input().cur() == Token::Asserts && {
                 let ctx = p.ctx();
@@ -945,15 +1167,19 @@ impl<I: Tokens> Parser<I> {
                     }
                 })
             };
+            let has_flow_implies = p.syntax().flow()
+                && p.input().cur().is_word()
+                && p.input().cur().take_word(&p.input) == atom!("implies")
+                && peek!(p).is_some_and(|peek| peek.is_word() || peek == Token::This);
 
             if has_type_pred_asserts {
                 p.assert_and_bump(Token::Asserts);
             }
 
-            let has_type_pred_is = p.is_ident_ref()
+            let has_type_pred_is = (p.is_ident_ref() || p.input().is(Token::This))
                 && peek!(p).is_some_and(|peek| peek == Token::Is)
                 && !p.input_mut().has_linebreak_between_cur_and_peeked();
-            let is_type_predicate = has_type_pred_asserts || has_type_pred_is;
+            let is_type_predicate = has_type_pred_asserts || has_type_pred_is || has_flow_implies;
             if !is_type_predicate {
                 return p.parse_ts_type_ann(
                     // eat_colon
@@ -962,11 +1188,39 @@ impl<I: Tokens> Parser<I> {
                 );
             }
 
-            let type_pred_var = p.parse_ident_name()?;
+            if has_flow_implies {
+                p.bump();
+            }
+
+            if has_type_pred_asserts
+                && p.syntax().flow()
+                && p.input().cur().is_word()
+                && p.input().cur().take_word(&p.input) == atom!("implies")
+            {
+                p.emit_err(p.input().cur_span(), SyntaxError::TS1003);
+            }
+
+            let param_name = if p.input().is(Token::This) {
+                TsThisTypeOrIdent::TsThisType(p.parse_ts_this_type_node()?)
+            } else {
+                let ident = p.parse_ident_name()?;
+                if has_flow_implies && ident.sym == *"implies" {
+                    p.emit_err(ident.span, SyntaxError::TS1003);
+                }
+                TsThisTypeOrIdent::Ident(ident.into())
+            };
             let type_ann = if has_type_pred_is {
                 p.assert_and_bump(Token::Is);
                 let pos = p.input().cur_pos();
                 Some(p.parse_ts_type_ann(false, pos)?)
+            } else if has_flow_implies {
+                if p.input_mut().eat(Token::Is) {
+                    let pos = p.input().cur_pos();
+                    Some(p.parse_ts_type_ann(false, pos)?)
+                } else {
+                    p.emit_err(p.input().cur_span(), SyntaxError::TS1003);
+                    None
+                }
             } else {
                 None
             };
@@ -974,7 +1228,7 @@ impl<I: Tokens> Parser<I> {
             let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
                 span: p.span(type_pred_start),
                 asserts: has_type_pred_asserts,
-                param_name: TsThisTypeOrIdent::Ident(type_pred_var.into()),
+                param_name,
                 type_ann,
             }));
 
@@ -1096,6 +1350,256 @@ impl<I: Tokens> Parser<I> {
         result
     }
 
+    fn parse_flow_enum_explicit_kind(&mut self) -> PResult<Option<FlowEnumKind>> {
+        let ty = self.parse_ident_name()?;
+        let kind = match &*ty.sym {
+            "string" => Some(FlowEnumKind::String),
+            "number" => Some(FlowEnumKind::Number),
+            "boolean" => Some(FlowEnumKind::Boolean),
+            "symbol" => Some(FlowEnumKind::Symbol),
+            "bigint" => Some(FlowEnumKind::BigInt),
+            _ => None,
+        };
+
+        if kind.is_none() {
+            self.emit_err(ty.span, SyntaxError::TS1003);
+        }
+
+        Ok(kind)
+    }
+
+    fn flow_enum_kind_from_member(kind: FlowEnumMemberKind) -> Option<FlowEnumKind> {
+        match kind {
+            FlowEnumMemberKind::String => Some(FlowEnumKind::String),
+            FlowEnumMemberKind::Number => Some(FlowEnumKind::Number),
+            FlowEnumMemberKind::Boolean => Some(FlowEnumKind::Boolean),
+            FlowEnumMemberKind::BigInt => Some(FlowEnumKind::BigInt),
+            FlowEnumMemberKind::Defaulted | FlowEnumMemberKind::Invalid => None,
+        }
+    }
+
+    fn flow_enum_kind_matches_member(expected: FlowEnumKind, actual: FlowEnumMemberKind) -> bool {
+        matches!(
+            (expected, actual),
+            (FlowEnumKind::String, FlowEnumMemberKind::String)
+                | (FlowEnumKind::Number, FlowEnumMemberKind::Number)
+                | (FlowEnumKind::Boolean, FlowEnumMemberKind::Boolean)
+                | (FlowEnumKind::BigInt, FlowEnumMemberKind::BigInt)
+        )
+    }
+
+    fn parse_flow_enum_member(
+        &mut self,
+    ) -> PResult<(TsEnumMember, Span, Atom, FlowEnumMemberKind)> {
+        let start = self.cur_pos();
+        let id = self.parse_ident_name()?;
+        let member_name = id.sym.clone();
+
+        if id
+            .sym
+            .chars()
+            .next()
+            .is_some_and(|ch| ch.is_ascii_lowercase())
+        {
+            self.emit_err(id.span, SyntaxError::TS1003);
+        }
+
+        let init = if self.input_mut().eat(Token::Eq) {
+            Some(self.parse_assignment_expr()?)
+        } else {
+            None
+        };
+
+        let member_kind = match init.as_deref() {
+            None => FlowEnumMemberKind::Defaulted,
+            Some(Expr::Lit(Lit::Str(..))) => FlowEnumMemberKind::String,
+            Some(Expr::Lit(Lit::Num(..))) => FlowEnumMemberKind::Number,
+            Some(Expr::Lit(Lit::Bool(..))) => FlowEnumMemberKind::Boolean,
+            Some(Expr::Lit(Lit::BigInt(..))) => FlowEnumMemberKind::BigInt,
+            Some(Expr::Unary(UnaryExpr {
+                op: UnaryOp::Minus,
+                arg,
+                ..
+            })) => {
+                if matches!(arg.as_ref(), Expr::Lit(Lit::Num(..))) {
+                    FlowEnumMemberKind::Number
+                } else if matches!(arg.as_ref(), Expr::Lit(Lit::BigInt(..))) {
+                    FlowEnumMemberKind::BigInt
+                } else {
+                    FlowEnumMemberKind::Invalid
+                }
+            }
+            _ => FlowEnumMemberKind::Invalid,
+        };
+
+        let span = self.span(start);
+        Ok((
+            TsEnumMember {
+                span,
+                id: TsEnumMemberId::Ident(id.into()),
+                init,
+            },
+            span,
+            member_name,
+            member_kind,
+        ))
+    }
+
+    fn validate_flow_enum_members(
+        &mut self,
+        explicit_kind: Option<FlowEnumKind>,
+        members: &[(Span, Atom, FlowEnumMemberKind)],
+    ) {
+        let inferred_kind = explicit_kind
+            .or_else(|| {
+                members
+                    .iter()
+                    .find_map(|(_, _, kind)| Self::flow_enum_kind_from_member(*kind))
+            })
+            .unwrap_or(FlowEnumKind::String);
+        let mut saw_defaulted_string_member = false;
+        let mut saw_initialized_string_member = false;
+
+        for (idx, (span, name, kind)) in members.iter().enumerate() {
+            if members
+                .iter()
+                .take(idx)
+                .any(|(_, prev_name, _)| prev_name == name)
+            {
+                self.emit_err(*span, SyntaxError::TS1003);
+            }
+
+            if *kind == FlowEnumMemberKind::Invalid {
+                self.emit_err(*span, SyntaxError::TS1003);
+                continue;
+            }
+
+            if let Some(explicit_kind) = explicit_kind {
+                match kind {
+                    FlowEnumMemberKind::Defaulted => {
+                        if explicit_kind == FlowEnumKind::String {
+                            saw_defaulted_string_member = true;
+                        }
+                        if !matches!(explicit_kind, FlowEnumKind::String | FlowEnumKind::Symbol) {
+                            self.emit_err(*span, SyntaxError::TS1003);
+                        }
+                    }
+                    _ => {
+                        if explicit_kind == FlowEnumKind::String
+                            && *kind == FlowEnumMemberKind::String
+                        {
+                            saw_initialized_string_member = true;
+                        }
+                        if explicit_kind == FlowEnumKind::Symbol
+                            || !Self::flow_enum_kind_matches_member(explicit_kind, *kind)
+                        {
+                            self.emit_err(*span, SyntaxError::TS1003);
+                        }
+                    }
+                }
+            } else {
+                match kind {
+                    FlowEnumMemberKind::Defaulted => {
+                        if matches!(
+                            inferred_kind,
+                            FlowEnumKind::Number | FlowEnumKind::Boolean | FlowEnumKind::BigInt
+                        ) {
+                            self.emit_err(*span, SyntaxError::TS1003);
+                        }
+                    }
+                    _ => {
+                        if !Self::flow_enum_kind_matches_member(inferred_kind, *kind) {
+                            self.emit_err(*span, SyntaxError::TS1003);
+                        }
+                    }
+                }
+            }
+        }
+
+        if explicit_kind == Some(FlowEnumKind::String)
+            && saw_defaulted_string_member
+            && saw_initialized_string_member
+        {
+            self.emit_err(members[0].0, SyntaxError::TS1003);
+        }
+    }
+
+    fn parse_flow_enum_decl(&mut self, start: BytePos, is_const: bool) -> PResult<Box<TsEnumDecl>> {
+        let id = self.parse_ident_name()?;
+        if id.is_reserved() {
+            self.emit_err(id.span, SyntaxError::ExpectedIdent);
+        }
+
+        let explicit_kind = if self.input_mut().eat(Token::Of) {
+            self.parse_flow_enum_explicit_kind()?
+        } else {
+            None
+        };
+
+        expect!(self, Token::LBrace);
+
+        let mut members = Vec::new();
+        let mut member_meta = Vec::new();
+        let mut has_unknown_members = false;
+
+        while !self.input().is(Token::RBrace) {
+            if self.input().is(Token::Eof) {
+                return Err(self.eof_error());
+            }
+
+            if self.input_mut().eat(Token::DotDotDot) {
+                if has_unknown_members {
+                    self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
+                }
+                has_unknown_members = true;
+
+                if self.input_mut().eat(Token::Comma) {
+                    self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
+                }
+
+                continue;
+            }
+
+            if has_unknown_members {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+            }
+
+            let (member, span, name, kind) = self.parse_flow_enum_member()?;
+            members.push(member);
+            member_meta.push((span, name, kind));
+
+            if self.input_mut().eat(Token::Comma) {
+                continue;
+            }
+
+            if self.input().is(Token::RBrace) {
+                break;
+            }
+
+            let cur = self.input().cur();
+            self.emit_err(
+                self.input().cur_span(),
+                SyntaxError::Expected(format!("{:?}", Token::Comma), cur.to_string()),
+            );
+            if cur == Token::Eof {
+                return Err(self.eof_error());
+            }
+            self.bump();
+        }
+
+        expect!(self, Token::RBrace);
+
+        self.validate_flow_enum_members(explicit_kind, &member_meta);
+
+        Ok(Box::new(TsEnumDecl {
+            span: self.span(start),
+            declare: false,
+            is_const,
+            id: id.into(),
+            members,
+        }))
+    }
+
     /// `tsParseEnumMember`
     fn parse_ts_enum_member(&mut self) -> PResult<TsEnumMember> {
         debug_assert!(self.input().syntax().typescript());
@@ -1173,6 +1677,8 @@ impl<I: Tokens> Parser<I> {
             Some(self.parse_assignment_expr()?)
         } else if self.input().cur() == Token::Comma || self.input().cur() == Token::RBrace {
             None
+        } else if self.input().cur() == Token::Eof {
+            return Err(self.eof_error());
         } else {
             let start = self.cur_pos();
             self.bump();
@@ -1195,6 +1701,10 @@ impl<I: Tokens> Parser<I> {
         is_const: bool,
     ) -> PResult<Box<TsEnumDecl>> {
         debug_assert!(self.input().syntax().typescript());
+
+        if self.input().syntax().flow() {
+            return self.parse_flow_enum_decl(start, is_const);
+        }
 
         let id = self.parse_ident_name()?;
         expect!(self, Token::LBrace);
@@ -1284,8 +1794,22 @@ impl<I: Tokens> Parser<I> {
             match self.parse_lit()? {
                 Lit::BigInt(n) => TsLit::BigInt(n),
                 Lit::Bool(n) => TsLit::Bool(n),
-                Lit::Num(n) => TsLit::Number(n),
-                Lit::Str(n) => TsLit::Str(n),
+                Lit::Num(n) => {
+                    if self.input().syntax().flow()
+                        && n.raw.as_deref().is_some_and(is_legacy_octal_number_raw)
+                    {
+                        self.emit_err(n.span, SyntaxError::TS1003);
+                    }
+                    TsLit::Number(n)
+                }
+                Lit::Str(n) => {
+                    if self.input().syntax().flow()
+                        && n.raw.as_deref().is_some_and(has_legacy_octal_escape)
+                    {
+                        self.emit_err(n.span, SyntaxError::TS1003);
+                    }
+                    TsLit::Str(n)
+                }
                 _ => unreachable!(),
             }
         };
@@ -1382,10 +1906,19 @@ impl<I: Tokens> Parser<I> {
         }
         if self.skip_ts_parameter_start()? {
             let cur = self.input().cur();
-            if matches!(
-                cur,
-                Token::Colon | Token::Comma | Token::Eq | Token::QuestionMark
-            ) {
+            if cur == Token::QuestionMark
+                && !(self.input().syntax().flow()
+                    && peek!(self).is_some_and(|peek| {
+                        !matches!(
+                            peek,
+                            Token::Colon | Token::Comma | Token::Eq | Token::RParen
+                        )
+                    }))
+            {
+                return Ok(true);
+            }
+
+            if matches!(cur, Token::Colon | Token::Comma | Token::Eq) {
                 // ( xxx :
                 // ( xxx ,
                 // ( xxx ?
@@ -1393,6 +1926,13 @@ impl<I: Tokens> Parser<I> {
                 return Ok(true);
             }
             if self.input_mut().eat(Token::RParen) && self.input().cur() == Token::Arrow {
+                if self.input().syntax().flow()
+                    && self.ctx().contains(Context::DisallowFlowAnonFnType)
+                {
+                    // In arrow return type context, `(T) => U` should bind to
+                    // the outer arrow unless the function type is parenthesized.
+                    return Ok(false);
+                }
                 // ( xxx ) =>
                 return Ok(true);
             }
@@ -1421,7 +1961,18 @@ impl<I: Tokens> Parser<I> {
         self.assert_and_bump(Token::LBracket); // Skip '['
 
         // ',' is for error recovery
-        self.eat_ident_ref() && {
+        let has_ident = if self.input().syntax().flow() {
+            if self.input().cur().is_word() {
+                self.bump();
+                true
+            } else {
+                false
+            }
+        } else {
+            self.eat_ident_ref()
+        };
+
+        has_ident && {
             let cur = self.input().cur();
             cur == Token::Comma || cur == Token::Colon
         }
@@ -1556,7 +2107,16 @@ impl<I: Tokens> Parser<I> {
 
         for param in params {
             let item = match param.pat {
-                Pat::Ident(pat) => TsFnParam::Ident(pat),
+                Pat::Ident(pat) => {
+                    if self.input().syntax().flow() && &*pat.id.sym == "static" {
+                        self.emit_err(
+                            pat.span(),
+                            SyntaxError::InvalidIdentInStrict(atom!("static")),
+                        );
+                    }
+
+                    TsFnParam::Ident(pat)
+                }
                 Pat::Array(pat) => TsFnParam::Array(pat),
                 Pat::Object(pat) => TsFnParam::Object(pat),
                 Pat::Rest(pat) => TsFnParam::Rest(pat),
@@ -1617,6 +2177,9 @@ impl<I: Tokens> Parser<I> {
         } else {
             None
         };
+        if self.input().syntax().flow() && type_ann.is_none() {
+            self.emit_err(self.span(start), SyntaxError::TS1003);
+        }
         // -----
 
         self.parse_ts_type_member_semicolon()?;
@@ -1660,6 +2223,10 @@ impl<I: Tokens> Parser<I> {
                 ident.optional = true;
                 ident.span = ident.span.with_hi(p.input().prev_span().hi);
             }
+
+            if p.input().syntax().flow() && rest.is_some() && ident.optional {
+                p.emit_err(ident.span, SyntaxError::TS1003);
+            }
             expect!(p, Token::Colon);
 
             Ok(Some(if let Some(dot3_token) = rest {
@@ -1683,10 +2250,62 @@ impl<I: Tokens> Parser<I> {
         // parses `...TsType[]`
         let start = self.cur_pos();
 
+        if self.input().syntax().flow()
+            && self
+                .try_parse_ts(|p| {
+                    if !p.is_ident_ref() {
+                        return Ok(None);
+                    }
+
+                    let _ = p.parse_ident_name()?;
+                    if !p.input_mut().eat(Token::QuestionMark) || p.input().is(Token::Colon) {
+                        return Ok(None);
+                    }
+
+                    Ok(Some(()))
+                })
+                .is_some()
+        {
+            self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+        }
+
+        let variance_span = if self.input().syntax().flow() {
+            if self.input_mut().eat(Token::Plus) || self.input_mut().eat(Token::Minus) {
+                Some(self.input().prev_span())
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+
         let label = self.try_parse_ts_tuple_element_name();
 
+        if self.input().syntax().flow() {
+            if variance_span.is_some() && label.is_none() {
+                self.emit_err(variance_span.unwrap(), SyntaxError::TS1003);
+            }
+
+            if let Some(Pat::Rest(rest)) = &label {
+                if let Pat::Ident(ident) = rest.arg.as_ref() {
+                    if ident.id.optional {
+                        self.emit_err(ident.id.span, SyntaxError::TS1003);
+                    }
+                }
+            }
+        }
+
         if self.input_mut().eat(Token::DotDotDot) {
-            let type_ann = self.parse_ts_type()?;
+            let type_ann = if self.input().syntax().flow()
+                && (self.input().is(Token::RBracket) || self.input().is(Token::Comma))
+            {
+                if self.input().is(Token::Comma) {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+                }
+                self.make_flow_any_keyword_type(start)
+            } else {
+                self.parse_ts_type()?
+            };
             return Ok(TsTupleElement {
                 span: self.span(start),
                 label,
@@ -1723,12 +2342,23 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         let start = self.cur_pos();
-        let elems = self.parse_ts_bracketed_list(
-            ParsingContext::TupleElementTypes,
-            Self::parse_ts_tuple_element_type,
-            /* bracket */ true,
-            /* skipFirstToken */ false,
-        )?;
+        let elems = if self.input().syntax().flow() {
+            self.do_outside_of_context(Context::DisallowFlowAnonFnType, |p| {
+                p.parse_ts_bracketed_list(
+                    ParsingContext::TupleElementTypes,
+                    Self::parse_ts_tuple_element_type,
+                    /* bracket */ true,
+                    /* skipFirstToken */ false,
+                )
+            })?
+        } else {
+            self.parse_ts_bracketed_list(
+                ParsingContext::TupleElementTypes,
+                Self::parse_ts_tuple_element_type,
+                /* bracket */ true,
+                /* skipFirstToken */ false,
+            )?
+        };
 
         // Validate the elementTypes to ensure:
         //   No mandatory elements may follow optional elements
@@ -1819,7 +2449,11 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
         expect!(self, Token::LParen);
-        let type_ann = self.parse_ts_type()?;
+        let type_ann = if self.input().syntax().flow() {
+            self.do_outside_of_context(Context::DisallowFlowAnonFnType, Self::parse_ts_type)?
+        } else {
+            self.parse_ts_type()?
+        };
         expect!(self, Token::RParen);
         Ok(TsParenthesizedType {
             span: self.span(start),
@@ -1835,6 +2469,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         let id = self.parse_ident_name()?;
+        self.emit_flow_reserved_type_name_error(id.span, &id.sym);
         let type_params = self.try_parse_ts_type_params(true, false)?;
         let type_ann = self.expect_then_parse_ts_type(Token::Eq, "=")?;
         self.expect_general_semi()?;
@@ -1870,6 +2505,7 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, Token::Type);
         let id = self.parse_ident_name()?;
+        self.emit_flow_reserved_type_name_error(id.span, &id.sym);
         let type_params = self.try_parse_ts_type_params(true, false)?;
 
         // Flow opaque type may have a supertype annotation before `=`.
@@ -1878,6 +2514,9 @@ impl<I: Tokens> Parser<I> {
         }
 
         let type_ann = if self.input_mut().eat(Token::Eq) {
+            if self.ctx().contains(Context::InDeclare) {
+                self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
+            }
             self.in_type(Self::parse_ts_type)?
         } else {
             self.make_flow_any_keyword_type(start)
@@ -1938,6 +2577,99 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn make_flow_anon_fn_param(
+        &mut self,
+        start: BytePos,
+        index: usize,
+        dot3_token: Option<Span>,
+        type_ann: Box<TsType>,
+    ) -> TsFnParam {
+        let ann_span = type_ann.span();
+        let type_ann = Some(Box::new(TsTypeAnn {
+            span: ann_span,
+            type_ann,
+        }));
+        let param_span = Span::new_with_checked(start, ann_span.hi);
+        let ident = BindingIdent {
+            id: Ident::new_no_ctxt(
+                format!("__flow_anon_param_{index}").into(),
+                Span::new_with_checked(param_span.lo, param_span.lo),
+            ),
+            type_ann,
+        };
+
+        if let Some(dot3_token) = dot3_token {
+            TsFnParam::Rest(RestPat {
+                span: param_span,
+                dot3_token,
+                arg: Box::new(Pat::Ident(ident)),
+                type_ann: None,
+            })
+        } else {
+            TsFnParam::Ident(ident)
+        }
+    }
+
+    fn try_parse_flow_anon_fn_type(&mut self) -> PResult<Option<TsFnType>> {
+        if !self.input().syntax().flow()
+            || self.ctx().contains(Context::DisallowFlowAnonFnType)
+            || !self.input().is(Token::LParen)
+        {
+            return Ok(None);
+        }
+
+        let start = self.cur_pos();
+        expect!(self, Token::LParen);
+
+        // `() =>` is handled by the regular function type parser.
+        if self.input().is(Token::RParen) {
+            return Ok(None);
+        }
+
+        let mut params = Vec::new();
+
+        loop {
+            let param_start = self.cur_pos();
+            let dot3_token = if self.input_mut().eat(Token::DotDotDot) {
+                Some(self.input().prev_span())
+            } else {
+                None
+            };
+            let ty = self.parse_ts_type()?;
+
+            // Named parameters are handled by the regular signature parser.
+            if matches!(
+                self.input().cur(),
+                Token::Colon | Token::QuestionMark | Token::Eq
+            ) {
+                return Ok(None);
+            }
+
+            params.push(self.make_flow_anon_fn_param(param_start, params.len(), dot3_token, ty));
+
+            if !self.input_mut().eat(Token::Comma) {
+                break;
+            }
+
+            if self.input().is(Token::RParen) {
+                break;
+            }
+        }
+
+        expect!(self, Token::RParen);
+        if !self.input().is(Token::Arrow) {
+            return Ok(None);
+        }
+
+        let type_ann = self.parse_ts_type_or_type_predicate_ann(Token::Arrow)?;
+        Ok(Some(TsFnType {
+            span: self.span(start),
+            params,
+            type_params: None,
+            type_ann,
+        }))
+    }
+
     /// `tsParseUnionTypeOrHigher`
     fn parse_ts_union_type_or_higher(&mut self) -> PResult<Box<TsType>> {
         trace_cur!(self, parse_ts_union_type_or_higher);
@@ -1989,8 +2721,36 @@ impl<I: Tokens> Parser<I> {
                 if self.input().is(Token::Infer) {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
+                    if self.is_ts_start_of_fn_type() {
+                        return self
+                            .parse_ts_fn_or_constructor_type(true)
+                            .map(TsType::from)
+                            .map(Box::new);
+                    }
+
+                    let start = self.cur_pos();
                     let readonly = self.parse_ts_modifier(&[Token::Readonly], false)?.is_some();
-                    self.parse_ts_array_type_or_higher(readonly)
+                    let ty = self.parse_ts_array_type_or_higher(readonly)?;
+
+                    if self.input().syntax().flow()
+                        && !self.ctx().contains(Context::DisallowFlowAnonFnType)
+                        && !self.input().had_line_break_before_cur()
+                        && self.input().is(Token::Arrow)
+                        && !matches!(&*ty, TsType::TsThisType(..))
+                    {
+                        let param = self.make_flow_anon_fn_param(ty.span_lo(), 0, None, ty);
+                        let type_ann = self.parse_ts_type_or_type_predicate_ann(Token::Arrow)?;
+                        return Ok(Box::new(TsType::TsFnOrConstructorType(
+                            TsFnOrConstructorType::TsFnType(TsFnType {
+                                span: self.span(start),
+                                type_params: None,
+                                params: vec![param],
+                                type_ann,
+                            }),
+                        )));
+                    }
+
+                    Ok(ty)
                 }
             }
         }
@@ -2056,6 +2816,12 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().syntax().typescript());
 
+        if let Some(fn_type) = self.try_parse_ts(Self::try_parse_flow_anon_fn_type) {
+            return Ok(Box::new(TsType::TsFnOrConstructorType(
+                TsFnOrConstructorType::TsFnType(fn_type),
+            )));
+        }
+
         if self.is_ts_start_of_fn_type() {
             return self
                 .parse_ts_fn_or_constructor_type(true)
@@ -2082,7 +2848,38 @@ impl<I: Tokens> Parser<I> {
 
         let mut ty = self.parse_ts_non_array_type()?;
 
-        while !self.input().had_line_break_before_cur() && self.input_mut().eat(Token::LBracket) {
+        while !self.input().had_line_break_before_cur() {
+            let has_index = if self.input_mut().eat(Token::LBracket) {
+                true
+            } else if self.input().syntax().flow() && self.input_mut().eat(Token::OptionalChain) {
+                if self.input_mut().eat(Token::LBracket) {
+                    true
+                } else {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+                    false
+                }
+            } else if self.input().syntax().flow()
+                && self.input().is(Token::QuestionMark)
+                && peek!(self).is_some_and(|peek| peek == Token::Dot)
+            {
+                self.try_parse_ts(|p| {
+                    if !p.input_mut().eat(Token::QuestionMark)
+                        || !p.input_mut().eat(Token::Dot)
+                        || !p.input_mut().eat(Token::LBracket)
+                    {
+                        return Ok(None);
+                    }
+                    Ok(Some(()))
+                })
+                .is_some()
+            } else {
+                false
+            };
+
+            if !has_index {
+                break;
+            }
+
             if self.input_mut().eat(Token::RBracket) {
                 ty = Box::new(TsType::TsArrayType(TsArrayType {
                     span: self.span(ty.span_lo()),
@@ -2118,6 +2915,26 @@ impl<I: Tokens> Parser<I> {
 
         self.do_outside_of_context(Context::DisallowConditionalTypes, |p| {
             let ty = p.parse_ts_non_conditional_type()?;
+            if p.input().syntax().flow()
+                && !p.input().had_line_break_before_cur()
+                && p.input().is(Token::Arrow)
+            {
+                if let TsType::TsThisType(this_ty) = &*ty {
+                    let this_ident = BindingIdent {
+                        id: Ident::new_no_ctxt(atom!("this"), this_ty.span),
+                        type_ann: None,
+                    };
+                    let type_ann = p.parse_ts_type_or_type_predicate_ann(Token::Arrow)?;
+                    return Ok(Box::new(TsType::TsFnOrConstructorType(
+                        TsFnOrConstructorType::TsFnType(TsFnType {
+                            span: p.span(start),
+                            type_params: None,
+                            params: vec![TsFnParam::Ident(this_ident)],
+                            type_ann,
+                        }),
+                    )));
+                }
+            }
             if p.input().had_line_break_before_cur() || !p.input_mut().eat(Token::Extends) {
                 return Ok(ty);
             }
@@ -2191,6 +3008,10 @@ impl<I: Tokens> Parser<I> {
 
         let (computed, key) = self.parse_ts_property_name()?;
 
+        if self.input().syntax().flow() && readonly && computed && matches!(*key, Expr::Array(..)) {
+            self.emit_err(key.span(), SyntaxError::TS1003);
+        }
+
         let optional = self.input_mut().eat(Token::QuestionMark);
 
         let cur = self.input().cur();
@@ -2222,6 +3043,10 @@ impl<I: Tokens> Parser<I> {
             }))
         } else {
             let type_ann = self.try_parse_ts_type_ann()?;
+
+            if self.input().syntax().flow() && type_ann.is_none() {
+                self.emit_err(self.span(start), SyntaxError::TS1003);
+            }
 
             self.parse_ts_type_member_semicolon()?;
             Ok(Either::Left(TsPropertySignature {
@@ -2263,16 +3088,50 @@ impl<I: Tokens> Parser<I> {
         // Instead of fullStart, we create a node here.
         let start = self.cur_pos();
         let mut readonly = self.parse_ts_modifier(&[Token::Readonly], false)?.is_some();
+        let mut flow_minus_variance = false;
 
         if self.input().syntax().flow() {
             if self.input_mut().eat(Token::Plus) {
                 readonly = true;
             } else {
-                self.input_mut().eat(Token::Minus);
+                flow_minus_variance = self.input_mut().eat(Token::Minus);
+            }
+        }
+
+        if self.input().syntax().flow() && self.input().is(Token::LBracket) {
+            if let Some(mapped_member) = self.try_parse_ts(|p| {
+                let start = p.cur_pos();
+                expect!(p, Token::LBracket);
+                let _ = p.parse_ts_mapped_type_param()?;
+                expect!(p, Token::RBracket);
+
+                let optional = p.input_mut().eat(Token::QuestionMark);
+                let type_ann = Some(p.parse_ts_type_or_type_predicate_ann(Token::Colon)?);
+                p.parse_ts_type_member_semicolon()?;
+
+                Ok(Some(TsTypeElement::TsPropertySignature(
+                    TsPropertySignature {
+                        span: p.span(start),
+                        computed: false,
+                        readonly,
+                        key: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                            atom!("__flow_mapped"),
+                            p.span(start),
+                        ))),
+                        optional,
+                        type_ann,
+                    },
+                )))
+            }) {
+                return Ok(mapped_member);
             }
         }
 
         if self.input().syntax().flow() && self.input_mut().eat(Token::DotDotDot) {
+            if readonly || flow_minus_variance {
+                self.emit_err(self.span(start), SyntaxError::TS1003);
+            }
+
             let type_ann = if self.input().is(Token::Comma)
                 || self.input().is(Token::Semi)
                 || self.input().is(Token::RBrace)
@@ -2347,6 +3206,10 @@ impl<I: Tokens> Parser<I> {
                 }
                 let param = params.into_iter().next().unwrap();
 
+                if p.input().syntax().flow() && p.input().is(Token::Colon) {
+                    let _ = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                }
+
                 p.parse_ts_type_member_semicolon()?;
 
                 Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
@@ -2363,7 +3226,12 @@ impl<I: Tokens> Parser<I> {
         self.parse_ts_property_or_method_signature(start, readonly)
             .map(|e| match e {
                 Either::Left(e) => e.into(),
-                Either::Right(e) => e.into(),
+                Either::Right(e) => {
+                    if flow_minus_variance {
+                        self.emit_err(e.span, SyntaxError::TS1003);
+                    }
+                    e.into()
+                }
             })
     }
 
@@ -2373,18 +3241,51 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, Token::LBrace);
         let exact = self.input().syntax().flow() && self.input_mut().eat(Token::Pipe);
-        let members = if exact {
-            let mut members = Vec::new();
-            while !(self.input().is(Token::Pipe)
-                && peek!(self).is_some_and(|peek| peek == Token::RBrace))
-            {
-                members.push(self.parse_ts_type_member()?);
+        let parse_members = |p: &mut Self| -> PResult<Vec<TsTypeElement>> {
+            if exact {
+                let mut members = Vec::new();
+                while !(p.input().is(Token::Pipe)
+                    && peek!(p).is_some_and(|peek| peek == Token::RBrace))
+                {
+                    members.push(p.parse_ts_type_member()?);
+                }
+                expect!(p, Token::Pipe);
+                Ok(members)
+            } else {
+                p.parse_ts_list(ParsingContext::TypeMembers, |p| p.parse_ts_type_member())
             }
-            expect!(self, Token::Pipe);
-            members
-        } else {
-            self.parse_ts_list(ParsingContext::TypeMembers, |p| p.parse_ts_type_member())?
         };
+        let members = if self.input().syntax().flow() {
+            self.do_outside_of_context(Context::DisallowFlowAnonFnType, parse_members)?
+        } else {
+            parse_members(self)?
+        };
+
+        if self.input().syntax().flow() {
+            let is_flow_inexact = |member: &TsTypeElement| {
+                matches!(
+                    member,
+                    TsTypeElement::TsPropertySignature(TsPropertySignature {
+                        computed: false,
+                        key,
+                        type_ann: None,
+                        ..
+                    }) if matches!(&**key, Expr::Ident(Ident { sym, .. }) if &**sym == "__flow_spread")
+                )
+            };
+
+            let inexact_positions = members
+                .iter()
+                .enumerate()
+                .filter_map(|(idx, member)| is_flow_inexact(member).then_some(idx))
+                .collect::<Vec<_>>();
+
+            if let Some(first_idx) = inexact_positions.first().copied() {
+                if exact || inexact_positions.len() > 1 || first_idx + 1 != members.len() {
+                    self.emit_err(members[first_idx].span(), SyntaxError::TS1003);
+                }
+            }
+        }
         expect!(self, Token::RBrace);
         Ok(members)
     }
@@ -2437,10 +3338,26 @@ impl<I: Tokens> Parser<I> {
         }
 
         let body_start = self.cur_pos();
-        let body = self.in_type(Self::parse_ts_object_type_members)?;
+        let body_members = self.in_type(Self::parse_ts_object_type_members)?;
+
+        if self.input().syntax().flow() {
+            for member in &body_members {
+                if matches!(
+                    member,
+                    TsTypeElement::TsPropertySignature(TsPropertySignature {
+                        computed: false,
+                        key,
+                        ..
+                    }) if matches!(&**key, Expr::Ident(Ident { sym, .. }) if &**sym == "__flow_spread")
+                ) {
+                    self.emit_err(member.span(), SyntaxError::TS1003);
+                }
+            }
+        }
+
         let body = TsInterfaceBody {
             span: self.span(body_start),
-            body,
+            body: body_members,
         };
         Ok(Box::new(TsInterfaceDecl {
             span: self.span(start),
@@ -2563,7 +3480,15 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
         expect!(self, Token::TypeOf);
-        let expr_name = if self.input().is(Token::Import) {
+        let expr_name = if self.input().syntax().flow() && self.input_mut().eat(Token::LParen) {
+            let expr_name = if self.input().is(Token::Import) {
+                self.parse_ts_import_type().map(From::from)?
+            } else {
+                self.parse_ts_entity_name(true).map(From::from)?
+            };
+            expect!(self, Token::RParen);
+            expr_name
+        } else if self.input().is(Token::Import) {
             self.parse_ts_import_type().map(From::from)?
         } else {
             self.parse_ts_entity_name(true).map(From::from)?
@@ -2689,6 +3614,31 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
 
         let cur = self.input().cur();
+        if self.input().syntax().flow() {
+            if cur == Token::Interface && peek!(self).is_some_and(|peek| peek == Token::LBrace) {
+                self.bump();
+                return self.parse_ts_type_lit().map(TsType::from).map(Box::new);
+            }
+
+            if let Some(render_ty) = self.try_parse_ts(|p| {
+                if !(p.input().cur().is_word()
+                    && p.input().cur().take_word(&p.input) == atom!("renders"))
+                {
+                    return Ok(None);
+                }
+                p.bump();
+
+                if !(p.input_mut().eat(Token::QuestionMark) || p.input_mut().eat(Token::Asterisk)) {
+                    return Ok(None);
+                }
+
+                let type_ann = p.parse_ts_non_array_type()?;
+                Ok(Some(type_ann))
+            }) {
+                return Ok(render_ty);
+            }
+        }
+
         if cur.is_known_ident()
             || matches!(
                 cur,
@@ -2698,7 +3648,9 @@ impl<I: Tokens> Parser<I> {
                     | Token::Null
                     | Token::Await
                     | Token::Break
+                    | Token::Switch
             )
+            || (self.input().syntax().flow() && matches!(cur, Token::In | Token::Out))
         {
             if self.input().is(Token::Asserts)
                 && peek!(self).is_some_and(|peek| peek == Token::This)
@@ -2763,6 +3715,9 @@ impl<I: Tokens> Parser<I> {
                 .map(TsType::from)
                 .map(Box::new);
         } else if cur == Token::NoSubstitutionTemplateLiteral || cur == Token::TemplateHead {
+            if self.input().syntax().flow() {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+            }
             return self.parse_tagged_tpl_ty().map(TsType::from).map(Box::new);
         } else if cur == Token::Minus {
             let start = self.cur_pos();
@@ -2777,6 +3732,12 @@ impl<I: Tokens> Parser<I> {
             let lit = self.parse_lit()?;
             let lit = match lit {
                 Lit::Num(Number { span, value, raw }) => {
+                    if self.input().syntax().flow()
+                        && raw.as_deref().is_some_and(is_legacy_octal_number_raw)
+                    {
+                        self.emit_err(span, SyntaxError::TS1003);
+                    }
+
                     let mut new_raw = String::from("-");
 
                     match raw {
@@ -2819,6 +3780,28 @@ impl<I: Tokens> Parser<I> {
                 span: self.span(start),
                 lit,
             })));
+        } else if self.input().syntax().flow() && cur == Token::QuestionMark {
+            self.bump();
+
+            // Flow's nullable type (`?T`) is represented as `T | null | undefined`.
+            let inner_type = self.parse_ts_non_array_type()?;
+            let span = self.span(start);
+
+            let null_type = Box::new(TsType::TsKeywordType(TsKeywordType {
+                span,
+                kind: TsKeywordTypeKind::TsNullKeyword,
+            }));
+            let undefined_type = Box::new(TsType::TsKeywordType(TsKeywordType {
+                span,
+                kind: TsKeywordTypeKind::TsUndefinedKeyword,
+            }));
+
+            return Ok(Box::new(TsType::TsUnionOrIntersectionType(
+                TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                    span,
+                    types: vec![inner_type, null_type, undefined_type],
+                }),
+            )));
         } else if self.input().syntax().flow() && cur == Token::Asterisk {
             self.bump();
             return Ok(Box::new(TsType::TsKeywordType(TsKeywordType {
@@ -2926,9 +3909,10 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        if self
-            .ctx()
-            .contains(Context::InDeclare | Context::TsModuleBlock)
+        if !self.syntax().flow()
+            && self
+                .ctx()
+                .contains(Context::InDeclare | Context::TsModuleBlock)
         {
             let span_of_declare = self.span(start);
             self.emit_err(span_of_declare, SyntaxError::TS1038);
@@ -2940,18 +3924,23 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_fn_decl(decorators)
                     .map(|decl| match decl {
-                        Decl::Fn(f) => FnDecl {
-                            declare: true,
-                            function: Box::new(Function {
-                                span: Span {
-                                    lo: declare_start,
-                                    ..f.function.span
-                                },
-                                ..*f.function
-                            }),
-                            ..f
+                        Decl::Fn(f) => {
+                            if p.syntax().flow() && f.function.return_type.is_none() {
+                                p.emit_err(f.ident.span, SyntaxError::TS1003);
+                            }
+                            FnDecl {
+                                declare: true,
+                                function: Box::new(Function {
+                                    span: Span {
+                                        lo: declare_start,
+                                        ..f.function.span
+                                    },
+                                    ..*f.function
+                                }),
+                                ..f
+                            }
+                            .into()
                         }
-                        .into(),
                         _ => decl,
                     })
                     .map(Some);
@@ -2984,6 +3973,9 @@ impl<I: Tokens> Parser<I> {
             {
                 p.assert_and_bump(Token::Const);
                 p.assert_and_bump(Token::Enum);
+                if p.input().syntax().flow() {
+                    p.emit_err(p.span(start), SyntaxError::TS1003);
+                }
 
                 return p
                     .parse_ts_enum_decl(start, /* is_const */ true)
@@ -3004,13 +3996,22 @@ impl<I: Tokens> Parser<I> {
             if matches!(cur, Token::Const | Token::Var | Token::Let) {
                 return p
                     .parse_var_stmt(false)
-                    .map(|decl| VarDecl {
-                        declare: true,
-                        span: Span {
-                            lo: declare_start,
-                            ..decl.span
-                        },
-                        ..*decl
+                    .map(|decl| {
+                        if p.syntax().flow() {
+                            for declr in &decl.decls {
+                                if !flow_binding_has_type_ann(&declr.name) {
+                                    p.emit_err(declr.name.span(), SyntaxError::TS1003);
+                                }
+                            }
+                        }
+                        VarDecl {
+                            declare: true,
+                            span: Span {
+                                lo: declare_start,
+                                ..decl.span
+                            },
+                            ..*decl
+                        }
                     })
                     .map(Box::new)
                     .map(From::from)
@@ -3091,18 +4092,23 @@ impl<I: Tokens> Parser<I> {
                     return p
                         .parse_fn_decl(decorators.clone())
                         .map(|decl| match decl {
-                            Decl::Fn(f) => FnDecl {
-                                declare: true,
-                                function: Box::new(Function {
-                                    span: Span {
-                                        lo: declare_start,
-                                        ..f.function.span
-                                    },
-                                    ..*f.function
-                                }),
-                                ..f
+                            Decl::Fn(f) => {
+                                if p.syntax().flow() && f.function.return_type.is_none() {
+                                    p.emit_err(f.ident.span, SyntaxError::TS1003);
+                                }
+                                FnDecl {
+                                    declare: true,
+                                    function: Box::new(Function {
+                                        span: Span {
+                                            lo: declare_start,
+                                            ..f.function.span
+                                        },
+                                        ..*f.function
+                                    }),
+                                    ..f
+                                }
+                                .into()
                             }
-                            .into(),
                             _ => decl,
                         })
                         .map(Some);
@@ -3133,13 +4139,22 @@ impl<I: Tokens> Parser<I> {
                 if matches!(cur, Token::Const | Token::Var | Token::Let) {
                     return p
                         .parse_var_stmt(false)
-                        .map(|decl| VarDecl {
-                            declare: true,
-                            span: Span {
-                                lo: declare_start,
-                                ..decl.span
-                            },
-                            ..*decl
+                        .map(|decl| {
+                            if p.syntax().flow() {
+                                for declr in &decl.decls {
+                                    if !flow_binding_has_type_ann(&declr.name) {
+                                        p.emit_err(declr.name.span(), SyntaxError::TS1003);
+                                    }
+                                }
+                            }
+                            VarDecl {
+                                declare: true,
+                                span: Span {
+                                    lo: declare_start,
+                                    ..decl.span
+                                },
+                                ..*decl
+                            }
                         })
                         .map(Box::new)
                         .map(From::from)

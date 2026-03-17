@@ -1,0 +1,28 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
+  "range":[0,28],
+  "body":[
+    {
+      "type":"ExportDefaultDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
+      "range":[0,28],
+      "declaration":{
+        "type":"MatchExpression",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":27}},
+        "range":[15,27],
+        "argument":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":23}},
+          "range":[22,23],
+          "name":"a",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "cases":[]
+      },
+      "exportKind":"value"
+    }
+  ],
+  "comments":[]
+}

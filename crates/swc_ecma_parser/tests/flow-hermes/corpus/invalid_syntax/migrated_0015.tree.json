@@ -1,0 +1,36 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":8}},
+      "message":"Unexpected reserved word"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
+  "range":[0,8],
+  "body":[
+    {
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
+      "range":[0,8],
+      "declarations":[
+        {
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":8}},
+          "range":[4,8],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":8}},
+            "range":[4,8],
+            "name":"enum",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "init":null
+        }
+      ],
+      "kind":"var"
+    }
+  ],
+  "comments":[]
+}
