@@ -1181,8 +1181,8 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                let prev_allow_super_call = self.allow_super_call;
-                self.allow_super_call = true;
+                let prev_allow_super_call = self.allow_super_call();
+                self.set_allow_super_call(true);
                 let ctor_sig_and_body =
                     (|| -> PResult<(Vec<ParamOrTsParamProp>, Option<BlockStmt>)> {
                         expect!(self, Token::LParen);
@@ -1219,7 +1219,7 @@ impl<I: Tokens> Parser<I> {
 
                         Ok((params, body))
                     })();
-                self.allow_super_call = prev_allow_super_call;
+                self.set_allow_super_call(prev_allow_super_call);
                 let (params, body) = ctor_sig_and_body?;
 
                 if body.is_none() {

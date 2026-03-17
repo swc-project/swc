@@ -706,11 +706,22 @@ impl<I: Tokens> Parser<I> {
                 } else {
                     expect!(p, Token::Lt);
                 }
-                p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
-                    trace_cur!(p, parse_ts_type_args__arg);
+                if p.syntax().flow() {
+                    p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
+                        trace_cur!(p, parse_ts_type_args__arg);
 
-                    p.do_outside_of_context(Context::DisallowFlowAnonFnType, Self::parse_ts_type)
-                })
+                        p.do_outside_of_context(
+                            Context::DisallowFlowAnonFnType,
+                            Self::parse_ts_type,
+                        )
+                    })
+                } else {
+                    p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
+                        trace_cur!(p, parse_ts_type_args__arg);
+
+                        p.parse_ts_type()
+                    })
+                }
             })
         })?;
         // This reads the next token after the `>` too, so do this in the enclosing
@@ -739,9 +750,11 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = self.eat_any_ts_modifier()?;
 
         let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
-        if let TsEntityName::Ident(ident) = &type_name {
-            if &*ident.sym != "readonly" {
-                self.emit_flow_reserved_type_name_error(ident.span, &ident.sym);
+        if self.syntax().flow() {
+            if let TsEntityName::Ident(ident) = &type_name {
+                if &*ident.sym != "readonly" {
+                    self.emit_flow_reserved_type_name_error(ident.span, &ident.sym);
+                }
             }
         }
         trace_cur!(self, parse_ts_type_ref__type_args);
@@ -1025,7 +1038,9 @@ impl<I: Tokens> Parser<I> {
         }
 
         let name = self.in_type(Self::parse_ident_name)?;
-        self.emit_flow_reserved_type_name_error(name.span, &name.sym);
+        if self.syntax().flow() {
+            self.emit_flow_reserved_type_name_error(name.span, &name.sym);
+        }
         let name = name.into();
         let constraint = if self.syntax().flow() {
             if self.input().is(Token::Colon) {
@@ -2469,7 +2484,9 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         let id = self.parse_ident_name()?;
-        self.emit_flow_reserved_type_name_error(id.span, &id.sym);
+        if self.syntax().flow() {
+            self.emit_flow_reserved_type_name_error(id.span, &id.sym);
+        }
         let type_params = self.try_parse_ts_type_params(true, false)?;
         let type_ann = self.expect_then_parse_ts_type(Token::Eq, "=")?;
         self.expect_general_semi()?;
@@ -2505,7 +2522,9 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, Token::Type);
         let id = self.parse_ident_name()?;
-        self.emit_flow_reserved_type_name_error(id.span, &id.sym);
+        if self.syntax().flow() {
+            self.emit_flow_reserved_type_name_error(id.span, &id.sym);
+        }
         let type_params = self.try_parse_ts_type_params(true, false)?;
 
         // Flow opaque type may have a supertype annotation before `=`.

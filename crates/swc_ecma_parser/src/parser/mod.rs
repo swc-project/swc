@@ -57,6 +57,7 @@ pub struct ParserCheckpoint<I: Tokens> {
     buffer_prev_span: Span,
     buffer_cur: TokenAndSpan,
     buffer_next: Option<crate::lexer::NextTokenAndSpan>,
+    #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
 
@@ -66,6 +67,7 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
+    #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
 
@@ -90,7 +92,7 @@ impl<I: Tokens> Parser<I> {
         &mut self.state
     }
 
-    #[cfg(feature = "typescript")]
+    #[cfg(all(feature = "typescript", feature = "flow"))]
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
@@ -101,7 +103,17 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    #[cfg(feature = "typescript")]
+    #[cfg(all(feature = "typescript", not(feature = "flow")))]
+    fn checkpoint_save(&self) -> ParserCheckpoint<I> {
+        ParserCheckpoint {
+            lexer: self.input.iter.checkpoint_save(),
+            buffer_cur: self.input.cur,
+            buffer_next: self.input.next.clone(),
+            buffer_prev_span: self.input.prev_span,
+        }
+    }
+
+    #[cfg(all(feature = "typescript", feature = "flow"))]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
@@ -109,6 +121,36 @@ impl<I: Tokens> Parser<I> {
         self.input.prev_span = checkpoint.buffer_prev_span;
         self.allow_super_call = checkpoint.allow_super_call;
     }
+
+    #[cfg(all(feature = "typescript", not(feature = "flow")))]
+    fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
+        self.input.iter.checkpoint_load(checkpoint.lexer);
+        self.input.cur = checkpoint.buffer_cur;
+        self.input.next = checkpoint.buffer_next;
+        self.input.prev_span = checkpoint.buffer_prev_span;
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub fn allow_super_call(&self) -> bool {
+        self.allow_super_call
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub fn allow_super_call(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub fn set_allow_super_call(&mut self, value: bool) {
+        self.allow_super_call = value;
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub fn set_allow_super_call(&mut self, _value: bool) {}
 
     #[inline(always)]
     fn mark_found_module_item(&mut self) {
@@ -135,6 +177,7 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
+            #[cfg(feature = "flow")]
             allow_super_call: false,
         };
 
@@ -258,7 +301,9 @@ impl<I: Tokens> Parser<I> {
         }
 
         let ret = if has_module_item {
-            self.report_duplicate_exports(&body);
+            if self.syntax().flow() {
+                self.report_duplicate_exports(&body);
+            }
             Program::Module(Module {
                 span: self.span(start),
                 body,
@@ -306,7 +351,9 @@ impl<I: Tokens> Parser<I> {
                 body,
                 shebang,
             })?;
-        self.report_duplicate_exports(&ret.body);
+        if self.syntax().flow() {
+            self.report_duplicate_exports(&ret.body);
+        }
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
@@ -434,10 +481,6 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn report_duplicate_exports(&mut self, body: &[ModuleItem]) {
-        if !self.syntax().flow() {
-            return;
-        }
-
         let mut exported = FxHashMap::<Atom, Span>::default();
         for item in body {
             let ModuleItem::ModuleDecl(module_decl) = item else {

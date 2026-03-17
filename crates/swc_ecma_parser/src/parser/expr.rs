@@ -1431,7 +1431,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             Token::LParen if !no_call => {
-                if self.syntax().flow() && !self.allow_super_call {
+                if self.syntax().flow() && !self.allow_super_call() {
                     syntax_error!(self, lhs.span, SyntaxError::InvalidSuperCall)
                 }
 
@@ -2367,9 +2367,13 @@ impl<I: Tokens> Parser<I> {
             // TODO: Remove clone
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
-                let return_type = p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
-                    p.parse_ts_type_or_type_predicate_ann(Token::Colon)
-                })?;
+                let return_type = if p.input().syntax().flow() {
+                    p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
+                        p.parse_ts_type_or_type_predicate_ann(Token::Colon)
+                    })?
+                } else {
+                    p.parse_ts_type_or_type_predicate_ann(Token::Colon)?
+                };
 
                 expect!(p, Token::Arrow);
 
@@ -2410,9 +2414,13 @@ impl<I: Tokens> Parser<I> {
             && self.input().is(Token::Colon)
         {
             self.try_parse_ts(|p| {
-                let return_type = p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
-                    p.parse_ts_type_or_type_predicate_ann(Token::Colon)
-                })?;
+                let return_type = if p.input().syntax().flow() {
+                    p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
+                        p.parse_ts_type_or_type_predicate_ann(Token::Colon)
+                    })?
+                } else {
+                    p.parse_ts_type_or_type_predicate_ann(Token::Colon)?
+                };
 
                 if !p.input().is(Token::Arrow) {
                     unexpected!(p, "fail")
