@@ -52,6 +52,9 @@ struct DecoratorPass {
     /// In module-mode exec tests, assignment to unresolved identifiers throws.
     /// Track them to preserve sloppy-mode behavior expected by Babel fixtures.
     implicit_globals: FxHashSet<Atom>,
+
+    /// Stack of private names declared by currently visited classes.
+    class_private_names: Vec<FxHashSet<Atom>>,
 }
 
 #[derive(Default)]
@@ -171,6 +174,23 @@ impl DecoratorPass {
         v.found
     }
 
+    fn expr_uses_current_class_private_name(&self, expr: &Expr) -> bool {
+        let Some(names) = self.class_private_names.last() else {
+            return false;
+        };
+
+        if names.is_empty() {
+            return false;
+        }
+
+        let mut v = InstancePrivateNameFinder {
+            names,
+            found: false,
+        };
+        expr.visit_with(&mut v);
+        v.found
+    }
+
     fn expr_uses_yield_or_await(&self, expr: &Expr) -> bool {
         let mut v = YieldAwaitFinder::default();
         expr.visit_with(&mut v);
@@ -267,6 +287,29 @@ impl DecoratorPass {
                     names.insert(method.key.name.clone());
                 }
                 ClassMember::AutoAccessor(accessor) if !accessor.is_static => {
+                    if let Key::Private(name) = &accessor.key {
+                        names.insert(name.name.clone());
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        names
+    }
+
+    fn collect_class_private_names(&self, members: &[ClassMember]) -> FxHashSet<Atom> {
+        let mut names = FxHashSet::default();
+
+        for member in members {
+            match member {
+                ClassMember::PrivateProp(prop) => {
+                    names.insert(prop.key.name.clone());
+                }
+                ClassMember::PrivateMethod(method) => {
+                    names.insert(method.key.name.clone());
+                }
+                ClassMember::AutoAccessor(accessor) => {
                     if let Key::Private(name) = &accessor.key {
                         names.insert(name.name.clone());
                     }
@@ -902,7 +945,11 @@ impl DecoratorPass {
         dec: Box<Expr>,
         allow_class_name_queue: bool,
     ) -> Box<Expr> {
-        if dec.is_ident() || dec.is_arrow() || dec.is_fn_expr() {
+        if dec.is_ident()
+            || dec.is_arrow()
+            || dec.is_fn_expr()
+            || (!self.is_2023_11() && self.expr_uses_current_class_private_name(&dec))
+        {
             return dec;
         }
 
@@ -2019,6 +2066,8 @@ impl VisitMut for DecoratorPass {
         let old_stmts = self.state.extra_stmts.take();
         let old_pending_instance = self.state.pending_instance_field_extra_inits.take();
         let old_computed_key_inits = self.state.computed_key_inits.take();
+        self.class_private_names
+            .push(self.collect_class_private_names(&n.body));
 
         n.visit_mut_children_with(self);
 
@@ -2030,35 +2079,91 @@ impl VisitMut for DecoratorPass {
                 ..Default::default()
             };
             // _initProto must run AFTER super() but BEFORE field initialization.
-            // We inject it into the first non-static field's initializer expression.
-            // If there are no fields with initializers, we inject into the constructor.
+            // For 2022-03, we avoid injecting into truly private field initializers
+            // because addInitializer callbacks can attempt private access before brand
+            // setup. We still allow private storage generated for public accessors to
+            // preserve ordering.
+            // If there are no suitable fields with initializers, inject into the
+            // constructor.
             let mut proto_inited = false;
-            for member in n.body.iter_mut() {
-                if let ClassMember::ClassProp(prop) = member {
-                    if prop.is_static {
+
+            if self.is_2023_11() {
+                for member in n.body.iter_mut() {
+                    match member {
+                        ClassMember::ClassProp(prop) => {
+                            if prop.is_static {
+                                continue;
+                            }
+                            if let Some(value) = prop.value.take() {
+                                prop.value = Some(Expr::from_exprs(vec![
+                                    init_proto_expr.clone().into(),
+                                    value,
+                                ]));
+
+                                proto_inited = true;
+                                break;
+                            }
+                        }
+                        ClassMember::PrivateProp(prop) => {
+                            if prop.is_static {
+                                continue;
+                            }
+                            if let Some(value) = prop.value.take() {
+                                prop.value = Some(Expr::from_exprs(vec![
+                                    init_proto_expr.clone().into(),
+                                    value,
+                                ]));
+
+                                proto_inited = true;
+                                break;
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            } else {
+                let body_len = n.body.len();
+                for i in 0..body_len {
+                    let should_inject = match &n.body[i] {
+                        ClassMember::ClassProp(prop) => !prop.is_static && prop.value.is_some(),
+                        ClassMember::PrivateProp(prop) => {
+                            !prop.is_static
+                                && prop.value.is_some()
+                                && i + 1 < body_len
+                                && matches!(
+                                    &n.body[i + 1],
+                                    ClassMember::Method(m) if m.kind == MethodKind::Getter
+                                )
+                        }
+                        _ => false,
+                    };
+
+                    if !should_inject {
                         continue;
                     }
-                    if let Some(value) = prop.value.clone() {
-                        prop.value = Some(Expr::from_exprs(vec![
-                            init_proto_expr.clone().into(),
-                            value,
-                        ]));
 
-                        proto_inited = true;
-                        break;
-                    }
-                } else if let ClassMember::PrivateProp(prop) = member {
-                    if prop.is_static {
-                        continue;
-                    }
-                    if let Some(value) = prop.value.clone() {
-                        prop.value = Some(Expr::from_exprs(vec![
-                            init_proto_expr.clone().into(),
-                            value,
-                        ]));
-
-                        proto_inited = true;
-                        break;
+                    match &mut n.body[i] {
+                        ClassMember::ClassProp(prop) => {
+                            if let Some(value) = prop.value.take() {
+                                prop.value = Some(Expr::from_exprs(vec![
+                                    init_proto_expr.clone().into(),
+                                    value,
+                                ]));
+                                proto_inited = true;
+                                break;
+                            }
+                        }
+                        ClassMember::PrivateProp(prop) => {
+                            if let Some(value) = prop.value.take() {
+                                prop.value = Some(Expr::from_exprs(vec![
+                                    init_proto_expr.clone().into(),
+                                    value,
+                                ]));
+                                proto_inited = true;
+                                break;
+                            }
+                        }
+                        _ => {}
                     }
                 }
             }
@@ -2120,6 +2225,7 @@ impl VisitMut for DecoratorPass {
         self.state.extra_stmts = old_stmts;
         self.state.pending_instance_field_extra_inits = old_pending_instance;
         self.state.computed_key_inits = old_computed_key_inits;
+        self.class_private_names.pop();
     }
 
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
