@@ -331,7 +331,9 @@ impl<I: Tokens> Parser<I> {
                 None
             };
 
-            p.try_parse_flow_predicate()?;
+            if p.is_flow_syntax() {
+                p.try_parse_flow_predicate()?;
+            }
 
             let body: Option<_> = p.parse_fn_block_body(
                 is_async,

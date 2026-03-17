@@ -1922,7 +1922,7 @@ impl<I: Tokens> Parser<I> {
         if self.skip_ts_parameter_start()? {
             let cur = self.input().cur();
             if cur == Token::QuestionMark
-                && !(self.input().syntax().flow()
+                && !(self.is_flow_syntax()
                     && peek!(self).is_some_and(|peek| {
                         !matches!(
                             peek,
@@ -1941,9 +1941,7 @@ impl<I: Tokens> Parser<I> {
                 return Ok(true);
             }
             if self.input_mut().eat(Token::RParen) && self.input().cur() == Token::Arrow {
-                if self.input().syntax().flow()
-                    && self.ctx().contains(Context::DisallowFlowAnonFnType)
-                {
+                if self.is_flow_syntax() && self.ctx().contains(Context::DisallowFlowAnonFnType) {
                     // In arrow return type context, `(T) => U` should bind to
                     // the outer arrow unless the function type is parenthesized.
                     return Ok(false);
@@ -2751,7 +2749,7 @@ impl<I: Tokens> Parser<I> {
                     let readonly = self.parse_ts_modifier(&[Token::Readonly], false)?.is_some();
                     let ty = self.parse_ts_array_type_or_higher(readonly)?;
 
-                    if self.input().syntax().flow()
+                    if self.is_flow_syntax()
                         && !self.ctx().contains(Context::DisallowFlowAnonFnType)
                         && !self.input().had_line_break_before_cur()
                         && self.input().is(Token::Arrow)
@@ -2835,10 +2833,12 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().syntax().typescript());
 
-        if let Some(fn_type) = self.try_parse_ts(Self::try_parse_flow_anon_fn_type) {
-            return Ok(Box::new(TsType::TsFnOrConstructorType(
-                TsFnOrConstructorType::TsFnType(fn_type),
-            )));
+        if self.is_flow_syntax() {
+            if let Some(fn_type) = self.try_parse_ts(Self::try_parse_flow_anon_fn_type) {
+                return Ok(Box::new(TsType::TsFnOrConstructorType(
+                    TsFnOrConstructorType::TsFnType(fn_type),
+                )));
+            }
         }
 
         if self.is_ts_start_of_fn_type() {

@@ -152,6 +152,18 @@ impl<I: Tokens> Parser<I> {
     #[inline(always)]
     pub fn set_allow_super_call(&mut self, _value: bool) {}
 
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub fn is_flow_syntax(&self) -> bool {
+        self.syntax().flow()
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub fn is_flow_syntax(&self) -> bool {
+        false
+    }
+
     #[inline(always)]
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
