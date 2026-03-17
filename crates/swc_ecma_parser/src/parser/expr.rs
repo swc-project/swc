@@ -1431,7 +1431,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             Token::LParen if !no_call => {
-                if !self.allow_super_call {
+                if self.syntax().flow() && !self.allow_super_call {
                     syntax_error!(self, lhs.span, SyntaxError::InvalidSuperCall)
                 }
 

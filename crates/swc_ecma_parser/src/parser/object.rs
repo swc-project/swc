@@ -82,27 +82,31 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
             }
 
-            match &*key.sym {
-                "eval" | "arguments" if ctx.contains(Context::Strict) => {
-                    self.emit_err(key.span, SyntaxError::EvalAndArgumentsInStrict);
+            if self.syntax().flow() {
+                match &*key.sym {
+                    "eval" | "arguments" if ctx.contains(Context::Strict) => {
+                        self.emit_err(key.span, SyntaxError::EvalAndArgumentsInStrict);
+                    }
+                    "await"
+                        if ctx.contains(Context::InAsync)
+                            || ctx.contains(Context::InStaticBlock)
+                            || ctx.contains(Context::Module) =>
+                    {
+                        self.emit_err(key.span, SyntaxError::InvalidIdentInAsync);
+                    }
+                    "yield"
+                        if ctx.contains(Context::InGenerator) || ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(key.span, SyntaxError::InvalidIdentInStrict(key.sym.clone()));
+                    }
+                    "implements" | "interface" | "package" | "private" | "protected" | "public"
+                    | "static"
+                        if ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(key.span, SyntaxError::InvalidIdentInStrict(key.sym.clone()));
+                    }
+                    _ => {}
                 }
-                "await"
-                    if ctx.contains(Context::InAsync)
-                        || ctx.contains(Context::InStaticBlock)
-                        || ctx.contains(Context::Module) =>
-                {
-                    self.emit_err(key.span, SyntaxError::InvalidIdentInAsync);
-                }
-                "yield" if ctx.contains(Context::InGenerator) || ctx.contains(Context::Strict) => {
-                    self.emit_err(key.span, SyntaxError::InvalidIdentInStrict(key.sym.clone()));
-                }
-                "implements" | "interface" | "package" | "private" | "protected" | "public"
-                | "static"
-                    if ctx.contains(Context::Strict) =>
-                {
-                    self.emit_err(key.span, SyntaxError::InvalidIdentInStrict(key.sym.clone()));
-                }
-                _ => {}
             }
 
             None
@@ -308,33 +312,37 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
             }
 
-            match &*ident.sym {
-                "eval" | "arguments" if ctx.contains(Context::Strict) => {
-                    self.emit_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
+            if self.syntax().flow() {
+                match &*ident.sym {
+                    "eval" | "arguments" if ctx.contains(Context::Strict) => {
+                        self.emit_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
+                    }
+                    "await"
+                        if ctx.contains(Context::InAsync)
+                            || ctx.contains(Context::InStaticBlock)
+                            || ctx.contains(Context::Module) =>
+                    {
+                        self.emit_err(ident.span, SyntaxError::InvalidIdentInAsync);
+                    }
+                    "yield"
+                        if ctx.contains(Context::InGenerator) || ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(
+                            ident.span,
+                            SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
+                        );
+                    }
+                    "implements" | "interface" | "package" | "private" | "protected" | "public"
+                    | "static"
+                        if ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(
+                            ident.span,
+                            SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
+                        );
+                    }
+                    _ => {}
                 }
-                "await"
-                    if ctx.contains(Context::InAsync)
-                        || ctx.contains(Context::InStaticBlock)
-                        || ctx.contains(Context::Module) =>
-                {
-                    self.emit_err(ident.span, SyntaxError::InvalidIdentInAsync);
-                }
-                "yield" if ctx.contains(Context::InGenerator) || ctx.contains(Context::Strict) => {
-                    self.emit_err(
-                        ident.span,
-                        SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
-                    );
-                }
-                "implements" | "interface" | "package" | "private" | "protected" | "public"
-                | "static"
-                    if ctx.contains(Context::Strict) =>
-                {
-                    self.emit_err(
-                        ident.span,
-                        SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
-                    );
-                }
-                _ => {}
             }
 
             if self.input_mut().eat(Token::Eq) {

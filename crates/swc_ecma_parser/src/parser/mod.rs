@@ -223,7 +223,6 @@ impl<I: Tokens> Parser<I> {
                 body,
                 shebang,
             })?;
-        self.report_duplicate_exports(&ret.body);
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
@@ -435,6 +434,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn report_duplicate_exports(&mut self, body: &[ModuleItem]) {
+        if !self.syntax().flow() {
+            return;
+        }
+
         let mut exported = FxHashMap::<Atom, Span>::default();
         for item in body {
             let ModuleItem::ModuleDecl(module_decl) = item else {
