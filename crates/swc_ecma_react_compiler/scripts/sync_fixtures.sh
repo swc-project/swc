@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 DEFAULT_MANIFEST="$ROOT_DIR/tests/fixtures/upstream_manifest.txt"
 DEFAULT_OUT_DIR="$ROOT_DIR/tests/fixtures/upstream"
-DEFAULT_REF="main"
+DEFAULT_REF="c80a07509582daadf275f36ffe7a88c3b12e9db4"
 
 MANIFEST="$DEFAULT_MANIFEST"
 OUT_DIR="$DEFAULT_OUT_DIR"

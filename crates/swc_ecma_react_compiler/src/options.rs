@@ -1,4 +1,4 @@
-use std::{borrow::Cow, sync::Arc};
+use std::{borrow::Cow, fmt, sync::Arc};
 
 use swc_atoms::Atom;
 use swc_common::Span;
@@ -123,19 +123,58 @@ pub struct DynamicGatingOptions {
     pub source: Atom,
 }
 
+/// Exhaustive effect dependency validation mode.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum ExhaustiveEffectDependenciesMode {
+    Off,
+    All,
+    MissingOnly,
+    ExtraOnly,
+}
+
+impl Default for ExhaustiveEffectDependenciesMode {
+    fn default() -> Self {
+        Self::Off
+    }
+}
+
+impl ExhaustiveEffectDependenciesMode {
+    pub fn is_enabled(self) -> bool {
+        !matches!(self, Self::Off)
+    }
+}
+
+pub type SourcePredicate = dyn Fn(&str) -> bool + Send + Sync;
+
+/// Source inclusion filter.
+#[derive(Clone)]
+pub enum SourceSelection {
+    Prefixes(Vec<String>),
+    Predicate(Arc<SourcePredicate>),
+}
+
+impl fmt::Debug for SourceSelection {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Prefixes(prefixes) => f.debug_tuple("Prefixes").field(prefixes).finish(),
+            Self::Predicate(_) => f.write_str("Predicate(..)"),
+        }
+    }
+}
+
 /// Environment behavior flags.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct EnvironmentConfig {
     pub validate_blocklisted_imports: Vec<Atom>,
     pub validate_hooks_usage: bool,
-    pub validate_no_capitalized_calls: bool,
+    pub validate_no_capitalized_calls: Option<Vec<Atom>>,
     pub validate_ref_access_during_render: bool,
     pub validate_no_set_state_in_render: bool,
     pub validate_no_derived_computations_in_effects: bool,
     pub validate_no_set_state_in_effects: bool,
     pub validate_no_jsx_in_try_statements: bool,
     pub validate_exhaustive_memoization_dependencies: bool,
-    pub validate_exhaustive_effect_dependencies: bool,
+    pub validate_exhaustive_effect_dependencies: ExhaustiveEffectDependenciesMode,
     pub validate_preserve_existing_memoization_guarantees: bool,
     pub enable_preserve_existing_memoization_guarantees: bool,
     pub validate_static_components: bool,
@@ -151,14 +190,14 @@ impl Default for EnvironmentConfig {
             validate_blocklisted_imports: Vec::new(),
             validate_hooks_usage: true,
             // Upstream default is nullable (disabled unless configured).
-            validate_no_capitalized_calls: false,
+            validate_no_capitalized_calls: None,
             validate_ref_access_during_render: true,
             validate_no_set_state_in_render: true,
             validate_no_derived_computations_in_effects: false,
             validate_no_set_state_in_effects: false,
             validate_no_jsx_in_try_statements: false,
             validate_exhaustive_memoization_dependencies: true,
-            validate_exhaustive_effect_dependencies: false,
+            validate_exhaustive_effect_dependencies: ExhaustiveEffectDependenciesMode::Off,
             validate_preserve_existing_memoization_guarantees: true,
             enable_preserve_existing_memoization_guarantees: true,
             validate_static_components: false,
@@ -185,7 +224,7 @@ pub struct PluginOptions {
     pub flow_suppressions: Option<bool>,
     pub ignore_use_no_forget: Option<bool>,
     pub custom_opt_out_directives: Option<Vec<String>>,
-    pub sources: Option<Vec<String>>,
+    pub sources: Option<SourceSelection>,
     pub enable_reanimated_check: Option<bool>,
     pub target: Option<CompilerReactTarget>,
 }
@@ -205,7 +244,7 @@ pub struct ParsedPluginOptions {
     pub flow_suppressions: bool,
     pub ignore_use_no_forget: bool,
     pub custom_opt_out_directives: Option<Vec<String>>,
-    pub sources: Option<Vec<String>>,
+    pub sources: Option<SourceSelection>,
     pub enable_reanimated_check: bool,
     pub target: CompilerReactTarget,
 }
@@ -223,11 +262,16 @@ impl ParsedPluginOptions {
 
     pub fn should_include_file(&self, filename: &str) -> bool {
         if let Some(sources) = &self.sources {
-            if sources.is_empty() {
-                return true;
-            }
-
-            return sources.iter().any(|prefix| filename.contains(prefix));
+            return match sources {
+                SourceSelection::Prefixes(prefixes) => {
+                    if prefixes.is_empty() {
+                        true
+                    } else {
+                        prefixes.iter().any(|prefix| filename.contains(prefix))
+                    }
+                }
+                SourceSelection::Predicate(predicate) => predicate(filename),
+            };
         }
 
         !filename.contains("node_modules")
@@ -321,11 +365,13 @@ pub fn parse_plugin_options(options: PluginOptions) -> Result<ParsedPluginOption
         parsed.custom_opt_out_directives = Some(custom_opt_out_directives);
     }
     if let Some(sources) = options.sources {
-        if sources.iter().any(|value| value.is_empty()) {
-            return Err(CompilerError::invalid_config(
-                "Expected every source filter to be non-empty",
-                "Remove empty string entries from `sources` option",
-            ));
+        if let SourceSelection::Prefixes(prefixes) = &sources {
+            if prefixes.iter().any(|value| value.is_empty()) {
+                return Err(CompilerError::invalid_config(
+                    "Expected every source filter to be non-empty",
+                    "Remove empty string entries from `sources` option",
+                ));
+            }
         }
         parsed.sources = Some(sources);
     }
@@ -336,47 +382,13 @@ pub fn parse_plugin_options(options: PluginOptions) -> Result<ParsedPluginOption
         parsed.target = target;
     }
 
-    // Phase 1 scope:
-    // - output_mode: client only
-    // - no_emit/lint mode: unsupported
-    // - compilation_mode: infer only
-    // - target: react 19 only
-    if parsed.no_emit {
-        return Err(CompilerError::invalid_config(
-            "React Compiler phase 1 does not support `noEmit`",
-            "Use emitted client output (`outputMode: client`, `noEmit: false`).",
-        ));
-    }
-
-    if parsed
-        .output_mode
-        .is_some_and(|mode| mode != CompilerOutputMode::Client)
-    {
-        return Err(CompilerError::invalid_config(
-            "React Compiler phase 1 only supports `outputMode: client`",
-            "Use `outputMode: client` or omit `outputMode`.",
-        ));
-    }
-
-    if parsed.compilation_mode != CompilationMode::Infer {
-        return Err(CompilerError::invalid_config(
-            "React Compiler phase 1 only supports `compilationMode: infer`",
-            "Use `compilationMode: infer` or omit `compilationMode`.",
-        ));
-    }
-
-    if parsed.target != CompilerReactTarget::React19 {
-        return Err(CompilerError::invalid_config(
-            "React Compiler phase 1 only supports `target: 19`",
-            "Use `target: 19` or omit `target`.",
-        ));
-    }
-
     Ok(parsed)
 }
 
 #[cfg(test)]
 mod tests {
+    use std::sync::Arc;
+
     use swc_atoms::Atom;
 
     use super::*;
@@ -391,6 +403,14 @@ mod tests {
         assert_eq!(options.effective_output_mode(), CompilerOutputMode::Client);
         assert!(options.should_include_file("/project/src/app.tsx"));
         assert!(!options.should_include_file("/project/node_modules/react/index.js"));
+        assert_eq!(
+            options.environment.validate_no_capitalized_calls, None,
+            "nullable default should disable validation"
+        );
+        assert_eq!(
+            options.environment.validate_exhaustive_effect_dependencies,
+            ExhaustiveEffectDependenciesMode::Off
+        );
     }
 
     #[test]
@@ -426,55 +446,52 @@ mod tests {
     }
 
     #[test]
-    fn rejects_non_client_output_mode() {
-        let result = parse_plugin_options(PluginOptions {
-            output_mode: Some(CompilerOutputMode::Lint),
-            ..Default::default()
-        });
-
-        assert!(result.is_err());
-        let err = result.err().expect("expected config error");
-        assert!(err.has_any_errors());
-        assert!(err
-            .details
-            .iter()
-            .any(|detail| detail.category == ErrorCategory::Config));
-    }
-
-    #[test]
-    fn rejects_no_emit_mode() {
+    fn accepts_legacy_targets_and_modes() {
         let result = parse_plugin_options(PluginOptions {
             no_emit: Some(true),
-            ..Default::default()
-        });
-
-        assert!(result.is_err());
-        let err = result.err().expect("expected config error");
-        assert!(err
-            .details
-            .iter()
-            .any(|detail| detail.category == ErrorCategory::Config));
-    }
-
-    #[test]
-    fn rejects_non_infer_compilation_mode() {
-        let result = parse_plugin_options(PluginOptions {
+            output_mode: Some(CompilerOutputMode::Lint),
             compilation_mode: Some(CompilationMode::Annotation),
+            target: Some(CompilerReactTarget::React18),
             ..Default::default()
-        });
+        })
+        .expect("phase1-only restrictions were removed");
 
-        assert!(result.is_err());
-        let err = result.err().expect("expected config error");
-        assert!(err
-            .details
-            .iter()
-            .any(|detail| detail.category == ErrorCategory::Config));
+        assert!(result.no_emit);
+        assert_eq!(result.output_mode, Some(CompilerOutputMode::Lint));
+        assert_eq!(result.compilation_mode, CompilationMode::Annotation);
+        assert_eq!(result.target, CompilerReactTarget::React18);
     }
 
     #[test]
-    fn rejects_legacy_targets() {
+    fn source_prefix_filters_file() {
         let result = parse_plugin_options(PluginOptions {
-            target: Some(CompilerReactTarget::React18),
+            sources: Some(SourceSelection::Prefixes(vec!["src/features".to_string()])),
+            ..Default::default()
+        })
+        .expect("valid options");
+
+        assert!(result.should_include_file("/repo/src/features/a.tsx"));
+        assert!(!result.should_include_file("/repo/src/other/a.tsx"));
+    }
+
+    #[test]
+    fn source_predicate_filters_file() {
+        let result = parse_plugin_options(PluginOptions {
+            sources: Some(SourceSelection::Predicate(Arc::new(|filename| {
+                filename.ends_with(".tsx")
+            }))),
+            ..Default::default()
+        })
+        .expect("valid options");
+
+        assert!(result.should_include_file("/repo/src/features/a.tsx"));
+        assert!(!result.should_include_file("/repo/src/features/a.ts"));
+    }
+
+    #[test]
+    fn rejects_empty_source_prefix() {
+        let result = parse_plugin_options(PluginOptions {
+            sources: Some(SourceSelection::Prefixes(vec![String::new()])),
             ..Default::default()
         });
 

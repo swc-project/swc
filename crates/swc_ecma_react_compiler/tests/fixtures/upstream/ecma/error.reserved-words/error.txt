@@ -1,0 +1,5 @@
+Found 1 error:
+
+Error: Expected a non-reserved identifier name
+
+`this` is a reserved word in JavaScript and cannot be used as an identifier name.

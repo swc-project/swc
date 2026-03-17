@@ -13,13 +13,34 @@ pub enum ErrorSeverity {
 /// Error categories used by the compiler.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum ErrorCategory {
+    CapitalizedCalls,
     Config,
+    EffectDependencies,
+    EffectExhaustiveDependencies,
+    EffectDerivationsOfState,
+    EffectSetState,
+    ErrorBoundaries,
+    Fbt,
     Gating,
+    Globals,
+    Hooks,
+    Immutability,
+    IncompatibleLibrary,
     Invariant,
+    MemoDependencies,
+    PreserveManualMemo,
+    Purity,
+    Refs,
+    RenderSetState,
+    StaticComponents,
     Todo,
+    Syntax,
+    UnsupportedSyntax,
     Suppression,
     Pipeline,
+    UseMemo,
     Validation,
+    VoidUseMemo,
 }
 
 /// A diagnostic detail emitted by the compiler.
