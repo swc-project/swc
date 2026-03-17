@@ -520,6 +520,8 @@ impl<I: Tokens> Parser<I> {
                                 self.record_exported_name(exported, ident.sym.clone(), ident.span);
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => {}
                     }
                 }
             }

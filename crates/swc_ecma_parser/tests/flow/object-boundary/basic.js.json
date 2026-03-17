@@ -3,6 +3,7 @@
   "span": {
     "start": 1,
     "end": 138
+    "end": 99
   },
   "body": [
     {
@@ -143,6 +144,7 @@
       "span": {
         "start": 70,
         "end": 104
+        "end": 99
       },
       "declare": false,
       "id": {
@@ -161,6 +163,7 @@
         "span": {
           "start": 83,
           "end": 103
+          "end": 98
         },
         "members": [
           {
@@ -168,6 +171,7 @@
             "span": {
               "start": 86,
               "end": 96
+              "end": 95
             },
             "readonly": false,
             "key": {

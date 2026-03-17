@@ -343,7 +343,9 @@ impl<I: Tokens> Parser<I> {
                 if self.input().syntax().flow() && orig_name.sym == *"default" {
                     self.emit_err(orig_name.span, SyntaxError::TS1003);
                 }
-                if self.ctx().is_reserved_word(&orig_name.sym) {
+                if self.ctx().is_reserved_word(&orig_name.sym)
+                    && !(self.input().syntax().flow() && (type_only || is_type_only))
+                {
                     syntax_error!(self, orig_name.span, SyntaxError::ReservedWordInImport)
                 }
 
@@ -900,6 +902,7 @@ impl<I: Tokens> Parser<I> {
         'import_maybe_ident: {
             if self.is_ident_ref()
                 || (self.input().syntax().flow() && self.input().cur().is_word())
+                || (self.input().syntax().flow() && self.input().is(Token::TypeOf))
                 || (self.input().syntax().flow_types_enabled() && self.input().is(Token::TypeOf))
             {
                 let local_token = self.input().cur();
