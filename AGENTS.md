@@ -12,6 +12,7 @@
 
 -   Write comments and documentations in English.
 -   Write documentation for your code.
+-   When introducing a workaround, leave sufficient comments explaining why it is needed and any known limitations.
 -   Commit your work as frequent as possible using git. Do NOT use `--no-verify` flag.
 -   Prefer multiple small files over single large file.
 -   Prefer enum (or dedicated type) based modeling over raw string literals whenever possible.
