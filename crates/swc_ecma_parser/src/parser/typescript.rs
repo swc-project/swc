@@ -112,6 +112,12 @@ fn is_legacy_octal_number_raw(raw: &str) -> bool {
     bytes[1..].iter().all(|b| b.is_ascii_digit() && *b <= b'7')
 }
 
+#[derive(Debug)]
+enum FlowComponentParam {
+    Prop { key: PropName, value: Pat },
+    Rest { rest: RestPat },
+}
+
 impl<I: Tokens> Parser<I> {
     fn make_flow_any_keyword_type(&mut self, start: BytePos) -> Box<TsType> {
         Box::new(TsType::TsKeywordType(TsKeywordType {
@@ -147,6 +153,377 @@ impl<I: Tokens> Parser<I> {
         if self.syntax().flow() && Self::is_flow_reserved_type_name(name) {
             self.emit_err(span, SyntaxError::TS1003);
         }
+    }
+
+    fn is_flow_contextual_word(&mut self, word: &str) -> bool {
+        self.input().syntax().flow()
+            && self.input().cur().is_word()
+            && self.input().cur().take_word(&self.input) == word
+    }
+
+    fn make_flow_component_fallback_binding(&mut self, span: Span) -> Pat {
+        Pat::Ident(BindingIdent {
+            id: Ident::new_no_ctxt(atom!("component_prop"), span),
+            type_ann: None,
+        })
+    }
+
+    fn flow_mark_pat_optional(&mut self, pat: &mut Pat) {
+        match pat {
+            Pat::Ident(binding) => {
+                binding.id.optional = true;
+            }
+            Pat::Array(array) => {
+                array.optional = true;
+            }
+            Pat::Object(object) => {
+                object.optional = true;
+            }
+            _ => {
+                self.emit_err(pat.span(), SyntaxError::TS1003);
+            }
+        }
+    }
+
+    fn flow_apply_type_ann_to_pat(&mut self, pat: &mut Pat, type_ann: Box<TsTypeAnn>) {
+        match pat {
+            Pat::Ident(binding) => binding.type_ann = Some(type_ann),
+            Pat::Array(array) => array.type_ann = Some(type_ann),
+            Pat::Object(object) => object.type_ann = Some(type_ann),
+            Pat::Rest(rest) => rest.type_ann = Some(type_ann),
+            Pat::Assign(assign) => {
+                self.flow_apply_type_ann_to_pat(assign.left.as_mut(), type_ann);
+            }
+            _ => {
+                self.emit_err(pat.span(), SyntaxError::TS1003);
+            }
+        }
+    }
+
+    fn parse_flow_component_param(
+        &mut self,
+        require_type_ann: bool,
+        string_key_requires_as: bool,
+    ) -> PResult<FlowComponentParam> {
+        let start = self.cur_pos();
+
+        if self.input_mut().eat(Token::DotDotDot) {
+            let dot3_token = self.input().prev_span();
+            let mut arg = self.parse_binding_pat_or_ident(false)?;
+            if self.input_mut().eat(Token::QuestionMark) {
+                self.flow_mark_pat_optional(&mut arg);
+            }
+
+            let type_ann = if self.input().is(Token::Colon) {
+                Some(self.parse_ts_type_ann(true, self.cur_pos())?)
+            } else {
+                None
+            };
+
+            return Ok(FlowComponentParam::Rest {
+                rest: RestPat {
+                    span: self.span(start),
+                    dot3_token,
+                    arg: Box::new(arg),
+                    type_ann,
+                },
+            });
+        }
+
+        if self.input().is(Token::LBrace) || self.input().is(Token::LBracket) {
+            self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+
+            let mut value = self.parse_binding_pat_or_ident(false)?;
+            let mut has_type_ann = false;
+            if self.input().is(Token::Colon) {
+                has_type_ann = true;
+                let type_ann = self.parse_ts_type_ann(true, self.cur_pos())?;
+                self.flow_apply_type_ann_to_pat(&mut value, type_ann);
+            }
+            if self.input_mut().eat(Token::Eq) {
+                let right = self.parse_assignment_expr()?;
+                value = Pat::Assign(AssignPat {
+                    span: self.span(start),
+                    left: Box::new(value),
+                    right,
+                });
+            }
+            if require_type_ann && !has_type_ann {
+                self.emit_err(self.span(start), SyntaxError::TS1003);
+            }
+
+            return Ok(FlowComponentParam::Prop {
+                key: PropName::Ident(IdentName::new(atom!("component_prop"), self.span(start))),
+                value,
+            });
+        }
+
+        let key = if self.input().is(Token::Str) {
+            PropName::Str(self.parse_str_lit())
+        } else if self.input().cur().is_word() {
+            PropName::Ident(self.parse_ident_name()?)
+        } else {
+            unexpected!(self, "identifier or string literal for a component prop")
+        };
+
+        let optional = self.input_mut().eat(Token::QuestionMark);
+        let has_as = self.input_mut().eat(Token::As);
+
+        let mut value = if has_as {
+            self.parse_binding_pat_or_ident(false)?
+        } else {
+            match &key {
+                PropName::Ident(id) => Pat::Ident(BindingIdent {
+                    id: Ident::new_no_ctxt(id.sym.clone(), id.span),
+                    type_ann: None,
+                }),
+                PropName::Str(str_lit) => {
+                    if string_key_requires_as {
+                        self.emit_err(str_lit.span, SyntaxError::TS1003);
+                    }
+                    self.make_flow_component_fallback_binding(str_lit.span)
+                }
+                _ => {
+                    self.emit_err(key.span(), SyntaxError::TS1003);
+                    self.make_flow_component_fallback_binding(key.span())
+                }
+            }
+        };
+
+        if optional {
+            self.flow_mark_pat_optional(&mut value);
+        }
+
+        let mut has_type_ann = false;
+        if self.input().is(Token::Colon) {
+            has_type_ann = true;
+            let type_ann = self.parse_ts_type_ann(true, self.cur_pos())?;
+            self.flow_apply_type_ann_to_pat(&mut value, type_ann);
+        }
+
+        if self.input_mut().eat(Token::Eq) {
+            let right = self.parse_assignment_expr()?;
+            value = Pat::Assign(AssignPat {
+                span: self.span(start),
+                left: Box::new(value),
+                right,
+            });
+        }
+
+        if require_type_ann && !has_type_ann {
+            self.emit_err(self.span(start), SyntaxError::TS1003);
+        }
+
+        Ok(FlowComponentParam::Prop { key, value })
+    }
+
+    fn parse_flow_component_params(
+        &mut self,
+        require_type_ann: bool,
+        string_key_requires_as: bool,
+    ) -> PResult<Vec<FlowComponentParam>> {
+        expect!(self, Token::LParen);
+
+        let mut params = Vec::new();
+        while !self.input().is(Token::RParen) {
+            params.push(self.parse_flow_component_param(require_type_ann, string_key_requires_as)?);
+
+            if self.input().is(Token::RParen) {
+                break;
+            }
+
+            expect!(self, Token::Comma);
+            if self.input().is(Token::RParen) {
+                break;
+            }
+        }
+
+        expect!(self, Token::RParen);
+        Ok(params)
+    }
+
+    fn make_flow_component_props_pat(
+        &mut self,
+        start: BytePos,
+        params: Vec<FlowComponentParam>,
+    ) -> ObjectPat {
+        let mut props = Vec::with_capacity(params.len());
+
+        for param in params {
+            match param {
+                FlowComponentParam::Prop { key, value, .. } => {
+                    props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
+                        key,
+                        value: Box::new(value),
+                    }));
+                }
+                FlowComponentParam::Rest { rest, .. } => {
+                    props.push(ObjectPatProp::Rest(rest));
+                }
+            }
+        }
+
+        ObjectPat {
+            span: self.span(start),
+            props,
+            optional: false,
+            type_ann: None,
+        }
+    }
+
+    fn parse_flow_component_renders_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {
+        if !self.is_flow_contextual_word("renders") {
+            return Ok(None);
+        }
+
+        let start = self.cur_pos();
+        self.bump();
+
+        let type_ann = self.in_type(Self::parse_ts_type)?;
+        Ok(Some(Box::new(TsTypeAnn {
+            span: self.span(start),
+            type_ann,
+        })))
+    }
+
+    fn parse_flow_component_decl(
+        &mut self,
+        start: BytePos,
+        decorators: Vec<Decorator>,
+        declare: bool,
+    ) -> PResult<Decl> {
+        let ident = self.parse_binding_ident(false)?.id;
+
+        let type_params = self.try_parse_ts_type_params(false, true)?;
+        let component_params = self.parse_flow_component_params(declare, !declare)?;
+        let params = vec![Param {
+            span: self.span(start),
+            decorators: Vec::new(),
+            pat: Pat::Object(self.make_flow_component_props_pat(start, component_params)),
+        }];
+
+        if self.input().is(Token::Colon) {
+            self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+            let _ = self.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+        }
+        let return_type = self.parse_flow_component_renders_ann()?;
+
+        let body = self.parse_fn_block_body(false, false, false, true)?;
+        if self.syntax().flow() && body.is_none() && !self.ctx().contains(Context::InDeclare) {
+            self.emit_err(self.input().cur_span(), SyntaxError::TS1005);
+        }
+
+        Ok(Decl::Fn(FnDecl {
+            declare,
+            ident,
+            function: Box::new(Function {
+                span: self.span(start),
+                decorators,
+                type_params,
+                params,
+                body,
+                is_async: false,
+                is_generator: false,
+                return_type,
+                ctxt: Default::default(),
+            }),
+        }))
+    }
+
+    fn parse_flow_hook_decl(
+        &mut self,
+        start: BytePos,
+        decorators: Vec<Decorator>,
+        declare: bool,
+    ) -> PResult<Decl> {
+        if self.input().is(Token::Function) {
+            self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+            return self.parse_fn_decl(decorators);
+        }
+
+        let ident = self.parse_binding_ident(false)?.id;
+        let function =
+            self.parse_fn_args_body(decorators, start, Self::parse_formal_params, false, false)?;
+        if self.syntax().flow() && declare && function.return_type.is_none() {
+            self.emit_err(ident.span, SyntaxError::TS1003);
+        }
+
+        Ok(Decl::Fn(FnDecl {
+            declare,
+            ident,
+            function,
+        }))
+    }
+
+    fn parse_flow_component_type(&mut self, start: BytePos) -> PResult<TsType> {
+        let type_params = self.try_parse_ts_type_params(false, true)?;
+        let component_params = self.parse_flow_component_params(false, false)?;
+
+        if self.input().is(Token::Colon) {
+            self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+            let _ = self.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+        }
+
+        let type_ann = if let Some(renders) = self.parse_flow_component_renders_ann()? {
+            renders
+        } else {
+            Box::new(TsTypeAnn {
+                span: self.span(start),
+                type_ann: self.make_flow_any_keyword_type(start),
+            })
+        };
+
+        let params = vec![TsFnParam::Object(
+            self.make_flow_component_props_pat(start, component_params),
+        )];
+
+        Ok(TsType::TsFnOrConstructorType(
+            TsFnOrConstructorType::TsFnType(TsFnType {
+                span: self.span(start),
+                params,
+                type_params,
+                type_ann,
+            }),
+        ))
+    }
+
+    fn parse_flow_hook_type(&mut self, start: BytePos) -> PResult<TsType> {
+        let type_params = self.try_parse_ts_type_params(false, true)?;
+        expect!(self, Token::LParen);
+
+        let mut params = Vec::new();
+        while !self.input().is(Token::RParen) {
+            let param_start = self.cur_pos();
+            let dot3_token = if self.input_mut().eat(Token::DotDotDot) {
+                Some(self.input().prev_span())
+            } else {
+                None
+            };
+
+            let ty = self.parse_ts_type()?;
+            params.push(self.make_flow_anon_fn_param(param_start, params.len(), dot3_token, ty));
+
+            if self.input().is(Token::RParen) {
+                break;
+            }
+
+            expect!(self, Token::Comma);
+            if self.input().is(Token::RParen) {
+                break;
+            }
+        }
+
+        expect!(self, Token::RParen);
+        let type_ann = self.parse_ts_type_or_type_predicate_ann(Token::Arrow)?;
+
+        Ok(TsType::TsFnOrConstructorType(
+            TsFnOrConstructorType::TsFnType(TsFnType {
+                span: self.span(start),
+                params,
+                type_params,
+                type_ann,
+            }),
+        ))
     }
 
     fn make_flow_synthetic_declare_export_alias_decl(&mut self, start: BytePos) -> Decl {
@@ -3656,6 +4033,18 @@ impl<I: Tokens> Parser<I> {
             }) {
                 return Ok(render_ty);
             }
+
+            if self.input().syntax().flow_components() {
+                if self.is_flow_contextual_word("component") {
+                    self.bump();
+                    return self.parse_flow_component_type(start).map(Box::new);
+                }
+
+                if self.is_flow_contextual_word("hook") {
+                    self.bump();
+                    return self.parse_flow_hook_type(start).map(Box::new);
+                }
+            }
         }
 
         if cur.is_known_ident()
@@ -4089,6 +4478,20 @@ impl<I: Tokens> Parser<I> {
                             .map(Some);
                     }
 
+                    if p.input().syntax().flow_components() && p.input().cur().is_word() {
+                        let value = p.input().cur().take_word(&p.input);
+                        if value == atom!("component") || value == atom!("hook") {
+                            return p
+                                .parse_ts_decl(
+                                    start,
+                                    decorators.clone(),
+                                    value,
+                                    /* next */ true,
+                                )
+                                .map(|v| v.map(make_decl_declare));
+                        }
+                    }
+
                     let type_ann = p.in_type(Self::parse_ts_type)?;
                     p.expect_general_semi()?;
 
@@ -4341,6 +4744,32 @@ impl<I: Tokens> Parser<I> {
                     return self
                         .parse_ts_type_alias_decl(start)
                         .map(From::from)
+                        .map(Some);
+                }
+            }
+
+            "component"
+                if self.input().syntax().flow() && self.input().syntax().flow_components() =>
+            {
+                if next || self.is_ident_ref() {
+                    if next {
+                        self.bump();
+                    }
+                    let declare = self.ctx().contains(Context::InDeclare);
+                    return self
+                        .parse_flow_component_decl(start, decorators, declare)
+                        .map(Some);
+                }
+            }
+
+            "hook" if self.input().syntax().flow() && self.input().syntax().flow_components() => {
+                if next || self.is_ident_ref() || self.input().is(Token::Function) {
+                    if next {
+                        self.bump();
+                    }
+                    let declare = self.ctx().contains(Context::InDeclare);
+                    return self
+                        .parse_flow_hook_decl(start, decorators, declare)
                         .map(Some);
                 }
             }

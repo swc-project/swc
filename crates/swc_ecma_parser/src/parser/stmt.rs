@@ -1,4 +1,5 @@
-use swc_common::Spanned;
+use swc_atoms::atom;
+use swc_common::{BytePos, Span, Spanned};
 
 use super::*;
 use crate::parser::{pat::PatType, Parser};
@@ -18,6 +19,47 @@ enum TempForHead {
         left: ForHead,
         right: Box<Expr>,
     },
+}
+
+#[derive(Debug, Clone)]
+enum FlowMatchPattern {
+    Wildcard,
+    Value(Box<Expr>),
+    Binding(FlowMatchBinding),
+    Object {
+        props: Vec<(PropName, FlowMatchPattern)>,
+        rest: Option<Option<FlowMatchBinding>>,
+    },
+    Array {
+        elems: Vec<FlowMatchPattern>,
+        rest: Option<Option<FlowMatchBinding>>,
+    },
+    Or(Vec<FlowMatchPattern>),
+    As {
+        inner: Box<FlowMatchPattern>,
+        binding: FlowMatchBinding,
+    },
+}
+
+#[derive(Debug, Clone)]
+struct FlowMatchBinding {
+    kind: VarDeclKind,
+    pat: Pat,
+    span: Span,
+}
+
+#[derive(Debug)]
+struct FlowMatchBindingInit {
+    kind: VarDeclKind,
+    pat: Pat,
+    init: Box<Expr>,
+    span: Span,
+}
+
+#[derive(Debug)]
+struct FlowMatchLowered {
+    predicate: Box<Expr>,
+    bindings: Vec<FlowMatchBindingInit>,
 }
 
 impl<I: Tokens> Parser<I> {
@@ -999,6 +1041,795 @@ impl<I: Tokens> Parser<I> {
         .into())
     }
 
+    pub(super) fn is_flow_match_keyword(&mut self) -> bool {
+        if !self.input().syntax().flow_pattern_matching() {
+            return false;
+        }
+        if !(self.input().cur().is_word()
+            && self.input().cur().take_word(&self.input) == atom!("match"))
+        {
+            return false;
+        }
+
+        if self.input_mut().peek() != Some(Token::LParen) {
+            return false;
+        }
+
+        self.input()
+            .next()
+            .is_some_and(|next| self.input().cur_span().hi < next.span().lo)
+    }
+
+    fn flow_match_true_expr(&self, span: Span) -> Box<Expr> {
+        Box::new(Expr::Lit(Lit::Bool(Bool { span, value: true })))
+    }
+
+    fn flow_match_bin_expr(
+        &self,
+        span: Span,
+        op: BinaryOp,
+        left: Box<Expr>,
+        right: Box<Expr>,
+    ) -> Box<Expr> {
+        Box::new(Expr::Bin(BinExpr {
+            span,
+            op,
+            left,
+            right,
+        }))
+    }
+
+    fn flow_match_and_expr(&self, span: Span, left: Box<Expr>, right: Box<Expr>) -> Box<Expr> {
+        self.flow_match_bin_expr(span, BinaryOp::LogicalAnd, left, right)
+    }
+
+    fn flow_match_or_expr(&self, span: Span, left: Box<Expr>, right: Box<Expr>) -> Box<Expr> {
+        self.flow_match_bin_expr(span, BinaryOp::LogicalOr, left, right)
+    }
+
+    fn flow_match_eq_expr(&self, span: Span, left: Box<Expr>, right: Box<Expr>) -> Box<Expr> {
+        self.flow_match_bin_expr(span, BinaryOp::EqEqEq, left, right)
+    }
+
+    fn flow_match_member_expr(&self, span: Span, obj: Box<Expr>, key: &PropName) -> Box<Expr> {
+        let prop = match key {
+            PropName::Ident(id) => MemberProp::Ident(id.clone()),
+            _ => MemberProp::Computed(ComputedPropName {
+                span,
+                expr: self.flow_match_prop_key_expr(key),
+            }),
+        };
+
+        Box::new(Expr::Member(MemberExpr { span, obj, prop }))
+    }
+
+    #[allow(unreachable_patterns)]
+    fn flow_match_prop_key_expr(&self, key: &PropName) -> Box<Expr> {
+        match key {
+            PropName::Ident(id) => Box::new(Expr::Lit(Lit::Str(Str {
+                span: id.span,
+                value: id.sym.clone().into(),
+                raw: None,
+            }))),
+            PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
+            PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n.clone()))),
+            PropName::BigInt(b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
+            PropName::Computed(c) => c.expr.clone(),
+            _ => unreachable!("unsupported PropName variant in flow_match_prop_key_expr"),
+        }
+    }
+
+    fn flow_match_lower_pattern(
+        &mut self,
+        span: Span,
+        value: Box<Expr>,
+        pattern: &FlowMatchPattern,
+    ) -> FlowMatchLowered {
+        match pattern {
+            FlowMatchPattern::Wildcard => FlowMatchLowered {
+                predicate: self.flow_match_true_expr(span),
+                bindings: Vec::new(),
+            },
+            FlowMatchPattern::Value(expected) => FlowMatchLowered {
+                predicate: self.flow_match_eq_expr(span, value, expected.clone()),
+                bindings: Vec::new(),
+            },
+            FlowMatchPattern::Binding(binding) => FlowMatchLowered {
+                predicate: self.flow_match_true_expr(span),
+                bindings: vec![FlowMatchBindingInit {
+                    kind: binding.kind,
+                    pat: binding.pat.clone(),
+                    init: value,
+                    span: binding.span,
+                }],
+            },
+            FlowMatchPattern::As { inner, binding } => {
+                let mut lowered = self.flow_match_lower_pattern(span, value.clone(), inner);
+                lowered.bindings.push(FlowMatchBindingInit {
+                    kind: binding.kind,
+                    pat: binding.pat.clone(),
+                    init: value,
+                    span: binding.span,
+                });
+                lowered
+            }
+            FlowMatchPattern::Or(patterns) => {
+                let mut iter = patterns.iter();
+                let mut first = self.flow_match_lower_pattern(
+                    span,
+                    value.clone(),
+                    iter.next().expect("non-empty"),
+                );
+                if !first.bindings.is_empty() {
+                    self.emit_err(span, SyntaxError::TS1003);
+                    first.bindings.clear();
+                }
+
+                for pat in iter {
+                    let mut lowered = self.flow_match_lower_pattern(span, value.clone(), pat);
+                    if !lowered.bindings.is_empty() {
+                        self.emit_err(span, SyntaxError::TS1003);
+                        lowered.bindings.clear();
+                    }
+                    first.predicate =
+                        self.flow_match_or_expr(span, first.predicate, lowered.predicate);
+                }
+
+                first
+            }
+            FlowMatchPattern::Object { props, rest } => {
+                let mut predicate = self.flow_match_and_expr(
+                    span,
+                    self.flow_match_eq_expr(
+                        span,
+                        Box::new(Expr::Unary(UnaryExpr {
+                            span,
+                            op: op!("typeof"),
+                            arg: value.clone(),
+                        })),
+                        Box::new(Expr::Lit(Lit::Str(Str {
+                            span,
+                            value: atom!("object").into(),
+                            raw: None,
+                        }))),
+                    ),
+                    Box::new(Expr::Bin(BinExpr {
+                        span,
+                        op: BinaryOp::NotEqEq,
+                        left: value.clone(),
+                        right: Box::new(Expr::Lit(Lit::Null(Null { span }))),
+                    })),
+                );
+                let mut bindings = Vec::new();
+
+                for (key, pat) in props {
+                    let has_key = self.flow_match_bin_expr(
+                        span,
+                        BinaryOp::In,
+                        self.flow_match_prop_key_expr(key),
+                        value.clone(),
+                    );
+                    predicate = self.flow_match_and_expr(span, predicate, has_key);
+
+                    let lowered = self.flow_match_lower_pattern(
+                        span,
+                        self.flow_match_member_expr(span, value.clone(), key),
+                        pat,
+                    );
+                    predicate = self.flow_match_and_expr(span, predicate, lowered.predicate);
+                    bindings.extend(lowered.bindings);
+                }
+
+                if let Some(Some(binding)) = rest {
+                    bindings.push(FlowMatchBindingInit {
+                        kind: binding.kind,
+                        pat: binding.pat.clone(),
+                        init: value,
+                        span: binding.span,
+                    });
+                }
+
+                FlowMatchLowered {
+                    predicate,
+                    bindings,
+                }
+            }
+            FlowMatchPattern::Array { elems, rest } => {
+                let array_ctor = Box::new(Expr::Member(MemberExpr {
+                    span,
+                    obj: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("Array"), span))),
+                    prop: MemberProp::Ident(IdentName::new(atom!("isArray"), span)),
+                }));
+                let mut predicate = Box::new(Expr::Call(CallExpr {
+                    span,
+                    callee: Callee::Expr(array_ctor),
+                    args: vec![ExprOrSpread {
+                        spread: None,
+                        expr: value.clone(),
+                    }],
+                    ..Default::default()
+                }));
+
+                let len_expr = self.flow_match_member_expr(
+                    span,
+                    value.clone(),
+                    &PropName::Ident(IdentName::new(atom!("length"), span)),
+                );
+                predicate = self.flow_match_and_expr(
+                    span,
+                    predicate,
+                    self.flow_match_bin_expr(
+                        span,
+                        BinaryOp::GtEq,
+                        len_expr,
+                        Box::new(Expr::Lit(Lit::Num(Number {
+                            span,
+                            value: elems.len() as f64,
+                            raw: None,
+                        }))),
+                    ),
+                );
+
+                let mut bindings = Vec::new();
+                for (idx, pat) in elems.iter().enumerate() {
+                    let elem_expr = self.flow_match_member_expr(
+                        span,
+                        value.clone(),
+                        &PropName::Num(Number {
+                            span,
+                            value: idx as f64,
+                            raw: None,
+                        }),
+                    );
+                    let lowered = self.flow_match_lower_pattern(span, elem_expr, pat);
+                    predicate = self.flow_match_and_expr(span, predicate, lowered.predicate);
+                    bindings.extend(lowered.bindings);
+                }
+
+                if let Some(Some(binding)) = rest {
+                    let slice_callee = Box::new(Expr::Member(MemberExpr {
+                        span,
+                        obj: value.clone(),
+                        prop: MemberProp::Ident(IdentName::new(atom!("slice"), span)),
+                    }));
+                    bindings.push(FlowMatchBindingInit {
+                        kind: binding.kind,
+                        pat: binding.pat.clone(),
+                        init: Box::new(Expr::Call(CallExpr {
+                            span,
+                            callee: Callee::Expr(slice_callee),
+                            args: vec![ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(Expr::Lit(Lit::Num(Number {
+                                    span,
+                                    value: elems.len() as f64,
+                                    raw: None,
+                                }))),
+                            }],
+                            ..Default::default()
+                        })),
+                        span: binding.span,
+                    });
+                }
+
+                FlowMatchLowered {
+                    predicate,
+                    bindings,
+                }
+            }
+        }
+    }
+
+    fn flow_match_binding_to_stmt(&self, binding: FlowMatchBindingInit) -> Stmt {
+        Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            span: binding.span,
+            kind: binding.kind,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span: binding.span,
+                name: binding.pat,
+                init: Some(binding.init),
+                definite: false,
+            }],
+            ..Default::default()
+        })))
+    }
+
+    fn flow_match_parse_binding(
+        &mut self,
+        default_kind: Option<VarDeclKind>,
+    ) -> PResult<FlowMatchBinding> {
+        let start = self.cur_pos();
+        let kind = if self.input().is(Token::Const) {
+            self.bump();
+            VarDeclKind::Const
+        } else if self.input().is(Token::Let) {
+            self.bump();
+            VarDeclKind::Let
+        } else if self.input().is(Token::Var) {
+            self.bump();
+            VarDeclKind::Var
+        } else if let Some(kind) = default_kind {
+            kind
+        } else {
+            unexpected!(self, "const, let or var")
+        };
+
+        let pat = self.parse_binding_pat_or_ident(false)?;
+        Ok(FlowMatchBinding {
+            kind,
+            pat,
+            span: self.span(start),
+        })
+    }
+
+    fn flow_match_parse_member_value_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        let start = self.cur_pos();
+        let base = self.parse_ident_name()?;
+        let mut expr: Box<Expr> = Box::new(Expr::Ident(Ident::new_no_ctxt(base.sym, base.span)));
+
+        loop {
+            if self.input_mut().eat(Token::Dot) {
+                let prop = self.parse_ident_name()?;
+                expr = Box::new(Expr::Member(MemberExpr {
+                    span: self.span(start),
+                    obj: expr,
+                    prop: MemberProp::Ident(prop),
+                }));
+                continue;
+            }
+
+            if self.input_mut().eat(Token::LBracket) {
+                let prop_expr = self.allow_in_expr(Self::parse_assignment_expr)?;
+                expect!(self, Token::RBracket);
+                expr = Box::new(Expr::Member(MemberExpr {
+                    span: self.span(start),
+                    obj: expr,
+                    prop: MemberProp::Computed(ComputedPropName {
+                        span: self.span(start),
+                        expr: prop_expr,
+                    }),
+                }));
+                continue;
+            }
+
+            break;
+        }
+
+        Ok(FlowMatchPattern::Value(expr))
+    }
+
+    fn flow_match_parse_object_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        expect!(self, Token::LBrace);
+        let mut props = Vec::new();
+        let mut rest = None;
+
+        while !self.input().is(Token::RBrace) {
+            if self.input_mut().eat(Token::DotDotDot) {
+                let parsed_rest = if self.input().is(Token::Comma) || self.input().is(Token::RBrace)
+                {
+                    None
+                } else {
+                    Some(self.flow_match_parse_binding(Some(VarDeclKind::Const))?)
+                };
+                if rest.is_some() {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1014);
+                }
+                rest = Some(parsed_rest);
+            } else if self.input().is(Token::Const)
+                || self.input().is(Token::Let)
+                || self.input().is(Token::Var)
+            {
+                let binding = self.flow_match_parse_binding(None)?;
+                match &binding.pat {
+                    Pat::Ident(ident) => {
+                        props.push((
+                            PropName::Ident(IdentName::new(ident.id.sym.clone(), ident.id.span)),
+                            FlowMatchPattern::Binding(binding),
+                        ));
+                    }
+                    _ => self.emit_err(binding.span, SyntaxError::TS1003),
+                }
+            } else {
+                let key = self.parse_prop_name()?;
+                let pat = if self.input_mut().eat(Token::Colon) {
+                    self.flow_match_parse_pattern()?
+                } else {
+                    match &key {
+                        PropName::Ident(id) => FlowMatchPattern::Value(Box::new(Expr::Ident(
+                            Ident::new_no_ctxt(id.sym.clone(), id.span),
+                        ))),
+                        _ => {
+                            self.emit_err(key.span(), SyntaxError::TS1003);
+                            FlowMatchPattern::Wildcard
+                        }
+                    }
+                };
+                props.push((key, pat));
+            }
+
+            if self.input().is(Token::RBrace) {
+                break;
+            }
+
+            expect!(self, Token::Comma);
+            if rest.is_some() && !self.input().is(Token::RBrace) {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1014);
+            }
+        }
+
+        expect!(self, Token::RBrace);
+        Ok(FlowMatchPattern::Object { props, rest })
+    }
+
+    fn flow_match_parse_array_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        expect!(self, Token::LBracket);
+
+        let mut elems = Vec::new();
+        let mut rest = None;
+
+        while !self.input().is(Token::RBracket) {
+            if self.input_mut().eat(Token::Comma) {
+                continue;
+            }
+
+            if self.input_mut().eat(Token::DotDotDot) {
+                let parsed_rest =
+                    if self.input().is(Token::Comma) || self.input().is(Token::RBracket) {
+                        None
+                    } else {
+                        Some(self.flow_match_parse_binding(Some(VarDeclKind::Const))?)
+                    };
+                rest = Some(parsed_rest);
+
+                if self.input().is(Token::RBracket) {
+                    break;
+                }
+
+                expect!(self, Token::Comma);
+                if !self.input().is(Token::RBracket) {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1014);
+                }
+                continue;
+            }
+
+            elems.push(self.flow_match_parse_pattern()?);
+            if self.input().is(Token::RBracket) {
+                break;
+            }
+
+            expect!(self, Token::Comma);
+            if rest.is_some() && !self.input().is(Token::RBracket) {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1014);
+            }
+        }
+
+        expect!(self, Token::RBracket);
+        Ok(FlowMatchPattern::Array { elems, rest })
+    }
+
+    fn flow_match_parse_primary_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        let start = self.cur_pos();
+        let cur = self.input().cur();
+
+        if self.input_mut().eat(Token::LParen) {
+            let pat = self.flow_match_parse_pattern()?;
+            expect!(self, Token::RParen);
+            return Ok(pat);
+        }
+
+        if cur == Token::LBrace {
+            return self.flow_match_parse_object_pattern();
+        }
+
+        if cur == Token::LBracket {
+            return self.flow_match_parse_array_pattern();
+        }
+
+        if cur == Token::Const || cur == Token::Let || cur == Token::Var {
+            return self
+                .flow_match_parse_binding(None)
+                .map(FlowMatchPattern::Binding);
+        }
+
+        if self.input().cur().is_word() && self.input().cur().take_word(&self.input) == atom!("_") {
+            self.bump();
+            return Ok(FlowMatchPattern::Wildcard);
+        }
+
+        if cur == Token::Plus || cur == Token::Minus {
+            let op = if cur == Token::Plus {
+                op!(unary, "+")
+            } else {
+                op!(unary, "-")
+            };
+            self.bump();
+            if !(self.input().is(Token::Num) || self.input().is(Token::BigInt)) {
+                unexpected!(self, "numeric or bigint literal")
+            }
+            let lit = self.parse_lit()?;
+            return Ok(FlowMatchPattern::Value(Box::new(Expr::Unary(UnaryExpr {
+                span: self.span(start),
+                op,
+                arg: Box::new(Expr::Lit(lit)),
+            }))));
+        }
+
+        if matches!(
+            cur,
+            Token::Str | Token::Num | Token::BigInt | Token::True | Token::False | Token::Null
+        ) {
+            return self
+                .parse_lit()
+                .map(|lit| FlowMatchPattern::Value(Box::new(Expr::Lit(lit))));
+        }
+
+        if self.input().cur().is_word() {
+            return self.flow_match_parse_member_value_pattern();
+        }
+
+        unexpected!(self, "a pattern")
+    }
+
+    fn flow_match_parse_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        let mut pat = self.flow_match_parse_primary_pattern()?;
+
+        while self.input_mut().eat(Token::Pipe) {
+            let rhs = self.flow_match_parse_primary_pattern()?;
+            pat = match pat {
+                FlowMatchPattern::Or(mut items) => {
+                    items.push(rhs);
+                    FlowMatchPattern::Or(items)
+                }
+                _ => FlowMatchPattern::Or(vec![pat, rhs]),
+            };
+        }
+
+        if self.input_mut().eat(Token::As) {
+            let binding = self.flow_match_parse_binding(Some(VarDeclKind::Const))?;
+            pat = FlowMatchPattern::As {
+                inner: Box::new(pat),
+                binding,
+            };
+        }
+
+        Ok(pat)
+    }
+
+    fn flow_match_parse_subject_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
+        self.bump();
+        let args = self.parse_args(false)?;
+
+        if args.is_empty() {
+            self.emit_err(self.span(start), SyntaxError::TS1003);
+            return Ok(Box::new(Expr::Invalid(Invalid {
+                span: self.span(start),
+            })));
+        }
+
+        let mut elems = Vec::with_capacity(args.len());
+        for arg in args {
+            if arg.spread.is_some() {
+                self.emit_err(arg.expr.span(), SyntaxError::TS1003);
+            }
+            elems.push(Some(ExprOrSpread {
+                spread: None,
+                expr: arg.expr,
+            }));
+        }
+
+        if elems.len() == 1 {
+            Ok(elems.pop().unwrap().unwrap().expr)
+        } else {
+            Ok(Box::new(Expr::Array(ArrayLit {
+                span: self.span(start),
+                elems,
+            })))
+        }
+    }
+
+    fn flow_match_make_temp_ident(&self, span: Span) -> Ident {
+        Ident::new_no_ctxt(format!("__match_subject_{}", span.lo.0).into(), span)
+    }
+
+    fn flow_match_make_temp_decl(&self, span: Span, ident: &Ident, init: Box<Expr>) -> Stmt {
+        Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            span,
+            kind: VarDeclKind::Const,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span,
+                name: Pat::Ident(BindingIdent {
+                    id: ident.clone(),
+                    type_ann: None,
+                }),
+                init: Some(init),
+                definite: false,
+            }],
+            ..Default::default()
+        })))
+    }
+
+    fn flow_match_non_exhaustive_throw(&self, span: Span) -> Stmt {
+        let error_ctor = Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("Error"), span)));
+        let arg = Box::new(Expr::Lit(Lit::Str(Str {
+            span,
+            value: atom!("Non-exhaustive match").into(),
+            raw: None,
+        })));
+        let err = Box::new(Expr::New(NewExpr {
+            span,
+            callee: error_ctor,
+            args: Some(vec![ExprOrSpread {
+                spread: None,
+                expr: arg,
+            }]),
+            ..Default::default()
+        }));
+
+        Stmt::Throw(ThrowStmt { span, arg: err })
+    }
+
+    fn flow_match_make_iife_expr(&self, span: Span, stmts: Vec<Stmt>) -> Box<Expr> {
+        let fn_expr = Box::new(Expr::Fn(FnExpr {
+            ident: None,
+            function: Box::new(Function {
+                span,
+                params: Vec::new(),
+                decorators: Vec::new(),
+                body: Some(BlockStmt {
+                    span,
+                    stmts,
+                    ctxt: Default::default(),
+                }),
+                is_async: false,
+                is_generator: false,
+                type_params: None,
+                return_type: None,
+                ctxt: Default::default(),
+            }),
+        }));
+
+        Box::new(Expr::Call(CallExpr {
+            span,
+            callee: Callee::Expr(fn_expr),
+            args: Vec::new(),
+            ..Default::default()
+        }))
+    }
+
+    pub(super) fn parse_flow_match_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
+        let span = self.input().cur_span();
+        let subject = self.flow_match_parse_subject_expr(start)?;
+
+        expect!(self, Token::LBrace);
+
+        let temp_ident = self.flow_match_make_temp_ident(span);
+        let temp_expr = Box::new(Expr::Ident(temp_ident.clone()));
+        let mut stmts = vec![self.flow_match_make_temp_decl(span, &temp_ident, subject)];
+
+        while !self.input().is(Token::RBrace) {
+            let pattern = self.flow_match_parse_pattern()?;
+            let guard = if self.input_mut().eat(Token::If) {
+                Some(self.allow_in_expr(|p| p.parse_expr())?)
+            } else {
+                None
+            };
+            expect!(self, Token::Colon);
+
+            let body = self.allow_in_expr(Self::parse_assignment_expr)?;
+            let lowered = self.flow_match_lower_pattern(span, temp_expr.clone(), &pattern);
+            let mut test = lowered.predicate;
+            if let Some(guard) = guard {
+                test = self.flow_match_and_expr(span, test, guard);
+            }
+
+            let mut cons_stmts = lowered
+                .bindings
+                .into_iter()
+                .map(|binding| self.flow_match_binding_to_stmt(binding))
+                .collect::<Vec<_>>();
+            cons_stmts.push(Stmt::Return(ReturnStmt {
+                span,
+                arg: Some(body),
+            }));
+
+            stmts.push(Stmt::If(IfStmt {
+                span,
+                test,
+                cons: Box::new(Stmt::Block(BlockStmt {
+                    span,
+                    stmts: cons_stmts,
+                    ctxt: Default::default(),
+                })),
+                alt: None,
+            }));
+
+            self.input_mut().eat(Token::Comma);
+        }
+
+        expect!(self, Token::RBrace);
+        stmts.push(self.flow_match_non_exhaustive_throw(span));
+        Ok(self.flow_match_make_iife_expr(span, stmts))
+    }
+
+    fn parse_flow_match_stmt(&mut self, start: BytePos) -> PResult<Stmt> {
+        let span = self.input().cur_span();
+        let subject = self.flow_match_parse_subject_expr(start)?;
+        expect!(self, Token::LBrace);
+
+        let temp_ident = self.flow_match_make_temp_ident(span);
+        let temp_expr = Box::new(Expr::Ident(temp_ident.clone()));
+        let mut cases = Vec::new();
+
+        while !self.input().is(Token::RBrace) {
+            let pattern = self.flow_match_parse_pattern()?;
+            let guard = if self.input_mut().eat(Token::If) {
+                Some(self.allow_in_expr(|p| p.parse_expr())?)
+            } else {
+                None
+            };
+            expect!(self, Token::Colon);
+
+            let body = if self.input().is(Token::LBrace) {
+                self.parse_block(false)?
+            } else {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+                let expr = self.allow_in_expr(Self::parse_assignment_expr)?;
+                BlockStmt {
+                    span,
+                    stmts: vec![Stmt::Expr(ExprStmt { span, expr })],
+                    ctxt: Default::default(),
+                }
+            };
+
+            let lowered = self.flow_match_lower_pattern(span, temp_expr.clone(), &pattern);
+            let mut test = lowered.predicate;
+            if let Some(guard) = guard {
+                test = self.flow_match_and_expr(span, test, guard);
+            }
+
+            let mut stmts = lowered
+                .bindings
+                .into_iter()
+                .map(|binding| self.flow_match_binding_to_stmt(binding))
+                .collect::<Vec<_>>();
+            stmts.extend(body.stmts);
+
+            cases.push(IfStmt {
+                span,
+                test,
+                cons: Box::new(Stmt::Block(BlockStmt {
+                    span,
+                    stmts,
+                    ctxt: Default::default(),
+                })),
+                alt: None,
+            });
+
+            self.input_mut().eat(Token::Comma);
+        }
+
+        expect!(self, Token::RBrace);
+
+        let mut tail: Option<Box<Stmt>> = None;
+        for mut case in cases.into_iter().rev() {
+            case.alt = tail;
+            tail = Some(Box::new(Stmt::If(case)));
+        }
+
+        let mut stmts = vec![self.flow_match_make_temp_decl(span, &temp_ident, subject)];
+        if let Some(if_stmt) = tail {
+            stmts.push(*if_stmt);
+        }
+
+        Ok(Stmt::Block(BlockStmt {
+            span,
+            stmts,
+            ctxt: Default::default(),
+        }))
+    }
+
     /// Parse a statement and maybe a declaration.
     pub fn parse_stmt_list_item(&mut self) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt_list_item);
@@ -1066,6 +1897,9 @@ impl<I: Tokens> Parser<I> {
         let top_level = self.ctx().contains(Context::TopLevel);
 
         let cur = self.input().cur();
+        if self.is_flow_match_keyword() {
+            return self.parse_flow_match_stmt(start);
+        }
 
         if cur == Token::Await && (include_decl || top_level) {
             if top_level {

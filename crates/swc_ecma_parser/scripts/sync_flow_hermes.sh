@@ -68,25 +68,8 @@ for js_path in sorted(corpus_dir.rglob("*.js")):
     has_error = bool(tree.get("errors"))
     expected_lines.append(f"{rel}\t{'true' if has_error else 'false'}")
 
-    option_path = js_path.with_suffix(".options.json")
-    options = {}
-    if option_path.exists():
-        options = json.loads(option_path.read_text(encoding="utf-8"))
-
-    is_known_fail = (
-        rel.startswith("components/")
-        or rel.startswith("hook_syntax/")
-        or rel.startswith("match/")
-        or options.get("esproposal_decorators") is True
-        or options.get("components") is True
-        or options.get("pattern_matching") is True
-    )
-
-    if is_known_fail:
-        known_fail.append(rel)
-
 (target_dir / "expected-errors.txt").write_text("\n".join(expected_lines) + "\n", encoding="utf-8")
-(target_dir / "known-fail.txt").write_text("\n".join(sorted(known_fail)) + "\n", encoding="utf-8")
+(target_dir / "known-fail.txt").write_text("\n", encoding="utf-8")
 
 upstream_readme = (target_dir / "upstream-flowtest-README.md").read_text(encoding="utf-8")
 flow_commit = None

@@ -99,9 +99,12 @@ impl<I: Tokens> Parser<I> {
             {
                 syntax_error!(self, self.span(start), SyntaxError::DecoratorOnExport);
             }
-        } else if !self.input().is(Token::Class) {
-            // syntax_error!(p, self.span(start),
-            // SyntaxError::InvalidLeadingDecorator)
+        } else if self.syntax().flow_decorators()
+            && !self.ctx().contains(Context::InClass)
+            && !self.ctx().contains(Context::InFunction)
+            && !self.input().is(Token::Class)
+        {
+            syntax_error!(self, self.span(start), SyntaxError::InvalidLeadingDecorator)
         }
 
         Ok(decorators)
