@@ -1103,6 +1103,7 @@ impl<I: Tokens> Parser<I> {
         Box::new(Expr::Member(MemberExpr { span, obj, prop }))
     }
 
+    #[allow(unreachable_patterns)]
     fn flow_match_prop_key_expr(&self, key: &PropName) -> Box<Expr> {
         match key {
             PropName::Ident(id) => Box::new(Expr::Lit(Lit::Str(Str {
@@ -1114,6 +1115,7 @@ impl<I: Tokens> Parser<I> {
             PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n.clone()))),
             PropName::BigInt(b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
             PropName::Computed(c) => c.expr.clone(),
+            _ => unreachable!("unsupported PropName variant in flow_match_prop_key_expr"),
         }
     }
 
