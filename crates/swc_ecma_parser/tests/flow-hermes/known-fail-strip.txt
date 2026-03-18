@@ -1,2 +1,0 @@
-async_await/migrated_0020.js
-async_await/migrated_0024.js
