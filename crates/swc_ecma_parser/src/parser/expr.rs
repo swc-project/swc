@@ -2628,8 +2628,12 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        let token_and_span = self.input().get_cur();
-        let cur = token_and_span.token;
+        let cur = self.input().cur();
+        let token_start = self.input().cur_pos();
+
+        if self.is_flow_match_keyword() {
+            return self.parse_flow_match_expr(start);
+        }
 
         if cur == Token::Class {
             return self.parse_class_expr(start, decorators.unwrap_or_default());
@@ -2724,7 +2728,6 @@ impl<I: Tokens> Parser<I> {
             Ok(id.into())
         };
 
-        let token_start = token_and_span.span.lo;
         if cur == Token::Let || (self.input().syntax().typescript() && cur == Token::Await) {
             let ctx = self.ctx();
             let id = self.parse_ident(

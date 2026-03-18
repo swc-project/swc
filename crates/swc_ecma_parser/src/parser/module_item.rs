@@ -485,11 +485,15 @@ impl<I: Tokens> Parser<I> {
                 let start = self.cur_pos();
                 let after_decorators = self.parse_decorators(false)?;
 
-                if !decorators.is_empty() {
+                if !decorators.is_empty() && !self.input().syntax().flow_decorators() {
                     syntax_error!(self, self.span(start), SyntaxError::TS8038);
                 }
 
-                decorators = after_decorators;
+                if self.input().syntax().flow_decorators() {
+                    decorators.extend(after_decorators);
+                } else {
+                    decorators = after_decorators;
+                }
             }
 
             if self.input().syntax().typescript() {
@@ -527,6 +531,31 @@ impl<I: Tokens> Parser<I> {
                         decl,
                     }
                     .into());
+                }
+
+                if self.input().syntax().flow_components() && self.input().cur().is_word() {
+                    let sym = self.input().cur().take_word(&self.input);
+                    if sym == atom!("component") || sym == atom!("hook") {
+                        if let Some(decl) =
+                            self.try_parse_ts_export_decl(decorators.clone(), sym.clone())
+                        {
+                            return match decl {
+                                Decl::Fn(fn_decl) => Ok(ExportDefaultDecl {
+                                    span: self.span(start),
+                                    decl: DefaultDecl::Fn(FnExpr {
+                                        ident: Some(fn_decl.ident),
+                                        function: fn_decl.function,
+                                    }),
+                                }
+                                .into()),
+                                _ => Ok(ExportDecl {
+                                    span: self.span(start),
+                                    decl,
+                                }
+                                .into()),
+                            };
+                        }
+                    }
                 }
             }
 
@@ -585,11 +614,15 @@ impl<I: Tokens> Parser<I> {
             let start = self.cur_pos();
             let after_decorators = self.parse_decorators(false)?;
 
-            if !decorators.is_empty() {
+            if !decorators.is_empty() && !self.input().syntax().flow_decorators() {
                 syntax_error!(self, self.span(start), SyntaxError::TS8038);
             }
 
-            decorators = after_decorators;
+            if self.input().syntax().flow_decorators() {
+                decorators.extend(after_decorators);
+            } else {
+                decorators = after_decorators;
+            }
         }
 
         let decl = if !type_only && self.input().is(Token::Class) {

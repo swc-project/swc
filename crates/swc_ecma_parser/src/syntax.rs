@@ -69,7 +69,9 @@ impl Syntax {
                 decorators: true, ..
             }) => true,
             #[cfg(feature = "flow")]
-            Syntax::Flow(_) => false,
+            Syntax::Flow(FlowSyntax {
+                decorators: true, ..
+            }) => true,
             _ => false,
         }
     }
@@ -83,7 +85,9 @@ impl Syntax {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(..) => true,
             #[cfg(feature = "flow")]
-            Syntax::Flow(_) => false,
+            Syntax::Flow(FlowSyntax {
+                decorators: true, ..
+            }) => true,
             _ => false,
         }
     }
@@ -280,6 +284,19 @@ pub struct FlowSyntax {
 
     #[serde(default)]
     pub enums: bool,
+
+    #[serde(
+        default,
+        alias = "esproposalDecorators",
+        alias = "esproposal_decorators"
+    )]
+    pub decorators: bool,
+
+    #[serde(default)]
+    pub components: bool,
+
+    #[serde(default, alias = "patternMatching", alias = "pattern_matching")]
+    pub pattern_matching: bool,
 }
 
 #[cfg(feature = "flow")]
@@ -298,6 +315,15 @@ impl FlowSyntax {
         }
         if self.enums {
             flags |= SyntaxFlags::FLOW_ENUMS;
+        }
+        if self.decorators {
+            flags |= SyntaxFlags::FLOW_DECORATORS;
+        }
+        if self.components {
+            flags |= SyntaxFlags::FLOW_COMPONENTS;
+        }
+        if self.pattern_matching {
+            flags |= SyntaxFlags::FLOW_PATTERN_MATCHING;
         }
         // Cache "type grammar enabled" for Flow configurations that do not
         // depend on a file pragma. This keeps hot-path syntax checks cheap.
@@ -413,12 +439,12 @@ impl SyntaxFlags {
 
     #[inline(always)]
     pub const fn decorators(&self) -> bool {
-        self.contains(SyntaxFlags::DECORATORS)
+        self.contains(SyntaxFlags::DECORATORS) || self.flow_decorators()
     }
 
     #[inline(always)]
     pub const fn decorators_before_export(&self) -> bool {
-        self.contains(SyntaxFlags::DECORATORS_BEFORE_EXPORT)
+        self.contains(SyntaxFlags::DECORATORS_BEFORE_EXPORT) || self.flow_decorators()
     }
 
     /// Should we parse typescript?
@@ -481,6 +507,42 @@ impl SyntaxFlags {
     #[inline(always)]
     pub const fn flow_enums(&self) -> bool {
         self.contains(SyntaxFlags::FLOW_ENUMS)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_decorators(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_decorators(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_DECORATORS)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_components(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_components(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_COMPONENTS)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_pattern_matching(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_pattern_matching(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_PATTERN_MATCHING)
     }
 
     #[cfg(not(feature = "flow"))]
@@ -587,5 +649,11 @@ bitflags::bitflags! {
         const FLOW_ENUMS = 1 << 17;
         #[cfg(feature = "flow")]
         const FLOW_PRAGMA = 1 << 18;
+        #[cfg(feature = "flow")]
+        const FLOW_DECORATORS = 1 << 19;
+        #[cfg(feature = "flow")]
+        const FLOW_COMPONENTS = 1 << 20;
+        #[cfg(feature = "flow")]
+        const FLOW_PATTERN_MATCHING = 1 << 21;
     }
 }

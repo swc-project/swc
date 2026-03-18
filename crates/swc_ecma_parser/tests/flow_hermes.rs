@@ -17,6 +17,9 @@ use swc_ecma_parser::{parse_file_as_program, FlowSyntax, Syntax};
 struct HermesOptions {
     enums: Option<bool>,
     types: Option<bool>,
+    esproposal_decorators: Option<bool>,
+    components: Option<bool>,
+    pattern_matching: Option<bool>,
 }
 
 fn fixture_root() -> PathBuf {
@@ -174,6 +177,13 @@ fn hermes_flow_error_presence_parity() {
             all: false,
             require_directive: matches!(options.types, Some(false)),
             enums,
+            decorators: options.esproposal_decorators.unwrap_or(false),
+            components: options.components.unwrap_or_else(|| {
+                rel.starts_with("components/") || rel.starts_with("hook_syntax/")
+            }),
+            pattern_matching: options
+                .pattern_matching
+                .unwrap_or_else(|| rel.starts_with("match/")),
         };
 
         let fm = cm
