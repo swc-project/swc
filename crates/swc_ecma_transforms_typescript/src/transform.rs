@@ -7,12 +7,15 @@ use swc_common::{
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::rename::rename;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, ident::IdentLike, is_literal, member_expr,
     private_ident, quote_ident, quote_str, stack_size::maybe_grow_default, ExprFactory, QueryRef,
     RefRewriter, StmtLikeInjector,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use crate::{
     config::TsImportExportAssignConfig,
@@ -57,6 +60,7 @@ pub(crate) struct Transform {
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
     native_class_properties: bool,
+    flow_syntax: bool,
 
     semantic: SemanticInfo,
 
@@ -85,6 +89,7 @@ pub fn transform(
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
     native_class_properties: bool,
+    flow_syntax: bool,
 ) -> impl Pass {
     visit_mut_pass(Transform {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
@@ -95,6 +100,7 @@ pub fn transform(
         ts_enum_is_mutable,
         verbatim_module_syntax,
         native_class_properties,
+        flow_syntax,
         ..Default::default()
     })
 }
@@ -152,6 +158,10 @@ impl VisitMut for Transform {
                 }
                 .into(),
             )
+        }
+
+        if self.flow_syntax {
+            self.normalize_module_await_bindings(node);
         }
     }
 
@@ -832,6 +842,115 @@ impl Transform {
             }
             decl => FoldedDecl::Decl(decl),
         }
+    }
+
+    fn normalize_module_await_bindings(&mut self, module: &mut Module) {
+        let mut collector = AwaitBindingCollector::default();
+        module.visit_with(&mut collector);
+
+        if collector.await_binding_ids.is_empty() {
+            return;
+        }
+
+        let mut used_syms = collector.used_syms;
+        let mut rename_map = FxHashMap::default();
+        let mut suffix = 0usize;
+
+        for id in collector.await_binding_ids {
+            let next_sym = loop {
+                let candidate: Atom = if suffix == 0 {
+                    "_await".into()
+                } else {
+                    format!("_await{suffix}").into()
+                };
+                suffix += 1;
+
+                if used_syms.insert(candidate.clone()) {
+                    break candidate;
+                }
+            };
+
+            rename_map.insert(id, next_sym);
+        }
+
+        if !rename_map.is_empty() {
+            module.visit_mut_with(&mut rename(&rename_map));
+        }
+    }
+}
+
+#[derive(Default)]
+struct AwaitBindingCollector {
+    used_syms: FxHashSet<Atom>,
+    seen_await_bindings: FxHashSet<Id>,
+    await_binding_ids: Vec<Id>,
+}
+
+impl AwaitBindingCollector {
+    fn record_binding_ident(&mut self, ident: &Ident) {
+        if ident.sym != "await" {
+            return;
+        }
+
+        let id = ident.to_id();
+        if self.seen_await_bindings.insert(id.clone()) {
+            self.await_binding_ids.push(id);
+        }
+    }
+}
+
+impl Visit for AwaitBindingCollector {
+    fn visit_binding_ident(&mut self, node: &BindingIdent) {
+        self.record_binding_ident(&node.id);
+        node.visit_children_with(self);
+    }
+
+    fn visit_class_decl(&mut self, node: &ClassDecl) {
+        self.record_binding_ident(&node.ident);
+        node.visit_children_with(self);
+    }
+
+    fn visit_class_expr(&mut self, node: &ClassExpr) {
+        if let Some(ident) = &node.ident {
+            self.record_binding_ident(ident);
+        }
+        node.visit_children_with(self);
+    }
+
+    fn visit_fn_decl(&mut self, node: &FnDecl) {
+        self.record_binding_ident(&node.ident);
+        node.visit_children_with(self);
+    }
+
+    fn visit_fn_expr(&mut self, node: &FnExpr) {
+        if let Some(ident) = &node.ident {
+            self.record_binding_ident(ident);
+        }
+        node.visit_children_with(self);
+    }
+
+    fn visit_ident(&mut self, node: &Ident) {
+        self.used_syms.insert(node.sym.clone());
+    }
+
+    fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier) {
+        self.record_binding_ident(&node.local);
+        node.visit_children_with(self);
+    }
+
+    fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier) {
+        self.record_binding_ident(&node.local);
+        node.visit_children_with(self);
+    }
+
+    fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
+        self.record_binding_ident(&node.local);
+        node.visit_children_with(self);
+    }
+
+    fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
+        self.record_binding_ident(&node.id);
+        node.visit_children_with(self);
     }
 }
 

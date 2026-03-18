@@ -892,6 +892,7 @@ impl Options {
                         verbatim_module_syntax,
                         native_class_properties,
                         ts_enum_is_mutable,
+                        flow_syntax: syntax.flow(),
                         ..Default::default()
                     };
 
