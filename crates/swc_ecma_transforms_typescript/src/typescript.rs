@@ -53,6 +53,7 @@ impl Pass for TypeScript {
             self.config.ts_enum_is_mutable,
             self.config.verbatim_module_syntax,
             self.config.native_class_properties,
+            self.config.flow_syntax,
         ));
 
         if let Some(span) = was_module {

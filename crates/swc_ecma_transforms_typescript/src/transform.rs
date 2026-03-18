@@ -60,6 +60,7 @@ pub(crate) struct Transform {
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
     native_class_properties: bool,
+    flow_syntax: bool,
 
     semantic: SemanticInfo,
 
@@ -88,6 +89,7 @@ pub fn transform(
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
     native_class_properties: bool,
+    flow_syntax: bool,
 ) -> impl Pass {
     visit_mut_pass(Transform {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
@@ -98,6 +100,7 @@ pub fn transform(
         ts_enum_is_mutable,
         verbatim_module_syntax,
         native_class_properties,
+        flow_syntax,
         ..Default::default()
     })
 }
@@ -157,7 +160,9 @@ impl VisitMut for Transform {
             )
         }
 
-        self.normalize_module_await_bindings(node);
+        if self.flow_syntax {
+            self.normalize_module_await_bindings(node);
+        }
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {

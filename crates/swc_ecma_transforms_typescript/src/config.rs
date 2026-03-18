@@ -34,6 +34,12 @@ pub struct Config {
     /// Defaults to false.
     #[serde(default)]
     pub ts_enum_is_mutable: bool,
+
+    /// Internal-only hint from the caller that this strip pass is processing
+    /// Flow syntax. Flow-only post-processing must stay disabled for TS/JS to
+    /// avoid extra overhead on the common path.
+    #[serde(skip)]
+    pub flow_syntax: bool,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]
