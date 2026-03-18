@@ -524,14 +524,9 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if args.len() > 1
-            || args.first().is_some_and(|arg| {
-                if arg.spread.is_some() {
-                    true
-                } else {
-                    arg.expr.may_have_side_effects(self.expr_ctx)
-                }
-            })
+        if args
+            .iter()
+            .any(|arg| arg.expr.may_have_side_effects(self.expr_ctx))
         {
             return;
         }
