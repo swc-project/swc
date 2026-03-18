@@ -1,0 +1,37 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":15}},
+  "range":[0,15],
+  "body":[
+    {
+      "type":"MatchStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":15}},
+      "range":[0,15],
+      "argument":{
+        "type":"SequenceExpression",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":12}},
+        "range":[6,12],
+        "expressions":[
+          {
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":8}},
+            "range":[7,8],
+            "name":"a",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          {
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+            "range":[10,11],
+            "name":"b",
+            "typeAnnotation":null,
+            "optional":false
+          }
+        ]
+      },
+      "cases":[]
+    }
+  ],
+  "comments":[]
+}

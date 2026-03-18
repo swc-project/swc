@@ -390,6 +390,16 @@ impl<I: Tokens> Parser<I> {
             }
 
             expect!(self, Token::Semi);
+            if decl.kind == VarDeclKind::Const {
+                for d in &decl.decls {
+                    if d.init.is_none() {
+                        self.emit_err(
+                            d.name.span(),
+                            SyntaxError::ConstDeclarationsRequireInitialization,
+                        );
+                    }
+                }
+            }
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
@@ -537,14 +547,23 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into()
             }
-            TempForHead::ForOf { left, right } => ForOfStmt {
-                span,
-                is_await: await_token.is_some(),
-                left,
-                right,
-                body,
+            TempForHead::ForOf { left, right } => {
+                if await_token.is_some()
+                    && self.syntax().flow()
+                    && !self.ctx().contains(Context::InAsync)
+                {
+                    self.emit_err(self.span(start), SyntaxError::AwaitForStmt);
+                }
+
+                ForOfStmt {
+                    span,
+                    is_await: await_token.is_some(),
+                    left,
+                    right,
+                    body,
+                }
+                .into()
             }
-            .into(),
         })
     }
 
@@ -684,7 +703,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_with_stmt(&mut self) -> PResult<Stmt> {
-        if self.syntax().typescript() {
+        if self.syntax().typescript() && !self.syntax().flow() {
             let span = self.input().cur_span();
             self.emit_err(span, SyntaxError::TS2410);
         }
@@ -1035,6 +1054,9 @@ impl<I: Tokens> Parser<I> {
         {
             self.assert_and_bump(Token::Const);
             self.assert_and_bump(Token::Enum);
+            if self.input().syntax().flow() {
+                self.emit_err(self.span(start), SyntaxError::TS1003);
+            }
             return self
                 .parse_ts_enum_decl(start, true)
                 .map(Decl::from)

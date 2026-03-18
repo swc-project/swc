@@ -1,0 +1,109 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":103}},
+  "range":[18,103],
+  "body":[
+    {
+      "type":"WhileStatement",
+      "leadingComments":[
+        {
+          "type":"Block",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
+          "range":[0,17],
+          "value":" 1.1 L while "
+        },
+        {
+          "type":"Block",
+          "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":41}},
+          "range":[24,41],
+          "value":" 1.2 L while "
+        }
+      ],
+      "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":103}},
+      "range":[18,103],
+      "test":{
+        "type":"Literal",
+        "trailingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":1,"column":65},"end":{"line":1,"column":81}},
+            "range":[65,81],
+            "value":" 1.4 T bool "
+          }
+        ],
+        "leadingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":1,"column":43},"end":{"line":1,"column":59}},
+            "range":[43,59],
+            "value":" 1.3 L bool "
+          }
+        ],
+        "loc":{"source":null,"start":{"line":1,"column":60},"end":{"line":1,"column":64}},
+        "range":[60,64],
+        "value":true,
+        "raw":"true"
+      },
+      "body":{
+        "type":"BlockStatement",
+        "trailingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":1,"column":104},"end":{"line":1,"column":121}},
+            "range":[104,121],
+            "value":" 1.6 T block "
+          }
+        ],
+        "leadingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":1,"column":83},"end":{"line":1,"column":100}},
+            "range":[83,100],
+            "value":" 1.5 L block "
+          }
+        ],
+        "loc":{"source":null,"start":{"line":1,"column":101},"end":{"line":1,"column":103}},
+        "range":[101,103],
+        "body":[]
+      }
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
+      "range":[0,17],
+      "value":" 1.1 L while "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":41}},
+      "range":[24,41],
+      "value":" 1.2 L while "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":43},"end":{"line":1,"column":59}},
+      "range":[43,59],
+      "value":" 1.3 L bool "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":65},"end":{"line":1,"column":81}},
+      "range":[65,81],
+      "value":" 1.4 T bool "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":83},"end":{"line":1,"column":100}},
+      "range":[83,100],
+      "value":" 1.5 L block "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":104},"end":{"line":1,"column":121}},
+      "range":[104,121],
+      "value":" 1.6 T block "
+    }
+  ]
+}

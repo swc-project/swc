@@ -1,0 +1,37 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":29}},
+  "range":[0,29],
+  "body":[
+    {
+      "type":"DeclareOpaqueType",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":29}},
+      "range":[0,29],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":24}},
+        "range":[20,24],
+        "name":"Test",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "impltype":null,
+      "supertype":{
+        "type":"GenericTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":29}},
+        "range":[26,29],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":29}},
+          "range":[26,29],
+          "name":"Foo",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "typeParameters":null
+      }
+    }
+  ],
+  "comments":[]
+}

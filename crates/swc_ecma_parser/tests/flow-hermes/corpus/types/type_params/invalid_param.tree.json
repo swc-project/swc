@@ -1,0 +1,110 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":8}},
+      "message":"Unexpected token `(`, expected the token `>`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+      "message":"Expected at least one type parameter."
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":8}},
+      "message":"Unexpected token `(`, expected the token `=`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":9}},
+      "message":"Unexpected token `)`, expected a type"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":9}},
+      "message":"Unexpected token `)`, expected the token `;`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":9}},
+      "message":"Unexpected token `)`, expected the start of a statement"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+      "message":"Unexpected token `>`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
+      "message":"Unexpected token `=`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+      "message":"Invalid left-hand side in assignment"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":19}},
+  "range":[0,19],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
+      "range":[0,8],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"T",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":{
+        "type":"TypeParameterDeclaration",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+        "range":[6,7],
+        "params":[]
+      },
+      "right":{
+        "type":"AnyTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":9}},
+        "range":[8,9]
+      }
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":19}},
+      "range":[9,19],
+      "expression":{
+        "type":"AssignmentExpression",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":19}},
+        "range":[9,19],
+        "operator":"=",
+        "left":{
+          "type":"BinaryExpression",
+          "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+          "range":[9,10],
+          "operator":">",
+          "left":{
+            "type":"Literal",
+            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+            "range":[9,10],
+            "value":null,
+            "raw":"null"
+          },
+          "right":{
+            "type":"Literal",
+            "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
+            "range":[11,12],
+            "value":null,
+            "raw":"null"
+          }
+        },
+        "right":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":19}},
+          "range":[13,19],
+          "name":"number",
+          "typeAnnotation":null,
+          "optional":false
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

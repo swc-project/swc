@@ -1,6 +1,7 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
+use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
@@ -56,6 +57,8 @@ pub struct ParserCheckpoint<I: Tokens> {
     buffer_prev_span: Span,
     buffer_cur: TokenAndSpan,
     buffer_next: Option<crate::lexer::NextTokenAndSpan>,
+    #[cfg(feature = "flow")]
+    allow_super_call: bool,
 }
 
 /// EcmaScript parser.
@@ -64,6 +67,8 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
+    #[cfg(feature = "flow")]
+    allow_super_call: bool,
 }
 
 impl<I: Tokens> Parser<I> {
@@ -87,7 +92,18 @@ impl<I: Tokens> Parser<I> {
         &mut self.state
     }
 
-    #[cfg(feature = "typescript")]
+    #[cfg(all(feature = "typescript", feature = "flow"))]
+    fn checkpoint_save(&self) -> ParserCheckpoint<I> {
+        ParserCheckpoint {
+            lexer: self.input.iter.checkpoint_save(),
+            buffer_cur: self.input.cur,
+            buffer_next: self.input.next.clone(),
+            buffer_prev_span: self.input.prev_span,
+            allow_super_call: self.allow_super_call,
+        }
+    }
+
+    #[cfg(all(feature = "typescript", not(feature = "flow")))]
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
@@ -97,12 +113,55 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    #[cfg(feature = "typescript")]
+    #[cfg(all(feature = "typescript", feature = "flow"))]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
         self.input.next = checkpoint.buffer_next;
         self.input.prev_span = checkpoint.buffer_prev_span;
+        self.allow_super_call = checkpoint.allow_super_call;
+    }
+
+    #[cfg(all(feature = "typescript", not(feature = "flow")))]
+    fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
+        self.input.iter.checkpoint_load(checkpoint.lexer);
+        self.input.cur = checkpoint.buffer_cur;
+        self.input.next = checkpoint.buffer_next;
+        self.input.prev_span = checkpoint.buffer_prev_span;
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub fn allow_super_call(&self) -> bool {
+        self.allow_super_call
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub fn allow_super_call(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub fn set_allow_super_call(&mut self, value: bool) {
+        self.allow_super_call = value;
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub fn set_allow_super_call(&mut self, _value: bool) {}
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub fn is_flow_syntax(&self) -> bool {
+        self.syntax().flow()
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub fn is_flow_syntax(&self) -> bool {
+        false
     }
 
     #[inline(always)]
@@ -130,6 +189,8 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
+            #[cfg(feature = "flow")]
+            allow_super_call: false,
         };
 
         // consume EOF
@@ -252,6 +313,9 @@ impl<I: Tokens> Parser<I> {
         }
 
         let ret = if has_module_item {
+            if self.syntax().flow() {
+                self.report_duplicate_exports(&body);
+            }
             Program::Module(Module {
                 span: self.span(start),
                 body,
@@ -299,6 +363,9 @@ impl<I: Tokens> Parser<I> {
                 body,
                 shebang,
             })?;
+        if self.syntax().flow() {
+            self.report_duplicate_exports(&ret.body);
+        }
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
@@ -422,6 +489,110 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().iter_mut().add_error(error);
         } else {
             self.input_mut().iter_mut().add_module_mode_error(error);
+        }
+    }
+
+    fn report_duplicate_exports(&mut self, body: &[ModuleItem]) {
+        let mut exported = FxHashMap::<Atom, Span>::default();
+        for item in body {
+            let ModuleItem::ModuleDecl(module_decl) = item else {
+                continue;
+            };
+            self.collect_exported_names(module_decl, &mut exported);
+        }
+    }
+
+    fn record_exported_name(
+        &mut self,
+        exported: &mut FxHashMap<Atom, Span>,
+        name: Atom,
+        span: Span,
+    ) {
+        if exported.insert(name.clone(), span).is_some() {
+            self.emit_err(span, SyntaxError::TS1003);
+        }
+    }
+
+    fn collect_decl_exported_names(&mut self, decl: &Decl, exported: &mut FxHashMap<Atom, Span>) {
+        match decl {
+            Decl::Class(class_decl) => {
+                self.record_exported_name(
+                    exported,
+                    class_decl.ident.sym.clone(),
+                    class_decl.ident.span,
+                );
+            }
+            Decl::Fn(fn_decl) => {
+                self.record_exported_name(exported, fn_decl.ident.sym.clone(), fn_decl.ident.span);
+            }
+            Decl::Var(var_decl) => {
+                for declarator in &var_decl.decls {
+                    if let Pat::Ident(ident) = &declarator.name {
+                        self.record_exported_name(exported, ident.id.sym.clone(), ident.id.span);
+                    }
+                }
+            }
+            Decl::TsEnum(enum_decl) => {
+                self.record_exported_name(exported, enum_decl.id.sym.clone(), enum_decl.id.span);
+            }
+            Decl::TsModule(module_decl) => {
+                if let TsModuleName::Ident(ident) = &module_decl.id {
+                    self.record_exported_name(exported, ident.sym.clone(), ident.span);
+                }
+            }
+            Decl::TsInterface(..) | Decl::TsTypeAlias(..) | Decl::Using(..) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
+        }
+    }
+
+    fn collect_exported_names(&mut self, decl: &ModuleDecl, exported: &mut FxHashMap<Atom, Span>) {
+        match decl {
+            ModuleDecl::ExportDecl(export_decl) => {
+                self.collect_decl_exported_names(&export_decl.decl, exported);
+            }
+            ModuleDecl::ExportNamed(named_export) => {
+                for spec in &named_export.specifiers {
+                    match spec {
+                        ExportSpecifier::Named(named) => {
+                            if named.is_type_only {
+                                continue;
+                            }
+                            let export_name = named.exported.as_ref().unwrap_or(&named.orig);
+                            if let ModuleExportName::Ident(ident) = export_name {
+                                self.record_exported_name(exported, ident.sym.clone(), ident.span);
+                            }
+                        }
+                        ExportSpecifier::Default(default) => {
+                            self.record_exported_name(
+                                exported,
+                                default.exported.sym.clone(),
+                                default.exported.span,
+                            );
+                        }
+                        ExportSpecifier::Namespace(namespace) => {
+                            if let ModuleExportName::Ident(ident) = &namespace.name {
+                                self.record_exported_name(exported, ident.sym.clone(), ident.span);
+                            }
+                        }
+                        #[cfg(swc_ast_unknown)]
+                        _ => {}
+                    }
+                }
+            }
+            ModuleDecl::ExportDefaultExpr(default_expr) => {
+                self.record_exported_name(exported, Atom::from("default"), default_expr.span);
+            }
+            ModuleDecl::ExportDefaultDecl(default_decl) => {
+                self.record_exported_name(exported, Atom::from("default"), default_decl.span);
+            }
+            ModuleDecl::ExportAll(..) => {}
+            ModuleDecl::Import(..)
+            | ModuleDecl::TsImportEquals(..)
+            | ModuleDecl::TsExportAssignment(..)
+            | ModuleDecl::TsNamespaceExport(..) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
         }
     }
 

@@ -1,0 +1,31 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":23}},
+  "range":[0,23],
+  "body":[
+    {
+      "type":"ExportDefaultDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":23}},
+      "range":[0,23],
+      "declaration":{
+        "type":"ClassDeclaration",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":23}},
+        "range":[15,23],
+        "id":null,
+        "body":{
+          "type":"ClassBody",
+          "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":23}},
+          "range":[21,23],
+          "body":[]
+        },
+        "superClass":null,
+        "typeParameters":null,
+        "superTypeParameters":null,
+        "implements":[],
+        "decorators":[]
+      },
+      "exportKind":"value"
+    }
+  ],
+  "comments":[]
+}

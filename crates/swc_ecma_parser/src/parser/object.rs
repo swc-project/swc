@@ -6,6 +6,14 @@ use crate::{
     PResult, Parser,
 };
 
+fn prop_name_is(key: &PropName, expected: &str) -> bool {
+    match key {
+        PropName::Ident(ident) => ident.sym == *expected,
+        PropName::Str(value) => value.value == *expected,
+        _ => false,
+    }
+}
+
 impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_object<Object, ObjectProp>(
         &mut self,
@@ -69,8 +77,36 @@ impl<I: Tokens> Parser<I> {
         let value = if self.input_mut().eat(Token::Eq) {
             self.allow_in_expr(Self::parse_assignment_expr).map(Some)?
         } else {
+            let ctx = self.ctx();
             if self.ctx().is_reserved_word(&key.sym) {
                 self.emit_err(key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
+            }
+
+            if self.syntax().flow() {
+                match &*key.sym {
+                    "eval" | "arguments" if ctx.contains(Context::Strict) => {
+                        self.emit_err(key.span, SyntaxError::EvalAndArgumentsInStrict);
+                    }
+                    "await"
+                        if ctx.contains(Context::InAsync)
+                            || ctx.contains(Context::InStaticBlock)
+                            || ctx.contains(Context::Module) =>
+                    {
+                        self.emit_err(key.span, SyntaxError::InvalidIdentInAsync);
+                    }
+                    "yield"
+                        if ctx.contains(Context::InGenerator) || ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(key.span, SyntaxError::InvalidIdentInStrict(key.sym.clone()));
+                    }
+                    "implements" | "interface" | "package" | "private" | "protected" | "public"
+                    | "static"
+                        if ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(key.span, SyntaxError::InvalidIdentInStrict(key.sym.clone()));
+                    }
+                    _ => {}
+                }
             }
 
             None
@@ -229,6 +265,17 @@ impl<I: Tokens> Parser<I> {
         if (self.input().syntax().typescript() && self.input().is(Token::Lt))
             || self.input().is(Token::LParen)
         {
+            if matches!(key_token, Token::Get | Token::Set) && self.input().is(Token::Lt) {
+                let accessor_as_ident = match key_token {
+                    Token::Get => prop_name_is(&key, "get"),
+                    Token::Set => prop_name_is(&key, "set"),
+                    _ => false,
+                };
+                if !accessor_as_ident {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+                }
+            }
+
             return self
                 .do_inside_of_context(Context::AllowDirectSuper, |p| {
                     p.do_outside_of_context(Context::InClassField, |p| {
@@ -260,8 +307,42 @@ impl<I: Tokens> Parser<I> {
         // It means we should check for invalid expressions like { for, }
         let cur = self.input().cur();
         if matches!(cur, Token::Eq | Token::Comma | Token::RBrace) {
+            let ctx = self.ctx();
             if self.ctx().is_reserved_word(&ident.sym) {
                 self.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
+            }
+
+            if self.syntax().flow() {
+                match &*ident.sym {
+                    "eval" | "arguments" if ctx.contains(Context::Strict) => {
+                        self.emit_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
+                    }
+                    "await"
+                        if ctx.contains(Context::InAsync)
+                            || ctx.contains(Context::InStaticBlock)
+                            || ctx.contains(Context::Module) =>
+                    {
+                        self.emit_err(ident.span, SyntaxError::InvalidIdentInAsync);
+                    }
+                    "yield"
+                        if ctx.contains(Context::InGenerator) || ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(
+                            ident.span,
+                            SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
+                        );
+                    }
+                    "implements" | "interface" | "package" | "private" | "protected" | "public"
+                    | "static"
+                        if ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(
+                            ident.span,
+                            SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
+                        );
+                    }
+                    _ => {}
+                }
             }
 
             if self.input_mut().eat(Token::Eq) {
@@ -293,6 +374,9 @@ impl<I: Tokens> Parser<I> {
                     key_token == Token::Async && self.input_mut().eat(Token::Asterisk);
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
+                if matches!(key_token, Token::Get | Token::Set) && self.input().is(Token::Lt) {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+                }
                 self.do_inside_of_context(Context::AllowDirectSuper, |p| {
                     p.do_outside_of_context(Context::InClassField, |p| {
                         match key_token {

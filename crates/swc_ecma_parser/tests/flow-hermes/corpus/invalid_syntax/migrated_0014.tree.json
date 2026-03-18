@@ -1,0 +1,41 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+      "message":"Unexpected reserved word"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":9}},
+  "range":[0,9],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":9}},
+      "range":[0,9],
+      "expression":{
+        "type":"AssignmentExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":9}},
+        "range":[0,9],
+        "operator":"=",
+        "left":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+          "range":[0,4],
+          "name":"enum",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "right":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":9}},
+          "range":[7,9],
+          "value":42,
+          "raw":"42"
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

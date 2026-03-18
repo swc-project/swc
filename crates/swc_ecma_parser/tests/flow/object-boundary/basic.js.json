@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 138
+    "end": 99
   },
   "body": [
     {
@@ -142,7 +142,7 @@
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 70,
-        "end": 104
+        "end": 99
       },
       "declare": false,
       "id": {
@@ -160,14 +160,14 @@
         "type": "TsTypeLiteral",
         "span": {
           "start": 83,
-          "end": 103
+          "end": 98
         },
         "members": [
           {
             "type": "TsPropertySignature",
             "span": {
               "start": 86,
-              "end": 96
+              "end": 95
             },
             "readonly": false,
             "key": {
@@ -197,76 +197,6 @@
                 "kind": "number"
               }
             }
-          },
-          {
-            "type": "TsPropertySignature",
-            "span": {
-              "start": 97,
-              "end": 100
-            },
-            "readonly": false,
-            "key": {
-              "type": "Identifier",
-              "span": {
-                "start": 97,
-                "end": 100
-              },
-              "ctxt": 0,
-              "value": "__flow_spread",
-              "optional": false
-            },
-            "computed": false,
-            "optional": false,
-            "typeAnnotation": null
-          }
-        ]
-      }
-    },
-    {
-      "type": "TsTypeAliasDeclaration",
-      "span": {
-        "start": 105,
-        "end": 138
-      },
-      "declare": false,
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 110,
-          "end": 125
-        },
-        "ctxt": 0,
-        "value": "ExactOnlySpread",
-        "optional": false
-      },
-      "typeParams": null,
-      "typeAnnotation": {
-        "type": "TsTypeLiteral",
-        "span": {
-          "start": 128,
-          "end": 137
-        },
-        "members": [
-          {
-            "type": "TsPropertySignature",
-            "span": {
-              "start": 131,
-              "end": 134
-            },
-            "readonly": false,
-            "key": {
-              "type": "Identifier",
-              "span": {
-                "start": 131,
-                "end": 134
-              },
-              "ctxt": 0,
-              "value": "__flow_spread",
-              "optional": false
-            },
-            "computed": false,
-            "optional": false,
-            "typeAnnotation": null
           }
         ]
       }

@@ -1,0 +1,43 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected an identifier"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the token `{`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the token `}`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+  "range":[0,5],
+  "body":[
+    {
+      "type":"EnumDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+      "range":[0,5],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+        "range":[5,5],
+        "name":"",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"EnumStringBody",
+        "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+        "range":[5,5],
+        "members":[],
+        "explicitType":false,
+        "hasUnknownMembers":false
+      }
+    }
+  ],
+  "comments":[]
+}

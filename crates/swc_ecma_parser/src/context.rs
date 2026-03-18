@@ -69,6 +69,10 @@ bitflags::bitflags! {
       const TopLevel = 1 << 29;
 
       const TsModuleBlock = 1 << 30;
+
+      /// Flow extension.
+      /// Disallow parsing top-level anonymous function types in arrow return type context.
+      const DisallowFlowAnonFnType = 1 << 31;
   }
 }
 

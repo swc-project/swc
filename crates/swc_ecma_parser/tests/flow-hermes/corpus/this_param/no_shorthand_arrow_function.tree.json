@@ -1,0 +1,44 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":8}},
+      "message":"Unexpected token `=>`, expected the token `)`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+      "message":"Unexpected token `{`, expected the end of an expression statement (`;`)"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
+      "message":"Unexpected token `)`, expected the start of a statement"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+  "range":[0,13],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
+      "range":[0,8],
+      "expression":{
+        "type":"ThisExpression",
+        "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":5}},
+        "range":[1,5]
+      },
+      "directive":null
+    },
+    {
+      "type":"BlockStatement",
+      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":11}},
+      "range":[9,11],
+      "body":[]
+    },
+    {
+      "type":"EmptyStatement",
+      "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
+      "range":[12,13]
+    }
+  ],
+  "comments":[]
+}

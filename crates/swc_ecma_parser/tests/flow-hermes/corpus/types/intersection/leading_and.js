@@ -1,0 +1,3 @@
+type T =
+  & string
+  & number;

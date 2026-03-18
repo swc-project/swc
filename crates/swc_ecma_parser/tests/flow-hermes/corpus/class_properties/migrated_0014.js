@@ -1,0 +1,1 @@
+class Properties { get<T>() {} }

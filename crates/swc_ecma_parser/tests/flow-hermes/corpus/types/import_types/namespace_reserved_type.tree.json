@@ -1,0 +1,53 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":13}},
+      "message":"Unexpected token `*`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":17},"end":{"line":2,"column":23}},
+      "message":"Unexpected reserved type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":42}},
+  "range":[43,85],
+  "body":[
+    {
+      "type":"ImportDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":42}},
+      "range":[43,85],
+      "specifiers":[
+        {
+          "type":"ImportNamespaceSpecifier",
+          "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":23}},
+          "range":[55,66],
+          "local":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":17},"end":{"line":2,"column":23}},
+            "range":[60,66],
+            "name":"string",
+            "typeAnnotation":null,
+            "optional":false
+          }
+        }
+      ],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":2,"column":29},"end":{"line":2,"column":41}},
+        "range":[72,84],
+        "value":"ModuleName",
+        "raw":"\"ModuleName\""
+      },
+      "importKind":"type"
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":42}},
+      "range":[0,42],
+      "value":" error, `string` is a reserved type name"
+    }
+  ]
+}

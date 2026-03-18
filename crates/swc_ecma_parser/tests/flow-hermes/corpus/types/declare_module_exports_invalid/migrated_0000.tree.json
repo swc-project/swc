@@ -1,0 +1,33 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the token `:`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected a type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+  "range":[0,23],
+  "body":[
+    {
+      "type":"DeclareModuleExports",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+      "range":[0,23],
+      "typeAnnotation":{
+        "type":"TypeAnnotation",
+        "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+        "range":[23,23],
+        "typeAnnotation":{
+          "type":"AnyTypeAnnotation",
+          "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+          "range":[23,23]
+        }
+      }
+    }
+  ],
+  "comments":[]
+}

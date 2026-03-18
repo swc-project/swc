@@ -176,7 +176,9 @@ impl<I: Tokens> Parser<I> {
                 word = atom!("await");
             } else if ctx.contains(Context::InStaticBlock) {
                 syntax_error!(self, span, SyntaxError::ExpectedIdent)
-            } else if ctx.contains(Context::Module) | ctx.contains(Context::InAsync) {
+            } else if ctx.contains(Context::InAsync)
+                || (ctx.contains(Context::Module) && !self.syntax().flow())
+            {
                 syntax_error!(self, span, SyntaxError::InvalidIdentInAsync)
             } else if incl_await {
                 word = atom!("await")
