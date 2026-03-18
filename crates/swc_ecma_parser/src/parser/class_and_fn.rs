@@ -99,7 +99,8 @@ impl<I: Tokens> Parser<I> {
             {
                 syntax_error!(self, self.span(start), SyntaxError::DecoratorOnExport);
             }
-        } else if !self.ctx().contains(Context::InClass)
+        } else if self.syntax().flow_decorators()
+            && !self.ctx().contains(Context::InClass)
             && !self.ctx().contains(Context::InFunction)
             && !self.input().is(Token::Class)
         {
