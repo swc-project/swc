@@ -206,6 +206,57 @@ fn issue_11643_external_helpers_false_respected() -> Result<()> {
     Ok(())
 }
 
+#[test]
+fn issue_flow_strip_enabled_via_parser_syntax_flow() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    fs::write(
+        sandbox.path().join(".swcrc"),
+        r#"{
+            "jsc": {
+                "parser": {
+                    "syntax": "flow"
+                }
+            }
+        }"#,
+    )?;
+    fs::write(
+        sandbox.path().join("input.js"),
+        r#"// @flow
+function add(a: number): number {
+  return a;
+}
+const value: string = "ok";
+"#,
+    )?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--config-file")
+        .arg(".swcrc")
+        .arg("--out-file")
+        .arg("output.js")
+        .arg("input.js");
+
+    cmd.assert().success();
+
+    let output = fs::read_to_string(sandbox.path().join("output.js"))?;
+    assert!(
+        output.contains("function add(a)"),
+        "Expected Flow type annotations to be stripped. Got: {output}"
+    );
+    assert!(
+        !output.contains(": number"),
+        "Flow function type annotation should be stripped. Got: {output}"
+    );
+    assert!(
+        !output.contains(": string"),
+        "Flow variable type annotation should be stripped. Got: {output}"
+    );
+
+    Ok(())
+}
+
 /// Tests that `--root-mode upward` finds a `.swcrc` in a parent directory.
 #[test]
 fn root_mode_upward_finds_parent_config() -> Result<()> {
