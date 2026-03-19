@@ -5,10 +5,7 @@ use swc_ecma_ast::{
     ModuleDecl, ModuleExportName, ModuleItem, Program, Str, VarDecl, VarDeclKind, VarDeclarator,
 };
 
-use crate::{
-    error::{CompilerError, CompilerErrorDetail, ErrorCategory},
-    options::ExternalFunction,
-};
+use crate::error::{CompilerError, CompilerErrorDetail, ErrorCategory};
 
 pub fn has_memo_cache_function_import(program: &Program, module_name: &str) -> bool {
     let Program::Module(module) = program else {
@@ -93,14 +90,13 @@ pub fn add_memo_cache_import(program: &mut Program, module_name: &str) -> bool {
     add_import_specifier(program, module_name, "c", "_c").is_some()
 }
 
-pub fn add_external_import(program: &mut Program, function: &ExternalFunction) -> bool {
-    add_import_specifier(
-        program,
-        function.source.as_ref(),
-        function.import_specifier_name.as_ref(),
-        function.import_specifier_name.as_ref(),
-    )
-    .is_some()
+pub fn add_external_import(
+    program: &mut Program,
+    source: &str,
+    imported_name: &str,
+    local_name: &str,
+) -> bool {
+    add_import_specifier(program, source, imported_name, local_name).is_some()
 }
 
 fn add_import_specifier(
@@ -122,10 +118,14 @@ fn add_import_specifier(
     let new_specifier = ImportSpecifier::Named(ImportNamedSpecifier {
         span: DUMMY_SP,
         local: local.clone(),
-        imported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
-            Atom::new(imported_name),
-            DUMMY_SP,
-        ))),
+        imported: if local.sym == imported_name {
+            None
+        } else {
+            Some(ModuleExportName::Ident(Ident::new_no_ctxt(
+                Atom::new(imported_name),
+                DUMMY_SP,
+            )))
+        },
         is_type_only: false,
     });
 

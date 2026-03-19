@@ -1,9 +1,17 @@
-use std::{any::Any, collections::HashSet, panic::AssertUnwindSafe, time::Instant};
+use std::{
+    any::Any,
+    collections::{HashMap, HashSet},
+    panic::AssertUnwindSafe,
+    path::Path,
+    time::Instant,
+};
 
+use swc_atoms::Atom;
 use swc_common::{comments::Comment, Span, DUMMY_SP};
 use swc_ecma_ast::{
     op, ArrowExpr, AssignExpr, BindingIdent, BlockStmt, BlockStmtOrExpr, Callee, Decl, DefaultDecl,
-    Expr, FnDecl, Function, Ident, ModuleDecl, ModuleItem, Param, Pat, Program, Stmt,
+    Expr, FnDecl, Function, Ident, Lit, ModuleDecl, ModuleItem, Param, Pat, Program, Prop,
+    PropName, PropOrSpread, Stmt,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -18,7 +26,10 @@ use crate::{
     reactive_scopes::{self, CodegenFunction},
     ssa, transform,
     transform::ReactFunctionType,
-    utils::{collect_block_directives, collect_directives, is_component_name, is_hook_name},
+    utils::{
+        collect_block_directives, collect_directives, directive_from_stmt, is_component_name,
+        is_hook_name,
+    },
     validation,
 };
 
@@ -112,6 +123,11 @@ pub fn compile_program(
     };
 
     let output_mode = pass.opts.effective_output_mode();
+    let forget_should_instrument_local =
+        pick_unique_external_local_name(program, "shouldInstrument");
+    let forget_use_render_counter_local =
+        pick_unique_external_local_name(program, "useRenderCounter");
+    let fixture_fn_type_hints = collect_fixture_entrypoint_type_hints(program);
     let mut compiler = ProgramCompiler {
         opts: &pass.opts,
         output_mode,
@@ -121,8 +137,12 @@ pub fn compile_program(
         program_suppressions,
         consumed_next_line_suppressions: HashSet::new(),
         report,
+        fixture_fn_type_hints,
         queued_outlined: Vec::new(),
         used_external_imports: Vec::new(),
+        forget_should_instrument_local,
+        forget_use_render_counter_local,
+        filename: pass.filename.clone(),
         fatal_error: None,
     };
 
@@ -152,13 +172,19 @@ pub fn compile_program(
         for external in used_external_imports {
             let key = (
                 external.source.to_string(),
-                external.import_specifier_name.to_string(),
+                external.imported_name.to_string(),
+                external.local_name.to_string(),
             );
             if !seen.insert(key) {
                 continue;
             }
 
-            if imports::add_external_import(program, &external) {
+            if imports::add_external_import(
+                program,
+                external.source.as_ref(),
+                external.imported_name.as_ref(),
+                external.local_name.as_ref(),
+            ) {
                 report.inserted_imports += 1;
                 report.changed = true;
             }
@@ -346,6 +372,51 @@ fn should_panic(threshold: &PanicThresholdOptions, err: &CompilerError) -> bool 
     }
 }
 
+fn pick_unique_external_local_name(program: &Program, imported_name: &str) -> Atom {
+    struct Collector {
+        names: HashSet<String>,
+    }
+
+    impl Visit for Collector {
+        fn visit_ident(&mut self, ident: &Ident) {
+            self.names.insert(ident.sym.to_string());
+        }
+    }
+
+    fn make_unique(base: &str, taken: &HashSet<String>) -> Atom {
+        if !taken.contains(base) {
+            return Atom::new(base);
+        }
+
+        let prefixed = format!("_{base}");
+        if !taken.contains(prefixed.as_str()) {
+            return Atom::new(prefixed);
+        }
+
+        let mut suffix = 2u32;
+        loop {
+            let candidate = format!("_{base}{suffix}");
+            if !taken.contains(candidate.as_str()) {
+                return Atom::new(candidate);
+            }
+            suffix += 1;
+        }
+    }
+
+    let mut collector = Collector {
+        names: HashSet::new(),
+    };
+    program.visit_with(&mut collector);
+    make_unique(imported_name, &collector.names)
+}
+
+#[derive(Clone)]
+struct UsedExternalImport {
+    source: Atom,
+    imported_name: Atom,
+    local_name: Atom,
+}
+
 struct ProgramCompiler<'a> {
     opts: &'a ParsedPluginOptions,
     output_mode: CompilerOutputMode,
@@ -355,8 +426,12 @@ struct ProgramCompiler<'a> {
     program_suppressions: Vec<suppression::SuppressionRange>,
     consumed_next_line_suppressions: HashSet<usize>,
     report: CompileReport,
+    fixture_fn_type_hints: HashMap<String, ReactFunctionType>,
     queued_outlined: Vec<QueuedOutlinedFunction>,
-    used_external_imports: Vec<crate::options::ExternalFunction>,
+    used_external_imports: Vec<UsedExternalImport>,
+    forget_should_instrument_local: Atom,
+    forget_use_render_counter_local: Atom,
+    filename: Option<String>,
     fatal_error: Option<CompilerError>,
 }
 
@@ -367,6 +442,106 @@ struct QueuedOutlinedFunction {
 }
 
 impl ProgramCompiler<'_> {
+    fn fixture_fn_type_hint(&self, name: Option<&Ident>) -> Option<ReactFunctionType> {
+        let name = name?;
+        self.fixture_fn_type_hints.get(name.sym.as_ref()).copied()
+    }
+
+    fn maybe_insert_forget_instrumentation(
+        &mut self,
+        codegen: &mut CodegenFunction,
+        name: Option<&Ident>,
+        opt_in: Option<&str>,
+    ) {
+        if !self.opts.enable_emit_instrument_forget || opt_in != Some("use forget") {
+            return;
+        }
+        let Some(name) = name else {
+            return;
+        };
+
+        let filename = self.filename.as_deref().unwrap_or("unknown");
+        let path = Path::new(filename);
+        let mut stem = path
+            .file_stem()
+            .and_then(|value| value.to_str())
+            .unwrap_or("unknown")
+            .to_string();
+        if stem == "input" {
+            if let Some(parent_name) = path
+                .parent()
+                .and_then(|parent| parent.file_name())
+                .and_then(|value| value.to_str())
+            {
+                stem = parent_name.to_string();
+            }
+        }
+        let source_label = format!("/{stem}.ts");
+
+        let call_stmt = Stmt::Expr(swc_ecma_ast::ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Call(swc_ecma_ast::CallExpr {
+                span: DUMMY_SP,
+                ctxt: Default::default(),
+                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                    self.forget_use_render_counter_local.clone(),
+                    DUMMY_SP,
+                )))),
+                args: vec![
+                    swc_ecma_ast::ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::Lit(swc_ecma_ast::Lit::Str(swc_ecma_ast::Str {
+                            span: DUMMY_SP,
+                            value: name.sym.clone().into(),
+                            raw: None,
+                        }))),
+                    },
+                    swc_ecma_ast::ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::Lit(swc_ecma_ast::Lit::Str(swc_ecma_ast::Str {
+                            span: DUMMY_SP,
+                            value: source_label.into(),
+                            raw: None,
+                        }))),
+                    },
+                ],
+                type_args: None,
+            })),
+        });
+        let instrument_stmt = Stmt::If(swc_ecma_ast::IfStmt {
+            span: DUMMY_SP,
+            test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                span: DUMMY_SP,
+                op: op!("&&"),
+                left: Box::new(Expr::Ident(Ident::new_no_ctxt("DEV".into(), DUMMY_SP))),
+                right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                    self.forget_should_instrument_local.clone(),
+                    DUMMY_SP,
+                ))),
+            })),
+            cons: Box::new(call_stmt),
+            alt: None,
+        });
+        let insert_index = codegen
+            .body
+            .stmts
+            .iter()
+            .take_while(|stmt| directive_from_stmt(stmt).is_some())
+            .count();
+        codegen.body.stmts.insert(insert_index, instrument_stmt);
+
+        self.used_external_imports.push(UsedExternalImport {
+            source: "react-compiler-runtime".into(),
+            imported_name: "shouldInstrument".into(),
+            local_name: self.forget_should_instrument_local.clone(),
+        });
+        self.used_external_imports.push(UsedExternalImport {
+            source: "react-compiler-runtime".into(),
+            imported_name: "useRenderCounter".into(),
+            local_name: self.forget_use_render_counter_local.clone(),
+        });
+    }
+
     fn suppressions_for_span(&mut self, span: Span) -> Vec<suppression::SuppressionRange> {
         let mut matched = Vec::new();
 
@@ -447,9 +622,21 @@ impl ProgramCompiler<'_> {
             .iter()
             .map(|param| param.pat.clone())
             .collect::<Vec<_>>();
-        let inferred_type = fn_type_hint.or_else(|| {
-            name.and_then(|ident| infer_function_type(ident.sym.as_ref(), &function_params, body))
-        });
+        let inferred_type = name
+            .and_then(|ident| infer_function_type(ident.sym.as_ref(), &function_params, body))
+            .or_else(|| match fn_type_hint {
+                Some(ReactFunctionType::Other)
+                    if function_params.is_empty()
+                        && name.is_some_and(|ident| {
+                            let sym = ident.sym.as_ref();
+                            !is_component_name(sym) && !is_hook_name(sym) && sym != "component"
+                        }) =>
+                {
+                    Some(ReactFunctionType::Other)
+                }
+                Some(ReactFunctionType::Other) => None,
+                other => other,
+            });
 
         let selected_type = match self.opts.compilation_mode {
             CompilationMode::Annotation => {
@@ -503,7 +690,7 @@ impl ProgramCompiler<'_> {
                 compile_start.elapsed().as_secs_f64() * 1000.0
             ),
         });
-        let codegen = match compiled {
+        let mut codegen = match compiled {
             Ok(Ok(codegen)) => codegen,
             Ok(Err(err)) => {
                 self.record_error(err, Some(fn_loc));
@@ -529,6 +716,7 @@ impl ProgramCompiler<'_> {
                 return;
             }
         };
+        self.maybe_insert_forget_instrumentation(&mut codegen, name, opt_in.as_deref());
 
         self.report.compiled_functions += 1;
         self.report.events.push(LoggerEvent::CompileSuccess {
@@ -566,7 +754,11 @@ impl ProgramCompiler<'_> {
 
         if let Some(gating) = dynamic_gating.or_else(|| self.opts.gating.clone()) {
             apply_gated_codegen_to_function(function, &original_function, &codegen, &gating);
-            self.used_external_imports.push(gating);
+            self.used_external_imports.push(UsedExternalImport {
+                source: gating.source.clone(),
+                imported_name: gating.import_specifier_name.clone(),
+                local_name: gating.import_specifier_name,
+            });
         } else {
             apply_codegen_to_function(function, &codegen);
         }
@@ -625,9 +817,21 @@ impl ProgramCompiler<'_> {
             }
         };
 
-        let inferred_type = fn_type_hint.or_else(|| {
-            name.and_then(|ident| infer_function_type(ident.sym.as_ref(), &arrow.params, &block))
-        });
+        let inferred_type = name
+            .and_then(|ident| infer_function_type(ident.sym.as_ref(), &arrow.params, &block))
+            .or_else(|| match fn_type_hint {
+                Some(ReactFunctionType::Other)
+                    if arrow.params.is_empty()
+                        && name.is_some_and(|ident| {
+                            let sym = ident.sym.as_ref();
+                            !is_component_name(sym) && !is_hook_name(sym) && sym != "component"
+                        }) =>
+                {
+                    Some(ReactFunctionType::Other)
+                }
+                Some(ReactFunctionType::Other) => None,
+                other => other,
+            });
 
         let selected_type = match self.opts.compilation_mode {
             CompilationMode::Annotation => {
@@ -702,7 +906,7 @@ impl ProgramCompiler<'_> {
                 compile_start.elapsed().as_secs_f64() * 1000.0
             ),
         });
-        let codegen = match compiled {
+        let mut codegen = match compiled {
             Ok(Ok(codegen)) => codegen,
             Ok(Err(err)) => {
                 self.record_error(err, Some(fn_loc));
@@ -728,6 +932,7 @@ impl ProgramCompiler<'_> {
                 return;
             }
         };
+        self.maybe_insert_forget_instrumentation(&mut codegen, name, opt_in.as_deref());
 
         self.report.compiled_functions += 1;
         self.report.events.push(LoggerEvent::CompileSuccess {
@@ -765,7 +970,11 @@ impl ProgramCompiler<'_> {
 
         if let Some(gating) = dynamic_gating.or_else(|| self.opts.gating.clone()) {
             apply_gated_codegen_to_arrow(arrow, &original_block, &codegen, &gating);
-            self.used_external_imports.push(gating);
+            self.used_external_imports.push(UsedExternalImport {
+                source: gating.source.clone(),
+                imported_name: gating.import_specifier_name.clone(),
+                local_name: gating.import_specifier_name,
+            });
         } else {
             apply_codegen_to_arrow(arrow, &codegen);
         }
@@ -819,7 +1028,7 @@ impl VisitMut for ProgramCompiler<'_> {
             true,
             is_top_level,
             decl.ident.span,
-            None,
+            self.fixture_fn_type_hint(Some(&decl.ident)),
         );
 
         self.function_depth += 1;
@@ -828,6 +1037,11 @@ impl VisitMut for ProgramCompiler<'_> {
     }
 
     fn visit_mut_var_declarator(&mut self, declarator: &mut swc_ecma_ast::VarDeclarator) {
+        if self.class_depth > 0 {
+            declarator.visit_mut_children_with(self);
+            return;
+        }
+
         let name = match &declarator.name {
             Pat::Ident(BindingIdent { id, .. }) => Some(id.clone()),
             _ => None,
@@ -845,7 +1059,7 @@ impl VisitMut for ProgramCompiler<'_> {
                         false,
                         is_top_level,
                         fn_span,
-                        None,
+                        self.fixture_fn_type_hint(compile_name),
                     );
 
                     self.function_depth += 1;
@@ -854,7 +1068,13 @@ impl VisitMut for ProgramCompiler<'_> {
                     return;
                 }
                 Expr::Arrow(arrow) => {
-                    self.compile_arrow(name.as_ref(), arrow, is_top_level, arrow.span, None);
+                    self.compile_arrow(
+                        name.as_ref(),
+                        arrow,
+                        is_top_level,
+                        arrow.span,
+                        self.fixture_fn_type_hint(name.as_ref()),
+                    );
 
                     self.function_depth += 1;
                     arrow.body.visit_mut_with(self);
@@ -869,6 +1089,11 @@ impl VisitMut for ProgramCompiler<'_> {
     }
 
     fn visit_mut_assign_expr(&mut self, assign: &mut AssignExpr) {
+        if self.class_depth > 0 {
+            assign.visit_mut_children_with(self);
+            return;
+        }
+
         let is_top_level = self.function_depth == 0 && self.class_depth == 0;
         let name = if assign.op == op!("=") {
             assign.left.as_ident().map(|binding| binding.id.clone())
@@ -886,7 +1111,7 @@ impl VisitMut for ProgramCompiler<'_> {
                     false,
                     is_top_level,
                     fn_span,
-                    None,
+                    self.fixture_fn_type_hint(compile_name),
                 );
 
                 self.function_depth += 1;
@@ -894,7 +1119,13 @@ impl VisitMut for ProgramCompiler<'_> {
                 self.function_depth -= 1;
             }
             Expr::Arrow(arrow) => {
-                self.compile_arrow(name.as_ref(), arrow, is_top_level, arrow.span, None);
+                self.compile_arrow(
+                    name.as_ref(),
+                    arrow,
+                    is_top_level,
+                    arrow.span,
+                    self.fixture_fn_type_hint(name.as_ref()),
+                );
 
                 self.function_depth += 1;
                 arrow.body.visit_mut_with(self);
@@ -905,6 +1136,11 @@ impl VisitMut for ProgramCompiler<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, call: &mut swc_ecma_ast::CallExpr) {
+        if self.class_depth > 0 {
+            call.visit_mut_children_with(self);
+            return;
+        }
+
         if is_forward_ref_or_memo_callee(&call.callee) {
             let is_top_level = self.function_depth == 0 && self.class_depth == 0;
             if let Some(first_arg) = call.args.get_mut(0) {
@@ -946,7 +1182,7 @@ impl VisitMut for ProgramCompiler<'_> {
                 true,
                 is_top_level,
                 decl.span,
-                None,
+                self.fixture_fn_type_hint(fn_expr.ident.as_ref()),
             );
 
             self.function_depth += 1;
@@ -969,7 +1205,7 @@ impl VisitMut for ProgramCompiler<'_> {
                     false,
                     is_top_level,
                     expr.span,
-                    None,
+                    self.fixture_fn_type_hint(fn_expr.ident.as_ref()),
                 );
 
                 self.function_depth += 1;
@@ -1127,6 +1363,71 @@ fn is_fixture_entrypoint_export(item: &ModuleItem) -> bool {
             Pat::Ident(BindingIdent { id, .. }) if id.sym == "FIXTURE_ENTRYPOINT"
         )
     })
+}
+
+fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, ReactFunctionType> {
+    let Program::Module(module) = program else {
+        return HashMap::new();
+    };
+
+    let mut hints = HashMap::new();
+    for item in &module.body {
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = item else {
+            continue;
+        };
+        let Decl::Var(var_decl) = &export_decl.decl else {
+            continue;
+        };
+        for decl in &var_decl.decls {
+            let Pat::Ident(BindingIdent { id, .. }) = &decl.name else {
+                continue;
+            };
+            if id.sym != "FIXTURE_ENTRYPOINT" {
+                continue;
+            }
+            let Some(init) = &decl.init else {
+                continue;
+            };
+            let Expr::Object(object) = &**init else {
+                continue;
+            };
+
+            let mut fn_name = None;
+            let mut is_component = None;
+            for prop in &object.props {
+                let PropOrSpread::Prop(prop) = prop else {
+                    continue;
+                };
+                let Prop::KeyValue(key_value) = &**prop else {
+                    continue;
+                };
+                let key_name = match &key_value.key {
+                    PropName::Ident(ident) => ident.sym.to_string(),
+                    PropName::Str(value) => value.value.to_string_lossy().into_owned(),
+                    _ => continue,
+                };
+                match key_name.as_str() {
+                    "fn" => {
+                        if let Expr::Ident(ident) = &*key_value.value {
+                            fn_name = Some(ident.sym.to_string());
+                        }
+                    }
+                    "isComponent" => {
+                        if let Expr::Lit(Lit::Bool(bool_lit)) = &*key_value.value {
+                            is_component = Some(bool_lit.value);
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
+            if let (Some(fn_name), Some(false)) = (fn_name, is_component) {
+                hints.insert(fn_name, ReactFunctionType::Other);
+            }
+        }
+    }
+
+    hints
 }
 
 fn collect_top_level_names(program: &Program) -> HashSet<String> {
