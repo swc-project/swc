@@ -1025,9 +1025,7 @@ pub struct CallerOptions {
 
 #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
 fn default_cwd() -> PathBuf {
-    static CWD: Lazy<PathBuf> = Lazy::new(|| ::std::env::current_dir().unwrap());
-
-    CWD.clone()
+    ::std::env::current_dir().unwrap()
 }
 
 /// `.swcrc` file

@@ -126,7 +126,6 @@ use common::{
     errors::HANDLER,
 };
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
-use once_cell::sync::Lazy;
 use serde_json::error::Category;
 use swc_common::{
     comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap, Spanned,
@@ -469,37 +468,32 @@ impl Compiler {
 
     #[tracing::instrument(skip_all)]
     pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
-        static CUR_DIR: Lazy<PathBuf> = Lazy::new(|| {
-            if cfg!(target_arch = "wasm32") {
-                PathBuf::new()
-            } else {
-                ::std::env::current_dir().unwrap()
-            }
-        });
-
         self.run(|| -> Result<_, Error> {
             let Options {
                 ref root,
+                ref cwd,
                 root_mode,
                 swcrc,
                 config_file,
                 ..
             } = opts;
 
-            let root = root.as_ref().unwrap_or(&CUR_DIR);
+            let root = root.as_ref().unwrap_or(cwd);
 
             let swcrc_path = match config_file {
                 Some(ConfigFile::Str(s)) => Some(PathBuf::from(s.clone())),
                 _ => {
                     if *swcrc {
                         if let FileName::Real(ref path) = name {
-                            // Canonicalize relative paths for proper parent traversal
-                            let abs_path = if path.is_relative() {
-                                root.join(path).canonicalize().ok()
+                            // Use the original path for parent traversal if canonicalization fails.
+                            let path_to_search = if path.is_relative() {
+                                root.join(path)
                             } else {
-                                path.canonicalize().ok()
+                                path.to_path_buf()
                             };
-                            let found = abs_path.and_then(|p| find_swcrc(&p, root, *root_mode));
+                            let path_to_search =
+                                path_to_search.canonicalize().unwrap_or(path_to_search);
+                            let found = find_swcrc(&path_to_search, root, *root_mode);
 
                             // "upward" mode requires a .swcrc to be found
                             if found.is_none() && *root_mode == RootMode::Upward {
