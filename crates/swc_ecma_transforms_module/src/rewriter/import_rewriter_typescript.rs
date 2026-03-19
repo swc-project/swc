@@ -94,11 +94,15 @@ fn get_output_extension(specifier: &Atom) -> Option<Atom> {
     // https://github.com/microsoft/TypeScript/blob/3eb7b6a1794a6d2cde7948a3016c57e628b104b9/src/compiler/emitter.ts#L540
     let ext = path.extension()?.to_str()?;
     let ext = match ext {
+        "ts" => "js",
+        "tsx" => "jsx",
+        "mts" => "mjs",
+        "cts" => "cjs",
+        "jsx" => "jsx",
+        "mjs" => "mjs",
+        "cjs" => "cjs",
         "json" => "json",
-        "jsx" | "tsx" => "jsx",
-        "mjs" | "mts" => "mjs",
-        "cjs" | "cts" => "cjs",
-        _ => "js",
+        _ => return None,
     };
 
     Some(Atom::new(path.with_extension(ext).to_str()?))
