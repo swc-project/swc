@@ -964,6 +964,7 @@ impl Options {
             source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
             inline_sources_content: cfg.inline_sources_content.into_bool(),
             input_source_map: cfg.input_source_map.clone().unwrap_or_default(),
+            suppress_source_map_error_logging: cfg.suppress_source_map_error_logging.into_bool(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_root,
             source_file_name,
@@ -1160,6 +1161,10 @@ pub struct Config {
     #[serde(default)]
     pub input_source_map: Option<InputSourceMap>,
 
+    /// Suppress logging for failures while loading input source maps.
+    #[serde(default)]
+    pub suppress_source_map_error_logging: BoolConfig<false>,
+
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
@@ -1284,6 +1289,7 @@ pub struct BuiltInput<P: Pass> {
     pub external_helpers: bool,
     pub source_maps: SourceMapsConfig,
     pub input_source_map: InputSourceMap,
+    pub suppress_source_map_error_logging: bool,
     pub is_module: IsModule,
     pub output_path: Option<PathBuf>,
 
@@ -1325,6 +1331,7 @@ where
             external_helpers: self.external_helpers,
             source_maps: self.source_maps,
             input_source_map: self.input_source_map,
+            suppress_source_map_error_logging: self.suppress_source_map_error_logging,
             is_module: self.is_module,
             output_path: self.output_path,
             source_root: self.source_root,

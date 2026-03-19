@@ -250,6 +250,7 @@ impl Compiler {
         &self,
         fm: &SourceFile,
         input_src_map: &InputSourceMap,
+        suppress_source_map_error_logging: bool,
         comments: &[Comment],
         is_default: bool,
     ) -> Result<Option<sourcemap::SourceMap>, Error> {
@@ -345,11 +346,13 @@ impl Compiler {
                                         .as_ref()
                                         .is_err_and(|err| err.kind() == ErrorKind::NotFound)
                                     {
-                                        warn!(
-                                            "source map is specified by sourceMappingURL but \
-                                             there's no source map at `{}`",
-                                            path
-                                        );
+                                        if !suppress_source_map_error_logging {
+                                            warn!(
+                                                "source map is specified by sourceMappingURL but \
+                                                 there's no source map at `{}`",
+                                                path
+                                            );
+                                        }
                                         return Ok(None);
                                     }
 
@@ -397,7 +400,9 @@ impl Compiler {
                 match result {
                     Ok(r) => r,
                     Err(err) => {
-                        tracing::error!("failed to read input source map: {:?}", err);
+                        if !suppress_source_map_error_logging {
+                            tracing::error!("failed to read input source map: {:?}", err);
+                        }
                         None
                     }
                 }
@@ -731,6 +736,7 @@ impl Compiler {
                 self.get_orig_src_map(
                     &fm,
                     &config.input_source_map,
+                    config.suppress_source_map_error_logging,
                     config
                         .comments
                         .get_trailing(config.program.span_hi())

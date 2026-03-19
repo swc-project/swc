@@ -5609,6 +5609,7 @@ dependencies = [
  "testing",
  "tokio",
  "tracing",
+ "tracing-subscriber",
  "url",
  "walkdir",
 ]
