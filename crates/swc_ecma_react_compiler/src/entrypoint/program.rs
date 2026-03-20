@@ -128,6 +128,11 @@ pub fn compile_program(
     let forget_use_render_counter_local =
         pick_unique_external_local_name(program, "useRenderCounter");
     let fixture_fn_type_hints = collect_fixture_entrypoint_type_hints(program);
+    let fixture_entrypoint_fn_names = collect_fixture_entrypoint_fn_names(program);
+    let expect_nothing_compiled = pass
+        .code
+        .as_deref()
+        .is_some_and(|code| code.contains("@expectNothingCompiled"));
     let mut compiler = ProgramCompiler {
         opts: &pass.opts,
         output_mode,
@@ -138,6 +143,8 @@ pub fn compile_program(
         consumed_next_line_suppressions: HashSet::new(),
         report,
         fixture_fn_type_hints,
+        fixture_entrypoint_fn_names,
+        expect_nothing_compiled,
         queued_outlined: Vec::new(),
         used_external_imports: Vec::new(),
         forget_should_instrument_local,
@@ -222,12 +229,15 @@ pub fn compile_fn(
     output_mode: CompilerOutputMode,
     opts: &ParsedPluginOptions,
 ) -> Result<CodegenFunction, CompilerError> {
-    let mut hir = crate::hir::lower(function, id, fn_type)?;
+    let mut normalized = function.clone();
+    normalize_function_params_for_lowering(&mut normalized);
+    let mut hir = crate::hir::lower(&normalized, id, fn_type)?;
 
     optimization::prune_maybe_throws(&mut hir);
     validation::validate_context_variable_lvalues(&hir)?;
     validation::validate_use_memo(&hir)?;
     inference::inline_immediately_invoked_function_expressions(&mut hir);
+    inference::drop_manual_memoization(&mut hir);
 
     ssa::enter_ssa(&mut hir);
     ssa::eliminate_redundant_phi(&mut hir);
@@ -315,6 +325,218 @@ pub fn compile_fn(
     }
 
     Ok(reactive_scopes::codegen_function(reactive))
+}
+
+fn collect_pattern_bindings_for_param_lowering(pat: &Pat, out: &mut HashSet<String>) {
+    match pat {
+        Pat::Ident(binding) => {
+            out.insert(binding.id.sym.to_string());
+        }
+        Pat::Array(array) => {
+            for elem in array.elems.iter().flatten() {
+                collect_pattern_bindings_for_param_lowering(elem, out);
+            }
+        }
+        Pat::Object(object) => {
+            for prop in &object.props {
+                match prop {
+                    swc_ecma_ast::ObjectPatProp::Assign(assign) => {
+                        out.insert(assign.key.sym.to_string());
+                    }
+                    swc_ecma_ast::ObjectPatProp::KeyValue(key_value) => {
+                        collect_pattern_bindings_for_param_lowering(&key_value.value, out);
+                    }
+                    swc_ecma_ast::ObjectPatProp::Rest(rest) => {
+                        collect_pattern_bindings_for_param_lowering(&rest.arg, out);
+                    }
+                }
+            }
+        }
+        Pat::Assign(assign) => {
+            collect_pattern_bindings_for_param_lowering(&assign.left, out);
+        }
+        Pat::Rest(rest) => {
+            collect_pattern_bindings_for_param_lowering(&rest.arg, out);
+        }
+        Pat::Expr(_) | Pat::Invalid(_) => {}
+    }
+}
+
+fn fresh_param_temp_ident(next_index: &mut u32, used: &mut HashSet<String>) -> Ident {
+    loop {
+        let candidate = format!("t{}", *next_index);
+        *next_index += 1;
+        if used.insert(candidate.clone()) {
+            return Ident::new_no_ctxt(candidate.into(), DUMMY_SP);
+        }
+    }
+}
+
+fn collect_stmt_bindings_including_nested(stmt: &Stmt, out: &mut HashSet<String>) {
+    struct Collector<'a> {
+        out: &'a mut HashSet<String>,
+    }
+
+    impl Visit for Collector<'_> {
+        fn visit_var_declarator(&mut self, decl: &swc_ecma_ast::VarDeclarator) {
+            collect_pattern_bindings_for_param_lowering(&decl.name, self.out);
+            decl.visit_children_with(self);
+        }
+
+        fn visit_fn_decl(&mut self, decl: &FnDecl) {
+            self.out.insert(decl.ident.sym.to_string());
+            decl.visit_children_with(self);
+        }
+
+        fn visit_class_decl(&mut self, decl: &swc_ecma_ast::ClassDecl) {
+            self.out.insert(decl.ident.sym.to_string());
+            decl.visit_children_with(self);
+        }
+    }
+
+    stmt.visit_with(&mut Collector { out });
+}
+
+fn normalize_function_params_for_lowering(function: &mut Function) {
+    let Some(body) = function.body.as_mut() else {
+        return;
+    };
+
+    let mut used = HashSet::new();
+    for param in &function.params {
+        collect_pattern_bindings_for_param_lowering(&param.pat, &mut used);
+    }
+    for stmt in &body.stmts {
+        collect_stmt_bindings_including_nested(stmt, &mut used);
+    }
+
+    let mut next_temp = 0u32;
+    let mut prologue = Vec::new();
+    for param in &mut function.params {
+        match &mut param.pat {
+            Pat::Ident(_) => {}
+            Pat::Assign(assign_pat) => {
+                let left_pat = (*assign_pat.left).clone();
+                let default_expr = assign_pat.right.clone();
+                let temp_ident = fresh_param_temp_ident(&mut next_temp, &mut used);
+                param.pat = Pat::Ident(BindingIdent {
+                    id: temp_ident.clone(),
+                    type_ann: None,
+                });
+                prologue.push(Stmt::Decl(Decl::Var(Box::new(swc_ecma_ast::VarDecl {
+                    span: DUMMY_SP,
+                    ctxt: Default::default(),
+                    kind: swc_ecma_ast::VarDeclKind::Const,
+                    declare: false,
+                    decls: vec![swc_ecma_ast::VarDeclarator {
+                        span: DUMMY_SP,
+                        name: left_pat,
+                        init: Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                            span: DUMMY_SP,
+                            test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                span: DUMMY_SP,
+                                op: op!("==="),
+                                left: Box::new(Expr::Ident(temp_ident.clone())),
+                                right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                    "undefined".into(),
+                                    DUMMY_SP,
+                                ))),
+                            })),
+                            cons: default_expr,
+                            alt: Box::new(Expr::Ident(temp_ident)),
+                        }))),
+                        definite: false,
+                    }],
+                }))));
+            }
+            _ => {
+                let original_pat = param.pat.clone();
+                let temp_ident = fresh_param_temp_ident(&mut next_temp, &mut used);
+                param.pat = Pat::Ident(BindingIdent {
+                    id: temp_ident.clone(),
+                    type_ann: None,
+                });
+
+                if let Pat::Array(array_pat) = &original_pat {
+                    let non_hole_pats = array_pat.elems.iter().flatten().collect::<Vec<_>>();
+                    if non_hole_pats.len() == 1 {
+                        if let Pat::Assign(assign_pat) = non_hole_pats[0] {
+                            if let Pat::Ident(binding) = &*assign_pat.left {
+                                let value_temp = fresh_param_temp_ident(&mut next_temp, &mut used);
+                                prologue.push(Stmt::Decl(Decl::Var(Box::new(swc_ecma_ast::VarDecl {
+                                    span: DUMMY_SP,
+                                    ctxt: Default::default(),
+                                    kind: swc_ecma_ast::VarDeclKind::Const,
+                                    declare: false,
+                                    decls: vec![swc_ecma_ast::VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Array(swc_ecma_ast::ArrayPat {
+                                            span: array_pat.span,
+                                            elems: vec![Some(Pat::Ident(BindingIdent {
+                                                id: value_temp.clone(),
+                                                type_ann: None,
+                                            }))],
+                                            optional: false,
+                                            type_ann: None,
+                                        }),
+                                        init: Some(Box::new(Expr::Ident(temp_ident))),
+                                        definite: false,
+                                    }],
+                                }))));
+                                prologue.push(Stmt::Decl(Decl::Var(Box::new(swc_ecma_ast::VarDecl {
+                                    span: DUMMY_SP,
+                                    ctxt: Default::default(),
+                                    kind: swc_ecma_ast::VarDeclKind::Const,
+                                    declare: false,
+                                    decls: vec![swc_ecma_ast::VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(BindingIdent {
+                                            id: binding.id.clone(),
+                                            type_ann: binding.type_ann.clone(),
+                                        }),
+                                        init: Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                                            span: DUMMY_SP,
+                                            test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("==="),
+                                                left: Box::new(Expr::Ident(value_temp.clone())),
+                                                right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                                    "undefined".into(),
+                                                    DUMMY_SP,
+                                                ))),
+                                            })),
+                                            cons: assign_pat.right.clone(),
+                                            alt: Box::new(Expr::Ident(value_temp)),
+                                        }))),
+                                        definite: false,
+                                    }],
+                                }))));
+                                continue;
+                            }
+                        }
+                    }
+                }
+
+                prologue.push(Stmt::Decl(Decl::Var(Box::new(swc_ecma_ast::VarDecl {
+                    span: DUMMY_SP,
+                    ctxt: Default::default(),
+                    kind: swc_ecma_ast::VarDeclKind::Const,
+                    declare: false,
+                    decls: vec![swc_ecma_ast::VarDeclarator {
+                        span: DUMMY_SP,
+                        name: original_pat,
+                        init: Some(Box::new(Expr::Ident(temp_ident))),
+                        definite: false,
+                    }],
+                }))));
+            }
+        }
+    }
+
+    if !prologue.is_empty() {
+        prologue.extend(std::mem::take(&mut body.stmts));
+        body.stmts = prologue;
+    }
 }
 
 /// Returns the runtime import module used by compiler output.
@@ -428,13 +650,21 @@ struct ProgramCompiler<'a> {
     program_suppressions: Vec<suppression::SuppressionRange>,
     consumed_next_line_suppressions: HashSet<usize>,
     report: CompileReport,
-    fixture_fn_type_hints: HashMap<String, ReactFunctionType>,
+    fixture_fn_type_hints: HashMap<String, FixtureFnTypeHint>,
+    fixture_entrypoint_fn_names: HashSet<String>,
+    expect_nothing_compiled: bool,
     queued_outlined: Vec<QueuedOutlinedFunction>,
     used_external_imports: Vec<UsedExternalImport>,
     forget_should_instrument_local: Atom,
     forget_use_render_counter_local: Atom,
     filename: Option<String>,
     fatal_error: Option<CompilerError>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum FixtureFnTypeHint {
+    Kind(ReactFunctionType),
+    NotReact,
 }
 
 #[derive(Clone)]
@@ -444,7 +674,20 @@ struct QueuedOutlinedFunction {
 }
 
 impl ProgramCompiler<'_> {
-    fn fixture_fn_type_hint(&self, name: Option<&Ident>) -> Option<ReactFunctionType> {
+    fn allow_infer_return_fallback_for(&self, name: Option<&Ident>) -> bool {
+        if self.expect_nothing_compiled {
+            return false;
+        }
+        if self.fixture_entrypoint_fn_names.is_empty() {
+            return true;
+        }
+        let Some(name) = name else {
+            return false;
+        };
+        self.fixture_entrypoint_fn_names.contains(name.sym.as_ref())
+    }
+
+    fn fixture_fn_type_hint(&self, name: Option<&Ident>) -> Option<FixtureFnTypeHint> {
         let name = name?;
         self.fixture_fn_type_hints.get(name.sym.as_ref()).copied()
     }
@@ -577,7 +820,8 @@ impl ProgramCompiler<'_> {
         is_declaration: bool,
         is_top_level: bool,
         fn_loc: Span,
-        fn_type_hint: Option<ReactFunctionType>,
+        fn_type_hint: Option<FixtureFnTypeHint>,
+        is_forward_ref_or_memo_callback: bool,
     ) {
         if self.fatal_error.is_some() || function.body.is_none() {
             return;
@@ -624,9 +868,16 @@ impl ProgramCompiler<'_> {
             .iter()
             .map(|param| param.pat.clone())
             .collect::<Vec<_>>();
-        let inferred_type = fn_type_hint.or_else(|| {
-            name.and_then(|ident| infer_function_type(ident.sym.as_ref(), &function_params, body))
-        });
+        let inferred_type = match fn_type_hint {
+            Some(FixtureFnTypeHint::NotReact) => return,
+            Some(FixtureFnTypeHint::Kind(kind)) => Some(kind),
+            None => infer_function_type(
+                name.map(|ident| ident.sym.as_ref()),
+                &function_params,
+                body,
+                is_forward_ref_or_memo_callback,
+            ),
+        };
 
         let selected_type = match self.opts.compilation_mode {
             CompilationMode::Annotation => {
@@ -636,8 +887,11 @@ impl ProgramCompiler<'_> {
                     None
                 }
             }
-            CompilationMode::Infer => inferred_type.or_else(|| {
-                if is_top_level && has_return_with_value(body) {
+            CompilationMode::Infer => syntax_type.or(inferred_type).or_else(|| {
+                if is_top_level
+                    && self.allow_infer_return_fallback_for(name)
+                    && has_return_with_value(body)
+                {
                     Some(ReactFunctionType::Component)
                 } else {
                     None
@@ -761,7 +1015,8 @@ impl ProgramCompiler<'_> {
         arrow: &mut ArrowExpr,
         is_top_level: bool,
         fn_loc: Span,
-        fn_type_hint: Option<ReactFunctionType>,
+        fn_type_hint: Option<FixtureFnTypeHint>,
+        is_forward_ref_or_memo_callback: bool,
     ) {
         if self.fatal_error.is_some() {
             return;
@@ -807,9 +1062,16 @@ impl ProgramCompiler<'_> {
             }
         };
 
-        let inferred_type = fn_type_hint.or_else(|| {
-            name.and_then(|ident| infer_function_type(ident.sym.as_ref(), &arrow.params, &block))
-        });
+        let inferred_type = match fn_type_hint {
+            Some(FixtureFnTypeHint::NotReact) => return,
+            Some(FixtureFnTypeHint::Kind(kind)) => Some(kind),
+            None => infer_function_type(
+                name.map(|ident| ident.sym.as_ref()),
+                &arrow.params,
+                &block,
+                is_forward_ref_or_memo_callback,
+            ),
+        };
 
         let selected_type = match self.opts.compilation_mode {
             CompilationMode::Annotation => {
@@ -819,13 +1081,19 @@ impl ProgramCompiler<'_> {
                     None
                 }
             }
-            CompilationMode::Infer => inferred_type.or_else(|| {
-                if is_top_level && has_return_with_value(&block) {
-                    Some(ReactFunctionType::Component)
-                } else {
-                    None
-                }
-            }),
+            CompilationMode::Infer => name
+                .and_then(|ident| syntax_function_type(ident.sym.as_ref()))
+                .or(inferred_type)
+                .or_else(|| {
+                    if is_top_level
+                        && self.allow_infer_return_fallback_for(name)
+                        && has_return_with_value(&block)
+                    {
+                        Some(ReactFunctionType::Component)
+                    } else {
+                        None
+                    }
+                }),
             CompilationMode::Syntax => None,
             CompilationMode::All => {
                 if is_top_level {
@@ -1007,6 +1275,7 @@ impl VisitMut for ProgramCompiler<'_> {
             is_top_level,
             decl.ident.span,
             self.fixture_fn_type_hint(Some(&decl.ident)),
+            false,
         );
 
         self.function_depth += 1;
@@ -1038,6 +1307,7 @@ impl VisitMut for ProgramCompiler<'_> {
                         is_top_level,
                         fn_span,
                         self.fixture_fn_type_hint(compile_name),
+                        false,
                     );
 
                     self.function_depth += 1;
@@ -1052,6 +1322,7 @@ impl VisitMut for ProgramCompiler<'_> {
                         is_top_level,
                         arrow.span,
                         self.fixture_fn_type_hint(name.as_ref()),
+                        false,
                     );
 
                     self.function_depth += 1;
@@ -1090,6 +1361,7 @@ impl VisitMut for ProgramCompiler<'_> {
                     is_top_level,
                     fn_span,
                     self.fixture_fn_type_hint(compile_name),
+                    false,
                 );
 
                 self.function_depth += 1;
@@ -1103,6 +1375,7 @@ impl VisitMut for ProgramCompiler<'_> {
                     is_top_level,
                     arrow.span,
                     self.fixture_fn_type_hint(name.as_ref()),
+                    false,
                 );
 
                 self.function_depth += 1;
@@ -1131,17 +1404,12 @@ impl VisitMut for ProgramCompiler<'_> {
                             false,
                             is_top_level,
                             fn_span,
-                            Some(ReactFunctionType::Component),
+                            self.fixture_fn_type_hint(fn_expr.ident.as_ref()),
+                            true,
                         );
                     }
                     Expr::Arrow(arrow) => {
-                        self.compile_arrow(
-                            None,
-                            arrow,
-                            is_top_level,
-                            arrow.span,
-                            Some(ReactFunctionType::Component),
-                        );
+                        self.compile_arrow(None, arrow, is_top_level, arrow.span, None, true);
                     }
                     _ => {}
                 }
@@ -1161,6 +1429,7 @@ impl VisitMut for ProgramCompiler<'_> {
                 is_top_level,
                 decl.span,
                 self.fixture_fn_type_hint(fn_expr.ident.as_ref()),
+                false,
             );
 
             self.function_depth += 1;
@@ -1184,6 +1453,7 @@ impl VisitMut for ProgramCompiler<'_> {
                     is_top_level,
                     expr.span,
                     self.fixture_fn_type_hint(fn_expr.ident.as_ref()),
+                    false,
                 );
 
                 self.function_depth += 1;
@@ -1191,7 +1461,7 @@ impl VisitMut for ProgramCompiler<'_> {
                 self.function_depth -= 1;
             }
             Expr::Arrow(arrow) => {
-                self.compile_arrow(None, arrow, is_top_level, expr.span, None);
+                self.compile_arrow(None, arrow, is_top_level, expr.span, None, false);
 
                 self.function_depth += 1;
                 arrow.body.visit_mut_with(self);
@@ -1328,6 +1598,10 @@ fn find_top_level_item_index_by_name(module: &swc_ecma_ast::Module, name: &str) 
     })
 }
 
+fn is_fixture_entrypoint_name(name: &str) -> bool {
+    matches!(name, "FIXTURE_ENTRYPOINT" | "TODO_FIXTURE_ENTRYPOINT")
+}
+
 fn is_fixture_entrypoint_export(item: &ModuleItem) -> bool {
     let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = item else {
         return false;
@@ -1338,12 +1612,12 @@ fn is_fixture_entrypoint_export(item: &ModuleItem) -> bool {
     var_decl.decls.iter().any(|declarator| {
         matches!(
             &declarator.name,
-            Pat::Ident(BindingIdent { id, .. }) if id.sym == "FIXTURE_ENTRYPOINT"
+            Pat::Ident(BindingIdent { id, .. }) if is_fixture_entrypoint_name(id.sym.as_ref())
         )
     })
 }
 
-fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, ReactFunctionType> {
+fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, FixtureFnTypeHint> {
     let Program::Module(module) = program else {
         return HashMap::new();
     };
@@ -1360,7 +1634,7 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, R
             let Pat::Ident(BindingIdent { id, .. }) = &decl.name else {
                 continue;
             };
-            if id.sym != "FIXTURE_ENTRYPOINT" {
+            if !is_fixture_entrypoint_name(id.sym.as_ref()) {
                 continue;
             }
             let Some(init) = &decl.init else {
@@ -1372,7 +1646,8 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, R
 
             let mut fn_name = None;
             let mut fn_type = None;
-            let mut saw_is_component = false;
+            let mut saw_react_kind_hint = false;
+            let mut explicit_not_react = false;
             for prop in &object.props {
                 let PropOrSpread::Prop(prop) = prop else {
                     continue;
@@ -1392,7 +1667,7 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, R
                         }
                     }
                     "isComponent" => {
-                        saw_is_component = true;
+                        saw_react_kind_hint = true;
                         match &*key_value.value {
                             Expr::Lit(Lit::Bool(bool_lit)) => {
                                 if bool_lit.value {
@@ -1408,9 +1683,12 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, R
                         }
                     }
                     "isHook" => {
+                        saw_react_kind_hint = true;
                         if let Expr::Lit(Lit::Bool(bool_lit)) = &*key_value.value {
                             if bool_lit.value {
                                 fn_type = Some(ReactFunctionType::Hook);
+                            } else {
+                                explicit_not_react = true;
                             }
                         }
                     }
@@ -1419,13 +1697,18 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, R
             }
 
             if let Some(fn_name) = fn_name {
-                if let Some(kind) = fn_type {
-                    hints.insert(fn_name, kind);
-                } else if !saw_is_component {
+                if explicit_not_react {
+                    hints.insert(fn_name, FixtureFnTypeHint::NotReact);
+                } else if let Some(kind) = fn_type {
+                    hints.insert(fn_name, FixtureFnTypeHint::Kind(kind));
+                } else if !saw_react_kind_hint {
                     if is_hook_name(fn_name.as_str()) {
-                        hints.insert(fn_name, ReactFunctionType::Hook);
+                        hints.insert(fn_name, FixtureFnTypeHint::Kind(ReactFunctionType::Hook));
                     } else if is_component_name(fn_name.as_str()) {
-                        hints.insert(fn_name, ReactFunctionType::Component);
+                        hints.insert(
+                            fn_name,
+                            FixtureFnTypeHint::Kind(ReactFunctionType::Component),
+                        );
                     }
                 }
             }
@@ -1433,6 +1716,59 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, R
     }
 
     hints
+}
+
+fn collect_fixture_entrypoint_fn_names(program: &Program) -> HashSet<String> {
+    let Program::Module(module) = program else {
+        return HashSet::new();
+    };
+
+    let mut names = HashSet::new();
+
+    for item in &module.body {
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = item else {
+            continue;
+        };
+        let Decl::Var(var_decl) = &export_decl.decl else {
+            continue;
+        };
+        for decl in &var_decl.decls {
+            let Pat::Ident(BindingIdent { id, .. }) = &decl.name else {
+                continue;
+            };
+            if !is_fixture_entrypoint_name(id.sym.as_ref()) {
+                continue;
+            }
+            let Some(init) = &decl.init else {
+                continue;
+            };
+            let Expr::Object(object) = &**init else {
+                continue;
+            };
+
+            for prop in &object.props {
+                let PropOrSpread::Prop(prop) = prop else {
+                    continue;
+                };
+                let Prop::KeyValue(key_value) = &**prop else {
+                    continue;
+                };
+                let key_name = match &key_value.key {
+                    PropName::Ident(ident) => ident.sym.to_string(),
+                    PropName::Str(value) => value.value.to_string_lossy().into_owned(),
+                    _ => continue,
+                };
+                if key_name != "fn" {
+                    continue;
+                }
+                if let Expr::Ident(ident) = &*key_value.value {
+                    names.insert(ident.sym.to_string());
+                }
+            }
+        }
+    }
+
+    names
 }
 
 fn collect_top_level_names(program: &Program) -> HashSet<String> {
@@ -1508,6 +1844,8 @@ fn apply_codegen_to_function(function: &mut Function, codegen: &CodegenFunction)
     if let Some(original_body) = original_body.as_ref() {
         preserve_leading_directives(original_body, &mut next_body);
     }
+    normalize_compound_assignments_in_block(&mut next_body);
+    normalize_block_labels(&mut next_body);
     function.body = Some(next_body);
     function.is_async = codegen.is_async;
     function.is_generator = codegen.is_generator;
@@ -1527,6 +1865,8 @@ fn apply_codegen_to_arrow(arrow: &mut ArrowExpr, codegen: &CodegenFunction) {
     if let Some(original_block) = original_block.as_ref() {
         preserve_leading_directives(original_block, &mut next_body);
     }
+    normalize_compound_assignments_in_block(&mut next_body);
+    normalize_block_labels(&mut next_body);
     arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(next_body));
     arrow.is_async = codegen.is_async;
     arrow.is_generator = codegen.is_generator;
@@ -1556,6 +1896,8 @@ fn apply_gated_codegen_to_function(
     if let Some(original_body) = original_function.body.as_ref() {
         preserve_leading_directives(original_body, &mut compiled_body);
     }
+    normalize_compound_assignments_in_block(&mut compiled_body);
+    normalize_block_labels(&mut compiled_body);
     function.body = Some(build_gated_body(
         compiled_body,
         original_function.body.clone().unwrap_or_default(),
@@ -1578,6 +1920,8 @@ fn apply_gated_codegen_to_arrow(
     arrow.params = codegen.params.clone();
     let mut compiled_body = codegen.body.clone();
     preserve_leading_directives(original_block, &mut compiled_body);
+    normalize_compound_assignments_in_block(&mut compiled_body);
+    normalize_block_labels(&mut compiled_body);
     arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(build_gated_body(
         compiled_body,
         original_block.clone(),
@@ -1671,11 +2015,16 @@ impl VisitMut for TypeStripper {
 }
 
 fn normalize_static_string_members_in_block(block: &mut BlockStmt) {
-    struct Normalizer;
+    struct Normalizer {
+        in_delete_operand: bool,
+    }
 
     impl VisitMut for Normalizer {
         fn visit_mut_member_expr(&mut self, member: &mut swc_ecma_ast::MemberExpr) {
             member.visit_mut_children_with(self);
+            if self.in_delete_operand {
+                return;
+            }
 
             let swc_ecma_ast::MemberProp::Computed(computed) = &member.prop else {
                 return;
@@ -1691,10 +2040,118 @@ fn normalize_static_string_members_in_block(block: &mut BlockStmt) {
                 );
             }
         }
+
+        fn visit_mut_unary_expr(&mut self, unary: &mut swc_ecma_ast::UnaryExpr) {
+            let prev = self.in_delete_operand;
+            if matches!(unary.op, swc_ecma_ast::UnaryOp::Delete) {
+                self.in_delete_operand = true;
+            }
+            unary.visit_mut_children_with(self);
+            self.in_delete_operand = prev;
+        }
     }
 
-    let mut normalizer = Normalizer;
+    let mut normalizer = Normalizer {
+        in_delete_operand: false,
+    };
     block.visit_mut_with(&mut normalizer);
+}
+
+fn normalize_block_labels(block: &mut BlockStmt) {
+    struct LabelNormalizer {
+        map: HashMap<String, String>,
+        next_index: usize,
+    }
+
+    impl VisitMut for LabelNormalizer {
+        fn visit_mut_labeled_stmt(&mut self, labeled: &mut swc_ecma_ast::LabeledStmt) {
+            let old = labeled.label.sym.to_string();
+            let new = self
+                .map
+                .entry(old)
+                .or_insert_with(|| {
+                    let name = format!("bb{}", self.next_index);
+                    self.next_index += 1;
+                    name
+                })
+                .clone();
+            labeled.label.sym = new.into();
+            labeled.visit_mut_children_with(self);
+        }
+
+        fn visit_mut_break_stmt(&mut self, break_stmt: &mut swc_ecma_ast::BreakStmt) {
+            if let Some(label) = &mut break_stmt.label {
+                if let Some(mapped) = self.map.get(label.sym.as_ref()) {
+                    label.sym = mapped.clone().into();
+                }
+            }
+        }
+    }
+
+    let mut normalizer = LabelNormalizer {
+        map: HashMap::new(),
+        next_index: 0,
+    };
+    block.visit_mut_with(&mut normalizer);
+}
+
+fn normalize_compound_assignments_in_block(block: &mut BlockStmt) {
+    struct Normalizer;
+
+    impl VisitMut for Normalizer {
+        fn visit_mut_assign_expr(&mut self, assign: &mut AssignExpr) {
+            assign.visit_mut_children_with(self);
+
+            let binary_op = match assign.op {
+                swc_ecma_ast::AssignOp::AddAssign => Some(op!(bin, "+")),
+                swc_ecma_ast::AssignOp::SubAssign => Some(op!(bin, "-")),
+                swc_ecma_ast::AssignOp::MulAssign => Some(op!("*")),
+                swc_ecma_ast::AssignOp::DivAssign => Some(op!("/")),
+                swc_ecma_ast::AssignOp::ModAssign => Some(op!("%")),
+                swc_ecma_ast::AssignOp::LShiftAssign => Some(op!("<<")),
+                swc_ecma_ast::AssignOp::RShiftAssign => Some(op!(">>")),
+                swc_ecma_ast::AssignOp::ZeroFillRShiftAssign => Some(op!(">>>")),
+                swc_ecma_ast::AssignOp::BitOrAssign => Some(op!("|")),
+                swc_ecma_ast::AssignOp::BitXorAssign => Some(op!("^")),
+                swc_ecma_ast::AssignOp::BitAndAssign => Some(op!("&")),
+                swc_ecma_ast::AssignOp::ExpAssign => Some(op!("**")),
+                _ => None,
+            };
+            let Some(binary_op) = binary_op else {
+                return;
+            };
+
+            let left_expr = if let Some(binding) = assign.left.as_ident() {
+                Box::new(Expr::Ident(binding.id.clone()))
+            } else if let Some(swc_ecma_ast::SimpleAssignTarget::Member(member)) =
+                assign.left.as_simple()
+            {
+                Box::new(Expr::Member(member.clone()))
+            } else {
+                return;
+            };
+
+            let mut right_expr = assign.right.clone();
+            if matches!(
+                unwrap_transparent_expr(&right_expr),
+                Expr::Assign(_) | Expr::Seq(_) | Expr::Cond(_)
+            ) {
+                right_expr = Box::new(Expr::Paren(swc_ecma_ast::ParenExpr {
+                    span: DUMMY_SP,
+                    expr: right_expr,
+                }));
+            }
+            assign.op = op!("=");
+            assign.right = Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                span: DUMMY_SP,
+                op: binary_op,
+                left: left_expr,
+                right: right_expr,
+            }));
+        }
+    }
+
+    block.visit_mut_with(&mut Normalizer);
 }
 
 fn build_gated_body(
@@ -1733,17 +2190,37 @@ fn syntax_function_type(name: &str) -> Option<ReactFunctionType> {
     }
 }
 
-fn infer_function_type(name: &str, params: &[Pat], body: &BlockStmt) -> Option<ReactFunctionType> {
-    if is_hook_name(name) {
-        let _ = body;
-        return Some(ReactFunctionType::Hook);
+fn infer_function_type(
+    name: Option<&str>,
+    params: &[Pat],
+    body: &BlockStmt,
+    is_forward_ref_or_memo_callback: bool,
+) -> Option<ReactFunctionType> {
+    let calls_hooks_or_creates_jsx = calls_hooks_or_creates_jsx(body);
+
+    if let Some(name) = name {
+        if is_component_name(name) {
+            let is_component = calls_hooks_or_creates_jsx
+                && is_valid_component_params(params)
+                && !returns_non_node(body);
+            return if is_component {
+                Some(ReactFunctionType::Component)
+            } else {
+                None
+            };
+        }
+
+        if is_hook_name(name) {
+            return if calls_hooks_or_creates_jsx {
+                Some(ReactFunctionType::Hook)
+            } else {
+                None
+            };
+        }
     }
 
-    if is_component_name(name) {
-        if is_valid_component_params(params) {
-            return Some(ReactFunctionType::Component);
-        }
-        return None;
+    if is_forward_ref_or_memo_callback && calls_hooks_or_creates_jsx {
+        return Some(ReactFunctionType::Component);
     }
 
     None
@@ -1772,12 +2249,145 @@ fn has_return_with_value(body: &BlockStmt) -> bool {
             if return_stmt.arg.is_some() {
                 self.found = true;
             }
+            return_stmt.visit_children_with(self);
         }
     }
 
     let mut finder = Finder::default();
     body.visit_with(&mut finder);
     finder.found
+}
+
+fn calls_hooks_or_creates_jsx(body: &BlockStmt) -> bool {
+    #[derive(Default)]
+    struct Finder {
+        invokes_hooks: bool,
+        creates_jsx: bool,
+    }
+
+    impl Visit for Finder {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_fn_decl(&mut self, _: &FnDecl) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_call_expr(&mut self, call: &swc_ecma_ast::CallExpr) {
+            if let Callee::Expr(callee_expr) = &call.callee {
+                if is_hook_expr(callee_expr) {
+                    self.invokes_hooks = true;
+                }
+            }
+            call.visit_children_with(self);
+        }
+
+        fn visit_jsx_element(&mut self, jsx: &swc_ecma_ast::JSXElement) {
+            self.creates_jsx = true;
+            jsx.visit_children_with(self);
+        }
+
+        fn visit_jsx_fragment(&mut self, jsx: &swc_ecma_ast::JSXFragment) {
+            self.creates_jsx = true;
+            jsx.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder::default();
+    body.visit_with(&mut finder);
+    finder.invokes_hooks || finder.creates_jsx
+}
+
+fn returns_non_node(body: &BlockStmt) -> bool {
+    #[derive(Default)]
+    struct Finder {
+        returns_non_node: bool,
+    }
+
+    impl Visit for Finder {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_fn_decl(&mut self, _: &FnDecl) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_method_prop(&mut self, _: &swc_ecma_ast::MethodProp) {
+            // Skip object methods.
+        }
+
+        fn visit_return_stmt(&mut self, return_stmt: &swc_ecma_ast::ReturnStmt) {
+            self.returns_non_node = is_non_node(return_stmt.arg.as_deref());
+            return_stmt.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder::default();
+    body.visit_with(&mut finder);
+    finder.returns_non_node
+}
+
+fn is_non_node(expr: Option<&Expr>) -> bool {
+    let Some(expr) = expr else {
+        return true;
+    };
+
+    match unwrap_transparent_expr(expr) {
+        Expr::Object(_)
+        | Expr::Arrow(_)
+        | Expr::Fn(_)
+        | Expr::Class(_)
+        | Expr::New(_)
+        | Expr::Lit(Lit::BigInt(_)) => true,
+        _ => false,
+    }
+}
+
+fn is_hook_expr(expr: &Expr) -> bool {
+    let expr = unwrap_transparent_expr(expr);
+
+    if let Expr::Ident(ident) = expr {
+        return is_hook_name(ident.sym.as_ref());
+    }
+
+    let Expr::Member(member) = expr else {
+        return false;
+    };
+    let swc_ecma_ast::MemberProp::Ident(property) = &member.prop else {
+        return false;
+    };
+    if !is_hook_name(property.sym.as_ref()) {
+        return false;
+    }
+    let Expr::Ident(object) = unwrap_transparent_expr(member.obj.as_ref()) else {
+        return false;
+    };
+
+    matches!(object.sym.chars().next(), Some(c) if c.is_ascii_uppercase())
+}
+
+fn unwrap_transparent_expr(mut expr: &Expr) -> &Expr {
+    loop {
+        match expr {
+            Expr::Paren(paren) => expr = &paren.expr,
+            Expr::TsAs(ts_as) => expr = &ts_as.expr,
+            Expr::TsTypeAssertion(type_assertion) => expr = &type_assertion.expr,
+            Expr::TsNonNull(ts_non_null) => expr = &ts_non_null.expr,
+            Expr::TsSatisfies(ts_satisfies) => expr = &ts_satisfies.expr,
+            Expr::TsInstantiation(ts_instantiation) => expr = &ts_instantiation.expr,
+            _ => return expr,
+        }
+    }
 }
 
 fn is_valid_component_params(params: &[Pat]) -> bool {
@@ -2189,5 +2799,31 @@ mod tests {
             get_react_compiler_runtime_module(&CompilerReactTarget::React17),
             "react-compiler-runtime"
         );
+    }
+
+    #[test]
+    fn normalizes_labels_for_fixture_entrypoint_component() {
+        let mut program = parse_program(
+            "function foo(a, b, c) {\n  label: if (a) {\n    while (b) {\n      if (c) {\n        \
+             break label;\n      }\n    }\n  }\n  return c;\n}\nexport const FIXTURE_ENTRYPOINT \
+             = { fn: foo, params: ['TodoAdd'], isComponent: 'TodoAdd' };\n",
+        );
+
+        let report = compile_program(
+            &mut program,
+            &CompilerPass {
+                opts: crate::options::default_options(),
+                filename: Some("src/fixture.js".into()),
+                comments: Vec::new(),
+                code: None,
+            },
+        )
+        .unwrap();
+        let output = print_program(&program);
+
+        assert!(report.compiled_functions >= 1, "report: {report:?}");
+        assert!(report.diagnostics.is_empty(), "report: {report:?}");
+        assert!(output.contains("bb0: if (a)"), "{output}");
+        assert!(output.contains("break bb0"), "{output}");
     }
 }

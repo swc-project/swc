@@ -1,10 +1,10 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap, HashSet, VecDeque};
 
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     op, ArrowExpr, AssignExpr, AssignTarget, BindingIdent, BlockStmt, CallExpr, Callee,
     ComputedPropName, Decl, Expr, ExprOrSpread, ExprStmt, Function, Ident, IfStmt, KeyValueProp,
-    LabeledStmt, Lit, MemberExpr, MemberProp, Number, OptChainBase, OptChainExpr, Pat, Prop,
+    LabeledStmt, Lit, MemberExpr, MemberProp, Number, ObjectPatProp, OptChainBase, OptChainExpr, Pat, Prop,
     PropName, PropOrSpread, Stmt, SwitchStmt, VarDecl, VarDeclKind, VarDeclarator,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
@@ -1585,7 +1585,13 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
         return (0, 0, 0, 0, 0);
     }
     let has_identity_sensitive_work = body_contains_identity_sensitive_work(&reactive.body);
-    if reactive.fn_type == ReactFunctionType::Component && !has_identity_sensitive_work {
+    let has_destructuring_default_alloc =
+        body_contains_destructuring_default_alloc_literal(&reactive.body);
+    if reactive.fn_type == ReactFunctionType::Component
+        && !has_identity_sensitive_work
+        && !has_destructuring_default_alloc
+    {
+        normalize_non_ident_params_without_memoization(reactive);
         return (0, 0, 0, 0, 0);
     }
 
@@ -1606,6 +1612,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
         &mut known_bindings,
     );
     strip_runtime_call_type_args_in_stmts(&mut param_prologue);
+    rewrite_let_array_pattern_decls_to_assignment_stmts(&mut param_prologue, &mut reserved);
     let mut declared_bindings = HashSet::new();
     for stmt in &reactive.body.stmts {
         collect_stmt_bindings(stmt, &mut declared_bindings);
@@ -1642,7 +1649,19 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
     rewrite_use_callback_decls_to_use_memo(&mut stmts);
     normalize_switch_case_blocks_in_stmts(&mut stmts);
     normalize_update_expressions_in_stmts(&mut stmts);
+    prune_trivial_do_while_break_stmts(&mut stmts);
+    flatten_nested_destructuring_assignments_in_stmts(&mut stmts, &mut reserved, &mut next_temp);
+    collapse_single_object_temp_destructure_assign_pairs(&mut stmts);
+    flatten_nested_destructuring_decls_to_temp_chain(&mut stmts, &mut reserved, &mut next_temp);
+    rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+        &mut stmts,
+        &mut reserved,
+        &mut next_temp,
+    );
+    rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(&mut stmts);
+    rewrite_let_object_pattern_decls_to_assignment_stmts(&mut stmts);
     rewrite_let_array_pattern_decls_to_assignment_stmts(&mut stmts, &mut reserved);
+    split_multi_var_decls_without_initializers_in_stmts(&mut stmts);
     normalize_reactive_labels(&mut stmts);
     let mut top_level_bindings = HashSet::new();
     for pat in &reactive.params {
@@ -1759,9 +1778,20 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                 for decl in &var_decl.decls {
                     let stable_setters = state_tuple_setter_bindings(decl);
                     let stable_ref_object = ref_object_binding_from_hook(decl);
+                    let stable_destructure_source = var_decl.kind == VarDeclKind::Const
+                        && decl.init.as_deref().is_some_and(|init| {
+                            let Expr::Ident(source) = unwrap_transparent_expr(init) else {
+                                return false;
+                            };
+                            known_bindings
+                                .get(source.sym.as_ref())
+                                .copied()
+                                .unwrap_or(false)
+                        });
                     for name in collect_pattern_binding_names(&decl.name) {
                         if stable_setters.contains(&name)
                             || stable_ref_object.as_deref() == Some(&name)
+                            || stable_destructure_source
                         {
                             known_bindings.insert(name.clone(), true);
                         } else {
@@ -2075,6 +2105,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
         }
         if is_default_param_conditional_expr(init.as_ref())
             && binding_only_used_in_terminal_return(&stmts[prefix_index + 1..], binding.sym.as_ref())
+            && !default_param_conditional_allocates_identity(init.as_ref())
         {
             break;
         }
@@ -2106,7 +2137,20 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
             && terminal_return_is_array_literal(&stmts[prefix_index + 1..])
             && !expr_is_mutating_member_call(&init)
         {
-            break;
+            let local_bindings = HashSet::new();
+            let init_deps = collect_dependencies_from_expr(&init, &known_bindings, &local_bindings);
+            let direct_identifier_call = matches!(
+                unwrap_transparent_expr(init.as_ref()),
+                Expr::Call(call)
+                    if matches!(
+                        &call.callee,
+                        Callee::Expr(callee_expr)
+                            if matches!(unwrap_transparent_expr(callee_expr), Expr::Ident(_))
+                    )
+            );
+            if !direct_identifier_call || init_deps.is_empty() {
+                break;
+            }
         }
         if let Expr::Call(call) = &*init {
             if call
@@ -2415,7 +2459,14 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
             let local = HashSet::new();
             collect_dependencies_from_expr(&init, &known_bindings, &local)
         };
-        let temp = if force_memoize_reassigned_jsx_tag_ident_init {
+        let use_binding_as_temp = force_memoize_reassigned_jsx_tag_ident_init
+            || (!reassigned_after
+                && next_stmt_destructures_from_binding(
+                    &stmts,
+                    prefix_index,
+                    binding.sym.as_ref(),
+                ));
+        let temp = if use_binding_as_temp {
             binding.clone()
         } else {
             fresh_temp_ident(&mut next_temp, &mut reserved)
@@ -2440,7 +2491,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
             std::mem::take(&mut compute_stmts),
             true,
         ));
-        if !force_memoize_reassigned_jsx_tag_ident_init {
+        if !use_binding_as_temp {
             transformed.push(make_var_decl(
                 if reassigned_after {
                     VarDeclKind::Let
@@ -2655,6 +2706,19 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                 result_ident.sym.as_ref(),
                             )
                     });
+                let skip_tail_result_pattern_assignment_outer_memoization =
+                    result_ident.as_ref().is_some_and(|result_ident| {
+                        const_result_alias.is_none()
+                            && !return_as_const
+                            && matches!(
+                                &*return_expr,
+                                Expr::Ident(return_ident) if return_ident.sym == result_ident.sym
+                            )
+                            && should_skip_result_tail_pattern_assignment_outer_memoization(
+                                &tail,
+                                result_ident.sym.as_ref(),
+                            )
+                    });
                 let skip_tail_result_passthrough =
                     result_ident.as_ref().is_some_and(|result_ident| {
                         const_result_alias.is_none()
@@ -2696,6 +2760,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
 
                 if skip_tail_result_block_memoization
                     || skip_tail_result_outer_memoization
+                    || skip_tail_result_pattern_assignment_outer_memoization
                     || skip_tail_result_passthrough
                 {
                     let result_ident = result_ident
@@ -2846,6 +2911,24 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                             )
                         };
                     if !prelude_stmts.is_empty() && prelude_blocks == 0 {
+                        if let Some((rewritten_prelude, slots, blocks, values)) =
+                            rewrite_top_level_rest_pattern_assignments_in_prelude_to_memo_blocks(
+                                &prelude_stmts,
+                                &known_bindings,
+                                &cache_ident,
+                                next_slot,
+                            )
+                        {
+                            prelude_stmts = rewritten_prelude;
+                            prelude_slots = slots;
+                            prelude_blocks = blocks;
+                            prelude_values = values;
+                        }
+                    }
+                    if !prelude_stmts.is_empty()
+                        && prelude_blocks == 0
+                        && !prelude_contains_if_with_else(&prelude_stmts)
+                    {
                         if let Some(prelude_result_binding) = infer_prelude_result_binding(
                             &prelude_stmts,
                             &compute_stmts,
@@ -2906,6 +2989,22 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                 prelude_blocks = 1;
                                 prelude_values = 1;
                             }
+                        }
+                    }
+                    if !prelude_stmts.is_empty() && prelude_blocks == 0 {
+                        if let Some((rewritten_prelude, slots, values)) =
+                            try_build_pattern_assignment_prelude_memo_fallback(
+                                &prelude_stmts,
+                                &compute_stmts,
+                                &known_bindings,
+                                &cache_ident,
+                                next_slot,
+                            )
+                        {
+                            prelude_stmts = rewritten_prelude;
+                            prelude_slots = slots;
+                            prelude_blocks = 1;
+                            prelude_values = values;
                         }
                     }
                     if let Some(old_temp_name) = deferred_outer_temp_name {
@@ -3526,11 +3625,113 @@ fn body_contains_identity_sensitive_work(body: &BlockStmt) -> bool {
 
             expr.visit_children_with(self);
         }
+
+        fn visit_assign_pat(&mut self, assign_pat: &swc_ecma_ast::AssignPat) {
+            if self.found {
+                return;
+            }
+
+            if matches!(
+                unwrap_transparent_expr(&assign_pat.right),
+                Expr::Array(_)
+                    | Expr::Object(_)
+                    | Expr::Class(_)
+                    | Expr::New(_)
+                    | Expr::JSXElement(_)
+                    | Expr::JSXFragment(_)
+            ) {
+                self.found = true;
+                return;
+            }
+
+            assign_pat.visit_children_with(self);
+        }
     }
 
     let mut finder = Finder::default();
     body.visit_with(&mut finder);
     finder.found
+}
+
+fn body_contains_destructuring_default_alloc_literal(body: &BlockStmt) -> bool {
+    fn pat_has_default(pat: &Pat) -> bool {
+        match pat {
+            Pat::Assign(assign_pat) => {
+                is_static_alloc_literal_expr(&assign_pat.right) || pat_has_default(&assign_pat.left)
+            }
+            Pat::Array(array_pat) => array_pat
+                .elems
+                .iter()
+                .flatten()
+                .any(pat_has_default),
+            Pat::Object(object_pat) => object_pat.props.iter().any(|prop| match prop {
+                ObjectPatProp::Assign(assign_prop) => assign_prop
+                    .value
+                    .as_ref()
+                    .is_some_and(|value| is_static_alloc_literal_expr(value)),
+                ObjectPatProp::KeyValue(key_value) => pat_has_default(&key_value.value),
+                ObjectPatProp::Rest(rest) => pat_has_default(&rest.arg),
+            }),
+            Pat::Rest(rest_pat) => pat_has_default(&rest_pat.arg),
+            Pat::Ident(_) | Pat::Expr(_) | Pat::Invalid(_) => false,
+        }
+    }
+
+    fn stmt_has_default(stmt: &Stmt) -> bool {
+        match stmt {
+            Stmt::Decl(Decl::Var(var_decl)) => {
+                var_decl.decls.iter().any(|decl| pat_has_default(&decl.name))
+            }
+            Stmt::Block(block) => block.stmts.iter().any(stmt_has_default),
+            Stmt::Labeled(labeled) => stmt_has_default(&labeled.body),
+            Stmt::If(if_stmt) => {
+                stmt_has_default(&if_stmt.cons)
+                    || if_stmt.alt.as_deref().is_some_and(stmt_has_default)
+            }
+            Stmt::Switch(switch_stmt) => switch_stmt
+                .cases
+                .iter()
+                .any(|case| case.cons.iter().any(stmt_has_default)),
+            Stmt::Try(try_stmt) => {
+                try_stmt.block.stmts.iter().any(stmt_has_default)
+                    || try_stmt
+                        .handler
+                        .as_ref()
+                        .is_some_and(|handler| handler.body.stmts.iter().any(stmt_has_default))
+                    || try_stmt
+                        .finalizer
+                        .as_ref()
+                        .is_some_and(|finalizer| finalizer.stmts.iter().any(stmt_has_default))
+            }
+            Stmt::For(for_stmt) => {
+                for_stmt.init.as_ref().is_some_and(|init| match init {
+                    swc_ecma_ast::VarDeclOrExpr::VarDecl(var_decl) => {
+                        var_decl.decls.iter().any(|decl| pat_has_default(&decl.name))
+                    }
+                    swc_ecma_ast::VarDeclOrExpr::Expr(_) => false,
+                }) || stmt_has_default(&for_stmt.body)
+            }
+            Stmt::ForIn(for_in_stmt) => match &for_in_stmt.left {
+                swc_ecma_ast::ForHead::VarDecl(var_decl) => {
+                    var_decl.decls.iter().any(|decl| pat_has_default(&decl.name))
+                        || stmt_has_default(&for_in_stmt.body)
+                }
+                _ => stmt_has_default(&for_in_stmt.body),
+            },
+            Stmt::ForOf(for_of_stmt) => match &for_of_stmt.left {
+                swc_ecma_ast::ForHead::VarDecl(var_decl) => {
+                    var_decl.decls.iter().any(|decl| pat_has_default(&decl.name))
+                        || stmt_has_default(&for_of_stmt.body)
+                }
+                _ => stmt_has_default(&for_of_stmt.body),
+            },
+            Stmt::While(while_stmt) => stmt_has_default(&while_stmt.body),
+            Stmt::DoWhile(do_while_stmt) => stmt_has_default(&do_while_stmt.body),
+            _ => false,
+        }
+    }
+
+    body.stmts.iter().any(stmt_has_default)
 }
 
 fn contains_object_pattern_assignment_with_reassigned_binding(stmts: &[Stmt]) -> bool {
@@ -3609,6 +3810,70 @@ fn split_multi_var_decls_in_stmts(stmts: &mut Vec<Stmt>) {
             continue;
         };
         if var_decl.decls.len() <= 1 {
+            out.push(stmt);
+            continue;
+        }
+
+        for decl in &var_decl.decls {
+            out.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: var_decl.span,
+                ctxt: var_decl.ctxt,
+                kind: var_decl.kind,
+                declare: var_decl.declare,
+                decls: vec![decl.clone()],
+            }))));
+        }
+    }
+
+    *stmts = out;
+}
+
+fn split_multi_var_decls_without_initializers_in_stmts(stmts: &mut Vec<Stmt>) {
+    let mut out = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => {
+                split_multi_var_decls_without_initializers_in_stmts(&mut block.stmts);
+            }
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    split_multi_var_decls_without_initializers_in_stmts(&mut block.stmts);
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    split_multi_var_decls_without_initializers_in_stmts(&mut block.stmts);
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        split_multi_var_decls_without_initializers_in_stmts(&mut block.stmts);
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                split_multi_var_decls_without_initializers_in_stmts(&mut try_stmt.block.stmts);
+                if let Some(handler) = &mut try_stmt.handler {
+                    split_multi_var_decls_without_initializers_in_stmts(&mut handler.body.stmts);
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    split_multi_var_decls_without_initializers_in_stmts(&mut finalizer.stmts);
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    split_multi_var_decls_without_initializers_in_stmts(&mut case.cons);
+                }
+            }
+            _ => {}
+        }
+
+        let Stmt::Decl(Decl::Var(var_decl)) = &stmt else {
+            out.push(stmt);
+            continue;
+        };
+        if var_decl.decls.len() <= 1 || !var_decl.decls.iter().all(|decl| decl.init.is_none()) {
             out.push(stmt);
             continue;
         }
@@ -4352,6 +4617,28 @@ fn next_stmt_iife_may_mutate_binding(stmts: &[Stmt], index: usize, binding: &str
     iife_call_may_mutate_binding(call, binding)
 }
 
+fn next_stmt_destructures_from_binding(stmts: &[Stmt], index: usize, binding: &str) -> bool {
+    let Some(next_stmt) = stmts.get(index + 1) else {
+        return false;
+    };
+    let Stmt::Decl(Decl::Var(var_decl)) = next_stmt else {
+        return false;
+    };
+    let [decl] = var_decl.decls.as_slice() else {
+        return false;
+    };
+    if matches!(decl.name, Pat::Ident(_)) {
+        return false;
+    }
+    let Some(init) = &decl.init else {
+        return false;
+    };
+    matches!(
+        unwrap_transparent_expr(init),
+        Expr::Ident(source) if source.sym == binding
+    )
+}
+
 fn first_following_block_shadows_binding(stmts: &[Stmt], binding: &str) -> bool {
     let Some(Stmt::Block(block)) = stmts.first() else {
         return false;
@@ -4395,6 +4682,50 @@ fn maybe_extract_single_call_arg_to_temp(
     ));
     arg.expr = Box::new(Expr::Ident(arg_temp.clone()));
     known_bindings.insert(arg_temp.sym.to_string(), false);
+}
+
+fn normalize_non_ident_params_without_memoization(reactive: &mut ReactiveFunction) {
+    let mut reserved = HashSet::new();
+    for pat in &reactive.params {
+        collect_pattern_bindings(pat, &mut reserved);
+    }
+    for stmt in &reactive.body.stmts {
+        collect_stmt_bindings(stmt, &mut reserved);
+    }
+
+    let mut known_bindings = HashMap::<String, bool>::new();
+    let mut next_temp = 0u32;
+    let mut param_prologue = rewrite_non_ident_params(
+        &mut reactive.params,
+        &mut reserved,
+        &mut next_temp,
+        &mut known_bindings,
+    );
+    strip_runtime_call_type_args_in_stmts(&mut param_prologue);
+    rewrite_let_array_pattern_decls_to_assignment_stmts(&mut param_prologue, &mut reserved);
+    rewrite_const_object_pattern_default_decls_to_temp_chain(&mut param_prologue, &mut reserved);
+
+    let mut stmts = std::mem::take(&mut reactive.body.stmts);
+    rewrite_let_array_pattern_decls_to_assignment_stmts(&mut stmts, &mut reserved);
+    rewrite_const_object_pattern_default_decls_to_temp_chain(&mut stmts, &mut reserved);
+    prune_overwritten_branch_and_switch_assignments_in_stmts(&mut stmts);
+    normalize_switch_case_blocks_in_stmts(&mut stmts);
+    prune_trivial_do_while_break_stmts(&mut stmts);
+    normalize_reactive_labels(&mut stmts);
+    if param_prologue.is_empty() {
+        reactive.body.stmts = stmts;
+        return;
+    }
+
+    let directive_end = stmts
+        .iter()
+        .take_while(|stmt| directive_from_stmt(stmt).is_some())
+        .count();
+    let mut transformed = Vec::new();
+    transformed.extend(stmts.drain(..directive_end));
+    transformed.extend(param_prologue);
+    transformed.extend(stmts);
+    reactive.body.stmts = transformed;
 }
 
 fn rewrite_non_ident_params(
@@ -4455,6 +4786,55 @@ fn rewrite_non_ident_params(
                     id: temp.clone(),
                     type_ann: None,
                 });
+
+                if let Pat::Array(array_pat) = &original {
+                    let non_hole_pats = array_pat.elems.iter().flatten().collect::<Vec<_>>();
+                    if non_hole_pats.len() == 1 {
+                        if let Pat::Assign(assign_pat) = non_hole_pats[0] {
+                            if let Pat::Ident(binding) = &*assign_pat.left {
+                                let value_temp = fresh_temp_ident(next_temp, used);
+                                known_bindings.insert(value_temp.sym.to_string(), false);
+                                prologue.push(make_var_decl(
+                                    VarDeclKind::Const,
+                                    Pat::Array(swc_ecma_ast::ArrayPat {
+                                        span: array_pat.span,
+                                        elems: vec![Some(Pat::Ident(BindingIdent {
+                                            id: value_temp.clone(),
+                                            type_ann: None,
+                                        }))],
+                                        optional: false,
+                                        type_ann: None,
+                                    }),
+                                    Some(Box::new(Expr::Ident(temp))),
+                                ));
+                                prologue.push(make_var_decl(
+                                    VarDeclKind::Const,
+                                    Pat::Ident(BindingIdent {
+                                        id: binding.id.clone(),
+                                        type_ann: binding.type_ann.clone(),
+                                    }),
+                                    Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                                        span: DUMMY_SP,
+                                        test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("==="),
+                                            left: Box::new(Expr::Ident(value_temp.clone())),
+                                            right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                                "undefined".into(),
+                                                DUMMY_SP,
+                                            ))),
+                                        })),
+                                        cons: parenthesize_conditional_expr(
+                                            assign_pat.right.clone(),
+                                        ),
+                                        alt: Box::new(Expr::Ident(value_temp)),
+                                    }))),
+                                ));
+                                continue;
+                            }
+                        }
+                    }
+                }
 
                 prologue.push(make_var_decl(
                     VarDeclKind::Const,
@@ -4979,6 +5359,280 @@ fn collect_dependencies_from_manual_memo_dep_array(
     Some(deps)
 }
 
+fn prune_trivial_do_while_break_stmts(stmts: &mut Vec<Stmt>) {
+    fn stmt_is_unlabeled_break(stmt: &Stmt) -> bool {
+        matches!(stmt, Stmt::Break(break_stmt) if break_stmt.label.is_none())
+    }
+
+    fn extract_unconditional_do_while_prefix(do_while_stmt: &swc_ecma_ast::DoWhileStmt) -> Option<Vec<Stmt>> {
+        let Stmt::Block(block) = &*do_while_stmt.body else {
+            return stmt_is_unlabeled_break(&do_while_stmt.body).then(Vec::new);
+        };
+
+        let non_empty_indices = block
+            .stmts
+            .iter()
+            .enumerate()
+            .filter_map(|(idx, stmt)| (!matches!(stmt, Stmt::Empty(_))).then_some(idx))
+            .collect::<Vec<_>>();
+        let Some(&last_non_empty_idx) = non_empty_indices.last() else {
+            return None;
+        };
+        if !stmt_is_unlabeled_break(&block.stmts[last_non_empty_idx]) {
+            return None;
+        }
+
+        // Keep this rewrite conservative: if the do-body has other top-level break/continue
+        // control flow, we skip lowering because it may alter loop semantics.
+        for &idx in &non_empty_indices[..non_empty_indices.len().saturating_sub(1)] {
+            if matches!(block.stmts[idx], Stmt::Break(_) | Stmt::Continue(_)) {
+                return None;
+            }
+        }
+
+        let mut prefix = Vec::with_capacity(non_empty_indices.len().saturating_sub(1));
+        for (idx, stmt) in block.stmts.iter().enumerate() {
+            if idx == last_non_empty_idx || matches!(stmt, Stmt::Empty(_)) {
+                continue;
+            }
+            prefix.push(stmt.clone());
+        }
+
+        Some(prefix)
+    }
+
+    let mut pruned = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => prune_trivial_do_while_break_stmts(&mut block.stmts),
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    prune_trivial_do_while_break_stmts(&mut block.stmts);
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    prune_trivial_do_while_break_stmts(&mut block.stmts);
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        prune_trivial_do_while_break_stmts(&mut block.stmts);
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                prune_trivial_do_while_break_stmts(&mut try_stmt.block.stmts);
+                if let Some(handler) = &mut try_stmt.handler {
+                    prune_trivial_do_while_break_stmts(&mut handler.body.stmts);
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    prune_trivial_do_while_break_stmts(&mut finalizer.stmts);
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    prune_trivial_do_while_break_stmts(&mut case.cons);
+                }
+            }
+            Stmt::DoWhile(do_while_stmt) => {
+                if let Stmt::Block(block) = &mut *do_while_stmt.body {
+                    prune_trivial_do_while_break_stmts(&mut block.stmts);
+                }
+            }
+            _ => {}
+        }
+
+        if let Stmt::DoWhile(do_while_stmt) = &stmt {
+            if let Some(prefix) = extract_unconditional_do_while_prefix(do_while_stmt) {
+                pruned.extend(prefix);
+                continue;
+            }
+        }
+
+        pruned.push(stmt);
+    }
+
+    *stmts = pruned;
+}
+
+fn prune_overwritten_branch_and_switch_assignments_in_stmts(stmts: &mut Vec<Stmt>) {
+    fn single_non_empty_stmt(stmts: &[Stmt]) -> Option<&Stmt> {
+        let mut non_empty = stmts.iter().filter(|stmt| !matches!(stmt, Stmt::Empty(_)));
+        let first = non_empty.next()?;
+        if non_empty.next().is_some() {
+            return None;
+        }
+        Some(first)
+    }
+
+    fn simple_assignment_target_and_purity(stmt: &Stmt) -> Option<(String, bool)> {
+        let stmt = match stmt {
+            Stmt::Block(block) => single_non_empty_stmt(&block.stmts)?,
+            other => other,
+        };
+
+        let Stmt::Expr(expr_stmt) = stmt else {
+            return None;
+        };
+        let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+            return None;
+        };
+        if assign.op != op!("=") {
+            return None;
+        }
+        let target = assign.left.as_ident()?;
+        Some((
+            target.id.sym.to_string(),
+            !expr_has_observable_side_effect(&assign.right),
+        ))
+    }
+
+    fn clear_simple_pure_assignment_stmt_if_matches(stmt: &mut Box<Stmt>, target: &str) -> bool {
+        let Some((name, is_pure)) = simple_assignment_target_and_purity(stmt) else {
+            return false;
+        };
+        if name != target || !is_pure {
+            return false;
+        }
+
+        match &mut **stmt {
+            Stmt::Block(block) => {
+                block.stmts.clear();
+            }
+            _ => {
+                *stmt = Box::new(Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    ctxt: Default::default(),
+                    stmts: Vec::new(),
+                }));
+            }
+        }
+        true
+    }
+
+    fn case_falls_through(case: &swc_ecma_ast::SwitchCase) -> bool {
+        fn stmt_terminates_case(stmt: &Stmt) -> bool {
+            match stmt {
+                Stmt::Break(_) | Stmt::Continue(_) | Stmt::Return(_) | Stmt::Throw(_) => true,
+                Stmt::Block(block) => block
+                    .stmts
+                    .iter()
+                    .rev()
+                    .find(|stmt| !matches!(stmt, Stmt::Empty(_)))
+                    .is_some_and(stmt_terminates_case),
+                _ => false,
+            }
+        }
+
+        case.cons
+            .iter()
+            .rev()
+            .find(|stmt| !matches!(stmt, Stmt::Empty(_)))
+            .map(|stmt| !stmt_terminates_case(stmt))
+            .unwrap_or(true)
+    }
+
+    fn case_single_pure_assignment_target(case: &swc_ecma_ast::SwitchCase) -> Option<String> {
+        let stmt = single_non_empty_stmt(&case.cons)?;
+        let (target, is_pure) = simple_assignment_target_and_purity(stmt)?;
+        is_pure.then_some(target)
+    }
+
+    fn case_starts_with_assignment_to_target(
+        case: &swc_ecma_ast::SwitchCase,
+        target: &str,
+    ) -> bool {
+        let Some(first) = case
+            .cons
+            .iter()
+            .find(|stmt| !matches!(stmt, Stmt::Empty(_)))
+        else {
+            return false;
+        };
+        let Some((name, _)) = simple_assignment_target_and_purity(first) else {
+            return false;
+        };
+        name == target
+    }
+
+    fn prune_switch_case_fallthrough_overwritten_assignments(
+        switch_stmt: &mut swc_ecma_ast::SwitchStmt,
+    ) {
+        let mut index = 0usize;
+        while index + 1 < switch_stmt.cases.len() {
+            let Some(target) = case_single_pure_assignment_target(&switch_stmt.cases[index]) else {
+                index += 1;
+                continue;
+            };
+            if !case_falls_through(&switch_stmt.cases[index])
+                || !case_starts_with_assignment_to_target(&switch_stmt.cases[index + 1], &target)
+            {
+                index += 1;
+                continue;
+            }
+
+            switch_stmt.cases[index].cons.clear();
+            index += 1;
+        }
+    }
+
+    fn recurse_stmt(stmt: &mut Stmt) {
+        match stmt {
+            Stmt::Block(block) => prune_overwritten_branch_and_switch_assignments_in_stmts(
+                &mut block.stmts,
+            ),
+            Stmt::Labeled(labeled) => recurse_stmt(&mut labeled.body),
+            Stmt::If(if_stmt) => {
+                recurse_stmt(&mut if_stmt.cons);
+                if let Some(alt) = &mut if_stmt.alt {
+                    recurse_stmt(alt);
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    prune_overwritten_branch_and_switch_assignments_in_stmts(&mut case.cons);
+                }
+                prune_switch_case_fallthrough_overwritten_assignments(switch_stmt);
+            }
+            Stmt::While(while_stmt) => recurse_stmt(&mut while_stmt.body),
+            Stmt::DoWhile(do_while_stmt) => recurse_stmt(&mut do_while_stmt.body),
+            Stmt::For(for_stmt) => recurse_stmt(&mut for_stmt.body),
+            Stmt::ForIn(for_in_stmt) => recurse_stmt(&mut for_in_stmt.body),
+            Stmt::ForOf(for_of_stmt) => recurse_stmt(&mut for_of_stmt.body),
+            Stmt::Try(try_stmt) => {
+                prune_overwritten_branch_and_switch_assignments_in_stmts(
+                    &mut try_stmt.block.stmts,
+                );
+                if let Some(handler) = &mut try_stmt.handler {
+                    prune_overwritten_branch_and_switch_assignments_in_stmts(
+                        &mut handler.body.stmts,
+                    );
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    prune_overwritten_branch_and_switch_assignments_in_stmts(&mut finalizer.stmts);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    for stmt in stmts.iter_mut() {
+        recurse_stmt(stmt);
+    }
+
+    for index in 0..stmts.len().saturating_sub(1) {
+        let Some((next_target, _)) = simple_assignment_target_and_purity(&stmts[index + 1]) else {
+            continue;
+        };
+        let Stmt::If(if_stmt) = &mut stmts[index] else {
+            continue;
+        };
+        clear_simple_pure_assignment_stmt_if_matches(&mut if_stmt.cons, &next_target);
+    }
+}
+
 fn rewrite_assignment_target_in_stmts(stmts: &mut [Stmt], from: &str, to: &str) {
     struct Rewriter<'a> {
         from: &'a str,
@@ -5054,6 +5708,1239 @@ fn rewrite_terminal_self_assignment_to_pattern_write(stmts: &mut Vec<Stmt>, bind
     }
 
     false
+}
+
+fn flatten_nested_destructuring_assignments_in_stmts(
+    stmts: &mut Vec<Stmt>,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => flatten_nested_destructuring_assignments_in_stmts(
+                &mut block.stmts,
+                reserved,
+                next_temp,
+            ),
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    flatten_nested_destructuring_assignments_in_stmts(
+                        &mut block.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    flatten_nested_destructuring_assignments_in_stmts(
+                        &mut block.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        flatten_nested_destructuring_assignments_in_stmts(
+                            &mut block.stmts,
+                            reserved,
+                            next_temp,
+                        );
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                flatten_nested_destructuring_assignments_in_stmts(
+                    &mut try_stmt.block.stmts,
+                    reserved,
+                    next_temp,
+                );
+                if let Some(handler) = &mut try_stmt.handler {
+                    flatten_nested_destructuring_assignments_in_stmts(
+                        &mut handler.body.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    flatten_nested_destructuring_assignments_in_stmts(
+                        &mut finalizer.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    flatten_nested_destructuring_assignments_in_stmts(
+                        &mut case.cons,
+                        reserved,
+                        next_temp,
+                    );
+                }
+            }
+            _ => {}
+        }
+
+        let Some(lowered) = lower_nested_destructuring_assignment_stmt(&stmt, reserved, next_temp)
+        else {
+            rewritten.push(stmt);
+            continue;
+        };
+        rewritten.extend(lowered);
+    }
+
+    *stmts = rewritten;
+}
+
+fn lower_nested_destructuring_assignment_stmt(
+    stmt: &Stmt,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) -> Option<Vec<Stmt>> {
+    let Stmt::Expr(expr_stmt) = stmt else {
+        return None;
+    };
+    let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+        return None;
+    };
+    if assign.op != op!("=") {
+        return None;
+    }
+    let AssignTarget::Pat(assign_pat) = &assign.left else {
+        return None;
+    };
+    let pat = Pat::from(assign_pat.clone());
+    if !pattern_contains_nested_destructuring(&pat) {
+        return None;
+    }
+
+    let mut lowered = Vec::new();
+    lower_nested_destructuring_pattern_from_source(
+        pat,
+        assign.right.clone(),
+        reserved,
+        next_temp,
+        &mut lowered,
+    );
+    Some(lowered)
+}
+
+fn pattern_contains_nested_destructuring(pat: &Pat) -> bool {
+    match pat {
+        Pat::Array(array_pat) => array_pat.elems.iter().flatten().any(|element| {
+            matches!(element, Pat::Array(_) | Pat::Object(_))
+                || pattern_contains_nested_destructuring(element)
+        }),
+        Pat::Object(object_pat) => object_pat.props.iter().any(|prop| match prop {
+            ObjectPatProp::Assign(_) => false,
+            ObjectPatProp::KeyValue(key_value) => {
+                matches!(*key_value.value, Pat::Array(_) | Pat::Object(_))
+                    || pattern_contains_nested_destructuring(&key_value.value)
+            }
+            ObjectPatProp::Rest(rest) => {
+                matches!(*rest.arg, Pat::Array(_) | Pat::Object(_))
+                    || pattern_contains_nested_destructuring(&rest.arg)
+            }
+        }),
+        Pat::Assign(assign_pat) => {
+            matches!(*assign_pat.left, Pat::Array(_) | Pat::Object(_))
+                || pattern_contains_nested_destructuring(&assign_pat.left)
+        }
+        Pat::Rest(rest_pat) => {
+            matches!(*rest_pat.arg, Pat::Array(_) | Pat::Object(_))
+                || pattern_contains_nested_destructuring(&rest_pat.arg)
+        }
+        Pat::Ident(_) | Pat::Expr(_) | Pat::Invalid(_) => false,
+    }
+}
+
+fn pattern_is_flat_reassignment(pat: &Pat) -> bool {
+    match pat {
+        Pat::Ident(_) => true,
+        Pat::Array(array_pat) => array_pat.elems.iter().flatten().all(|element| match element {
+            Pat::Ident(_) => true,
+            Pat::Expr(expr) => matches!(unwrap_transparent_expr(expr), Expr::Ident(_)),
+            Pat::Assign(assign_pat) => matches!(*assign_pat.left, Pat::Ident(_)),
+            Pat::Rest(rest_pat) => matches!(*rest_pat.arg, Pat::Ident(_)),
+            _ => false,
+        }),
+        Pat::Object(object_pat) => object_pat.props.iter().all(|prop| match prop {
+            ObjectPatProp::Assign(_) => true,
+            ObjectPatProp::KeyValue(key_value) => match &*key_value.value {
+                Pat::Ident(_) => true,
+                Pat::Expr(expr) => matches!(unwrap_transparent_expr(expr), Expr::Ident(_)),
+                Pat::Assign(assign_pat) => matches!(*assign_pat.left, Pat::Ident(_)),
+                _ => false,
+            },
+            ObjectPatProp::Rest(rest) => matches!(*rest.arg, Pat::Ident(_)),
+        }),
+        Pat::Assign(assign_pat) => matches!(*assign_pat.left, Pat::Ident(_)),
+        Pat::Rest(rest_pat) => matches!(*rest_pat.arg, Pat::Ident(_)),
+        Pat::Expr(_) | Pat::Invalid(_) => false,
+    }
+}
+
+fn lower_nested_destructuring_pattern_from_source(
+    pat: Pat,
+    source_expr: Box<Expr>,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+    out: &mut Vec<Stmt>,
+) {
+    if pattern_is_flat_reassignment(&pat) {
+        match pat {
+            Pat::Ident(binding) => {
+                out.push(assign_stmt(
+                    AssignTarget::from(binding.id),
+                    source_expr,
+                ));
+            }
+            Pat::Expr(expr) => {
+                let Expr::Ident(binding) = unwrap_transparent_expr(&expr) else {
+                    return;
+                };
+                out.push(assign_stmt(
+                    AssignTarget::from(binding.clone()),
+                    source_expr,
+                ));
+            }
+            Pat::Assign(assign_pat) => {
+                let Pat::Ident(binding) = &*assign_pat.left else {
+                    return;
+                };
+                out.push(assign_stmt(
+                    AssignTarget::from(binding.id.clone()),
+                    Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                        span: DUMMY_SP,
+                        test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                            span: DUMMY_SP,
+                            op: op!("==="),
+                            left: source_expr,
+                            right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                "undefined".into(),
+                                DUMMY_SP,
+                            ))),
+                        })),
+                        cons: parenthesize_conditional_expr(assign_pat.right.clone()),
+                        alt: Box::new(Expr::Ident(binding.id.clone())),
+                    })),
+                ));
+            }
+            other => {
+                if let Ok(target) = AssignTarget::try_from(other) {
+                    out.push(assign_stmt(target, source_expr));
+                }
+            }
+        }
+        return;
+    }
+
+    match pat {
+        Pat::Assign(assign_pat) => {
+            let value_temp = fresh_temp_ident(next_temp, reserved);
+            let source_for_alt = source_expr.clone();
+            out.push(make_var_decl(
+                VarDeclKind::Const,
+                Pat::Ident(BindingIdent {
+                    id: value_temp.clone(),
+                    type_ann: None,
+                }),
+                Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                    span: DUMMY_SP,
+                    test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                        span: DUMMY_SP,
+                        op: op!("==="),
+                        left: source_expr,
+                        right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                            "undefined".into(),
+                            DUMMY_SP,
+                        ))),
+                    })),
+                    cons: parenthesize_conditional_expr(assign_pat.right.clone()),
+                    alt: source_for_alt,
+                }))),
+            ));
+            lower_nested_destructuring_pattern_from_source(
+                *assign_pat.left,
+                Box::new(Expr::Ident(value_temp)),
+                reserved,
+                next_temp,
+                out,
+            );
+        }
+        Pat::Rest(rest_pat) => {
+            lower_nested_destructuring_pattern_from_source(
+                *rest_pat.arg,
+                source_expr,
+                reserved,
+                next_temp,
+                out,
+            );
+        }
+        Pat::Array(array_pat) => {
+            let mut temp_elems = Vec::with_capacity(array_pat.elems.len());
+            let mut actions = Vec::<(Pat, Ident)>::new();
+            for element in array_pat.elems {
+                let Some(element) = element else {
+                    temp_elems.push(None);
+                    continue;
+                };
+                let temp = fresh_temp_ident(next_temp, reserved);
+                match element {
+                    Pat::Rest(rest_pat) => {
+                        temp_elems.push(Some(Pat::Rest(swc_ecma_ast::RestPat {
+                            span: rest_pat.span,
+                            dot3_token: rest_pat.dot3_token,
+                            type_ann: rest_pat.type_ann,
+                            arg: Box::new(Pat::Ident(BindingIdent {
+                                id: temp.clone(),
+                                type_ann: None,
+                            })),
+                        })));
+                        actions.push((*rest_pat.arg, temp));
+                    }
+                    other => {
+                        temp_elems.push(Some(Pat::Ident(BindingIdent {
+                            id: temp.clone(),
+                            type_ann: None,
+                        })));
+                        actions.push((other, temp));
+                    }
+                }
+            }
+            out.push(make_var_decl(
+                VarDeclKind::Const,
+                Pat::Array(swc_ecma_ast::ArrayPat {
+                    span: array_pat.span,
+                    elems: temp_elems,
+                    optional: array_pat.optional,
+                    type_ann: array_pat.type_ann,
+                }),
+                Some(source_expr),
+            ));
+            for (action_pat, temp_ident) in actions {
+                lower_nested_destructuring_pattern_from_source(
+                    action_pat,
+                    Box::new(Expr::Ident(temp_ident)),
+                    reserved,
+                    next_temp,
+                    out,
+                );
+            }
+        }
+        Pat::Object(object_pat) => {
+            let mut temp_props = Vec::with_capacity(object_pat.props.len());
+            let mut actions = Vec::<(Pat, Ident)>::new();
+            for prop in object_pat.props {
+                match prop {
+                    ObjectPatProp::Assign(assign_prop) => {
+                        let temp = fresh_temp_ident(next_temp, reserved);
+                        temp_props.push(ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
+                            key: PropName::Ident(assign_prop.key.id.clone().into()),
+                            value: Box::new(Pat::Ident(BindingIdent {
+                                id: temp.clone(),
+                                type_ann: None,
+                            })),
+                        }));
+                        let action_pat = if let Some(default_expr) = assign_prop.value {
+                            Pat::Assign(swc_ecma_ast::AssignPat {
+                                span: assign_prop.span,
+                                left: Box::new(Pat::Ident(BindingIdent {
+                                    id: assign_prop.key.id,
+                                    type_ann: None,
+                                })),
+                                right: default_expr,
+                            })
+                        } else {
+                            Pat::Ident(BindingIdent {
+                                id: assign_prop.key.id,
+                                type_ann: None,
+                            })
+                        };
+                        actions.push((action_pat, temp));
+                    }
+                    ObjectPatProp::KeyValue(key_value) => {
+                        let temp = fresh_temp_ident(next_temp, reserved);
+                        let key = key_value.key.clone();
+                        let original_value = *key_value.value;
+                        temp_props.push(ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
+                            key: key,
+                            value: Box::new(Pat::Ident(BindingIdent {
+                                id: temp.clone(),
+                                type_ann: None,
+                            })),
+                        }));
+                        let action_pat = match &original_value {
+                            Pat::Ident(binding) => {
+                                let key_mismatches_binding = match &key_value.key {
+                                    PropName::Ident(prop_ident) => prop_ident.sym != binding.id.sym,
+                                    _ => true,
+                                };
+                                if key_mismatches_binding {
+                                    Pat::Object(swc_ecma_ast::ObjectPat {
+                                        span: DUMMY_SP,
+                                        props: vec![ObjectPatProp::KeyValue(
+                                            swc_ecma_ast::KeyValuePatProp {
+                                                key: key_value.key,
+                                                value: Box::new(Pat::Ident(binding.clone())),
+                                            },
+                                        )],
+                                        optional: false,
+                                        type_ann: None,
+                                    })
+                                } else {
+                                    original_value
+                                }
+                            }
+                            Pat::Expr(expr) => {
+                                if let Expr::Ident(binding) = unwrap_transparent_expr(expr) {
+                                    let key_mismatches_binding = match &key_value.key {
+                                        PropName::Ident(prop_ident) => {
+                                            prop_ident.sym != binding.sym
+                                        }
+                                        _ => true,
+                                    };
+                                    if key_mismatches_binding {
+                                        Pat::Object(swc_ecma_ast::ObjectPat {
+                                            span: DUMMY_SP,
+                                            props: vec![ObjectPatProp::KeyValue(
+                                                swc_ecma_ast::KeyValuePatProp {
+                                                    key: key_value.key,
+                                                    value: Box::new(Pat::Expr(Box::new(
+                                                        Expr::Ident(binding.clone()),
+                                                    ))),
+                                                },
+                                            )],
+                                            optional: false,
+                                            type_ann: None,
+                                        })
+                                    } else {
+                                        original_value
+                                    }
+                                } else {
+                                    original_value
+                                }
+                            }
+                            _ => original_value,
+                        };
+                        actions.push((action_pat, temp));
+                    }
+                    ObjectPatProp::Rest(rest_prop) => {
+                        let temp = fresh_temp_ident(next_temp, reserved);
+                        temp_props.push(ObjectPatProp::Rest(swc_ecma_ast::RestPat {
+                            span: rest_prop.span,
+                            dot3_token: rest_prop.dot3_token,
+                            type_ann: rest_prop.type_ann,
+                            arg: Box::new(Pat::Ident(BindingIdent {
+                                id: temp.clone(),
+                                type_ann: None,
+                            })),
+                        }));
+                        actions.push((*rest_prop.arg, temp));
+                    }
+                }
+            }
+            out.push(make_var_decl(
+                VarDeclKind::Const,
+                Pat::Object(swc_ecma_ast::ObjectPat {
+                    span: object_pat.span,
+                    props: temp_props,
+                    optional: object_pat.optional,
+                    type_ann: object_pat.type_ann,
+                }),
+                Some(source_expr),
+            ));
+            for (action_pat, temp_ident) in actions {
+                lower_nested_destructuring_pattern_from_source(
+                    action_pat,
+                    Box::new(Expr::Ident(temp_ident)),
+                    reserved,
+                    next_temp,
+                    out,
+                );
+            }
+        }
+        Pat::Ident(binding) => {
+            out.push(assign_stmt(
+                AssignTarget::from(binding.id),
+                source_expr,
+            ));
+        }
+        Pat::Expr(_) | Pat::Invalid(_) => {}
+    }
+}
+
+fn collapse_single_object_temp_destructure_assign_pairs(stmts: &mut Vec<Stmt>) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    let mut index = 0usize;
+
+    while index < stmts.len() {
+        if let Some(replacement) =
+            build_collapsed_object_temp_destructure_assign(stmts.get(index), stmts.get(index + 1))
+        {
+            rewritten.push(replacement);
+            index += 2;
+            continue;
+        }
+
+        let mut stmt = stmts[index].clone();
+        match &mut stmt {
+            Stmt::Block(block) => {
+                collapse_single_object_temp_destructure_assign_pairs(&mut block.stmts);
+            }
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    collapse_single_object_temp_destructure_assign_pairs(&mut block.stmts);
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    collapse_single_object_temp_destructure_assign_pairs(&mut block.stmts);
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        collapse_single_object_temp_destructure_assign_pairs(&mut block.stmts);
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                collapse_single_object_temp_destructure_assign_pairs(&mut try_stmt.block.stmts);
+                if let Some(handler) = &mut try_stmt.handler {
+                    collapse_single_object_temp_destructure_assign_pairs(&mut handler.body.stmts);
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    collapse_single_object_temp_destructure_assign_pairs(&mut finalizer.stmts);
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    collapse_single_object_temp_destructure_assign_pairs(&mut case.cons);
+                }
+            }
+            _ => {}
+        }
+
+        rewritten.push(stmt);
+        index += 1;
+    }
+
+    *stmts = rewritten;
+}
+
+fn build_collapsed_object_temp_destructure_assign(
+    first: Option<&Stmt>,
+    second: Option<&Stmt>,
+) -> Option<Stmt> {
+    let first = first?;
+    let second = second?;
+
+    let Stmt::Decl(Decl::Var(var_decl)) = first else {
+        return None;
+    };
+    if var_decl.kind != VarDeclKind::Const {
+        return None;
+    }
+    let [decl] = var_decl.decls.as_slice() else {
+        return None;
+    };
+    let Pat::Object(object_pat) = &decl.name else {
+        return None;
+    };
+    let [ObjectPatProp::KeyValue(key_value)] = object_pat.props.as_slice() else {
+        return None;
+    };
+    let Pat::Ident(temp_binding) = &*key_value.value else {
+        return None;
+    };
+    let source_expr = decl.init.clone()?;
+
+    let Stmt::Expr(expr_stmt) = second else {
+        return None;
+    };
+    let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+        return None;
+    };
+    if assign.op != op!("=") {
+        return None;
+    }
+    let target_ident = assign.left.as_ident()?;
+    let Expr::Ident(source_ident) = unwrap_transparent_expr(&assign.right) else {
+        return None;
+    };
+    if source_ident.sym != temp_binding.id.sym {
+        return None;
+    }
+
+    let collapsed_pat = Pat::Object(swc_ecma_ast::ObjectPat {
+        span: object_pat.span,
+        props: vec![ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
+            key: key_value.key.clone(),
+            value: Box::new(Pat::Ident(BindingIdent {
+                id: target_ident.id.clone(),
+                type_ann: None,
+            })),
+        })],
+        optional: object_pat.optional,
+        type_ann: object_pat.type_ann.clone(),
+    });
+    let target = AssignTarget::try_from(collapsed_pat).ok()?;
+    Some(assign_stmt(target, source_expr))
+}
+
+fn flatten_nested_destructuring_decls_to_temp_chain(
+    stmts: &mut Vec<Stmt>,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => {
+                flatten_nested_destructuring_decls_to_temp_chain(
+                    &mut block.stmts,
+                    reserved,
+                    next_temp,
+                );
+            }
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    flatten_nested_destructuring_decls_to_temp_chain(
+                        &mut block.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    flatten_nested_destructuring_decls_to_temp_chain(
+                        &mut block.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        flatten_nested_destructuring_decls_to_temp_chain(
+                            &mut block.stmts,
+                            reserved,
+                            next_temp,
+                        );
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                flatten_nested_destructuring_decls_to_temp_chain(
+                    &mut try_stmt.block.stmts,
+                    reserved,
+                    next_temp,
+                );
+                if let Some(handler) = &mut try_stmt.handler {
+                    flatten_nested_destructuring_decls_to_temp_chain(
+                        &mut handler.body.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    flatten_nested_destructuring_decls_to_temp_chain(
+                        &mut finalizer.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    flatten_nested_destructuring_decls_to_temp_chain(
+                        &mut case.cons,
+                        reserved,
+                        next_temp,
+                    );
+                }
+            }
+            _ => {}
+        }
+
+        let Stmt::Decl(Decl::Var(var_decl)) = &stmt else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if !matches!(var_decl.kind, VarDeclKind::Let | VarDeclKind::Const) {
+            rewritten.push(stmt);
+            continue;
+        }
+        let [decl] = var_decl.decls.as_slice() else {
+            rewritten.push(stmt);
+            continue;
+        };
+        let Some(init) = &decl.init else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if !matches!(decl.name, Pat::Array(_) | Pat::Object(_)) {
+            rewritten.push(stmt);
+            continue;
+        }
+
+        let Some(flattened) = flatten_destructuring_decl_to_temp_chain(
+            var_decl.kind,
+            decl.name.clone(),
+            init.clone(),
+            reserved,
+            next_temp,
+        ) else {
+            rewritten.push(stmt);
+            continue;
+        };
+        rewritten.extend(flattened);
+    }
+
+    *stmts = rewritten;
+}
+
+fn flatten_destructuring_decl_to_temp_chain(
+    kind: VarDeclKind,
+    pattern: Pat,
+    init: Box<Expr>,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) -> Option<Vec<Stmt>> {
+    let mut queue = VecDeque::new();
+    queue.push_back((pattern, init));
+
+    let mut rewritten = Vec::new();
+    let mut changed = false;
+
+    while let Some((pat, init_expr)) = queue.pop_front() {
+        match pat {
+            Pat::Array(array_pat) => {
+                let (rewritten_pat, nested) =
+                    flatten_array_pattern_one_level(array_pat, reserved, next_temp);
+                changed |= !nested.is_empty();
+                rewritten.push(make_var_decl(kind, Pat::Array(rewritten_pat), Some(init_expr)));
+                for (nested_pat, temp) in nested {
+                    queue.push_back((nested_pat, Box::new(Expr::Ident(temp))));
+                }
+            }
+            Pat::Object(object_pat) => {
+                let (rewritten_pat, nested) =
+                    flatten_object_pattern_one_level(object_pat, reserved, next_temp);
+                changed |= !nested.is_empty();
+                rewritten.push(make_var_decl(kind, Pat::Object(rewritten_pat), Some(init_expr)));
+                for (nested_pat, temp) in nested {
+                    queue.push_back((nested_pat, Box::new(Expr::Ident(temp))));
+                }
+            }
+            Pat::Assign(assign_pat)
+                if matches!(*assign_pat.left, Pat::Array(_) | Pat::Object(_)) =>
+            {
+                changed = true;
+                let value_temp = fresh_temp_ident(next_temp, reserved);
+                let source_for_alt = init_expr.clone();
+                rewritten.push(make_var_decl(
+                    kind,
+                    Pat::Ident(BindingIdent {
+                        id: value_temp.clone(),
+                        type_ann: None,
+                    }),
+                    Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                        span: DUMMY_SP,
+                        test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                            span: DUMMY_SP,
+                            op: op!("==="),
+                            left: init_expr,
+                            right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                "undefined".into(),
+                                DUMMY_SP,
+                            ))),
+                        })),
+                        cons: parenthesize_conditional_expr(assign_pat.right.clone()),
+                        alt: source_for_alt,
+                    }))),
+                ));
+                queue.push_back((*assign_pat.left, Box::new(Expr::Ident(value_temp))));
+            }
+            _ => {
+                rewritten.push(make_var_decl(kind, pat, Some(init_expr)));
+            }
+        }
+    }
+
+    changed.then_some(rewritten)
+}
+
+fn flatten_array_pattern_one_level(
+    mut array_pat: swc_ecma_ast::ArrayPat,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) -> (swc_ecma_ast::ArrayPat, Vec<(Pat, Ident)>) {
+    let mut nested = Vec::new();
+    let mut rewritten_elems = Vec::with_capacity(array_pat.elems.len());
+
+    for element in array_pat.elems {
+        let Some(element) = element else {
+            rewritten_elems.push(None);
+            continue;
+        };
+
+        match element {
+            Pat::Array(_) | Pat::Object(_) => {
+                let temp = fresh_temp_ident(next_temp, reserved);
+                nested.push((element, temp.clone()));
+                rewritten_elems.push(Some(Pat::Ident(BindingIdent {
+                    id: temp,
+                    type_ann: None,
+                })));
+            }
+            Pat::Rest(mut rest_pat) if matches!(*rest_pat.arg, Pat::Array(_) | Pat::Object(_)) => {
+                let nested_pat = *rest_pat.arg;
+                let temp = fresh_temp_ident(next_temp, reserved);
+                rest_pat.arg = Box::new(Pat::Ident(BindingIdent {
+                    id: temp.clone(),
+                    type_ann: None,
+                }));
+                nested.push((nested_pat, temp));
+                rewritten_elems.push(Some(Pat::Rest(rest_pat)));
+            }
+            _ => rewritten_elems.push(Some(element)),
+        }
+    }
+
+    array_pat.elems = rewritten_elems;
+    (array_pat, nested)
+}
+
+fn flatten_object_pattern_one_level(
+    mut object_pat: swc_ecma_ast::ObjectPat,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) -> (swc_ecma_ast::ObjectPat, Vec<(Pat, Ident)>) {
+    let mut nested = Vec::new();
+    let mut rewritten_props = Vec::with_capacity(object_pat.props.len());
+
+    for prop in object_pat.props {
+        match prop {
+            ObjectPatProp::KeyValue(mut key_value) => match *key_value.value {
+                Pat::Array(_) | Pat::Object(_) => {
+                    let nested_pat = *key_value.value;
+                    let temp = fresh_temp_ident(next_temp, reserved);
+                    key_value.value = Box::new(Pat::Ident(BindingIdent {
+                        id: temp.clone(),
+                        type_ann: None,
+                    }));
+                    nested.push((nested_pat, temp));
+                    rewritten_props.push(ObjectPatProp::KeyValue(key_value));
+                }
+                Pat::Assign(assign_pat)
+                    if matches!(*assign_pat.left, Pat::Array(_) | Pat::Object(_)) =>
+                {
+                    let nested_pat = Pat::Assign(assign_pat);
+                    let temp = fresh_temp_ident(next_temp, reserved);
+                    key_value.value = Box::new(Pat::Ident(BindingIdent {
+                        id: temp.clone(),
+                        type_ann: None,
+                    }));
+                    nested.push((nested_pat, temp));
+                    rewritten_props.push(ObjectPatProp::KeyValue(key_value));
+                }
+                _ => rewritten_props.push(ObjectPatProp::KeyValue(key_value)),
+            },
+            ObjectPatProp::Rest(mut rest) => match *rest.arg {
+                Pat::Array(_) | Pat::Object(_) => {
+                    let nested_pat = *rest.arg;
+                    let temp = fresh_temp_ident(next_temp, reserved);
+                    rest.arg = Box::new(Pat::Ident(BindingIdent {
+                        id: temp.clone(),
+                        type_ann: None,
+                    }));
+                    nested.push((nested_pat, temp));
+                    rewritten_props.push(ObjectPatProp::Rest(rest));
+                }
+                _ => rewritten_props.push(ObjectPatProp::Rest(rest)),
+            },
+            other => rewritten_props.push(other),
+        }
+    }
+
+    object_pat.props = rewritten_props;
+    (object_pat, nested)
+}
+
+fn rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(stmts: &mut Vec<Stmt>) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => {
+                rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(&mut block.stmts);
+            }
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(
+                        &mut block.stmts,
+                    );
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(
+                        &mut block.stmts,
+                    );
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(
+                            &mut block.stmts,
+                        );
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(
+                    &mut try_stmt.block.stmts,
+                );
+                if let Some(handler) = &mut try_stmt.handler {
+                    rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(
+                        &mut handler.body.stmts,
+                    );
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(
+                        &mut finalizer.stmts,
+                    );
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(
+                        &mut case.cons,
+                    );
+                }
+            }
+            _ => {}
+        }
+
+        let Stmt::Decl(Decl::Var(var_decl)) = &stmt else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if !matches!(var_decl.kind, VarDeclKind::Let | VarDeclKind::Const) {
+            rewritten.push(stmt);
+            continue;
+        }
+        let [decl] = var_decl.decls.as_slice() else {
+            rewritten.push(stmt);
+            continue;
+        };
+        let Some(init) = &decl.init else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if !pattern_has_top_level_rest(&decl.name) {
+            rewritten.push(stmt);
+            continue;
+        }
+        let Ok(target) = AssignTarget::try_from(decl.name.clone()) else {
+            rewritten.push(stmt);
+            continue;
+        };
+
+        let mut seen = HashSet::new();
+        let binding_names = collect_pattern_binding_names_in_order(&decl.name)
+            .into_iter()
+            .filter(|name| seen.insert(name.clone()))
+            .collect::<Vec<_>>();
+        let binding_names = reorder_array_rest_temp_binding_first(
+            reorder_cache_binding_names_for_pattern_assignment(binding_names),
+            &decl.name,
+        );
+        if binding_names.is_empty() {
+            rewritten.push(stmt);
+            continue;
+        }
+
+        for binding in binding_names {
+            rewritten.push(make_var_decl(
+                VarDeclKind::Let,
+                Pat::Ident(BindingIdent {
+                    id: Ident::new_no_ctxt(binding.into(), DUMMY_SP),
+                    type_ann: None,
+                }),
+                None,
+            ));
+        }
+        rewritten.push(assign_stmt(target, init.clone()));
+    }
+
+    *stmts = rewritten;
+}
+
+fn pattern_has_top_level_rest(pat: &Pat) -> bool {
+    match pat {
+        Pat::Array(array) => array
+            .elems
+            .iter()
+            .flatten()
+            .any(|element| matches!(element, Pat::Rest(_))),
+        Pat::Object(object) => object
+            .props
+            .iter()
+            .any(|prop| matches!(prop, ObjectPatProp::Rest(_))),
+        _ => false,
+    }
+}
+
+fn rewrite_const_object_pattern_default_decls_to_temp_chain(
+    stmts: &mut Vec<Stmt>,
+    reserved: &mut HashSet<String>,
+) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+    let mut scope_bindings = HashSet::new();
+    for stmt in &original {
+        collect_stmt_bindings_including_nested_blocks(stmt, &mut scope_bindings);
+    }
+    scope_bindings.extend(reserved.iter().cloned());
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => {
+                rewrite_const_object_pattern_default_decls_to_temp_chain(
+                    &mut block.stmts,
+                    reserved,
+                );
+            }
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    rewrite_const_object_pattern_default_decls_to_temp_chain(
+                        &mut block.stmts,
+                        reserved,
+                    );
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    rewrite_const_object_pattern_default_decls_to_temp_chain(
+                        &mut block.stmts,
+                        reserved,
+                    );
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        rewrite_const_object_pattern_default_decls_to_temp_chain(
+                            &mut block.stmts,
+                            reserved,
+                        );
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                rewrite_const_object_pattern_default_decls_to_temp_chain(
+                    &mut try_stmt.block.stmts,
+                    reserved,
+                );
+                if let Some(handler) = &mut try_stmt.handler {
+                    rewrite_const_object_pattern_default_decls_to_temp_chain(
+                        &mut handler.body.stmts,
+                        reserved,
+                    );
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    rewrite_const_object_pattern_default_decls_to_temp_chain(
+                        &mut finalizer.stmts,
+                        reserved,
+                    );
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    rewrite_const_object_pattern_default_decls_to_temp_chain(
+                        &mut case.cons,
+                        reserved,
+                    );
+                }
+            }
+            _ => {}
+        }
+
+        let Stmt::Decl(Decl::Var(var_decl)) = &stmt else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if !matches!(var_decl.kind, VarDeclKind::Const | VarDeclKind::Let) {
+            rewritten.push(stmt);
+            continue;
+        }
+        let [decl] = var_decl.decls.as_slice() else {
+            rewritten.push(stmt);
+            continue;
+        };
+        let Pat::Object(object_pat) = &decl.name else {
+            rewritten.push(stmt);
+            continue;
+        };
+        let Some(init) = &decl.init else {
+            rewritten.push(stmt);
+            continue;
+        };
+
+        let mut rewritten_props = Vec::with_capacity(object_pat.props.len());
+        let mut follow_up = Vec::new();
+        let mut changed = false;
+
+        for prop in &object_pat.props {
+            match prop {
+                ObjectPatProp::Assign(assign_prop) if assign_prop.value.is_some() => {
+                    changed = true;
+                    let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                    rewritten_props.push(ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
+                        key: PropName::Ident(assign_prop.key.id.clone().into()),
+                        value: Box::new(Pat::Ident(BindingIdent {
+                            id: temp.clone(),
+                            type_ann: None,
+                        })),
+                    }));
+                    follow_up.push(make_var_decl(
+                        var_decl.kind,
+                        Pat::Ident(BindingIdent {
+                            id: assign_prop.key.id.clone(),
+                            type_ann: None,
+                        }),
+                        Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                            span: DUMMY_SP,
+                            test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                span: DUMMY_SP,
+                                op: op!("==="),
+                                left: Box::new(Expr::Ident(temp.clone())),
+                                right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                    "undefined".into(),
+                                    DUMMY_SP,
+                                ))),
+                            })),
+                            cons: assign_prop
+                                .value
+                                .clone()
+                                .expect("guarded by is_some"),
+                            alt: Box::new(Expr::Ident(temp)),
+                        }))),
+                    ));
+                }
+                other => rewritten_props.push(other.clone()),
+            }
+        }
+
+        if !changed {
+            rewritten.push(stmt);
+            continue;
+        }
+
+        rewritten.push(make_var_decl(
+            var_decl.kind,
+            Pat::Object(swc_ecma_ast::ObjectPat {
+                span: object_pat.span,
+                props: rewritten_props,
+                optional: object_pat.optional,
+                type_ann: object_pat.type_ann.clone(),
+            }),
+            Some(init.clone()),
+        ));
+        rewritten.extend(follow_up);
+    }
+
+    *stmts = rewritten;
+}
+
+fn rewrite_let_object_pattern_decls_to_assignment_stmts(stmts: &mut Vec<Stmt>) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => {
+                rewrite_let_object_pattern_decls_to_assignment_stmts(&mut block.stmts);
+            }
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    rewrite_let_object_pattern_decls_to_assignment_stmts(&mut block.stmts);
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    rewrite_let_object_pattern_decls_to_assignment_stmts(&mut block.stmts);
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        rewrite_let_object_pattern_decls_to_assignment_stmts(&mut block.stmts);
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                rewrite_let_object_pattern_decls_to_assignment_stmts(&mut try_stmt.block.stmts);
+                if let Some(handler) = &mut try_stmt.handler {
+                    rewrite_let_object_pattern_decls_to_assignment_stmts(&mut handler.body.stmts);
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    rewrite_let_object_pattern_decls_to_assignment_stmts(&mut finalizer.stmts);
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    rewrite_let_object_pattern_decls_to_assignment_stmts(&mut case.cons);
+                }
+            }
+            _ => {}
+        }
+
+        let Stmt::Decl(Decl::Var(var_decl)) = &stmt else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if var_decl.kind != VarDeclKind::Let {
+            rewritten.push(stmt);
+            continue;
+        }
+        let [decl] = var_decl.decls.as_slice() else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if !matches!(decl.name, Pat::Object(_)) {
+            rewritten.push(stmt);
+            continue;
+        }
+        let Some(init) = &decl.init else {
+            rewritten.push(stmt);
+            continue;
+        };
+        let binding_names = collect_pattern_binding_names_in_order(&decl.name);
+        let [binding] = binding_names.as_slice() else {
+            rewritten.push(stmt);
+            continue;
+        };
+        let Ok(target) = AssignTarget::try_from(decl.name.clone()) else {
+            rewritten.push(stmt);
+            continue;
+        };
+
+        rewritten.push(make_var_decl(
+            VarDeclKind::Let,
+            Pat::Ident(BindingIdent {
+                id: Ident::new_no_ctxt(binding.clone().into(), DUMMY_SP),
+                type_ann: None,
+            }),
+            None,
+        ));
+        rewritten.push(assign_stmt(target, init.clone()));
+    }
+
+    *stmts = rewritten;
 }
 
 fn rewrite_let_array_pattern_decls_to_assignment_stmts(
@@ -5154,45 +7041,95 @@ fn rewrite_let_array_pattern_decls_to_assignment_stmts(
 
         match (var_decl.kind, non_hole_pats[0]) {
             (VarDeclKind::Const, Pat::Assign(assign_pat)) => {
-                let Pat::Ident(binding) = &*assign_pat.left else {
-                    rewritten.push(stmt);
-                    continue;
-                };
-                let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
-                rewritten.push(make_var_decl(
-                    VarDeclKind::Const,
-                    Pat::Array(swc_ecma_ast::ArrayPat {
-                        span: array_pat.span,
-                        elems: vec![Some(Pat::Ident(BindingIdent {
-                            id: temp.clone(),
-                            type_ann: None,
-                        }))],
-                        optional: false,
-                        type_ann: None,
-                    }),
-                    Some(init.clone()),
-                ));
-                rewritten.push(make_var_decl(
-                    VarDeclKind::Const,
-                    Pat::Ident(BindingIdent {
-                        id: binding.id.clone(),
-                        type_ann: None,
-                    }),
-                    Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
-                        span: DUMMY_SP,
-                        test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
-                            span: DUMMY_SP,
-                            op: op!("==="),
-                            left: Box::new(Expr::Ident(temp.clone())),
-                            right: Box::new(Expr::Ident(Ident::new_no_ctxt(
-                                "undefined".into(),
-                                DUMMY_SP,
-                            ))),
-                        })),
-                        cons: assign_pat.right.clone(),
-                        alt: Box::new(Expr::Ident(temp)),
-                    }))),
-                ));
+                match &*assign_pat.left {
+                    Pat::Ident(binding) => {
+                        let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                        rewritten.push(make_var_decl(
+                            VarDeclKind::Const,
+                            Pat::Array(swc_ecma_ast::ArrayPat {
+                                span: array_pat.span,
+                                elems: vec![Some(Pat::Ident(BindingIdent {
+                                    id: temp.clone(),
+                                    type_ann: None,
+                                }))],
+                                optional: false,
+                                type_ann: None,
+                            }),
+                            Some(init.clone()),
+                        ));
+                        rewritten.push(make_var_decl(
+                            VarDeclKind::Const,
+                            Pat::Ident(BindingIdent {
+                                id: binding.id.clone(),
+                                type_ann: None,
+                            }),
+                            Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                                span: DUMMY_SP,
+                                test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("==="),
+                                    left: Box::new(Expr::Ident(temp.clone())),
+                                    right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                        "undefined".into(),
+                                        DUMMY_SP,
+                                    ))),
+                                })),
+                                cons: parenthesize_conditional_expr(
+                                    assign_pat.right.clone(),
+                                ),
+                                alt: Box::new(Expr::Ident(temp)),
+                            }))),
+                        ));
+                    }
+                    Pat::Array(_) | Pat::Object(_) => {
+                        let input_temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                        let value_temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                        rewritten.push(make_var_decl(
+                            VarDeclKind::Const,
+                            Pat::Array(swc_ecma_ast::ArrayPat {
+                                span: array_pat.span,
+                                elems: vec![Some(Pat::Ident(BindingIdent {
+                                    id: input_temp.clone(),
+                                    type_ann: None,
+                                }))],
+                                optional: false,
+                                type_ann: None,
+                            }),
+                            Some(init.clone()),
+                        ));
+                        rewritten.push(make_var_decl(
+                            VarDeclKind::Let,
+                            Pat::Ident(BindingIdent {
+                                id: value_temp.clone(),
+                                type_ann: None,
+                            }),
+                            Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                                span: DUMMY_SP,
+                                test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("==="),
+                                    left: Box::new(Expr::Ident(input_temp.clone())),
+                                    right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                        "undefined".into(),
+                                        DUMMY_SP,
+                                    ))),
+                                })),
+                                cons: parenthesize_conditional_expr(
+                                    assign_pat.right.clone(),
+                                ),
+                                alt: Box::new(Expr::Ident(input_temp)),
+                            }))),
+                        ));
+                        rewritten.push(make_var_decl(
+                            VarDeclKind::Const,
+                            (*assign_pat.left).clone(),
+                            Some(Box::new(Expr::Ident(value_temp))),
+                        ));
+                    }
+                    _ => {
+                        rewritten.push(stmt);
+                    }
+                }
             }
             (VarDeclKind::Let, Pat::Ident(binding)) => {
                 let Ok(target) = AssignTarget::try_from(pat.clone()) else {
@@ -5232,6 +7169,125 @@ fn rewrite_let_array_pattern_decls_to_assignment_stmts(
                 rewritten.push(stmt);
             }
         }
+    }
+
+    *stmts = rewritten;
+}
+
+fn rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+    stmts: &mut Vec<Stmt>,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+                &mut block.stmts,
+                reserved,
+                next_temp,
+            ),
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+                        &mut block.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+                        &mut block.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+                            &mut block.stmts,
+                            reserved,
+                            next_temp,
+                        );
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+                    &mut try_stmt.block.stmts,
+                    reserved,
+                    next_temp,
+                );
+                if let Some(handler) = &mut try_stmt.handler {
+                    rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+                        &mut handler.body.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+                        &mut finalizer.stmts,
+                        reserved,
+                        next_temp,
+                    );
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+                        &mut case.cons,
+                        reserved,
+                        next_temp,
+                    );
+                }
+            }
+            _ => {}
+        }
+
+        let Stmt::Decl(Decl::Var(var_decl)) = &stmt else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if var_decl.kind != VarDeclKind::Const {
+            rewritten.push(stmt);
+            continue;
+        }
+        let [decl] = var_decl.decls.as_slice() else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if !matches!(decl.name, Pat::Object(_)) {
+            rewritten.push(stmt);
+            continue;
+        }
+        let Some(init) = &decl.init else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if !is_static_alloc_literal_expr(init) {
+            rewritten.push(stmt);
+            continue;
+        }
+
+        let temp = fresh_temp_ident(next_temp, reserved);
+        rewritten.push(make_var_decl(
+            VarDeclKind::Const,
+            Pat::Ident(BindingIdent {
+                id: temp.clone(),
+                type_ann: None,
+            }),
+            Some(init.clone()),
+        ));
+        rewritten.push(make_var_decl(
+            VarDeclKind::Const,
+            decl.name.clone(),
+            Some(Box::new(Expr::Ident(temp))),
+        ));
     }
 
     *stmts = rewritten;
@@ -5336,6 +7392,93 @@ fn normalize_array_pattern_assignments_in_stmts(
         };
         let mut pat = Pat::from(assign_pat.clone());
         normalize_array_pattern_holes(&mut pat);
+        if let Pat::Object(object_pat) = pat {
+            let mut can_rewrite = true;
+            let mut original_binding = None::<Ident>;
+            let mut rewritten_props = Vec::with_capacity(object_pat.props.len());
+
+            for prop in object_pat.props {
+                match prop {
+                    ObjectPatProp::Assign(assign_prop) if assign_prop.value.is_none() => {
+                        let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                        original_binding = Some(assign_prop.key.id.clone());
+                        rewritten_props.push(ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
+                            key: PropName::Ident(assign_prop.key.id.clone().into()),
+                            value: Box::new(Pat::Ident(BindingIdent {
+                                id: temp.clone(),
+                                type_ann: None,
+                            })),
+                        }));
+                    }
+                    ObjectPatProp::KeyValue(key_value)
+                        if matches!(*key_value.value, Pat::Ident(_)) =>
+                    {
+                        let Pat::Ident(binding) = *key_value.value else {
+                            unreachable!("guarded by matches!");
+                        };
+                        if matches!(
+                            &key_value.key,
+                            PropName::Ident(prop_ident) if prop_ident.sym != binding.id.sym
+                        ) {
+                            can_rewrite = false;
+                            break;
+                        }
+                        let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                        original_binding = Some(binding.id.clone());
+                        rewritten_props.push(ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
+                            key: key_value.key,
+                            value: Box::new(Pat::Ident(BindingIdent {
+                                id: temp.clone(),
+                                type_ann: None,
+                            })),
+                        }));
+                    }
+                    _ => {
+                        can_rewrite = false;
+                        break;
+                    }
+                }
+            }
+
+            let Some(original_binding) = original_binding else {
+                normalized.push(stmt);
+                continue;
+            };
+            if !can_rewrite || rewritten_props.len() != 1 {
+                normalized.push(stmt);
+                continue;
+            }
+
+            let temp_name = match &rewritten_props[0] {
+                ObjectPatProp::KeyValue(key_value) => match &*key_value.value {
+                    Pat::Ident(binding) => binding.id.clone(),
+                    _ => {
+                        normalized.push(stmt);
+                        continue;
+                    }
+                },
+                _ => {
+                    normalized.push(stmt);
+                    continue;
+                }
+            };
+
+            normalized.push(make_var_decl(
+                VarDeclKind::Const,
+                Pat::Object(swc_ecma_ast::ObjectPat {
+                    span: object_pat.span,
+                    props: rewritten_props,
+                    optional: object_pat.optional,
+                    type_ann: object_pat.type_ann,
+                }),
+                Some(assign.right.clone()),
+            ));
+            normalized.push(assign_stmt(
+                AssignTarget::from(original_binding),
+                Box::new(Expr::Ident(temp_name)),
+            ));
+            continue;
+        }
         let Pat::Array(array_pat) = pat else {
             normalized.push(stmt);
             continue;
@@ -5346,6 +7489,15 @@ fn normalize_array_pattern_assignments_in_stmts(
             optional,
             ..
         } = array_pat;
+        if elems
+            .iter()
+            .flatten()
+            .all(|element| matches!(element, Pat::Ident(_)))
+            && matches!(unwrap_transparent_expr(&assign.right), Expr::Ident(_))
+        {
+            normalized.push(stmt);
+            continue;
+        }
 
         let mut temp_elems = Vec::with_capacity(elems.len());
         let mut rewritten_assignments = Vec::new();
@@ -5387,7 +7539,7 @@ fn normalize_array_pattern_assignments_in_stmts(
                                     DUMMY_SP,
                                 ))),
                             })),
-                            cons: assign_pat.right.clone(),
+                            cons: parenthesize_conditional_expr(assign_pat.right.clone()),
                             alt: Box::new(Expr::Ident(temp)),
                         })),
                     ));
@@ -5623,6 +7775,48 @@ fn collect_dependencies_from_expr(
             member.visit_children_with(self);
         }
 
+        fn visit_do_while_stmt(&mut self, do_while: &swc_ecma_ast::DoWhileStmt) {
+            for dep in collect_loop_test_dependencies_from_expr(
+                &do_while.test,
+                self.known_bindings,
+                self.local_bindings,
+            ) {
+                maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+            }
+            do_while.body.visit_with(self);
+        }
+
+        fn visit_while_stmt(&mut self, while_stmt: &swc_ecma_ast::WhileStmt) {
+            for dep in collect_loop_test_dependencies_from_expr(
+                &while_stmt.test,
+                self.known_bindings,
+                self.local_bindings,
+            ) {
+                maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+            }
+            while_stmt.body.visit_with(self);
+        }
+
+        fn visit_for_stmt(&mut self, for_stmt: &swc_ecma_ast::ForStmt) {
+            if let Some(test) = &for_stmt.test {
+                for dep in collect_loop_test_dependencies_from_expr(
+                    test,
+                    self.known_bindings,
+                    self.local_bindings,
+                ) {
+                    maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+                }
+            }
+
+            if let Some(init) = &for_stmt.init {
+                init.visit_with(self);
+            }
+            if let Some(update) = &for_stmt.update {
+                update.visit_with(self);
+            }
+            for_stmt.body.visit_with(self);
+        }
+
         fn visit_call_expr(&mut self, call: &CallExpr) {
             if let Callee::Expr(callee_expr) = &call.callee {
                 if let Expr::Member(member) = &**callee_expr {
@@ -5762,6 +7956,48 @@ fn collect_dependencies_from_stmts(
             }
 
             member.visit_children_with(self);
+        }
+
+        fn visit_do_while_stmt(&mut self, do_while: &swc_ecma_ast::DoWhileStmt) {
+            for dep in collect_loop_test_dependencies_from_expr(
+                &do_while.test,
+                self.known_bindings,
+                self.local_bindings,
+            ) {
+                maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+            }
+            do_while.body.visit_with(self);
+        }
+
+        fn visit_while_stmt(&mut self, while_stmt: &swc_ecma_ast::WhileStmt) {
+            for dep in collect_loop_test_dependencies_from_expr(
+                &while_stmt.test,
+                self.known_bindings,
+                self.local_bindings,
+            ) {
+                maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+            }
+            while_stmt.body.visit_with(self);
+        }
+
+        fn visit_for_stmt(&mut self, for_stmt: &swc_ecma_ast::ForStmt) {
+            if let Some(test) = &for_stmt.test {
+                for dep in collect_loop_test_dependencies_from_expr(
+                    test,
+                    self.known_bindings,
+                    self.local_bindings,
+                ) {
+                    maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+                }
+            }
+
+            if let Some(init) = &for_stmt.init {
+                init.visit_with(self);
+            }
+            if let Some(update) = &for_stmt.update {
+                update.visit_with(self);
+            }
+            for_stmt.body.visit_with(self);
         }
 
         fn visit_call_expr(&mut self, call: &CallExpr) {
@@ -6229,6 +8465,79 @@ fn member_object_dependency(
     })
 }
 
+fn collect_member_object_dependencies_from_expr(
+    expr: &Expr,
+    known_bindings: &HashMap<String, bool>,
+    local_bindings: &HashSet<String>,
+) -> Vec<ReactiveDependency> {
+    struct Collector<'a> {
+        known_bindings: &'a HashMap<String, bool>,
+        local_bindings: &'a HashSet<String>,
+        seen: HashSet<String>,
+        deps: Vec<ReactiveDependency>,
+    }
+
+    impl Visit for Collector<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_member_expr(&mut self, member: &MemberExpr) {
+            if let Some(dep) = member_object_dependency(member, self.known_bindings, self.local_bindings) {
+                maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+            }
+
+            member.visit_children_with(self);
+        }
+    }
+
+    let mut collector = Collector {
+        known_bindings,
+        local_bindings,
+        seen: HashSet::new(),
+        deps: Vec::new(),
+    };
+    expr.visit_with(&mut collector);
+    collector.deps
+}
+
+fn collect_loop_test_dependencies_from_expr(
+    expr: &Expr,
+    known_bindings: &HashMap<String, bool>,
+    local_bindings: &HashSet<String>,
+) -> Vec<ReactiveDependency> {
+    fn is_member_path_of_object(dep_key: &str, object_key: &str) -> bool {
+        dep_key.len() > object_key.len()
+            && dep_key.starts_with(object_key)
+            && dep_key.as_bytes()[object_key.len()] == b'.'
+    }
+
+    let mut deps = collect_dependencies_from_expr(expr, known_bindings, local_bindings);
+    let object_deps =
+        collect_member_object_dependencies_from_expr(expr, known_bindings, local_bindings);
+    if object_deps.is_empty() {
+        return deps;
+    }
+
+    let object_keys: HashSet<String> = object_deps.iter().map(|dep| dep.key.clone()).collect();
+    deps.retain(|dep| {
+        !object_keys
+            .iter()
+            .any(|object_key| is_member_path_of_object(&dep.key, object_key))
+    });
+
+    let mut seen: HashSet<String> = deps.iter().map(|dep| dep.key.clone()).collect();
+    for dep in object_deps {
+        maybe_push_dependency(&mut deps, &mut seen, dep);
+    }
+
+    reduce_dependencies(deps)
+}
+
 fn should_collapse_member_callee_dependency(member: &MemberExpr) -> bool {
     match &member.prop {
         MemberProp::Ident(prop) => matches!(
@@ -6295,6 +8604,295 @@ fn reduce_nested_member_dependencies(deps: Vec<ReactiveDependency>) -> Vec<React
 
     reduced.sort_by(|left, right| left.key.cmp(&right.key));
     reduced
+}
+
+fn rewrite_top_level_rest_pattern_assignments_in_prelude_to_memo_blocks(
+    prelude_stmts: &[Stmt],
+    known_bindings: &HashMap<String, bool>,
+    cache_ident: &Ident,
+    slot_start: u32,
+) -> Option<(Vec<Stmt>, u32, u32, u32)> {
+    let mut rewritten = Vec::with_capacity(prelude_stmts.len());
+    let mut local_bindings = HashSet::new();
+    let mut cursor = slot_start;
+    let mut added_blocks = 0u32;
+    let mut added_values = 0u32;
+
+    for stmt in prelude_stmts {
+        let mut transformed_stmt = false;
+        if let Stmt::Expr(expr_stmt) = stmt {
+            if let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) {
+                if assign.op == op!("=") {
+                    if let AssignTarget::Pat(assign_pat) = &assign.left {
+                        let pat = Pat::from(assign_pat.clone());
+                        if pattern_has_top_level_rest(&pat) {
+                            let mut cache_binding_names =
+                                collect_assigned_bindings_in_order_from_stmts(std::slice::from_ref(
+                                    stmt,
+                                ));
+                            if !cache_binding_names.is_empty() {
+                                cache_binding_names =
+                                    reorder_cache_binding_names_for_pattern_assignment(
+                                        cache_binding_names,
+                                    );
+                                cache_binding_names =
+                                    reorder_array_rest_temp_binding_first(cache_binding_names, &pat);
+                                if cache_binding_names.len() >= 2 {
+                                    let mut dep_local_bindings = local_bindings.clone();
+                                    for binding in &cache_binding_names {
+                                        dep_local_bindings.insert(binding.clone());
+                                    }
+
+                                    let mut deps = collect_dependencies_from_stmts(
+                                        std::slice::from_ref(stmt),
+                                        known_bindings,
+                                        &dep_local_bindings,
+                                    );
+                                    for dep in collect_called_local_function_capture_dependencies(
+                                        std::slice::from_ref(stmt),
+                                        known_bindings,
+                                    ) {
+                                        if !deps.iter().any(|existing| existing.key == dep.key) {
+                                            deps.push(dep);
+                                        }
+                                    }
+                                    for dep in collect_stmt_function_capture_dependencies(
+                                        std::slice::from_ref(stmt),
+                                        known_bindings,
+                                    ) {
+                                        if !deps.iter().any(|existing| existing.key == dep.key) {
+                                            deps.push(dep);
+                                        }
+                                    }
+                                    deps = reduce_dependencies(deps);
+                                    deps = reduce_nested_member_dependencies(deps);
+                                    if deps.is_empty() {
+                                        if let Expr::Ident(rhs_ident) =
+                                            unwrap_transparent_expr(&assign.right)
+                                        {
+                                            let rhs_name = rhs_ident.sym.to_string();
+                                            deps.push(ReactiveDependency {
+                                                key: rhs_name,
+                                                expr: Box::new(Expr::Ident(rhs_ident.clone())),
+                                            });
+                                        }
+                                    }
+                                    if !deps.is_empty() {
+                                        let cache_bindings = cache_binding_names
+                                            .iter()
+                                            .map(|name| {
+                                                Ident::new_no_ctxt(name.clone().into(), DUMMY_SP)
+                                            })
+                                            .collect::<Vec<_>>();
+                                        rewritten.extend(build_memoized_block_multi_values(
+                                            cache_ident,
+                                            cursor,
+                                            &deps,
+                                            &cache_bindings,
+                                            vec![stmt.clone()],
+                                        ));
+                                        cursor += deps.len() as u32 + cache_bindings.len() as u32;
+                                        added_blocks += 1;
+                                        added_values += cache_bindings.len() as u32;
+                                        transformed_stmt = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if transformed_stmt {
+            collect_stmt_bindings_including_nested_blocks(stmt, &mut local_bindings);
+            continue;
+        }
+
+        rewritten.push(stmt.clone());
+        collect_stmt_bindings_including_nested_blocks(stmt, &mut local_bindings);
+    }
+
+    if added_blocks == 0 {
+        None
+    } else {
+        Some((rewritten, cursor - slot_start, added_blocks, added_values))
+    }
+}
+
+fn reorder_cache_binding_names_for_pattern_assignment(names: Vec<String>) -> Vec<String> {
+    let mut seen = HashSet::new();
+    let mut ordered = Vec::new();
+    let mut temp_names = Vec::new();
+
+    for name in names {
+        if !seen.insert(name.clone()) {
+            continue;
+        }
+        if parse_temp_name(name.as_str()).is_some() {
+            temp_names.push(name);
+        } else {
+            ordered.push(name);
+        }
+    }
+
+    ordered.extend(temp_names);
+    ordered
+}
+
+fn reorder_array_rest_temp_binding_first(mut names: Vec<String>, pattern: &Pat) -> Vec<String> {
+    let Pat::Array(array_pat) = pattern else {
+        return names;
+    };
+    let rest_ident = array_pat.elems.iter().flatten().find_map(|element| {
+        let Pat::Rest(rest_pat) = element else {
+            return None;
+        };
+        let Pat::Ident(binding) = &*rest_pat.arg else {
+            return None;
+        };
+        parse_temp_name(binding.id.sym.as_ref()).map(|_| binding.id.sym.to_string())
+    });
+    let Some(rest_ident) = rest_ident else {
+        return names;
+    };
+
+    let Some(index) = names.iter().position(|name| name == &rest_ident) else {
+        return names;
+    };
+    if index == 0 {
+        return names;
+    }
+
+    let rest_name = names.remove(index);
+    let mut reordered = vec![rest_name];
+    reordered.extend(names);
+    reordered
+}
+
+fn try_build_pattern_assignment_prelude_memo_fallback(
+    prelude_stmts: &[Stmt],
+    compute_stmts: &[Stmt],
+    known_bindings: &HashMap<String, bool>,
+    cache_ident: &Ident,
+    slot_start: u32,
+) -> Option<(Vec<Stmt>, u32, u32)> {
+    let has_pattern_assignment = stmts_contain_pattern_assignment(prelude_stmts);
+    let allow_without_rest =
+        has_pattern_assignment && prelude_contains_control_flow_stmt(prelude_stmts);
+    if !prelude_has_top_level_rest_pattern_assignment(prelude_stmts) && !allow_without_rest {
+        return None;
+    }
+
+    let mut outer_decls = Vec::new();
+    let mut prelude_compute = Vec::new();
+    let mut declared_bindings = Vec::<String>::new();
+    let mut declared_set = HashSet::<String>::new();
+
+    for stmt in prelude_stmts {
+        let Stmt::Decl(Decl::Var(var_decl)) = stmt else {
+            prelude_compute.push(stmt.clone());
+            continue;
+        };
+        if !matches!(var_decl.kind, VarDeclKind::Let | VarDeclKind::Const) {
+            prelude_compute.push(stmt.clone());
+            continue;
+        }
+        if var_decl
+            .decls
+            .iter()
+            .any(|decl| !matches!(decl.name, Pat::Ident(_)))
+        {
+            prelude_compute.push(stmt.clone());
+            continue;
+        }
+
+        for decl in &var_decl.decls {
+            let Pat::Ident(binding) = &decl.name else {
+                continue;
+            };
+            let name = binding.id.sym.to_string();
+            if declared_set.insert(name.clone()) {
+                declared_bindings.push(name.clone());
+            }
+
+            let used_in_compute = binding_referenced_in_stmts(compute_stmts, name.as_str());
+            let keep_outer_init = decl.init.as_ref().is_some_and(|init| {
+                used_in_compute && !is_static_alloc_literal_expr(init)
+            });
+            let outer_init = if keep_outer_init {
+                decl.init.clone()
+            } else {
+                None
+            };
+
+            outer_decls.push(make_var_decl(
+                VarDeclKind::Let,
+                Pat::Ident(BindingIdent {
+                    id: binding.id.clone(),
+                    type_ann: binding.type_ann.clone(),
+                }),
+                outer_init,
+            ));
+
+            if decl.init.is_some() && !keep_outer_init && used_in_compute {
+                prelude_compute.push(assign_stmt(
+                    AssignTarget::from(binding.id.clone()),
+                    decl.init.clone().expect("checked is_some"),
+                ));
+            }
+        }
+    }
+
+    if outer_decls.is_empty() || prelude_compute.is_empty() {
+        return None;
+    }
+
+    let mut cache_binding_names = collect_assigned_bindings_in_order_from_stmts(&prelude_compute);
+    cache_binding_names.retain(|name| declared_set.contains(name));
+    if cache_binding_names.len() < 2 {
+        return None;
+    }
+
+    let mut local_bindings = declared_set.clone();
+    for stmt in &prelude_compute {
+        collect_stmt_bindings_including_nested_blocks(stmt, &mut local_bindings);
+    }
+
+    let mut prelude_deps =
+        collect_dependencies_from_stmts(&prelude_compute, known_bindings, &local_bindings);
+    for dep in collect_called_local_function_capture_dependencies(&prelude_compute, known_bindings) {
+        if !prelude_deps.iter().any(|existing| existing.key == dep.key) {
+            prelude_deps.push(dep);
+        }
+    }
+    for dep in collect_stmt_function_capture_dependencies(&prelude_compute, known_bindings) {
+        if !prelude_deps.iter().any(|existing| existing.key == dep.key) {
+            prelude_deps.push(dep);
+        }
+    }
+    prelude_deps = reduce_dependencies(prelude_deps);
+    prelude_deps = reduce_nested_member_dependencies(prelude_deps);
+    if prelude_deps.is_empty() {
+        return None;
+    }
+
+    let cache_bindings = cache_binding_names
+        .into_iter()
+        .map(|name| Ident::new_no_ctxt(name.into(), DUMMY_SP))
+        .collect::<Vec<_>>();
+    let mut rewritten = outer_decls;
+    rewritten.extend(build_memoized_block_multi_values(
+        cache_ident,
+        slot_start,
+        &prelude_deps,
+        &cache_bindings,
+        prelude_compute,
+    ));
+    let slots = prelude_deps.len() as u32 + cache_bindings.len() as u32;
+    let values = cache_bindings.len() as u32;
+
+    Some((rewritten, slots, values))
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -6583,6 +9181,218 @@ fn maybe_split_single_element_array_initializer(
     *memo_values += 1;
 }
 
+fn match_pattern_assignment_default_memo_candidate(
+    stmt: &Stmt,
+    previous_stmt: Option<&Stmt>,
+) -> Option<(Ident, Box<Expr>, Ident)> {
+    let Stmt::Expr(expr_stmt) = stmt else {
+        return None;
+    };
+    let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+        return None;
+    };
+    if assign.op != op!("=") {
+        return None;
+    }
+    if !matches!(assign.left, AssignTarget::Pat(_)) {
+        return None;
+    }
+    let Expr::Ident(rhs_ident) = unwrap_transparent_expr(&assign.right) else {
+        return None;
+    };
+
+    let previous_stmt = previous_stmt?;
+    let Stmt::Decl(Decl::Var(var_decl)) = previous_stmt else {
+        return None;
+    };
+    if var_decl.kind != VarDeclKind::Const {
+        return None;
+    }
+    let [decl] = var_decl.decls.as_slice() else {
+        return None;
+    };
+    let Pat::Ident(binding) = &decl.name else {
+        return None;
+    };
+    if binding.id.sym != rhs_ident.sym {
+        return None;
+    }
+
+    let init_expr = decl.init.clone()?;
+    let Expr::Cond(cond_expr) = unwrap_transparent_expr(&init_expr) else {
+        return None;
+    };
+    let Expr::Bin(test_expr) = unwrap_transparent_expr(&cond_expr.test) else {
+        return None;
+    };
+    if test_expr.op != op!("===") {
+        return None;
+    }
+
+    let dep_ident = match (
+        unwrap_transparent_expr(&test_expr.left),
+        unwrap_transparent_expr(&test_expr.right),
+    ) {
+        (Expr::Ident(left), Expr::Ident(right)) if right.sym == "undefined" => left.clone(),
+        (Expr::Ident(left), Expr::Ident(right)) if left.sym == "undefined" => right.clone(),
+        _ => return None,
+    };
+
+    let Expr::Ident(alt_ident) = unwrap_transparent_expr(&cond_expr.alt) else {
+        return None;
+    };
+    if alt_ident.sym != dep_ident.sym {
+        return None;
+    }
+
+    Some((binding.id.clone(), init_expr, dep_ident))
+}
+
+fn lower_object_pattern_default_decl_with_memoization(
+    var_decl: &VarDecl,
+    cache_ident: &Ident,
+    slot_start: u32,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) -> Option<(Vec<Stmt>, u32, u32, u32)> {
+    #[derive(Clone)]
+    struct AssignDefaultTask {
+        binding: Ident,
+        source_temp: Ident,
+        default_expr: Option<Box<Expr>>,
+    }
+
+    if var_decl.kind != VarDeclKind::Const {
+        return None;
+    }
+    let [decl] = var_decl.decls.as_slice() else {
+        return None;
+    };
+    let Pat::Object(object_pat) = &decl.name else {
+        return None;
+    };
+    let init_expr = decl.init.clone()?;
+
+    let mut rewritten_props = Vec::with_capacity(object_pat.props.len());
+    let mut assign_tasks = Vec::<AssignDefaultTask>::new();
+    let mut changed = false;
+    let mut cursor = slot_start;
+    let mut added_blocks = 0u32;
+    let mut added_values = 0u32;
+
+    for prop in &object_pat.props {
+        match prop {
+            ObjectPatProp::Assign(assign_prop) => {
+                if assign_prop.value.is_none() {
+                    rewritten_props.push(ObjectPatProp::Assign(assign_prop.clone()));
+                    continue;
+                }
+
+                changed = true;
+                let source_temp = fresh_temp_ident(next_temp, reserved);
+                rewritten_props.push(ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
+                    key: PropName::Ident(assign_prop.key.id.clone().into()),
+                    value: Box::new(Pat::Ident(BindingIdent {
+                        id: source_temp.clone(),
+                        type_ann: None,
+                    })),
+                }));
+                assign_tasks.push(AssignDefaultTask {
+                    binding: assign_prop.key.id.clone(),
+                    source_temp,
+                    default_expr: assign_prop.value.clone(),
+                });
+            }
+            other => rewritten_props.push(other.clone()),
+        }
+    }
+
+    if !changed {
+        return None;
+    }
+
+    let mut follow_up_stmts = Vec::with_capacity(assign_tasks.len() * 2);
+    for task in assign_tasks {
+        let assign_expr = if let Some(default_expr) = &task.default_expr {
+            Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                span: DUMMY_SP,
+                test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("==="),
+                    left: Box::new(Expr::Ident(task.source_temp.clone())),
+                    right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                        "undefined".into(),
+                        DUMMY_SP,
+                    ))),
+                })),
+                cons: default_expr.clone(),
+                alt: Box::new(Expr::Ident(task.source_temp.clone())),
+            }))
+        } else {
+            Box::new(Expr::Ident(task.source_temp.clone()))
+        };
+
+        if task
+            .default_expr
+            .as_ref()
+            .is_some_and(|default_expr| is_static_alloc_literal_expr(default_expr))
+        {
+            let value_temp = fresh_temp_ident(next_temp, reserved);
+            let mut nested_compute =
+                vec![assign_stmt(AssignTarget::from(value_temp.clone()), assign_expr)];
+            strip_runtime_call_type_args_in_stmts(&mut nested_compute);
+
+            let nested_deps = vec![ReactiveDependency {
+                key: task.source_temp.sym.to_string(),
+                expr: Box::new(Expr::Ident(task.source_temp)),
+            }];
+            follow_up_stmts.extend(build_memoized_block(
+                cache_ident,
+                cursor,
+                &nested_deps,
+                &value_temp,
+                nested_compute,
+                true,
+            ));
+            cursor += nested_deps.len() as u32 + 1;
+            added_blocks += 1;
+            added_values += 1;
+
+            follow_up_stmts.push(make_var_decl(
+                VarDeclKind::Const,
+                Pat::Ident(BindingIdent {
+                    id: task.binding,
+                    type_ann: None,
+                }),
+                Some(Box::new(Expr::Ident(value_temp))),
+            ));
+        } else {
+            follow_up_stmts.push(make_var_decl(
+                VarDeclKind::Const,
+                Pat::Ident(BindingIdent {
+                    id: task.binding,
+                    type_ann: None,
+                }),
+                Some(assign_expr),
+            ));
+        }
+    }
+
+    let mut lowered = vec![make_var_decl(
+        var_decl.kind,
+        Pat::Object(swc_ecma_ast::ObjectPat {
+            span: object_pat.span,
+            props: rewritten_props,
+            optional: object_pat.optional,
+            type_ann: object_pat.type_ann.clone(),
+        }),
+        Some(init_expr),
+    )];
+    lowered.extend(follow_up_stmts);
+
+    Some((lowered, cursor - slot_start, added_blocks, added_values))
+}
+
 fn inject_nested_call_memoization_into_stmts(
     stmts: &mut Vec<Stmt>,
     known_bindings: &HashMap<String, bool>,
@@ -6614,6 +9424,25 @@ fn inject_nested_call_memoization_into_stmts(
         let remaining = &original[index + 1..];
 
         if let Stmt::Decl(Decl::Var(var_decl)) = &stmt {
+            if let Some((lowered_stmts, used_slots, nested_blocks, nested_values)) =
+                lower_object_pattern_default_decl_with_memoization(
+                    var_decl,
+                    cache_ident,
+                    cursor,
+                    reserved,
+                    next_temp,
+                )
+            {
+                cursor += used_slots;
+                added_blocks += nested_blocks;
+                added_values += nested_values;
+                for lowered_stmt in lowered_stmts {
+                    out.push(lowered_stmt.clone());
+                    mark_stmt_bindings_unstable(&lowered_stmt, &mut nested_known_bindings);
+                }
+                continue;
+            }
+
             let [decl] = var_decl.decls.as_slice() else {
                 out.push(stmt.clone());
                 mark_stmt_bindings_unstable(&stmt, &mut nested_known_bindings);
@@ -6629,6 +9458,53 @@ fn inject_nested_call_memoization_into_stmts(
                 mark_stmt_bindings_unstable(&stmt, &mut nested_known_bindings);
                 continue;
             };
+            if matches!(unwrap_transparent_expr(init_expr), Expr::Arrow(_) | Expr::Fn(_)) {
+                let nested_deps =
+                    collect_function_capture_dependencies(init_expr, &nested_known_bindings);
+                let has_length_dep = nested_deps.iter().any(|dep| dep.key.ends_with(".length"));
+                let supported_member_deps =
+                    has_length_dep && nested_deps.iter().all(|dep| dep.key.ends_with(".length"));
+                let captures_mutated_dep = nested_deps.iter().any(|dep| {
+                    let base = dep
+                        .key
+                        .split_once('.')
+                        .map(|(base, _)| base)
+                        .unwrap_or(dep.key.as_str());
+                    binding_reassigned_after(remaining, base)
+                        || binding_mutated_via_member_call_after(remaining, base)
+                        || binding_mutated_via_member_assignment_after(remaining, base)
+                        || binding_maybe_mutated_via_alias_after(remaining, base)
+                });
+                if !nested_deps.is_empty() && supported_member_deps && !captures_mutated_dep {
+                    let result_temp = fresh_temp_ident(next_temp, reserved);
+                    let mut nested_compute = vec![assign_stmt(
+                        AssignTarget::from(result_temp.clone()),
+                        init_expr.clone(),
+                    )];
+                    strip_runtime_call_type_args_in_stmts(&mut nested_compute);
+
+                    out.extend(build_memoized_block(
+                        cache_ident,
+                        cursor,
+                        &nested_deps,
+                        &result_temp,
+                        nested_compute,
+                        true,
+                    ));
+                    cursor += nested_deps.len() as u32 + 1;
+                    added_blocks += 1;
+                    added_values += 1;
+
+                    let rewritten_stmt = make_var_decl(
+                        var_decl.kind,
+                        Pat::Ident(binding.clone()),
+                        Some(Box::new(Expr::Ident(result_temp))),
+                    );
+                    out.push(rewritten_stmt.clone());
+                    mark_stmt_bindings_unstable(&rewritten_stmt, &mut nested_known_bindings);
+                    continue;
+                }
+            }
 
             let captured_by_called_local_function =
                 binding_captured_by_called_local_function_after(remaining, binding.id.sym.as_ref());
@@ -6882,6 +9758,39 @@ fn inject_nested_call_memoization_into_stmts(
                     continue;
                 }
             }
+        }
+
+        if let Some((value_binding, default_init_expr, dep_ident)) =
+            match_pattern_assignment_default_memo_candidate(&stmt, out.last())
+        {
+            out.pop();
+
+            let mut nested_compute = vec![assign_stmt(
+                AssignTarget::from(value_binding.clone()),
+                default_init_expr,
+            )];
+            strip_runtime_call_type_args_in_stmts(&mut nested_compute);
+
+            let nested_deps = vec![ReactiveDependency {
+                key: dep_ident.sym.to_string(),
+                expr: Box::new(Expr::Ident(dep_ident)),
+            }];
+            out.extend(build_memoized_block(
+                cache_ident,
+                cursor,
+                &nested_deps,
+                &value_binding,
+                nested_compute,
+                true,
+            ));
+            cursor += nested_deps.len() as u32 + 1;
+            added_blocks += 1;
+            added_values += 1;
+            nested_known_bindings.insert(value_binding.sym.to_string(), false);
+
+            out.push(stmt.clone());
+            mark_stmt_bindings_unstable(&stmt, &mut nested_known_bindings);
+            continue;
         }
 
         let mut rewritten_stmt = stmt.clone();
@@ -9507,6 +12416,19 @@ fn unwrap_transparent_expr(mut expr: &Expr) -> &Expr {
     }
 }
 
+fn parenthesize_conditional_expr(expr: Box<Expr>) -> Box<Expr> {
+    let needs_paren = matches!(unwrap_transparent_expr(&expr), Expr::Cond(_))
+        && !matches!(&*expr, Expr::Paren(_));
+    if needs_paren {
+        Box::new(Expr::Paren(swc_ecma_ast::ParenExpr {
+            span: DUMMY_SP,
+            expr,
+        }))
+    } else {
+        expr
+    }
+}
+
 fn assign_target_is_member_of_binding(target: &AssignTarget, name: &str) -> bool {
     let Some(simple_target) = target.as_simple() else {
         return false;
@@ -9965,6 +12887,47 @@ fn has_create_element_result_assignment_with_post_calls(stmts: &[Stmt], name: &s
     })
 }
 
+fn prelude_has_top_level_rest_pattern_assignment(stmts: &[Stmt]) -> bool {
+    stmts.iter().any(|stmt| {
+        let Stmt::Expr(expr_stmt) = stmt else {
+            return false;
+        };
+        let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+            return false;
+        };
+        if assign.op != op!("=") {
+            return false;
+        }
+        let AssignTarget::Pat(assign_pat) = &assign.left else {
+            return false;
+        };
+        pattern_has_top_level_rest(&Pat::from(assign_pat.clone()))
+    })
+}
+
+fn prelude_contains_control_flow_stmt(stmts: &[Stmt]) -> bool {
+    stmts.iter().any(|stmt| {
+        matches!(
+            stmt,
+            Stmt::If(if_stmt) if if_stmt.alt.is_none()
+        ) || matches!(
+            stmt,
+                | Stmt::Switch(_)
+                | Stmt::Try(_)
+                | Stmt::For(_)
+                | Stmt::ForIn(_)
+                | Stmt::ForOf(_)
+                | Stmt::While(_)
+                | Stmt::DoWhile(_)
+                | Stmt::Labeled(_)
+        )
+    })
+}
+
+fn prelude_contains_if_with_else(stmts: &[Stmt]) -> bool {
+    stmts.iter().any(|stmt| matches!(stmt, Stmt::If(if_stmt) if if_stmt.alt.is_some()))
+}
+
 fn split_direct_call_prelude_from_compute_stmts(
     compute_stmts: &mut Vec<Stmt>,
     temp_name: &str,
@@ -10004,6 +12967,7 @@ fn split_direct_call_prelude_from_compute_stmts(
     if !contains_direct_call(&compute_stmts[..split_index])
         && !has_local_direct_call_prelude
         && !has_local_member_mutation_prelude
+        && !stmts_contain_pattern_assignment(&compute_stmts[..split_index])
     {
         return Vec::new();
     }
@@ -10074,6 +13038,89 @@ fn split_direct_call_prelude_from_compute_stmts(
     prelude
 }
 
+fn build_memoized_block_multi_values(
+    cache_ident: &Ident,
+    slot_start: u32,
+    deps: &[ReactiveDependency],
+    value_bindings: &[Ident],
+    mut compute_stmts: Vec<Stmt>,
+) -> Vec<Stmt> {
+    if value_bindings.is_empty() {
+        return Vec::new();
+    }
+
+    let test = if deps.is_empty() {
+        Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+            span: DUMMY_SP,
+            op: op!("==="),
+            left: make_cache_index_expr(cache_ident, slot_start),
+            right: memo_cache_sentinel_expr(),
+        }))
+    } else {
+        let mut current = Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+            span: DUMMY_SP,
+            op: op!("!=="),
+            left: make_cache_index_expr(cache_ident, slot_start),
+            right: deps[0].expr.clone(),
+        }));
+        for (index, dep) in deps.iter().enumerate().skip(1) {
+            current = Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                span: DUMMY_SP,
+                op: op!("||"),
+                left: current,
+                right: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("!=="),
+                    left: make_cache_index_expr(cache_ident, slot_start + index as u32),
+                    right: dep.expr.clone(),
+                })),
+            }));
+        }
+        current
+    };
+
+    for (index, dep) in deps.iter().enumerate() {
+        compute_stmts.push(assign_stmt(
+            AssignTarget::from(make_cache_member(cache_ident, slot_start + index as u32)),
+            dep.expr.clone(),
+        ));
+    }
+
+    let value_slot_start = slot_start + deps.len() as u32;
+    for (index, binding) in value_bindings.iter().enumerate() {
+        compute_stmts.push(assign_stmt(
+            AssignTarget::from(make_cache_member(cache_ident, value_slot_start + index as u32)),
+            Box::new(Expr::Ident(binding.clone())),
+        ));
+    }
+
+    let else_stmts = value_bindings
+        .iter()
+        .enumerate()
+        .map(|(index, binding)| {
+            assign_stmt(
+                AssignTarget::from(binding.clone()),
+                make_cache_index_expr(cache_ident, value_slot_start + index as u32),
+            )
+        })
+        .collect::<Vec<_>>();
+
+    vec![Stmt::If(IfStmt {
+        span: DUMMY_SP,
+        test,
+        cons: Box::new(Stmt::Block(BlockStmt {
+            span: DUMMY_SP,
+            ctxt: Default::default(),
+            stmts: compute_stmts,
+        })),
+        alt: Some(Box::new(Stmt::Block(BlockStmt {
+            span: DUMMY_SP,
+            ctxt: Default::default(),
+            stmts: else_stmts,
+        }))),
+    })]
+}
+
 fn stmt_assigned_rhs<'a>(stmt: &'a Stmt, target_name: &str) -> Option<&'a Expr> {
     match stmt {
         Stmt::Expr(expr_stmt) => {
@@ -10125,6 +13172,156 @@ fn collect_ident_references_in_expr(expr: &Expr) -> HashSet<String> {
     let mut collector = Collector::default();
     expr.visit_with(&mut collector);
     collector.names
+}
+
+fn stmts_contain_pattern_assignment(stmts: &[Stmt]) -> bool {
+    struct Finder {
+        found: bool,
+    }
+
+    impl Visit for Finder {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_assign_expr(&mut self, assign: &AssignExpr) {
+            if matches!(assign.left, AssignTarget::Pat(_)) {
+                self.found = true;
+                return;
+            }
+            assign.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder { found: false };
+    for stmt in stmts {
+        stmt.visit_with(&mut finder);
+        if finder.found {
+            return true;
+        }
+    }
+    false
+}
+
+fn collect_assigned_bindings_in_order_from_stmts(stmts: &[Stmt]) -> Vec<String> {
+    let mut out = Vec::new();
+    let mut seen = HashSet::new();
+    for stmt in stmts {
+        collect_assigned_bindings_in_order_from_stmt(stmt, &mut out, &mut seen);
+    }
+    out
+}
+
+fn collect_assigned_bindings_in_order_from_stmt(
+    stmt: &Stmt,
+    out: &mut Vec<String>,
+    seen: &mut HashSet<String>,
+) {
+    match stmt {
+        Stmt::Expr(expr_stmt) => {
+            let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+                return;
+            };
+            if let Some(ident) = assign.left.as_ident() {
+                let name = ident.id.sym.to_string();
+                if seen.insert(name.clone()) {
+                    out.push(name);
+                }
+                return;
+            }
+            let AssignTarget::Pat(assign_pat) = &assign.left else {
+                return;
+            };
+            let pat = Pat::from(assign_pat.clone());
+            for name in collect_pattern_binding_names_in_order(&pat) {
+                if seen.insert(name.clone()) {
+                    out.push(name);
+                }
+            }
+        }
+        Stmt::Decl(Decl::Var(var_decl)) => {
+            for decl in &var_decl.decls {
+                if decl.init.is_none() {
+                    continue;
+                }
+                for name in collect_pattern_binding_names_in_order(&decl.name) {
+                    if seen.insert(name.clone()) {
+                        out.push(name);
+                    }
+                }
+            }
+        }
+        Stmt::Block(block) => {
+            for nested in &block.stmts {
+                collect_assigned_bindings_in_order_from_stmt(nested, out, seen);
+            }
+        }
+        Stmt::Labeled(labeled) => {
+            collect_assigned_bindings_in_order_from_stmt(&labeled.body, out, seen);
+        }
+        Stmt::If(if_stmt) => {
+            collect_assigned_bindings_in_order_from_stmt(&if_stmt.cons, out, seen);
+            if let Some(alt) = &if_stmt.alt {
+                collect_assigned_bindings_in_order_from_stmt(alt, out, seen);
+            }
+        }
+        Stmt::Switch(switch_stmt) => {
+            for case in &switch_stmt.cases {
+                for cons in &case.cons {
+                    collect_assigned_bindings_in_order_from_stmt(cons, out, seen);
+                }
+            }
+        }
+        Stmt::Try(try_stmt) => {
+            for nested in &try_stmt.block.stmts {
+                collect_assigned_bindings_in_order_from_stmt(nested, out, seen);
+            }
+            if let Some(handler) = &try_stmt.handler {
+                for nested in &handler.body.stmts {
+                    collect_assigned_bindings_in_order_from_stmt(nested, out, seen);
+                }
+            }
+            if let Some(finalizer) = &try_stmt.finalizer {
+                for nested in &finalizer.stmts {
+                    collect_assigned_bindings_in_order_from_stmt(nested, out, seen);
+                }
+            }
+        }
+        _ => {}
+    }
+}
+
+fn collect_pattern_binding_names_in_order(pat: &Pat) -> Vec<String> {
+    fn collect(pat: &Pat, out: &mut Vec<String>) {
+        match pat {
+            Pat::Ident(binding) => out.push(binding.id.sym.to_string()),
+            Pat::Array(array) => {
+                for element in array.elems.iter().flatten() {
+                    collect(element, out);
+                }
+            }
+            Pat::Object(object) => {
+                for prop in &object.props {
+                    match prop {
+                        ObjectPatProp::Assign(assign) => out.push(assign.key.id.sym.to_string()),
+                        ObjectPatProp::KeyValue(key_value) => collect(&key_value.value, out),
+                        ObjectPatProp::Rest(rest) => collect(&rest.arg, out),
+                    }
+                }
+            }
+            Pat::Assign(assign) => collect(&assign.left, out),
+            Pat::Rest(rest) => collect(&rest.arg, out),
+            Pat::Invalid(_) | Pat::Expr(_) => {}
+        }
+    }
+
+    let mut out = Vec::new();
+    collect(pat, &mut out);
+    out
 }
 
 fn extract_trailing_post_compute_side_effect_stmts(
@@ -12905,6 +16102,9 @@ fn should_passthrough_pure_initializer(expr: &Expr) -> bool {
     if expr_has_observable_side_effect(expr) {
         return false;
     }
+    if default_param_conditional_allocates_identity(expr) {
+        return false;
+    }
 
     matches!(
         unwrap_transparent_expr(expr),
@@ -12915,6 +16115,22 @@ fn should_passthrough_pure_initializer(expr: &Expr) -> bool {
             | Expr::Cond(_)
             | Expr::Member(_)
             | Expr::Tpl(_)
+    )
+}
+
+fn default_param_conditional_allocates_identity(expr: &Expr) -> bool {
+    let Expr::Cond(cond) = unwrap_transparent_expr(expr) else {
+        return false;
+    };
+
+    matches!(
+        unwrap_transparent_expr(&cond.cons),
+        Expr::Array(_)
+            | Expr::Object(_)
+            | Expr::Class(_)
+            | Expr::New(_)
+            | Expr::JSXElement(_)
+            | Expr::JSXFragment(_)
     )
 }
 
@@ -15042,6 +18258,74 @@ fn should_skip_result_tail_outer_memoization(stmts: &[Stmt], name: &str) -> bool
         && contains_object_assignment_to_binding(stmts, name)
 }
 
+fn should_skip_result_tail_pattern_assignment_outer_memoization(
+    stmts: &[Stmt],
+    name: &str,
+) -> bool {
+    let [Stmt::If(if_stmt)] = stmts else {
+        return false;
+    };
+    let Some(alt) = if_stmt.alt.as_deref() else {
+        return false;
+    };
+
+    let consequent_assigns = contains_direct_assignment_to_binding(
+        std::slice::from_ref(if_stmt.cons.as_ref()),
+        name,
+    ) || contains_pattern_assignment_to_binding(std::slice::from_ref(if_stmt.cons.as_ref()), name);
+    let alternate_assigns = contains_direct_assignment_to_binding(std::slice::from_ref(alt), name)
+        || contains_pattern_assignment_to_binding(std::slice::from_ref(alt), name);
+
+    !contains_return_stmt_in_stmts(stmts)
+        && !contains_direct_call(stmts)
+        && consequent_assigns
+        && alternate_assigns
+        && contains_pattern_assignment_to_binding(stmts, name)
+}
+
+fn contains_pattern_assignment_to_binding(stmts: &[Stmt], name: &str) -> bool {
+    #[derive(Default)]
+    struct Finder<'a> {
+        name: &'a str,
+        found: bool,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_assign_expr(&mut self, assign: &AssignExpr) {
+            let AssignTarget::Pat(assign_pat) = &assign.left else {
+                assign.visit_children_with(self);
+                return;
+            };
+            let pat = Pat::from(assign_pat.clone());
+            if collect_pattern_binding_names(&pat)
+                .iter()
+                .any(|binding| binding == self.name)
+            {
+                self.found = true;
+                return;
+            }
+            assign.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder { name, found: false };
+    for stmt in stmts {
+        stmt.visit_with(&mut finder);
+        if finder.found {
+            return true;
+        }
+    }
+    false
+}
+
 fn contains_object_assignment_to_binding(stmts: &[Stmt], name: &str) -> bool {
     #[derive(Default)]
     struct Finder<'a> {
@@ -15416,14 +18700,27 @@ fn make_var_decl(kind: VarDeclKind, name: Pat, init: Option<Box<Expr>>) -> Stmt 
 }
 
 fn assign_stmt(left: AssignTarget, right: Box<Expr>) -> Stmt {
+    let needs_paren = matches!(
+        &left,
+        AssignTarget::Pat(assign_pat) if matches!(Pat::from(assign_pat.clone()), Pat::Object(_))
+    );
+    let assign = Expr::Assign(AssignExpr {
+        span: DUMMY_SP,
+        op: op!("="),
+        left,
+        right,
+    });
+
     Stmt::Expr(ExprStmt {
         span: DUMMY_SP,
-        expr: Box::new(Expr::Assign(AssignExpr {
-            span: DUMMY_SP,
-            op: op!("="),
-            left,
-            right,
-        })),
+        expr: if needs_paren {
+            Box::new(Expr::Paren(swc_ecma_ast::ParenExpr {
+                span: DUMMY_SP,
+                expr: Box::new(assign),
+            }))
+        } else {
+            Box::new(assign)
+        },
     })
 }
 
