@@ -11137,10 +11137,7 @@ fn prelude_mutates_result_source(stmts: &[Stmt], source_name: &str) -> bool {
 }
 
 fn prelude_mutates_binding_for_non_ident_rhs_split_guard(stmts: &[Stmt], name: &str) -> bool {
-    has_assignment_to_binding(stmts, name)
-        || binding_mutated_via_member_call_after(stmts, name)
-        || binding_mutated_via_member_assignment_after(stmts, name)
-        || binding_captured_by_called_local_function_after(stmts, name)
+    binding_captured_by_called_local_function_after(stmts, name)
         || binding_maybe_mutated_in_called_iife_after(stmts, name)
 }
 
