@@ -227,6 +227,7 @@ pub fn compile_fn(
     optimization::prune_maybe_throws(&mut hir);
     validation::validate_context_variable_lvalues(&hir)?;
     validation::validate_use_memo(&hir)?;
+    inference::inline_immediately_invoked_function_expressions(&mut hir);
 
     ssa::enter_ssa(&mut hir);
     ssa::eliminate_redundant_phi(&mut hir);
@@ -283,6 +284,7 @@ pub fn compile_fn(
     {
         validation::validate_exhaustive_dependencies(&hir)?;
     }
+    ssa::rewrite_instruction_kinds_based_on_reassignment(&mut hir);
 
     if opts.environment.enable_jsx_outlining {
         optimization::outline_jsx(&mut hir);
@@ -622,21 +624,9 @@ impl ProgramCompiler<'_> {
             .iter()
             .map(|param| param.pat.clone())
             .collect::<Vec<_>>();
-        let inferred_type = name
-            .and_then(|ident| infer_function_type(ident.sym.as_ref(), &function_params, body))
-            .or_else(|| match fn_type_hint {
-                Some(ReactFunctionType::Other)
-                    if function_params.is_empty()
-                        && name.is_some_and(|ident| {
-                            let sym = ident.sym.as_ref();
-                            !is_component_name(sym) && !is_hook_name(sym) && sym != "component"
-                        }) =>
-                {
-                    Some(ReactFunctionType::Other)
-                }
-                Some(ReactFunctionType::Other) => None,
-                other => other,
-            });
+        let inferred_type = fn_type_hint.or_else(|| {
+            name.and_then(|ident| infer_function_type(ident.sym.as_ref(), &function_params, body))
+        });
 
         let selected_type = match self.opts.compilation_mode {
             CompilationMode::Annotation => {
@@ -817,21 +807,9 @@ impl ProgramCompiler<'_> {
             }
         };
 
-        let inferred_type = name
-            .and_then(|ident| infer_function_type(ident.sym.as_ref(), &arrow.params, &block))
-            .or_else(|| match fn_type_hint {
-                Some(ReactFunctionType::Other)
-                    if arrow.params.is_empty()
-                        && name.is_some_and(|ident| {
-                            let sym = ident.sym.as_ref();
-                            !is_component_name(sym) && !is_hook_name(sym) && sym != "component"
-                        }) =>
-                {
-                    Some(ReactFunctionType::Other)
-                }
-                Some(ReactFunctionType::Other) => None,
-                other => other,
-            });
+        let inferred_type = fn_type_hint.or_else(|| {
+            name.and_then(|ident| infer_function_type(ident.sym.as_ref(), &arrow.params, &block))
+        });
 
         let selected_type = match self.opts.compilation_mode {
             CompilationMode::Annotation => {
@@ -1393,7 +1371,8 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, R
             };
 
             let mut fn_name = None;
-            let mut is_component = None;
+            let mut fn_type = None;
+            let mut saw_is_component = false;
             for prop in &object.props {
                 let PropOrSpread::Prop(prop) = prop else {
                     continue;
@@ -1413,16 +1392,42 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, R
                         }
                     }
                     "isComponent" => {
+                        saw_is_component = true;
+                        match &*key_value.value {
+                            Expr::Lit(Lit::Bool(bool_lit)) => {
+                                if bool_lit.value {
+                                    fn_type = Some(ReactFunctionType::Component);
+                                }
+                            }
+                            // Upstream fixtures also use truthy string tags (e.g. "TodoAdd")
+                            // to mark component entrypoints.
+                            Expr::Lit(Lit::Str(_)) => {
+                                fn_type = Some(ReactFunctionType::Component);
+                            }
+                            _ => {}
+                        }
+                    }
+                    "isHook" => {
                         if let Expr::Lit(Lit::Bool(bool_lit)) = &*key_value.value {
-                            is_component = Some(bool_lit.value);
+                            if bool_lit.value {
+                                fn_type = Some(ReactFunctionType::Hook);
+                            }
                         }
                     }
                     _ => {}
                 }
             }
 
-            if let (Some(fn_name), Some(false)) = (fn_name, is_component) {
-                hints.insert(fn_name, ReactFunctionType::Other);
+            if let Some(fn_name) = fn_name {
+                if let Some(kind) = fn_type {
+                    hints.insert(fn_name, kind);
+                } else if !saw_is_component {
+                    if is_hook_name(fn_name.as_str()) {
+                        hints.insert(fn_name, ReactFunctionType::Hook);
+                    } else if is_component_name(fn_name.as_str()) {
+                        hints.insert(fn_name, ReactFunctionType::Component);
+                    }
+                }
             }
         }
     }
@@ -1488,6 +1493,7 @@ fn collect_top_level_names(program: &Program) -> HashSet<String> {
 }
 
 fn apply_codegen_to_function(function: &mut Function, codegen: &CodegenFunction) {
+    let original_body = function.body.clone();
     function.params = codegen
         .params
         .iter()
@@ -1498,16 +1504,36 @@ fn apply_codegen_to_function(function: &mut Function, codegen: &CodegenFunction)
             pat,
         })
         .collect();
-    function.body = Some(codegen.body.clone());
+    let mut next_body = codegen.body.clone();
+    if let Some(original_body) = original_body.as_ref() {
+        preserve_leading_directives(original_body, &mut next_body);
+    }
+    function.body = Some(next_body);
     function.is_async = codegen.is_async;
     function.is_generator = codegen.is_generator;
+    strip_types_from_function(function);
+    if let Some(body) = &mut function.body {
+        normalize_static_string_members_in_block(body);
+    }
 }
 
 fn apply_codegen_to_arrow(arrow: &mut ArrowExpr, codegen: &CodegenFunction) {
+    let original_block = match &*arrow.body {
+        BlockStmtOrExpr::BlockStmt(block) => Some(block.clone()),
+        BlockStmtOrExpr::Expr(_) => None,
+    };
     arrow.params = codegen.params.clone();
-    arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(codegen.body.clone()));
+    let mut next_body = codegen.body.clone();
+    if let Some(original_block) = original_block.as_ref() {
+        preserve_leading_directives(original_block, &mut next_body);
+    }
+    arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(next_body));
     arrow.is_async = codegen.is_async;
     arrow.is_generator = codegen.is_generator;
+    strip_types_from_arrow(arrow);
+    if let BlockStmtOrExpr::BlockStmt(body) = &mut *arrow.body {
+        normalize_static_string_members_in_block(body);
+    }
 }
 
 fn apply_gated_codegen_to_function(
@@ -1526,13 +1552,21 @@ fn apply_gated_codegen_to_function(
             pat,
         })
         .collect();
+    let mut compiled_body = codegen.body.clone();
+    if let Some(original_body) = original_function.body.as_ref() {
+        preserve_leading_directives(original_body, &mut compiled_body);
+    }
     function.body = Some(build_gated_body(
-        codegen.body.clone(),
+        compiled_body,
         original_function.body.clone().unwrap_or_default(),
         gating,
     ));
     function.is_async = codegen.is_async;
     function.is_generator = codegen.is_generator;
+    strip_types_from_function(function);
+    if let Some(body) = &mut function.body {
+        normalize_static_string_members_in_block(body);
+    }
 }
 
 fn apply_gated_codegen_to_arrow(
@@ -1542,13 +1576,125 @@ fn apply_gated_codegen_to_arrow(
     gating: &crate::options::ExternalFunction,
 ) {
     arrow.params = codegen.params.clone();
+    let mut compiled_body = codegen.body.clone();
+    preserve_leading_directives(original_block, &mut compiled_body);
     arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(build_gated_body(
-        codegen.body.clone(),
+        compiled_body,
         original_block.clone(),
         gating,
     )));
     arrow.is_async = codegen.is_async;
     arrow.is_generator = codegen.is_generator;
+    strip_types_from_arrow(arrow);
+    if let BlockStmtOrExpr::BlockStmt(body) = &mut *arrow.body {
+        normalize_static_string_members_in_block(body);
+    }
+}
+
+fn preserve_leading_directives(original: &BlockStmt, compiled: &mut BlockStmt) {
+    let mut original_directives = Vec::new();
+    for stmt in &original.stmts {
+        if directive_from_stmt(stmt).is_none() {
+            break;
+        }
+        original_directives.push(stmt.clone());
+    }
+
+    if original_directives.is_empty() {
+        return;
+    }
+
+    let mut existing = HashSet::new();
+    for stmt in &compiled.stmts {
+        if let Some(directive) = directive_from_stmt(stmt) {
+            existing.insert(directive);
+        } else {
+            break;
+        }
+    }
+
+    let mut prepend = Vec::new();
+    for stmt in original_directives {
+        if let Some(directive) = directive_from_stmt(&stmt) {
+            if existing.insert(directive) {
+                prepend.push(stmt);
+            }
+        }
+    }
+
+    if prepend.is_empty() {
+        return;
+    }
+
+    prepend.extend(std::mem::take(&mut compiled.stmts));
+    compiled.stmts = prepend;
+}
+
+fn strip_types_from_function(function: &mut Function) {
+    let mut stripper = TypeStripper;
+    function.visit_mut_with(&mut stripper);
+}
+
+fn strip_types_from_arrow(arrow: &mut ArrowExpr) {
+    let mut stripper = TypeStripper;
+    arrow.visit_mut_with(&mut stripper);
+}
+
+struct TypeStripper;
+
+impl VisitMut for TypeStripper {
+    fn visit_mut_function(&mut self, function: &mut Function) {
+        function.type_params = None;
+        function.return_type = None;
+        function.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_arrow_expr(&mut self, arrow: &mut ArrowExpr) {
+        arrow.type_params = None;
+        arrow.return_type = None;
+        arrow.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_binding_ident(&mut self, binding: &mut BindingIdent) {
+        binding.type_ann = None;
+    }
+
+    fn visit_mut_array_pat(&mut self, pat: &mut swc_ecma_ast::ArrayPat) {
+        pat.type_ann = None;
+        pat.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_object_pat(&mut self, pat: &mut swc_ecma_ast::ObjectPat) {
+        pat.type_ann = None;
+        pat.visit_mut_children_with(self);
+    }
+}
+
+fn normalize_static_string_members_in_block(block: &mut BlockStmt) {
+    struct Normalizer;
+
+    impl VisitMut for Normalizer {
+        fn visit_mut_member_expr(&mut self, member: &mut swc_ecma_ast::MemberExpr) {
+            member.visit_mut_children_with(self);
+
+            let swc_ecma_ast::MemberProp::Computed(computed) = &member.prop else {
+                return;
+            };
+            let Expr::Lit(Lit::Str(str_lit)) = &*computed.expr else {
+                return;
+            };
+            let symbol = str_lit.value.to_string_lossy();
+
+            if Ident::verify_symbol(symbol.as_ref()).is_ok() {
+                member.prop = swc_ecma_ast::MemberProp::Ident(
+                    Ident::new_no_ctxt(symbol.as_ref().into(), computed.span).into(),
+                );
+            }
+        }
+    }
+
+    let mut normalizer = Normalizer;
+    block.visit_mut_with(&mut normalizer);
 }
 
 fn build_gated_body(

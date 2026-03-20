@@ -1,36 +1,14 @@
-use crate::hir::HirFunction;
+mod constant_propagation;
+mod dead_code_elimination;
+mod optimize_for_ssr;
+mod optimize_props_method_calls;
+mod outline_functions;
+mod outline_jsx;
+mod prune_maybe_throws;
 
-/// Prunes known throw-only instructions.
-pub fn prune_maybe_throws(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Runs constant propagation.
-pub fn constant_propagation(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Runs dead-code elimination.
-pub fn dead_code_elimination(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Optimizes props method calls.
-pub fn optimize_props_method_calls(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// SSR-specific optimizations.
-pub fn optimize_for_ssr(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Placeholder for outlined JSX lowering.
-pub fn outline_jsx(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Placeholder for outlined function extraction.
-pub fn outline_functions(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
+pub use self::{
+    constant_propagation::constant_propagation, dead_code_elimination::dead_code_elimination,
+    optimize_for_ssr::optimize_for_ssr, optimize_props_method_calls::optimize_props_method_calls,
+    outline_functions::outline_functions, outline_jsx::outline_jsx,
+    prune_maybe_throws::prune_maybe_throws,
+};

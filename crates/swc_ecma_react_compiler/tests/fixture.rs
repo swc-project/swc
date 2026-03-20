@@ -1060,6 +1060,30 @@ fn upstream_inputs(manifest: &Path, root: &Path) -> Vec<PathBuf> {
     inputs
 }
 
+fn fixtures_root() -> PathBuf {
+    if let Ok(root) = std::env::var("REACT_COMPILER_FIXTURES_ROOT") {
+        let root = root.trim();
+        if !root.is_empty() {
+            return PathBuf::from(root);
+        }
+    }
+
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("tests")
+        .join("fixtures")
+}
+
+fn configured_path(root: &Path, env_key: &str, default: &str) -> PathBuf {
+    if let Ok(path) = std::env::var(env_key) {
+        let path = path.trim();
+        if !path.is_empty() {
+            return PathBuf::from(path);
+        }
+    }
+
+    root.join(default)
+}
+
 #[test]
 fn fixture_cases_local() {
     let inputs = local_inputs();
@@ -1079,11 +1103,13 @@ fn fixture_cases_upstream() {
         return;
     }
 
-    let fixture_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("tests")
-        .join("fixtures");
-    let manifest = fixture_root.join("upstream_manifest.txt");
-    let upstream_root = fixture_root.join("upstream");
+    let fixture_root = fixtures_root();
+    let manifest = configured_path(
+        &fixture_root,
+        "REACT_COMPILER_UPSTREAM_MANIFEST",
+        "upstream_manifest.txt",
+    );
+    let upstream_root = configured_path(&fixture_root, "REACT_COMPILER_UPSTREAM_ROOT", "upstream");
 
     let inputs = upstream_inputs(&manifest, &upstream_root);
     assert!(
@@ -1107,18 +1133,24 @@ fn fixture_cases_upstream_phase1() {
         return;
     }
 
-    let fixture_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("tests")
-        .join("fixtures");
-    let manifest = fixture_root.join("upstream_phase1_manifest.txt");
-    let upstream_root = fixture_root.join("upstream_phase1");
+    let fixture_root = fixtures_root();
+    let manifest = configured_path(
+        &fixture_root,
+        "REACT_COMPILER_UPSTREAM_PHASE1_MANIFEST",
+        "upstream_phase1_manifest.txt",
+    );
+    // Phase1 fixtures live in the same upstream root, selected by manifest.
+    let upstream_root = configured_path(
+        &fixture_root,
+        "REACT_COMPILER_UPSTREAM_PHASE1_ROOT",
+        "upstream",
+    );
 
     let inputs = upstream_inputs(&manifest, &upstream_root);
     assert!(
         !inputs.is_empty(),
         "no upstream phase1 fixtures found. run `scripts/sync_fixtures.sh --manifest \
-         tests/fixtures/upstream_phase1_manifest.txt --out-dir tests/fixtures/upstream_phase1` \
-         first"
+         tests/fixtures/upstream_phase1_manifest.txt --out-dir tests/fixtures/upstream` first"
     );
 
     for input in inputs {
