@@ -241,7 +241,7 @@ fn emit_output(
             .parent()
             .expect("Parent should be available");
 
-        if !output_dir.is_dir() {
+        if !output_dir.as_os_str().is_empty() && !output_dir.is_dir() {
             fs::create_dir_all(output_dir)?;
         }
 
@@ -474,11 +474,12 @@ impl CompileOptions {
                 )
                 .collect();
 
-            fs::create_dir_all(
-                single_out_file
-                    .parent()
-                    .expect("Parent should be available"),
-            )?;
+            let parent = single_out_file
+                .parent()
+                .expect("Parent should be available");
+            if !parent.as_os_str().is_empty() {
+                fs::create_dir_all(parent)?;
+            }
             let mut buf = File::create(single_out_file)?;
             let mut buf_srcmap = None;
             let mut buf_dts = None;
