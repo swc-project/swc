@@ -557,9 +557,10 @@ impl Lexer<'_> {
     }
 
     fn scan_jsx_attrs_terminal_token(&mut self) -> LexResult<Token> {
-        if self.input.eat_byte(b'>') {
+        // Safety: b'>' and b'/' are ASCII.
+        if unsafe { self.input.eat_byte(b'>') } {
             Ok(Token::Gt)
-        } else if self.input.eat_byte(b'/') {
+        } else if unsafe { self.input.eat_byte(b'/') } {
             Ok(Token::Slash)
         } else {
             self.read_token()
