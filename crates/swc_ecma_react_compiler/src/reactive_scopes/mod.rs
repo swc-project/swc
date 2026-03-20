@@ -516,6 +516,47 @@ fn outline_non_capturing_inline_functions_in_stmt(
                 self.outlined,
             );
         }
+
+        fn visit_mut_assign_pat(&mut self, assign_pat: &mut swc_ecma_ast::AssignPat) {
+            assign_pat.visit_mut_children_with(self);
+            try_outline_non_capturing_function_expr(
+                &mut assign_pat.right,
+                self.outer_bindings,
+                self.used_names,
+                self.outlined,
+            );
+        }
+
+        fn visit_mut_array_lit(&mut self, array: &mut swc_ecma_ast::ArrayLit) {
+            array.visit_mut_children_with(self);
+            for elem in array.elems.iter_mut().flatten() {
+                if elem.spread.is_some() {
+                    continue;
+                }
+                try_outline_non_capturing_function_expr(
+                    &mut elem.expr,
+                    self.outer_bindings,
+                    self.used_names,
+                    self.outlined,
+                );
+            }
+        }
+
+        fn visit_mut_cond_expr(&mut self, cond: &mut swc_ecma_ast::CondExpr) {
+            cond.visit_mut_children_with(self);
+            try_outline_non_capturing_function_expr(
+                &mut cond.cons,
+                self.outer_bindings,
+                self.used_names,
+                self.outlined,
+            );
+            try_outline_non_capturing_function_expr(
+                &mut cond.alt,
+                self.outer_bindings,
+                self.used_names,
+                self.outlined,
+            );
+        }
     }
 
     let mut outliner = Outliner {
@@ -607,7 +648,7 @@ fn outline_non_capturing_call_args(
     used_names: &mut HashSet<String>,
     outlined: &mut Vec<OutlinedFunction>,
 ) {
-    if call_has_hook_callee(call) {
+    if call_has_hook_callee(call) && !call_is_outlineable_hook_call(call) {
         return;
     }
 
@@ -621,6 +662,25 @@ fn outline_non_capturing_call_args(
             used_names,
             outlined,
         );
+    }
+}
+
+fn call_is_outlineable_hook_call(call: &CallExpr) -> bool {
+    let Callee::Expr(callee_expr) = &call.callee else {
+        return false;
+    };
+
+    match unwrap_transparent_expr(callee_expr) {
+        Expr::Ident(callee) => matches!(callee.sym.as_ref(), "useCallback"),
+        Expr::Member(member) => {
+            matches!(&*member.obj, Expr::Ident(object) if object.sym == "React")
+                && matches!(
+                    &member.prop,
+                    MemberProp::Ident(property)
+                        if matches!(property.sym.as_ref(), "useCallback")
+                )
+        }
+        _ => false,
     }
 }
 
@@ -703,6 +763,54 @@ fn rename_ident_in_block(body: &mut BlockStmt, from: &str, to: &str) {
     body.visit_mut_with(&mut renamer);
 }
 
+fn rename_ident_in_nested_functions_without_param_shadow(
+    body: &mut BlockStmt,
+    from: &str,
+    to: &str,
+) {
+    struct Renamer<'a> {
+        from: &'a str,
+        to: &'a str,
+    }
+
+    impl VisitMut for Renamer<'_> {
+        fn visit_mut_function(&mut self, function: &mut Function) {
+            let mut param_bindings = HashSet::new();
+            for param in &function.params {
+                collect_pattern_bindings(&param.pat, &mut param_bindings);
+            }
+            if param_bindings.contains(self.from) {
+                return;
+            }
+            if let Some(body) = &mut function.body {
+                body.visit_mut_children_with(self);
+            }
+        }
+
+        fn visit_mut_arrow_expr(&mut self, arrow: &mut ArrowExpr) {
+            let mut param_bindings = HashSet::new();
+            for pat in &arrow.params {
+                collect_pattern_bindings(pat, &mut param_bindings);
+            }
+            if param_bindings.contains(self.from) {
+                return;
+            }
+            arrow.visit_mut_children_with(self);
+        }
+
+        fn visit_mut_ident(&mut self, ident: &mut Ident) {
+            if ident.sym == self.from {
+                ident.sym = self.to.into();
+            }
+        }
+    }
+
+    let mut renamer = Renamer { from, to };
+    for stmt in &mut body.stmts {
+        stmt.visit_mut_with(&mut renamer);
+    }
+}
+
 fn preserve_shorthand_property_keys_for_rename_in_block(
     body: &mut BlockStmt,
     from: &str,
@@ -754,6 +862,7 @@ fn normalize_duplicate_id_bindings_in_nested_functions(
         inside_call_arg: bool,
         seen_first_id_binding: bool,
         next_id_suffix: u32,
+        next_param_temp: u32,
     }
 
     impl Renamer {
@@ -852,27 +961,109 @@ fn normalize_duplicate_id_bindings_in_nested_functions(
             for scope in &self.scope_bindings {
                 taken.extend(scope.iter().cloned());
             }
+            let mut param_prologue = Vec::new();
             for param in &mut arrow.params {
-                let Pat::Ident(binding) = param else {
-                    continue;
-                };
-                if !taken.contains(binding.id.sym.as_ref()) {
-                    continue;
-                }
-                let original = binding.id.sym.to_string();
-                let suffix_entry = self.next_suffix.entry(original.clone()).or_insert(0);
-                let replacement = loop {
-                    let candidate = format!("{original}_{}", *suffix_entry);
-                    *suffix_entry += 1;
-                    if !taken.contains(candidate.as_str()) {
-                        break candidate;
+                match param {
+                    Pat::Ident(binding) => {
+                        if !taken.contains(binding.id.sym.as_ref()) {
+                            continue;
+                        }
+                        let original = binding.id.sym.to_string();
+                        let suffix_entry = self.next_suffix.entry(original.clone()).or_insert(0);
+                        let replacement = loop {
+                            let candidate = format!("{original}_{}", *suffix_entry);
+                            *suffix_entry += 1;
+                            if !taken.contains(candidate.as_str()) {
+                                break candidate;
+                            }
+                        };
+                        binding.id.sym = replacement.clone().into();
+                        rename_ident_in_block(block, original.as_str(), replacement.as_str());
+                        rename_ident_in_nested_functions_without_param_shadow(
+                            block,
+                            original.as_str(),
+                            replacement.as_str(),
+                        );
+                        taken.insert(replacement);
                     }
-                };
-                binding.id.sym = replacement.clone().into();
-                rename_ident_in_block(block, original.as_str(), replacement.as_str());
-                taken.insert(replacement);
+                    Pat::Assign(assign_pat) => {
+                        let Pat::Ident(binding) = &mut *assign_pat.left else {
+                            continue;
+                        };
+
+                        let original = binding.id.sym.to_string();
+                        let binding_name = if taken.contains(original.as_str()) {
+                            let suffix_entry =
+                                self.next_suffix.entry(original.clone()).or_insert(0);
+                            loop {
+                                let candidate = format!("{original}_{}", *suffix_entry);
+                                *suffix_entry += 1;
+                                if !taken.contains(candidate.as_str()) {
+                                    break candidate;
+                                }
+                            }
+                        } else {
+                            original.clone()
+                        };
+
+                        if binding_name != original {
+                            binding.id.sym = binding_name.clone().into();
+                            rename_ident_in_block(block, original.as_str(), binding_name.as_str());
+                            rename_ident_in_nested_functions_without_param_shadow(
+                                block,
+                                original.as_str(),
+                                binding_name.as_str(),
+                            );
+                        }
+
+                        let temp_name = loop {
+                            let candidate = format!("t{}", self.next_param_temp);
+                            self.next_param_temp += 1;
+                            if !taken.contains(candidate.as_str()) {
+                                break candidate;
+                            }
+                        };
+                        let temp_ident = Ident::new_no_ctxt(temp_name.clone().into(), DUMMY_SP);
+                        let default_expr = assign_pat.right.clone();
+                        *param = Pat::Ident(BindingIdent {
+                            id: temp_ident.clone(),
+                            type_ann: None,
+                        });
+
+                        param_prologue.push(make_var_decl(
+                            VarDeclKind::Const,
+                            Pat::Ident(BindingIdent {
+                                id: Ident::new_no_ctxt(binding_name.clone().into(), DUMMY_SP),
+                                type_ann: None,
+                            }),
+                            Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                                span: DUMMY_SP,
+                                test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("==="),
+                                    left: Box::new(Expr::Ident(temp_ident.clone())),
+                                    right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                        "undefined".into(),
+                                        DUMMY_SP,
+                                    ))),
+                                })),
+                                cons: default_expr,
+                                alt: Box::new(Expr::Ident(temp_ident.clone())),
+                            }))),
+                        ));
+
+                        taken.insert(temp_name);
+                        taken.insert(binding_name);
+                    }
+                    _ => {}
+                }
             }
             self.rename_conflicting_bindings_in_block(block);
+            if !param_prologue.is_empty() {
+                let mut rewritten = param_prologue;
+                rewritten.extend(std::mem::take(&mut block.stmts));
+                block.stmts = rewritten;
+            }
 
             let mut local_bindings = HashSet::new();
             for param in &arrow.params {
@@ -902,27 +1093,109 @@ fn normalize_duplicate_id_bindings_in_nested_functions(
             for scope in &self.scope_bindings {
                 taken.extend(scope.iter().cloned());
             }
+            let mut param_prologue = Vec::new();
             for param in &mut function.params {
-                let Pat::Ident(binding) = &mut param.pat else {
-                    continue;
-                };
-                if !taken.contains(binding.id.sym.as_ref()) {
-                    continue;
-                }
-                let original = binding.id.sym.to_string();
-                let suffix_entry = self.next_suffix.entry(original.clone()).or_insert(0);
-                let replacement = loop {
-                    let candidate = format!("{original}_{}", *suffix_entry);
-                    *suffix_entry += 1;
-                    if !taken.contains(candidate.as_str()) {
-                        break candidate;
+                match &mut param.pat {
+                    Pat::Ident(binding) => {
+                        if !taken.contains(binding.id.sym.as_ref()) {
+                            continue;
+                        }
+                        let original = binding.id.sym.to_string();
+                        let suffix_entry = self.next_suffix.entry(original.clone()).or_insert(0);
+                        let replacement = loop {
+                            let candidate = format!("{original}_{}", *suffix_entry);
+                            *suffix_entry += 1;
+                            if !taken.contains(candidate.as_str()) {
+                                break candidate;
+                            }
+                        };
+                        binding.id.sym = replacement.clone().into();
+                        rename_ident_in_block(body, original.as_str(), replacement.as_str());
+                        rename_ident_in_nested_functions_without_param_shadow(
+                            body,
+                            original.as_str(),
+                            replacement.as_str(),
+                        );
+                        taken.insert(replacement);
                     }
-                };
-                binding.id.sym = replacement.clone().into();
-                rename_ident_in_block(body, original.as_str(), replacement.as_str());
-                taken.insert(replacement);
+                    Pat::Assign(assign_pat) => {
+                        let Pat::Ident(binding) = &mut *assign_pat.left else {
+                            continue;
+                        };
+
+                        let original = binding.id.sym.to_string();
+                        let binding_name = if taken.contains(original.as_str()) {
+                            let suffix_entry =
+                                self.next_suffix.entry(original.clone()).or_insert(0);
+                            loop {
+                                let candidate = format!("{original}_{}", *suffix_entry);
+                                *suffix_entry += 1;
+                                if !taken.contains(candidate.as_str()) {
+                                    break candidate;
+                                }
+                            }
+                        } else {
+                            original.clone()
+                        };
+
+                        if binding_name != original {
+                            binding.id.sym = binding_name.clone().into();
+                            rename_ident_in_block(body, original.as_str(), binding_name.as_str());
+                            rename_ident_in_nested_functions_without_param_shadow(
+                                body,
+                                original.as_str(),
+                                binding_name.as_str(),
+                            );
+                        }
+
+                        let temp_name = loop {
+                            let candidate = format!("t{}", self.next_param_temp);
+                            self.next_param_temp += 1;
+                            if !taken.contains(candidate.as_str()) {
+                                break candidate;
+                            }
+                        };
+                        let temp_ident = Ident::new_no_ctxt(temp_name.clone().into(), DUMMY_SP);
+                        let default_expr = assign_pat.right.clone();
+                        param.pat = Pat::Ident(BindingIdent {
+                            id: temp_ident.clone(),
+                            type_ann: None,
+                        });
+
+                        param_prologue.push(make_var_decl(
+                            VarDeclKind::Const,
+                            Pat::Ident(BindingIdent {
+                                id: Ident::new_no_ctxt(binding_name.clone().into(), DUMMY_SP),
+                                type_ann: None,
+                            }),
+                            Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                                span: DUMMY_SP,
+                                test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("==="),
+                                    left: Box::new(Expr::Ident(temp_ident.clone())),
+                                    right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                        "undefined".into(),
+                                        DUMMY_SP,
+                                    ))),
+                                })),
+                                cons: default_expr,
+                                alt: Box::new(Expr::Ident(temp_ident.clone())),
+                            }))),
+                        ));
+
+                        taken.insert(temp_name);
+                        taken.insert(binding_name);
+                    }
+                    _ => {}
+                }
             }
             self.rename_conflicting_bindings_in_block(body);
+            if !param_prologue.is_empty() {
+                let mut rewritten = param_prologue;
+                rewritten.extend(std::mem::take(&mut body.stmts));
+                body.stmts = rewritten;
+            }
 
             let mut local_bindings = HashSet::new();
             for param in &function.params {
@@ -945,6 +1218,7 @@ fn normalize_duplicate_id_bindings_in_nested_functions(
         inside_call_arg: false,
         seen_first_id_binding: false,
         next_id_suffix: 0,
+        next_param_temp: 1,
     };
     for stmt in stmts {
         stmt.visit_mut_with(&mut renamer);
@@ -1306,6 +1580,14 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
     if reactive.body.stmts.is_empty() {
         return (0, 0, 0, 0, 0);
     }
+    if contains_object_pattern_assignment_with_reassigned_binding(&reactive.body.stmts) {
+        split_multi_var_decls_in_stmts(&mut reactive.body.stmts);
+        return (0, 0, 0, 0, 0);
+    }
+    let has_identity_sensitive_work = body_contains_identity_sensitive_work(&reactive.body);
+    if reactive.fn_type == ReactFunctionType::Component && !has_identity_sensitive_work {
+        return (0, 0, 0, 0, 0);
+    }
 
     let mut reserved = HashSet::new();
     for pat in &reactive.params {
@@ -1360,6 +1642,8 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
     rewrite_use_callback_decls_to_use_memo(&mut stmts);
     normalize_switch_case_blocks_in_stmts(&mut stmts);
     normalize_update_expressions_in_stmts(&mut stmts);
+    rewrite_let_array_pattern_decls_to_assignment_stmts(&mut stmts, &mut reserved);
+    normalize_reactive_labels(&mut stmts);
     let mut top_level_bindings = HashSet::new();
     for pat in &reactive.params {
         collect_pattern_bindings(pat, &mut top_level_bindings);
@@ -1789,6 +2073,11 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
         {
             break;
         }
+        if is_default_param_conditional_expr(init.as_ref())
+            && binding_only_used_in_terminal_return(&stmts[prefix_index + 1..], binding.sym.as_ref())
+        {
+            break;
+        }
         if should_passthrough_pure_initializer(init.as_ref())
             && !force_memoize_reassigned_jsx_tag_ident_init
         {
@@ -1852,6 +2141,11 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
         }
         let mut mutated_after =
             binding_mutated_via_member_call_after(&stmts[prefix_index + 1..], binding.sym.as_ref());
+        let mut member_assignment_after = matches!(&*init, Expr::Array(_) | Expr::Object(_))
+            && binding_mutated_via_member_assignment_after(
+                &stmts[prefix_index + 1..],
+                binding.sym.as_ref(),
+            );
         let mut alias_mutated_after = matches!(&*init, Expr::Array(_) | Expr::Object(_))
             && binding_maybe_mutated_via_alias_after(
                 &stmts[prefix_index + 1..],
@@ -1890,6 +2184,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
             );
         if first_following_block_shadows_binding(&stmts[prefix_index + 1..], binding.sym.as_ref()) {
             mutated_after = false;
+            member_assignment_after = false;
             alias_mutated_after = false;
             direct_call_arg_mutated_after = false;
             iife_mutated_after = false;
@@ -1899,6 +2194,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
             iterator_spread_after = false;
         }
         if (mutated_after
+            || member_assignment_after
             || alias_mutated_after
             || direct_call_arg_mutated_after
             || iife_mutated_after
@@ -1908,7 +2204,11 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
             || iterator_spread_after)
             && !reassigned_after
         {
-            if mutated_after || direct_call_arg_mutated_after || iife_mutated_after {
+            if mutated_after
+                || member_assignment_after
+                || direct_call_arg_mutated_after
+                || iife_mutated_after
+            {
                 if let Some((next_binding, next_init)) = stmts
                     .get(prefix_index + 1)
                     .and_then(extract_memoizable_single_decl)
@@ -1991,6 +2291,9 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                 ) && !binding_mutated_via_member_call_after(
                     &stmts[prefix_index + 2..],
                     binding.sym.as_ref(),
+                ) && !binding_mutated_via_member_assignment_after(
+                    &stmts[prefix_index + 2..],
+                    binding.sym.as_ref(),
                 ) && !binding_passed_to_potentially_mutating_call_after(
                     &stmts[prefix_index + 2..],
                     binding.sym.as_ref(),
@@ -2063,7 +2366,12 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
             break;
         }
         let direct_call_in_rest = contains_direct_call(&stmts[prefix_index + 1..]);
-        if (!matches!(&*init, Expr::Array(_)) && direct_call_in_rest)
+        let frozen_via_create_element = matches!(&*init, Expr::Object(_))
+            && binding_frozen_via_create_element_after(
+                &stmts[prefix_index + 1..],
+                binding.sym.as_ref(),
+            );
+        if (!matches!(&*init, Expr::Array(_)) && direct_call_in_rest && !frozen_via_create_element)
             || contains_complex_assignment(&stmts[prefix_index + 1..])
         {
             break;
@@ -2360,6 +2668,10 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                 result_ident.sym.as_ref(),
                             )
                             && !binding_declared_in_stmts(&tail, result_ident.sym.as_ref())
+                            && !binding_captured_by_called_local_function_after(
+                                &tail,
+                                result_ident.sym.as_ref(),
+                            )
                     });
 
                 prune_empty_stmts(&mut tail);
@@ -2430,8 +2742,17 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                     ident.sym.as_ref(),
                                 )
                         });
+                    let force_temp_for_post_compute_alias =
+                        result_ident.as_ref().is_some_and(|ident| {
+                            has_create_element_result_assignment_with_post_calls(
+                                &tail,
+                                ident.sym.as_ref(),
+                            )
+                        });
+                    let rewrite_result_assignments_to_temp =
+                        force_distinct_temp_for_result || force_temp_for_post_compute_alias;
                     let mut temp = if result_ident.as_ref().is_some_and(|ident| {
-                        force_distinct_temp_for_result
+                        rewrite_result_assignments_to_temp
                             || binding_declared_in_stmts(&tail, ident.sym.as_ref())
                     }) {
                         fresh_temp_ident(&mut next_temp, &mut reserved)
@@ -2444,7 +2765,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                         && !binding_declared_in_stmts(&tail, temp.sym.as_ref());
 
                     let mut compute_stmts = tail;
-                    if force_distinct_temp_for_result {
+                    if rewrite_result_assignments_to_temp {
                         if let Some(result_ident) = &result_ident {
                             rewrite_assignment_target_in_stmts(
                                 &mut compute_stmts,
@@ -2453,7 +2774,12 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                             );
                         }
                     }
-                    let should_assign_result = if force_distinct_temp_for_result {
+                    normalize_array_pattern_assignments_in_stmts(
+                        &mut compute_stmts,
+                        &mut reserved,
+                        &mut next_temp,
+                    );
+                    let should_assign_result = if rewrite_result_assignments_to_temp {
                         !contains_direct_assignment_to_binding(&compute_stmts, temp.sym.as_ref())
                     } else {
                         !matches!(&*return_expr, Expr::Ident(ident) if ident.sym == temp.sym)
@@ -2480,6 +2806,10 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                     strip_runtime_call_type_args_in_stmts(&mut compute_stmts);
                     prune_unused_pure_var_decls(&mut compute_stmts);
                     prune_unused_function_like_decl_stmts(&mut compute_stmts);
+                    let mut post_compute_stmts = extract_trailing_post_compute_side_effect_stmts(
+                        &mut compute_stmts,
+                        temp.sym.as_ref(),
+                    );
 
                     let mut prelude_stmts = if contains_return_stmt_in_stmts(&compute_stmts) {
                         Vec::new()
@@ -2499,8 +2829,10 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                         next_temp -= 1;
                         deferred_outer_temp_name = Some(temp.sym.to_string());
                     }
-                    let (prelude_slots, prelude_blocks, prelude_values) =
-                        if prelude_stmts.is_empty() {
+                    let skip_nested_prelude_injection =
+                        prelude_stmts.iter().any(stmt_declares_non_ident_pattern);
+                    let (mut prelude_slots, mut prelude_blocks, mut prelude_values) =
+                        if prelude_stmts.is_empty() || skip_nested_prelude_injection {
                             (0, 0, 0)
                         } else {
                             inject_nested_call_memoization_into_stmts(
@@ -2513,6 +2845,69 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                 true,
                             )
                         };
+                    if !prelude_stmts.is_empty() && prelude_blocks == 0 {
+                        if let Some(prelude_result_binding) = infer_prelude_result_binding(
+                            &prelude_stmts,
+                            &compute_stmts,
+                        ) {
+                            let mut prelude_local_bindings = HashSet::new();
+                            for stmt in &prelude_stmts {
+                                collect_stmt_bindings_including_nested_blocks(
+                                    stmt,
+                                    &mut prelude_local_bindings,
+                                );
+                            }
+                            let mut prelude_deps = collect_dependencies_from_stmts(
+                                &prelude_stmts,
+                                &known_bindings,
+                                &prelude_local_bindings,
+                            );
+                            let prelude_called_fn_deps =
+                                collect_called_local_function_capture_dependencies(
+                                    &prelude_stmts,
+                                    &known_bindings,
+                                );
+                            for dep in prelude_called_fn_deps {
+                                if !prelude_deps.iter().any(|existing| existing.key == dep.key) {
+                                    prelude_deps.push(dep);
+                                }
+                            }
+                            let prelude_inline_fn_capture_deps =
+                                collect_stmt_function_capture_dependencies(
+                                    &prelude_stmts,
+                                    &known_bindings,
+                                );
+                            for dep in prelude_inline_fn_capture_deps {
+                                if !prelude_deps.iter().any(|existing| existing.key == dep.key) {
+                                    prelude_deps.push(dep);
+                                }
+                            }
+                            prelude_deps = reduce_dependencies(prelude_deps);
+                            prelude_deps.retain(|dep| {
+                                dep.key != prelude_result_binding.sym.as_ref()
+                                    && !dep
+                                        .key
+                                        .starts_with(&format!("{}.", prelude_result_binding.sym))
+                                    && !dep
+                                        .key
+                                        .starts_with(&format!("{}[", prelude_result_binding.sym))
+                            });
+                            prelude_deps = reduce_nested_member_dependencies(prelude_deps);
+                            if !prelude_deps.is_empty() {
+                                prelude_stmts = build_memoized_block(
+                                    &cache_ident,
+                                    next_slot,
+                                    &prelude_deps,
+                                    &prelude_result_binding,
+                                    std::mem::take(&mut prelude_stmts),
+                                    false,
+                                );
+                                prelude_slots = prelude_deps.len() as u32 + 1;
+                                prelude_blocks = 1;
+                                prelude_values = 1;
+                            }
+                        }
+                    }
                     if let Some(old_temp_name) = deferred_outer_temp_name {
                         let replacement_temp = fresh_temp_ident(&mut next_temp, &mut reserved);
                         rewrite_assignment_target_in_stmts(
@@ -2752,6 +3147,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                 }),
                                 Some(Box::new(Expr::Ident(temp.clone()))),
                             ));
+                            transformed.extend(std::mem::take(&mut post_compute_stmts));
                             transformed.push(Stmt::Return(swc_ecma_ast::ReturnStmt {
                                 span: DUMMY_SP,
                                 arg: Some(wrap_with_ts_const_assertion(
@@ -2770,6 +3166,25 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                     AssignTarget::from(result_ident.clone()),
                                     Box::new(Expr::Ident(temp.clone())),
                                 ));
+                                transformed.extend(std::mem::take(&mut post_compute_stmts));
+                                transformed.push(Stmt::Return(swc_ecma_ast::ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(wrap_with_ts_const_assertion(
+                                        Expr::Ident(result_ident.clone()),
+                                        return_as_const,
+                                    )),
+                                }));
+                            } else if result_ident.sym != temp.sym && !post_compute_stmts.is_empty()
+                            {
+                                transformed.push(make_var_decl(
+                                    VarDeclKind::Const,
+                                    Pat::Ident(BindingIdent {
+                                        id: result_ident.clone(),
+                                        type_ann: None,
+                                    }),
+                                    Some(Box::new(Expr::Ident(temp.clone()))),
+                                ));
+                                transformed.extend(std::mem::take(&mut post_compute_stmts));
                                 transformed.push(Stmt::Return(swc_ecma_ast::ReturnStmt {
                                     span: DUMMY_SP,
                                     arg: Some(wrap_with_ts_const_assertion(
@@ -2778,6 +3193,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                     )),
                                 }));
                             } else {
+                                transformed.extend(std::mem::take(&mut post_compute_stmts));
                                 transformed.push(Stmt::Return(swc_ecma_ast::ReturnStmt {
                                     span: DUMMY_SP,
                                     arg: Some(wrap_with_ts_const_assertion(
@@ -2787,6 +3203,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                 }));
                             }
                         } else {
+                            transformed.extend(std::mem::take(&mut post_compute_stmts));
                             transformed.push(Stmt::Return(swc_ecma_ast::ReturnStmt {
                                 span: DUMMY_SP,
                                 arg: Some(wrap_with_ts_const_assertion(
@@ -3065,6 +3482,149 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
     }
 
     (next_slot, memo_blocks, memo_values, 0, 0)
+}
+
+fn body_contains_identity_sensitive_work(body: &BlockStmt) -> bool {
+    #[derive(Default)]
+    struct Finder {
+        found: bool,
+    }
+
+    impl Visit for Finder {
+        fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
+            self.found = true;
+            arrow.visit_children_with(self);
+        }
+
+        fn visit_function(&mut self, function: &Function) {
+            self.found = true;
+            function.visit_children_with(self);
+        }
+
+        fn visit_call_expr(&mut self, call: &CallExpr) {
+            self.found = true;
+            call.visit_children_with(self);
+        }
+
+        fn visit_expr(&mut self, expr: &Expr) {
+            if self.found {
+                return;
+            }
+
+            if matches!(
+                expr,
+                Expr::Array(_)
+                    | Expr::Object(_)
+                    | Expr::Class(_)
+                    | Expr::New(_)
+                    | Expr::JSXElement(_)
+                    | Expr::JSXFragment(_)
+            ) {
+                self.found = true;
+                return;
+            }
+
+            expr.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder::default();
+    body.visit_with(&mut finder);
+    finder.found
+}
+
+fn contains_object_pattern_assignment_with_reassigned_binding(stmts: &[Stmt]) -> bool {
+    for (index, stmt) in stmts.iter().enumerate() {
+        let Stmt::Expr(expr_stmt) = stmt else {
+            continue;
+        };
+        let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+            continue;
+        };
+        if assign.op != op!("=") {
+            continue;
+        }
+        let AssignTarget::Pat(assign_pat) = &assign.left else {
+            continue;
+        };
+        let Pat::Object(object_pat) = Pat::from(assign_pat.clone()) else {
+            continue;
+        };
+        let binding_names = collect_pattern_binding_names(&Pat::Object(object_pat));
+        if binding_names.is_empty() {
+            continue;
+        }
+        if binding_names
+            .iter()
+            .any(|name| binding_reassigned_after(&stmts[index + 1..], name.as_str()))
+        {
+            return true;
+        }
+    }
+
+    false
+}
+
+fn split_multi_var_decls_in_stmts(stmts: &mut Vec<Stmt>) {
+    let mut out = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => split_multi_var_decls_in_stmts(&mut block.stmts),
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    split_multi_var_decls_in_stmts(&mut block.stmts);
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    split_multi_var_decls_in_stmts(&mut block.stmts);
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        split_multi_var_decls_in_stmts(&mut block.stmts);
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                split_multi_var_decls_in_stmts(&mut try_stmt.block.stmts);
+                if let Some(handler) = &mut try_stmt.handler {
+                    split_multi_var_decls_in_stmts(&mut handler.body.stmts);
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    split_multi_var_decls_in_stmts(&mut finalizer.stmts);
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    split_multi_var_decls_in_stmts(&mut case.cons);
+                }
+            }
+            _ => {}
+        }
+
+        let Stmt::Decl(Decl::Var(var_decl)) = &stmt else {
+            out.push(stmt);
+            continue;
+        };
+        if var_decl.decls.len() <= 1 {
+            out.push(stmt);
+            continue;
+        }
+
+        for decl in &var_decl.decls {
+            out.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: var_decl.span,
+                ctxt: var_decl.ctxt,
+                kind: var_decl.kind,
+                declare: var_decl.declare,
+                decls: vec![decl.clone()],
+            }))));
+        }
+    }
+
+    *stmts = out;
 }
 
 fn extract_memoizable_single_decl(stmt: &Stmt) -> Option<(Ident, Box<Expr>)> {
@@ -3437,7 +3997,17 @@ fn promote_var_decl_to_const_when_immutable(var_decl: &mut VarDecl, remaining: &
         decl.init.is_some()
             && collect_pattern_binding_names(&decl.name)
                 .into_iter()
-                .all(|name| !binding_reassigned_after(remaining, name.as_str()))
+                .all(|name| {
+                    !binding_reassigned_after(remaining, name.as_str())
+                        && !binding_captured_by_called_local_function_after(
+                            remaining,
+                            name.as_str(),
+                        )
+                        && !binding_captured_by_function_passed_to_call_after(
+                            remaining,
+                            name.as_str(),
+                        )
+                })
     });
     if immutable {
         var_decl.kind = VarDeclKind::Const;
@@ -3839,6 +4409,39 @@ fn rewrite_non_ident_params(
         match param {
             Pat::Ident(binding) => {
                 known_bindings.insert(binding.id.sym.to_string(), false);
+            }
+            Pat::Assign(assign_pat) => {
+                let left_pat = (*assign_pat.left).clone();
+                let default_expr = assign_pat.right.clone();
+                for binding in collect_pattern_binding_names(&left_pat) {
+                    known_bindings.insert(binding, false);
+                }
+
+                let temp = fresh_temp_ident(next_temp, used);
+                known_bindings.insert(temp.sym.to_string(), false);
+                *param = Pat::Ident(BindingIdent {
+                    id: temp.clone(),
+                    type_ann: None,
+                });
+
+                prologue.push(make_var_decl(
+                    VarDeclKind::Const,
+                    left_pat,
+                    Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                        span: DUMMY_SP,
+                        test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                            span: DUMMY_SP,
+                            op: op!("==="),
+                            left: Box::new(Expr::Ident(temp.clone())),
+                            right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                "undefined".into(),
+                                DUMMY_SP,
+                            ))),
+                        })),
+                        cons: default_expr,
+                        alt: Box::new(Expr::Ident(temp)),
+                    }))),
+                ));
             }
             _ => {
                 let original = param.clone();
@@ -4451,6 +5054,385 @@ fn rewrite_terminal_self_assignment_to_pattern_write(stmts: &mut Vec<Stmt>, bind
     }
 
     false
+}
+
+fn rewrite_let_array_pattern_decls_to_assignment_stmts(
+    stmts: &mut Vec<Stmt>,
+    reserved: &mut HashSet<String>,
+) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+    let mut scope_bindings = HashSet::new();
+    for stmt in &original {
+        collect_stmt_bindings_including_nested_blocks(stmt, &mut scope_bindings);
+    }
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => {
+                rewrite_let_array_pattern_decls_to_assignment_stmts(&mut block.stmts, reserved);
+            }
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    rewrite_let_array_pattern_decls_to_assignment_stmts(&mut block.stmts, reserved);
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    rewrite_let_array_pattern_decls_to_assignment_stmts(&mut block.stmts, reserved);
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        rewrite_let_array_pattern_decls_to_assignment_stmts(
+                            &mut block.stmts,
+                            reserved,
+                        );
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                rewrite_let_array_pattern_decls_to_assignment_stmts(
+                    &mut try_stmt.block.stmts,
+                    reserved,
+                );
+                if let Some(handler) = &mut try_stmt.handler {
+                    rewrite_let_array_pattern_decls_to_assignment_stmts(
+                        &mut handler.body.stmts,
+                        reserved,
+                    );
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    rewrite_let_array_pattern_decls_to_assignment_stmts(
+                        &mut finalizer.stmts,
+                        reserved,
+                    );
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    rewrite_let_array_pattern_decls_to_assignment_stmts(&mut case.cons, reserved);
+                }
+            }
+            _ => {}
+        }
+
+        let Stmt::Decl(Decl::Var(var_decl)) = &stmt else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if !matches!(var_decl.kind, VarDeclKind::Let | VarDeclKind::Const) {
+            rewritten.push(stmt);
+            continue;
+        }
+        let [decl] = var_decl.decls.as_slice() else {
+            rewritten.push(stmt);
+            continue;
+        };
+        let Some(init) = &decl.init else {
+            rewritten.push(stmt);
+            continue;
+        };
+        if let Expr::Call(call) = unwrap_transparent_expr(init) {
+            if call_is_state_tuple_hook(call) {
+                rewritten.push(stmt);
+                continue;
+            }
+        }
+
+        let mut pat = decl.name.clone();
+        normalize_array_pattern_holes(&mut pat);
+        let Pat::Array(array_pat) = &pat else {
+            rewritten.push(stmt);
+            continue;
+        };
+
+        let non_hole_pats = array_pat.elems.iter().flatten().collect::<Vec<_>>();
+        if non_hole_pats.len() != 1 {
+            rewritten.push(stmt);
+            continue;
+        }
+
+        match (var_decl.kind, non_hole_pats[0]) {
+            (VarDeclKind::Const, Pat::Assign(assign_pat)) => {
+                let Pat::Ident(binding) = &*assign_pat.left else {
+                    rewritten.push(stmt);
+                    continue;
+                };
+                let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                rewritten.push(make_var_decl(
+                    VarDeclKind::Const,
+                    Pat::Array(swc_ecma_ast::ArrayPat {
+                        span: array_pat.span,
+                        elems: vec![Some(Pat::Ident(BindingIdent {
+                            id: temp.clone(),
+                            type_ann: None,
+                        }))],
+                        optional: false,
+                        type_ann: None,
+                    }),
+                    Some(init.clone()),
+                ));
+                rewritten.push(make_var_decl(
+                    VarDeclKind::Const,
+                    Pat::Ident(BindingIdent {
+                        id: binding.id.clone(),
+                        type_ann: None,
+                    }),
+                    Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                        span: DUMMY_SP,
+                        test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                            span: DUMMY_SP,
+                            op: op!("==="),
+                            left: Box::new(Expr::Ident(temp.clone())),
+                            right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                "undefined".into(),
+                                DUMMY_SP,
+                            ))),
+                        })),
+                        cons: assign_pat.right.clone(),
+                        alt: Box::new(Expr::Ident(temp)),
+                    }))),
+                ));
+            }
+            (VarDeclKind::Let, Pat::Ident(binding)) => {
+                let Ok(target) = AssignTarget::try_from(pat.clone()) else {
+                    rewritten.push(stmt);
+                    continue;
+                };
+                rewritten.push(make_var_decl(
+                    VarDeclKind::Let,
+                    Pat::Ident(BindingIdent {
+                        id: binding.id.clone(),
+                        type_ann: None,
+                    }),
+                    None,
+                ));
+                rewritten.push(assign_stmt(target, init.clone()));
+            }
+            (VarDeclKind::Let, Pat::Assign(assign_pat)) => {
+                let Pat::Ident(binding) = &*assign_pat.left else {
+                    rewritten.push(stmt);
+                    continue;
+                };
+                let Ok(target) = AssignTarget::try_from(pat.clone()) else {
+                    rewritten.push(stmt);
+                    continue;
+                };
+                rewritten.push(make_var_decl(
+                    VarDeclKind::Let,
+                    Pat::Ident(BindingIdent {
+                        id: binding.id.clone(),
+                        type_ann: None,
+                    }),
+                    None,
+                ));
+                rewritten.push(assign_stmt(target, init.clone()));
+            }
+            _ => {
+                rewritten.push(stmt);
+            }
+        }
+    }
+
+    *stmts = rewritten;
+}
+
+fn normalize_array_pattern_assignments_in_stmts(
+    stmts: &mut Vec<Stmt>,
+    reserved: &mut HashSet<String>,
+    _next_temp: &mut u32,
+) {
+    let mut normalized = Vec::with_capacity(stmts.len());
+    let original = std::mem::take(stmts);
+    let mut scope_bindings = HashSet::new();
+    for stmt in &original {
+        collect_stmt_bindings_including_nested_blocks(stmt, &mut scope_bindings);
+    }
+
+    for mut stmt in original {
+        match &mut stmt {
+            Stmt::Block(block) => {
+                normalize_array_pattern_assignments_in_stmts(
+                    &mut block.stmts,
+                    reserved,
+                    _next_temp,
+                );
+            }
+            Stmt::Labeled(labeled) => {
+                if let Stmt::Block(block) = &mut *labeled.body {
+                    normalize_array_pattern_assignments_in_stmts(
+                        &mut block.stmts,
+                        reserved,
+                        _next_temp,
+                    );
+                }
+            }
+            Stmt::If(if_stmt) => {
+                if let Stmt::Block(block) = &mut *if_stmt.cons {
+                    normalize_array_pattern_assignments_in_stmts(
+                        &mut block.stmts,
+                        reserved,
+                        _next_temp,
+                    );
+                }
+                if let Some(alt) = &mut if_stmt.alt {
+                    if let Stmt::Block(block) = &mut **alt {
+                        normalize_array_pattern_assignments_in_stmts(
+                            &mut block.stmts,
+                            reserved,
+                            _next_temp,
+                        );
+                    }
+                }
+            }
+            Stmt::Try(try_stmt) => {
+                normalize_array_pattern_assignments_in_stmts(
+                    &mut try_stmt.block.stmts,
+                    reserved,
+                    _next_temp,
+                );
+                if let Some(handler) = &mut try_stmt.handler {
+                    normalize_array_pattern_assignments_in_stmts(
+                        &mut handler.body.stmts,
+                        reserved,
+                        _next_temp,
+                    );
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    normalize_array_pattern_assignments_in_stmts(
+                        &mut finalizer.stmts,
+                        reserved,
+                        _next_temp,
+                    );
+                }
+            }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    normalize_array_pattern_assignments_in_stmts(
+                        &mut case.cons,
+                        reserved,
+                        _next_temp,
+                    );
+                }
+            }
+            _ => {}
+        }
+
+        let Stmt::Expr(expr_stmt) = &stmt else {
+            normalized.push(stmt);
+            continue;
+        };
+        let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+            normalized.push(stmt);
+            continue;
+        };
+        if assign.op != op!("=") {
+            normalized.push(stmt);
+            continue;
+        }
+        let AssignTarget::Pat(assign_pat) = &assign.left else {
+            normalized.push(stmt);
+            continue;
+        };
+        let mut pat = Pat::from(assign_pat.clone());
+        normalize_array_pattern_holes(&mut pat);
+        let Pat::Array(array_pat) = pat else {
+            normalized.push(stmt);
+            continue;
+        };
+        let swc_ecma_ast::ArrayPat {
+            span,
+            elems,
+            optional,
+            ..
+        } = array_pat;
+
+        let mut temp_elems = Vec::with_capacity(elems.len());
+        let mut rewritten_assignments = Vec::new();
+        let mut can_rewrite = true;
+
+        for element in elems {
+            let Some(inner) = element else {
+                temp_elems.push(None);
+                continue;
+            };
+
+            let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+            temp_elems.push(Some(Pat::Ident(BindingIdent {
+                id: temp.clone(),
+                type_ann: None,
+            })));
+            match inner {
+                Pat::Ident(binding) => {
+                    rewritten_assignments.push(assign_stmt(
+                        AssignTarget::from(binding.id.clone()),
+                        Box::new(Expr::Ident(temp)),
+                    ));
+                }
+                Pat::Assign(assign_pat) => {
+                    let Pat::Ident(binding) = &*assign_pat.left else {
+                        can_rewrite = false;
+                        break;
+                    };
+                    rewritten_assignments.push(assign_stmt(
+                        AssignTarget::from(binding.id.clone()),
+                        Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                            span: DUMMY_SP,
+                            test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                span: DUMMY_SP,
+                                op: op!("==="),
+                                left: Box::new(Expr::Ident(temp.clone())),
+                                right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                    "undefined".into(),
+                                    DUMMY_SP,
+                                ))),
+                            })),
+                            cons: assign_pat.right.clone(),
+                            alt: Box::new(Expr::Ident(temp)),
+                        })),
+                    ));
+                }
+                _ => {
+                    can_rewrite = false;
+                    break;
+                }
+            }
+        }
+
+        if !can_rewrite {
+            normalized.push(stmt);
+            continue;
+        }
+
+        normalized.push(make_var_decl(
+            VarDeclKind::Const,
+            Pat::Array(swc_ecma_ast::ArrayPat {
+                span,
+                elems: temp_elems,
+                optional,
+                type_ann: None,
+            }),
+            Some(assign.right.clone()),
+        ));
+        normalized.extend(rewritten_assignments);
+    }
+
+    *stmts = normalized;
+}
+
+fn fresh_lowest_scoped_temp_ident(
+    scope_bindings: &mut HashSet<String>,
+    reserved: &mut HashSet<String>,
+) -> Ident {
+    let mut index = 0u32;
+    loop {
+        let candidate = format!("t{index}");
+        index += 1;
+        if scope_bindings.insert(candidate.clone()) {
+            reserved.insert(candidate.clone());
+            return Ident::new_no_ctxt(candidate.into(), DUMMY_SP);
+        }
+    }
 }
 
 fn normalize_array_pattern_holes(pat: &mut Pat) {
@@ -5295,6 +6277,26 @@ fn reduce_dependencies(deps: Vec<ReactiveDependency>) -> Vec<ReactiveDependency>
     reduced
 }
 
+fn reduce_nested_member_dependencies(deps: Vec<ReactiveDependency>) -> Vec<ReactiveDependency> {
+    let mut reduced = Vec::with_capacity(deps.len());
+    for (idx, dep) in deps.iter().enumerate() {
+        let subsumed = deps.iter().enumerate().any(|(other_idx, other)| {
+            if idx == other_idx {
+                return false;
+            }
+            dep.key.starts_with(&other.key)
+                && dep.key.len() > other.key.len()
+                && matches!(dep.key.as_bytes().get(other.key.len()), Some(b'.' | b'['))
+        });
+        if !subsumed {
+            reduced.push(dep.clone());
+        }
+    }
+
+    reduced.sort_by(|left, right| left.key.cmp(&right.key));
+    reduced
+}
+
 #[allow(clippy::too_many_arguments)]
 fn maybe_split_static_array_elements_initializer(
     init_expr: &mut Box<Expr>,
@@ -6053,6 +7055,57 @@ fn inject_nested_call_memoization_into_stmts(
             mark_stmt_bindings_unstable(&rewritten_stmt, &mut nested_known_bindings);
             continue;
         }
+        if !callee_is_local_binding
+            && !callee_is_iife_function
+            && is_react_create_element_call(call)
+        {
+            let mut changed = false;
+            for arg in &mut call.args {
+                if arg.spread.is_some() {
+                    continue;
+                }
+                if !matches!(
+                    unwrap_transparent_expr(&arg.expr),
+                    Expr::Array(_) | Expr::Object(_)
+                ) {
+                    continue;
+                }
+
+                let arg_expr = arg.expr.clone();
+                let local_bindings = HashSet::new();
+                let nested_deps = collect_dependencies_from_expr(
+                    &arg_expr,
+                    &nested_known_bindings,
+                    &local_bindings,
+                );
+                let arg_temp = fresh_temp_ident(next_temp, reserved);
+                let mut nested_compute =
+                    vec![assign_stmt(AssignTarget::from(arg_temp.clone()), arg_expr)];
+                strip_runtime_call_type_args_in_stmts(&mut nested_compute);
+
+                out.extend(build_memoized_block(
+                    cache_ident,
+                    cursor,
+                    &nested_deps,
+                    &arg_temp,
+                    nested_compute,
+                    true,
+                ));
+                cursor += nested_deps.len() as u32 + 1;
+                added_blocks += 1;
+                added_values += 1;
+                nested_known_bindings.insert(arg_temp.sym.to_string(), false);
+
+                arg.expr = Box::new(Expr::Ident(arg_temp));
+                changed = true;
+            }
+
+            if changed {
+                out.push(rewritten_stmt.clone());
+                mark_stmt_bindings_unstable(&rewritten_stmt, &mut nested_known_bindings);
+                continue;
+            }
+        }
         if !callee_is_local_binding {
             let [arg] = call.args.as_slice() else {
                 out.push(stmt.clone());
@@ -6621,6 +7674,10 @@ fn promote_immutable_lets_to_const_with_reassigned(
         fn visit_assign_expr(&mut self, assign: &AssignExpr) {
             if let Some(binding) = assign.left.as_ident() {
                 self.names.insert(binding.id.sym.to_string());
+            } else if let AssignTarget::Pat(assign_pat) = &assign.left {
+                for binding in collect_pattern_binding_names(&Pat::from(assign_pat.clone())) {
+                    self.names.insert(binding);
+                }
             }
             assign.visit_children_with(self);
         }
@@ -7058,6 +8115,18 @@ fn binding_mutated_via_member_assignment_after(stmts: &[Stmt], name: &str) -> bo
             }
             update.visit_children_with(self);
         }
+
+        fn visit_unary_expr(&mut self, unary: &swc_ecma_ast::UnaryExpr) {
+            if matches!(unary.op, swc_ecma_ast::UnaryOp::Delete) {
+                if let Expr::Member(member) = unwrap_transparent_expr(&unary.arg) {
+                    if member_root_is_binding(member, self.name) {
+                        self.found = true;
+                        return;
+                    }
+                }
+            }
+            unary.visit_children_with(self);
+        }
     }
 
     let mut finder = Finder { name, found: false };
@@ -7092,9 +8161,33 @@ fn binding_maybe_mutated_via_alias_after(stmts: &[Stmt], name: &str) -> bool {
 
 fn binding_passed_to_potentially_mutating_call_after(stmts: &[Stmt], name: &str) -> bool {
     let aliases = HashSet::from([name.to_string()]);
+    let mut frozen_by_create_element = false;
+
+    for stmt in stmts {
+        let freezes_alias = stmt_freezes_alias_via_create_element(stmt, &aliases);
+        let mutates_via_call = stmt_calls_identifier_with_alias_argument(stmt, &aliases);
+
+        if freezes_alias {
+            frozen_by_create_element = true;
+            continue;
+        }
+
+        if mutates_via_call {
+            if frozen_by_create_element {
+                continue;
+            }
+            return true;
+        }
+    }
+
+    false
+}
+
+fn binding_frozen_via_create_element_after(stmts: &[Stmt], name: &str) -> bool {
+    let aliases = HashSet::from([name.to_string()]);
     stmts
         .iter()
-        .any(|stmt| stmt_calls_identifier_with_alias_argument(stmt, &aliases))
+        .any(|stmt| stmt_freezes_alias_via_create_element(stmt, &aliases))
 }
 
 fn binding_captured_by_called_local_function_after(stmts: &[Stmt], name: &str) -> bool {
@@ -8163,6 +9256,68 @@ fn stmt_calls_identifier_with_alias_argument(stmt: &Stmt, aliases: &HashSet<Stri
     finder.found
 }
 
+fn stmt_freezes_alias_via_create_element(stmt: &Stmt, aliases: &HashSet<String>) -> bool {
+    struct Finder<'a> {
+        aliases: &'a HashSet<String>,
+        found: bool,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_call_expr(&mut self, call: &CallExpr) {
+            if call_freezes_alias_via_create_element(call, self.aliases) {
+                self.found = true;
+                return;
+            }
+            call.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder {
+        aliases,
+        found: false,
+    };
+    stmt.visit_with(&mut finder);
+    finder.found
+}
+
+fn call_freezes_alias_via_create_element(call: &CallExpr, aliases: &HashSet<String>) -> bool {
+    if !is_react_create_element_call(call) {
+        return false;
+    }
+
+    let Some(props_arg) = call.args.get(1) else {
+        return false;
+    };
+    if props_arg.spread.is_some() {
+        return false;
+    }
+
+    expr_is_alias(props_arg.expr.as_ref(), aliases)
+}
+
+fn is_react_create_element_call(call: &CallExpr) -> bool {
+    let Callee::Expr(callee_expr) = &call.callee else {
+        return false;
+    };
+
+    match unwrap_transparent_expr(callee_expr) {
+        Expr::Ident(ident) => ident.sym == "createElement",
+        Expr::Member(member) => {
+            matches!(&*member.obj, Expr::Ident(object) if object.sym == "React")
+                && matches!(&member.prop, MemberProp::Ident(property) if property.sym == "createElement")
+        }
+        _ => false,
+    }
+}
+
 fn stmt_calls_mutating_member_on_alias(stmt: &Stmt, aliases: &HashSet<String>) -> bool {
     struct Finder<'a> {
         aliases: &'a HashSet<String>,
@@ -8723,6 +9878,93 @@ fn contains_direct_call(stmts: &[Stmt]) -> bool {
     false
 }
 
+fn contains_local_direct_call(stmts: &[Stmt]) -> bool {
+    struct Finder<'a> {
+        local_bindings: &'a HashSet<String>,
+        found: bool,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_call_expr(&mut self, call: &CallExpr) {
+            if let Callee::Expr(expr) = &call.callee {
+                if let Expr::Ident(callee) = &**expr {
+                    if self.local_bindings.contains(callee.sym.as_ref()) {
+                        self.found = true;
+                        return;
+                    }
+                }
+            }
+
+            call.visit_children_with(self);
+        }
+    }
+
+    let mut local_bindings = HashSet::new();
+    for stmt in stmts {
+        collect_stmt_bindings(stmt, &mut local_bindings);
+    }
+
+    let mut finder = Finder {
+        local_bindings: &local_bindings,
+        found: false,
+    };
+    for stmt in stmts {
+        stmt.visit_with(&mut finder);
+        if finder.found {
+            return true;
+        }
+    }
+    false
+}
+
+fn has_create_element_result_assignment_with_post_calls(stmts: &[Stmt], name: &str) -> bool {
+    let assignment_index = stmts.iter().position(|stmt| {
+        let Stmt::Expr(expr_stmt) = stmt else {
+            return false;
+        };
+        let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+            return false;
+        };
+        if assign.op != op!("=") {
+            return false;
+        }
+        let Some(target) = assign.left.as_ident() else {
+            return false;
+        };
+        if target.id.sym != name {
+            return false;
+        }
+        let Expr::Call(call) = unwrap_transparent_expr(&assign.right) else {
+            return false;
+        };
+
+        is_react_create_element_call(call)
+    });
+
+    let Some(assignment_index) = assignment_index else {
+        return false;
+    };
+
+    stmts[assignment_index + 1..].iter().any(|stmt| {
+        let Stmt::Expr(expr_stmt) = stmt else {
+            return false;
+        };
+        !matches!(unwrap_transparent_expr(&expr_stmt.expr), Expr::Assign(_))
+            && matches!(
+                unwrap_transparent_expr(&expr_stmt.expr),
+                Expr::Call(_) | Expr::OptChain(_)
+            )
+    })
+}
+
 fn split_direct_call_prelude_from_compute_stmts(
     compute_stmts: &mut Vec<Stmt>,
     temp_name: &str,
@@ -8732,52 +9974,64 @@ fn split_direct_call_prelude_from_compute_stmts(
         return Vec::new();
     }
 
-    let last_index = compute_stmts.len() - 1;
+    let Some(split_index) = compute_stmts
+        .iter()
+        .rposition(|stmt| stmt_assigns_binding(stmt, temp_name))
+    else {
+        return Vec::new();
+    };
+    if split_index == 0 {
+        return Vec::new();
+    }
+
     let mut prelude_bindings = HashSet::new();
-    for stmt in &compute_stmts[..last_index] {
+    for stmt in &compute_stmts[..split_index] {
         collect_stmt_bindings(stmt, &mut prelude_bindings);
     }
     let force_split_for_prelude_call_arg = stmt_assigns_nonlocal_call_with_prelude_arg(
-        &compute_stmts[last_index],
+        &compute_stmts[split_index],
         temp_name,
         &prelude_bindings,
     );
-    if !contains_direct_call(&compute_stmts[..last_index]) {
+    let has_local_member_mutation_prelude =
+        contains_mutating_member_call_on_local_binding(&compute_stmts[..split_index], &prelude_bindings);
+    let has_local_direct_call_prelude = contains_local_direct_call(&compute_stmts[..split_index]);
+    let has_local_conditional_test_prelude =
+        prelude_has_conditional_test_on_local_binding(&compute_stmts[..split_index], &prelude_bindings);
+    if has_local_member_mutation_prelude && has_local_conditional_test_prelude {
         return Vec::new();
     }
-    if !force_split_for_prelude_call_arg
-        && !contains_non_allowlisted_direct_call(&compute_stmts[..last_index])
+    if !contains_direct_call(&compute_stmts[..split_index])
+        && !has_local_direct_call_prelude
+        && !has_local_member_mutation_prelude
     {
         return Vec::new();
     }
-    if contains_allowlisted_mutating_direct_call(&compute_stmts[..last_index]) {
+    if contains_allowlisted_mutating_direct_call(&compute_stmts[..split_index]) {
         return Vec::new();
     }
     if !force_split_for_prelude_call_arg
-        && prelude_passes_local_binding_to_call(&compute_stmts[..last_index], &prelude_bindings)
+        && prelude_passes_local_binding_to_call(&compute_stmts[..split_index], &prelude_bindings)
     {
         return Vec::new();
     }
     if prelude_var_call_initializer_uses_prelude_binding(
-        &compute_stmts[..last_index],
+        &compute_stmts[..split_index],
         &prelude_bindings,
     ) {
         return Vec::new();
     }
-    if prelude_declares_local_function_capturing_local_binding(&compute_stmts[..last_index]) {
+    if prelude_declares_local_function_capturing_local_binding(&compute_stmts[..split_index]) {
         return Vec::new();
     }
-    if stmt_rhs_uses_binding_as_call_callee(&compute_stmts[last_index], &prelude_bindings) {
+    if stmt_rhs_uses_binding_as_call_callee(&compute_stmts[split_index], &prelude_bindings) {
         return Vec::new();
     }
     let prelude_references_known_bindings =
-        stmts_reference_known_bindings(&compute_stmts[..last_index], known_bindings);
+        stmts_reference_known_bindings(&compute_stmts[..split_index], known_bindings);
     let prelude_has_memoizable_call_binding =
-        prelude_contains_memoizable_call_binding(&compute_stmts[..last_index], &prelude_bindings);
+        prelude_contains_memoizable_call_binding(&compute_stmts[..split_index], &prelude_bindings);
     if !prelude_references_known_bindings && !prelude_has_memoizable_call_binding {
-        return Vec::new();
-    }
-    if !stmt_assigns_binding(&compute_stmts[last_index], temp_name) {
         return Vec::new();
     }
     let mut split_local_bindings = HashSet::new();
@@ -8789,16 +10043,302 @@ fn split_direct_call_prelude_from_compute_stmts(
     {
         return Vec::new();
     }
-    if let Some(source_name) = stmt_assigned_identifier_rhs(&compute_stmts[last_index], temp_name) {
-        if prelude_mutates_result_source(&compute_stmts[..last_index], &source_name) {
+    if let Some(rhs_expr) = stmt_assigned_rhs(&compute_stmts[split_index], temp_name) {
+        if !matches!(unwrap_transparent_expr(rhs_expr), Expr::Ident(_)) {
+            let rhs_referenced_bindings = collect_ident_references_in_expr(rhs_expr);
+            if rhs_referenced_bindings.iter().any(|name| {
+                prelude_bindings.contains(name)
+                    && prelude_mutates_binding_for_non_ident_rhs_split_guard(
+                        &compute_stmts[..split_index],
+                        name,
+                    )
+            }) {
+                return Vec::new();
+            }
+        }
+    }
+    if let Some(source_name) = stmt_assigned_identifier_rhs(&compute_stmts[split_index], temp_name)
+    {
+        let source_declared_in_prelude =
+            binding_declared_in_stmts(&compute_stmts[..split_index], source_name.as_str());
+        if !source_declared_in_prelude
+            && prelude_mutates_result_source(&compute_stmts[..split_index], &source_name)
+        {
             return Vec::new();
         }
     }
 
-    let trailing = compute_stmts.split_off(last_index);
+    let trailing = compute_stmts.split_off(split_index);
     let prelude = std::mem::take(compute_stmts);
     *compute_stmts = trailing;
     prelude
+}
+
+fn stmt_assigned_rhs<'a>(stmt: &'a Stmt, target_name: &str) -> Option<&'a Expr> {
+    match stmt {
+        Stmt::Expr(expr_stmt) => {
+            let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+                return None;
+            };
+            let target = assign.left.as_ident()?;
+            if target.id.sym != target_name {
+                return None;
+            }
+            Some(&assign.right)
+        }
+        Stmt::Decl(Decl::Var(var_decl)) => {
+            let [decl] = var_decl.decls.as_slice() else {
+                return None;
+            };
+            let Pat::Ident(binding) = &decl.name else {
+                return None;
+            };
+            if binding.id.sym != target_name {
+                return None;
+            }
+            decl.init.as_deref()
+        }
+        _ => None,
+    }
+}
+
+fn collect_ident_references_in_expr(expr: &Expr) -> HashSet<String> {
+    #[derive(Default)]
+    struct Collector {
+        names: HashSet<String>,
+    }
+
+    impl Visit for Collector {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_ident(&mut self, ident: &Ident) {
+            self.names.insert(ident.sym.to_string());
+        }
+    }
+
+    let mut collector = Collector::default();
+    expr.visit_with(&mut collector);
+    collector.names
+}
+
+fn extract_trailing_post_compute_side_effect_stmts(
+    compute_stmts: &mut Vec<Stmt>,
+    result_name: &str,
+) -> Vec<Stmt> {
+    if contains_return_stmt_in_stmts(compute_stmts) {
+        return Vec::new();
+    }
+
+    let Some(last_assignment_index) = compute_stmts
+        .iter()
+        .rposition(|stmt| stmt_assigns_binding(stmt, result_name))
+    else {
+        return Vec::new();
+    };
+
+    let mut post_assignment_bindings = HashSet::new();
+    for stmt in &compute_stmts[last_assignment_index + 1..] {
+        collect_stmt_bindings_including_nested_blocks(stmt, &mut post_assignment_bindings);
+    }
+
+    let mut suffix_start = compute_stmts.len();
+    while suffix_start > last_assignment_index + 1 {
+        let idx = suffix_start - 1;
+        if stmt_is_trailing_post_compute_side_effect(&compute_stmts[idx], result_name)
+            && !stmt_references_bindings(&compute_stmts[idx], &post_assignment_bindings)
+        {
+            suffix_start -= 1;
+        } else {
+            break;
+        }
+    }
+
+    if suffix_start == compute_stmts.len() {
+        return Vec::new();
+    }
+
+    compute_stmts.split_off(suffix_start)
+}
+
+fn stmt_references_bindings(stmt: &Stmt, bindings: &HashSet<String>) -> bool {
+    if bindings.is_empty() {
+        return false;
+    }
+
+    struct Finder<'a> {
+        bindings: &'a HashSet<String>,
+        found: bool,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_ident(&mut self, ident: &Ident) {
+            if self.bindings.contains(ident.sym.as_ref()) {
+                self.found = true;
+            }
+        }
+    }
+
+    let mut finder = Finder {
+        bindings,
+        found: false,
+    };
+    stmt.visit_with(&mut finder);
+    finder.found
+}
+
+fn infer_prelude_result_binding(prelude_stmts: &[Stmt], compute_stmts: &[Stmt]) -> Option<Ident> {
+    let mut assigned = HashSet::new();
+    collect_assigned_bindings_in_stmts(prelude_stmts, &mut assigned);
+    if assigned.is_empty() {
+        return None;
+    }
+
+    let mut declared = HashSet::new();
+    for stmt in prelude_stmts {
+        collect_stmt_bindings_including_nested_blocks(stmt, &mut declared);
+    }
+
+    let mut used_in_compute = assigned
+        .into_iter()
+        .filter(|name| !declared.contains(name))
+        .filter(|name| {
+            compute_stmts
+                .iter()
+                .any(|stmt| count_binding_references_in_stmt(stmt, name.as_str()) > 0)
+        })
+        .collect::<Vec<_>>();
+
+    if used_in_compute.len() != 1 {
+        return None;
+    }
+
+    Some(Ident::new_no_ctxt(
+        used_in_compute.swap_remove(0).into(),
+        DUMMY_SP,
+    ))
+}
+
+fn collect_assigned_bindings_in_stmts(stmts: &[Stmt], out: &mut HashSet<String>) {
+    for stmt in stmts {
+        collect_assigned_bindings_in_stmt(stmt, out);
+    }
+}
+
+fn collect_assigned_bindings_in_stmt(stmt: &Stmt, out: &mut HashSet<String>) {
+    match stmt {
+        Stmt::Expr(expr_stmt) => {
+            out.extend(collect_assigned_bindings_in_expr(&expr_stmt.expr));
+        }
+        Stmt::Decl(Decl::Var(var_decl)) => {
+            for decl in &var_decl.decls {
+                if decl.init.is_some() {
+                    out.extend(collect_pattern_binding_names(&decl.name));
+                }
+            }
+        }
+        Stmt::Block(block) => {
+            collect_assigned_bindings_in_stmts(&block.stmts, out);
+        }
+        Stmt::Labeled(labeled) => {
+            collect_assigned_bindings_in_stmt(&labeled.body, out);
+        }
+        Stmt::If(if_stmt) => {
+            collect_assigned_bindings_in_stmt(&if_stmt.cons, out);
+            if let Some(alt) = &if_stmt.alt {
+                collect_assigned_bindings_in_stmt(alt, out);
+            }
+        }
+        Stmt::While(while_stmt) => {
+            collect_assigned_bindings_in_stmt(&while_stmt.body, out);
+        }
+        Stmt::DoWhile(do_while_stmt) => {
+            collect_assigned_bindings_in_stmt(&do_while_stmt.body, out);
+        }
+        Stmt::For(for_stmt) => {
+            if let Some(init) = &for_stmt.init {
+                match init {
+                    swc_ecma_ast::VarDeclOrExpr::VarDecl(var_decl) => {
+                        for decl in &var_decl.decls {
+                            if decl.init.is_some() {
+                                out.extend(collect_pattern_binding_names(&decl.name));
+                            }
+                        }
+                    }
+                    swc_ecma_ast::VarDeclOrExpr::Expr(expr) => {
+                        out.extend(collect_assigned_bindings_in_expr(expr));
+                    }
+                }
+            }
+            collect_assigned_bindings_in_stmt(&for_stmt.body, out);
+        }
+        Stmt::ForIn(for_in_stmt) => {
+            if let swc_ecma_ast::ForHead::VarDecl(var_decl) = &for_in_stmt.left {
+                for decl in &var_decl.decls {
+                    out.extend(collect_pattern_binding_names(&decl.name));
+                }
+            }
+            collect_assigned_bindings_in_stmt(&for_in_stmt.body, out);
+        }
+        Stmt::ForOf(for_of_stmt) => {
+            if let swc_ecma_ast::ForHead::VarDecl(var_decl) = &for_of_stmt.left {
+                for decl in &var_decl.decls {
+                    out.extend(collect_pattern_binding_names(&decl.name));
+                }
+            }
+            collect_assigned_bindings_in_stmt(&for_of_stmt.body, out);
+        }
+        Stmt::Switch(switch_stmt) => {
+            for case in &switch_stmt.cases {
+                collect_assigned_bindings_in_stmts(&case.cons, out);
+            }
+        }
+        Stmt::Try(try_stmt) => {
+            collect_assigned_bindings_in_stmts(&try_stmt.block.stmts, out);
+            if let Some(handler) = &try_stmt.handler {
+                collect_assigned_bindings_in_stmts(&handler.body.stmts, out);
+            }
+            if let Some(finalizer) = &try_stmt.finalizer {
+                collect_assigned_bindings_in_stmts(&finalizer.stmts, out);
+            }
+        }
+        _ => {}
+    }
+}
+
+fn stmt_is_trailing_post_compute_side_effect(stmt: &Stmt, result_name: &str) -> bool {
+    if count_binding_references_in_stmt(stmt, result_name) > 0 {
+        return false;
+    }
+
+    match stmt {
+        Stmt::Expr(expr_stmt) => matches!(
+            unwrap_transparent_expr(&expr_stmt.expr),
+            Expr::Call(_) | Expr::OptChain(_)
+        ),
+        Stmt::If(if_stmt) => {
+            stmt_is_trailing_post_compute_side_effect(&if_stmt.cons, result_name)
+                && if_stmt.alt.as_deref().is_none_or(|alt| {
+                    stmt_is_trailing_post_compute_side_effect(alt, result_name)
+                })
+        }
+        Stmt::Block(block) => {
+            !block.stmts.is_empty()
+                && block
+                    .stmts
+                    .iter()
+                    .all(|nested| stmt_is_trailing_post_compute_side_effect(nested, result_name))
+        }
+        Stmt::Labeled(labeled) => {
+            stmt_is_trailing_post_compute_side_effect(&labeled.body, result_name)
+        }
+        _ => false,
+    }
 }
 
 fn prelude_contains_memoizable_call_binding(
@@ -8906,6 +10446,17 @@ fn stmt_declares_const_ident_alias(stmt: &Stmt) -> bool {
     })
 }
 
+fn stmt_declares_non_ident_pattern(stmt: &Stmt) -> bool {
+    let Stmt::Decl(Decl::Var(var_decl)) = stmt else {
+        return false;
+    };
+
+    var_decl
+        .decls
+        .iter()
+        .any(|decl| !matches!(decl.name, Pat::Ident(_)))
+}
+
 fn prelude_passes_local_binding_to_call(stmts: &[Stmt], local_bindings: &HashSet<String>) -> bool {
     if local_bindings.is_empty() {
         return false;
@@ -9005,12 +10556,100 @@ fn prelude_declares_local_function_capturing_local_binding(stmts: &[Stmt]) -> bo
                 continue;
             }
             if function_expr_may_capture_outer_bindings(init, &local_bindings) {
-                return true;
+                let Pat::Ident(binding) = &decl.name else {
+                    return true;
+                };
+                if !binding_only_called_directly_in_stmts(stmts, binding.id.sym.as_ref()) {
+                    return true;
+                }
             }
         }
     }
 
     false
+}
+
+fn binding_only_called_directly_in_stmts(stmts: &[Stmt], name: &str) -> bool {
+    #[derive(Default)]
+    struct Finder<'a> {
+        name: &'a str,
+        called: bool,
+        invalid: bool,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_var_decl(&mut self, var_decl: &VarDecl) {
+            for decl in &var_decl.decls {
+                if let Some(init) = &decl.init {
+                    init.visit_with(self);
+                }
+            }
+        }
+
+        fn visit_call_expr(&mut self, call: &CallExpr) {
+            if let Callee::Expr(callee_expr) = &call.callee {
+                if let Expr::Ident(callee) = unwrap_transparent_expr(callee_expr) {
+                    if callee.sym == self.name {
+                        self.called = true;
+                        for arg in &call.args {
+                            arg.visit_with(self);
+                            if self.invalid {
+                                return;
+                            }
+                        }
+                        return;
+                    }
+                }
+            }
+
+            call.visit_children_with(self);
+        }
+
+        fn visit_opt_call(&mut self, call: &swc_ecma_ast::OptCall) {
+            if let Expr::Ident(callee) = unwrap_transparent_expr(&call.callee) {
+                if callee.sym == self.name {
+                    self.called = true;
+                    for arg in &call.args {
+                        arg.visit_with(self);
+                        if self.invalid {
+                            return;
+                        }
+                    }
+                    return;
+                }
+            }
+
+            call.visit_children_with(self);
+        }
+
+        fn visit_ident(&mut self, ident: &Ident) {
+            if ident.sym == self.name {
+                self.invalid = true;
+            }
+        }
+    }
+
+    let mut finder = Finder {
+        name,
+        called: false,
+        invalid: false,
+    };
+    for stmt in stmts {
+        stmt.visit_with(&mut finder);
+        if finder.invalid {
+            return false;
+        }
+    }
+
+    finder.called
 }
 
 fn extract_post_memo_switch_stmts(
@@ -9497,63 +11136,12 @@ fn prelude_mutates_result_source(stmts: &[Stmt], source_name: &str) -> bool {
         || binding_maybe_mutated_in_called_iife_after(stmts, source_name)
 }
 
-fn contains_non_allowlisted_direct_call(stmts: &[Stmt]) -> bool {
-    let mut local_bindings = HashSet::new();
-    for stmt in stmts {
-        collect_stmt_bindings(stmt, &mut local_bindings);
-    }
-
-    struct Finder<'a> {
-        local_bindings: &'a HashSet<String>,
-        found: bool,
-    }
-
-    impl Visit for Finder<'_> {
-        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
-            // Skip nested functions.
-        }
-
-        fn visit_function(&mut self, _: &Function) {
-            // Skip nested functions.
-        }
-
-        fn visit_call_expr(&mut self, call: &CallExpr) {
-            if let Callee::Expr(expr) = &call.callee {
-                if let Expr::Ident(callee) = &**expr {
-                    if is_hook_name(callee.sym.as_ref())
-                        || matches!(callee.sym.as_ref(), "String" | "Number" | "Boolean")
-                        || self.local_bindings.contains(callee.sym.as_ref())
-                    {
-                        call.visit_children_with(self);
-                        return;
-                    }
-
-                    let allowlisted = matches!(
-                        callee.sym.as_ref(),
-                        "mutate" | "setProperty" | "setPropertyByKey"
-                    );
-                    if !allowlisted {
-                        self.found = true;
-                        return;
-                    }
-                }
-            }
-            call.visit_children_with(self);
-        }
-    }
-
-    let mut finder = Finder {
-        local_bindings: &local_bindings,
-        found: false,
-    };
-    for stmt in stmts {
-        stmt.visit_with(&mut finder);
-        if finder.found {
-            return true;
-        }
-    }
-
-    false
+fn prelude_mutates_binding_for_non_ident_rhs_split_guard(stmts: &[Stmt], name: &str) -> bool {
+    has_assignment_to_binding(stmts, name)
+        || binding_mutated_via_member_call_after(stmts, name)
+        || binding_mutated_via_member_assignment_after(stmts, name)
+        || binding_captured_by_called_local_function_after(stmts, name)
+        || binding_maybe_mutated_in_called_iife_after(stmts, name)
 }
 
 fn contains_allowlisted_mutating_direct_call(stmts: &[Stmt]) -> bool {
@@ -9574,6 +11162,176 @@ fn contains_allowlisted_mutating_direct_call(stmts: &[Stmt]) -> bool {
             callee.sym.as_ref(),
             "mutate" | "setProperty" | "setPropertyByKey"
         ) {
+            return true;
+        }
+    }
+    false
+}
+
+fn contains_mutating_member_call_on_local_binding(
+    stmts: &[Stmt],
+    local_bindings: &HashSet<String>,
+) -> bool {
+    struct Finder<'a> {
+        local_bindings: &'a HashSet<String>,
+        found: bool,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_call_expr(&mut self, call: &CallExpr) {
+            let Callee::Expr(callee_expr) = &call.callee else {
+                call.visit_children_with(self);
+                return;
+            };
+            let Expr::Member(member) = unwrap_transparent_expr(callee_expr) else {
+                call.visit_children_with(self);
+                return;
+            };
+            let Expr::Ident(object) = unwrap_transparent_expr(&member.obj) else {
+                call.visit_children_with(self);
+                return;
+            };
+            if self.local_bindings.contains(object.sym.as_ref())
+                && call_mutates_binding(call, object.sym.as_ref())
+            {
+                self.found = true;
+                return;
+            }
+
+            call.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder {
+        local_bindings,
+        found: false,
+    };
+    for stmt in stmts {
+        stmt.visit_with(&mut finder);
+        if finder.found {
+            return true;
+        }
+    }
+    false
+}
+
+fn prelude_has_conditional_test_on_local_binding(
+    stmts: &[Stmt],
+    local_bindings: &HashSet<String>,
+) -> bool {
+    struct Finder<'a> {
+        local_bindings: &'a HashSet<String>,
+        found: bool,
+        in_test: bool,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_if_stmt(&mut self, if_stmt: &IfStmt) {
+            let prev_in_test = self.in_test;
+            self.in_test = true;
+            if_stmt.test.visit_with(self);
+            self.in_test = prev_in_test;
+            if self.found {
+                return;
+            }
+            if_stmt.cons.visit_with(self);
+            if self.found {
+                return;
+            }
+            if let Some(alt) = &if_stmt.alt {
+                alt.visit_with(self);
+            }
+        }
+
+        fn visit_for_stmt(&mut self, for_stmt: &swc_ecma_ast::ForStmt) {
+            if let Some(test) = &for_stmt.test {
+                let prev_in_test = self.in_test;
+                self.in_test = true;
+                test.visit_with(self);
+                self.in_test = prev_in_test;
+                if self.found {
+                    return;
+                }
+            }
+            for_stmt.init.visit_with(self);
+            if self.found {
+                return;
+            }
+            for_stmt.update.visit_with(self);
+            if self.found {
+                return;
+            }
+            for_stmt.body.visit_with(self);
+        }
+
+        fn visit_while_stmt(&mut self, while_stmt: &swc_ecma_ast::WhileStmt) {
+            let prev_in_test = self.in_test;
+            self.in_test = true;
+            while_stmt.test.visit_with(self);
+            self.in_test = prev_in_test;
+            if self.found {
+                return;
+            }
+            while_stmt.body.visit_with(self);
+        }
+
+        fn visit_do_while_stmt(&mut self, do_while_stmt: &swc_ecma_ast::DoWhileStmt) {
+            do_while_stmt.body.visit_with(self);
+            if self.found {
+                return;
+            }
+            let prev_in_test = self.in_test;
+            self.in_test = true;
+            do_while_stmt.test.visit_with(self);
+            self.in_test = prev_in_test;
+        }
+
+        fn visit_cond_expr(&mut self, cond_expr: &swc_ecma_ast::CondExpr) {
+            let prev_in_test = self.in_test;
+            self.in_test = true;
+            cond_expr.test.visit_with(self);
+            self.in_test = prev_in_test;
+            if self.found {
+                return;
+            }
+            cond_expr.cons.visit_with(self);
+            if self.found {
+                return;
+            }
+            cond_expr.alt.visit_with(self);
+        }
+
+        fn visit_ident(&mut self, ident: &Ident) {
+            if self.in_test && self.local_bindings.contains(ident.sym.as_ref()) {
+                self.found = true;
+            }
+        }
+    }
+
+    let mut finder = Finder {
+        local_bindings,
+        found: false,
+        in_test: false,
+    };
+    for stmt in stmts {
+        stmt.visit_with(&mut finder);
+        if finder.found {
             return true;
         }
     }
@@ -10680,7 +12438,6 @@ fn rewrite_result_binding_to_assignment(stmts: &mut [Stmt], name: &str) -> bool 
         *stmt = assign_stmt(AssignTarget::from(binding.id.clone()), init.clone());
         return true;
     }
-
     false
 }
 
@@ -11164,6 +12921,39 @@ fn should_passthrough_pure_initializer(expr: &Expr) -> bool {
     )
 }
 
+fn is_default_param_conditional_expr(expr: &Expr) -> bool {
+    fn is_undefined(expr: &Expr) -> bool {
+        matches!(unwrap_transparent_expr(expr), Expr::Ident(ident) if ident.sym == "undefined")
+    }
+
+    let Expr::Cond(cond) = unwrap_transparent_expr(expr) else {
+        return false;
+    };
+    let Expr::Bin(test) = unwrap_transparent_expr(&cond.test) else {
+        return false;
+    };
+    if test.op != op!("===") {
+        return false;
+    }
+
+    let param_ident = match (
+        unwrap_transparent_expr(&test.left),
+        unwrap_transparent_expr(&test.right),
+    ) {
+        (Expr::Ident(left), right) if is_undefined(right) => Some(left.sym.to_string()),
+        (left, Expr::Ident(right)) if is_undefined(left) => Some(right.sym.to_string()),
+        _ => None,
+    };
+    let Some(param_ident) = param_ident else {
+        return false;
+    };
+
+    matches!(
+        unwrap_transparent_expr(&cond.alt),
+        Expr::Ident(alt_ident) if alt_ident.sym == param_ident
+    )
+}
+
 fn append_for_update_assignment_result_in_stmts(stmts: &mut Vec<Stmt>) {
     struct Rewriter;
 
@@ -11263,11 +13053,16 @@ fn extract_const_decl_initializer(stmts: &mut Vec<Stmt>, name: &str) -> Option<B
 }
 
 fn normalize_static_string_members_in_stmts(stmts: &mut [Stmt]) {
-    struct Normalizer;
+    struct Normalizer {
+        in_delete_operand: bool,
+    }
 
     impl VisitMut for Normalizer {
         fn visit_mut_member_expr(&mut self, member: &mut MemberExpr) {
             member.visit_mut_children_with(self);
+            if self.in_delete_operand {
+                return;
+            }
 
             let MemberProp::Computed(computed) = &member.prop else {
                 return;
@@ -11283,9 +13078,20 @@ fn normalize_static_string_members_in_stmts(stmts: &mut [Stmt]) {
                 );
             }
         }
+
+        fn visit_mut_unary_expr(&mut self, unary: &mut swc_ecma_ast::UnaryExpr) {
+            let prev = self.in_delete_operand;
+            if matches!(unary.op, swc_ecma_ast::UnaryOp::Delete) {
+                self.in_delete_operand = true;
+            }
+            unary.visit_mut_children_with(self);
+            self.in_delete_operand = prev;
+        }
     }
 
-    let mut normalizer = Normalizer;
+    let mut normalizer = Normalizer {
+        in_delete_operand: false,
+    };
     for stmt in stmts {
         stmt.visit_mut_with(&mut normalizer);
     }
@@ -12690,14 +14496,64 @@ fn strip_runtime_call_type_args_in_stmts(stmts: &mut [Stmt]) {
 }
 
 fn extract_iife_return_expr(expr: &Expr) -> Option<Box<Expr>> {
+    fn stmt_is_drop_pure_iife_prelude(stmt: &Stmt) -> bool {
+        match stmt {
+            Stmt::Decl(Decl::Var(var_decl))
+                if matches!(var_decl.kind, VarDeclKind::Const | VarDeclKind::Let) =>
+            {
+                var_decl
+                    .decls
+                    .iter()
+                    .all(|decl| {
+                        decl.init
+                            .as_ref()
+                            .map_or(true, |init| !expr_has_observable_side_effect(init))
+                    })
+            }
+            Stmt::Empty(_) => true,
+            _ => false,
+        }
+    }
+
+    fn can_drop_iife_prelude_stmts(preceding: &[Stmt], ret_expr: &Expr) -> bool {
+        if preceding.is_empty() {
+            return true;
+        }
+        if preceding
+            .iter()
+            .any(|stmt| !stmt_is_drop_pure_iife_prelude(stmt))
+        {
+            return false;
+        }
+
+        let mut prelude_bindings = HashSet::new();
+        for stmt in preceding {
+            collect_stmt_bindings(stmt, &mut prelude_bindings);
+        }
+        if prelude_bindings.is_empty() {
+            return true;
+        }
+
+        if matches!(unwrap_transparent_expr(ret_expr), Expr::Arrow(_) | Expr::Fn(_)) {
+            !function_expr_may_capture_outer_bindings(ret_expr, &prelude_bindings)
+        } else {
+            !expr_references_bindings(ret_expr, &prelude_bindings)
+        }
+    }
+
     match expr {
         Expr::Paren(paren) => extract_iife_return_expr(&paren.expr),
         Expr::Arrow(arrow) if !arrow.is_async && !arrow.is_generator && arrow.params.is_empty() => {
             match &*arrow.body {
                 swc_ecma_ast::BlockStmtOrExpr::Expr(value_expr) => Some(value_expr.clone()),
                 swc_ecma_ast::BlockStmtOrExpr::BlockStmt(block) => {
-                    if let [Stmt::Return(return_stmt)] = block.stmts.as_slice() {
-                        return_stmt.arg.clone()
+                    let (last, preceding) = block.stmts.split_last()?;
+                    let Stmt::Return(return_stmt) = last else {
+                        return None;
+                    };
+                    let ret_expr = return_stmt.arg.clone()?;
+                    if can_drop_iife_prelude_stmts(preceding, ret_expr.as_ref()) {
+                        Some(ret_expr)
                     } else {
                         None
                     }
@@ -12710,8 +14566,13 @@ fn extract_iife_return_expr(expr: &Expr) -> Option<Box<Expr>> {
                 && fn_expr.function.params.is_empty() =>
         {
             let body = fn_expr.function.body.as_ref()?;
-            if let [Stmt::Return(return_stmt)] = body.stmts.as_slice() {
-                return_stmt.arg.clone()
+            let (last, preceding) = body.stmts.split_last()?;
+            let Stmt::Return(return_stmt) = last else {
+                return None;
+            };
+            let ret_expr = return_stmt.arg.clone()?;
+            if can_drop_iife_prelude_stmts(preceding, ret_expr.as_ref()) {
+                Some(ret_expr)
             } else {
                 None
             }
