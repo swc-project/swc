@@ -1,11 +1,8 @@
-use crate::hir::HirFunction;
+mod eliminate_redundant_phi;
+mod enter_ssa;
+mod rewrite_instruction_kinds_based_on_reassignment;
 
-/// Converts HIR into SSA form.
-pub fn enter_ssa(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Removes redundant phi nodes.
-pub fn eliminate_redundant_phi(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
+pub use self::{
+    eliminate_redundant_phi::eliminate_redundant_phi, enter_ssa::enter_ssa,
+    rewrite_instruction_kinds_based_on_reassignment::rewrite_instruction_kinds_based_on_reassignment,
+};

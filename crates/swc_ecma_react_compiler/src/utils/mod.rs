@@ -42,7 +42,7 @@ pub fn is_hook_name(name: &str) -> bool {
 }
 
 pub fn is_component_name(name: &str) -> bool {
-    matches!(name.chars().next(), Some(c) if c.is_ascii_uppercase())
+    name == "component" || matches!(name.chars().next(), Some(c) if c.is_ascii_uppercase())
 }
 
 pub fn is_valid_identifier(value: &str) -> bool {

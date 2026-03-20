@@ -1,26 +1,15 @@
-use crate::hir::HirFunction;
+mod analyse_functions;
+mod drop_manual_memoization;
+mod infer_mutation_aliasing_effects;
+mod infer_mutation_aliasing_ranges;
+mod infer_reactive_places;
+mod infer_types;
+mod inline_immediately_invoked_function_expressions;
 
-/// Performs type inference.
-pub fn infer_types(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Performs function-level aliasing and dependency analysis.
-pub fn analyse_functions(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Infers reactive places used by memoization logic.
-pub fn infer_reactive_places(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Infers mutable aliasing effects.
-pub fn infer_mutation_aliasing_effects(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
-
-/// Infers mutable aliasing ranges.
-pub fn infer_mutation_aliasing_ranges(_hir: &mut HirFunction) {
-    // Intentionally a no-op in the first Rust port stage.
-}
+pub use self::{
+    analyse_functions::analyse_functions, drop_manual_memoization::drop_manual_memoization,
+    infer_mutation_aliasing_effects::infer_mutation_aliasing_effects,
+    infer_mutation_aliasing_ranges::infer_mutation_aliasing_ranges,
+    infer_reactive_places::infer_reactive_places, infer_types::infer_types,
+    inline_immediately_invoked_function_expressions::inline_immediately_invoked_function_expressions,
+};
