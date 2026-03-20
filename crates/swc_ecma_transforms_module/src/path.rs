@@ -1,7 +1,6 @@
 use std::{
     borrow::Cow,
     env::current_dir,
-    fs::canonicalize,
     io,
     path::{Component, Path, PathBuf},
     sync::Arc,
@@ -260,13 +259,15 @@ where
             }
         };
 
-        // Bazel uses symlink
+        // Clean the resolved path to normalize `.` and `..` components
+        // without resolving symlinks. Previously this used `canonicalize()`
+        // which resolved symlinks, breaking setups where symlinked source
+        // files need imports resolved relative to the symlink location.
         //
         // https://github.com/swc-project/swc/issues/8265
-        if let FileName::Real(resolved) = &target.filename {
-            if let Ok(orig) = canonicalize(resolved) {
-                target.filename = FileName::Real(orig);
-            }
+        // https://github.com/swc-project/swc/issues/11584
+        if let FileName::Real(resolved) = &mut target.filename {
+            *resolved = resolved.clean();
         }
 
         let Resolution {
