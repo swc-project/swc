@@ -1,4 +1,5 @@
 use std::{
+    collections::HashSet,
     fs,
     path::{Path, PathBuf},
 };
@@ -54,6 +55,224 @@ fn normalize_flow_component_syntax(source: &str) -> String {
     out
 }
 
+fn collect_flow_component_declaration_names(source: &str) -> HashSet<String> {
+    let mut names = HashSet::new();
+
+    for line in source.lines() {
+        let trimmed = line.trim_start();
+        let rest = if let Some(rest) = trimmed.strip_prefix("export default component ") {
+            rest
+        } else if let Some(rest) = trimmed.strip_prefix("component ") {
+            rest
+        } else {
+            continue;
+        };
+
+        let name: String = rest
+            .chars()
+            .take_while(|ch| ch.is_ascii_alphanumeric() || *ch == '_' || *ch == '$')
+            .collect();
+        if !name.is_empty() {
+            names.insert(name);
+        }
+    }
+
+    names
+}
+
+fn build_readonly_object_type_ann_from_idents(
+    bindings: &[swc_ecma_ast::BindingIdent],
+) -> Option<Box<swc_ecma_ast::TsTypeAnn>> {
+    let mut members = Vec::with_capacity(bindings.len());
+
+    for binding in bindings {
+        let prop_type = binding.type_ann.as_ref().map(|ann| ann.type_ann.clone())?;
+        members.push(swc_ecma_ast::TsTypeElement::TsPropertySignature(
+            swc_ecma_ast::TsPropertySignature {
+                span: swc_common::DUMMY_SP,
+                readonly: false,
+                key: Box::new(swc_ecma_ast::Expr::Ident(binding.id.clone())),
+                computed: false,
+                optional: binding.id.optional,
+                type_ann: Some(Box::new(swc_ecma_ast::TsTypeAnn {
+                    span: swc_common::DUMMY_SP,
+                    type_ann: prop_type,
+                })),
+            },
+        ));
+    }
+
+    Some(Box::new(swc_ecma_ast::TsTypeAnn {
+        span: swc_common::DUMMY_SP,
+        type_ann: Box::new(swc_ecma_ast::TsType::TsTypeRef(swc_ecma_ast::TsTypeRef {
+            span: swc_common::DUMMY_SP,
+            type_name: swc_ecma_ast::TsEntityName::Ident(swc_ecma_ast::Ident::new_no_ctxt(
+                "$ReadOnly".into(),
+                swc_common::DUMMY_SP,
+            )),
+            type_params: Some(Box::new(swc_ecma_ast::TsTypeParamInstantiation {
+                span: swc_common::DUMMY_SP,
+                params: vec![Box::new(swc_ecma_ast::TsType::TsTypeLit(
+                    swc_ecma_ast::TsTypeLit {
+                        span: swc_common::DUMMY_SP,
+                        members,
+                    },
+                ))],
+            })),
+        })),
+    }))
+}
+
+fn build_readonly_empty_object_type_ann() -> Box<swc_ecma_ast::TsTypeAnn> {
+    Box::new(swc_ecma_ast::TsTypeAnn {
+        span: swc_common::DUMMY_SP,
+        type_ann: Box::new(swc_ecma_ast::TsType::TsTypeRef(swc_ecma_ast::TsTypeRef {
+            span: swc_common::DUMMY_SP,
+            type_name: swc_ecma_ast::TsEntityName::Ident(swc_ecma_ast::Ident::new_no_ctxt(
+                "$ReadOnly".into(),
+                swc_common::DUMMY_SP,
+            )),
+            type_params: Some(Box::new(swc_ecma_ast::TsTypeParamInstantiation {
+                span: swc_common::DUMMY_SP,
+                params: vec![Box::new(swc_ecma_ast::TsType::TsTypeLit(
+                    swc_ecma_ast::TsTypeLit {
+                        span: swc_common::DUMMY_SP,
+                        members: Vec::new(),
+                    },
+                ))],
+            })),
+        })),
+    })
+}
+
+fn param_is_ref_param(param: &swc_ecma_ast::Param) -> bool {
+    matches!(&param.pat, swc_ecma_ast::Pat::Ident(binding) if binding.id.sym == "ref")
+}
+
+fn rewrite_flow_component_function_params(function: &mut swc_ecma_ast::Function) {
+    if function.params.is_empty() {
+        return;
+    }
+
+    let has_ref_param = function.params.last().is_some_and(param_is_ref_param);
+    let props_count = if has_ref_param {
+        function.params.len().saturating_sub(1)
+    } else {
+        function.params.len()
+    };
+
+    if props_count == 0 {
+        if has_ref_param {
+            let ref_param = function
+                .params
+                .pop()
+                .expect("has_ref_param implies at least one param");
+            function.params.push(swc_ecma_ast::Param {
+                span: swc_common::DUMMY_SP,
+                decorators: Vec::new(),
+                pat: swc_ecma_ast::Pat::Ident(swc_ecma_ast::BindingIdent {
+                    id: swc_ecma_ast::Ident::new_no_ctxt(
+                        "_$$empty_props_placeholder$$".into(),
+                        swc_common::DUMMY_SP,
+                    ),
+                    type_ann: Some(build_readonly_empty_object_type_ann()),
+                }),
+            });
+            function.params.push(ref_param);
+        }
+        return;
+    }
+
+    let mut prop_bindings = Vec::with_capacity(props_count);
+    for param in function.params.iter().take(props_count) {
+        let swc_ecma_ast::Pat::Ident(binding) = &param.pat else {
+            return;
+        };
+        prop_bindings.push(binding.clone());
+    }
+
+    let object_type_ann = build_readonly_object_type_ann_from_idents(&prop_bindings);
+    let object_props = prop_bindings
+        .iter()
+        .map(|binding| {
+            swc_ecma_ast::ObjectPatProp::Assign(swc_ecma_ast::AssignPatProp {
+                span: swc_common::DUMMY_SP,
+                key: swc_ecma_ast::BindingIdent {
+                    id: binding.id.clone(),
+                    type_ann: None,
+                },
+                value: None,
+            })
+        })
+        .collect();
+
+    let mut rewritten_params = vec![swc_ecma_ast::Param {
+        span: swc_common::DUMMY_SP,
+        decorators: Vec::new(),
+        pat: swc_ecma_ast::Pat::Object(swc_ecma_ast::ObjectPat {
+            span: swc_common::DUMMY_SP,
+            props: object_props,
+            optional: false,
+            type_ann: object_type_ann,
+        }),
+    }];
+
+    if has_ref_param {
+        if let Some(ref_param) = function.params.last().cloned() {
+            rewritten_params.push(ref_param);
+        }
+    }
+
+    function.params = rewritten_params;
+}
+
+fn rewrite_flow_component_param_semantics(
+    program: &mut Program,
+    component_names: &HashSet<String>,
+) {
+    if component_names.is_empty() {
+        return;
+    }
+
+    struct Rewriter<'a> {
+        component_names: &'a HashSet<String>,
+    }
+
+    impl Rewriter<'_> {
+        fn rewrite_if_component(
+            &self,
+            name: Option<&swc_ecma_ast::Ident>,
+            function: &mut swc_ecma_ast::Function,
+        ) {
+            let Some(name) = name else {
+                return;
+            };
+            if self.component_names.contains(name.sym.as_ref()) {
+                rewrite_flow_component_function_params(function);
+            }
+        }
+    }
+
+    impl VisitMut for Rewriter<'_> {
+        fn visit_mut_fn_decl(&mut self, fn_decl: &mut swc_ecma_ast::FnDecl) {
+            self.rewrite_if_component(Some(&fn_decl.ident), &mut fn_decl.function);
+            fn_decl.visit_mut_children_with(self);
+        }
+
+        fn visit_mut_export_default_decl(
+            &mut self,
+            export_default: &mut swc_ecma_ast::ExportDefaultDecl,
+        ) {
+            if let swc_ecma_ast::DefaultDecl::Fn(fn_expr) = &mut export_default.decl {
+                self.rewrite_if_component(fn_expr.ident.as_ref(), &mut fn_expr.function);
+            }
+            export_default.visit_mut_children_with(self);
+        }
+    }
+
+    program.visit_mut_with(&mut Rewriter { component_names });
+}
+
 fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     let cm = Lrc::new(SourceMap::default());
     let parse_with_source = |code: &str, syntax: Syntax| {
@@ -95,6 +314,7 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     if parsed_es.is_err() {
         let normalized = normalize_flow_component_syntax(source);
         if normalized != source {
+            let component_names = collect_flow_component_declaration_names(source);
             let (parsed_ts_normalized, ts_comments_normalized) = parse_with_source(
                 &normalized,
                 Syntax::Typescript(TsSyntax {
@@ -104,10 +324,9 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
                 }),
             );
             if let Ok(program) = parsed_ts_normalized {
-                return (
-                    Program::Module(program),
-                    flatten_comments(&ts_comments_normalized),
-                );
+                let mut program = Program::Module(program);
+                rewrite_flow_component_param_semantics(&mut program, &component_names);
+                return (program, flatten_comments(&ts_comments_normalized));
             }
 
             let (parsed_es_normalized, es_comments_normalized) = parse_with_source(
@@ -119,10 +338,9 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
                 }),
             );
             if let Ok(program) = parsed_es_normalized {
-                return (
-                    Program::Module(program),
-                    flatten_comments(&es_comments_normalized),
-                );
+                let mut program = Program::Module(program);
+                rewrite_flow_component_param_semantics(&mut program, &component_names);
+                return (program, flatten_comments(&es_comments_normalized));
             }
         }
     }
@@ -337,6 +555,11 @@ fn parse_pragmas(source: &str) -> PluginOptions {
             "enableReanimatedCheck" => {
                 if let Some(value) = parsed_value.as_bool() {
                     options.enable_reanimated_check = Some(value);
+                }
+            }
+            "enableEmitInstrumentForget" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    options.enable_emit_instrument_forget = Some(value);
                 }
             }
             "customOptOutDirectives" => {

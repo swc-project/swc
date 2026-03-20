@@ -226,6 +226,7 @@ pub struct PluginOptions {
     pub custom_opt_out_directives: Option<Vec<String>>,
     pub sources: Option<SourceSelection>,
     pub enable_reanimated_check: Option<bool>,
+    pub enable_emit_instrument_forget: Option<bool>,
     pub target: Option<CompilerReactTarget>,
 }
 
@@ -246,6 +247,7 @@ pub struct ParsedPluginOptions {
     pub custom_opt_out_directives: Option<Vec<String>>,
     pub sources: Option<SourceSelection>,
     pub enable_reanimated_check: bool,
+    pub enable_emit_instrument_forget: bool,
     pub target: CompilerReactTarget,
 }
 
@@ -294,6 +296,7 @@ pub fn default_options() -> ParsedPluginOptions {
         ignore_use_no_forget: false,
         sources: None,
         enable_reanimated_check: true,
+        enable_emit_instrument_forget: false,
         custom_opt_out_directives: None,
         target: CompilerReactTarget::React19,
     }
@@ -377,6 +380,9 @@ pub fn parse_plugin_options(options: PluginOptions) -> Result<ParsedPluginOption
     }
     if let Some(enable_reanimated_check) = options.enable_reanimated_check {
         parsed.enable_reanimated_check = enable_reanimated_check;
+    }
+    if let Some(enable_emit_instrument_forget) = options.enable_emit_instrument_forget {
+        parsed.enable_emit_instrument_forget = enable_emit_instrument_forget;
     }
     if let Some(target) = options.target {
         parsed.target = target;
