@@ -463,54 +463,66 @@ fn normalize_function_params_for_lowering(function: &mut Function) {
                         if let Pat::Assign(assign_pat) = non_hole_pats[0] {
                             if let Pat::Ident(binding) = &*assign_pat.left {
                                 let value_temp = fresh_param_temp_ident(&mut next_temp, &mut used);
-                                prologue.push(Stmt::Decl(Decl::Var(Box::new(swc_ecma_ast::VarDecl {
-                                    span: DUMMY_SP,
-                                    ctxt: Default::default(),
-                                    kind: swc_ecma_ast::VarDeclKind::Const,
-                                    declare: false,
-                                    decls: vec![swc_ecma_ast::VarDeclarator {
+                                prologue.push(Stmt::Decl(Decl::Var(Box::new(
+                                    swc_ecma_ast::VarDecl {
                                         span: DUMMY_SP,
-                                        name: Pat::Array(swc_ecma_ast::ArrayPat {
-                                            span: array_pat.span,
-                                            elems: vec![Some(Pat::Ident(BindingIdent {
-                                                id: value_temp.clone(),
-                                                type_ann: None,
-                                            }))],
-                                            optional: false,
-                                            type_ann: None,
-                                        }),
-                                        init: Some(Box::new(Expr::Ident(temp_ident))),
-                                        definite: false,
-                                    }],
-                                }))));
-                                prologue.push(Stmt::Decl(Decl::Var(Box::new(swc_ecma_ast::VarDecl {
-                                    span: DUMMY_SP,
-                                    ctxt: Default::default(),
-                                    kind: swc_ecma_ast::VarDeclKind::Const,
-                                    declare: false,
-                                    decls: vec![swc_ecma_ast::VarDeclarator {
-                                        span: DUMMY_SP,
-                                        name: Pat::Ident(BindingIdent {
-                                            id: binding.id.clone(),
-                                            type_ann: binding.type_ann.clone(),
-                                        }),
-                                        init: Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                                        ctxt: Default::default(),
+                                        kind: swc_ecma_ast::VarDeclKind::Const,
+                                        declare: false,
+                                        decls: vec![swc_ecma_ast::VarDeclarator {
                                             span: DUMMY_SP,
-                                            test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
-                                                span: DUMMY_SP,
-                                                op: op!("==="),
-                                                left: Box::new(Expr::Ident(value_temp.clone())),
-                                                right: Box::new(Expr::Ident(Ident::new_no_ctxt(
-                                                    "undefined".into(),
-                                                    DUMMY_SP,
-                                                ))),
-                                            })),
-                                            cons: assign_pat.right.clone(),
-                                            alt: Box::new(Expr::Ident(value_temp)),
-                                        }))),
-                                        definite: false,
-                                    }],
-                                }))));
+                                            name: Pat::Array(swc_ecma_ast::ArrayPat {
+                                                span: array_pat.span,
+                                                elems: vec![Some(Pat::Ident(BindingIdent {
+                                                    id: value_temp.clone(),
+                                                    type_ann: None,
+                                                }))],
+                                                optional: false,
+                                                type_ann: None,
+                                            }),
+                                            init: Some(Box::new(Expr::Ident(temp_ident))),
+                                            definite: false,
+                                        }],
+                                    },
+                                ))));
+                                prologue.push(Stmt::Decl(Decl::Var(Box::new(
+                                    swc_ecma_ast::VarDecl {
+                                        span: DUMMY_SP,
+                                        ctxt: Default::default(),
+                                        kind: swc_ecma_ast::VarDeclKind::Const,
+                                        declare: false,
+                                        decls: vec![swc_ecma_ast::VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: Pat::Ident(BindingIdent {
+                                                id: binding.id.clone(),
+                                                type_ann: binding.type_ann.clone(),
+                                            }),
+                                            init: Some(Box::new(Expr::Cond(
+                                                swc_ecma_ast::CondExpr {
+                                                    span: DUMMY_SP,
+                                                    test: Box::new(Expr::Bin(
+                                                        swc_ecma_ast::BinExpr {
+                                                            span: DUMMY_SP,
+                                                            op: op!("==="),
+                                                            left: Box::new(Expr::Ident(
+                                                                value_temp.clone(),
+                                                            )),
+                                                            right: Box::new(Expr::Ident(
+                                                                Ident::new_no_ctxt(
+                                                                    "undefined".into(),
+                                                                    DUMMY_SP,
+                                                                ),
+                                                            )),
+                                                        },
+                                                    )),
+                                                    cons: assign_pat.right.clone(),
+                                                    alt: Box::new(Expr::Ident(value_temp)),
+                                                },
+                                            ))),
+                                            definite: false,
+                                        }],
+                                    },
+                                ))));
                                 continue;
                             }
                         }
@@ -813,6 +825,7 @@ impl ProgramCompiler<'_> {
         matched
     }
 
+    #[allow(clippy::too_many_arguments)]
     fn compile_named_function(
         &mut self,
         name: Option<&Ident>,
@@ -2342,15 +2355,15 @@ fn is_non_node(expr: Option<&Expr>) -> bool {
         return true;
     };
 
-    match unwrap_transparent_expr(expr) {
+    matches!(
+        unwrap_transparent_expr(expr),
         Expr::Object(_)
-        | Expr::Arrow(_)
-        | Expr::Fn(_)
-        | Expr::Class(_)
-        | Expr::New(_)
-        | Expr::Lit(Lit::BigInt(_)) => true,
-        _ => false,
-    }
+            | Expr::Arrow(_)
+            | Expr::Fn(_)
+            | Expr::Class(_)
+            | Expr::New(_)
+            | Expr::Lit(Lit::BigInt(_))
+    )
 }
 
 fn is_hook_expr(expr: &Expr) -> bool {
@@ -2805,8 +2818,8 @@ mod tests {
     fn normalizes_labels_for_fixture_entrypoint_component() {
         let mut program = parse_program(
             "function foo(a, b, c) {\n  label: if (a) {\n    while (b) {\n      if (c) {\n        \
-             break label;\n      }\n    }\n  }\n  return c;\n}\nexport const FIXTURE_ENTRYPOINT \
-             = { fn: foo, params: ['TodoAdd'], isComponent: 'TodoAdd' };\n",
+             break label;\n      }\n    }\n  }\n  return c;\n}\nexport const FIXTURE_ENTRYPOINT = \
+             { fn: foo, params: ['TodoAdd'], isComponent: 'TodoAdd' };\n",
         );
 
         let report = compile_program(

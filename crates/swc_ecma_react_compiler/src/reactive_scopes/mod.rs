@@ -4,8 +4,8 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     op, ArrowExpr, AssignExpr, AssignTarget, BindingIdent, BlockStmt, CallExpr, Callee,
     ComputedPropName, Decl, Expr, ExprOrSpread, ExprStmt, Function, Ident, IfStmt, KeyValueProp,
-    LabeledStmt, Lit, MemberExpr, MemberProp, Number, ObjectPatProp, OptChainBase, OptChainExpr, Pat, Prop,
-    PropName, PropOrSpread, Stmt, SwitchStmt, VarDecl, VarDeclKind, VarDeclarator,
+    LabeledStmt, Lit, MemberExpr, MemberProp, Number, ObjectPatProp, OptChainBase, OptChainExpr,
+    Pat, Prop, PropName, PropOrSpread, Stmt, SwitchStmt, VarDecl, VarDeclKind, VarDeclarator,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -2104,7 +2104,10 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
             break;
         }
         if is_default_param_conditional_expr(init.as_ref())
-            && binding_only_used_in_terminal_return(&stmts[prefix_index + 1..], binding.sym.as_ref())
+            && binding_only_used_in_terminal_return(
+                &stmts[prefix_index + 1..],
+                binding.sym.as_ref(),
+            )
             && !default_param_conditional_allocates_identity(init.as_ref())
         {
             break;
@@ -2461,11 +2464,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
         };
         let use_binding_as_temp = force_memoize_reassigned_jsx_tag_ident_init
             || (!reassigned_after
-                && next_stmt_destructures_from_binding(
-                    &stmts,
-                    prefix_index,
-                    binding.sym.as_ref(),
-                ));
+                && next_stmt_destructures_from_binding(&stmts, prefix_index, binding.sym.as_ref()));
         let temp = if use_binding_as_temp {
             binding.clone()
         } else {
@@ -2929,10 +2928,9 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                         && prelude_blocks == 0
                         && !prelude_contains_if_with_else(&prelude_stmts)
                     {
-                        if let Some(prelude_result_binding) = infer_prelude_result_binding(
-                            &prelude_stmts,
-                            &compute_stmts,
-                        ) {
+                        if let Some(prelude_result_binding) =
+                            infer_prelude_result_binding(&prelude_stmts, &compute_stmts)
+                        {
                             let mut prelude_local_bindings = HashSet::new();
                             for stmt in &prelude_stmts {
                                 collect_stmt_bindings_including_nested_blocks(
@@ -3659,11 +3657,7 @@ fn body_contains_destructuring_default_alloc_literal(body: &BlockStmt) -> bool {
             Pat::Assign(assign_pat) => {
                 is_static_alloc_literal_expr(&assign_pat.right) || pat_has_default(&assign_pat.left)
             }
-            Pat::Array(array_pat) => array_pat
-                .elems
-                .iter()
-                .flatten()
-                .any(pat_has_default),
+            Pat::Array(array_pat) => array_pat.elems.iter().flatten().any(pat_has_default),
             Pat::Object(object_pat) => object_pat.props.iter().any(|prop| match prop {
                 ObjectPatProp::Assign(assign_prop) => assign_prop
                     .value
@@ -3679,9 +3673,10 @@ fn body_contains_destructuring_default_alloc_literal(body: &BlockStmt) -> bool {
 
     fn stmt_has_default(stmt: &Stmt) -> bool {
         match stmt {
-            Stmt::Decl(Decl::Var(var_decl)) => {
-                var_decl.decls.iter().any(|decl| pat_has_default(&decl.name))
-            }
+            Stmt::Decl(Decl::Var(var_decl)) => var_decl
+                .decls
+                .iter()
+                .any(|decl| pat_has_default(&decl.name)),
             Stmt::Block(block) => block.stmts.iter().any(stmt_has_default),
             Stmt::Labeled(labeled) => stmt_has_default(&labeled.body),
             Stmt::If(if_stmt) => {
@@ -3705,22 +3700,29 @@ fn body_contains_destructuring_default_alloc_literal(body: &BlockStmt) -> bool {
             }
             Stmt::For(for_stmt) => {
                 for_stmt.init.as_ref().is_some_and(|init| match init {
-                    swc_ecma_ast::VarDeclOrExpr::VarDecl(var_decl) => {
-                        var_decl.decls.iter().any(|decl| pat_has_default(&decl.name))
-                    }
+                    swc_ecma_ast::VarDeclOrExpr::VarDecl(var_decl) => var_decl
+                        .decls
+                        .iter()
+                        .any(|decl| pat_has_default(&decl.name)),
                     swc_ecma_ast::VarDeclOrExpr::Expr(_) => false,
                 }) || stmt_has_default(&for_stmt.body)
             }
             Stmt::ForIn(for_in_stmt) => match &for_in_stmt.left {
                 swc_ecma_ast::ForHead::VarDecl(var_decl) => {
-                    var_decl.decls.iter().any(|decl| pat_has_default(&decl.name))
+                    var_decl
+                        .decls
+                        .iter()
+                        .any(|decl| pat_has_default(&decl.name))
                         || stmt_has_default(&for_in_stmt.body)
                 }
                 _ => stmt_has_default(&for_in_stmt.body),
             },
             Stmt::ForOf(for_of_stmt) => match &for_of_stmt.left {
                 swc_ecma_ast::ForHead::VarDecl(var_decl) => {
-                    var_decl.decls.iter().any(|decl| pat_has_default(&decl.name))
+                    var_decl
+                        .decls
+                        .iter()
+                        .any(|decl| pat_has_default(&decl.name))
                         || stmt_has_default(&for_of_stmt.body)
                 }
                 _ => stmt_has_default(&for_of_stmt.body),
@@ -5364,7 +5366,9 @@ fn prune_trivial_do_while_break_stmts(stmts: &mut Vec<Stmt>) {
         matches!(stmt, Stmt::Break(break_stmt) if break_stmt.label.is_none())
     }
 
-    fn extract_unconditional_do_while_prefix(do_while_stmt: &swc_ecma_ast::DoWhileStmt) -> Option<Vec<Stmt>> {
+    fn extract_unconditional_do_while_prefix(
+        do_while_stmt: &swc_ecma_ast::DoWhileStmt,
+    ) -> Option<Vec<Stmt>> {
         let Stmt::Block(block) = &*do_while_stmt.body else {
             return stmt_is_unlabeled_break(&do_while_stmt.body).then(Vec::new);
         };
@@ -5375,15 +5379,14 @@ fn prune_trivial_do_while_break_stmts(stmts: &mut Vec<Stmt>) {
             .enumerate()
             .filter_map(|(idx, stmt)| (!matches!(stmt, Stmt::Empty(_))).then_some(idx))
             .collect::<Vec<_>>();
-        let Some(&last_non_empty_idx) = non_empty_indices.last() else {
-            return None;
-        };
+        let &last_non_empty_idx = non_empty_indices.last()?;
         if !stmt_is_unlabeled_break(&block.stmts[last_non_empty_idx]) {
             return None;
         }
 
-        // Keep this rewrite conservative: if the do-body has other top-level break/continue
-        // control flow, we skip lowering because it may alter loop semantics.
+        // Keep this rewrite conservative: if the do-body has other top-level
+        // break/continue control flow, we skip lowering because it may alter
+        // loop semantics.
         for &idx in &non_empty_indices[..non_empty_indices.len().saturating_sub(1)] {
             if matches!(block.stmts[idx], Stmt::Break(_) | Stmt::Continue(_)) {
                 return None;
@@ -5457,7 +5460,7 @@ fn prune_trivial_do_while_break_stmts(stmts: &mut Vec<Stmt>) {
     *stmts = pruned;
 }
 
-fn prune_overwritten_branch_and_switch_assignments_in_stmts(stmts: &mut Vec<Stmt>) {
+fn prune_overwritten_branch_and_switch_assignments_in_stmts(stmts: &mut [Stmt]) {
     fn single_non_empty_stmt(stmts: &[Stmt]) -> Option<&Stmt> {
         let mut non_empty = stmts.iter().filter(|stmt| !matches!(stmt, Stmt::Empty(_)));
         let first = non_empty.next()?;
@@ -5580,9 +5583,9 @@ fn prune_overwritten_branch_and_switch_assignments_in_stmts(stmts: &mut Vec<Stmt
 
     fn recurse_stmt(stmt: &mut Stmt) {
         match stmt {
-            Stmt::Block(block) => prune_overwritten_branch_and_switch_assignments_in_stmts(
-                &mut block.stmts,
-            ),
+            Stmt::Block(block) => {
+                prune_overwritten_branch_and_switch_assignments_in_stmts(&mut block.stmts)
+            }
             Stmt::Labeled(labeled) => recurse_stmt(&mut labeled.body),
             Stmt::If(if_stmt) => {
                 recurse_stmt(&mut if_stmt.cons);
@@ -5602,9 +5605,7 @@ fn prune_overwritten_branch_and_switch_assignments_in_stmts(stmts: &mut Vec<Stmt
             Stmt::ForIn(for_in_stmt) => recurse_stmt(&mut for_in_stmt.body),
             Stmt::ForOf(for_of_stmt) => recurse_stmt(&mut for_of_stmt.body),
             Stmt::Try(try_stmt) => {
-                prune_overwritten_branch_and_switch_assignments_in_stmts(
-                    &mut try_stmt.block.stmts,
-                );
+                prune_overwritten_branch_and_switch_assignments_in_stmts(&mut try_stmt.block.stmts);
                 if let Some(handler) = &mut try_stmt.handler {
                     prune_overwritten_branch_and_switch_assignments_in_stmts(
                         &mut handler.body.stmts,
@@ -5861,13 +5862,17 @@ fn pattern_contains_nested_destructuring(pat: &Pat) -> bool {
 fn pattern_is_flat_reassignment(pat: &Pat) -> bool {
     match pat {
         Pat::Ident(_) => true,
-        Pat::Array(array_pat) => array_pat.elems.iter().flatten().all(|element| match element {
-            Pat::Ident(_) => true,
-            Pat::Expr(expr) => matches!(unwrap_transparent_expr(expr), Expr::Ident(_)),
-            Pat::Assign(assign_pat) => matches!(*assign_pat.left, Pat::Ident(_)),
-            Pat::Rest(rest_pat) => matches!(*rest_pat.arg, Pat::Ident(_)),
-            _ => false,
-        }),
+        Pat::Array(array_pat) => array_pat
+            .elems
+            .iter()
+            .flatten()
+            .all(|element| match element {
+                Pat::Ident(_) => true,
+                Pat::Expr(expr) => matches!(unwrap_transparent_expr(expr), Expr::Ident(_)),
+                Pat::Assign(assign_pat) => matches!(*assign_pat.left, Pat::Ident(_)),
+                Pat::Rest(rest_pat) => matches!(*rest_pat.arg, Pat::Ident(_)),
+                _ => false,
+            }),
         Pat::Object(object_pat) => object_pat.props.iter().all(|prop| match prop {
             ObjectPatProp::Assign(_) => true,
             ObjectPatProp::KeyValue(key_value) => match &*key_value.value {
@@ -5894,10 +5899,7 @@ fn lower_nested_destructuring_pattern_from_source(
     if pattern_is_flat_reassignment(&pat) {
         match pat {
             Pat::Ident(binding) => {
-                out.push(assign_stmt(
-                    AssignTarget::from(binding.id),
-                    source_expr,
-                ));
+                out.push(assign_stmt(AssignTarget::from(binding.id), source_expr));
             }
             Pat::Expr(expr) => {
                 let Expr::Ident(binding) = unwrap_transparent_expr(&expr) else {
@@ -6068,7 +6070,7 @@ fn lower_nested_destructuring_pattern_from_source(
                         let key = key_value.key.clone();
                         let original_value = *key_value.value;
                         temp_props.push(ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
-                            key: key,
+                            key,
                             value: Box::new(Pat::Ident(BindingIdent {
                                 id: temp.clone(),
                                 type_ann: None,
@@ -6165,10 +6167,7 @@ fn lower_nested_destructuring_pattern_from_source(
             }
         }
         Pat::Ident(binding) => {
-            out.push(assign_stmt(
-                AssignTarget::from(binding.id),
-                source_expr,
-            ));
+            out.push(assign_stmt(AssignTarget::from(binding.id), source_expr));
         }
         Pat::Expr(_) | Pat::Invalid(_) => {}
     }
@@ -6424,7 +6423,11 @@ fn flatten_destructuring_decl_to_temp_chain(
                 let (rewritten_pat, nested) =
                     flatten_array_pattern_one_level(array_pat, reserved, next_temp);
                 changed |= !nested.is_empty();
-                rewritten.push(make_var_decl(kind, Pat::Array(rewritten_pat), Some(init_expr)));
+                rewritten.push(make_var_decl(
+                    kind,
+                    Pat::Array(rewritten_pat),
+                    Some(init_expr),
+                ));
                 for (nested_pat, temp) in nested {
                     queue.push_back((nested_pat, Box::new(Expr::Ident(temp))));
                 }
@@ -6433,7 +6436,11 @@ fn flatten_destructuring_decl_to_temp_chain(
                 let (rewritten_pat, nested) =
                     flatten_object_pattern_one_level(object_pat, reserved, next_temp);
                 changed |= !nested.is_empty();
-                rewritten.push(make_var_decl(kind, Pat::Object(rewritten_pat), Some(init_expr)));
+                rewritten.push(make_var_decl(
+                    kind,
+                    Pat::Object(rewritten_pat),
+                    Some(init_expr),
+                ));
                 for (nested_pat, temp) in nested {
                     queue.push_back((nested_pat, Box::new(Expr::Ident(temp))));
                 }
@@ -6580,7 +6587,9 @@ fn rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(stmts: &m
     for mut stmt in original {
         match &mut stmt {
             Stmt::Block(block) => {
-                rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(&mut block.stmts);
+                rewrite_destructuring_decls_with_top_level_rest_to_assignment_stmts(
+                    &mut block.stmts,
+                );
             }
             Stmt::Labeled(labeled) => {
                 if let Stmt::Block(block) = &mut *labeled.body {
@@ -6825,10 +6834,7 @@ fn rewrite_const_object_pattern_default_decls_to_temp_chain(
                                     DUMMY_SP,
                                 ))),
                             })),
-                            cons: assign_prop
-                                .value
-                                .clone()
-                                .expect("guarded by is_some"),
+                            cons: assign_prop.value.clone().expect("guarded by is_some"),
                             alt: Box::new(Expr::Ident(temp)),
                         }))),
                     ));
@@ -7040,97 +7046,91 @@ fn rewrite_let_array_pattern_decls_to_assignment_stmts(
         }
 
         match (var_decl.kind, non_hole_pats[0]) {
-            (VarDeclKind::Const, Pat::Assign(assign_pat)) => {
-                match &*assign_pat.left {
-                    Pat::Ident(binding) => {
-                        let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
-                        rewritten.push(make_var_decl(
-                            VarDeclKind::Const,
-                            Pat::Array(swc_ecma_ast::ArrayPat {
-                                span: array_pat.span,
-                                elems: vec![Some(Pat::Ident(BindingIdent {
-                                    id: temp.clone(),
-                                    type_ann: None,
-                                }))],
-                                optional: false,
+            (VarDeclKind::Const, Pat::Assign(assign_pat)) => match &*assign_pat.left {
+                Pat::Ident(binding) => {
+                    let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                    rewritten.push(make_var_decl(
+                        VarDeclKind::Const,
+                        Pat::Array(swc_ecma_ast::ArrayPat {
+                            span: array_pat.span,
+                            elems: vec![Some(Pat::Ident(BindingIdent {
+                                id: temp.clone(),
                                 type_ann: None,
-                            }),
-                            Some(init.clone()),
-                        ));
-                        rewritten.push(make_var_decl(
-                            VarDeclKind::Const,
-                            Pat::Ident(BindingIdent {
-                                id: binding.id.clone(),
-                                type_ann: None,
-                            }),
-                            Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                            }))],
+                            optional: false,
+                            type_ann: None,
+                        }),
+                        Some(init.clone()),
+                    ));
+                    rewritten.push(make_var_decl(
+                        VarDeclKind::Const,
+                        Pat::Ident(BindingIdent {
+                            id: binding.id.clone(),
+                            type_ann: None,
+                        }),
+                        Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                            span: DUMMY_SP,
+                            test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
                                 span: DUMMY_SP,
-                                test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("==="),
-                                    left: Box::new(Expr::Ident(temp.clone())),
-                                    right: Box::new(Expr::Ident(Ident::new_no_ctxt(
-                                        "undefined".into(),
-                                        DUMMY_SP,
-                                    ))),
-                                })),
-                                cons: parenthesize_conditional_expr(
-                                    assign_pat.right.clone(),
-                                ),
-                                alt: Box::new(Expr::Ident(temp)),
-                            }))),
-                        ));
-                    }
-                    Pat::Array(_) | Pat::Object(_) => {
-                        let input_temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
-                        let value_temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
-                        rewritten.push(make_var_decl(
-                            VarDeclKind::Const,
-                            Pat::Array(swc_ecma_ast::ArrayPat {
-                                span: array_pat.span,
-                                elems: vec![Some(Pat::Ident(BindingIdent {
-                                    id: input_temp.clone(),
-                                    type_ann: None,
-                                }))],
-                                optional: false,
-                                type_ann: None,
-                            }),
-                            Some(init.clone()),
-                        ));
-                        rewritten.push(make_var_decl(
-                            VarDeclKind::Let,
-                            Pat::Ident(BindingIdent {
-                                id: value_temp.clone(),
-                                type_ann: None,
-                            }),
-                            Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
-                                span: DUMMY_SP,
-                                test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("==="),
-                                    left: Box::new(Expr::Ident(input_temp.clone())),
-                                    right: Box::new(Expr::Ident(Ident::new_no_ctxt(
-                                        "undefined".into(),
-                                        DUMMY_SP,
-                                    ))),
-                                })),
-                                cons: parenthesize_conditional_expr(
-                                    assign_pat.right.clone(),
-                                ),
-                                alt: Box::new(Expr::Ident(input_temp)),
-                            }))),
-                        ));
-                        rewritten.push(make_var_decl(
-                            VarDeclKind::Const,
-                            (*assign_pat.left).clone(),
-                            Some(Box::new(Expr::Ident(value_temp))),
-                        ));
-                    }
-                    _ => {
-                        rewritten.push(stmt);
-                    }
+                                op: op!("==="),
+                                left: Box::new(Expr::Ident(temp.clone())),
+                                right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                    "undefined".into(),
+                                    DUMMY_SP,
+                                ))),
+                            })),
+                            cons: parenthesize_conditional_expr(assign_pat.right.clone()),
+                            alt: Box::new(Expr::Ident(temp)),
+                        }))),
+                    ));
                 }
-            }
+                Pat::Array(_) | Pat::Object(_) => {
+                    let input_temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                    let value_temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
+                    rewritten.push(make_var_decl(
+                        VarDeclKind::Const,
+                        Pat::Array(swc_ecma_ast::ArrayPat {
+                            span: array_pat.span,
+                            elems: vec![Some(Pat::Ident(BindingIdent {
+                                id: input_temp.clone(),
+                                type_ann: None,
+                            }))],
+                            optional: false,
+                            type_ann: None,
+                        }),
+                        Some(init.clone()),
+                    ));
+                    rewritten.push(make_var_decl(
+                        VarDeclKind::Let,
+                        Pat::Ident(BindingIdent {
+                            id: value_temp.clone(),
+                            type_ann: None,
+                        }),
+                        Some(Box::new(Expr::Cond(swc_ecma_ast::CondExpr {
+                            span: DUMMY_SP,
+                            test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                                span: DUMMY_SP,
+                                op: op!("==="),
+                                left: Box::new(Expr::Ident(input_temp.clone())),
+                                right: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                    "undefined".into(),
+                                    DUMMY_SP,
+                                ))),
+                            })),
+                            cons: parenthesize_conditional_expr(assign_pat.right.clone()),
+                            alt: Box::new(Expr::Ident(input_temp)),
+                        }))),
+                    ));
+                    rewritten.push(make_var_decl(
+                        VarDeclKind::Const,
+                        (*assign_pat.left).clone(),
+                        Some(Box::new(Expr::Ident(value_temp))),
+                    ));
+                }
+                _ => {
+                    rewritten.push(stmt);
+                }
+            },
             (VarDeclKind::Let, Pat::Ident(binding)) => {
                 let Ok(target) = AssignTarget::try_from(pat.clone()) else {
                     rewritten.push(stmt);
@@ -7184,11 +7184,13 @@ fn rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
 
     for mut stmt in original {
         match &mut stmt {
-            Stmt::Block(block) => rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
-                &mut block.stmts,
-                reserved,
-                next_temp,
-            ),
+            Stmt::Block(block) => {
+                rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
+                    &mut block.stmts,
+                    reserved,
+                    next_temp,
+                )
+            }
             Stmt::Labeled(labeled) => {
                 if let Stmt::Block(block) = &mut *labeled.body {
                     rewrite_const_object_pattern_static_literal_decls_to_temp_aliases(
@@ -7402,13 +7404,15 @@ fn normalize_array_pattern_assignments_in_stmts(
                     ObjectPatProp::Assign(assign_prop) if assign_prop.value.is_none() => {
                         let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
                         original_binding = Some(assign_prop.key.id.clone());
-                        rewritten_props.push(ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
-                            key: PropName::Ident(assign_prop.key.id.clone().into()),
-                            value: Box::new(Pat::Ident(BindingIdent {
-                                id: temp.clone(),
-                                type_ann: None,
-                            })),
-                        }));
+                        rewritten_props.push(ObjectPatProp::KeyValue(
+                            swc_ecma_ast::KeyValuePatProp {
+                                key: PropName::Ident(assign_prop.key.id.clone().into()),
+                                value: Box::new(Pat::Ident(BindingIdent {
+                                    id: temp.clone(),
+                                    type_ann: None,
+                                })),
+                            },
+                        ));
                     }
                     ObjectPatProp::KeyValue(key_value)
                         if matches!(*key_value.value, Pat::Ident(_)) =>
@@ -7425,13 +7429,15 @@ fn normalize_array_pattern_assignments_in_stmts(
                         }
                         let temp = fresh_lowest_scoped_temp_ident(&mut scope_bindings, reserved);
                         original_binding = Some(binding.id.clone());
-                        rewritten_props.push(ObjectPatProp::KeyValue(swc_ecma_ast::KeyValuePatProp {
-                            key: key_value.key,
-                            value: Box::new(Pat::Ident(BindingIdent {
-                                id: temp.clone(),
-                                type_ann: None,
-                            })),
-                        }));
+                        rewritten_props.push(ObjectPatProp::KeyValue(
+                            swc_ecma_ast::KeyValuePatProp {
+                                key: key_value.key,
+                                value: Box::new(Pat::Ident(BindingIdent {
+                                    id: temp.clone(),
+                                    type_ann: None,
+                                })),
+                            },
+                        ));
                     }
                     _ => {
                         can_rewrite = false;
@@ -8487,7 +8493,9 @@ fn collect_member_object_dependencies_from_expr(
         }
 
         fn visit_member_expr(&mut self, member: &MemberExpr) {
-            if let Some(dep) = member_object_dependency(member, self.known_bindings, self.local_bindings) {
+            if let Some(dep) =
+                member_object_dependency(member, self.known_bindings, self.local_bindings)
+            {
                 maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
             }
 
@@ -8627,16 +8635,18 @@ fn rewrite_top_level_rest_pattern_assignments_in_prelude_to_memo_blocks(
                         let pat = Pat::from(assign_pat.clone());
                         if pattern_has_top_level_rest(&pat) {
                             let mut cache_binding_names =
-                                collect_assigned_bindings_in_order_from_stmts(std::slice::from_ref(
-                                    stmt,
-                                ));
+                                collect_assigned_bindings_in_order_from_stmts(
+                                    std::slice::from_ref(stmt),
+                                );
                             if !cache_binding_names.is_empty() {
                                 cache_binding_names =
                                     reorder_cache_binding_names_for_pattern_assignment(
                                         cache_binding_names,
                                     );
-                                cache_binding_names =
-                                    reorder_array_rest_temp_binding_first(cache_binding_names, &pat);
+                                cache_binding_names = reorder_array_rest_temp_binding_first(
+                                    cache_binding_names,
+                                    &pat,
+                                );
                                 if cache_binding_names.len() >= 2 {
                                     let mut dep_local_bindings = local_bindings.clone();
                                     for binding in &cache_binding_names {
@@ -8817,9 +8827,10 @@ fn try_build_pattern_assignment_prelude_memo_fallback(
             }
 
             let used_in_compute = binding_referenced_in_stmts(compute_stmts, name.as_str());
-            let keep_outer_init = decl.init.as_ref().is_some_and(|init| {
-                used_in_compute && !is_static_alloc_literal_expr(init)
-            });
+            let keep_outer_init = decl
+                .init
+                .as_ref()
+                .is_some_and(|init| used_in_compute && !is_static_alloc_literal_expr(init));
             let outer_init = if keep_outer_init {
                 decl.init.clone()
             } else {
@@ -8861,7 +8872,8 @@ fn try_build_pattern_assignment_prelude_memo_fallback(
 
     let mut prelude_deps =
         collect_dependencies_from_stmts(&prelude_compute, known_bindings, &local_bindings);
-    for dep in collect_called_local_function_capture_dependencies(&prelude_compute, known_bindings) {
+    for dep in collect_called_local_function_capture_dependencies(&prelude_compute, known_bindings)
+    {
         if !prelude_deps.iter().any(|existing| existing.key == dep.key) {
             prelude_deps.push(dep);
         }
@@ -9338,8 +9350,10 @@ fn lower_object_pattern_default_decl_with_memoization(
             .is_some_and(|default_expr| is_static_alloc_literal_expr(default_expr))
         {
             let value_temp = fresh_temp_ident(next_temp, reserved);
-            let mut nested_compute =
-                vec![assign_stmt(AssignTarget::from(value_temp.clone()), assign_expr)];
+            let mut nested_compute = vec![assign_stmt(
+                AssignTarget::from(value_temp.clone()),
+                assign_expr,
+            )];
             strip_runtime_call_type_args_in_stmts(&mut nested_compute);
 
             let nested_deps = vec![ReactiveDependency {
@@ -9458,7 +9472,10 @@ fn inject_nested_call_memoization_into_stmts(
                 mark_stmt_bindings_unstable(&stmt, &mut nested_known_bindings);
                 continue;
             };
-            if matches!(unwrap_transparent_expr(init_expr), Expr::Arrow(_) | Expr::Fn(_)) {
+            if matches!(
+                unwrap_transparent_expr(init_expr),
+                Expr::Arrow(_) | Expr::Fn(_)
+            ) {
                 let nested_deps =
                     collect_function_capture_dependencies(init_expr, &nested_known_bindings);
                 let has_length_dep = nested_deps.iter().any(|dep| dep.key.ends_with(".length"));
@@ -12910,22 +12927,20 @@ fn prelude_contains_control_flow_stmt(stmts: &[Stmt]) -> bool {
         matches!(
             stmt,
             Stmt::If(if_stmt) if if_stmt.alt.is_none()
-        ) || matches!(
-            stmt,
-                | Stmt::Switch(_)
-                | Stmt::Try(_)
-                | Stmt::For(_)
-                | Stmt::ForIn(_)
-                | Stmt::ForOf(_)
-                | Stmt::While(_)
-                | Stmt::DoWhile(_)
-                | Stmt::Labeled(_)
-        )
+        ) || matches!(stmt, |Stmt::Switch(_)| Stmt::Try(_)
+            | Stmt::For(_)
+            | Stmt::ForIn(_)
+            | Stmt::ForOf(_)
+            | Stmt::While(_)
+            | Stmt::DoWhile(_)
+            | Stmt::Labeled(_))
     })
 }
 
 fn prelude_contains_if_with_else(stmts: &[Stmt]) -> bool {
-    stmts.iter().any(|stmt| matches!(stmt, Stmt::If(if_stmt) if if_stmt.alt.is_some()))
+    stmts
+        .iter()
+        .any(|stmt| matches!(stmt, Stmt::If(if_stmt) if if_stmt.alt.is_some()))
 }
 
 fn split_direct_call_prelude_from_compute_stmts(
@@ -12956,11 +12971,15 @@ fn split_direct_call_prelude_from_compute_stmts(
         temp_name,
         &prelude_bindings,
     );
-    let has_local_member_mutation_prelude =
-        contains_mutating_member_call_on_local_binding(&compute_stmts[..split_index], &prelude_bindings);
+    let has_local_member_mutation_prelude = contains_mutating_member_call_on_local_binding(
+        &compute_stmts[..split_index],
+        &prelude_bindings,
+    );
     let has_local_direct_call_prelude = contains_local_direct_call(&compute_stmts[..split_index]);
-    let has_local_conditional_test_prelude =
-        prelude_has_conditional_test_on_local_binding(&compute_stmts[..split_index], &prelude_bindings);
+    let has_local_conditional_test_prelude = prelude_has_conditional_test_on_local_binding(
+        &compute_stmts[..split_index],
+        &prelude_bindings,
+    );
     if has_local_member_mutation_prelude && has_local_conditional_test_prelude {
         return Vec::new();
     }
@@ -13089,7 +13108,10 @@ fn build_memoized_block_multi_values(
     let value_slot_start = slot_start + deps.len() as u32;
     for (index, binding) in value_bindings.iter().enumerate() {
         compute_stmts.push(assign_stmt(
-            AssignTarget::from(make_cache_member(cache_ident, value_slot_start + index as u32)),
+            AssignTarget::from(make_cache_member(
+                cache_ident,
+                value_slot_start + index as u32,
+            )),
             Box::new(Expr::Ident(binding.clone())),
         ));
     }
@@ -13520,9 +13542,11 @@ fn stmt_is_trailing_post_compute_side_effect(stmt: &Stmt, result_name: &str) -> 
         ),
         Stmt::If(if_stmt) => {
             stmt_is_trailing_post_compute_side_effect(&if_stmt.cons, result_name)
-                && if_stmt.alt.as_deref().is_none_or(|alt| {
-                    stmt_is_trailing_post_compute_side_effect(alt, result_name)
-                })
+                && if_stmt
+                    .alt
+                    .as_deref()
+                    .map(|alt| stmt_is_trailing_post_compute_side_effect(alt, result_name))
+                    .unwrap_or(true)
         }
         Stmt::Block(block) => {
             !block.stmts.is_empty()
@@ -17714,14 +17738,11 @@ fn extract_iife_return_expr(expr: &Expr) -> Option<Box<Expr>> {
             Stmt::Decl(Decl::Var(var_decl))
                 if matches!(var_decl.kind, VarDeclKind::Const | VarDeclKind::Let) =>
             {
-                var_decl
-                    .decls
-                    .iter()
-                    .all(|decl| {
-                        decl.init
-                            .as_ref()
-                            .map_or(true, |init| !expr_has_observable_side_effect(init))
-                    })
+                var_decl.decls.iter().all(|decl| {
+                    decl.init
+                        .as_ref()
+                        .map_or(true, |init| !expr_has_observable_side_effect(init))
+                })
             }
             Stmt::Empty(_) => true,
             _ => false,
@@ -17747,7 +17768,10 @@ fn extract_iife_return_expr(expr: &Expr) -> Option<Box<Expr>> {
             return true;
         }
 
-        if matches!(unwrap_transparent_expr(ret_expr), Expr::Arrow(_) | Expr::Fn(_)) {
+        if matches!(
+            unwrap_transparent_expr(ret_expr),
+            Expr::Arrow(_) | Expr::Fn(_)
+        ) {
             !function_expr_may_capture_outer_bindings(ret_expr, &prelude_bindings)
         } else {
             !expr_references_bindings(ret_expr, &prelude_bindings)
@@ -18269,10 +18293,12 @@ fn should_skip_result_tail_pattern_assignment_outer_memoization(
         return false;
     };
 
-    let consequent_assigns = contains_direct_assignment_to_binding(
-        std::slice::from_ref(if_stmt.cons.as_ref()),
-        name,
-    ) || contains_pattern_assignment_to_binding(std::slice::from_ref(if_stmt.cons.as_ref()), name);
+    let consequent_assigns =
+        contains_direct_assignment_to_binding(std::slice::from_ref(if_stmt.cons.as_ref()), name)
+            || contains_pattern_assignment_to_binding(
+                std::slice::from_ref(if_stmt.cons.as_ref()),
+                name,
+            );
     let alternate_assigns = contains_direct_assignment_to_binding(std::slice::from_ref(alt), name)
         || contains_pattern_assignment_to_binding(std::slice::from_ref(alt), name);
 
