@@ -55,6 +55,112 @@ fn normalize_flow_component_syntax(source: &str) -> String {
     out
 }
 
+fn normalize_flow_typecast_syntax(source: &str) -> String {
+    let chars = source.char_indices().collect::<Vec<_>>();
+    if chars.is_empty() {
+        return String::new();
+    }
+
+    let mut out = String::with_capacity(source.len());
+    let mut cursor = 0usize;
+
+    while cursor < chars.len() {
+        let (start_idx, ch) = chars[cursor];
+        if ch != '(' {
+            let end_idx = chars
+                .get(cursor + 1)
+                .map(|(idx, _)| *idx)
+                .unwrap_or(source.len());
+            out.push_str(&source[start_idx..end_idx]);
+            cursor += 1;
+            continue;
+        }
+
+        let mut depth = 1usize;
+        let mut end_cursor = cursor + 1;
+        while end_cursor < chars.len() {
+            let (_, ch) = chars[end_cursor];
+            match ch {
+                '(' => depth += 1,
+                ')' => {
+                    depth -= 1;
+                    if depth == 0 {
+                        break;
+                    }
+                }
+                _ => {}
+            }
+            end_cursor += 1;
+        }
+
+        if end_cursor >= chars.len() {
+            // Unbalanced parentheses; copy the current character and continue.
+            let end_idx = chars
+                .get(cursor + 1)
+                .map(|(idx, _)| *idx)
+                .unwrap_or(source.len());
+            out.push_str(&source[start_idx..end_idx]);
+            cursor += 1;
+            continue;
+        }
+
+        let inner_start = chars[cursor + 1].0;
+        let inner_end = chars[end_cursor].0;
+        let inner = &source[inner_start..inner_end];
+
+        let mut paren_depth = 0usize;
+        let mut brace_depth = 0usize;
+        let mut bracket_depth = 0usize;
+        let mut saw_top_level_question = false;
+        let mut top_level_colon_byte = None::<usize>;
+
+        for (offset, ch) in inner.char_indices() {
+            match ch {
+                '(' => paren_depth += 1,
+                ')' => paren_depth = paren_depth.saturating_sub(1),
+                '{' => brace_depth += 1,
+                '}' => brace_depth = brace_depth.saturating_sub(1),
+                '[' => bracket_depth += 1,
+                ']' => bracket_depth = bracket_depth.saturating_sub(1),
+                '?' if paren_depth == 0 && brace_depth == 0 && bracket_depth == 0 => {
+                    saw_top_level_question = true;
+                }
+                ':' if paren_depth == 0 && brace_depth == 0 && bracket_depth == 0 => {
+                    top_level_colon_byte = Some(offset);
+                    break;
+                }
+                _ => {}
+            }
+        }
+
+        let mut rewritten = false;
+        if let Some(colon_offset) = top_level_colon_byte {
+            if !saw_top_level_question {
+                let expr_part = inner[..colon_offset].trim();
+                let type_part = inner[colon_offset + 1..].trim();
+                if !expr_part.is_empty() && !type_part.is_empty() {
+                    out.push('(');
+                    out.push_str(expr_part);
+                    out.push(')');
+                    rewritten = true;
+                }
+            }
+        }
+
+        if !rewritten {
+            let end_byte = chars
+                .get(end_cursor + 1)
+                .map(|(idx, _)| *idx)
+                .unwrap_or(source.len());
+            out.push_str(&source[start_idx..end_byte]);
+        }
+
+        cursor = end_cursor + 1;
+    }
+
+    out
+}
+
 fn collect_flow_component_declaration_names(source: &str) -> HashSet<String> {
     let mut names = HashSet::new();
 
@@ -312,7 +418,7 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     );
 
     if parsed_es.is_err() {
-        let normalized = normalize_flow_component_syntax(source);
+        let normalized = normalize_flow_component_syntax(&normalize_flow_typecast_syntax(source));
         if normalized != source {
             let component_names = collect_flow_component_declaration_names(source);
             let (parsed_ts_normalized, ts_comments_normalized) = parse_with_source(
