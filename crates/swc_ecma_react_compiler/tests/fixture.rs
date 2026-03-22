@@ -1485,6 +1485,14 @@ fn continue_on_failure_mode() -> bool {
         .ok()
         .as_deref()
         == Some("1")
+        || allow_fixture_failures_mode()
+}
+
+fn allow_fixture_failures_mode() -> bool {
+    std::env::var("REACT_COMPILER_FIXTURE_ALLOW_FAILURE")
+        .ok()
+        .as_deref()
+        == Some("1")
 }
 
 fn run_fixture_suite(inputs: Vec<PathBuf>) {
@@ -1507,16 +1515,32 @@ fn run_fixture_suite(inputs: Vec<PathBuf>) {
         }
     }
 
+    if failed.is_empty() {
+        return;
+    }
+
+    let failed_summary = failed
+        .iter()
+        .map(|path| path.display().to_string())
+        .collect::<Vec<_>>()
+        .join("\n");
+
+    if allow_fixture_failures_mode() {
+        eprintln!(
+            "fixture suite failed (allowed): {}/{} failed\n{}",
+            failed.len(),
+            total,
+            failed_summary
+        );
+        return;
+    }
+
     assert!(
         failed.is_empty(),
         "fixture suite failed: {}/{} failed\n{}",
         failed.len(),
         total,
-        failed
-            .iter()
-            .map(|path| path.display().to_string())
-            .collect::<Vec<_>>()
-            .join("\n")
+        failed_summary
     );
 }
 
