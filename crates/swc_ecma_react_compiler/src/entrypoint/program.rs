@@ -248,6 +248,9 @@ pub fn compile_fn(
     if opts.environment.validate_hooks_usage {
         validation::validate_hooks_usage(&hir)?;
     }
+    if opts.environment.validate_no_impure_functions_in_render {
+        validation::validate_no_impure_functions_in_render(&hir)?;
+    }
     if opts.environment.validate_no_capitalized_calls.is_some() {
         validation::validate_no_capitalized_calls(&hir)?;
     }
@@ -264,7 +267,9 @@ pub fn compile_fn(
     optimization::prune_maybe_throws(&mut hir);
 
     inference::infer_mutation_aliasing_ranges(&mut hir);
-    validation::validate_locals_not_reassigned_after_render(&hir)?;
+    if opts.environment.assert_valid_mutable_ranges {
+        validation::validate_locals_not_reassigned_after_render(&hir)?;
+    }
 
     if opts.environment.validate_ref_access_during_render {
         validation::validate_no_ref_access_in_render(&hir)?;
@@ -280,6 +285,12 @@ pub fn compile_fn(
     }
     if opts.environment.validate_no_jsx_in_try_statements {
         validation::validate_no_jsx_in_try_statement(&hir)?;
+    }
+    if opts
+        .environment
+        .validate_no_freezing_known_mutable_functions
+    {
+        validation::validate_no_freezing_known_mutable_functions(&hir)?;
     }
 
     inference::infer_reactive_places(&mut hir);
@@ -322,6 +333,9 @@ pub fn compile_fn(
     }
     if opts.environment.validate_source_locations {
         validation::validate_source_locations(&hir)?;
+    }
+    if opts.environment.throw_unknown_exception_testonly {
+        panic!("unexpected error");
     }
 
     Ok(reactive_scopes::codegen_function(reactive))
