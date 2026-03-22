@@ -137,6 +137,9 @@
 - **(react-compiler)** Advance SWC upstream fixture parity ([#11718](https://github.com/swc-project/swc/issues/11718)) ([e8d1696](https://github.com/swc-project/swc/commit/e8d16969b74d21f13b1594ef71ceef3d550d0a59))
 
 
+- **(react-compiler)** Improve lint rename and gating parity ([#11721](https://github.com/swc-project/swc/issues/11721)) ([5f89ee7](https://github.com/swc-project/swc/commit/5f89ee70d5af99a382a8f8ca16ba913b1ddd746e))
+
+
 - **(swc_es_parser)** Enforce full parity suite and extend grammar surface ([#11611](https://github.com/swc-project/swc/issues/11611)) ([585f7d0](https://github.com/swc-project/swc/commit/585f7d07a44b2508b05d6b07e9fcd83cb5cb7185))
 
 
@@ -202,6 +205,9 @@
 
 - Expand swc_es_parser snapshot suites (ecma-style) ([#11621](https://github.com/swc-project/swc/issues/11621)) ([325170f](https://github.com/swc-project/swc/commit/325170fff9b5c99abe1da19ec63fe6d2d8c6a9bb))
 
+
+- Move TS decorator fixtures out of proposal crate ([#11723](https://github.com/swc-project/swc/issues/11723)) ([e29d58c](https://github.com/swc-project/swc/commit/e29d58c74b345dc783b8132bea15439f8dcd4119))
+
 ### Ci
 
 
@@ -213,6 +219,9 @@
 
 
 - Optimize cargo-test matrix with cargo mono changed ([#11681](https://github.com/swc-project/swc/issues/11681)) ([99e61c4](https://github.com/swc-project/swc/commit/99e61c4cc172b772437dcabcf8f937a8f24dc4bd))
+
+
+- Bump cargo-mono to 0.5.3 ([#11722](https://github.com/swc-project/swc/issues/11722)) ([b5272af](https://github.com/swc-project/swc/commit/b5272af0f80047ffb98a1eed5de1f1d391657aa2))
 
 ## [1.15.18] - 2026-03-01
 
@@ -2080,19 +2089,10 @@
 - **(atoms)** Improve `atom!` for inlinable strings ([#10612](https://github.com/swc-project/swc/issues/10612)) ([5113121](https://github.com/swc-project/swc/commit/51131212c3bd1992bdade5ab509572ad79d1aa53))
 
 
-- **(es/minifier)** Avoid calling some costly function when optimizing deep nested binary expr ([#10611](https://github.com/swc-project/swc/issues/10611)) ([1434571](https://github.com/swc-project/swc/commit/1434571477f5f8576a268a2bd32631eb9ce77229))
-
-
 - **(es/minifier)** Remove needless JSON conversion ([#10628](https://github.com/swc-project/swc/issues/10628)) ([4a58dca](https://github.com/swc-project/swc/commit/4a58dca92c71c2db871be3a09ea0aa6c9a6702fc))
-
-
-- **(es/parser)** Reduce cmp in jsx spread child ([#10606](https://github.com/swc-project/swc/issues/10606)) ([fb33c13](https://github.com/swc-project/swc/commit/fb33c135444edc4de4531cac7d5ae27feabfff76))
 
 ### Refactor
 
-
-
-- **(es/parser)** Cleanup - deduplicate some code ([#10608](https://github.com/swc-project/swc/issues/10608)) ([5f9af96](https://github.com/swc-project/swc/commit/5f9af969d7a123b6cbc82c7a76489acf244a1cf3))
 
 
 - **(es/parser)** Remove token contexts ([#10547](https://github.com/swc-project/swc/issues/10547)) ([7ffe9d2](https://github.com/swc-project/swc/commit/7ffe9d23ca55c61acef69782e88d2e0e0e7ea47a))
