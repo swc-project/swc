@@ -23,8 +23,8 @@ pub use crate::{
     options::{
         default_options, parse_plugin_options, CompilationMode, CompilerOutputMode,
         CompilerReactTarget, DynamicGatingOptions, EnvironmentConfig,
-        ExhaustiveEffectDependenciesMode, ExternalFunction, Logger, LoggerEvent,
-        PanicThresholdOptions, ParsedPluginOptions, PluginOptions, SourceSelection,
+        ExhaustiveEffectDependenciesMode, ExternalFunction, InstrumentationOptions, Logger,
+        LoggerEvent, PanicThresholdOptions, ParsedPluginOptions, PluginOptions, SourceSelection,
     },
     reactive_scopes::CodegenFunction,
 };
