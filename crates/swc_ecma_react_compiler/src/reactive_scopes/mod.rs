@@ -2830,6 +2830,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                 normalize_compound_assignments_in_stmts(&mut tail);
                 normalize_reactive_labels(&mut tail);
                 normalize_if_break_blocks(&mut tail);
+                normalize_if_return_blocks(&mut tail);
                 lower_function_decls_to_const_in_stmts(&mut tail);
                 flatten_hoistable_blocks_in_stmts(&mut tail, &mut reserved);
                 flatten_hoistable_blocks_in_nested_functions(&mut tail);
@@ -3005,15 +3006,50 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                         && prelude_blocks == 0
                         && !prelude_contains_if_with_else(&prelude_stmts)
                     {
-                        if let Some(prelude_result_binding) =
-                            infer_prelude_result_binding(&prelude_stmts, &compute_stmts)
-                        {
+                        let mut prelude_result_binding =
+                            infer_prelude_result_binding(&prelude_stmts, &compute_stmts);
+                        let mut allow_declared_binding_rewrite = false;
+                        if prelude_result_binding.is_none() {
+                            prelude_result_binding =
+                                infer_declared_prelude_binding_for_mutating_call(
+                                    &prelude_stmts,
+                                    &compute_stmts,
+                                );
+                            allow_declared_binding_rewrite = prelude_result_binding.is_some();
+                        }
+
+                        if let Some(prelude_result_binding) = prelude_result_binding {
+                            let mut prepend_result_decl = None;
+                            if allow_declared_binding_rewrite
+                                && binding_declared_in_stmts(
+                                    &prelude_stmts,
+                                    prelude_result_binding.sym.as_ref(),
+                                )
+                            {
+                                rewrite_result_binding_to_assignment(
+                                    &mut prelude_stmts,
+                                    prelude_result_binding.sym.as_ref(),
+                                );
+                                prepend_result_decl = Some(make_var_decl(
+                                    VarDeclKind::Let,
+                                    Pat::Ident(BindingIdent {
+                                        id: prelude_result_binding.clone(),
+                                        type_ann: None,
+                                    }),
+                                    None,
+                                ));
+                            }
+
                             let mut prelude_local_bindings = HashSet::new();
                             for stmt in &prelude_stmts {
                                 collect_stmt_bindings_including_nested_blocks(
                                     stmt,
                                     &mut prelude_local_bindings,
                                 );
+                            }
+                            if prepend_result_decl.is_some() {
+                                prelude_local_bindings
+                                    .insert(prelude_result_binding.sym.to_string());
                             }
                             let mut prelude_deps = collect_dependencies_from_stmts(
                                 &prelude_stmts,
@@ -3060,6 +3096,9 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                     std::mem::take(&mut prelude_stmts),
                                     false,
                                 );
+                                if let Some(result_decl) = prepend_result_decl {
+                                    prelude_stmts.insert(0, result_decl);
+                                }
                                 prelude_slots = prelude_deps.len() as u32 + 1;
                                 prelude_blocks = 1;
                                 prelude_values = 1;
@@ -3452,6 +3491,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                 normalize_compound_assignments_in_stmts(&mut compute_stmts);
                 normalize_reactive_labels(&mut compute_stmts);
                 normalize_if_break_blocks(&mut compute_stmts);
+                normalize_if_return_blocks(&mut compute_stmts);
                 lower_function_decls_to_const_in_stmts(&mut compute_stmts);
                 flatten_hoistable_blocks_in_stmts(&mut compute_stmts, &mut reserved);
                 flatten_hoistable_blocks_in_nested_functions(&mut compute_stmts);
@@ -5402,6 +5442,7 @@ fn lower_use_memo_initializer(
     normalize_compound_assignments_in_stmts(&mut compute_stmts);
     normalize_reactive_labels(&mut compute_stmts);
     normalize_if_break_blocks(&mut compute_stmts);
+    normalize_if_return_blocks(&mut compute_stmts);
     prune_empty_stmts(&mut compute_stmts);
     prune_noop_identifier_exprs(&mut compute_stmts);
     prune_unused_pure_var_decls(&mut compute_stmts);
@@ -8011,6 +8052,25 @@ fn collect_dependencies_from_expr(
             }
         }
 
+        fn visit_method_prop(&mut self, method: &swc_ecma_ast::MethodProp) {
+            for dep in collect_function_capture_dependencies_from_function(
+                &method.function,
+                self.known_bindings,
+            ) {
+                let dep_base = dep
+                    .key
+                    .split_once('.')
+                    .map(|(base, _)| base)
+                    .unwrap_or(dep.key.as_str());
+                if self.local_bindings.contains(dep_base) {
+                    continue;
+                }
+                maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+            }
+
+            method.key.visit_with(self);
+        }
+
         fn visit_ident(&mut self, ident: &Ident) {
             let name = ident.sym.as_ref();
             if self.local_bindings.contains(name) {
@@ -8201,6 +8261,25 @@ fn collect_dependencies_from_stmts(
             }
         }
 
+        fn visit_method_prop(&mut self, method: &swc_ecma_ast::MethodProp) {
+            for dep in collect_function_capture_dependencies_from_function(
+                &method.function,
+                self.known_bindings,
+            ) {
+                let dep_base = dep
+                    .key
+                    .split_once('.')
+                    .map(|(base, _)| base)
+                    .unwrap_or(dep.key.as_str());
+                if self.local_bindings.contains(dep_base) {
+                    continue;
+                }
+                maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+            }
+
+            method.key.visit_with(self);
+        }
+
         fn visit_ident(&mut self, ident: &Ident) {
             let name = ident.sym.as_ref();
             if self.local_bindings.contains(name) {
@@ -8240,58 +8319,9 @@ fn collect_function_capture_dependencies(
     known_bindings: &HashMap<String, bool>,
 ) -> Vec<ReactiveDependency> {
     let mut deps = match unwrap_transparent_expr(expr) {
-        Expr::Arrow(arrow) => {
-            let mut local_bindings = HashSet::new();
-            for param in &arrow.params {
-                collect_pattern_bindings(param, &mut local_bindings);
-            }
-
-            match &*arrow.body {
-                swc_ecma_ast::BlockStmtOrExpr::BlockStmt(block) => {
-                    for stmt in &block.stmts {
-                        collect_stmt_bindings(stmt, &mut local_bindings);
-                    }
-                    let mut deps = collect_dependencies_from_stmts(
-                        &block.stmts,
-                        known_bindings,
-                        &local_bindings,
-                    );
-                    for dep in
-                        collect_called_iife_capture_dependencies(&block.stmts, known_bindings)
-                    {
-                        if !deps.iter().any(|existing| existing.key == dep.key) {
-                            deps.push(dep);
-                        }
-                    }
-                    deps
-                }
-                swc_ecma_ast::BlockStmtOrExpr::Expr(body_expr) => {
-                    collect_dependencies_from_expr(body_expr, known_bindings, &local_bindings)
-                }
-            }
-        }
+        Expr::Arrow(arrow) => collect_arrow_capture_dependencies(arrow, known_bindings),
         Expr::Fn(fn_expr) => {
-            let mut local_bindings = HashSet::new();
-            for param in &fn_expr.function.params {
-                collect_pattern_bindings(&param.pat, &mut local_bindings);
-            }
-
-            let body = fn_expr.function.body.as_ref();
-            if let Some(body) = body {
-                for stmt in &body.stmts {
-                    collect_stmt_bindings(stmt, &mut local_bindings);
-                }
-                let mut deps =
-                    collect_dependencies_from_stmts(&body.stmts, known_bindings, &local_bindings);
-                for dep in collect_called_iife_capture_dependencies(&body.stmts, known_bindings) {
-                    if !deps.iter().any(|existing| existing.key == dep.key) {
-                        deps.push(dep);
-                    }
-                }
-                deps
-            } else {
-                Vec::new()
-            }
+            collect_function_capture_dependencies_from_function(&fn_expr.function, known_bindings)
         }
         _ => Vec::new(),
     };
@@ -8303,6 +8333,300 @@ fn collect_function_capture_dependencies(
             .unwrap_or(dep.key.as_str());
         !is_ref_like_binding_name(base)
     });
+    deps
+}
+
+fn push_unique_dependencies(target: &mut Vec<ReactiveDependency>, extras: Vec<ReactiveDependency>) {
+    for dep in extras {
+        if !target.iter().any(|existing| existing.key == dep.key) {
+            target.push(dep);
+        }
+    }
+}
+
+fn promote_conditional_member_dependencies_to_root(
+    deps: Vec<ReactiveDependency>,
+    conditional_only_member_keys: &HashSet<String>,
+) -> Vec<ReactiveDependency> {
+    let mut promoted = Vec::with_capacity(deps.len());
+    for mut dep in deps {
+        if !matches!(&*dep.expr, Expr::OptChain(_))
+            && conditional_only_member_keys.contains(&dep.key)
+        {
+            if let Some((root, _)) = dep.key.split_once('.') {
+                let root = root.to_string();
+                dep.key = root.clone();
+                dep.expr = Box::new(Expr::Ident(Ident::new_no_ctxt(root.into(), DUMMY_SP)));
+            }
+        }
+        promoted.push(dep);
+    }
+
+    reduce_dependencies(promoted)
+}
+
+fn collect_nested_function_capture_dependencies_in_stmts(
+    stmts: &[Stmt],
+    known_bindings: &HashMap<String, bool>,
+) -> Vec<ReactiveDependency> {
+    struct Collector<'a> {
+        known_bindings: &'a HashMap<String, bool>,
+        deps: Vec<ReactiveDependency>,
+    }
+
+    impl Collector<'_> {
+        fn push_expr(&mut self, expr: &Expr) {
+            for dep in collect_function_capture_dependencies(expr, self.known_bindings) {
+                if !self
+                    .deps
+                    .iter()
+                    .any(|existing: &ReactiveDependency| existing.key == dep.key)
+                {
+                    self.deps.push(dep);
+                }
+            }
+        }
+
+        fn push_function(&mut self, function: &Function) {
+            for dep in
+                collect_function_capture_dependencies_from_function(function, self.known_bindings)
+            {
+                if !self
+                    .deps
+                    .iter()
+                    .any(|existing: &ReactiveDependency| existing.key == dep.key)
+                {
+                    self.deps.push(dep);
+                }
+            }
+        }
+    }
+
+    impl Visit for Collector<'_> {
+        fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
+            self.push_expr(&Expr::Arrow(arrow.clone()));
+        }
+
+        fn visit_function(&mut self, function: &Function) {
+            self.push_function(function);
+        }
+
+        fn visit_method_prop(&mut self, method: &swc_ecma_ast::MethodProp) {
+            self.push_function(&method.function);
+            method.key.visit_with(self);
+        }
+    }
+
+    let mut collector = Collector {
+        known_bindings,
+        deps: Vec::new(),
+    };
+    for stmt in stmts {
+        stmt.visit_with(&mut collector);
+    }
+
+    reduce_dependencies(collector.deps)
+}
+
+fn collect_nested_function_capture_dependencies_in_expr(
+    expr: &Expr,
+    known_bindings: &HashMap<String, bool>,
+) -> Vec<ReactiveDependency> {
+    struct Collector<'a> {
+        known_bindings: &'a HashMap<String, bool>,
+        deps: Vec<ReactiveDependency>,
+    }
+
+    impl Collector<'_> {
+        fn push_expr(&mut self, expr: &Expr) {
+            for dep in collect_function_capture_dependencies(expr, self.known_bindings) {
+                if !self
+                    .deps
+                    .iter()
+                    .any(|existing: &ReactiveDependency| existing.key == dep.key)
+                {
+                    self.deps.push(dep);
+                }
+            }
+        }
+
+        fn push_function(&mut self, function: &Function) {
+            for dep in
+                collect_function_capture_dependencies_from_function(function, self.known_bindings)
+            {
+                if !self
+                    .deps
+                    .iter()
+                    .any(|existing: &ReactiveDependency| existing.key == dep.key)
+                {
+                    self.deps.push(dep);
+                }
+            }
+        }
+    }
+
+    impl Visit for Collector<'_> {
+        fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
+            self.push_expr(&Expr::Arrow(arrow.clone()));
+        }
+
+        fn visit_function(&mut self, function: &Function) {
+            self.push_function(function);
+        }
+
+        fn visit_method_prop(&mut self, method: &swc_ecma_ast::MethodProp) {
+            self.push_function(&method.function);
+            method.key.visit_with(self);
+        }
+    }
+
+    let mut collector = Collector {
+        known_bindings,
+        deps: Vec::new(),
+    };
+    expr.visit_with(&mut collector);
+    reduce_dependencies(collector.deps)
+}
+
+fn collect_arrow_capture_dependencies(
+    arrow: &ArrowExpr,
+    known_bindings: &HashMap<String, bool>,
+) -> Vec<ReactiveDependency> {
+    let mut local_bindings = HashSet::new();
+    for param in &arrow.params {
+        collect_pattern_bindings(param, &mut local_bindings);
+    }
+
+    let mut deps = match &*arrow.body {
+        swc_ecma_ast::BlockStmtOrExpr::BlockStmt(block) => {
+            for stmt in &block.stmts {
+                collect_stmt_bindings(stmt, &mut local_bindings);
+            }
+
+            let mut deps =
+                collect_dependencies_from_stmts(&block.stmts, known_bindings, &local_bindings);
+            push_unique_dependencies(
+                &mut deps,
+                collect_called_iife_capture_dependencies(&block.stmts, known_bindings),
+            );
+
+            let mut nested_known_bindings = known_bindings.clone();
+            for binding in &local_bindings {
+                nested_known_bindings
+                    .entry(binding.clone())
+                    .or_insert(false);
+            }
+            push_unique_dependencies(
+                &mut deps,
+                collect_nested_function_capture_dependencies_in_stmts(
+                    &block.stmts,
+                    &nested_known_bindings,
+                ),
+            );
+
+            let conditional_only_member_keys =
+                collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
+                    &block.stmts,
+                    known_bindings,
+                    &local_bindings,
+                );
+            promote_conditional_member_dependencies_to_root(deps, &conditional_only_member_keys)
+        }
+        swc_ecma_ast::BlockStmtOrExpr::Expr(body_expr) => {
+            let mut deps =
+                collect_dependencies_from_expr(body_expr, known_bindings, &local_bindings);
+
+            let mut nested_known_bindings = known_bindings.clone();
+            for binding in &local_bindings {
+                nested_known_bindings
+                    .entry(binding.clone())
+                    .or_insert(false);
+            }
+            push_unique_dependencies(
+                &mut deps,
+                collect_nested_function_capture_dependencies_in_expr(
+                    body_expr,
+                    &nested_known_bindings,
+                ),
+            );
+
+            let conditional_probe = vec![Stmt::Return(swc_ecma_ast::ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(body_expr.clone()),
+            })];
+            let conditional_only_member_keys =
+                collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
+                    &conditional_probe,
+                    known_bindings,
+                    &local_bindings,
+                );
+            promote_conditional_member_dependencies_to_root(deps, &conditional_only_member_keys)
+        }
+    };
+
+    deps.retain(|dep| {
+        let base = dep
+            .key
+            .split_once('.')
+            .map(|(base, _)| base)
+            .unwrap_or(dep.key.as_str());
+        !local_bindings.contains(base)
+    });
+    deps = reduce_dependencies(deps);
+    deps
+}
+
+fn collect_function_capture_dependencies_from_function(
+    function: &Function,
+    known_bindings: &HashMap<String, bool>,
+) -> Vec<ReactiveDependency> {
+    let mut local_bindings = HashSet::new();
+    for param in &function.params {
+        collect_pattern_bindings(&param.pat, &mut local_bindings);
+    }
+
+    let Some(body) = function.body.as_ref() else {
+        return Vec::new();
+    };
+
+    for stmt in &body.stmts {
+        collect_stmt_bindings(stmt, &mut local_bindings);
+    }
+
+    let mut deps = collect_dependencies_from_stmts(&body.stmts, known_bindings, &local_bindings);
+    push_unique_dependencies(
+        &mut deps,
+        collect_called_iife_capture_dependencies(&body.stmts, known_bindings),
+    );
+
+    let mut nested_known_bindings = known_bindings.clone();
+    for binding in &local_bindings {
+        nested_known_bindings
+            .entry(binding.clone())
+            .or_insert(false);
+    }
+    push_unique_dependencies(
+        &mut deps,
+        collect_nested_function_capture_dependencies_in_stmts(&body.stmts, &nested_known_bindings),
+    );
+
+    let conditional_only_member_keys =
+        collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
+            &body.stmts,
+            known_bindings,
+            &local_bindings,
+        );
+
+    deps = promote_conditional_member_dependencies_to_root(deps, &conditional_only_member_keys);
+    deps.retain(|dep| {
+        let base = dep
+            .key
+            .split_once('.')
+            .map(|(base, _)| base)
+            .unwrap_or(dep.key.as_str());
+        !local_bindings.contains(base)
+    });
+    deps = reduce_dependencies(deps);
     deps
 }
 
@@ -8445,18 +8769,39 @@ fn collect_stmt_function_capture_dependencies(
         known_bindings: &'a HashMap<String, bool>,
         stmt_local_bindings: &'a HashSet<String>,
         deps: Vec<ReactiveDependency>,
-        jsx_depth: usize,
     }
 
     impl Collector<'_> {
-        fn push_deps_from_expr(&mut self, expr: &Expr, allow_stmt_local_deps: bool) {
+        fn push_deps_from_expr(&mut self, expr: &Expr) {
             for dep in collect_function_capture_dependencies(expr, self.known_bindings) {
                 let dep_base = dep
                     .key
                     .split_once('.')
                     .map(|(base, _)| base)
                     .unwrap_or(dep.key.as_str());
-                if !allow_stmt_local_deps && self.stmt_local_bindings.contains(dep_base) {
+                if self.stmt_local_bindings.contains(dep_base) {
+                    continue;
+                }
+                if !self
+                    .deps
+                    .iter()
+                    .any(|existing: &ReactiveDependency| existing.key == dep.key)
+                {
+                    self.deps.push(dep);
+                }
+            }
+        }
+
+        fn push_deps_from_function(&mut self, function: &Function) {
+            for dep in
+                collect_function_capture_dependencies_from_function(function, self.known_bindings)
+            {
+                let dep_base = dep
+                    .key
+                    .split_once('.')
+                    .map(|(base, _)| base)
+                    .unwrap_or(dep.key.as_str());
+                if self.stmt_local_bindings.contains(dep_base) {
                     continue;
                 }
                 if !self
@@ -8484,7 +8829,7 @@ fn collect_stmt_function_capture_dependencies(
                 return;
             };
             if matches!(unwrap_transparent_expr(init), Expr::Arrow(_) | Expr::Fn(_)) {
-                self.push_deps_from_expr(init, false);
+                self.push_deps_from_expr(init);
             }
             declarator.visit_children_with(self);
         }
@@ -8496,30 +8841,23 @@ fn collect_stmt_function_capture_dependencies(
                     Expr::Arrow(_) | Expr::Fn(_)
                 )
             {
-                self.push_deps_from_expr(&assign.right, false);
+                self.push_deps_from_expr(&assign.right);
             }
             assign.visit_children_with(self);
         }
 
         fn visit_expr(&mut self, expr: &Expr) {
             if matches!(unwrap_transparent_expr(expr), Expr::Arrow(_) | Expr::Fn(_)) {
-                self.push_deps_from_expr(expr, self.jsx_depth > 0);
+                self.push_deps_from_expr(expr);
                 return;
             }
 
             expr.visit_children_with(self);
         }
 
-        fn visit_jsx_element(&mut self, element: &swc_ecma_ast::JSXElement) {
-            self.jsx_depth += 1;
-            element.visit_children_with(self);
-            self.jsx_depth -= 1;
-        }
-
-        fn visit_jsx_fragment(&mut self, fragment: &swc_ecma_ast::JSXFragment) {
-            self.jsx_depth += 1;
-            fragment.visit_children_with(self);
-            self.jsx_depth -= 1;
+        fn visit_method_prop(&mut self, method: &swc_ecma_ast::MethodProp) {
+            self.push_deps_from_function(&method.function);
+            method.key.visit_with(self);
         }
     }
 
@@ -8527,7 +8865,6 @@ fn collect_stmt_function_capture_dependencies(
         known_bindings,
         stmt_local_bindings: &stmt_local_bindings,
         deps: Vec::new(),
-        jsx_depth: 0,
     };
     for stmt in stmts {
         stmt.visit_with(&mut collector);
@@ -8541,7 +8878,8 @@ fn member_dependency(
     known_bindings: &HashMap<String, bool>,
     local_bindings: &HashSet<String>,
 ) -> Option<ReactiveDependency> {
-    let (object, segments) = extract_static_member_dependency_parts(member)?;
+    let member_expr = Expr::Member(member.clone());
+    let (object, segments) = extract_static_member_dependency_parts_from_expr(&member_expr)?;
     let object_name = object.sym.as_ref();
     if local_bindings.contains(object_name) {
         return None;
@@ -8558,11 +8896,12 @@ fn member_dependency(
 
 fn opt_chain_member_dependency(
     opt_chain: &OptChainExpr,
-    member: &MemberExpr,
+    _member: &MemberExpr,
     known_bindings: &HashMap<String, bool>,
     local_bindings: &HashSet<String>,
 ) -> Option<ReactiveDependency> {
-    let (object, segments) = extract_static_member_dependency_parts(member)?;
+    let chain_expr = Expr::OptChain(opt_chain.clone());
+    let (object, segments) = extract_static_member_dependency_parts_from_expr(&chain_expr)?;
     let object_name = object.sym.as_ref();
     if local_bindings.contains(object_name) {
         return None;
@@ -8577,7 +8916,7 @@ fn opt_chain_member_dependency(
     })
 }
 
-fn extract_static_member_dependency_parts(member: &MemberExpr) -> Option<(Ident, Vec<String>)> {
+fn extract_static_member_dependency_parts_from_expr(expr: &Expr) -> Option<(Ident, Vec<String>)> {
     fn prop_segment(prop: &MemberProp) -> Option<String> {
         match prop {
             MemberProp::Ident(prop) => Some(prop.sym.to_string()),
@@ -8590,21 +8929,24 @@ fn extract_static_member_dependency_parts(member: &MemberExpr) -> Option<(Ident,
         }
     }
 
-    let mut current = member;
-    let mut segments_rev = Vec::new();
-
-    loop {
-        segments_rev.push(prop_segment(&current.prop)?);
-        match &*current.obj {
-            Expr::Ident(object) => {
-                segments_rev.reverse();
-                return Some((object.clone(), segments_rev));
-            }
-            Expr::Member(parent) => {
-                current = parent;
-            }
-            _ => return None,
+    match expr {
+        Expr::Ident(object) => Some((object.clone(), Vec::new())),
+        Expr::Member(member) => {
+            let (object, mut segments) =
+                extract_static_member_dependency_parts_from_expr(&member.obj)?;
+            segments.push(prop_segment(&member.prop)?);
+            Some((object, segments))
         }
+        Expr::OptChain(opt_chain) => match &*opt_chain.base {
+            OptChainBase::Member(member) => {
+                let (object, mut segments) =
+                    extract_static_member_dependency_parts_from_expr(&member.obj)?;
+                segments.push(prop_segment(&member.prop)?);
+                Some((object, segments))
+            }
+            OptChainBase::Call(_) => None,
+        },
+        _ => None,
     }
 }
 
@@ -13489,6 +13831,86 @@ fn prelude_contains_if_with_else(stmts: &[Stmt]) -> bool {
         .any(|stmt| matches!(stmt, Stmt::If(if_stmt) if if_stmt.alt.is_some()))
 }
 
+fn stmt_declares_function_capturing_bindings(stmt: &Stmt, bindings: &HashSet<String>) -> bool {
+    match stmt {
+        Stmt::Decl(Decl::Var(var_decl)) => var_decl.decls.iter().any(|decl| {
+            decl.init.as_deref().is_some_and(|init| {
+                matches!(unwrap_transparent_expr(init), Expr::Arrow(_) | Expr::Fn(_))
+                    && function_expr_may_capture_outer_bindings(init, bindings)
+            })
+        }),
+        Stmt::Expr(expr_stmt) => {
+            let Expr::Assign(assign) = unwrap_transparent_expr(&expr_stmt.expr) else {
+                return false;
+            };
+            if assign.op != op!("=") {
+                return false;
+            }
+
+            matches!(
+                unwrap_transparent_expr(&assign.right),
+                Expr::Arrow(_) | Expr::Fn(_)
+            ) && function_expr_may_capture_outer_bindings(&assign.right, bindings)
+        }
+        _ => false,
+    }
+}
+
+fn stmts_contain_function_capture_of_bindings(stmts: &[Stmt], bindings: &HashSet<String>) -> bool {
+    if bindings.is_empty() {
+        return false;
+    }
+
+    struct Finder<'a> {
+        bindings: &'a HashSet<String>,
+        found: bool,
+    }
+
+    impl Finder<'_> {
+        fn visit_function_expr_like(&mut self, expr: Expr) {
+            if function_expr_may_capture_outer_bindings(&expr, self.bindings) {
+                self.found = true;
+            }
+        }
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
+            self.visit_function_expr_like(Expr::Arrow(arrow.clone()));
+        }
+
+        fn visit_function(&mut self, function: &Function) {
+            self.visit_function_expr_like(Expr::Fn(swc_ecma_ast::FnExpr {
+                ident: None,
+                function: Box::new(function.clone()),
+            }));
+        }
+
+        fn visit_method_prop(&mut self, method: &swc_ecma_ast::MethodProp) {
+            self.visit_function_expr_like(Expr::Fn(swc_ecma_ast::FnExpr {
+                ident: None,
+                function: method.function.clone(),
+            }));
+            if !self.found {
+                method.key.visit_with(self);
+            }
+        }
+    }
+
+    let mut finder = Finder {
+        bindings,
+        found: false,
+    };
+    for stmt in stmts {
+        stmt.visit_with(&mut finder);
+        if finder.found {
+            return true;
+        }
+    }
+
+    false
+}
+
 fn split_direct_call_prelude_from_compute_stmts(
     compute_stmts: &mut Vec<Stmt>,
     temp_name: &str,
@@ -13498,12 +13920,28 @@ fn split_direct_call_prelude_from_compute_stmts(
         return Vec::new();
     }
 
-    let Some(split_index) = compute_stmts
+    let Some(mut split_index) = compute_stmts
         .iter()
         .rposition(|stmt| stmt_assigns_binding(stmt, temp_name))
     else {
         return Vec::new();
     };
+
+    while split_index > 0 {
+        let candidate_index = split_index - 1;
+        let mut preceding_bindings = HashSet::new();
+        for stmt in &compute_stmts[..candidate_index] {
+            collect_stmt_bindings(stmt, &mut preceding_bindings);
+        }
+        if !stmt_declares_function_capturing_bindings(
+            &compute_stmts[candidate_index],
+            &preceding_bindings,
+        ) {
+            break;
+        }
+        split_index -= 1;
+    }
+
     if split_index == 0 {
         return Vec::new();
     }
@@ -13536,7 +13974,13 @@ fn split_direct_call_prelude_from_compute_stmts(
     {
         return Vec::new();
     }
-    if contains_allowlisted_mutating_direct_call(&compute_stmts[..split_index]) {
+    let allow_mutating_direct_call_split = stmts_contain_function_capture_of_bindings(
+        &compute_stmts[split_index..],
+        &prelude_bindings,
+    );
+    if contains_allowlisted_mutating_direct_call(&compute_stmts[..split_index])
+        && !allow_mutating_direct_call_split
+    {
         return Vec::new();
     }
     if !force_split_for_prelude_call_arg
@@ -13989,6 +14433,50 @@ fn infer_prelude_result_binding(prelude_stmts: &[Stmt], compute_stmts: &[Stmt]) 
     ))
 }
 
+fn infer_declared_prelude_binding_for_mutating_call(
+    prelude_stmts: &[Stmt],
+    compute_stmts: &[Stmt],
+) -> Option<Ident> {
+    if !contains_allowlisted_mutating_direct_call(prelude_stmts) {
+        return None;
+    }
+
+    let mut declared_with_init = HashSet::<String>::new();
+    for stmt in prelude_stmts {
+        let Stmt::Decl(Decl::Var(var_decl)) = stmt else {
+            continue;
+        };
+        for decl in &var_decl.decls {
+            let Pat::Ident(binding) = &decl.name else {
+                continue;
+            };
+            if decl.init.is_some() {
+                declared_with_init.insert(binding.id.sym.to_string());
+            }
+        }
+    }
+    if declared_with_init.is_empty() {
+        return None;
+    }
+
+    let mut used_in_compute = declared_with_init
+        .into_iter()
+        .filter(|name| {
+            compute_stmts
+                .iter()
+                .any(|stmt| count_binding_references_in_stmt(stmt, name.as_str()) > 0)
+        })
+        .collect::<Vec<_>>();
+    if used_in_compute.len() != 1 {
+        return None;
+    }
+
+    Some(Ident::new_no_ctxt(
+        used_in_compute.swap_remove(0).into(),
+        DUMMY_SP,
+    ))
+}
+
 fn collect_assigned_bindings_in_stmts(stmts: &[Stmt], out: &mut HashSet<String>) {
     for stmt in stmts {
         collect_assigned_bindings_in_stmt(stmt, out);
@@ -14277,19 +14765,16 @@ fn prelude_passes_local_binding_to_call(stmts: &[Stmt], local_bindings: &HashSet
 
     for stmt in stmts {
         if let Stmt::Expr(expr_stmt) = stmt {
-            if let Expr::Call(call) = unwrap_transparent_expr(&expr_stmt.expr) {
-                if let Callee::Expr(callee_expr) = &call.callee {
-                    callee_expr.visit_with(&mut finder);
+            match unwrap_transparent_expr(&expr_stmt.expr) {
+                Expr::Call(_) => {
+                    // Standalone effect calls in the prelude are safe to keep in the prelude
+                    // block; they should not by themselves block prelude splitting.
+                    continue;
                 }
-                for arg in &call.args {
-                    if arg.spread.is_none() {
-                        arg.expr.visit_with(&mut finder);
-                    }
+                Expr::OptChain(opt_chain) if matches!(&*opt_chain.base, OptChainBase::Call(_)) => {
+                    continue;
                 }
-                if finder.found {
-                    return true;
-                }
-                continue;
+                _ => {}
             }
         }
 
@@ -16248,6 +16733,7 @@ fn try_lower_mutable_collection_jsx_tail(
     normalize_compound_assignments_in_stmts(&mut collection_compute_stmts);
     normalize_reactive_labels(&mut collection_compute_stmts);
     normalize_if_break_blocks(&mut collection_compute_stmts);
+    normalize_if_return_blocks(&mut collection_compute_stmts);
     lower_function_decls_to_const_in_stmts(&mut collection_compute_stmts);
     flatten_hoistable_blocks_in_stmts(&mut collection_compute_stmts, reserved);
     flatten_hoistable_blocks_in_nested_functions(&mut collection_compute_stmts);
@@ -17719,6 +18205,30 @@ fn normalize_if_break_blocks(stmts: &mut [Stmt]) {
     }
 
     let mut normalizer = IfBreakNormalizer;
+    for stmt in stmts {
+        stmt.visit_mut_with(&mut normalizer);
+    }
+}
+
+fn normalize_if_return_blocks(stmts: &mut [Stmt]) {
+    struct IfReturnNormalizer;
+
+    impl VisitMut for IfReturnNormalizer {
+        fn visit_mut_if_stmt(&mut self, if_stmt: &mut IfStmt) {
+            if_stmt.visit_mut_children_with(self);
+
+            if matches!(&*if_stmt.cons, Stmt::Return(_)) {
+                let original = *if_stmt.cons.clone();
+                if_stmt.cons = Box::new(Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    ctxt: Default::default(),
+                    stmts: vec![original],
+                }));
+            }
+        }
+    }
+
+    let mut normalizer = IfReturnNormalizer;
     for stmt in stmts {
         stmt.visit_mut_with(&mut normalizer);
     }
