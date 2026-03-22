@@ -15,7 +15,6 @@ use swc_ecma_transforms_proposal::{
     decorator_2022_03::decorator_2022_03, decorator_2023_11::decorator_2023_11, DecoratorVersion,
 };
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
-use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::Fold;
 
 fn syntax_default() -> Syntax {
@@ -37,7 +36,6 @@ fn syntax_default_ts() -> Syntax {
 }
 
 #[testing::fixture("tests/decorators/**/exec.js")]
-#[testing::fixture("tests/decorators/**/exec.ts")]
 fn exec(input: PathBuf) {
     exec_inner(input)
 }
@@ -127,9 +125,6 @@ struct BabelTestOptions {
     plugins: Vec<BabelPluginEntry>,
 
     #[serde(default)]
-    presets: Vec<BabelPresetEntry>,
-
-    #[serde(default)]
     min_node_version: String,
 
     #[serde(default)]
@@ -152,23 +147,6 @@ impl BabelPluginEntry {
         match self {
             BabelPluginEntry::NameOnly(name) | BabelPluginEntry::WithConfig(name, _) => name,
             BabelPluginEntry::NameInArray([name]) => name,
-        }
-    }
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase", untagged)]
-enum BabelPresetEntry {
-    NameOnly(String),
-    NameInArray([String; 1]),
-    WithConfig(String, Value),
-}
-
-impl BabelPresetEntry {
-    fn name(&self) -> &str {
-        match self {
-            BabelPresetEntry::NameOnly(name) | BabelPresetEntry::WithConfig(name, _) => name,
-            BabelPresetEntry::NameInArray([name]) => name,
         }
     }
 }
@@ -255,16 +233,6 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pa
                     panic!("Unknown plugin: {name}");
                 }
             },
-        }
-    }
-
-    for preset in &options_json.presets {
-        if preset.name() == "typescript" {
-            add!(typescript(
-                Default::default(),
-                unresolved_mark,
-                top_level_mark
-            ));
         }
     }
 

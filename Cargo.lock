@@ -6772,7 +6772,6 @@ dependencies = [
  "swc_ecma_transforms_classes",
  "swc_ecma_transforms_compat",
  "swc_ecma_transforms_testing",
- "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "testing",
