@@ -600,14 +600,18 @@ fn parse_pragmas(source: &str) -> PluginOptions {
         if entry.is_empty() {
             continue;
         }
+        let pragma = entry.lines().next().unwrap_or(entry).trim();
+        if pragma.is_empty() {
+            continue;
+        }
 
-        let (key, raw_value) = match entry.find(':') {
+        let (key, raw_value) = match pragma.find(':') {
             Some(index) => (
-                entry[..index].trim(),
-                Some(entry[index + 1..].trim().to_string()),
+                pragma[..index].trim(),
+                Some(pragma[index + 1..].trim().to_string()),
             ),
             None => {
-                let key = entry.split_whitespace().next().unwrap_or_default().trim();
+                let key = pragma.split_whitespace().next().unwrap_or_default().trim();
                 (key, None)
             }
         };
@@ -748,6 +752,11 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                             import_specifier_name: import_specifier_name.into(),
                         });
                     }
+                } else if parsed_value.as_bool() == Some(true) {
+                    options.gating = Some(ExternalFunction {
+                        source: "ReactForgetFeatureFlag".into(),
+                        import_specifier_name: "isForgetEnabled_Fixtures".into(),
+                    });
                 }
             }
             "validateBlocklistedImports" => {
@@ -1405,5 +1414,26 @@ function Component() {
     assert_eq!(
         options.custom_opt_out_directives,
         Some(vec!["use todo memo".to_string()])
+    );
+}
+
+#[test]
+fn parses_boolean_gating_pragma_to_default_external_function() {
+    let source = r#"
+// @gating
+function Component() {
+  "use forget";
+  return <div />;
+}
+"#;
+
+    let options = parse_pragmas(source);
+    let gating = options
+        .gating
+        .expect("expected @gating to set default gating");
+    assert_eq!(gating.source.as_ref(), "ReactForgetFeatureFlag");
+    assert_eq!(
+        gating.import_specifier_name.as_ref(),
+        "isForgetEnabled_Fixtures"
     );
 }

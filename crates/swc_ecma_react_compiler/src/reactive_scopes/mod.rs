@@ -79,6 +79,41 @@ pub fn codegen_function(mut reactive: ReactiveFunction) -> CodegenFunction {
     }
 }
 
+/// Applies the same nested binding conflict normalization used by reactive
+/// scope memoization to lint-mode output, where we don't emit rewritten code.
+pub fn normalize_lint_function_bindings(function: &mut Function) {
+    let Some(body) = &mut function.body else {
+        return;
+    };
+
+    let mut top_level_bindings = HashSet::new();
+    for param in &function.params {
+        collect_pattern_bindings(&param.pat, &mut top_level_bindings);
+    }
+    for stmt in &body.stmts {
+        collect_stmt_bindings(stmt, &mut top_level_bindings);
+    }
+
+    normalize_duplicate_id_bindings_in_nested_functions(&mut body.stmts, &top_level_bindings);
+}
+
+/// Arrow variant of `normalize_lint_function_bindings`.
+pub fn normalize_lint_arrow_bindings(arrow: &mut ArrowExpr) {
+    let swc_ecma_ast::BlockStmtOrExpr::BlockStmt(body) = &mut *arrow.body else {
+        return;
+    };
+
+    let mut top_level_bindings = HashSet::new();
+    for param in &arrow.params {
+        collect_pattern_bindings(param, &mut top_level_bindings);
+    }
+    for stmt in &body.stmts {
+        collect_stmt_bindings(stmt, &mut top_level_bindings);
+    }
+
+    normalize_duplicate_id_bindings_in_nested_functions(&mut body.stmts, &top_level_bindings);
+}
+
 fn function_to_reactive(
     function: &Function,
     id: Option<Ident>,
@@ -901,6 +936,16 @@ fn normalize_duplicate_id_bindings_in_nested_functions(
                 };
 
                 rename_ident_in_block(body, name.as_str(), replacement.as_str());
+                rename_ident_in_nested_functions_without_param_shadow(
+                    body,
+                    name.as_str(),
+                    replacement.as_str(),
+                );
+                preserve_shorthand_property_keys_for_rename_in_block(
+                    body,
+                    name.as_str(),
+                    replacement.as_str(),
+                );
                 block_bindings.remove(name.as_str());
                 block_bindings.insert(replacement.clone());
                 taken.insert(replacement);
@@ -921,6 +966,16 @@ fn normalize_duplicate_id_bindings_in_nested_functions(
                 };
 
                 rename_ident_in_block(body, "id", replacement.as_str());
+                rename_ident_in_nested_functions_without_param_shadow(
+                    body,
+                    "id",
+                    replacement.as_str(),
+                );
+                preserve_shorthand_property_keys_for_rename_in_block(
+                    body,
+                    "id",
+                    replacement.as_str(),
+                );
                 block_bindings.remove("id");
                 block_bindings.insert(replacement.clone());
                 taken.insert(replacement);
@@ -929,6 +984,28 @@ fn normalize_duplicate_id_bindings_in_nested_functions(
     }
 
     impl VisitMut for Renamer {
+        fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
+            if self.inside_call_arg {
+                for stmt in &mut block.stmts {
+                    stmt.visit_mut_with(self);
+                }
+                return;
+            }
+
+            self.rename_conflicting_bindings_in_block(block);
+
+            let mut local_bindings = HashSet::new();
+            for stmt in &block.stmts {
+                collect_stmt_bindings(stmt, &mut local_bindings);
+            }
+
+            self.scope_bindings.push(local_bindings);
+            for stmt in &mut block.stmts {
+                stmt.visit_mut_with(self);
+            }
+            self.scope_bindings.pop();
+        }
+
         fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
             call.callee.visit_mut_with(self);
             let skip_arg_renaming = matches!(
