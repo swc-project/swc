@@ -223,6 +223,9 @@
 
 - Bump cargo-mono to 0.5.3 ([#11722](https://github.com/swc-project/swc/issues/11722)) ([b5272af](https://github.com/swc-project/swc/commit/b5272af0f80047ffb98a1eed5de1f1d391657aa2))
 
+
+- Install zig for core ppc64le/s390x nightly cross builds ([#11725](https://github.com/swc-project/swc/issues/11725)) ([09c4be0](https://github.com/swc-project/swc/commit/09c4be00656d2d64e80ffb0ae250c53db645a39c))
+
 ## [1.15.18] - 2026-03-01
 
 ### Bug Fixes
@@ -2062,9 +2065,6 @@
 - **(ci)** Fix build of `@swc/minifier` ([0dc5244](https://github.com/swc-project/swc/commit/0dc52440ea8f2320614d0875fc421ba647f1a75c))
 
 
-- **(es/codegen)** Fix `.map` path when using `output_path` ([01e5bd1](https://github.com/swc-project/swc/commit/01e5bd1d6560d3b40e98122e09d0f7bd7c73b4c5))
-
-
 - **(es/parser)** Allow type ann in jsx expr child ([#10626](https://github.com/swc-project/swc/issues/10626)) ([48f576c](https://github.com/swc-project/swc/commit/48f576c64ac119af3bc990c78f06678dc0fdd800))
 
 
@@ -2081,9 +2081,6 @@
 
 ### Performance
 
-
-
-- **(atoms)** Improve `atom!` for inlinable strings ([#10612](https://github.com/swc-project/swc/issues/10612)) ([5113121](https://github.com/swc-project/swc/commit/51131212c3bd1992bdade5ab509572ad79d1aa53))
 
 
 - **(es/minifier)** Remove needless JSON conversion ([#10628](https://github.com/swc-project/swc/issues/10628)) ([4a58dca](https://github.com/swc-project/swc/commit/4a58dca92c71c2db871be3a09ea0aa6c9a6702fc))
