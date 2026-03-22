@@ -38,5 +38,4 @@ swc_ecma_compat_es2022      = { version = "42.0.0", path = "../swc_ecma_compat_e
 swc_ecma_parser             = { version = "36.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat  = { version = "45.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_testing = { version = "43.0.0", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript = { version = "43.0.0", path = "../swc_ecma_transforms_typescript" }
 testing                     = { version = "20.0.0", path = "../testing" }
