@@ -5,7 +5,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_react_compiler"
 repository    = { workspace = true }
-version       = "14.0.0"
+version       = "15.0.0"
 
 
 [package.metadata.docs.rs]
@@ -21,5 +21,5 @@ swc_ecma_visit = { version = "21.0.0", path = "../swc_ecma_visit" }
 [dev-dependencies]
 serde_json = { workspace = true }
 swc_ecma_codegen = { version = "24.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "35.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "36.0.0", path = "../swc_ecma_parser" }
 testing         = { version = "20.0.0", path = "../testing" }

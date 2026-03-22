@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transformer"
 repository    = { workspace = true }
-version       = "10.0.0"
+version       = "11.0.0"
 
 [features]
 default = []
@@ -24,7 +24,7 @@ swc_ecma_ast = { version = "21.0.0", path = "../swc_ecma_ast" }
 swc_ecma_compat_regexp = { version = "2.0.0", path = "../swc_ecma_compat_regexp" }
 swc_ecma_hooks = { version = "0.5.0", path = "../swc_ecma_hooks" }
 swc_ecma_regexp = { version = "0.8.0", path = "../swc_ecma_regexp" }
-swc_ecma_transforms_base = { version = "38.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "39.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils = { version = "27.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "21.0.0", path = "../swc_ecma_visit", features = [
     "path",

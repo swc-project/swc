@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_react"
 repository    = { workspace = true }
-version       = "42.0.0"
+version       = "43.0.0"
 
 [lib]
 bench = false
@@ -36,16 +36,16 @@ swc_common                 = { version = "19.0.0", path = "../swc_common" }
 swc_config                 = { version = "4.0.0", path = "../swc_config" }
 swc_ecma_ast               = { version = "21.0.0", path = "../swc_ecma_ast" }
 swc_ecma_hooks             = { version = "0.5.0", path = "../swc_ecma_hooks" }
-swc_ecma_parser            = { version = "35.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser            = { version = "36.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base   = { version = "38.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_compat = { version = "44.0.0", path = "../swc_ecma_transforms_compat/", optional = true }
+swc_ecma_transforms_base   = { version = "39.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_compat = { version = "45.0.0", path = "../swc_ecma_transforms_compat/", optional = true }
 swc_ecma_utils             = { version = "27.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit             = { version = "21.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 swc_ecma_codegen            = { version = "24.0.0", path = "../swc_ecma_codegen/" }
-swc_ecma_transforms_compat  = { version = "44.0.0", path = "../swc_ecma_transforms_compat/" }
-swc_ecma_transforms_testing = { version = "42.0.0", path = "../swc_ecma_transforms_testing" }
+swc_ecma_transforms_compat  = { version = "45.0.0", path = "../swc_ecma_transforms_compat/" }
+swc_ecma_transforms_testing = { version = "43.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "20.0.0", path = "../testing" }
