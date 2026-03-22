@@ -507,6 +507,46 @@ fn normalize_js_like(value: &str) -> String {
     normalize(&print(&program))
 }
 
+fn expected_error_reasons(expected: &str) -> Vec<String> {
+    expected
+        .lines()
+        .filter_map(|line| line.trim().strip_prefix("Error: "))
+        .map(|reason| reason.trim().to_string())
+        .collect()
+}
+
+fn details_match_expected_errors(detail_list: &[(ErrorCategory, String)], expected: &str) -> bool {
+    let reasons = expected_error_reasons(expected);
+    if reasons.is_empty() {
+        let joined = detail_list
+            .iter()
+            .map(|(_, text)| text.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        return normalize(&joined).contains(&normalize(expected));
+    }
+
+    let mut used = vec![false; detail_list.len()];
+    for reason in reasons {
+        let mut matched = false;
+        for (index, (_, text)) in detail_list.iter().enumerate() {
+            if used[index] {
+                continue;
+            }
+            if text.contains(reason.as_str()) {
+                used[index] = true;
+                matched = true;
+                break;
+            }
+        }
+        if !matched {
+            return false;
+        }
+    }
+
+    true
+}
+
 fn strip_literal_raws(program: &mut Program) {
     struct RawStripper;
 
@@ -560,14 +600,18 @@ fn parse_pragmas(source: &str) -> PluginOptions {
         if entry.is_empty() {
             continue;
         }
+        let pragma = entry.lines().next().unwrap_or(entry).trim();
+        if pragma.is_empty() {
+            continue;
+        }
 
-        let (key, raw_value) = match entry.find(':') {
+        let (key, raw_value) = match pragma.find(':') {
             Some(index) => (
-                entry[..index].trim(),
-                Some(entry[index + 1..].trim().to_string()),
+                pragma[..index].trim(),
+                Some(pragma[index + 1..].trim().to_string()),
             ),
             None => {
-                let key = entry.split_whitespace().next().unwrap_or_default().trim();
+                let key = pragma.split_whitespace().next().unwrap_or_default().trim();
                 (key, None)
             }
         };
@@ -708,6 +752,11 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                             import_specifier_name: import_specifier_name.into(),
                         });
                     }
+                } else if parsed_value.as_bool() == Some(true) {
+                    options.gating = Some(ExternalFunction {
+                        source: "ReactForgetFeatureFlag".into(),
+                        import_specifier_name: "isForgetEnabled_Fixtures".into(),
+                    });
                 }
             }
             "validateBlocklistedImports" => {
@@ -741,6 +790,12 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                     env_changed = true;
                 }
             }
+            "validateNoImpureFunctionsInRender" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.validate_no_impure_functions_in_render = value;
+                    env_changed = true;
+                }
+            }
             "validateRefAccessDuringRender" => {
                 if let Some(value) = parsed_value.as_bool() {
                     env.validate_ref_access_during_render = value;
@@ -756,6 +811,12 @@ fn parse_pragmas(source: &str) -> PluginOptions {
             "validateNoDerivedComputationsInEffects" => {
                 if let Some(value) = parsed_value.as_bool() {
                     env.validate_no_derived_computations_in_effects = value;
+                    env_changed = true;
+                }
+            }
+            "validateNoDerivedComputationsInEffects_exp" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.validate_no_derived_computations_in_effects_exp = value;
                     env_changed = true;
                 }
             }
@@ -814,15 +875,45 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                     env_changed = true;
                 }
             }
+            "validateNoFreezingKnownMutableFunctions" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.validate_no_freezing_known_mutable_functions = value;
+                    env_changed = true;
+                }
+            }
             "validateSourceLocations" => {
                 if let Some(value) = parsed_value.as_bool() {
                     env.validate_source_locations = value;
                     env_changed = true;
                 }
             }
+            "assertValidMutableRanges" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.assert_valid_mutable_ranges = value;
+                    env_changed = true;
+                }
+            }
             "enableNameAnonymousFunctions" => {
                 if let Some(value) = parsed_value.as_bool() {
                     env.enable_name_anonymous_functions = value;
+                    env_changed = true;
+                }
+            }
+            "enableOptionalDependencies" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_optional_dependencies = value;
+                    env_changed = true;
+                }
+            }
+            "enableUseKeyedState" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_use_keyed_state = value;
+                    env_changed = true;
+                }
+            }
+            "throwUnknownException__testonly" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.throw_unknown_exception_testonly = value;
                     env_changed = true;
                 }
             }
@@ -1044,8 +1135,8 @@ fn run_fixture(input: PathBuf) {
             .map(|(_, text)| text.clone())
             .collect::<Vec<_>>()
             .join("\n");
+        let expected_ok = details_match_expected_errors(&detail_list, &expected);
         if allow_upstream_oracle {
-            let expected_ok = normalize(&joined).contains(&expected);
             let category_ok = expected_error_category.map_or(true, |expected_category| {
                 detail_list
                     .iter()
@@ -1056,7 +1147,7 @@ fn run_fixture(input: PathBuf) {
             }
         }
         assert!(
-            normalize(&joined).contains(&expected),
+            expected_ok,
             "expected error fragment not found in fixture `{}`\nexpected:\n{}\nactual:\n{}",
             input.display(),
             expected,
@@ -1090,7 +1181,18 @@ fn run_fixture(input: PathBuf) {
     if allow_upstream_oracle && compiled.is_err() {
         return;
     }
-    compiled.unwrap();
+    let report = compiled.unwrap();
+    if std::env::var("REACT_COMPILER_DEBUG_DIAGNOSTICS")
+        .ok()
+        .as_deref()
+        == Some("1")
+        && !report.diagnostics.is_empty()
+    {
+        eprintln!("DIAGNOSTICS: {}", input.display());
+        for detail in &report.diagnostics {
+            eprintln!("- {:?}: {}", detail.category, detail.reason);
+        }
+    }
 
     let expected = fs::read_to_string(expected_output).unwrap();
     let actual = print(&program);
@@ -1190,6 +1292,46 @@ fn configured_path(root: &Path, env_key: &str, default: &str) -> PathBuf {
     root.join(default)
 }
 
+fn continue_on_failure_mode() -> bool {
+    std::env::var("REACT_COMPILER_FIXTURE_CONTINUE_ON_FAIL")
+        .ok()
+        .as_deref()
+        == Some("1")
+}
+
+fn run_fixture_suite(inputs: Vec<PathBuf>) {
+    if !continue_on_failure_mode() {
+        for input in inputs {
+            run_fixture(input);
+        }
+        return;
+    }
+
+    let total = inputs.len();
+    let mut failed = Vec::<PathBuf>::new();
+    for input in inputs {
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            run_fixture(input.clone());
+        }));
+        if result.is_err() {
+            eprintln!("FAILED_FIXTURE: {}", input.display());
+            failed.push(input);
+        }
+    }
+
+    assert!(
+        failed.is_empty(),
+        "fixture suite failed: {}/{} failed\n{}",
+        failed.len(),
+        total,
+        failed
+            .iter()
+            .map(|path| path.display().to_string())
+            .collect::<Vec<_>>()
+            .join("\n")
+    );
+}
+
 #[test]
 fn fixture_cases_local() {
     let inputs = local_inputs();
@@ -1198,9 +1340,7 @@ fn fixture_cases_local() {
         "no local fixture input.js files were found"
     );
 
-    for input in inputs {
-        run_fixture(input);
-    }
+    run_fixture_suite(inputs);
 }
 
 #[test]
@@ -1224,9 +1364,7 @@ fn fixture_cases_upstream() {
          tests/fixtures/upstream_manifest.txt --out-dir tests/fixtures/upstream` first"
     );
 
-    for input in inputs {
-        run_fixture(input);
-    }
+    run_fixture_suite(inputs);
 }
 
 #[test]
@@ -1259,9 +1397,7 @@ fn fixture_cases_upstream_phase1() {
          tests/fixtures/upstream_phase1_manifest.txt --out-dir tests/fixtures/upstream` first"
     );
 
-    for input in inputs {
-        run_fixture(input);
-    }
+    run_fixture_suite(inputs);
 }
 
 #[test]
@@ -1278,5 +1414,26 @@ function Component() {
     assert_eq!(
         options.custom_opt_out_directives,
         Some(vec!["use todo memo".to_string()])
+    );
+}
+
+#[test]
+fn parses_boolean_gating_pragma_to_default_external_function() {
+    let source = r#"
+// @gating
+function Component() {
+  "use forget";
+  return <div />;
+}
+"#;
+
+    let options = parse_pragmas(source);
+    let gating = options
+        .gating
+        .expect("expected @gating to set default gating");
+    assert_eq!(gating.source.as_ref(), "ReactForgetFeatureFlag");
+    assert_eq!(
+        gating.import_specifier_name.as_ref(),
+        "isForgetEnabled_Fixtures"
     );
 }
