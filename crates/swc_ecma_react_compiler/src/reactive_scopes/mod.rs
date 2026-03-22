@@ -3113,6 +3113,24 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                     for stmt in &compute_stmts {
                         collect_stmt_bindings_including_nested_blocks(stmt, &mut local_bindings);
                     }
+                    let non_optional_member_dep_keys =
+                        collect_non_optional_member_dependency_keys_from_stmts(
+                            &compute_stmts,
+                            &dep_known_bindings,
+                            &local_bindings,
+                        );
+                    let mixed_optional_member_dep_keys =
+                        collect_mixed_member_dependency_keys_from_stmts(
+                            &compute_stmts,
+                            &dep_known_bindings,
+                            &local_bindings,
+                        );
+                    let conditional_only_non_optional_member_dep_keys =
+                        collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
+                            &compute_stmts,
+                            &dep_known_bindings,
+                            &local_bindings,
+                        );
                     let mut deps = collect_dependencies_from_stmts(
                         &compute_stmts,
                         &dep_known_bindings,
@@ -3145,6 +3163,13 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                                     .starts_with(&format!("{}.", result_ident.sym.as_ref()))
                         });
                     }
+                    deps = normalize_optional_member_dependencies(
+                        deps,
+                        &non_optional_member_dep_keys,
+                        &mixed_optional_member_dep_keys,
+                        &conditional_only_non_optional_member_dep_keys,
+                    );
+                    deps = reduce_nested_member_dependencies(deps);
 
                     let label = Ident::new_no_ctxt("bb0".into(), DUMMY_SP);
                     let (mut rewritten_stmts, has_early_return, sentinel) =
@@ -7969,6 +7994,13 @@ fn collect_dependencies_from_expr(
                         if let MemberProp::Computed(computed) = &member.prop {
                             computed.expr.visit_with(self);
                         }
+                    } else if let Some(dep) = opt_chain_member_dependency(
+                        expr,
+                        member,
+                        self.known_bindings,
+                        self.local_bindings,
+                    ) {
+                        maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
                     } else {
                         member.visit_with(self);
                     }
@@ -8152,6 +8184,13 @@ fn collect_dependencies_from_stmts(
                         if let MemberProp::Computed(computed) = &member.prop {
                             computed.expr.visit_with(self);
                         }
+                    } else if let Some(dep) = opt_chain_member_dependency(
+                        expr,
+                        member,
+                        self.known_bindings,
+                        self.local_bindings,
+                    ) {
+                        maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
                     } else {
                         member.visit_with(self);
                     }
@@ -8406,17 +8445,18 @@ fn collect_stmt_function_capture_dependencies(
         known_bindings: &'a HashMap<String, bool>,
         stmt_local_bindings: &'a HashSet<String>,
         deps: Vec<ReactiveDependency>,
+        jsx_depth: usize,
     }
 
     impl Collector<'_> {
-        fn push_deps_from_expr(&mut self, expr: &Expr) {
+        fn push_deps_from_expr(&mut self, expr: &Expr, allow_stmt_local_deps: bool) {
             for dep in collect_function_capture_dependencies(expr, self.known_bindings) {
                 let dep_base = dep
                     .key
                     .split_once('.')
                     .map(|(base, _)| base)
                     .unwrap_or(dep.key.as_str());
-                if self.stmt_local_bindings.contains(dep_base) {
+                if !allow_stmt_local_deps && self.stmt_local_bindings.contains(dep_base) {
                     continue;
                 }
                 if !self
@@ -8444,7 +8484,7 @@ fn collect_stmt_function_capture_dependencies(
                 return;
             };
             if matches!(unwrap_transparent_expr(init), Expr::Arrow(_) | Expr::Fn(_)) {
-                self.push_deps_from_expr(init);
+                self.push_deps_from_expr(init, false);
             }
             declarator.visit_children_with(self);
         }
@@ -8456,9 +8496,30 @@ fn collect_stmt_function_capture_dependencies(
                     Expr::Arrow(_) | Expr::Fn(_)
                 )
             {
-                self.push_deps_from_expr(&assign.right);
+                self.push_deps_from_expr(&assign.right, false);
             }
             assign.visit_children_with(self);
+        }
+
+        fn visit_expr(&mut self, expr: &Expr) {
+            if matches!(unwrap_transparent_expr(expr), Expr::Arrow(_) | Expr::Fn(_)) {
+                self.push_deps_from_expr(expr, self.jsx_depth > 0);
+                return;
+            }
+
+            expr.visit_children_with(self);
+        }
+
+        fn visit_jsx_element(&mut self, element: &swc_ecma_ast::JSXElement) {
+            self.jsx_depth += 1;
+            element.visit_children_with(self);
+            self.jsx_depth -= 1;
+        }
+
+        fn visit_jsx_fragment(&mut self, fragment: &swc_ecma_ast::JSXFragment) {
+            self.jsx_depth += 1;
+            fragment.visit_children_with(self);
+            self.jsx_depth -= 1;
         }
     }
 
@@ -8466,6 +8527,7 @@ fn collect_stmt_function_capture_dependencies(
         known_bindings,
         stmt_local_bindings: &stmt_local_bindings,
         deps: Vec::new(),
+        jsx_depth: 0,
     };
     for stmt in stmts {
         stmt.visit_with(&mut collector);
@@ -8491,6 +8553,27 @@ fn member_dependency(
     Some(ReactiveDependency {
         key: format!("{object_name}.{}", segments.join(".")),
         expr: Box::new(Expr::Member(member.clone())),
+    })
+}
+
+fn opt_chain_member_dependency(
+    opt_chain: &OptChainExpr,
+    member: &MemberExpr,
+    known_bindings: &HashMap<String, bool>,
+    local_bindings: &HashSet<String>,
+) -> Option<ReactiveDependency> {
+    let (object, segments) = extract_static_member_dependency_parts(member)?;
+    let object_name = object.sym.as_ref();
+    if local_bindings.contains(object_name) {
+        return None;
+    }
+    if known_bindings.get(object_name).copied().unwrap_or(true) {
+        return None;
+    }
+
+    Some(ReactiveDependency {
+        key: format!("{object_name}.{}", segments.join(".")),
+        expr: Box::new(Expr::OptChain(opt_chain.clone())),
     })
 }
 
@@ -8647,7 +8730,342 @@ fn maybe_push_dependency(
 ) {
     if seen.insert(dep.key.clone()) {
         deps.push(dep);
+        return;
     }
+
+    // Keep the stronger, non-optional dependency expression when both forms
+    // map to the same dependency key (e.g. `a?.b` and `a.b`).
+    if !matches!(&*dep.expr, Expr::OptChain(_)) {
+        if let Some(existing) = deps.iter_mut().find(|existing| existing.key == dep.key) {
+            if matches!(&*existing.expr, Expr::OptChain(_)) {
+                *existing = dep;
+            }
+        }
+    }
+}
+
+fn collect_non_optional_member_dependency_keys_from_stmts(
+    stmts: &[Stmt],
+    known_bindings: &HashMap<String, bool>,
+    local_bindings: &HashSet<String>,
+) -> HashSet<String> {
+    struct Collector<'a> {
+        known_bindings: &'a HashMap<String, bool>,
+        local_bindings: &'a HashSet<String>,
+        optional_chain_depth: usize,
+        keys: HashSet<String>,
+    }
+
+    impl Visit for Collector<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_member_expr(&mut self, member: &MemberExpr) {
+            if self.optional_chain_depth == 0 {
+                if let Some(dep) =
+                    member_dependency(member, self.known_bindings, self.local_bindings)
+                {
+                    self.keys.insert(dep.key);
+                    return;
+                }
+            }
+
+            member.visit_children_with(self);
+        }
+
+        fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+            self.optional_chain_depth += 1;
+            expr.visit_children_with(self);
+            self.optional_chain_depth -= 1;
+        }
+    }
+
+    let mut collector = Collector {
+        known_bindings,
+        local_bindings,
+        optional_chain_depth: 0,
+        keys: HashSet::new(),
+    };
+    for stmt in stmts {
+        stmt.visit_with(&mut collector);
+    }
+    collector.keys
+}
+
+fn collect_mixed_member_dependency_keys_from_stmts(
+    stmts: &[Stmt],
+    known_bindings: &HashMap<String, bool>,
+    local_bindings: &HashSet<String>,
+) -> HashSet<String> {
+    #[derive(Default)]
+    struct AccessKinds {
+        optional: bool,
+        non_optional: bool,
+    }
+
+    struct Collector<'a> {
+        known_bindings: &'a HashMap<String, bool>,
+        local_bindings: &'a HashSet<String>,
+        optional_chain_depth: usize,
+        access: HashMap<String, AccessKinds>,
+    }
+
+    impl Visit for Collector<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_member_expr(&mut self, member: &MemberExpr) {
+            if self.optional_chain_depth == 0 {
+                if let Some(dep) =
+                    member_dependency(member, self.known_bindings, self.local_bindings)
+                {
+                    self.access.entry(dep.key).or_default().non_optional = true;
+                    return;
+                }
+            }
+
+            member.visit_children_with(self);
+        }
+
+        fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+            if let OptChainBase::Member(member) = &*expr.base {
+                if let Some(dep) = opt_chain_member_dependency(
+                    expr,
+                    member,
+                    self.known_bindings,
+                    self.local_bindings,
+                ) {
+                    self.access.entry(dep.key).or_default().optional = true;
+                }
+            }
+
+            self.optional_chain_depth += 1;
+            expr.visit_children_with(self);
+            self.optional_chain_depth -= 1;
+        }
+    }
+
+    let mut collector = Collector {
+        known_bindings,
+        local_bindings,
+        optional_chain_depth: 0,
+        access: HashMap::new(),
+    };
+    for stmt in stmts {
+        stmt.visit_with(&mut collector);
+    }
+
+    collector
+        .access
+        .into_iter()
+        .filter_map(|(key, kind)| (kind.optional && kind.non_optional).then_some(key))
+        .collect()
+}
+
+fn collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
+    stmts: &[Stmt],
+    known_bindings: &HashMap<String, bool>,
+    local_bindings: &HashSet<String>,
+) -> HashSet<String> {
+    struct Collector<'a> {
+        known_bindings: &'a HashMap<String, bool>,
+        local_bindings: &'a HashSet<String>,
+        optional_chain_depth: usize,
+        conditional_depth: usize,
+        conditional: HashSet<String>,
+        unconditional: HashSet<String>,
+    }
+
+    impl Visit for Collector<'_> {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_member_expr(&mut self, member: &MemberExpr) {
+            if self.optional_chain_depth == 0 {
+                if let Some(dep) =
+                    member_dependency(member, self.known_bindings, self.local_bindings)
+                {
+                    if self.conditional_depth == 0 {
+                        self.unconditional.insert(dep.key);
+                    } else {
+                        self.conditional.insert(dep.key);
+                    }
+                    return;
+                }
+            }
+
+            member.visit_children_with(self);
+        }
+
+        fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+            self.optional_chain_depth += 1;
+            expr.visit_children_with(self);
+            self.optional_chain_depth -= 1;
+        }
+
+        fn visit_if_stmt(&mut self, if_stmt: &IfStmt) {
+            if_stmt.test.visit_with(self);
+
+            self.conditional_depth += 1;
+            if_stmt.cons.visit_with(self);
+            if let Some(alt) = &if_stmt.alt {
+                alt.visit_with(self);
+            }
+            self.conditional_depth -= 1;
+        }
+
+        fn visit_cond_expr(&mut self, cond: &swc_ecma_ast::CondExpr) {
+            cond.test.visit_with(self);
+
+            self.conditional_depth += 1;
+            cond.cons.visit_with(self);
+            cond.alt.visit_with(self);
+            self.conditional_depth -= 1;
+        }
+
+        fn visit_bin_expr(&mut self, bin: &swc_ecma_ast::BinExpr) {
+            bin.left.visit_with(self);
+            if matches!(bin.op, op!("&&") | op!("||") | op!("??")) {
+                self.conditional_depth += 1;
+                bin.right.visit_with(self);
+                self.conditional_depth -= 1;
+            } else {
+                bin.right.visit_with(self);
+            }
+        }
+    }
+
+    let mut collector = Collector {
+        known_bindings,
+        local_bindings,
+        optional_chain_depth: 0,
+        conditional_depth: 0,
+        conditional: HashSet::new(),
+        unconditional: HashSet::new(),
+    };
+    for stmt in stmts {
+        stmt.visit_with(&mut collector);
+    }
+
+    collector
+        .conditional
+        .into_iter()
+        .filter(|key| !collector.unconditional.contains(key))
+        .collect()
+}
+
+fn member_expr_from_dependency_key(key: &str) -> Option<Box<Expr>> {
+    let mut parts = key.split('.');
+    let root = parts.next()?.trim();
+    if root.is_empty() {
+        return None;
+    }
+
+    let mut expr = Box::new(Expr::Ident(Ident::new_no_ctxt(root.into(), DUMMY_SP)));
+    for part in parts {
+        let segment = part.trim();
+        if segment.is_empty() {
+            return None;
+        }
+
+        let prop = if Ident::verify_symbol(segment).is_ok() {
+            MemberProp::Ident(Ident::new_no_ctxt(segment.into(), DUMMY_SP).into())
+        } else {
+            MemberProp::Computed(ComputedPropName {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Lit(Lit::Str(swc_ecma_ast::Str {
+                    span: DUMMY_SP,
+                    value: segment.into(),
+                    raw: None,
+                }))),
+            })
+        };
+        expr = Box::new(Expr::Member(MemberExpr {
+            span: DUMMY_SP,
+            obj: expr,
+            prop,
+        }));
+    }
+
+    Some(expr)
+}
+
+fn normalize_optional_member_dependencies(
+    deps: Vec<ReactiveDependency>,
+    non_optional_member_keys: &HashSet<String>,
+    mixed_optional_member_keys: &HashSet<String>,
+    conditional_only_non_optional_member_keys: &HashSet<String>,
+) -> Vec<ReactiveDependency> {
+    fn has_non_optional_descendant(keys: &HashSet<String>, dep_key: &str) -> bool {
+        keys.iter().any(|other| {
+            other.len() > dep_key.len()
+                && other.starts_with(dep_key)
+                && matches!(other.as_bytes().get(dep_key.len()), Some(b'.'))
+        })
+    }
+
+    let mut normalized = Vec::with_capacity(deps.len());
+    for mut dep in deps {
+        if mixed_optional_member_keys.contains(&dep.key) {
+            if let Some((root, _)) = dep.key.split_once('.') {
+                let root = root.to_string();
+                dep.key = root.clone();
+                dep.expr = Box::new(Expr::Ident(Ident::new_no_ctxt(root.into(), DUMMY_SP)));
+            }
+            normalized.push(dep);
+            continue;
+        }
+
+        if !matches!(&*dep.expr, Expr::OptChain(_))
+            && conditional_only_non_optional_member_keys.contains(&dep.key)
+        {
+            let mut parts = dep.key.rsplitn(2, '.');
+            let _ = parts.next();
+            if let Some(parent_key) = parts.next() {
+                if parent_key.contains('.') {
+                    dep.key = parent_key.to_string();
+                    if let Some(expr) = member_expr_from_dependency_key(dep.key.as_str()) {
+                        dep.expr = expr;
+                    }
+                }
+            }
+        }
+
+        if matches!(&*dep.expr, Expr::OptChain(_)) {
+            if non_optional_member_keys.contains(&dep.key) {
+                if let Some((root, _)) = dep.key.split_once('.') {
+                    let root = root.to_string();
+                    dep.key = root.clone();
+                    dep.expr = Box::new(Expr::Ident(Ident::new_no_ctxt(root.into(), DUMMY_SP)));
+                } else if let Some(expr) = member_expr_from_dependency_key(dep.key.as_str()) {
+                    dep.expr = expr;
+                }
+            } else if has_non_optional_descendant(non_optional_member_keys, dep.key.as_str()) {
+                if let Some(expr) = member_expr_from_dependency_key(dep.key.as_str()) {
+                    dep.expr = expr;
+                }
+            }
+        }
+        normalized.push(dep);
+    }
+
+    normalized = reduce_dependencies(normalized);
+    reduce_nested_member_dependencies(normalized)
 }
 
 fn reduce_dependencies(deps: Vec<ReactiveDependency>) -> Vec<ReactiveDependency> {
@@ -9484,6 +9902,42 @@ fn lower_object_pattern_default_decl_with_memoization(
     Some((lowered, cursor - slot_start, added_blocks, added_values))
 }
 
+fn expr_contains_optional_call(expr: &Expr) -> bool {
+    struct Finder {
+        found: bool,
+    }
+
+    impl Visit for Finder {
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+            if matches!(&*expr.base, OptChainBase::Call(_)) {
+                self.found = true;
+                return;
+            }
+
+            expr.visit_children_with(self);
+        }
+
+        fn visit_expr(&mut self, expr: &Expr) {
+            if self.found {
+                return;
+            }
+            expr.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder { found: false };
+    expr.visit_with(&mut finder);
+    finder.found
+}
+
 fn inject_nested_call_memoization_into_stmts(
     stmts: &mut Vec<Stmt>,
     known_bindings: &HashMap<String, bool>,
@@ -9804,12 +10258,27 @@ fn inject_nested_call_memoization_into_stmts(
                 }
 
                 let mut rewritten_call = call.clone();
+                let callee_is_push_method = matches!(
+                    &rewritten_call.callee,
+                    Callee::Expr(callee_expr)
+                        if matches!(
+                            &**callee_expr,
+                            Expr::Member(member)
+                                if matches!(&member.prop, MemberProp::Ident(prop) if prop.sym == "push")
+                        )
+                );
                 let mut changed = false;
                 for arg in &mut rewritten_call.args {
                     if arg.spread.is_some() {
                         continue;
                     }
-                    if !matches!(&*arg.expr, Expr::Array(_) | Expr::Object(_)) {
+
+                    let arg_expr = unwrap_transparent_expr(&arg.expr);
+                    let should_split_array_or_object =
+                        matches!(arg_expr, Expr::Array(_) | Expr::Object(_));
+                    let should_split_complex_optional_push_arg =
+                        callee_is_push_method && expr_contains_optional_call(arg_expr);
+                    if !should_split_array_or_object && !should_split_complex_optional_push_arg {
                         continue;
                     }
 
