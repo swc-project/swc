@@ -261,8 +261,9 @@ jobs:
         with:
           targets: ${{ matrix.settings.target }}
           toolchain: ${{ steps.toolchain.outputs.version }}
+      # `yarn napi build ... -x` invokes `cargo-zigbuild`, which requires zig on the runner.
       - uses: mlugg/setup-zig@v2
-        if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
+        if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' || matrix.settings.target == 'powerpc64le-unknown-linux-gnu' || matrix.settings.target == 's390x-unknown-linux-gnu' }}
         with:
           version: 0.15.1
       - name: Cache cargo registry
