@@ -2192,9 +2192,10 @@ fn transform_jsx_attr_str(v: &Wtf8) -> Wtf8Buf {
                 '\u{000c}' => buf.push_str("\\f"),
                 ' ' => buf.push_char(' '),
 
-                '\n' | '\r' | '\t' => {
+                '\n' => buf.push_char('\n'),
+                '\r' => buf.push_char('\r'),
+                '\t' => {
                     buf.push_char(' ');
-
                     while let Some(next) = iter.peek() {
                         if next.to_char() == Some(' ') {
                             iter.next();
