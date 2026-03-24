@@ -552,8 +552,20 @@ where
     )]
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         self.declare_decl(&n.ident, Some(Value::Unknown), None, false);
+        n.class.decorators.visit_with(self);
 
-        n.visit_children_with(self);
+        {
+            let ctx = self.ctx.with(BitContext::InlinePrevented, true);
+            n.class.super_class.visit_with(&mut *self.with_ctx(ctx));
+        }
+
+        let id = n.ident.to_id();
+        self.used_recursively
+            .insert(id.clone(), RecursiveUsage::FnOrClass);
+        self.with_child(n.class.ctxt, ScopeKind::Fn { is_arrow: false }, |child| {
+            n.class.body.visit_with(child)
+        });
+        self.used_recursively.remove(&id);
     }
 
     #[cfg_attr(
