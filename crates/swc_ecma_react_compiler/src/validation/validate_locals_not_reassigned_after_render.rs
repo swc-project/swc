@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use swc_ecma_ast::{AssignExpr, AssignTarget, Expr, Pat, Stmt, UpdateExpr};
+use swc_ecma_ast::{AssignExpr, AssignTarget, Expr, Pat, UpdateExpr};
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
@@ -17,14 +17,12 @@ pub fn validate_locals_not_reassigned_after_render(hir: &HirFunction) -> Result<
     for param in &hir.function.params {
         collect_pat_bindings(&param.pat, &mut locals);
     }
-    for stmt in &body.stmts {
-        collect_stmt_bindings(stmt, &mut locals);
-    }
+    collect_block_bindings(body, &mut locals);
 
     #[derive(Default)]
     struct Finder {
         locals: HashSet<String>,
-        nested_depth: usize,
+        nested_async_depth: usize,
         errors: Vec<CompilerErrorDetail>,
     }
 
@@ -32,11 +30,11 @@ pub fn validate_locals_not_reassigned_after_render(hir: &HirFunction) -> Result<
         fn push_reassign(&mut self, span: swc_common::Span, name: &str) {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::Immutability,
-                "Cannot reassign variable after render completes",
+                "Cannot reassign variable in async function",
             );
             detail.description = Some(format!(
-                "Reassigning `{name}` after render has completed can cause inconsistent behavior \
-                 on subsequent renders. Consider using state instead."
+                "Reassigning a variable in an async function can cause inconsistent behavior on \
+                 subsequent renders. Consider using state instead. Cannot reassign `{name}`."
             ));
             detail.loc = Some(span);
             self.errors.push(detail);
@@ -45,19 +43,27 @@ pub fn validate_locals_not_reassigned_after_render(hir: &HirFunction) -> Result<
 
     impl Visit for Finder {
         fn visit_function(&mut self, function: &swc_ecma_ast::Function) {
-            self.nested_depth += 1;
+            if function.is_async {
+                self.nested_async_depth += 1;
+            }
             function.visit_children_with(self);
-            self.nested_depth -= 1;
+            if function.is_async {
+                self.nested_async_depth -= 1;
+            }
         }
 
         fn visit_arrow_expr(&mut self, arrow: &swc_ecma_ast::ArrowExpr) {
-            self.nested_depth += 1;
+            if arrow.is_async {
+                self.nested_async_depth += 1;
+            }
             arrow.visit_children_with(self);
-            self.nested_depth -= 1;
+            if arrow.is_async {
+                self.nested_async_depth -= 1;
+            }
         }
 
         fn visit_assign_expr(&mut self, assign: &AssignExpr) {
-            if self.nested_depth > 0 {
+            if self.nested_async_depth > 0 {
                 if let AssignTarget::Simple(swc_ecma_ast::SimpleAssignTarget::Ident(binding)) =
                     &assign.left
                 {
@@ -71,7 +77,7 @@ pub fn validate_locals_not_reassigned_after_render(hir: &HirFunction) -> Result<
         }
 
         fn visit_update_expr(&mut self, update: &UpdateExpr) {
-            if self.nested_depth > 0 {
+            if self.nested_async_depth > 0 {
                 if let Expr::Ident(ident) = &*update.arg {
                     let name = ident.sym.as_ref();
                     if self.locals.contains(name) {
@@ -129,16 +135,29 @@ fn collect_pat_bindings(pat: &Pat, out: &mut HashSet<String>) {
     }
 }
 
-fn collect_stmt_bindings(stmt: &Stmt, out: &mut HashSet<String>) {
-    match stmt {
-        Stmt::Decl(swc_ecma_ast::Decl::Var(var_decl)) => {
-            for decl in &var_decl.decls {
-                collect_pat_bindings(&decl.name, out);
-            }
-        }
-        Stmt::Decl(swc_ecma_ast::Decl::Fn(fn_decl)) => {
-            out.insert(fn_decl.ident.sym.to_string());
-        }
-        _ => {}
+fn collect_block_bindings(block: &swc_ecma_ast::BlockStmt, out: &mut HashSet<String>) {
+    struct Finder<'a> {
+        out: &'a mut HashSet<String>,
     }
+
+    impl Visit for Finder<'_> {
+        fn visit_function(&mut self, _: &swc_ecma_ast::Function) {
+            // Do not include bindings from nested functions.
+        }
+
+        fn visit_arrow_expr(&mut self, _: &swc_ecma_ast::ArrowExpr) {
+            // Do not include bindings from nested functions.
+        }
+
+        fn visit_var_declarator(&mut self, decl: &swc_ecma_ast::VarDeclarator) {
+            collect_pat_bindings(&decl.name, self.out);
+            decl.visit_children_with(self);
+        }
+
+        fn visit_fn_decl(&mut self, decl: &swc_ecma_ast::FnDecl) {
+            self.out.insert(decl.ident.sym.to_string());
+        }
+    }
+
+    block.visit_with(&mut Finder { out });
 }
