@@ -245,7 +245,7 @@ pub fn compile_fn(
 
     optimization::prune_maybe_throws(&mut hir);
     validation::validate_context_variable_lvalues(&hir)?;
-    validation::validate_use_memo(&hir)?;
+    validation::validate_use_memo(&hir, opts.environment.validate_no_void_use_memo)?;
     inference::inline_immediately_invoked_function_expressions(&mut hir);
     inference::drop_manual_memoization(&mut hir);
 
@@ -323,7 +323,7 @@ pub fn compile_fn(
         optimization::outline_jsx(&mut hir);
     }
     if opts.environment.enable_name_anonymous_functions {
-        transform::name_anonymous_functions();
+        transform::name_anonymous_functions(&mut hir);
     }
     if opts.environment.enable_function_outlining {
         optimization::outline_functions(&mut hir);

@@ -117,6 +117,14 @@ pub struct ExternalFunction {
     pub import_specifier_name: Atom,
 }
 
+/// Instrumentation options for forget profiling hooks.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct InstrumentationOptions {
+    pub function: ExternalFunction,
+    pub gating: Option<ExternalFunction>,
+    pub global_gating: Option<Atom>,
+}
+
 /// Dynamic gating options (`use memo if(...)`).
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct DynamicGatingOptions {
@@ -174,6 +182,8 @@ pub struct EnvironmentConfig {
     pub validate_no_derived_computations_in_effects: bool,
     pub validate_no_derived_computations_in_effects_exp: bool,
     pub validate_no_set_state_in_effects: bool,
+    pub enable_allow_set_state_from_refs_in_effects: bool,
+    pub enable_verbose_no_set_state_in_effect: bool,
     pub validate_no_jsx_in_try_statements: bool,
     pub validate_no_freezing_known_mutable_functions: bool,
     pub validate_exhaustive_memoization_dependencies: bool,
@@ -183,6 +193,17 @@ pub struct EnvironmentConfig {
     pub assert_valid_mutable_ranges: bool,
     pub enable_optional_dependencies: bool,
     pub enable_use_keyed_state: bool,
+    pub enable_assume_hooks_follow_rules_of_react: bool,
+    pub enable_transitively_freeze_function_expressions: bool,
+    pub enable_emit_hook_guards: Option<ExternalFunction>,
+    pub enable_emit_instrument_forget: Option<InstrumentationOptions>,
+    pub enable_custom_type_definition_for_reanimated: bool,
+    pub enable_treat_ref_like_identifiers_as_refs: bool,
+    pub enable_treat_set_identifiers_as_state_setters: bool,
+    pub validate_no_void_use_memo: bool,
+    pub custom_macros: Option<Vec<String>>,
+    pub enable_forest: bool,
+    pub enable_reset_cache_on_source_file_changes: Option<bool>,
     pub validate_static_components: bool,
     pub validate_source_locations: bool,
     pub throw_unknown_exception_testonly: bool,
@@ -204,6 +225,8 @@ impl Default for EnvironmentConfig {
             validate_no_derived_computations_in_effects: false,
             validate_no_derived_computations_in_effects_exp: false,
             validate_no_set_state_in_effects: false,
+            enable_allow_set_state_from_refs_in_effects: true,
+            enable_verbose_no_set_state_in_effect: false,
             validate_no_jsx_in_try_statements: false,
             validate_no_freezing_known_mutable_functions: false,
             validate_exhaustive_memoization_dependencies: true,
@@ -213,6 +236,17 @@ impl Default for EnvironmentConfig {
             assert_valid_mutable_ranges: false,
             enable_optional_dependencies: true,
             enable_use_keyed_state: false,
+            enable_assume_hooks_follow_rules_of_react: true,
+            enable_transitively_freeze_function_expressions: true,
+            enable_emit_hook_guards: None,
+            enable_emit_instrument_forget: None,
+            enable_custom_type_definition_for_reanimated: false,
+            enable_treat_ref_like_identifiers_as_refs: true,
+            enable_treat_set_identifiers_as_state_setters: false,
+            validate_no_void_use_memo: true,
+            custom_macros: None,
+            enable_forest: false,
+            enable_reset_cache_on_source_file_changes: None,
             validate_static_components: false,
             validate_source_locations: false,
             throw_unknown_exception_testonly: false,
