@@ -2,7 +2,8 @@ use std::collections::HashSet;
 
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    CallExpr, Callee, CondExpr, Expr, MemberExpr, MemberProp, Pat, Stmt, VarDeclarator,
+    AssignExpr, AssignTarget, CallExpr, Callee, CondExpr, Expr, MemberExpr, MemberProp,
+    OptChainBase, OptChainExpr, Pat, Stmt, VarDeclarator,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -15,6 +16,7 @@ use crate::{
 const HOOK_REFERENCE_REASON: &str = "Hooks may not be referenced as normal values, they must be called. See https://react.dev/reference/rules/react-calls-components-and-hooks#never-pass-around-hooks-as-regular-values";
 const HOOK_CONDITIONAL_REASON: &str = "Hooks must always be called in a consistent order, and may not be called conditionally. See the Rules of Hooks (https://react.dev/warnings/invalid-hook-call-warning)";
 const HOOK_NESTED_REASON: &str = "Hooks must be called at the top level in the body of a function component or custom hook, and may not be called within function expressions. See the Rules of Hooks (https://react.dev/warnings/invalid-hook-call-warning)";
+const HOOK_DYNAMIC_REASON: &str = "Hooks must be the same function on every render, but this value may change over time to a different function. See https://react.dev/reference/rules/react-calls-components-and-hooks#dont-dynamically-use-hooks";
 
 pub fn validate_hooks_usage(hir: &HirFunction) -> Result<(), CompilerError> {
     let Some(body) = hir.function.body.as_ref() else {
@@ -44,6 +46,28 @@ pub fn validate_hooks_usage(hir: &HirFunction) -> Result<(), CompilerError> {
             match expr {
                 Expr::Ident(ident) => is_hook_name(ident.sym.as_ref()),
                 Expr::Member(member) => hook_like_member(member),
+                Expr::OptChain(chain) => match &*chain.base {
+                    OptChainBase::Call(call) => Finder::hook_like_expr(&call.callee),
+                    OptChainBase::Member(member) => hook_like_member(member),
+                },
+                _ => false,
+            }
+        }
+
+        fn is_dynamic_local_hook_call(callee: &Expr, local_bindings: &HashSet<String>) -> bool {
+            match callee {
+                Expr::Ident(ident) => local_bindings.contains(ident.sym.as_ref()),
+                Expr::Member(member) => {
+                    root_member_ident(member).is_some_and(|name| local_bindings.contains(name))
+                }
+                Expr::OptChain(chain) => match &*chain.base {
+                    OptChainBase::Call(call) => {
+                        Finder::is_dynamic_local_hook_call(&call.callee, local_bindings)
+                    }
+                    OptChainBase::Member(member) => {
+                        root_member_ident(member).is_some_and(|name| local_bindings.contains(name))
+                    }
+                },
                 _ => false,
             }
         }
@@ -101,23 +125,14 @@ pub fn validate_hooks_usage(hir: &HirFunction) -> Result<(), CompilerError> {
         fn visit_call_expr(&mut self, call: &CallExpr) {
             if let Callee::Expr(callee) = &call.callee {
                 if Finder::hook_like_expr(callee) {
-                    let is_dynamic_local_hook_call = match &**callee {
-                        Expr::Ident(ident) => self.local_bindings.contains(ident.sym.as_ref()),
-                        Expr::Member(member) => {
-                            if let Expr::Ident(obj) = &*member.obj {
-                                self.local_bindings.contains(obj.sym.as_ref())
-                            } else {
-                                false
-                            }
-                        }
-                        _ => false,
-                    };
+                    let is_dynamic_local_hook_call =
+                        Finder::is_dynamic_local_hook_call(callee, &self.local_bindings);
                     if self.nested_function_depth > 0 {
                         self.push(call.span, HOOK_NESTED_REASON);
                     } else if self.conditional_depth > 0 {
                         self.push(call.span, HOOK_CONDITIONAL_REASON);
                     } else if is_dynamic_local_hook_call {
-                        self.push(call.span, HOOK_REFERENCE_REASON);
+                        self.push(call.span, HOOK_DYNAMIC_REASON);
                     }
                 } else if let Expr::Ident(ident) = &**callee {
                     if self.hook_aliases.contains(ident.sym.as_ref()) {
@@ -138,6 +153,30 @@ pub fn validate_hooks_usage(hir: &HirFunction) -> Result<(), CompilerError> {
             self.in_direct_callee = prev;
         }
 
+        fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+            if let OptChainBase::Call(call) = &*expr.base {
+                if Finder::hook_like_expr(&call.callee) {
+                    if self.nested_function_depth > 0 {
+                        self.push(expr.span, HOOK_NESTED_REASON);
+                    } else {
+                        // Optional calls execute conditionally by definition.
+                        self.push(expr.span, HOOK_CONDITIONAL_REASON);
+                    }
+                }
+
+                for arg in &call.args {
+                    arg.visit_with(self);
+                }
+                let prev = self.in_direct_callee;
+                self.in_direct_callee = true;
+                call.callee.visit_with(self);
+                self.in_direct_callee = prev;
+                return;
+            }
+
+            expr.visit_children_with(self);
+        }
+
         fn visit_var_declarator(&mut self, declarator: &VarDeclarator) {
             if self.nested_function_depth == 0 {
                 if let Pat::Ident(binding) = &declarator.name {
@@ -150,6 +189,24 @@ pub fn validate_hooks_usage(hir: &HirFunction) -> Result<(), CompilerError> {
                 }
             }
             declarator.visit_children_with(self);
+        }
+
+        fn visit_assign_expr(&mut self, assign: &AssignExpr) {
+            if self.nested_function_depth == 0 {
+                if let AssignTarget::Simple(swc_ecma_ast::SimpleAssignTarget::Ident(binding)) =
+                    &assign.left
+                {
+                    if contains_hook_reference(
+                        &assign.right,
+                        &self.hook_aliases,
+                        &self.local_bindings,
+                    ) {
+                        self.hook_aliases.insert(binding.id.sym.to_string());
+                        self.push(assign.span, HOOK_REFERENCE_REASON);
+                    }
+                }
+            }
+            assign.visit_children_with(self);
         }
 
         fn visit_member_expr(&mut self, member: &MemberExpr) {
@@ -201,6 +258,22 @@ fn hook_like_member(member: &MemberExpr) -> bool {
             matches!(&*computed.expr, Expr::Ident(ident) if is_hook_name(ident.sym.as_ref()))
         }
         MemberProp::PrivateName(_) => false,
+    }
+}
+
+fn root_member_ident(member: &MemberExpr) -> Option<&str> {
+    match &*member.obj {
+        Expr::Ident(ident) => Some(ident.sym.as_ref()),
+        Expr::Member(inner) => root_member_ident(inner),
+        Expr::OptChain(chain) => match &*chain.base {
+            OptChainBase::Member(base_member) => root_member_ident(base_member),
+            OptChainBase::Call(call) => match &*call.callee {
+                Expr::Member(base_member) => root_member_ident(base_member),
+                Expr::Ident(ident) => Some(ident.sym.as_ref()),
+                _ => None,
+            },
+        },
+        _ => None,
     }
 }
 

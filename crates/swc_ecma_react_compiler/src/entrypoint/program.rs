@@ -277,9 +277,9 @@ pub fn compile_fn(
     optimization::prune_maybe_throws(&mut hir);
 
     inference::infer_mutation_aliasing_ranges(&mut hir);
-    if opts.environment.assert_valid_mutable_ranges {
-        validation::validate_locals_not_reassigned_after_render(&hir)?;
-    }
+    // Upstream runs this validation unconditionally and reserves
+    // `assert_valid_mutable_ranges` for additional internal checks.
+    validation::validate_locals_not_reassigned_after_render(&hir)?;
 
     if opts.environment.validate_ref_access_during_render {
         validation::validate_no_ref_access_in_render(&hir)?;
