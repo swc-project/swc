@@ -2192,6 +2192,14 @@ impl<I: Tokens> Parser<I> {
                                 .into(),
                             ),
                         }));
+
+                        if !self.input().is(Token::RParen) {
+                            expect!(self, Token::Comma);
+                            if self.input().is(Token::RParen) {
+                                trailing_comma = Some(self.input().prev_span());
+                            }
+                        }
+
                         continue;
                     }
 

@@ -2819,7 +2819,11 @@ impl<I: Tokens> Parser<I> {
         }
 
         let type_ann = self.try_parse_ts_type()?;
-        self.expect_general_semi()?;
+
+        if !(self.input().syntax().flow() && self.input_mut().eat(Token::Comma)) {
+            self.expect_general_semi()?;
+        }
+
         expect!(self, Token::RBrace);
 
         Ok(TsMappedType {
@@ -4192,7 +4196,13 @@ impl<I: Tokens> Parser<I> {
             self.bump();
 
             // Flow's nullable type (`?T`) is represented as `T | null | undefined`.
-            let inner_type = self.parse_ts_non_array_type()?;
+            // For `?(...) => ...`, parse as nullable function type instead of
+            // parenthesized type followed by an unexpected arrow.
+            let inner_type = if self.input().is(Token::LParen) {
+                self.parse_ts_non_conditional_type()?
+            } else {
+                self.parse_ts_non_array_type()?
+            };
             let span = self.span(start);
 
             let null_type = Box::new(TsType::TsKeywordType(TsKeywordType {
