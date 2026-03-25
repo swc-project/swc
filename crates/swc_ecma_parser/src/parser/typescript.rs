@@ -220,7 +220,7 @@ impl<I: Tokens> Parser<I> {
 
             if allow_rest_type {
                 if let Some(type_ann) = self.try_parse_ts(|p| {
-                    let ty = p.parse_ts_type()?;
+                    let ty = p.in_type(Self::parse_ts_type)?;
                     if p.input().is(Token::Comma) || p.input().is(Token::RParen) {
                         Ok(Some(ty))
                     } else {
