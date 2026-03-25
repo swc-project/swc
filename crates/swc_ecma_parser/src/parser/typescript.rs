@@ -4196,9 +4196,27 @@ impl<I: Tokens> Parser<I> {
             self.bump();
 
             // Flow's nullable type (`?T`) is represented as `T | null | undefined`.
-            // For `?(...) => ...`, parse as nullable function type instead of
-            // parenthesized type followed by an unexpected arrow.
-            let inner_type = if self.input().is(Token::LParen) {
+            // Only use the non-conditional parser for actual function forms
+            // (`?() =>`, `?(x: T) =>`, `?(...A) =>`) so non-function grouped
+            // types keep their original precedence (`?(T)[]` etc.).
+            let is_nullable_fn_type = self.input().is(Token::LParen)
+                && self.ts_look_ahead(|p| {
+                    p.try_parse_ts(|p| {
+                        let ty = p.parse_ts_non_conditional_type()?;
+
+                        if matches!(
+                            &*ty,
+                            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(..))
+                        ) {
+                            Ok(Some(()))
+                        } else {
+                            Ok(None)
+                        }
+                    })
+                    .is_some()
+                });
+
+            let inner_type = if is_nullable_fn_type {
                 self.parse_ts_non_conditional_type()?
             } else {
                 self.parse_ts_non_array_type()?

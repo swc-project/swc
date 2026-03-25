@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 111
+    "end": 144
   },
   "body": [
     {
@@ -297,6 +297,72 @@
             "kind": "undefined"
           }
         ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 112,
+        "end": 144
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 117,
+          "end": 129
+        },
+        "ctxt": 0,
+        "value": "GroupedArray",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsArrayType",
+        "span": {
+          "start": 132,
+          "end": 143
+        },
+        "elemType": {
+          "type": "TsUnionType",
+          "span": {
+            "start": 132,
+            "end": 141
+          },
+          "types": [
+            {
+              "type": "TsParenthesizedType",
+              "span": {
+                "start": 133,
+                "end": 141
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 134,
+                  "end": 140
+                },
+                "kind": "string"
+              }
+            },
+            {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 132,
+                "end": 141
+              },
+              "kind": "null"
+            },
+            {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 132,
+                "end": 141
+              },
+              "kind": "undefined"
+            }
+          ]
+        }
       }
     }
   ],
