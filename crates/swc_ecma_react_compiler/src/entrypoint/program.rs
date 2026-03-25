@@ -315,7 +315,12 @@ pub fn compile_fn(
             .validate_exhaustive_effect_dependencies
             .is_enabled()
     {
-        validation::validate_exhaustive_dependencies(&hir)?;
+        validation::validate_exhaustive_dependencies(
+            &hir,
+            opts.environment
+                .validate_exhaustive_memoization_dependencies,
+            opts.environment.validate_exhaustive_effect_dependencies,
+        )?;
     }
     ssa::rewrite_instruction_kinds_based_on_reassignment(&mut hir);
 

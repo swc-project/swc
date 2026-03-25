@@ -1,3 +1,4 @@
+mod dependency;
 mod validate_context_variable_lvalues;
 mod validate_exhaustive_dependencies;
 mod validate_hooks_usage;
