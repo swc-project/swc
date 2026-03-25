@@ -2819,7 +2819,11 @@ impl<I: Tokens> Parser<I> {
         }
 
         let type_ann = self.try_parse_ts_type()?;
-        self.expect_general_semi()?;
+
+        if !(self.input().syntax().flow() && self.input_mut().eat(Token::Comma)) {
+            self.expect_general_semi()?;
+        }
+
         expect!(self, Token::RBrace);
 
         Ok(TsMappedType {
@@ -4192,7 +4196,31 @@ impl<I: Tokens> Parser<I> {
             self.bump();
 
             // Flow's nullable type (`?T`) is represented as `T | null | undefined`.
-            let inner_type = self.parse_ts_non_array_type()?;
+            // Only use the non-conditional parser for actual function forms
+            // (`?() =>`, `?(x: T) =>`, `?(...A) =>`) so non-function grouped
+            // types keep their original precedence (`?(T)[]` etc.).
+            let is_nullable_fn_type = self.input().is(Token::LParen)
+                && self.ts_look_ahead(|p| {
+                    p.try_parse_ts(|p| {
+                        let ty = p.parse_ts_non_conditional_type()?;
+
+                        if matches!(
+                            &*ty,
+                            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(..))
+                        ) {
+                            Ok(Some(()))
+                        } else {
+                            Ok(None)
+                        }
+                    })
+                    .is_some()
+                });
+
+            let inner_type = if is_nullable_fn_type {
+                self.parse_ts_non_conditional_type()?
+            } else {
+                self.parse_ts_non_array_type()?
+            };
             let span = self.span(start);
 
             let null_type = Box::new(TsType::TsKeywordType(TsKeywordType {
