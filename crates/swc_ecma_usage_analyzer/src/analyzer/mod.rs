@@ -552,6 +552,12 @@ where
     )]
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         self.declare_decl(&n.ident, Some(Value::Unknown), None, false);
+
+        if n.class.super_class.is_none() {
+            n.visit_children_with(self);
+            return;
+        }
+
         n.class.decorators.visit_with(self);
 
         {
