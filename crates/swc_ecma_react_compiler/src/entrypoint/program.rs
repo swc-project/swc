@@ -329,7 +329,8 @@ pub fn compile_fn(
         optimization::outline_functions(&mut hir);
     }
 
-    let reactive = reactive_scopes::build_reactive_function(&hir);
+    let mut reactive = reactive_scopes::build_reactive_function(&hir);
+    reactive.enable_forest = opts.environment.enable_forest;
 
     if opts
         .environment
