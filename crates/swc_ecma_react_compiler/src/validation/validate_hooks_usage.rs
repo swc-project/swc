@@ -1,8 +1,8 @@
 use std::collections::HashSet;
 
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
-    AssignExpr, AssignTarget, CallExpr, Callee, CondExpr, Expr, MemberExpr, MemberProp,
+    AssignExpr, AssignTarget, BlockStmt, CallExpr, Callee, CondExpr, Expr, MemberExpr, MemberProp,
     OptChainBase, OptChainExpr, Pat, Stmt, VarDeclarator,
 };
 use swc_ecma_visit::{Visit, VisitWith};
@@ -241,6 +241,7 @@ pub fn validate_hooks_usage(hir: &HirFunction) -> Result<(), CompilerError> {
     // Validate only the outer function body; nested traversal is controlled by
     // `nested_function_depth`.
     body.visit_with(&mut finder);
+    collect_conditional_early_return_hook_errors(body, &mut finder.errors);
 
     if finder.errors.is_empty() {
         Ok(())
@@ -248,6 +249,121 @@ pub fn validate_hooks_usage(hir: &HirFunction) -> Result<(), CompilerError> {
         Err(CompilerError {
             details: finder.errors,
         })
+    }
+}
+
+fn collect_conditional_early_return_hook_errors(
+    body: &BlockStmt,
+    errors: &mut Vec<CompilerErrorDetail>,
+) {
+    let mut saw_conditional_early_return = false;
+
+    for stmt in &body.stmts {
+        if saw_conditional_early_return {
+            for span in collect_top_level_hook_call_spans(stmt) {
+                let mut detail = CompilerErrorDetail::error(ErrorCategory::Hooks, HOOK_CONDITIONAL_REASON);
+                detail.loc = Some(span);
+                errors.push(detail);
+            }
+        }
+
+        if stmt_has_conditional_early_return(stmt) {
+            saw_conditional_early_return = true;
+        }
+
+        if stmt_definitely_returns(stmt) {
+            break;
+        }
+    }
+}
+
+fn collect_top_level_hook_call_spans(stmt: &Stmt) -> Vec<Span> {
+    #[derive(Default)]
+    struct Collector {
+        spans: Vec<Span>,
+        nested_function_depth: usize,
+    }
+
+    impl Visit for Collector {
+        fn visit_function(&mut self, function: &swc_ecma_ast::Function) {
+            self.nested_function_depth += 1;
+            function.visit_children_with(self);
+            self.nested_function_depth -= 1;
+        }
+
+        fn visit_arrow_expr(&mut self, arrow: &swc_ecma_ast::ArrowExpr) {
+            self.nested_function_depth += 1;
+            arrow.visit_children_with(self);
+            self.nested_function_depth -= 1;
+        }
+
+        fn visit_call_expr(&mut self, call: &CallExpr) {
+            if self.nested_function_depth == 0 {
+                if let Callee::Expr(callee) = &call.callee {
+                    if hook_like_expr(callee) {
+                        self.spans.push(call.span);
+                    }
+                }
+            }
+
+            call.visit_children_with(self);
+        }
+
+        fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+            if self.nested_function_depth == 0 {
+                if let OptChainBase::Call(call) = &*expr.base {
+                    if hook_like_expr(&call.callee) {
+                        self.spans.push(expr.span);
+                    }
+                }
+            }
+
+            expr.visit_children_with(self);
+        }
+    }
+
+    let mut collector = Collector::default();
+    stmt.visit_with(&mut collector);
+    collector.spans
+}
+
+fn stmt_has_conditional_early_return(stmt: &Stmt) -> bool {
+    let Stmt::If(if_stmt) = stmt else {
+        return false;
+    };
+
+    let consequent_returns = stmt_definitely_returns(if_stmt.cons.as_ref());
+    let alternate_returns = if_stmt
+        .alt
+        .as_deref()
+        .is_some_and(stmt_definitely_returns);
+
+    consequent_returns ^ alternate_returns
+}
+
+fn stmt_definitely_returns(stmt: &Stmt) -> bool {
+    match stmt {
+        Stmt::Return(_) => true,
+        Stmt::Block(block) => block.stmts.iter().any(stmt_definitely_returns),
+        Stmt::Labeled(labeled) => stmt_definitely_returns(labeled.body.as_ref()),
+        Stmt::If(if_stmt) => {
+            if_stmt.alt.as_deref().is_some_and(|alt| {
+                stmt_definitely_returns(if_stmt.cons.as_ref()) && stmt_definitely_returns(alt)
+            })
+        }
+        _ => false,
+    }
+}
+
+fn hook_like_expr(expr: &Expr) -> bool {
+    match expr {
+        Expr::Ident(ident) => is_hook_name(ident.sym.as_ref()),
+        Expr::Member(member) => hook_like_member(member),
+        Expr::OptChain(chain) => match &*chain.base {
+            OptChainBase::Call(call) => hook_like_expr(&call.callee),
+            OptChainBase::Member(member) => hook_like_member(member),
+        },
+        _ => false,
     }
 }
 
