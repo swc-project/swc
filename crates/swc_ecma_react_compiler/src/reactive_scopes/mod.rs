@@ -10563,8 +10563,11 @@ fn inject_nested_call_memoization_into_stmts(
                 && !binding_maybe_mutated_via_alias_after(remaining, binding.id.sym.as_ref())
             {
                 let local_bindings = HashSet::new();
-                let nested_deps =
-                    collect_dependencies_from_expr(init_expr, &nested_known_bindings, &local_bindings);
+                let nested_deps = collect_dependencies_from_expr(
+                    init_expr,
+                    &nested_known_bindings,
+                    &local_bindings,
+                );
                 let has_local_member_dep = nested_deps.iter().any(|dep| {
                     let Some((base, _)) = dep.key.split_once('.') else {
                         return false;
@@ -18390,7 +18393,8 @@ fn prune_empty_else_blocks_in_stmts(stmts: &mut [Stmt]) {
         fn visit_mut_if_stmt(&mut self, if_stmt: &mut IfStmt) {
             if_stmt.visit_mut_children_with(self);
 
-            if matches!(if_stmt.alt.as_deref(), Some(Stmt::Block(block)) if block.stmts.is_empty()) {
+            if matches!(if_stmt.alt.as_deref(), Some(Stmt::Block(block)) if block.stmts.is_empty())
+            {
                 if_stmt.alt = None;
             }
         }

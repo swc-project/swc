@@ -261,7 +261,8 @@ fn collect_conditional_early_return_hook_errors(
     for stmt in &body.stmts {
         if saw_conditional_early_return {
             for span in collect_top_level_hook_call_spans(stmt) {
-                let mut detail = CompilerErrorDetail::error(ErrorCategory::Hooks, HOOK_CONDITIONAL_REASON);
+                let mut detail =
+                    CompilerErrorDetail::error(ErrorCategory::Hooks, HOOK_CONDITIONAL_REASON);
                 detail.loc = Some(span);
                 errors.push(detail);
             }
@@ -333,10 +334,7 @@ fn stmt_has_conditional_early_return(stmt: &Stmt) -> bool {
     };
 
     let consequent_returns = stmt_definitely_returns(if_stmt.cons.as_ref());
-    let alternate_returns = if_stmt
-        .alt
-        .as_deref()
-        .is_some_and(stmt_definitely_returns);
+    let alternate_returns = if_stmt.alt.as_deref().is_some_and(stmt_definitely_returns);
 
     consequent_returns ^ alternate_returns
 }
@@ -346,11 +344,9 @@ fn stmt_definitely_returns(stmt: &Stmt) -> bool {
         Stmt::Return(_) => true,
         Stmt::Block(block) => block.stmts.iter().any(stmt_definitely_returns),
         Stmt::Labeled(labeled) => stmt_definitely_returns(labeled.body.as_ref()),
-        Stmt::If(if_stmt) => {
-            if_stmt.alt.as_deref().is_some_and(|alt| {
-                stmt_definitely_returns(if_stmt.cons.as_ref()) && stmt_definitely_returns(alt)
-            })
-        }
+        Stmt::If(if_stmt) => if_stmt.alt.as_deref().is_some_and(|alt| {
+            stmt_definitely_returns(if_stmt.cons.as_ref()) && stmt_definitely_returns(alt)
+        }),
         _ => false,
     }
 }
