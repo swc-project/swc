@@ -1092,6 +1092,15 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                     env_changed = true;
                 }
             }
+            "enablePropagateDepsInHIR" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_forest = value;
+                    env_changed = true;
+                } else if is_set {
+                    env.enable_forest = true;
+                    env_changed = true;
+                }
+            }
             "enableResetCacheOnSourceFileChanges" => {
                 if let Some(value) = parsed_value.as_bool() {
                     env.enable_reset_cache_on_source_file_changes = Some(value);

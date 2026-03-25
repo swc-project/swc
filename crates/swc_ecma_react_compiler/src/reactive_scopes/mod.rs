@@ -47,6 +47,7 @@ pub struct ReactiveFunction {
     pub is_async: bool,
     pub is_generator: bool,
     pub fn_type: ReactFunctionType,
+    pub enable_forest: bool,
 }
 
 #[derive(Clone)]
@@ -130,6 +131,7 @@ fn function_to_reactive(
         is_async: function.is_async,
         is_generator: function.is_generator,
         fn_type,
+        enable_forest: false,
     }
 }
 
@@ -1665,6 +1667,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
     let has_destructuring_default_alloc =
         body_contains_destructuring_default_alloc_literal(&reactive.body);
     if reactive.fn_type == ReactFunctionType::Component
+        && !reactive.enable_forest
         && !has_identity_sensitive_work
         && !has_destructuring_default_alloc
     {
@@ -1770,7 +1773,10 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                         Some(Stmt::Return(return_stmt)) if return_stmt.arg.is_some()
                     )
         );
-        if !can_memoize_try_tail {
+        let can_memoize_if_tail_with_return = stmts.last().is_some_and(|stmt| {
+            matches!(stmt, Stmt::If(_)) && contains_return_stmt_in_stmts(std::slice::from_ref(stmt))
+        });
+        if !can_memoize_try_tail && !can_memoize_if_tail_with_return {
             transformed.extend(stmts);
             reactive.body.stmts = transformed;
             return (0, 0, 0, 0, 0);
@@ -3457,6 +3463,143 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
                     }
                 }
             }
+        } else if matches!(tail.last(), Some(Stmt::If(_))) && contains_return_stmt_in_stmts(&tail) {
+            prune_empty_stmts(&mut tail);
+            prune_noop_identifier_exprs(&mut tail);
+            prune_unused_underscore_jsx_decls(&mut tail);
+            promote_immutable_lets_to_const(&mut tail);
+            normalize_static_string_members_in_stmts(&mut tail);
+            inline_const_literal_indices_in_stmts(&mut tail);
+            normalize_compound_assignments_in_stmts(&mut tail);
+            normalize_reactive_labels(&mut tail);
+            normalize_if_break_blocks(&mut tail);
+            normalize_if_return_blocks(&mut tail);
+            lower_function_decls_to_const_in_stmts(&mut tail);
+            flatten_hoistable_blocks_in_stmts(&mut tail, &mut reserved);
+            flatten_hoistable_blocks_in_nested_functions(&mut tail);
+            lower_iife_call_args_in_stmts(&mut tail, &mut reserved, &mut next_temp);
+            inline_trivial_iifes_in_stmts(&mut tail);
+            flatten_hoistable_blocks_in_stmts(&mut tail, &mut reserved);
+            flatten_hoistable_blocks_in_nested_functions(&mut tail);
+            strip_runtime_call_type_args_in_stmts(&mut tail);
+            prune_unused_pure_var_decls(&mut tail);
+            prune_unused_function_like_decl_stmts(&mut tail);
+
+            let mut local_bindings = HashSet::new();
+            for stmt in &tail {
+                collect_stmt_bindings_including_nested_blocks(stmt, &mut local_bindings);
+            }
+            let non_optional_member_dep_keys =
+                collect_non_optional_member_dependency_keys_from_stmts(
+                    &tail,
+                    &known_bindings,
+                    &local_bindings,
+                );
+            let mixed_optional_member_dep_keys = collect_mixed_member_dependency_keys_from_stmts(
+                &tail,
+                &known_bindings,
+                &local_bindings,
+            );
+            let conditional_only_non_optional_member_dep_keys =
+                collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
+                    &tail,
+                    &known_bindings,
+                    &local_bindings,
+                );
+            let mut deps = collect_dependencies_from_stmts(&tail, &known_bindings, &local_bindings);
+            let called_fn_deps =
+                collect_called_local_function_capture_dependencies(&tail, &known_bindings);
+            for dep in called_fn_deps {
+                if !deps.iter().any(|existing| existing.key == dep.key) {
+                    deps.push(dep);
+                }
+            }
+            let inline_fn_capture_deps =
+                collect_stmt_function_capture_dependencies(&tail, &known_bindings);
+            for dep in inline_fn_capture_deps {
+                if !deps.iter().any(|existing| existing.key == dep.key) {
+                    deps.push(dep);
+                }
+            }
+            deps = reduce_dependencies(deps);
+            deps = normalize_optional_member_dependencies(
+                deps,
+                &non_optional_member_dep_keys,
+                &mixed_optional_member_dep_keys,
+                &conditional_only_non_optional_member_dep_keys,
+            );
+            deps = reduce_nested_member_dependencies(deps);
+
+            let temp = fresh_temp_ident(&mut next_temp, &mut reserved);
+            let label = Ident::new_no_ctxt("bb0".into(), DUMMY_SP);
+            let (mut rewritten_stmts, has_early_return) =
+                rewrite_returns_for_labeled_block(tail, &label, &temp);
+
+            if has_early_return {
+                let nested_slot_start = next_slot + deps.len() as u32 + 1;
+                let (nested_slots, nested_blocks, nested_values) = if deps.is_empty() {
+                    (0, 0, 0)
+                } else {
+                    inject_nested_call_memoization_into_stmts(
+                        &mut rewritten_stmts,
+                        &known_bindings,
+                        &cache_ident,
+                        nested_slot_start,
+                        &mut reserved,
+                        &mut next_temp,
+                        false,
+                    )
+                };
+
+                let mut with_header = Vec::with_capacity(rewritten_stmts.len() + 2);
+                with_header.push(assign_stmt(
+                    AssignTarget::from(temp.clone()),
+                    early_return_sentinel_expr(),
+                ));
+                with_header.push(Stmt::Labeled(LabeledStmt {
+                    span: DUMMY_SP,
+                    label,
+                    body: Box::new(Stmt::Block(BlockStmt {
+                        span: DUMMY_SP,
+                        ctxt: Default::default(),
+                        stmts: rewritten_stmts,
+                    })),
+                }));
+
+                let value_slot = next_slot + deps.len() as u32;
+                transformed.extend(build_memoized_block(
+                    &cache_ident,
+                    next_slot,
+                    &deps,
+                    &temp,
+                    with_header,
+                    true,
+                ));
+                transformed.push(Stmt::If(IfStmt {
+                    span: DUMMY_SP,
+                    test: Box::new(Expr::Bin(swc_ecma_ast::BinExpr {
+                        span: DUMMY_SP,
+                        op: op!("!=="),
+                        left: Box::new(Expr::Ident(temp.clone())),
+                        right: early_return_sentinel_expr(),
+                    })),
+                    cons: Box::new(Stmt::Block(BlockStmt {
+                        span: DUMMY_SP,
+                        ctxt: Default::default(),
+                        stmts: vec![Stmt::Return(swc_ecma_ast::ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(Box::new(Expr::Ident(temp))),
+                        })],
+                    })),
+                    alt: None,
+                }));
+
+                next_slot = value_slot + 1 + nested_slots;
+                memo_blocks += 1 + nested_blocks;
+                memo_values += 1 + nested_values;
+            } else {
+                transformed.extend(rewritten_stmts);
+            }
         } else if let [Stmt::Try(try_stmt)] = tail.as_mut_slice() {
             if try_stmt.finalizer.is_some() {
                 transformed.extend(tail);
@@ -3713,6 +3856,7 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
     }
 
     prune_unused_object_pattern_bindings_in_stmts(&mut transformed);
+    prune_empty_else_blocks_in_stmts(&mut transformed);
     normalize_empty_jsx_elements_to_self_closing_in_stmts(&mut transformed);
     reactive.body.stmts = transformed;
 
@@ -4856,6 +5000,7 @@ fn normalize_non_ident_params_without_memoization(reactive: &mut ReactiveFunctio
     normalize_switch_case_blocks_in_stmts(&mut stmts);
     prune_trivial_do_while_break_stmts(&mut stmts);
     normalize_reactive_labels(&mut stmts);
+    prune_empty_else_blocks_in_stmts(&mut stmts);
     if param_prologue.is_empty() {
         reactive.body.stmts = stmts;
         return;
@@ -4869,6 +5014,7 @@ fn normalize_non_ident_params_without_memoization(reactive: &mut ReactiveFunctio
     transformed.extend(stmts.drain(..directive_end));
     transformed.extend(param_prologue);
     transformed.extend(stmts);
+    prune_empty_else_blocks_in_stmts(&mut transformed);
     reactive.body.stmts = transformed;
 }
 
@@ -10416,8 +10562,34 @@ fn inject_nested_call_memoization_into_stmts(
                 && !binding_mutated_via_member_assignment_after(remaining, binding.id.sym.as_ref())
                 && !binding_maybe_mutated_via_alias_after(remaining, binding.id.sym.as_ref())
             {
-                let nested_deps = collect_identifier_dependencies_for_nested_expr(init_expr);
+                let local_bindings = HashSet::new();
+                let nested_deps =
+                    collect_dependencies_from_expr(init_expr, &nested_known_bindings, &local_bindings);
+                let has_local_member_dep = nested_deps.iter().any(|dep| {
+                    let Some((base, _)) = dep.key.split_once('.') else {
+                        return false;
+                    };
+                    binding_declared_in_stmts(&out, base)
+                });
+                let dep_bases_are_stable = nested_deps.iter().all(|dep| {
+                    let base = dep
+                        .key
+                        .split_once('.')
+                        .map(|(base, _)| base)
+                        .unwrap_or(dep.key.as_str());
+                    !binding_reassigned_after(remaining, base)
+                        && !binding_mutated_via_member_call_after(remaining, base)
+                        && !binding_mutated_via_member_assignment_after(remaining, base)
+                        && !binding_maybe_mutated_via_alias_after(remaining, base)
+                        && !binding_passed_to_potentially_mutating_call_after(remaining, base)
+                        && !binding_maybe_mutated_in_called_iife_after(remaining, base)
+                });
                 if !nested_deps.is_empty() {
+                    if has_local_member_dep || !dep_bases_are_stable {
+                        out.push(stmt.clone());
+                        mark_stmt_bindings_unstable(&stmt, &mut nested_known_bindings);
+                        continue;
+                    }
                     let result_temp = fresh_temp_ident(next_temp, reserved);
                     let mut nested_compute = vec![assign_stmt(
                         AssignTarget::from(result_temp.clone()),
@@ -11060,6 +11232,10 @@ fn inject_nested_call_memoization_into_stmt_children(
     match stmt {
         Stmt::Block(block) => inject_stmt_list(&mut block.stmts),
         Stmt::If(if_stmt) => {
+            let branch_temp_start = *next_temp;
+            let branch_reserved_start = reserved.clone();
+            let mut cons_next_temp = branch_temp_start;
+            let mut cons_reserved = branch_reserved_start.clone();
             inject_nested_call_memoization_into_stmt_children(
                 &mut if_stmt.cons,
                 known_bindings,
@@ -11067,9 +11243,11 @@ fn inject_nested_call_memoization_into_stmt_children(
                 cursor,
                 added_blocks,
                 added_values,
-                reserved,
-                next_temp,
+                &mut cons_reserved,
+                &mut cons_next_temp,
             );
+            let mut alt_next_temp = branch_temp_start;
+            let mut alt_reserved = branch_reserved_start.clone();
             if let Some(alt) = &mut if_stmt.alt {
                 inject_nested_call_memoization_into_stmt_children(
                     alt,
@@ -11078,10 +11256,12 @@ fn inject_nested_call_memoization_into_stmt_children(
                     cursor,
                     added_blocks,
                     added_values,
-                    reserved,
-                    next_temp,
+                    &mut alt_reserved,
+                    &mut alt_next_temp,
                 );
             }
+            *next_temp = cons_next_temp.max(alt_next_temp);
+            *reserved = branch_reserved_start;
         }
         Stmt::Labeled(labeled) => inject_nested_call_memoization_into_stmt_children(
             &mut labeled.body,
@@ -11180,47 +11360,16 @@ fn mark_stmt_bindings_unstable(stmt: &Stmt, known_bindings: &mut HashMap<String,
     }
 }
 
-fn collect_identifier_dependencies_for_nested_expr(expr: &Expr) -> Vec<ReactiveDependency> {
-    struct Collector {
-        seen: HashSet<String>,
-        deps: Vec<ReactiveDependency>,
-    }
-
-    impl Visit for Collector {
-        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
-            // Skip nested functions.
-        }
-
-        fn visit_function(&mut self, _: &Function) {
-            // Skip nested functions.
-        }
-
-        fn visit_ident(&mut self, ident: &Ident) {
-            let key = ident.sym.to_string();
-            if self.seen.insert(key.clone()) {
-                self.deps.push(ReactiveDependency {
-                    key,
-                    expr: Box::new(Expr::Ident(ident.clone())),
-                });
-            }
-        }
-    }
-
-    let mut collector = Collector {
-        seen: HashSet::new(),
-        deps: Vec::new(),
-    };
-    expr.visit_with(&mut collector);
-    collector
-        .deps
-        .sort_by(|left, right| left.key.cmp(&right.key));
-    collector.deps
-}
-
 fn is_simple_nested_array_initializer(expr: &Expr) -> bool {
     let Expr::Array(array) = expr else {
         return false;
     };
+    if array.elems.len() == 1 {
+        let Some(Some(element)) = array.elems.first() else {
+            return false;
+        };
+        return element.spread.is_none() && matches!(&*element.expr, Expr::Member(_));
+    }
     if array.elems.len() < 2 {
         return false;
     }
@@ -18231,6 +18380,25 @@ fn normalize_if_return_blocks(stmts: &mut [Stmt]) {
     let mut normalizer = IfReturnNormalizer;
     for stmt in stmts {
         stmt.visit_mut_with(&mut normalizer);
+    }
+}
+
+fn prune_empty_else_blocks_in_stmts(stmts: &mut [Stmt]) {
+    struct EmptyElsePruner;
+
+    impl VisitMut for EmptyElsePruner {
+        fn visit_mut_if_stmt(&mut self, if_stmt: &mut IfStmt) {
+            if_stmt.visit_mut_children_with(self);
+
+            if matches!(if_stmt.alt.as_deref(), Some(Stmt::Block(block)) if block.stmts.is_empty()) {
+                if_stmt.alt = None;
+            }
+        }
+    }
+
+    let mut pruner = EmptyElsePruner;
+    for stmt in stmts {
+        stmt.visit_mut_with(&mut pruner);
     }
 }
 
