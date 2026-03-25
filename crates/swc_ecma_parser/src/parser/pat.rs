@@ -550,7 +550,7 @@ impl<I: Tokens> Parser<I> {
     /// spec: 'FormalParameter'
     ///
     /// babel: `parseAssignableListItem`
-    fn parse_formal_param_pat(&mut self) -> PResult<Pat> {
+    pub(crate) fn parse_formal_param_pat(&mut self) -> PResult<Pat> {
         let start = self.cur_pos();
 
         let has_modifier = self.eat_any_ts_modifier()?;
