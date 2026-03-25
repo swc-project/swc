@@ -2540,6 +2540,23 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
+            if self.syntax().flow()
+                && paren_items.len() > 1
+                && paren_items.iter().any(|expr_or_spread| {
+                    matches!(
+                        expr_or_spread,
+                        AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                            spread: None,
+                            expr
+                        }) if matches!(expr.as_ref(), Expr::TsAs(..))
+                    )
+                })
+            {
+                // Flow type casts in grouped sequence expressions must be parenthesized
+                // individually, e.g. `((x: T), y)`.
+                self.emit_err(paren_items[0].span(), SyntaxError::TS1109);
+            }
+
             if let Some(trailing_comma) = trailing_comma {
                 self.emit_err(trailing_comma, SyntaxError::TS1005);
             }
