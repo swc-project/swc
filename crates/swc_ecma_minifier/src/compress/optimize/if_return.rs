@@ -270,6 +270,23 @@ impl Optimizer<'_> {
             }
         }
 
+        // Limit the number of if-statements merged into a ternary chain to avoid
+        // generating deeply nested conditional expressions that cause
+        // "Maximum call stack size exceeded" in WebKit/Safari parsers.
+        // See https://github.com/swc-project/swc/issues/11736
+        const MAX_TERNARY_CHAIN_LEN: usize = 128;
+        let if_count = stmts[skip..=last_idx]
+            .iter()
+            .filter(|s| matches!(s, Stmt::If(..)))
+            .count();
+        if if_count > MAX_TERNARY_CHAIN_LEN {
+            log_abort!(
+                "if_return: [x] Aborting because ternary chain would be too deep ({})",
+                if_count
+            );
+            return;
+        }
+
         report_change!("if_return: Merging returns");
 
         self.changed = true;
