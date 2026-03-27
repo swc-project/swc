@@ -290,14 +290,12 @@ pub fn compile_fn(
     if opts.environment.validate_no_derived_computations_in_effects {
         validation::validate_no_derived_computations_in_effects(&hir)?;
     }
-    if opts.environment.validate_no_set_state_in_effects
-        && output_mode == CompilerOutputMode::Lint
+    if opts.environment.validate_no_set_state_in_effects && output_mode == CompilerOutputMode::Lint
     {
         // Upstream keeps lint progression non-blocking for this validation.
         let _ = validation::validate_no_set_state_in_effects(&hir);
     }
-    if opts.environment.validate_no_jsx_in_try_statements
-        && output_mode == CompilerOutputMode::Lint
+    if opts.environment.validate_no_jsx_in_try_statements && output_mode == CompilerOutputMode::Lint
     {
         let _ = validation::validate_no_jsx_in_try_statement(&hir);
     }
