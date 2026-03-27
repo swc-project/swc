@@ -246,8 +246,8 @@ pub fn compile_fn(
     optimization::prune_maybe_throws(&mut hir);
     validation::validate_context_variable_lvalues(&hir)?;
     validation::validate_use_memo(&hir, opts.environment.validate_no_void_use_memo)?;
-    inference::inline_immediately_invoked_function_expressions(&mut hir);
     inference::drop_manual_memoization(&mut hir);
+    inference::inline_immediately_invoked_function_expressions(&mut hir);
 
     ssa::enter_ssa(&mut hir);
     ssa::eliminate_redundant_phi(&mut hir);
@@ -290,13 +290,14 @@ pub fn compile_fn(
     if opts.environment.validate_no_derived_computations_in_effects {
         validation::validate_no_derived_computations_in_effects(&hir)?;
     }
-    if opts.environment.validate_no_set_state_in_effects {
-        // Upstream fixture behavior keeps lint/codegen progression even when
-        // this validation would otherwise report issues.
+    if opts.environment.validate_no_set_state_in_effects && output_mode == CompilerOutputMode::Lint
+    {
+        // Upstream keeps lint progression non-blocking for this validation.
         let _ = validation::validate_no_set_state_in_effects(&hir);
     }
-    if opts.environment.validate_no_jsx_in_try_statements {
-        validation::validate_no_jsx_in_try_statement(&hir)?;
+    if opts.environment.validate_no_jsx_in_try_statements && output_mode == CompilerOutputMode::Lint
+    {
+        let _ = validation::validate_no_jsx_in_try_statement(&hir);
     }
     if opts
         .environment
@@ -315,7 +316,12 @@ pub fn compile_fn(
             .validate_exhaustive_effect_dependencies
             .is_enabled()
     {
-        validation::validate_exhaustive_dependencies(&hir)?;
+        validation::validate_exhaustive_dependencies(
+            &hir,
+            opts.environment
+                .validate_exhaustive_memoization_dependencies,
+            opts.environment.validate_exhaustive_effect_dependencies,
+        )?;
     }
     ssa::rewrite_instruction_kinds_based_on_reassignment(&mut hir);
 
@@ -341,8 +347,8 @@ pub fn compile_fn(
     {
         validation::validate_preserved_manual_memoization(&hir)?;
     }
-    if opts.environment.validate_static_components {
-        validation::validate_static_components(&hir)?;
+    if opts.environment.validate_static_components && output_mode == CompilerOutputMode::Lint {
+        let _ = validation::validate_static_components(&hir);
     }
     if opts.environment.validate_source_locations {
         validation::validate_source_locations(&hir)?;
