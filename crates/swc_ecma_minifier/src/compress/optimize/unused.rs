@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     analyzer::storage::Storage, util::is_global_var_with_pure_property_access,
 };
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, ExprExt, Value};
+use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -137,13 +137,15 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
-            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
-                log_abort!(
-                    "unused: Preserving `{}` because of usages",
-                    dump(&*name, false)
-                );
-                return;
+        for (_, ctx) in find_pat_ids::<_, Id>(name) {
+            if let Some(scope) = self.data.get_scope(ctx) {
+                if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                    log_abort!(
+                        "unused: Preserving `{}` because of usages",
+                        dump(&*name, false)
+                    );
+                    return;
+                }
             }
         }
 
@@ -1180,18 +1182,21 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
-                if let Some(scope) = self.data.get_scope(self.ctx.scope) {
+                if let Some(scope) = self.data.get_scope(i.ctxt) {
                     if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                         return;
                     }
                 }
 
-                if let Some(Value::Known(count)) = self
-                    .data
-                    .get_var_data(i.to_id())
-                    .and_then(|d| d.param_count)
-                {
-                    count as usize
+                if let Some(data) = self.data.get_var_data(i.to_id()) {
+                    if let (true, Some(Value::Known(count))) = (
+                        data.flags.intersects(VarUsageInfoFlags::DECLARED),
+                        data.param_count,
+                    ) {
+                        count as usize
+                    } else {
+                        return;
+                    }
                 } else {
                     return;
                 }

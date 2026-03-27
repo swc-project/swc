@@ -165,10 +165,14 @@ where
     }
 
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
-        for id in find_pat_ids(p) {
+        for id in find_pat_ids::<_, Id>(p) {
             // It's hard to determined the type of pat assignment
             self.data
-                .report_assign(self.ctx, id, is_read_modify, Value::Unknown)
+                .report_assign(self.ctx, id.clone(), is_read_modify, Value::Unknown);
+
+            self.data
+                .var_or_default(id)
+                .mark_param_count(Value::Unknown);
         }
 
         if let Pat::Expr(e) = p {

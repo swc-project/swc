@@ -282,6 +282,19 @@ impl Storage for ProgramData {
                     e.get_mut().infects_to.extend(var_info.infects_to);
                     e.get_mut().callee_count += var_info.callee_count;
 
+                    e.get_mut().param_count = match (e.get().param_count, var_info.param_count) {
+                        (Some(Value::Known(v1)), Some(Value::Known(v2))) if v1 == v2 => {
+                            Some(Value::Known(v1))
+                        }
+                        (Some(Value::Known(v)), None) | (None, Some(Value::Known(v))) => {
+                            Some(Value::Known(v))
+                        }
+                        (Some(Value::Known(_)), Some(Value::Known(_)))
+                        | (Some(Value::Unknown), _)
+                        | (_, Some(Value::Unknown)) => Some(Value::Unknown),
+                        (None, None) => None,
+                    };
+
                     for (k, v) in var_info.accessed_props {
                         *e.get_mut().accessed_props.entry(k).or_default() += v;
                     }

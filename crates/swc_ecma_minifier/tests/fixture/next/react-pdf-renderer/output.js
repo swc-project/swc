@@ -9934,7 +9934,7 @@
                                         y
                                     ])), d;
                                 }(d, e, n, i)), d !== r[p] && m++, d = r[p]), h += d, b++;
-                                w += new Date() - t, d ? setTimeout(_) : (D = new Date() - D, E(), n && (console.log("----------------\nHyphenation stats: " + b + " text chunks processed, " + m + " words hyphenated"), console.log("Work time: " + w / 1000), console.log("Wait time: " + (D - w) / 1000), console.log("All time: " + D / 1000)));
+                                w += new Date() - t, d ? setTimeout(_) : (D = new Date() - D, E(h), n && (console.log("----------------\nHyphenation stats: " + b + " text chunks processed, " + m + " words hyphenated"), console.log("Work time: " + w / 1000), console.log("Wait time: " + (D - w) / 1000), console.log("All time: " + D / 1000)));
                             }
                             return u ? (setTimeout(_), new Promise(function(t) {
                                 E = t;
@@ -26072,7 +26072,7 @@
                             else if (4 !== o.tag) {
                                 if (13 === o.tag && 0 != (4 & o.effectTag) && (a = null !== o.memoizedState)) {
                                     var u = o.child;
-                                    if (null !== u && (null !== u.child && (u.child.return = u, i(t, u)), null !== (a = u.sibling))) {
+                                    if (null !== u && (null !== u.child && (u.child.return = u, i(t, u, !0, a)), null !== (a = u.sibling))) {
                                         a.return = o, o = a;
                                         continue;
                                     }
@@ -26128,7 +26128,7 @@
                         if ((t = null === e.firstEffect) && u === n) e.stateNode = a;
                         else {
                             var l = e.stateNode, s = e3(e0.current), c = null;
-                            u !== n && (c = G(l, r, u, n, o, s)), t && null === c ? e.stateNode = a : (W(a = th(a, c, r, u, n, e, t, l), r, n, o, s) && nt(e), e.stateNode = a, t ? nt(e) : i(a, e));
+                            u !== n && (c = G(l, r, u, n, o, s)), t && null === c ? e.stateNode = a : (W(a = th(a, c, r, u, n, e, t, l), r, n, o, s) && nt(e), e.stateNode = a, t ? nt(e) : i(a, e, !1, !1));
                         }
                     }, u = function(t, e, r, n) {
                         r !== n && (e.stateNode = H(n, e3(e2.current), r = e3(e0.current), e), nt(e));
@@ -26806,7 +26806,7 @@
                                         tG(e.type) && tq(e);
                                         break;
                                     case 3:
-                                        e5(e), tV(e), (l = e.stateNode).pendingContext && (l.context = l.pendingContext, l.pendingContext = null), (null === r || null === r.child) && rV(e) && nt(e), o();
+                                        e5(e), tV(e), (l = e.stateNode).pendingContext && (l.context = l.pendingContext, l.pendingContext = null), (null === r || null === r.child) && rV(e) && nt(e), o(e);
                                         break;
                                     case 5:
                                         e6(e);
@@ -26818,7 +26818,7 @@
                                                 r = tk(l.stateNode, l.type, l.memoizedProps, s, r, l), l.updateQueue = r, (r = null !== r) && nt(e);
                                             } else {
                                                 var c = U(n, l, s, r, e);
-                                                i(c, e), e.stateNode = c, W(c, n, l, s, r) && nt(e);
+                                                i(c, e, !1, !1), e.stateNode = c, W(c, n, l, s, r) && nt(e);
                                             }
                                             null !== e.ref && (e.effectTag |= 128);
                                         } else if (null === e.stateNode) throw Error(p(166));
@@ -26841,7 +26841,7 @@
                                         l = null !== l, s = !1, null === r ? void 0 !== e.memoizedProps.fallback && rV(e) : (s = null !== (n = r.memoizedState), l || null === n || null !== (n = r.child.sibling) && (null !== (c = e.firstEffect) ? (e.firstEffect = n, n.nextEffect = c) : (e.firstEffect = e.lastEffect = n, n.nextEffect = null), n.effectTag = 8)), l && !s && 0 != (2 & e.mode) && (null === r && !0 !== e.memoizedProps.unstable_avoidThisFallback || 0 != (1 & e7.current) ? 0 === nA && (nA = 3) : ((0 === nA || 3 === nA) && (nA = 4), 0 !== nP && null !== n_ && (iD(n_, nS), iw(n_, nP)))), Q && l && (e.effectTag |= 4), K && (l || s) && (e.effectTag |= 4);
                                         break;
                                     case 4:
-                                        e5(e), o();
+                                        e5(e), o(e);
                                         break;
                                     case 10:
                                         e_(e);
