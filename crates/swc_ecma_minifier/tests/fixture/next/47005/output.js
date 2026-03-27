@@ -121,17 +121,12 @@
                     ...k.platform,
                     _c: E
                 };
-                return V(m, S, {
-                    ...k,
-                    platform: R
-                });
+                return V();
             };
             var er = async ({ elementReference: m = null, tooltipReference: S = null, tooltipArrowReference: h = null, place: E = "top", offset: k = 10, strategy: R = "absolute", middlewares: A = [
                 X(Number(k)),
                 W(),
-                Y({
-                    padding: 5
-                })
+                Y()
             ] })=>{
                 if (!m) return {
                     tooltipStyles: {},
@@ -213,7 +208,7 @@
                     };
                     eo(S), V.current = S;
                 }, ei = (m)=>{
-                    ee(m), y;
+                    ee(), y;
                 }, ea = (S)=>{
                     var h;
                     [
@@ -222,7 +217,7 @@
                     ].some((m)=>null == m ? void 0 : m.contains(S.target)) || null != (h = m.current) && h.contains(S.target) || Z(!1);
                 }, eu = (m)=>{
                     "Escape" === m.key && Z(!1);
-                }, es = I(ee, 50), ec = I(et, 50);
+                }, es = I(), ec = I();
                 (0, A.useEffect)(()=>{
                     var S, h;
                     let E = new Set(W);

@@ -1,0 +1,9 @@
+{
+    "arrows": true,
+    "keep_fargs": true,
+    "module": true,
+    "passes": 3,
+    "reduce_funcs": false,
+    "reduce_vars": false,
+    "unused": true
+}

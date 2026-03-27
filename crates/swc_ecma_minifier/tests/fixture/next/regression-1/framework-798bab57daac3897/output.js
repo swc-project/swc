@@ -4845,8 +4845,8 @@
                                                 for(; null !== f;)T = f, gk(f, b, c), f = f.sibling;
                                                 T = e, Hj = h, S = l;
                                             }
-                                            ik(a, b, c);
-                                        } else 0 != (8772 & e.subtreeFlags) && null !== f ? (f.return = e, T = f) : ik(a, b, c);
+                                            ik(a);
+                                        } else 0 != (8772 & e.subtreeFlags) && null !== f ? (f.return = e, T = f) : ik(a);
                                     }
                                 }(a2, b3, e), cc(), W = h, C = g, mk.transition = f;
                             } else a.current = c;
