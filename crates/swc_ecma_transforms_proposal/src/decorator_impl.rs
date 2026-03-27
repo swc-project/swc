@@ -149,9 +149,71 @@ impl Visit for CurrentClassNameFinder {
     }
 }
 
+struct ImplicitGlobalUsageRewriter<'a> {
+    implicit_globals: &'a mut FxHashSet<Atom>,
+}
+
+impl ImplicitGlobalUsageRewriter<'_> {
+    fn is_unresolved_ident(ident: &Ident) -> bool {
+        matches!(ident.ctxt.as_u32(), 0 | 1)
+    }
+
+    fn global_this_member_expr(sym: Atom, span: Span) -> MemberExpr {
+        MemberExpr {
+            span,
+            obj: Ident::new("globalThis".into(), span, SyntaxContext::empty()).into(),
+            prop: MemberProp::Ident(Ident::new(sym, span, SyntaxContext::empty()).into()),
+        }
+    }
+}
+
+impl VisitMut for ImplicitGlobalUsageRewriter<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if let Expr::Assign(assign) = e {
+            assign.left.visit_mut_with(self);
+            assign.right.visit_mut_with(self);
+
+            if assign.op == op!("=") {
+                if let AssignTarget::Simple(SimpleAssignTarget::Ident(binding)) = &assign.left {
+                    let id = &binding.id;
+                    if Self::is_unresolved_ident(id) {
+                        self.implicit_globals.insert(id.sym.clone());
+                        assign.left = AssignTarget::Simple(SimpleAssignTarget::Member(
+                            Self::global_this_member_expr(id.sym.clone(), id.span),
+                        ));
+                    }
+                }
+            }
+
+            return;
+        }
+
+        if let Expr::Ident(ident) = e {
+            if Self::is_unresolved_ident(ident) && self.implicit_globals.contains(&ident.sym) {
+                *e = Self::global_this_member_expr(ident.sym.clone(), ident.span).into();
+            }
+            return;
+        }
+
+        maybe_grow_default(|| e.visit_mut_children_with(self));
+    }
+}
+
 impl DecoratorPass {
     fn is_2023_11(&self) -> bool {
         matches!(self.version, DecoratorVersion::V202311)
+    }
+
+    fn rewrite_implicit_globals_in_expr(&mut self, expr: &mut Expr) {
+        if !self.is_2023_11() {
+            return;
+        }
+
+        expr.visit_mut_with(&mut ImplicitGlobalUsageRewriter {
+            implicit_globals: &mut self.implicit_globals,
+        });
     }
 
     fn maybe_to_property_key(&self, expr: Expr) -> Expr {
@@ -419,18 +481,6 @@ impl DecoratorPass {
         replace_ident(expr, class_name.to_id(), alias);
     }
 
-    fn is_unresolved_ident(&self, ident: &Ident) -> bool {
-        matches!(ident.ctxt.as_u32(), 0 | 1)
-    }
-
-    fn global_this_member_expr(&self, sym: Atom, span: Span) -> MemberExpr {
-        MemberExpr {
-            span,
-            obj: Ident::new("globalThis".into(), span, SyntaxContext::empty()).into(),
-            prop: MemberProp::Ident(Ident::new(sym, span, SyntaxContext::empty()).into()),
-        }
-    }
-
     fn memoize_static_closure(
         &mut self,
         hint: &str,
@@ -571,6 +621,9 @@ impl DecoratorPass {
     }
 
     fn preserve_decorator_this_target(&mut self, target: Box<Expr>) -> Box<Expr> {
+        let mut target = target;
+        self.rewrite_implicit_globals_in_expr(&mut target);
+
         if target.is_ident() || target.is_this() {
             return target;
         }
@@ -945,11 +998,15 @@ impl DecoratorPass {
         dec: Box<Expr>,
         allow_class_name_queue: bool,
     ) -> Box<Expr> {
-        if dec.is_ident()
+        let return_directly = dec.is_ident()
             || dec.is_arrow()
             || dec.is_fn_expr()
-            || (!self.is_2023_11() && self.expr_uses_current_class_private_name(&dec))
-        {
+            || (!self.is_2023_11() && self.expr_uses_current_class_private_name(&dec));
+
+        let mut dec = dec;
+        self.rewrite_implicit_globals_in_expr(&mut dec);
+
+        if return_directly {
             return dec;
         }
 
@@ -1224,6 +1281,7 @@ impl DecoratorPass {
 
                 let mut key_expr = self.maybe_to_property_key(prop_name_to_expr_value(name.take()));
                 self.maybe_alias_current_class_name_expr(&mut key_expr);
+                self.rewrite_implicit_globals_in_expr(&mut key_expr);
                 let prefer_class_key = self.should_queue_class_key_init(&key_expr, true);
 
                 self.queue_pre_class_init(
@@ -1321,7 +1379,9 @@ impl DecoratorPass {
     }
 
     fn handle_super_class(&mut self, class: &mut Class) {
-        if let Some(super_class) = class.super_class.take() {
+        if let Some(mut super_class) = class.super_class.take() {
+            self.rewrite_implicit_globals_in_expr(&mut super_class);
+
             let id = alias_ident_for(&super_class, "_super");
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
@@ -3059,37 +3119,6 @@ impl VisitMut for DecoratorPass {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        if let Expr::Assign(assign) = e {
-            assign.left.visit_mut_with(self);
-            assign.right.visit_mut_with(self);
-
-            if self.is_2023_11() && assign.op == op!("=") {
-                if let AssignTarget::Simple(SimpleAssignTarget::Ident(binding)) = &assign.left {
-                    let id = &binding.id;
-                    if self.is_unresolved_ident(id) {
-                        self.implicit_globals.insert(id.sym.clone());
-                        assign.left = AssignTarget::Simple(SimpleAssignTarget::Member(
-                            self.global_this_member_expr(id.sym.clone(), id.span),
-                        ));
-                    }
-                }
-            }
-
-            return;
-        }
-
-        if let Expr::Ident(ident) = e {
-            if self.is_2023_11()
-                && self.is_unresolved_ident(ident)
-                && self.implicit_globals.contains(&ident.sym)
-            {
-                *e = self
-                    .global_this_member_expr(ident.sym.clone(), ident.span)
-                    .into();
-            }
-            return;
-        }
-
         if let Expr::Class(c) = e {
             if !c.class.decorators.is_empty() {
                 let new = self.handle_class_expr(&mut c.class, c.ident.as_ref());
