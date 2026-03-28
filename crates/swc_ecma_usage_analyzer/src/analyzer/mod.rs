@@ -83,6 +83,11 @@ impl<S> UsageAnalyzer<S>
 where
     S: Storage,
 {
+    #[inline]
+    fn param_count_to_value(len: usize) -> Value<u8> {
+        u8::try_from(len).map_or(Value::Unknown, Value::Known)
+    }
+
     fn with_child<F, Ret>(&mut self, child_ctxt: SyntaxContext, kind: ScopeKind, op: F) -> Ret
     where
         F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
@@ -141,7 +146,7 @@ where
         if in_left_of_for_loop || in_pat_of_param || in_catch_param {
             self.data
                 .var_or_default(i.to_id())
-                .mark_param_count(Value::Unknown);
+                .store_param_count(Value::Unknown);
         }
     }
 
@@ -172,7 +177,7 @@ where
 
             self.data
                 .var_or_default(id)
-                .mark_param_count(Value::Unknown);
+                .store_param_count(Value::Unknown);
         }
 
         if let Pat::Expr(e) = p {
@@ -342,9 +347,9 @@ where
                     let data = self.data.var_or_default(id.id.to_id());
 
                     if known {
-                        data.mark_param_count(Value::Known(n.function.params.len() as u8));
+                        data.store_param_count(Self::param_count_to_value(n.function.params.len()));
                     } else {
-                        data.mark_param_count(Value::Unknown);
+                        data.store_param_count(Value::Unknown);
                     }
                 }
                 Expr::Arrow(n) => {
@@ -353,21 +358,21 @@ where
                     let data = self.data.var_or_default(id.id.to_id());
 
                     if known {
-                        data.mark_param_count(Value::Known(n.params.len() as u8));
+                        data.store_param_count(Self::param_count_to_value(n.params.len()));
                     } else {
-                        data.mark_param_count(Value::Unknown)
+                        data.store_param_count(Value::Unknown)
                     }
                 }
                 _ => self
                     .data
                     .var_or_default(id.id.to_id())
-                    .mark_param_count(Value::Unknown),
+                    .store_param_count(Value::Unknown),
             }
         } else {
             for id in find_pat_ids(&n.left) {
                 self.data
                     .var_or_default(id)
-                    .mark_param_count(Value::Unknown)
+                    .store_param_count(Value::Unknown)
             }
         }
     }
@@ -869,9 +874,9 @@ where
         let data = self.data.var_or_default(n.ident.to_id());
 
         if known {
-            data.mark_param_count(Value::Known(n.function.params.len() as u8));
+            data.store_param_count(Self::param_count_to_value(n.function.params.len()));
         } else {
-            data.mark_param_count(Value::Unknown);
+            data.store_param_count(Value::Unknown);
         }
     }
 
@@ -1485,9 +1490,11 @@ where
                         let data = self.data.var_or_default(var.id.to_id());
 
                         if known {
-                            data.mark_param_count(Value::Known(n.function.params.len() as u8));
+                            data.store_param_count(Self::param_count_to_value(
+                                n.function.params.len(),
+                            ));
                         } else {
-                            data.mark_param_count(Value::Unknown);
+                            data.store_param_count(Value::Unknown);
                         }
                     }
                     Expr::Arrow(n) => {
@@ -1496,15 +1503,15 @@ where
                         let data = self.data.var_or_default(var.id.to_id());
 
                         if known {
-                            data.mark_param_count(Value::Known(n.params.len() as u8));
+                            data.store_param_count(Self::param_count_to_value(n.params.len()));
                         } else {
-                            data.mark_param_count(Value::Unknown)
+                            data.store_param_count(Value::Unknown)
                         }
                     }
                     _ => self
                         .data
                         .var_or_default(var.id.to_id())
-                        .mark_param_count(Value::Unknown),
+                        .store_param_count(Value::Unknown),
                 }
             }
         }

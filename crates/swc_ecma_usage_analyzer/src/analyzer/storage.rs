@@ -99,7 +99,7 @@ pub trait VarDataLike: Sized {
 
     fn mark_used_recursively(&mut self);
 
-    fn mark_param_count(&mut self, count: Value<u8>);
+    fn store_param_count(&mut self, count: Value<u8>);
 
     fn is_declared(&self) -> bool;
 

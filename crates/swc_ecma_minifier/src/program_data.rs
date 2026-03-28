@@ -702,7 +702,7 @@ impl VarDataLike for VarUsageInfo {
         self.flags.insert(VarUsageInfoFlags::USED_AS_JSX_CALLEE);
     }
 
-    fn mark_param_count(&mut self, count: Value<u8>) {
+    fn store_param_count(&mut self, count: Value<u8>) {
         match (self.param_count, count) {
             (Some(Value::Known(prev)), Value::Known(count)) if prev == count => {}
             (Some(Value::Known(_)), Value::Known(_))
