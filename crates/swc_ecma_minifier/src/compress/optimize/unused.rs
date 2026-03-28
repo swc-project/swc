@@ -4,8 +4,10 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, ExprExt};
+use swc_ecma_usage_analyzer::{
+    analyzer::storage::Storage, util::is_global_var_with_pure_property_access,
+};
+use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -135,13 +137,15 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
-            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
-                log_abort!(
-                    "unused: Preserving `{}` because of usages",
-                    dump(&*name, false)
-                );
-                return;
+        for (_, ctx) in find_pat_ids::<_, Id>(name) {
+            if let Some(scope) = self.data.get_scope(ctx) {
+                if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                    log_abort!(
+                        "unused: Preserving `{}` because of usages",
+                        dump(&*name, false)
+                    );
+                    return;
+                }
             }
         }
 
@@ -1124,6 +1128,95 @@ impl Optimizer<'_> {
         }
 
         None
+    }
+
+    pub(crate) fn ignore_unused_args_of_call(&mut self, e: &mut CallExpr) {
+        if !self.options.unused && !self.options.reduce_vars {
+            return;
+        }
+
+        if e.args.iter().any(|a| a.spread.is_some()) {
+            return;
+        }
+
+        let callee = match &mut e.callee {
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        };
+
+        match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                if let Some(scope) = self.data.get_scope(function.ctxt) {
+                    if scope.intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL)) {
+                        return;
+                    }
+                }
+            }
+            Expr::Arrow(a) => {
+                if let Some(scope) = self.data.get_scope(a.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL) {
+                        return;
+                    }
+                }
+            }
+            _ => (),
+        }
+
+        let params_len = match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                let params = &function.params;
+
+                if !params.iter().any(|p| p.pat.is_rest()) {
+                    params.len()
+                } else {
+                    return;
+                }
+            }
+            Expr::Arrow(ArrowExpr { params, .. }) => {
+                if !params.iter().any(|p| p.is_rest()) {
+                    params.len()
+                } else {
+                    return;
+                }
+            }
+            Expr::Ident(i) => {
+                if let Some(scope) = self.data.get_scope(i.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                        return;
+                    }
+                }
+
+                if let Some(data) = self.data.get_var_data(i.to_id()) {
+                    if let (true, Some(Value::Known(count))) = (
+                        data.flags.intersects(VarUsageInfoFlags::DECLARED),
+                        data.param_count,
+                    ) {
+                        count as usize
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+            _ => return,
+        };
+
+        if e.args.len() > params_len {
+            for i in (params_len..e.args.len()).rev() {
+                if let Some(arg) = e.args.get_mut(i) {
+                    let new = self.ignore_return_value(&mut arg.expr);
+
+                    if let Some(new) = new {
+                        arg.expr = Box::new(new);
+                    } else {
+                        e.args.remove(i);
+                    }
+                }
+            }
+        }
     }
 }
 
