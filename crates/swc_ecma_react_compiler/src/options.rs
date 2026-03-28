@@ -243,7 +243,8 @@ impl Default for EnvironmentConfig {
             enable_custom_type_definition_for_reanimated: false,
             enable_treat_ref_like_identifiers_as_refs: true,
             enable_treat_set_identifiers_as_state_setters: false,
-            validate_no_void_use_memo: true,
+            // Upstream defaults this check to off unless explicitly enabled.
+            validate_no_void_use_memo: false,
             custom_macros: None,
             enable_forest: false,
             enable_reset_cache_on_source_file_changes: None,
