@@ -8,8 +8,8 @@ use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor_with_span,
-    is_maybe_branch_directive, private_ident, prop_name_to_expr_value, quote_ident, replace_ident,
-    stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
+    for_each_binding_ident, is_maybe_branch_directive, private_ident, prop_name_to_expr_value,
+    quote_ident, replace_ident, stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -224,14 +224,17 @@ impl DecoratorPass {
         var_decl: &mut VarDecl,
     ) {
         for decl in &mut var_decl.decls {
-            let Pat::Ident(name) = &decl.name else {
-                continue;
-            };
+            let mut is_decorator_binding = false;
+            for_each_binding_ident(&decl.name, |binding| {
+                if self
+                    .decorator_binding_ids_for_implicit_global_rewrite
+                    .contains(&binding.id.to_id())
+                {
+                    is_decorator_binding = true;
+                }
+            });
 
-            if !self
-                .decorator_binding_ids_for_implicit_global_rewrite
-                .contains(&name.id.to_id())
-            {
+            if !is_decorator_binding {
                 continue;
             }
 
