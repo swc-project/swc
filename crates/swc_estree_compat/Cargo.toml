@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_estree_compat"
 repository    = { workspace = true }
-version       = "37.0.0"
+version       = "38.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -32,7 +32,7 @@ swc_common = { version = "19.0.0", path = "../swc_common", features = [
   "tty-emitter",
 ] }
 swc_ecma_ast = { version = "21.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "35.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "36.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_utils = { version = "27.0.0", path = "../swc_ecma_utils" }
@@ -44,10 +44,10 @@ swc_node_comments = { version = "19.0.0", path = "../swc_node_comments/" }
 codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "56.0.0", path = "../swc", default-features = false }
+swc                 = { version = "57.0.0", path = "../swc", default-features = false }
 swc_ecma_ast        = { version = "21.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser     = { version = "35.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "48.0.0", path = "../swc_ecma_transforms/" }
+swc_ecma_parser     = { version = "36.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "49.0.0", path = "../swc_ecma_transforms/" }
 testing             = { version = "20.0.0", path = "../testing" }
 walkdir             = { workspace = true }
 

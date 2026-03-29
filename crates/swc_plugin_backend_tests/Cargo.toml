@@ -40,7 +40,7 @@ swc_plugin_runner = { version = "25.0.0", path = "../swc_plugin_runner", feature
 swc_ecma_ast = { version = "21.0.0", path = "../swc_ecma_ast", features = [
   "encoding-impl",
 ] }
-swc_ecma_parser = { version = "35.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "36.0.0", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "21.0.0", path = "../swc_ecma_visit" }
 swc_transform_common = { version = "13.0.0", path = "../swc_transform_common" }
 swc_malloc = { version = "1.2.5", path = "../swc_malloc" }

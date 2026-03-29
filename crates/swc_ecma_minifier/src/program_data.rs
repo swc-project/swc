@@ -125,6 +125,7 @@ pub(crate) struct VarUsageInfo {
     pub(crate) merged_var_type: Option<Value<Type>>,
 
     pub(crate) callee_count: u32,
+    pub(crate) param_count: Option<Value<u8>>,
 
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
@@ -147,6 +148,7 @@ impl Default for VarUsageInfo {
             var_kind: Default::default(),
             merged_var_type: Default::default(),
             callee_count: Default::default(),
+            param_count: Default::default(),
             infects_to: Default::default(),
             accessed_props: Default::default(),
         }
@@ -279,6 +281,19 @@ impl Storage for ProgramData {
                     e.get_mut().usage_count += var_info.usage_count;
                     e.get_mut().infects_to.extend(var_info.infects_to);
                     e.get_mut().callee_count += var_info.callee_count;
+
+                    e.get_mut().param_count = match (e.get().param_count, var_info.param_count) {
+                        (Some(Value::Known(v1)), Some(Value::Known(v2))) if v1 == v2 => {
+                            Some(Value::Known(v1))
+                        }
+                        (Some(Value::Known(v)), None) | (None, Some(Value::Known(v))) => {
+                            Some(Value::Known(v))
+                        }
+                        (Some(Value::Known(_)), Some(Value::Known(_)))
+                        | (Some(Value::Unknown), _)
+                        | (_, Some(Value::Unknown)) => Some(Value::Unknown),
+                        (None, None) => None,
+                    };
 
                     for (k, v) in var_info.accessed_props {
                         *e.get_mut().accessed_props.entry(k).or_default() += v;
@@ -593,6 +608,14 @@ impl ScopeDataLike for ScopeData {
     fn mark_with_stmt(&mut self) {
         *self |= Self::HAS_WITH_STMT;
     }
+
+    fn used_arguments(&self) -> bool {
+        self.intersects(ScopeData::USED_ARGUMENTS)
+    }
+
+    fn used_eval(&self) -> bool {
+        self.intersects(ScopeData::HAS_EVAL_CALL)
+    }
 }
 
 impl VarDataLike for VarUsageInfo {
@@ -677,6 +700,16 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_used_as_jsx_callee(&mut self) {
         self.flags.insert(VarUsageInfoFlags::USED_AS_JSX_CALLEE);
+    }
+
+    fn store_param_count(&mut self, count: Value<u8>) {
+        match (self.param_count, count) {
+            (Some(Value::Known(prev)), Value::Known(count)) if prev == count => {}
+            (Some(Value::Known(_)), Value::Known(_))
+            | (Some(Value::Unknown), _)
+            | (_, Value::Unknown) => self.param_count = Some(Value::Unknown),
+            (None, count) => self.param_count = Some(count),
+        }
     }
 }
 

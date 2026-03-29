@@ -68,10 +68,10 @@ pub fn validate_restricted_imports(
         {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::Todo,
-                "Bailing out due to blocklisted import",
+                "Todo: Bailing out due to blocklisted import",
             );
             detail.description = Some(format!(
-                "Import from module {}",
+                "Import from module {}.",
                 import_decl.src.value.to_string_lossy()
             ));
             detail.loc = Some(import_decl.span);

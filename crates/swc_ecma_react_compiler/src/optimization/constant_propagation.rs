@@ -261,10 +261,42 @@ fn propagate_while_stmt(
     while_stmt: &mut swc_ecma_ast::WhileStmt,
     env: &HashMap<String, ConstValue>,
 ) {
-    fold_constants_in_expr(&mut while_stmt.test, env);
-    if let Some(value) = eval_expr(&while_stmt.test, env) {
+    let mut loop_env = env.clone();
+    let mut assigned_in_body = HashSet::new();
+    collect_ident_assignments_in_stmt(&while_stmt.body, &mut assigned_in_body);
+    for name in assigned_in_body {
+        loop_env.remove(name.as_str());
+    }
+
+    fold_constants_in_expr(&mut while_stmt.test, &loop_env);
+    if let Some(value) = eval_expr(&while_stmt.test, &loop_env) {
         while_stmt.test = value.to_expr();
     }
+}
+
+fn collect_ident_assignments_in_stmt(stmt: &Stmt, out: &mut HashSet<String>) {
+    struct Finder<'a> {
+        out: &'a mut HashSet<String>,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_assign_expr(&mut self, assign: &AssignExpr) {
+            if let Some(name) = assign_target_ident_name(&assign.left) {
+                self.out.insert(name);
+            }
+            assign.visit_children_with(self);
+        }
+
+        fn visit_update_expr(&mut self, update: &UpdateExpr) {
+            if let Expr::Ident(ident) = &*update.arg {
+                self.out.insert(ident.sym.to_string());
+            }
+            update.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder { out };
+    stmt.visit_with(&mut finder);
 }
 
 fn can_unwrap_constant_folded_if_block(block: &swc_ecma_ast::BlockStmt) -> bool {

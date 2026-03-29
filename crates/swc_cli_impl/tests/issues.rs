@@ -435,6 +435,34 @@ fn root_mode_upward_optional_finds_parent_config() -> Result<()> {
     Ok(())
 }
 
+/// `--out-file file.min.js` (no directory component) should not fail with
+/// EEXIST when trying to mkdir the current directory.
+#[test]
+fn issue_11717_out_file_same_directory() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    fs::write(
+        sandbox.path().join("file.js"),
+        "const x = 1;\nconsole.log(x);\n",
+    )?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--out-file")
+        .arg("file.min.js")
+        .arg("file.js");
+
+    cmd.assert().success();
+
+    let output = fs::read_to_string(sandbox.path().join("file.min.js"))?;
+    assert!(
+        output.contains("console.log"),
+        "Output file should contain compiled code. Got: {output}"
+    );
+
+    Ok(())
+}
+
 /// ln -s $a $b
 fn symlink(a: &Path, b: &Path) {
     #[cfg(unix)]

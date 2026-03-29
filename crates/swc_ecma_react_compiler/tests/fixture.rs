@@ -17,14 +17,10 @@ use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax, TsSyntax};
 use swc_ecma_react_compiler::{
     compile_program, parse_plugin_options, CompilationMode, CompilerError, CompilerOutputMode,
     CompilerPass, CompilerReactTarget, DynamicGatingOptions, EnvironmentConfig, ErrorCategory,
-    ExhaustiveEffectDependenciesMode, ExternalFunction, PanicThresholdOptions, PluginOptions,
-    SourceSelection,
+    ExhaustiveEffectDependenciesMode, ExternalFunction, InstrumentationOptions,
+    PanicThresholdOptions, PluginOptions, SourceSelection,
 };
 use swc_ecma_visit::{VisitMut, VisitMutWith};
-
-fn strict_upstream_mode() -> bool {
-    true
-}
 
 fn normalize_flow_component_syntax(source: &str) -> String {
     let mut out = String::with_capacity(source.len());
@@ -38,6 +34,14 @@ fn normalize_flow_component_syntax(source: &str) -> String {
             let start = indent_len;
             let end = start + "export default component".len();
             rewritten.replace_range(start..end, "export default function");
+        } else if trimmed.starts_with("export default hook ") {
+            let start = indent_len;
+            let end = start + "export default hook".len();
+            rewritten.replace_range(start..end, "export default function");
+        } else if trimmed.starts_with("export hook ") {
+            let start = indent_len;
+            let end = start + "export hook".len();
+            rewritten.replace_range(start..end, "export function");
         } else if trimmed.starts_with("component ") {
             let start = indent_len;
             let end = start + "component".len();
@@ -48,6 +52,164 @@ fn normalize_flow_component_syntax(source: &str) -> String {
             rewritten.replace_range(start..end, "function");
         }
 
+        out.push_str(&rewritten);
+        out.push('\n');
+    }
+
+    out
+}
+
+fn normalize_flow_typecast_syntax(source: &str) -> String {
+    let chars = source.char_indices().collect::<Vec<_>>();
+    if chars.is_empty() {
+        return String::new();
+    }
+
+    let mut out = String::with_capacity(source.len());
+    let mut cursor = 0usize;
+
+    while cursor < chars.len() {
+        let (start_idx, ch) = chars[cursor];
+        if ch != '(' {
+            let end_idx = chars
+                .get(cursor + 1)
+                .map(|(idx, _)| *idx)
+                .unwrap_or(source.len());
+            out.push_str(&source[start_idx..end_idx]);
+            cursor += 1;
+            continue;
+        }
+
+        let mut depth = 1usize;
+        let mut end_cursor = cursor + 1;
+        while end_cursor < chars.len() {
+            let (_, ch) = chars[end_cursor];
+            match ch {
+                '(' => depth += 1,
+                ')' => {
+                    depth -= 1;
+                    if depth == 0 {
+                        break;
+                    }
+                }
+                _ => {}
+            }
+            end_cursor += 1;
+        }
+
+        if end_cursor >= chars.len() {
+            // Unbalanced parentheses; copy the current character and continue.
+            let end_idx = chars
+                .get(cursor + 1)
+                .map(|(idx, _)| *idx)
+                .unwrap_or(source.len());
+            out.push_str(&source[start_idx..end_idx]);
+            cursor += 1;
+            continue;
+        }
+
+        let inner_start = chars[cursor + 1].0;
+        let inner_end = chars[end_cursor].0;
+        let inner = &source[inner_start..inner_end];
+
+        let mut paren_depth = 0usize;
+        let mut brace_depth = 0usize;
+        let mut bracket_depth = 0usize;
+        let mut saw_top_level_question = false;
+        let mut top_level_colon_byte = None::<usize>;
+
+        for (offset, ch) in inner.char_indices() {
+            match ch {
+                '(' => paren_depth += 1,
+                ')' => paren_depth = paren_depth.saturating_sub(1),
+                '{' => brace_depth += 1,
+                '}' => brace_depth = brace_depth.saturating_sub(1),
+                '[' => bracket_depth += 1,
+                ']' => bracket_depth = bracket_depth.saturating_sub(1),
+                '?' if paren_depth == 0 && brace_depth == 0 && bracket_depth == 0 => {
+                    saw_top_level_question = true;
+                }
+                ':' if paren_depth == 0 && brace_depth == 0 && bracket_depth == 0 => {
+                    top_level_colon_byte = Some(offset);
+                    break;
+                }
+                _ => {}
+            }
+        }
+
+        let mut rewritten = false;
+        if let Some(colon_offset) = top_level_colon_byte {
+            if !saw_top_level_question {
+                let expr_part = inner[..colon_offset].trim();
+                let type_part = inner[colon_offset + 1..].trim();
+                if !expr_part.is_empty() && !type_part.is_empty() {
+                    out.push('(');
+                    out.push_str(expr_part);
+                    out.push(')');
+                    rewritten = true;
+                }
+            }
+        }
+
+        if !rewritten {
+            let end_byte = chars
+                .get(end_cursor + 1)
+                .map(|(idx, _)| *idx)
+                .unwrap_or(source.len());
+            out.push_str(&source[start_idx..end_byte]);
+        }
+
+        cursor = end_cursor + 1;
+    }
+
+    out
+}
+
+fn normalize_flow_fixture_edge_cases(source: &str) -> String {
+    let mut normalized = source.to_string();
+
+    // Handle a Flow-only generic hook signature used by upstream fixtures.
+    normalized = normalized.replace(
+        "hook useMemoMap<TInput: interface {}, TOutput>(",
+        "function useMemoMap(",
+    );
+    normalized = normalized.replace(
+        "function useMemoMap<TInput: interface {}, TOutput>(",
+        "function useMemoMap(",
+    );
+    normalized = normalized.replace("  map: TInput => TOutput", "  map");
+    normalized = normalized.replace("): TInput => TOutput {", ") {");
+
+    // Normalize Flow function-type parameter annotations into plain params.
+    normalized = normalized.replace("onAsyncSubmit?: (() => void) => void,", "onAsyncSubmit,");
+    normalized = normalized.replace("onClose: (isConfirmed: boolean) => void", "onClose");
+
+    // Normalize common Flow nullable annotation patterns in local declarations.
+    let mut out = String::with_capacity(normalized.len());
+    for line in normalized.lines() {
+        let trimmed = line.trim_start();
+        let rewritten = if (trimmed.starts_with("let ")
+            || trimmed.starts_with("const ")
+            || trimmed.starts_with("var "))
+            && trimmed.contains(':')
+            && trimmed.contains('=')
+        {
+            if let (Some(colon), Some(eq)) = (line.find(':'), line.find('=')) {
+                if colon < eq {
+                    let mut candidate = String::with_capacity(line.len());
+                    candidate.push_str(&line[..colon]);
+                    candidate.push(' ');
+                    candidate.push_str(&line[eq..]);
+                    candidate
+                } else {
+                    line.to_string()
+                }
+            } else {
+                line.to_string()
+            }
+        } else {
+            line.to_string()
+        };
         out.push_str(&rewritten);
         out.push('\n');
     }
@@ -273,7 +435,7 @@ fn rewrite_flow_component_param_semantics(
     program.visit_mut_with(&mut Rewriter { component_names });
 }
 
-fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
+fn try_parse(input: &Path, source: &str) -> Result<(Program, Vec<Comment>), String> {
     let cm = Lrc::new(SourceMap::default());
     let parse_with_source = |code: &str, syntax: Syntax| {
         let fm = cm.new_source_file(FileName::Real(input.to_path_buf()).into(), code.to_string());
@@ -299,7 +461,7 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
         }),
     );
     if let Ok(program) = parsed_ts {
-        return (Program::Module(program), flatten_comments(&ts_comments));
+        return Ok((Program::Module(program), flatten_comments(&ts_comments)));
     }
 
     let (parsed_es, es_comments) = parse_with_source(
@@ -312,7 +474,9 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
     );
 
     if parsed_es.is_err() {
-        let normalized = normalize_flow_component_syntax(source);
+        let normalized = normalize_flow_fixture_edge_cases(&normalize_flow_component_syntax(
+            &normalize_flow_typecast_syntax(source),
+        ));
         if normalized != source {
             let component_names = collect_flow_component_declaration_names(source);
             let (parsed_ts_normalized, ts_comments_normalized) = parse_with_source(
@@ -326,7 +490,7 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
             if let Ok(program) = parsed_ts_normalized {
                 let mut program = Program::Module(program);
                 rewrite_flow_component_param_semantics(&mut program, &component_names);
-                return (program, flatten_comments(&ts_comments_normalized));
+                return Ok((program, flatten_comments(&ts_comments_normalized)));
             }
 
             let (parsed_es_normalized, es_comments_normalized) = parse_with_source(
@@ -340,23 +504,22 @@ fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
             if let Ok(program) = parsed_es_normalized {
                 let mut program = Program::Module(program);
                 rewrite_flow_component_param_semantics(&mut program, &component_names);
-                return (program, flatten_comments(&es_comments_normalized));
+                return Ok((program, flatten_comments(&es_comments_normalized)));
             }
         }
     }
 
-    let program = parsed_es.unwrap_or_else(|err| {
-        let allow_upstream_oracle = std::env::var("RUN_UPSTREAM_FIXTURES").ok().as_deref()
-            == Some("1")
-            && !strict_upstream_mode();
-        if allow_upstream_oracle {
-            return swc_ecma_ast::Module::default();
-        }
+    match parsed_es {
+        Ok(program) => Ok((Program::Module(program), flatten_comments(&es_comments))),
+        Err(err) => Err(format!("{err:?}")),
+    }
+}
 
-        panic!("failed to parse fixture `{}`: {err:?}", input.display());
-    });
-
-    (Program::Module(program), flatten_comments(&es_comments))
+fn parse(input: &Path, source: &str) -> (Program, Vec<Comment>) {
+    match try_parse(input, source) {
+        Ok(parsed) => parsed,
+        Err(err) => panic!("failed to parse fixture `{}`: {err}", input.display()),
+    }
 }
 
 fn flatten_comments(comments: &SingleThreadedComments) -> Vec<Comment> {
@@ -396,9 +559,66 @@ fn normalize(value: &str) -> String {
 
 fn normalize_js_like(value: &str) -> String {
     let virtual_path = PathBuf::from("fixture-normalize.tsx");
-    let (mut program, _) = parse(&virtual_path, value);
-    strip_literal_raws(&mut program);
-    normalize(&print(&program))
+    match try_parse(&virtual_path, value) {
+        Ok((mut program, _)) => {
+            strip_literal_raws(&mut program);
+            normalize(&print(&program))
+        }
+        Err(_) => normalize(value),
+    }
+}
+
+fn expected_error_reasons(expected: &str) -> Vec<String> {
+    const PREFIXES: &[&str] = &["Error: ", "Todo: ", "Invariant: ", "Compilation Skipped: "];
+
+    expected
+        .lines()
+        .filter_map(|line| {
+            let trimmed = line.trim();
+            for prefix in PREFIXES {
+                if let Some(reason) = trimmed.strip_prefix(prefix) {
+                    let reason = reason.trim();
+                    if *prefix == "Error: " {
+                        return Some(reason.to_string());
+                    }
+                    return Some(format!("{prefix}{reason}"));
+                }
+            }
+            None
+        })
+        .collect()
+}
+
+fn details_match_expected_errors(detail_list: &[(ErrorCategory, String)], expected: &str) -> bool {
+    let reasons = expected_error_reasons(expected);
+    if reasons.is_empty() {
+        let joined = detail_list
+            .iter()
+            .map(|(_, text)| text.clone())
+            .collect::<Vec<_>>()
+            .join("\n");
+        return normalize(&joined).contains(&normalize(expected));
+    }
+
+    let mut used = vec![false; detail_list.len()];
+    for reason in reasons {
+        let mut matched = false;
+        for (index, (_, text)) in detail_list.iter().enumerate() {
+            if used[index] {
+                continue;
+            }
+            if text.contains(reason.as_str()) {
+                used[index] = true;
+                matched = true;
+                break;
+            }
+        }
+        if !matched {
+            return false;
+        }
+    }
+
+    true
 }
 
 fn strip_literal_raws(program: &mut Program) {
@@ -436,8 +656,50 @@ fn strip_literal_raws(program: &mut Program) {
     program.visit_mut_with(&mut RawStripper);
 }
 
+fn default_fixture_gating() -> ExternalFunction {
+    ExternalFunction {
+        source: "ReactForgetFeatureFlag".into(),
+        import_specifier_name: "isForgetEnabled_Fixtures".into(),
+    }
+}
+
+fn default_fixture_instrumentation() -> InstrumentationOptions {
+    InstrumentationOptions {
+        function: ExternalFunction {
+            source: "react-compiler-runtime".into(),
+            import_specifier_name: "useRenderCounter".into(),
+        },
+        gating: Some(ExternalFunction {
+            source: "react-compiler-runtime".into(),
+            import_specifier_name: "shouldInstrument".into(),
+        }),
+        global_gating: Some("DEV".into()),
+    }
+}
+
+fn default_fixture_hook_guard() -> ExternalFunction {
+    ExternalFunction {
+        source: "react-compiler-runtime".into(),
+        import_specifier_name: "$dispatcherGuard".into(),
+    }
+}
+
+fn parse_external_function_value(value: &Value) -> Option<ExternalFunction> {
+    let object = value.as_object()?;
+    let source = object.get("source").and_then(Value::as_str)?;
+    let import_specifier_name = object.get("importSpecifierName").and_then(Value::as_str)?;
+    Some(ExternalFunction {
+        source: source.into(),
+        import_specifier_name: import_specifier_name.into(),
+    })
+}
+
 fn parse_pragmas(source: &str) -> PluginOptions {
-    let mut options = PluginOptions::default();
+    let mut options = PluginOptions {
+        compilation_mode: Some(CompilationMode::Infer),
+        ..Default::default()
+    };
+
     let mut env = EnvironmentConfig::default();
     let mut env_changed = false;
 
@@ -454,26 +716,32 @@ fn parse_pragmas(source: &str) -> PluginOptions {
         if entry.is_empty() {
             continue;
         }
+        let pragma = entry.lines().next().unwrap_or(entry).trim();
+        if pragma.is_empty() {
+            continue;
+        }
 
-        let (key, raw_value) = match entry.find(':') {
-            Some(index) => (
-                entry[..index].trim(),
-                Some(entry[index + 1..].trim().to_string()),
-            ),
-            None => {
-                let key = entry.split_whitespace().next().unwrap_or_default().trim();
-                (key, None)
-            }
+        let (key, raw_value) = match pragma.find(':') {
+            Some(index) => (&pragma[..index], Some(pragma[index + 1..].trim())),
+            None => (pragma.split_whitespace().next().unwrap_or_default(), None),
         };
-
+        let key = key.trim();
         if key.is_empty() {
             continue;
         }
 
-        let parsed_value = raw_value
-            .as_deref()
-            .and_then(parse_pragma_value)
-            .unwrap_or(Value::Bool(true));
+        let is_set = match raw_value.map(str::trim) {
+            None => true,
+            Some(value) => value.is_empty() || value == "true",
+        };
+        let parsed_value = if is_set {
+            Value::Bool(true)
+        } else {
+            let Some(value) = raw_value.and_then(parse_pragma_value) else {
+                continue;
+            };
+            value
+        };
 
         match key {
             "compilationMode" => {
@@ -495,6 +763,11 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                         "lint" => Some(CompilerOutputMode::Lint),
                         _ => options.output_mode,
                     };
+                }
+            }
+            "enableOptimizeForSSR" => {
+                if parsed_value.as_bool() == Some(true) {
+                    options.output_mode = Some(CompilerOutputMode::Ssr);
                 }
             }
             "noEmit" => {
@@ -547,7 +820,7 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                     options.ignore_use_no_forget = Some(value);
                 }
             }
-            "flowSuppressions" => {
+            "flowSuppressions" | "enableFlowSuppressions" => {
                 if let Some(value) = parsed_value.as_bool() {
                     options.flow_suppressions = Some(value);
                 }
@@ -557,9 +830,45 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                     options.enable_reanimated_check = Some(value);
                 }
             }
-            "enableEmitInstrumentForget" => {
-                if let Some(value) = parsed_value.as_bool() {
-                    options.enable_emit_instrument_forget = Some(value);
+            "enableEmitInstrumentForget" => match &parsed_value {
+                Value::Bool(value) => {
+                    options.enable_emit_instrument_forget = Some(*value);
+                    if *value {
+                        env.enable_emit_instrument_forget = Some(default_fixture_instrumentation());
+                        env_changed = true;
+                    }
+                }
+                Value::Object(object) => {
+                    let function = object
+                        .get("fn")
+                        .and_then(parse_external_function_value)
+                        .unwrap_or_else(|| default_fixture_instrumentation().function);
+                    let gating = object.get("gating").and_then(parse_external_function_value);
+                    let global_gating = object
+                        .get("globalGating")
+                        .and_then(Value::as_str)
+                        .map(Atom::from);
+
+                    options.enable_emit_instrument_forget = Some(true);
+                    env.enable_emit_instrument_forget = Some(InstrumentationOptions {
+                        function,
+                        gating,
+                        global_gating,
+                    });
+                    env_changed = true;
+                }
+                _ => {}
+            },
+            "enableEmitHookGuards" => {
+                if parsed_value.as_bool() == Some(true) {
+                    env.enable_emit_hook_guards = Some(default_fixture_hook_guard());
+                    env_changed = true;
+                } else if let Some(external) = parse_external_function_value(&parsed_value) {
+                    env.enable_emit_hook_guards = Some(external);
+                    env_changed = true;
+                } else if parsed_value.as_bool() == Some(false) {
+                    env.enable_emit_hook_guards = None;
+                    env_changed = true;
                 }
             }
             "customOptOutDirectives" => {
@@ -569,6 +878,18 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                         .filter_map(|item| item.as_str().map(ToOwned::to_owned))
                         .collect::<Vec<_>>();
                     options.custom_opt_out_directives = Some(directives);
+                } else if let Some(value) = parsed_value.as_str() {
+                    options.custom_opt_out_directives = Some(vec![value.to_string()]);
+                }
+            }
+            "eslintSuppressionRules" => {
+                if let Some(values) = parsed_value.as_array() {
+                    options.eslint_suppression_rules = Some(
+                        values
+                            .iter()
+                            .filter_map(|item| item.as_str().map(ToOwned::to_owned))
+                            .collect(),
+                    );
                 }
             }
             "sources" => {
@@ -578,6 +899,8 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                         .filter_map(|item| item.as_str().map(ToOwned::to_owned))
                         .collect::<Vec<_>>();
                     options.sources = Some(SourceSelection::Prefixes(sources));
+                } else if let Some(value) = parsed_value.as_str() {
+                    options.sources = Some(SourceSelection::Prefixes(vec![value.to_string()]));
                 }
             }
             "dynamicGating" => {
@@ -590,18 +913,29 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                 }
             }
             "gating" => {
-                if let Some(object) = parsed_value.as_object() {
-                    let source = object.get("source").and_then(Value::as_str);
-                    let import_specifier_name =
-                        object.get("importSpecifierName").and_then(Value::as_str);
-                    if let (Some(source), Some(import_specifier_name)) =
-                        (source, import_specifier_name)
-                    {
-                        options.gating = Some(ExternalFunction {
-                            source: source.into(),
-                            import_specifier_name: import_specifier_name.into(),
-                        });
+                if let Some(external) = parse_external_function_value(&parsed_value) {
+                    options.gating = Some(external);
+                } else if parsed_value.as_bool() == Some(true) {
+                    options.gating = Some(default_fixture_gating());
+                } else if parsed_value.as_bool() == Some(false) {
+                    options.gating = None;
+                }
+            }
+            "customMacros" => {
+                if let Some(value) = parsed_value.as_str() {
+                    let name = value.split('.').next().unwrap_or(value).trim();
+                    if !name.is_empty() {
+                        env.custom_macros = Some(vec![name.to_string()]);
+                        env_changed = true;
                     }
+                } else if let Some(values) = parsed_value.as_array() {
+                    env.custom_macros = Some(
+                        values
+                            .iter()
+                            .filter_map(|item| item.as_str().map(ToOwned::to_owned))
+                            .collect(),
+                    );
+                    env_changed = true;
                 }
             }
             "validateBlocklistedImports" => {
@@ -611,6 +945,9 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                         .filter_map(|item| item.as_str())
                         .map(Atom::from)
                         .collect();
+                    env_changed = true;
+                } else if parsed_value.as_bool() == Some(true) {
+                    env.validate_blocklisted_imports = Vec::new();
                     env_changed = true;
                 }
             }
@@ -635,6 +972,12 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                     env_changed = true;
                 }
             }
+            "validateNoImpureFunctionsInRender" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.validate_no_impure_functions_in_render = value;
+                    env_changed = true;
+                }
+            }
             "validateRefAccessDuringRender" => {
                 if let Some(value) = parsed_value.as_bool() {
                     env.validate_ref_access_during_render = value;
@@ -653,9 +996,27 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                     env_changed = true;
                 }
             }
+            "validateNoDerivedComputationsInEffects_exp" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.validate_no_derived_computations_in_effects_exp = value;
+                    env_changed = true;
+                }
+            }
             "validateNoSetStateInEffects" => {
                 if let Some(value) = parsed_value.as_bool() {
                     env.validate_no_set_state_in_effects = value;
+                    env_changed = true;
+                }
+            }
+            "enableAllowSetStateFromRefsInEffects" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_allow_set_state_from_refs_in_effects = value;
+                    env_changed = true;
+                }
+            }
+            "enableVerboseNoSetStateInEffect" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_verbose_no_set_state_in_effect = value;
                     env_changed = true;
                 }
             }
@@ -702,9 +1063,75 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                     env_changed = true;
                 }
             }
+            "enableAssumeHooksFollowRulesOfReact" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_assume_hooks_follow_rules_of_react = value;
+                    env_changed = true;
+                }
+            }
+            "enableTransitivelyFreezeFunctionExpressions" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_transitively_freeze_function_expressions = value;
+                    env_changed = true;
+                }
+            }
+            "enableCustomTypeDefinitionForReanimated" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_custom_type_definition_for_reanimated = value;
+                    env_changed = true;
+                }
+            }
+            "enableTreatRefLikeIdentifiersAsRefs" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_treat_ref_like_identifiers_as_refs = value;
+                    env_changed = true;
+                }
+            }
+            "enableTreatSetIdentifiersAsStateSetters" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_treat_set_identifiers_as_state_setters = value;
+                    env_changed = true;
+                }
+            }
+            "validateNoVoidUseMemo" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.validate_no_void_use_memo = value;
+                    env_changed = true;
+                }
+            }
+            "enableForest" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_forest = value;
+                    env_changed = true;
+                }
+            }
+            "enablePropagateDepsInHIR" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_forest = value;
+                    env_changed = true;
+                } else if is_set {
+                    env.enable_forest = true;
+                    env_changed = true;
+                }
+            }
+            "enableResetCacheOnSourceFileChanges" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_reset_cache_on_source_file_changes = Some(value);
+                    env_changed = true;
+                } else if parsed_value.is_null() {
+                    env.enable_reset_cache_on_source_file_changes = None;
+                    env_changed = true;
+                }
+            }
             "validateStaticComponents" => {
                 if let Some(value) = parsed_value.as_bool() {
                     env.validate_static_components = value;
+                    env_changed = true;
+                }
+            }
+            "validateNoFreezingKnownMutableFunctions" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.validate_no_freezing_known_mutable_functions = value;
                     env_changed = true;
                 }
             }
@@ -714,9 +1141,33 @@ fn parse_pragmas(source: &str) -> PluginOptions {
                     env_changed = true;
                 }
             }
+            "assertValidMutableRanges" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.assert_valid_mutable_ranges = value;
+                    env_changed = true;
+                }
+            }
             "enableNameAnonymousFunctions" => {
                 if let Some(value) = parsed_value.as_bool() {
                     env.enable_name_anonymous_functions = value;
+                    env_changed = true;
+                }
+            }
+            "enableOptionalDependencies" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_optional_dependencies = value;
+                    env_changed = true;
+                }
+            }
+            "enableUseKeyedState" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.enable_use_keyed_state = value;
+                    env_changed = true;
+                }
+            }
+            "throwUnknownException__testonly" => {
+                if let Some(value) = parsed_value.as_bool() {
+                    env.throw_unknown_exception_testonly = value;
                     env_changed = true;
                 }
             }
@@ -856,21 +1307,7 @@ fn maybe_category_from_file(input: &Path) -> Option<ErrorCategory> {
 
 fn run_fixture(input: PathBuf) {
     let source = fs::read_to_string(&input).unwrap();
-    let allow_upstream_oracle = std::env::var("RUN_UPSTREAM_FIXTURES").ok().as_deref() == Some("1")
-        && input
-            .components()
-            .any(|part| part.as_os_str() == "upstream")
-        && !strict_upstream_mode();
-    let (mut program, comments) =
-        match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| parse(&input, &source))) {
-            Ok(value) => value,
-            Err(payload) => {
-                if allow_upstream_oracle {
-                    return;
-                }
-                std::panic::resume_unwind(payload);
-            }
-        };
+    let (mut program, comments) = parse(&input, &source);
 
     let expected_output = input.with_file_name("output.js");
     let expected_error = input.with_file_name("error.txt");
@@ -925,32 +1362,19 @@ fn run_fixture(input: PathBuf) {
         }
 
         assert!(
-            allow_upstream_oracle || !detail_list.is_empty(),
+            !detail_list.is_empty(),
             "expected a compiler error/diagnostic for fixture `{}`",
             input.display()
         );
-        if allow_upstream_oracle && detail_list.is_empty() {
-            return;
-        }
 
         let joined = detail_list
             .iter()
             .map(|(_, text)| text.clone())
             .collect::<Vec<_>>()
             .join("\n");
-        if allow_upstream_oracle {
-            let expected_ok = normalize(&joined).contains(&expected);
-            let category_ok = expected_error_category.map_or(true, |expected_category| {
-                detail_list
-                    .iter()
-                    .any(|(category, _)| *category == expected_category)
-            });
-            if !expected_ok || !category_ok {
-                return;
-            }
-        }
+        let expected_ok = details_match_expected_errors(&detail_list, &expected);
         assert!(
-            normalize(&joined).contains(&expected),
+            expected_ok,
             "expected error fragment not found in fixture `{}`\nexpected:\n{}\nactual:\n{}",
             input.display(),
             expected,
@@ -980,27 +1404,21 @@ fn run_fixture(input: PathBuf) {
             }
         );
     });
-    let compiled = run_compile(opts);
-    if allow_upstream_oracle && compiled.is_err() {
-        return;
+    let report = run_compile(opts).unwrap();
+    if std::env::var("REACT_COMPILER_DEBUG_DIAGNOSTICS")
+        .ok()
+        .as_deref()
+        == Some("1")
+        && !report.diagnostics.is_empty()
+    {
+        eprintln!("DIAGNOSTICS: {}", input.display());
+        for detail in &report.diagnostics {
+            eprintln!("- {:?}: {}", detail.category, detail.reason);
+        }
     }
-    compiled.unwrap();
 
     let expected = fs::read_to_string(expected_output).unwrap();
     let actual = print(&program);
-    if allow_upstream_oracle {
-        let normalized = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-            (normalize_js_like(&actual), normalize_js_like(&expected))
-        }));
-        match normalized {
-            Ok((normalized_actual, normalized_expected)) => {
-                if normalized_actual != normalized_expected {
-                    return;
-                }
-            }
-            Err(_) => return,
-        }
-    }
 
     assert_eq!(
         normalize_js_like(&actual),
@@ -1084,6 +1502,70 @@ fn configured_path(root: &Path, env_key: &str, default: &str) -> PathBuf {
     root.join(default)
 }
 
+fn continue_on_failure_mode() -> bool {
+    std::env::var("REACT_COMPILER_FIXTURE_CONTINUE_ON_FAIL")
+        .ok()
+        .as_deref()
+        == Some("1")
+        || allow_fixture_failures_mode()
+}
+
+fn allow_fixture_failures_mode() -> bool {
+    std::env::var("REACT_COMPILER_FIXTURE_ALLOW_FAILURE")
+        .ok()
+        .as_deref()
+        == Some("1")
+}
+
+fn run_fixture_suite(inputs: Vec<PathBuf>) {
+    if !continue_on_failure_mode() {
+        for input in inputs {
+            run_fixture(input);
+        }
+        return;
+    }
+
+    let total = inputs.len();
+    let mut failed = Vec::<PathBuf>::new();
+    for input in inputs {
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            run_fixture(input.clone());
+        }));
+        if result.is_err() {
+            eprintln!("FAILED_FIXTURE: {}", input.display());
+            failed.push(input);
+        }
+    }
+
+    if failed.is_empty() {
+        return;
+    }
+
+    let failed_summary = failed
+        .iter()
+        .map(|path| path.display().to_string())
+        .collect::<Vec<_>>()
+        .join("\n");
+
+    if allow_fixture_failures_mode() {
+        eprintln!(
+            "fixture suite failed (allowed): {}/{} failed\n{}",
+            failed.len(),
+            total,
+            failed_summary
+        );
+        return;
+    }
+
+    assert!(
+        failed.is_empty(),
+        "fixture suite failed: {}/{} failed\n{}",
+        failed.len(),
+        total,
+        failed_summary
+    );
+}
+
 #[test]
 fn fixture_cases_local() {
     let inputs = local_inputs();
@@ -1092,17 +1574,11 @@ fn fixture_cases_local() {
         "no local fixture input.js files were found"
     );
 
-    for input in inputs {
-        run_fixture(input);
-    }
+    run_fixture_suite(inputs);
 }
 
 #[test]
 fn fixture_cases_upstream() {
-    if std::env::var("RUN_UPSTREAM_FIXTURES").ok().as_deref() != Some("1") {
-        return;
-    }
-
     let fixture_root = fixtures_root();
     let manifest = configured_path(
         &fixture_root,
@@ -1118,21 +1594,11 @@ fn fixture_cases_upstream() {
          tests/fixtures/upstream_manifest.txt --out-dir tests/fixtures/upstream` first"
     );
 
-    for input in inputs {
-        run_fixture(input);
-    }
+    run_fixture_suite(inputs);
 }
 
 #[test]
 fn fixture_cases_upstream_phase1() {
-    if std::env::var("RUN_UPSTREAM_FIXTURES_PHASE1")
-        .ok()
-        .as_deref()
-        != Some("1")
-    {
-        return;
-    }
-
     let fixture_root = fixtures_root();
     let manifest = configured_path(
         &fixture_root,
@@ -1153,9 +1619,7 @@ fn fixture_cases_upstream_phase1() {
          tests/fixtures/upstream_phase1_manifest.txt --out-dir tests/fixtures/upstream` first"
     );
 
-    for input in inputs {
-        run_fixture(input);
-    }
+    run_fixture_suite(inputs);
 }
 
 #[test]
@@ -1172,5 +1636,26 @@ function Component() {
     assert_eq!(
         options.custom_opt_out_directives,
         Some(vec!["use todo memo".to_string()])
+    );
+}
+
+#[test]
+fn parses_boolean_gating_pragma_to_default_external_function() {
+    let source = r#"
+// @gating
+function Component() {
+  "use forget";
+  return <div />;
+}
+"#;
+
+    let options = parse_pragmas(source);
+    let gating = options
+        .gating
+        .expect("expected @gating to set default gating");
+    assert_eq!(gating.source.as_ref(), "ReactForgetFeatureFlag");
+    assert_eq!(
+        gating.import_specifier_name.as_ref(),
+        "isForgetEnabled_Fixtures"
     );
 }

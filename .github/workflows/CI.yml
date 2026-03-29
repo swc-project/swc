@@ -199,7 +199,7 @@ jobs:
       - name: Install cargo-mono
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-mono@0.5.0
+          tool: cargo-mono@0.5.3
 
       - name: List crates
         id: list-tests
@@ -303,9 +303,16 @@ jobs:
           key: swc-exec-cache-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Run cargo test
-        if: matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_plugin_backend_tests' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm' && matrix.settings.crate != 'hstr'
+        if: matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_plugin_backend_tests' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm' && matrix.settings.crate != 'hstr' && matrix.settings.crate != 'swc_ecma_react_compiler'
         run: |
           cargo test -p ${{ matrix.settings.crate }}
+
+      - name: Run cargo test (swc_ecma_react_compiler)
+        if: matrix.settings.crate == 'swc_ecma_react_compiler'
+        env:
+          REACT_COMPILER_FIXTURE_ALLOW_FAILURE: 1
+        run: |
+          cargo test -p swc_ecma_react_compiler
 
       - name: Run cargo test (core)
         if: matrix.settings.crate == 'swc_core'

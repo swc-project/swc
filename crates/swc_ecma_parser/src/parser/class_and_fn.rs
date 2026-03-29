@@ -79,6 +79,9 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
 
         while self.input().is(Token::At) {
+            if self.syntax().flow() && peek!(self).is_some_and(|peek| peek == Token::At) {
+                break;
+            }
             decorators.push(self.parse_decorator()?);
         }
         if decorators.is_empty() {

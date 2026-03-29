@@ -1,4 +1,229 @@
 # Changelog
+## [unreleased]
+
+### Ci
+
+
+
+- Install zig for core ppc64le/s390x nightly cross builds ([#11725](https://github.com/swc-project/swc/issues/11725)) ([09c4be0](https://github.com/swc-project/swc/commit/09c4be00656d2d64e80ffb0ae250c53db645a39c))
+
+## [swc_core@v59.0.1] - 2026-03-22
+
+### Features
+
+
+
+- **(react-compiler)** Improve lint rename and gating parity ([#11721](https://github.com/swc-project/swc/issues/11721)) ([5f89ee7](https://github.com/swc-project/swc/commit/5f89ee70d5af99a382a8f8ca16ba913b1ddd746e))
+
+### Testing
+
+
+
+- Move TS decorator fixtures out of proposal crate ([#11723](https://github.com/swc-project/swc/issues/11723)) ([e29d58c](https://github.com/swc-project/swc/commit/e29d58c74b345dc783b8132bea15439f8dcd4119))
+
+### Ci
+
+
+
+- Bump cargo-mono to 0.5.3 ([#11722](https://github.com/swc-project/swc/issues/11722)) ([b5272af](https://github.com/swc-project/swc/commit/b5272af0f80047ffb98a1eed5de1f1d391657aa2))
+
+## [swc_core@v59.0.0] - 2026-03-22
+
+### Bug Fixes
+
+
+
+- **(cli)** Honor externalHelpers=false in rust binary ([#11693](https://github.com/swc-project/swc/issues/11693)) ([1be052e](https://github.com/swc-project/swc/commit/1be052e36154ed0382aeb93a4ff8f9e441ffbdca))
+
+
+- **(cli)** Skip mkdir when --out-file targets the current directory ([#11720](https://github.com/swc-project/swc/issues/11720)) ([f3f4e51](https://github.com/swc-project/swc/commit/f3f4e51cedb3051a7c75c0cdecaa17e1d276597f))
+
+
+- **(es/decorators)** Resolve 2022-03 issues #9565/#9078/#9079 and add regressions ([#11698](https://github.com/swc-project/swc/issues/11698)) ([a025d2b](https://github.com/swc-project/swc/commit/a025d2bc2fa482b675084f5802865cd02c8b63c4))
+
+
+- **(es/fixer)** Wrap new opt chain ([#11618](https://github.com/swc-project/swc/issues/11618)) ([fdcd184](https://github.com/swc-project/swc/commit/fdcd184a2ad3295015faf51fde62dbe4b700515e))
+
+
+- **(es/flow)** Normalize module await bindings for Hermes parity ([#11703](https://github.com/swc-project/swc/issues/11703)) ([73d8761](https://github.com/swc-project/swc/commit/73d87616f5db5146fac774cd60d5ec18195140c3))
+
+
+- **(es/minifier)** Fix compatibility for Wasm plugin (`swc_ast_unknown`) ([#11641](https://github.com/swc-project/swc/issues/11641)) ([abd0e45](https://github.com/swc-project/swc/commit/abd0e45fb9cee9f79fb58d3a520f9ff92ecf4566))
+
+
+- **(es/module)** Avoid rewriting unknown relative extensions ([#11713](https://github.com/swc-project/swc/issues/11713)) ([ed09218](https://github.com/swc-project/swc/commit/ed092184839057467702976ad43ed4e3f902dc6b))
+
+
+- **(es/regexp)** Implement transform-named-capturing-groups-regex ([#11642](https://github.com/swc-project/swc/issues/11642)) ([f62bfa9](https://github.com/swc-project/swc/commit/f62bfa90701cdcfe87af082d5104f0c1e2dd7e0d))
+
+
+- **(es/types)** Add new options types ([#11683](https://github.com/swc-project/swc/issues/11683)) ([62eeee1](https://github.com/swc-project/swc/commit/62eeee15324a6aa25a2e17d497f1d41900cbac99))
+
+
+- Update lz4_flex to resolve RUSTSEC-2026-0041 ([#11701](https://github.com/swc-project/swc/issues/11701)) ([7528507](https://github.com/swc-project/swc/commit/7528507bc6d3fb723742e62abb156d510fba1329))
+
+### Documentation
+
+
+
+- **(agents)** Improve guidance ([#11626](https://github.com/swc-project/swc/issues/11626)) ([1cdfec9](https://github.com/swc-project/swc/commit/1cdfec9f298d0979f40d2be5a227ea4dc973138b))
+
+
+- **(agents)** Add AGENTS two-pass rules for es crates ([#11634](https://github.com/swc-project/swc/issues/11634)) ([12af4a1](https://github.com/swc-project/swc/commit/12af4a1fcffff0bcefaa5ca766914d1aae2c7847))
+
+
+- Clarify workaround comment requirement in AGENTS ([#11700](https://github.com/swc-project/swc/issues/11700)) ([e2ad6f6](https://github.com/swc-project/swc/commit/e2ad6f61c882b6b302d886268170560087cd5684))
+
+### Features
+
+
+
+- **(bindings)** Enable flow strip support in @swc/core ([#11696](https://github.com/swc-project/swc/issues/11696)) ([93da89a](https://github.com/swc-project/swc/commit/93da89a272408ec5d4cf43d9c087774794661657))
+
+
+- **(cli)** Enable Flow strip support in swc_cli_impl ([#11705](https://github.com/swc-project/swc/issues/11705)) ([0ea9950](https://github.com/swc-project/swc/commit/0ea99502686a43bf33c397ef47fad344de78abb9))
+
+
+- **(dbg-swc)** Add flow strip verification command ([#11706](https://github.com/swc-project/swc/issues/11706)) ([77b7854](https://github.com/swc-project/swc/commit/77b7854046b584a933935b9252fd6df183828409))
+
+
+- **(es)** Add `swc_es_codegen` for `swc_es_ast` ([#11628](https://github.com/swc-project/swc/issues/11628)) ([c282d86](https://github.com/swc-project/swc/commit/c282d8616b4626ba880096e356ad1200108def9e))
+
+
+- **(es)** Add 2-pass transformer and minifier crates ([#11632](https://github.com/swc-project/swc/issues/11632)) ([f70a4b7](https://github.com/swc-project/swc/commit/f70a4b7c15324a0d7d771e11ff1ab738f964e43b))
+
+
+- **(es)** Add TypeScript + React transforms and tsc corpus tests ([#11635](https://github.com/swc-project/swc/issues/11635)) ([09a5d8d](https://github.com/swc-project/swc/commit/09a5d8d39f65684f4dc88558b92804dcb19a1c0b))
+
+
+- **(es/helpers)** Prevent recursive instanceof helper transforms ([#11609](https://github.com/swc-project/swc/issues/11609)) ([cb755a3](https://github.com/swc-project/swc/commit/cb755a3260aac2a1aaeab8ccf0458b783607511b))
+
+
+- **(es/parser)** Add `with_capacity` for `Capturing` ([#11679](https://github.com/swc-project/swc/issues/11679)) ([60df582](https://github.com/swc-project/swc/commit/60df58288867757038c6eec45ccc54bf1799f10c))
+
+
+- **(es/parser)** Add flow syntax mode and strip integration ([#11685](https://github.com/swc-project/swc/issues/11685)) ([015bbe8](https://github.com/swc-project/swc/commit/015bbe8759da1a57a33dd8c7791bc835e4150034))
+
+
+- **(es/parser)** Finish flow strip support for core syntax gaps ([#11689](https://github.com/swc-project/swc/issues/11689)) ([584a12f](https://github.com/swc-project/swc/commit/584a12f6fa15f4beaf030fa6224ba77be1874e0f))
+
+
+- **(es/parser)** Extend flow declare export strip compatibility ([#11691](https://github.com/swc-project/swc/issues/11691)) ([a8315aa](https://github.com/swc-project/swc/commit/a8315aaea70d2b9dcd5da56b5726190c84ed3036))
+
+
+- **(es/parser)** Support Flow declare export default interface strip path ([#11692](https://github.com/swc-project/swc/issues/11692)) ([588577c](https://github.com/swc-project/swc/commit/588577c5c2541ae0d4c198648ba74265eb05dc39))
+
+
+- **(es/parser)** Add Hermes Flow parity harness and fixes ([#11699](https://github.com/swc-project/swc/issues/11699)) ([918b6ac](https://github.com/swc-project/swc/commit/918b6ac1f5ca151aa70b6b5f4fcb2443be80eacb))
+
+
+- **(es/parser)** Complete Hermes Flow stripping parity ([#11702](https://github.com/swc-project/swc/issues/11702)) ([f041f4c](https://github.com/swc-project/swc/commit/f041f4c2f2c757489a2c1194fe03d890052d131e))
+
+
+- **(es/proposal)** Add decorators 2023-11 support ([#11686](https://github.com/swc-project/swc/issues/11686)) ([e96eb6a](https://github.com/swc-project/swc/commit/e96eb6a82897f80910e9cf81ae5b0649a0a0855a))
+
+
+- **(es/react-compiler)** Scaffold SWC port of Babel entrypoint ([#11687](https://github.com/swc-project/swc/issues/11687)) ([4a1d3ce](https://github.com/swc-project/swc/commit/4a1d3ce3175428a4113eda8f4bc7b07ccb18b60f))
+
+
+- **(es/react-compiler)** Phase1 crate API baseline and fixture harness ([#11690](https://github.com/swc-project/swc/issues/11690)) ([31364dc](https://github.com/swc-project/swc/commit/31364dcb26860e49ff64f60fa60d4b5cd39b199d))
+
+
+- **(es/react-compiler)** Strict upstream parity finalization (crate-only, WIP) ([#11697](https://github.com/swc-project/swc/issues/11697)) ([a3994aa](https://github.com/swc-project/swc/commit/a3994aa5f853836c528614a89e435fc5eacb7f13))
+
+
+- **(es/react-compiler)** Advance strict upstream parity ([#11709](https://github.com/swc-project/swc/issues/11709)) ([9b3abe0](https://github.com/swc-project/swc/commit/9b3abe078f86db7e6cc80b7cd1c3c1150c41a71a))
+
+
+- **(es/react-compiler)** Advance upstream fixture parity pipeline ([#11716](https://github.com/swc-project/swc/issues/11716)) ([33fe6f2](https://github.com/swc-project/swc/commit/33fe6f26aa4a5dcc6542d752632e75b4f3595e7d))
+
+
+- **(es/semantics)** Add scope analysis and statement-level cfg ([#11623](https://github.com/swc-project/swc/issues/11623)) ([86815b1](https://github.com/swc-project/swc/commit/86815b1e9cecd2c0b67c17c5d4ba2b99f904b355))
+
+
+- **(es_parser)** Complete parity suite with zero ignores ([#11615](https://github.com/swc-project/swc/issues/11615)) ([ee3fdd5](https://github.com/swc-project/swc/commit/ee3fdd553564a1af8490ff1f2b1d1b74c8574ba9))
+
+
+- **(es_parser)** Complete internal parser wiring without ecma runtime dep ([#11622](https://github.com/swc-project/swc/issues/11622)) ([1c51891](https://github.com/swc-project/swc/commit/1c518913a5abd64e60fe7fa5c5ece856a2861147))
+
+
+- **(es_parser)** Expand benchmark corpus ([#11633](https://github.com/swc-project/swc/issues/11633)) ([ff3adef](https://github.com/swc-project/swc/commit/ff3adef43b0b49a611f1f1704400ca20ec1111f3))
+
+
+- **(react-compiler)** Advance SWC upstream fixture parity ([#11718](https://github.com/swc-project/swc/issues/11718)) ([e8d1696](https://github.com/swc-project/swc/commit/e8d16969b74d21f13b1594ef71ceef3d550d0a59))
+
+
+- **(swc_es_parser)** Enforce full parity suite and extend grammar surface ([#11611](https://github.com/swc-project/swc/issues/11611)) ([585f7d0](https://github.com/swc-project/swc/commit/585f7d07a44b2508b05d6b07e9fcd83cb5cb7185))
+
+
+- **(swc_es_parser)** Complete lossless modeling for with/TS module/decorators ([#11613](https://github.com/swc-project/swc/issues/11613)) ([59b1189](https://github.com/swc-project/swc/commit/59b11898fe247382bed44fddfb29c9592050b8bc))
+
+
+- **(swc_es_parser)** Close parity gaps with full core/large fixture pass-fail parity ([#11614](https://github.com/swc-project/swc/issues/11614)) ([3085f52](https://github.com/swc-project/swc/commit/3085f52a0f2aafc194d01a4394ddce72c455c6a5))
+
+
+- Complete core parity parser coverage ([#11603](https://github.com/swc-project/swc/issues/11603)) ([18e0edc](https://github.com/swc-project/swc/commit/18e0edce9ebdd50508c9e60f50d1adf5a286e865))
+
+### Performance
+
+
+
+- **(es/modules)** Avoid export sort key clones ([#11669](https://github.com/swc-project/swc/issues/11669)) ([e74e17d](https://github.com/swc-project/swc/commit/e74e17dcf2e23ced12e199d05146e88a55b6174f))
+
+
+- **(es/parser)** Reduce JSX identifier rescan allocations ([#11671](https://github.com/swc-project/swc/issues/11671)) ([f9214fe](https://github.com/swc-project/swc/commit/f9214fed47818f2df75865645ef6a3358300d86a))
+
+
+- **(es/parser)** Optimize underscore stripping in numeric literal hot path ([#11670](https://github.com/swc-project/swc/issues/11670)) ([874338b](https://github.com/swc-project/swc/commit/874338b77f93b22cebc58d4ec4b43fe02bebb7e2))
+
+
+- **(es/transformer)** Remove O(n^2) statement mutation hotspots ([#11672](https://github.com/swc-project/swc/issues/11672)) ([bdc24b7](https://github.com/swc-project/swc/commit/bdc24b7fdc006c77f4b5303bf4ff903b71fd8bcb))
+
+
+- **(es_parser)** Byte-search lexer optimization pass ([#11616](https://github.com/swc-project/swc/issues/11616)) ([607f2db](https://github.com/swc-project/swc/commit/607f2dbba4cdc681447657f07bda10c0533d0d7f))
+
+
+- **(es_parser)** Reduce lookahead and allocation overhead ([#11673](https://github.com/swc-project/swc/issues/11673)) ([becd9b0](https://github.com/swc-project/swc/commit/becd9b0352db53611cd7ab3f922ff3b1f89d73fe))
+
+
+- **(ts/fast-strip)** Avoid token capture in default transform path ([#11668](https://github.com/swc-project/swc/issues/11668)) ([06aa0db](https://github.com/swc-project/swc/commit/06aa0db37d19ddec7f3255f92eef84f07c7f2d61))
+
+### Refactor
+
+
+
+- **(es/minifier)** Use arguments data from scope ([#11604](https://github.com/swc-project/swc/issues/11604)) ([4738539](https://github.com/swc-project/swc/commit/473853951651a013c896122b88d5fb7db43c2412))
+
+### Testing
+
+
+
+- **(es/flow)** Add flow strip corpus correctness test ([#11694](https://github.com/swc-project/swc/issues/11694)) ([cd5ed81](https://github.com/swc-project/swc/commit/cd5ed813da185d8aacc3d9bf7a64acb2e1c32116))
+
+
+- **(es/parser)** Enforce full ecma fixture parity ([#11637](https://github.com/swc-project/swc/issues/11637)) ([0bf8a46](https://github.com/swc-project/swc/commit/0bf8a4656011bdfeb80afb94fb8f2764739d099e))
+
+
+- **(es/parser)** Expand flow strip fixture coverage ([#11695](https://github.com/swc-project/swc/issues/11695)) ([e231262](https://github.com/swc-project/swc/commit/e23126212595d32265e0d4478592a15dc9e0ceef))
+
+
+- **(es_parser)** Add core snapshot suite ([#11617](https://github.com/swc-project/swc/issues/11617)) ([23c56fe](https://github.com/swc-project/swc/commit/23c56fe60f60689994e3cc2b08301886cd0cea65))
+
+
+- **(es_parser)** De-arenaize ecma_reuse fixture snapshots ([#11639](https://github.com/swc-project/swc/issues/11639)) ([aa6727a](https://github.com/swc-project/swc/commit/aa6727a26dac1a8802ea06d35b5c3ac1ff7633f4))
+
+
+- **(es_parser)** Recover swc_es_parser benchmark coverage ([#11640](https://github.com/swc-project/swc/issues/11640)) ([0f24ee1](https://github.com/swc-project/swc/commit/0f24ee1dfdea41e7e22218fd3bfc466772d557b7))
+
+
+- Expand swc_es_parser snapshot suites (ecma-style) ([#11621](https://github.com/swc-project/swc/issues/11621)) ([325170f](https://github.com/swc-project/swc/commit/325170fff9b5c99abe1da19ec63fe6d2d8c6a9bb))
+
+### Ci
+
+
+
+- Optimize cargo-test matrix with cargo mono changed ([#11681](https://github.com/swc-project/swc/issues/11681)) ([99e61c4](https://github.com/swc-project/swc/commit/99e61c4cc172b772437dcabcf8f937a8f24dc4bd))
+
 ## [swc_core@v58.0.4] - 2026-03-02
 
 ### Bug Fixes
@@ -2310,218 +2535,5 @@
 
 
 - **(es/parser)** Allow type ann in jsx expr child ([#10626](https://github.com/swc-project/swc/issues/10626)) ([48f576c](https://github.com/swc-project/swc/commit/48f576c64ac119af3bc990c78f06678dc0fdd800))
-
-## [swc_core@v28.0.0] - 2025-06-18
-
-### Bug Fixes
-
-
-
-- **(ts/isolated-dts)** Fix usage dependency ([#10621](https://github.com/swc-project/swc/issues/10621)) ([b3677d3](https://github.com/swc-project/swc/commit/b3677d36681820dd7c0f35ef97c44d5f7de69121))
-
-
-- **(ts/isolated-dts)** Emit properties in overloaded constructor params ([#10623](https://github.com/swc-project/swc/issues/10623)) ([6634ef1](https://github.com/swc-project/swc/commit/6634ef1d2fd7f298a4c5fbb5c23e28c2571177b8))
-
-### Features
-
-
-
-- **(swc_common)** Allow returning `None` in `try_lookup_source_file` ([#10625](https://github.com/swc-project/swc/issues/10625)) ([d8e2405](https://github.com/swc-project/swc/commit/d8e2405d7f67867699eeda36ca59ac11ca7baf71))
-
-### Performance
-
-
-
-- **(atoms)** Improve `atom!` for inlinable strings ([#10612](https://github.com/swc-project/swc/issues/10612)) ([5113121](https://github.com/swc-project/swc/commit/51131212c3bd1992bdade5ab509572ad79d1aa53))
-
-### Refactor
-
-
-
-- **(es/parser)** Remove token contexts ([#10547](https://github.com/swc-project/swc/issues/10547)) ([7ffe9d2](https://github.com/swc-project/swc/commit/7ffe9d23ca55c61acef69782e88d2e0e0e7ea47a))
-
-## [swc_core@v27.0.6] - 2025-06-17
-
-### Bug Fixes
-
-
-
-- **(es/codegen)** Fix `.map` path when using `output_path` ([01e5bd1](https://github.com/swc-project/swc/commit/01e5bd1d6560d3b40e98122e09d0f7bd7c73b4c5))
-
-
-- **(swc)** Fix wrong caching of resolvers regarding file exts ([#10615](https://github.com/swc-project/swc/issues/10615)) ([68aacd1](https://github.com/swc-project/swc/commit/68aacd1dfc2dd97feb5636f1833a6fa1e15407bd))
-
-## [swc_core@v27.0.5] - 2025-06-14
-
-### Performance
-
-
-
-- **(es/minifier)** Avoid calling some costly function when optimizing deep nested binary expr ([#10611](https://github.com/swc-project/swc/issues/10611)) ([1434571](https://github.com/swc-project/swc/commit/1434571477f5f8576a268a2bd32631eb9ce77229))
-
-
-- **(es/parser)** Reduce cmp in jsx spread child ([#10606](https://github.com/swc-project/swc/issues/10606)) ([fb33c13](https://github.com/swc-project/swc/commit/fb33c135444edc4de4531cac7d5ae27feabfff76))
-
-### Refactor
-
-
-
-- **(es/parser)** Cleanup - deduplicate some code ([#10608](https://github.com/swc-project/swc/issues/10608)) ([5f9af96](https://github.com/swc-project/swc/commit/5f9af969d7a123b6cbc82c7a76489acf244a1cf3))
-
-## [swc_core@v27.0.4] - 2025-06-12
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Perform DCE on the end ([#10602](https://github.com/swc-project/swc/issues/10602)) ([a97b149](https://github.com/swc-project/swc/commit/a97b1494267bba03436d160d39cd21ce68150173))
-
-## [swc_core@v27.0.3] - 2025-06-12
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Fix top level detection of DCE ([#10603](https://github.com/swc-project/swc/issues/10603)) ([964a560](https://github.com/swc-project/swc/commit/964a5607d7bacb2bab1135bf0dd546a1a33fdb6c))
-
-
-- **(es/minifier)** Fix inlining of arrows ([#10604](https://github.com/swc-project/swc/issues/10604)) ([cc3bc4d](https://github.com/swc-project/swc/commit/cc3bc4d66c381d33d00bc530b57c88447ae8ead8))
-
-### Features
-
-
-
-- **(es/parser)** Support parsing CommonJS ([#10600](https://github.com/swc-project/swc/issues/10600)) ([70bda6a](https://github.com/swc-project/swc/commit/70bda6a199bec4b0f8fddb20040a382c44a78354))
-
-## [swc_core@v27.0.2] - 2025-06-11
-
-### Bug Fixes
-
-
-
-- **(@swc/types)** Remove `nativeClassProperties` ([#10592](https://github.com/swc-project/swc/issues/10592)) ([39032dc](https://github.com/swc-project/swc/commit/39032dcd96bc618fcddf55d0824836c56f766eab))
-
-
-- **(swc_common)** Add `Files#is_in_file` ([#10599](https://github.com/swc-project/swc/issues/10599)) ([e6b61eb](https://github.com/swc-project/swc/commit/e6b61ebfde2b0680c3e4144e6725803b2d9d7fc8))
-
-
-- Fix bindings ([0f858fd](https://github.com/swc-project/swc/commit/0f858fd3470c5c104ab9b6ca900ea97be37c615f))
-
-## [swc_core@v27.0.0] - 2025-06-10
-
-### Bug Fixes
-
-
-
-- **(@swc/types)** Add `jsc.output.charset` ([#10567](https://github.com/swc-project/swc/issues/10567)) ([26b41e8](https://github.com/swc-project/swc/commit/26b41e86cb103fd6e9b76dcc9ed6625ef73ef9d0))
-
-
-- **(es/codegen)** Don't call `cmt.get_leading` for dummy span ([#10568](https://github.com/swc-project/swc/issues/10568)) ([16e204d](https://github.com/swc-project/swc/commit/16e204d3fa44acfea087e2e8929b7989894cf7bc))
-
-
-- **(es/parser)** Disallow spread operator(`...`) in JSX attribute values ([#10587](https://github.com/swc-project/swc/issues/10587)) ([8deba78](https://github.com/swc-project/swc/commit/8deba787bb7a210826be09ce065a7a40eef0d508))
-
-
-- **(es/typescript)** Pass `native_class_properties` ([#10561](https://github.com/swc-project/swc/issues/10561)) ([7e4cd9a](https://github.com/swc-project/swc/commit/7e4cd9ad4fcd28bc179c75020acb9a596d405efb))
-
-
-- **(es/typescript)** Handle `export declare var` in namespace ([#10579](https://github.com/swc-project/swc/issues/10579)) ([2daa17f](https://github.com/swc-project/swc/commit/2daa17f110910eae14412bbb29e8fdcf61265d13))
-
-
-- **(ts/isolated-dts)** Add edges `SymbolFlags::Value` and `SymbolFlags::Type` in exports ([#10577](https://github.com/swc-project/swc/issues/10577)) ([e6d4da2](https://github.com/swc-project/swc/commit/e6d4da219530744171ba46bfa44a06076080e7c2))
-
-### Documentation
-
-
-
-- **(contributing)** Add a script to patch local projects ([#10565](https://github.com/swc-project/swc/issues/10565)) ([3ac0a21](https://github.com/swc-project/swc/commit/3ac0a21288c780ef1267cfeba2662bc6a825b508))
-
-### Features
-
-
-
-- **(es/minifier)** Regex support for `format.comments` ([#10571](https://github.com/swc-project/swc/issues/10571)) ([e441df5](https://github.com/swc-project/swc/commit/e441df50105a99c4725277278059e9b6100a95d0))
-
-
-- **(es/module)** Add support for `import.meta.main` in AMD and CJS ([#10596](https://github.com/swc-project/swc/issues/10596)) ([759de2e](https://github.com/swc-project/swc/commit/759de2e463864d331e5528bbe60b400efb3b1f84))
-
-### Miscellaneous Tasks
-
-
-
-- **(ecosystem-ci)** Exclude `ts-node` ([2b284e1](https://github.com/swc-project/swc/commit/2b284e1930bd9aab88d74bef0f7453bf23e2ddfe))
-
-
-- **(plugin/runner)** Update `virtual-fs` to dedupe dependencies ([#10594](https://github.com/swc-project/swc/issues/10594)) ([de667bb](https://github.com/swc-project/swc/commit/de667bbc485efae5dcb2ba0bd0c29b90e66605d2))
-
-### Refactor
-
-
-
-- **(es/lexer)** Remove unnecessary result wrap ([#10578](https://github.com/swc-project/swc/issues/10578)) ([49d15df](https://github.com/swc-project/swc/commit/49d15df1b4d2f5e07d10e10c75dcbeb637b2528d))
-
-
-- **(es/parser)** Extract `parse_jsx_attrs` ([#10569](https://github.com/swc-project/swc/issues/10569)) ([6492786](https://github.com/swc-project/swc/commit/649278679eab86e6cf167c170ecb49987559e26c))
-
-
-- **(es/parser)** Remove `cur!(false)` macro ([#10583](https://github.com/swc-project/swc/issues/10583)) ([c96fa23](https://github.com/swc-project/swc/commit/c96fa238168ce6418781b6c6c14aea7de832d67c))
-
-
-- **(swc_common)** Remove `Input::find` ([#10542](https://github.com/swc-project/swc/issues/10542)) ([494cef9](https://github.com/swc-project/swc/commit/494cef9982b7b9f93601ed8c0f49978a7d260259))
-
-
-- **(swc_common)** Use `BytesStr` instead of `Lrc<String>` ([#10580](https://github.com/swc-project/swc/issues/10580)) ([6f00973](https://github.com/swc-project/swc/commit/6f00973ba08b19f09adb1bc9b9dd9558be27247a))
-
-
-- **(swc_common)** Use `swc_sourcemap` instead ([#10593](https://github.com/swc-project/swc/issues/10593)) ([8a9f609](https://github.com/swc-project/swc/commit/8a9f609061e65977b97baca95dce147fa19e92fd))
-
-### Testing
-
-
-
-- **(es/parser)** Enable jsx test ([#10566](https://github.com/swc-project/swc/issues/10566)) ([72b1efe](https://github.com/swc-project/swc/commit/72b1efeaec0931b17c9a7b0acd52be8de77d07dc))
-
-## [swc_core@v26.4.5] - 2025-06-05
-
-### Bug Fixes
-
-
-
-- **(es/codegen)** Exclude `constructor` from source map names ([#10551](https://github.com/swc-project/swc/issues/10551)) ([ef85640](https://github.com/swc-project/swc/commit/ef856402515758196f5d925bcfb8213bf0ca18fd))
-
-## [swc_core@v26.4.4] - 2025-06-04
-
-### Bug Fixes
-
-
-
-- **(es/fixer)** Fix a bug with awaited arrow fn expression ([#10555](https://github.com/swc-project/swc/issues/10555)) ([9dfdfa6](https://github.com/swc-project/swc/commit/9dfdfa62d3603586ff4279daf4e66443c024cdd6))
-
-
-- **(swc_common)** Revert skip condition patch ([#10564](https://github.com/swc-project/swc/issues/10564)) ([2a2b284](https://github.com/swc-project/swc/commit/2a2b284f2522ee1bb04033a4aa787b853617823f))
-
-## [swc_core@v26.4.3] - 2025-06-04
-
-### Bug Fixes
-
-
-
-- **(swc_common)** Fix skip condition for sourcemap, really ([#10563](https://github.com/swc-project/swc/issues/10563)) ([14feedb](https://github.com/swc-project/swc/commit/14feedb55286bbd811b4dfba26501bd1127067fe))
-
-## [swc_core@v26.4.2] - 2025-06-04
-
-### Bug Fixes
-
-
-
-- **(swc_common)** Fix skip condition for sourcemap ([#10562](https://github.com/swc-project/swc/issues/10562)) ([cbee0df](https://github.com/swc-project/swc/commit/cbee0dfa2b82ed470a387d06470e70617a6ee60a))
-
-## [swc_core@v26.4.0] - 2025-06-04
-
-### Features
-
-
-
-- **(swc_common)** Add `map_raw_pos` to `Files` ([#10560](https://github.com/swc-project/swc/issues/10560)) ([71224c3](https://github.com/swc-project/swc/commit/71224c365335e970f6dd12a47b4524da6d861bb3))
 
 <!-- generated by git-cliff -->

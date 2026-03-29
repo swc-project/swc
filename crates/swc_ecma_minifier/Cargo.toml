@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_minifier"
 repository    = { workspace = true }
-version       = "46.0.0"
+version       = "47.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -62,12 +62,12 @@ swc_ecma_ast = { version = "21.0.0", path = "../swc_ecma_ast", features = [
 ] }
 swc_ecma_codegen = { version = "24.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_hooks = { version = "0.5.0", path = "../swc_ecma_hooks" }
-swc_ecma_parser = { version = "35.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "36.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "38.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "40.0.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_usage_analyzer = { version = "29.0.0", path = "../swc_ecma_usage_analyzer" }
+swc_ecma_transforms_base = { version = "39.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "41.0.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_usage_analyzer = { version = "30.0.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "27.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "21.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }

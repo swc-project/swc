@@ -160,13 +160,13 @@ pub fn suppressions_to_compiler_error(suppression_ranges: &[SuppressionRange]) -
     for suppression in suppression_ranges {
         let (reason, suggestion) = match suppression.source {
             SuppressionSource::Eslint => (
-                "React Compiler skipped optimizing this function because one or more React ESLint \
-                 rules were disabled",
+                "React Compiler has skipped optimizing this component because one or more React \
+                 ESLint rules were disabled",
                 "Remove the ESLint suppression and address the React error",
             ),
             SuppressionSource::Flow => (
-                "React Compiler skipped optimizing this function because one or more React rule \
-                 violations were reported by Flow",
+                "React Compiler has skipped optimizing this component because one or more React \
+                 rule violations were reported by Flow",
                 "Remove the Flow suppression and address the React error",
             ),
         };

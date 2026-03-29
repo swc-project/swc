@@ -934,7 +934,7 @@
                     serialized.name
                 ]), null;
             }, /*#__PURE__*/ (0, react.forwardRef)(function(props, ref) {
-                return func(props, (0, react.useContext)(EmotionCacheContext), ref);
+                return func(props, (0, react.useContext)(EmotionCacheContext));
             })); // CONCATENATED MODULE: ./node_modules/@emotion/react/dist/emotion-react.browser.esm.js
         /***/ },
         /***/ 8679: /***/ function(module, __unused_webpack_exports, __webpack_require__) {

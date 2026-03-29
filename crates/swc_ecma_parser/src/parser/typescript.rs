@@ -168,6 +168,13 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn make_flow_component_rest_fallback_binding(&mut self, span: Span) -> Pat {
+        Pat::Ident(BindingIdent {
+            id: Ident::new_no_ctxt(atom!("component_rest"), span),
+            type_ann: None,
+        })
+    }
+
     fn flow_mark_pat_optional(&mut self, pat: &mut Pat) {
         match pat {
             Pat::Ident(binding) => {
@@ -204,11 +211,39 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         require_type_ann: bool,
         string_key_requires_as: bool,
+        allow_rest_type: bool,
     ) -> PResult<FlowComponentParam> {
         let start = self.cur_pos();
 
         if self.input_mut().eat(Token::DotDotDot) {
             let dot3_token = self.input().prev_span();
+
+            if allow_rest_type {
+                if let Some(type_ann) = self.try_parse_ts(|p| {
+                    let ty = p.in_type(Self::parse_ts_type)?;
+                    if p.input().is(Token::Comma) || p.input().is(Token::RParen) {
+                        Ok(Some(ty))
+                    } else {
+                        Ok(None)
+                    }
+                }) {
+                    let type_ann_span = type_ann.span();
+                    return Ok(FlowComponentParam::Rest {
+                        rest: RestPat {
+                            span: self.span(start),
+                            dot3_token,
+                            arg: Box::new(
+                                self.make_flow_component_rest_fallback_binding(self.span(start)),
+                            ),
+                            type_ann: Some(Box::new(TsTypeAnn {
+                                span: type_ann_span,
+                                type_ann,
+                            })),
+                        },
+                    });
+                }
+            }
+
             let mut arg = self.parse_binding_pat_or_ident(false)?;
             if self.input_mut().eat(Token::QuestionMark) {
                 self.flow_mark_pat_optional(&mut arg);
@@ -321,12 +356,17 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         require_type_ann: bool,
         string_key_requires_as: bool,
+        allow_rest_type: bool,
     ) -> PResult<Vec<FlowComponentParam>> {
         expect!(self, Token::LParen);
 
         let mut params = Vec::new();
         while !self.input().is(Token::RParen) {
-            params.push(self.parse_flow_component_param(require_type_ann, string_key_requires_as)?);
+            params.push(self.parse_flow_component_param(
+                require_type_ann,
+                string_key_requires_as,
+                allow_rest_type,
+            )?);
 
             if self.input().is(Token::RParen) {
                 break;
@@ -395,7 +435,7 @@ impl<I: Tokens> Parser<I> {
         let ident = self.parse_binding_ident(false)?.id;
 
         let type_params = self.try_parse_ts_type_params(false, true)?;
-        let component_params = self.parse_flow_component_params(declare, !declare)?;
+        let component_params = self.parse_flow_component_params(declare, !declare, declare)?;
         let params = vec![Param {
             span: self.span(start),
             decorators: Vec::new(),
@@ -457,7 +497,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_flow_component_type(&mut self, start: BytePos) -> PResult<TsType> {
         let type_params = self.try_parse_ts_type_params(false, true)?;
-        let component_params = self.parse_flow_component_params(false, false)?;
+        let component_params = self.parse_flow_component_params(false, false, true)?;
 
         if self.input().is(Token::Colon) {
             self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
@@ -2492,14 +2532,11 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().syntax().typescript());
 
-        let params = self.parse_formal_params()?;
-        let mut list = Vec::with_capacity(4);
-
-        for param in params {
-            let item = match param.pat {
+        fn pat_to_ts_fn_param<I: Tokens>(p: &mut Parser<I>, pat: Pat) -> PResult<TsFnParam> {
+            let item = match pat {
                 Pat::Ident(pat) => {
-                    if self.input().syntax().flow() && &*pat.id.sym == "static" {
-                        self.emit_err(
+                    if p.input().syntax().flow() && &*pat.id.sym == "static" {
+                        p.emit_err(
                             pat.span(),
                             SyntaxError::InvalidIdentInStrict(atom!("static")),
                         );
@@ -2511,12 +2548,102 @@ impl<I: Tokens> Parser<I> {
                 Pat::Object(pat) => TsFnParam::Object(pat),
                 Pat::Rest(pat) => TsFnParam::Rest(pat),
                 _ => unexpected!(
-                    self,
+                    p,
                     "an identifier, [ for an array pattern, { for an object patter or ... for a \
                      rest pattern"
                 ),
             };
-            list.push(item);
+
+            Ok(item)
+        }
+
+        if self.input().syntax().flow() && self.ctx().contains(Context::InType) {
+            let mut list = Vec::with_capacity(4);
+            let mut rest_span = Span::default();
+
+            while !self.input().is(Token::RParen) {
+                if !rest_span.is_dummy() {
+                    self.emit_err(rest_span, SyntaxError::TS1014);
+                }
+
+                if let Some(param) =
+                    self.try_parse_ts(|p| p.try_parse_flow_anon_signature_param(list.len()))
+                {
+                    if matches!(param, TsFnParam::Rest(..)) {
+                        rest_span = param.span();
+                    }
+                    list.push(param);
+                } else {
+                    let pat_start = self.cur_pos();
+                    let pat = if self.input_mut().eat(Token::DotDotDot) {
+                        let dot3_token = self.span(pat_start);
+
+                        let mut pat = self.parse_binding_pat_or_ident(false)?;
+
+                        if self.input_mut().eat(Token::Eq) {
+                            let right = self.parse_assignment_expr()?;
+                            self.emit_err(pat.span(), SyntaxError::TS1048);
+                            pat = AssignPat {
+                                span: self.span(pat_start),
+                                left: Box::new(pat),
+                                right,
+                            }
+                            .into();
+                        }
+
+                        let type_ann = if self.input().syntax().typescript()
+                            && self.input().is(Token::Colon)
+                        {
+                            let cur_pos = self.cur_pos();
+                            Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
+                        } else {
+                            None
+                        };
+
+                        let pat: Pat = RestPat {
+                            span: self.span(pat_start),
+                            dot3_token,
+                            arg: Box::new(pat),
+                            type_ann,
+                        }
+                        .into();
+
+                        if self.syntax().typescript() && self.input_mut().eat(Token::QuestionMark) {
+                            self.emit_err(self.input().prev_span(), SyntaxError::TS1047);
+                        }
+
+                        rest_span = pat.span();
+                        pat
+                    } else {
+                        self.parse_formal_param_pat()?
+                    };
+
+                    let is_rest = matches!(pat, Pat::Rest(..));
+                    let item = pat_to_ts_fn_param(self, pat)?;
+                    list.push(item);
+
+                    if is_rest && !self.input().is(Token::RParen) {
+                        rest_span = list.last().expect("rest param").span();
+                    }
+                }
+
+                if !self.input().is(Token::RParen) {
+                    expect!(self, Token::Comma);
+                    if !rest_span.is_dummy() && self.input().is(Token::RParen) {
+                        self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
+                    }
+                }
+            }
+
+            expect!(self, Token::RParen);
+            return Ok(list);
+        }
+
+        let params = self.parse_formal_params()?;
+        let mut list = Vec::with_capacity(4);
+
+        for param in params {
+            list.push(pat_to_ts_fn_param(self, param.pat)?);
         }
         expect!(self, Token::RParen);
         Ok(list)
@@ -2819,7 +2946,11 @@ impl<I: Tokens> Parser<I> {
         }
 
         let type_ann = self.try_parse_ts_type()?;
-        self.expect_general_semi()?;
+
+        if !(self.input().syntax().flow() && self.input_mut().eat(Token::Comma)) {
+            self.expect_general_semi()?;
+        }
+
         expect!(self, Token::RBrace);
 
         Ok(TsMappedType {
@@ -3002,6 +3133,88 @@ impl<I: Tokens> Parser<I> {
         } else {
             TsFnParam::Ident(ident)
         }
+    }
+
+    fn flow_starts_like_anon_signature_param_type(&mut self) -> bool {
+        let cur = self.input().cur();
+
+        if matches!(
+            cur,
+            Token::LParen
+                | Token::LBrace
+                | Token::LBracket
+                | Token::QuestionMark
+                | Token::Asterisk
+                | Token::Minus
+                | Token::Str
+                | Token::Num
+                | Token::BigInt
+                | Token::True
+                | Token::False
+                | Token::BackQuote
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::TemplateHead
+                | Token::Import
+                | Token::This
+                | Token::TypeOf
+                | Token::Void
+                | Token::Null
+                | Token::Any
+                | Token::Boolean
+                | Token::Bigint
+                | Token::Never
+                | Token::Number
+                | Token::Object
+                | Token::String
+                | Token::Symbol
+                | Token::Unknown
+                | Token::Undefined
+                | Token::Intrinsic
+                | Token::Readonly
+                | Token::Keyof
+                | Token::Unique
+                | Token::Infer
+        ) {
+            return true;
+        }
+
+        if cur == Token::Interface {
+            return peek!(self).is_some_and(|peek| peek == Token::LBrace);
+        }
+
+        cur.is_word() && peek!(self).is_some_and(|peek| peek == Token::Lt || peek == Token::LShift)
+    }
+
+    fn try_parse_flow_anon_signature_param(&mut self, index: usize) -> PResult<Option<TsFnParam>> {
+        if !self.input().syntax().flow() || !self.ctx().contains(Context::InType) {
+            return Ok(None);
+        }
+
+        let start = self.cur_pos();
+        let dot3_token = if self.input_mut().eat(Token::DotDotDot) {
+            Some(self.input().prev_span())
+        } else {
+            None
+        };
+
+        if !self.flow_starts_like_anon_signature_param_type() {
+            return Ok(None);
+        }
+
+        let ty = self.parse_ts_type()?;
+        if matches!(
+            self.input().cur(),
+            Token::Colon | Token::QuestionMark | Token::Eq
+        ) {
+            return Ok(None);
+        }
+        if !(self.input().is(Token::Comma) || self.input().is(Token::RParen)) {
+            return Ok(None);
+        }
+
+        Ok(Some(
+            self.make_flow_anon_fn_param(start, index, dot3_token, ty),
+        ))
     }
 
     fn try_parse_flow_anon_fn_type(&mut self) -> PResult<Option<TsFnType>> {
@@ -3363,7 +3576,28 @@ impl<I: Tokens> Parser<I> {
     ///
     /// Returns `(computed, key)`.
     fn parse_ts_property_name(&mut self) -> PResult<(bool, Box<Expr>)> {
-        let (computed, key) = if self.input_mut().eat(Token::LBracket) {
+        let (computed, key) = if self.input().syntax().flow()
+            && self.input().is(Token::At)
+            && peek!(self).is_some_and(|peek| peek == Token::At)
+        {
+            let start = self.cur_pos();
+            self.assert_and_bump(Token::At);
+            self.assert_and_bump(Token::At);
+
+            if !self.input().cur().is_word() {
+                unexpected!(self, "identifier");
+            }
+            let key = self.input_mut().expect_word_token_and_bump();
+
+            (
+                false,
+                Box::new(Expr::Lit(Lit::Str(Str {
+                    span: self.span(start),
+                    value: format!("@@{key}").into(),
+                    raw: None,
+                }))),
+            )
+        } else if self.input_mut().eat(Token::LBracket) {
             let key = self.parse_assignment_expr()?;
             expect!(self, Token::RBracket);
             (true, key)
@@ -4192,7 +4426,31 @@ impl<I: Tokens> Parser<I> {
             self.bump();
 
             // Flow's nullable type (`?T`) is represented as `T | null | undefined`.
-            let inner_type = self.parse_ts_non_array_type()?;
+            // Only use the non-conditional parser for actual function forms
+            // (`?() =>`, `?(x: T) =>`, `?(...A) =>`) so non-function grouped
+            // types keep their original precedence (`?(T)[]` etc.).
+            let is_nullable_fn_type = self.input().is(Token::LParen)
+                && self.ts_look_ahead(|p| {
+                    p.try_parse_ts(|p| {
+                        let ty = p.parse_ts_non_conditional_type()?;
+
+                        if matches!(
+                            &*ty,
+                            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(..))
+                        ) {
+                            Ok(Some(()))
+                        } else {
+                            Ok(None)
+                        }
+                    })
+                    .is_some()
+                });
+
+            let inner_type = if is_nullable_fn_type {
+                self.parse_ts_non_conditional_type()?
+            } else {
+                self.parse_ts_non_array_type()?
+            };
             let span = self.span(start);
 
             let null_type = Box::new(TsType::TsKeywordType(TsKeywordType {

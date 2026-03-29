@@ -1,6 +1,6 @@
 {
     "name": "@swc/types",
-    "version": "0.1.25",
+    "version": "0.1.26",
     "description": "Typings for the swc project.",
     "types": "./index.d.ts",
     "sideEffects": false,

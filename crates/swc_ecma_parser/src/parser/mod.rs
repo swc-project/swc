@@ -769,6 +769,21 @@ impl<I: Tokens> Parser<I> {
                     value,
                     raw: Some(Atom::new(raw)),
                 })
+            } else if p.syntax().flow()
+                && cur == Token::At
+                && peek!(p).is_some_and(|peek| peek == Token::At)
+            {
+                p.assert_and_bump(Token::At);
+                p.assert_and_bump(Token::At);
+                if !p.input().cur().is_word() {
+                    unexpected!(p, "identifier");
+                }
+                let key = p.input_mut().expect_word_token_and_bump();
+                PropName::Str(Str {
+                    span: p.span(start),
+                    value: format!("@@{key}").into(),
+                    raw: None,
+                })
             } else if cur.is_word() {
                 let w = p.input_mut().expect_word_token_and_bump();
                 PropName::Ident(IdentName::new(w, p.span(start)))

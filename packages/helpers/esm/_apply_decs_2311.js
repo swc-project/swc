@@ -24,10 +24,7 @@ function toPropertyKey(arg) {
 
 function checkInRHS(value) {
     if (Object(value) !== value) {
-        throw TypeError(
-            "right-hand side of 'in' should be an object, got " +
-                (value !== null ? typeof value : "null")
-        );
+        throw TypeError("right-hand side of 'in' should be an object, got " + (value !== null ? typeof value : "null"));
     }
 
     return value;
@@ -40,10 +37,7 @@ function setFunctionName(fn, name, prefix) {
     }
 
     try {
-        Object.defineProperty(fn, "name", {
-            configurable: true,
-            value: prefix ? prefix + " " + name : name,
-        });
+        Object.defineProperty(fn, "name", { configurable: true, value: prefix ? prefix + " " + name : name });
     } catch (_) {}
 
     return fn;
@@ -62,14 +56,7 @@ function setFunctionName(fn, name, prefix) {
   STATIC = 8
   DECORATORS_HAVE_THIS = 16
 */
-function _apply_decs_2311(
-    targetClass,
-    classDecs,
-    memberDecs,
-    classDecsHaveThis,
-    instanceBrand,
-    parentClass
-) {
+function _apply_decs_2311(targetClass, classDecs, memberDecs, classDecsHaveThis, instanceBrand, parentClass) {
     var symbolMetadata = Symbol.metadata || Symbol.for("Symbol.metadata");
     var defineProperty = Object.defineProperty;
     var create = Object.create;
@@ -79,15 +66,13 @@ function _apply_decs_2311(
     var _;
 
     function createRunInitializers(initializers, useStaticThis, hasValue) {
-        return function (thisArg, value) {
+        return function(thisArg, value) {
             if (useStaticThis) {
                 value = thisArg;
                 thisArg = targetClass;
             }
 
-            for (var i = 0; i < initializers.length; i++) {
-                value = initializers[i].apply(thisArg, hasValue ? [value] : []);
-            }
+            for (var i = 0; i < initializers.length; i++) value = initializers[i].apply(thisArg, hasValue ? [value] : []);
 
             return hasValue ? value : thisArg;
         };
@@ -96,37 +81,17 @@ function _apply_decs_2311(
     function assertCallable(fn, hint1, hint2, throwUndefined) {
         if (typeof fn !== "function") {
             if (throwUndefined || fn !== void 0) {
-                throw new TypeError(
-                    hint1 +
-                        " must " +
-                        (hint2 || "be") +
-                        " a function" +
-                        (throwUndefined ? "" : " or undefined")
-                );
+                throw new TypeError(hint1 + " must " + (hint2 || "be") + " a function" + (throwUndefined ? "" : " or undefined"));
             }
         }
 
         return fn;
     }
 
-    function applyDec(
-        Class,
-        decInfo,
-        decoratorsHaveThis,
-        name,
-        kind,
-        initializers,
-        ret,
-        isStatic,
-        isPrivate,
-        isField,
-        hasPrivateBrand
-    ) {
+    function applyDec(Class, decInfo, decoratorsHaveThis, name, kind, initializers, ret, isStatic, isPrivate, isField, hasPrivateBrand) {
         function assertInstanceIfPrivate(target) {
             if (!hasPrivateBrand(target)) {
-                throw new TypeError(
-                    "Attempted to access private element on non-instance"
-                );
+                throw new TypeError("Attempted to access private element on non-instance");
             }
         }
 
@@ -140,7 +105,7 @@ function _apply_decs_2311(
         var isMethod = kind === 2;
 
         function bindPropCall(name, useStaticThis, before) {
-            return function (_this, value) {
+            return function(_this, value) {
                 if (useStaticThis) {
                     value = _this;
                     _this = Class;
@@ -163,15 +128,15 @@ function _apply_decs_2311(
                 if (isField || isAccessor) {
                     desc = {
                         get: setFunctionName(
-                            function () {
+                            function() {
                                 return decVal(this);
                             },
                             name,
                             "get"
                         ),
-                        set: function (value) {
+                        set: function(value) {
                             decInfo[4](this, value);
-                        },
+                        }
                     };
                 } else {
                     desc[key] = decVal;
@@ -187,11 +152,7 @@ function _apply_decs_2311(
             if (!isField && !isPrivate) {
                 _ = existingNonFields[+isStatic][name];
                 if (_ && (_ ^ kind) !== 7) {
-                    throw new Error(
-                        "Decorating two elements with the same name (" +
-                            desc[key].name +
-                            ") is not supported yet"
-                    );
+                    throw new Error("Decorating two elements with the same name (" + desc[key].name + ") is not supported yet");
                 }
 
                 existingNonFields[+isStatic][name] = kind < 3 ? 1 : kind;
@@ -209,15 +170,14 @@ function _apply_decs_2311(
                 kind: ["field", "accessor", "method", "getter", "setter", "class"][kind],
                 name: name,
                 metadata: metadata,
-                addInitializer: function (decoratorFinishedRef, initializer) {
+                addInitializer: function(decoratorFinishedRef, initializer) {
                     if (decoratorFinishedRef.v) {
-                        throw new TypeError(
-                            "attempted to call addInitializer after decoration was finished"
-                        );
+                        throw new TypeError("attempted to call addInitializer after decoration was finished");
                     }
                     assertCallable(initializer, "An initializer", "be", true);
                     initializers.push(initializer);
-                }.bind(null, decoratorFinishedRef),
+                }
+                    .bind(null, decoratorFinishedRef)
             };
 
             if (isClass) {
@@ -233,44 +193,31 @@ function _apply_decs_2311(
             ctx.static = isStatic;
             ctx.private = isPrivate;
             _ = ctx.access = {
-                has: isPrivate
-                    ? hasPrivateBrand.bind()
-                    : function (target) {
-                          return name in target;
-                      },
+                has: isPrivate ? hasPrivateBrand.bind() : function(target) {
+                    return name in target;
+                }
             };
 
             if (!isSetter) {
                 _.get = isPrivate
                     ? isMethod
-                        ? function (_this) {
-                              assertInstanceIfPrivate(_this);
-                              return desc.value;
-                          }
+                        ? function(_this) {
+                            assertInstanceIfPrivate(_this);
+                            return desc.value;
+                        }
                         : bindPropCall("get", 0, assertInstanceIfPrivate)
-                    : function (target) {
-                          return target[name];
-                      };
+                    : function(target) {
+                        return target[name];
+                    };
             }
 
             if (!isMethod && !isGetter) {
-                _.set = isPrivate
-                    ? bindPropCall("set", 0, assertInstanceIfPrivate)
-                    : function (target, value) {
-                          target[name] = value;
-                      };
+                _.set = isPrivate ? bindPropCall("set", 0, assertInstanceIfPrivate) : function(target, value) {
+                    target[name] = value;
+                };
             }
 
-            newValue = dec.call(
-                decThis,
-                isAccessor
-                    ? {
-                          get: desc.get,
-                          set: desc.set,
-                      }
-                    : desc[key],
-                ctx
-            );
+            newValue = dec.call(decThis, isAccessor ? { get: desc.get, set: desc.set } : desc[key], ctx);
 
             decoratorFinishedRef.v = 1;
 
@@ -286,17 +233,9 @@ function _apply_decs_2311(
                         init.unshift(_);
                     }
                 } else if (newValue !== void 0) {
-                    throw new TypeError(
-                        "accessor decorators must return an object with get, set, or init properties or undefined"
-                    );
+                    throw new TypeError("accessor decorators must return an object with get, set, or init properties or undefined");
                 }
-            } else if (
-                assertCallable(
-                    newValue,
-                    (isField ? "field" : "method") + " decorators",
-                    "return"
-                )
-            ) {
+            } else if (assertCallable(newValue, (isField ? "field" : "method") + " decorators", "return")) {
                 if (isField) {
                     init.unshift(newValue);
                 } else {
@@ -306,21 +245,13 @@ function _apply_decs_2311(
         }
 
         if (kind < 2) {
-            ret.push(
-                createRunInitializers(init, isStatic, 1),
-                createRunInitializers(initializers, isStatic, 0)
-            );
+            ret.push(createRunInitializers(init, isStatic, 1), createRunInitializers(initializers, isStatic, 0));
         }
 
         if (!isField && !isClass) {
             if (isPrivate) {
                 if (isAccessor) {
-                    ret.splice(
-                        -1,
-                        0,
-                        bindPropCall("get", isStatic),
-                        bindPropCall("set", isStatic)
-                    );
+                    ret.splice(-1, 0, bindPropCall("get", isStatic), bindPropCall("set", isStatic));
                 } else {
                     ret.push(isMethod ? desc[key] : assertCallable.call.bind(desc[key]));
                 }
@@ -337,13 +268,13 @@ function _apply_decs_2311(
         var protoInitializers;
         var staticInitializers;
 
-        var pushInitializers = function (initializers) {
+        var pushInitializers = function(initializers) {
             if (initializers) {
                 ret.push(createRunInitializers(initializers));
             }
         };
 
-        var applyMemberDecsOfKind = function (isStatic, isField) {
+        var applyMemberDecsOfKind = function(isStatic, isField) {
             for (var i = 0; i < memberDecs.length; i++) {
                 var decInfo = memberDecs[i];
                 var kind = decInfo[1];
@@ -360,19 +291,15 @@ function _apply_decs_2311(
                         decoratorsHaveThis,
                         isPrivate ? "#" + name : toPropertyKey(name),
                         kindOnly,
-                        kindOnly < 2
-                            ? []
-                            : isStatic
-                              ? (staticInitializers = staticInitializers || [])
-                              : (protoInitializers = protoInitializers || []),
+                        kindOnly < 2 ? [] : isStatic ? (staticInitializers = staticInitializers || []) : (protoInitializers = protoInitializers || []),
                         ret,
                         !!isStatic,
                         isPrivate,
                         isField,
                         isStatic && isPrivate
-                            ? function (_) {
-                                  return checkInRHS(_) === targetClass;
-                              }
+                            ? function(_) {
+                                return checkInRHS(_) === targetClass;
+                            }
                             : instanceBrand
                     );
                 }
@@ -391,11 +318,7 @@ function _apply_decs_2311(
     }
 
     function defineMetadata(Class) {
-        return defineProperty(Class, symbolMetadata, {
-            configurable: true,
-            enumerable: true,
-            value: metadata,
-        });
+        return defineProperty(Class, symbolMetadata, { configurable: true, enumerable: true, value: metadata });
     }
 
     if (parentClass !== undefined) {
@@ -413,22 +336,8 @@ function _apply_decs_2311(
         e: _,
         get c() {
             var initializers = [];
-            return (
-                hasClassDecs && [
-                    defineMetadata(
-                        (targetClass = applyDec(
-                            targetClass,
-                            [classDecs],
-                            classDecsHaveThis,
-                            targetClass.name,
-                            5,
-                            initializers
-                        ))
-                    ),
-                    createRunInitializers(initializers, 1),
-                ]
-            );
-        },
+            return (hasClassDecs && [defineMetadata(targetClass = applyDec(targetClass, [classDecs], classDecsHaveThis, targetClass.name, 5, initializers)), createRunInitializers(initializers, 1)]);
+        }
     };
 }
 
