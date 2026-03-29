@@ -4686,11 +4686,22 @@ fn inline_use_memo_effect_stmt(stmt: &Stmt) -> Option<Vec<Stmt>> {
 
     match unwrap_transparent_expr(&factory.expr) {
         Expr::Arrow(arrow) => {
+            if arrow.is_async || arrow.is_generator {
+                return None;
+            }
             if !arrow.params.is_empty() {
                 return None;
             }
             match &*arrow.body {
-                swc_ecma_ast::BlockStmtOrExpr::BlockStmt(block) => Some(block.stmts.clone()),
+                swc_ecma_ast::BlockStmtOrExpr::BlockStmt(block) => {
+                    if let Some(inlined) = inline_single_return_use_memo_callback_block(block) {
+                        return Some(inlined);
+                    }
+                    if !use_memo_callback_block_is_safe_to_inline(block) {
+                        return None;
+                    }
+                    Some(block.stmts.clone())
+                }
                 swc_ecma_ast::BlockStmtOrExpr::Expr(expr) => Some(vec![Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: expr.clone(),
@@ -4699,13 +4710,71 @@ fn inline_use_memo_effect_stmt(stmt: &Stmt) -> Option<Vec<Stmt>> {
         }
         Expr::Fn(function) => {
             let function = &function.function;
-            if !function.params.is_empty() {
+            if function.is_async || function.is_generator || !function.params.is_empty() {
                 return None;
             }
-            function.body.as_ref().map(|body| body.stmts.clone())
+            let body = function.body.as_ref()?;
+            if let Some(inlined) = inline_single_return_use_memo_callback_block(body) {
+                return Some(inlined);
+            }
+            if !use_memo_callback_block_is_safe_to_inline(body) {
+                return None;
+            }
+            Some(body.stmts.clone())
         }
         _ => None,
     }
+}
+
+fn inline_single_return_use_memo_callback_block(block: &BlockStmt) -> Option<Vec<Stmt>> {
+    let [Stmt::Return(return_stmt)] = block.stmts.as_slice() else {
+        return None;
+    };
+
+    let Some(arg) = &return_stmt.arg else {
+        return Some(Vec::new());
+    };
+    Some(vec![Stmt::Expr(ExprStmt {
+        span: DUMMY_SP,
+        expr: arg.clone(),
+    })])
+}
+
+fn use_memo_callback_block_is_safe_to_inline(block: &BlockStmt) -> bool {
+    #[derive(Default)]
+    struct Finder {
+        has_unsafe_control_flow: bool,
+    }
+
+    impl Visit for Finder {
+        fn visit_function(&mut self, _: &Function) {
+            // Nested functions retain their own control flow semantics.
+        }
+
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Nested functions retain their own control flow semantics.
+        }
+
+        fn visit_return_stmt(&mut self, _: &swc_ecma_ast::ReturnStmt) {
+            self.has_unsafe_control_flow = true;
+        }
+
+        fn visit_throw_stmt(&mut self, _: &swc_ecma_ast::ThrowStmt) {
+            self.has_unsafe_control_flow = true;
+        }
+
+        fn visit_break_stmt(&mut self, _: &swc_ecma_ast::BreakStmt) {
+            self.has_unsafe_control_flow = true;
+        }
+
+        fn visit_continue_stmt(&mut self, _: &swc_ecma_ast::ContinueStmt) {
+            self.has_unsafe_control_flow = true;
+        }
+    }
+
+    let mut finder = Finder::default();
+    block.visit_with(&mut finder);
+    !finder.has_unsafe_control_flow
 }
 
 fn rewrite_terminal_return_reactive_hook_calls_to_decl(
