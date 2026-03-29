@@ -9476,6 +9476,453 @@ fn collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
     known_bindings: &HashMap<String, bool>,
     local_bindings: &HashSet<String>,
 ) -> HashSet<String> {
+    fn collect_branch_member_keys_from_stmt(
+        stmt: &Stmt,
+        known_bindings: &HashMap<String, bool>,
+        local_bindings: &HashSet<String>,
+    ) -> (HashSet<String>, HashSet<String>) {
+        struct BranchCollector<'a> {
+            known_bindings: &'a HashMap<String, bool>,
+            local_bindings: &'a HashSet<String>,
+            optional_chain_depth: usize,
+            conditional_depth: usize,
+            guaranteed: HashSet<String>,
+            conditional: HashSet<String>,
+        }
+
+        impl Visit for BranchCollector<'_> {
+            fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+                // Skip nested functions.
+            }
+
+            fn visit_function(&mut self, _: &Function) {
+                // Skip nested functions.
+            }
+
+            fn visit_member_expr(&mut self, member: &MemberExpr) {
+                if self.optional_chain_depth == 0 {
+                    if let Some(dep) =
+                        member_dependency(member, self.known_bindings, self.local_bindings)
+                    {
+                        if self.conditional_depth == 0 {
+                            self.guaranteed.insert(dep.key);
+                        } else {
+                            self.conditional.insert(dep.key);
+                        }
+                        return;
+                    }
+                }
+
+                member.visit_children_with(self);
+            }
+
+            fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+                self.optional_chain_depth += 1;
+                expr.visit_children_with(self);
+                self.optional_chain_depth -= 1;
+            }
+
+            fn visit_if_stmt(&mut self, if_stmt: &IfStmt) {
+                if_stmt.test.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let mut cons_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                if_stmt.cons.visit_with(&mut cons_collector);
+                let cons_guaranteed = cons_collector.guaranteed;
+                let mut cons_maybe = cons_guaranteed.clone();
+                cons_maybe.extend(cons_collector.conditional);
+
+                if let Some(alt) = &if_stmt.alt {
+                    let mut alt_collector = BranchCollector {
+                        known_bindings: self.known_bindings,
+                        local_bindings: self.local_bindings,
+                        optional_chain_depth: self.optional_chain_depth,
+                        conditional_depth: base_depth,
+                        guaranteed: HashSet::new(),
+                        conditional: HashSet::new(),
+                    };
+                    alt.visit_with(&mut alt_collector);
+                    let alt_guaranteed = alt_collector.guaranteed;
+                    let mut alt_maybe = alt_guaranteed.clone();
+                    alt_maybe.extend(alt_collector.conditional);
+
+                    let shared_guaranteed = cons_guaranteed
+                        .intersection(&alt_guaranteed)
+                        .cloned()
+                        .collect::<HashSet<_>>();
+                    for key in &shared_guaranteed {
+                        if base_depth == 0 {
+                            self.guaranteed.insert(key.clone());
+                        } else {
+                            self.conditional.insert(key.clone());
+                        }
+                    }
+
+                    cons_maybe.extend(alt_maybe);
+                    for key in cons_maybe {
+                        if !shared_guaranteed.contains(&key) {
+                            self.conditional.insert(key);
+                        }
+                    }
+                } else {
+                    for key in cons_maybe {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_cond_expr(&mut self, cond: &swc_ecma_ast::CondExpr) {
+                cond.test.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let mut cons_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                cond.cons.visit_with(&mut cons_collector);
+                let cons_guaranteed = cons_collector.guaranteed;
+                let mut cons_maybe = cons_guaranteed.clone();
+                cons_maybe.extend(cons_collector.conditional);
+
+                let mut alt_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                cond.alt.visit_with(&mut alt_collector);
+                let alt_guaranteed = alt_collector.guaranteed;
+                let mut alt_maybe = alt_guaranteed.clone();
+                alt_maybe.extend(alt_collector.conditional);
+
+                let shared_guaranteed = cons_guaranteed
+                    .intersection(&alt_guaranteed)
+                    .cloned()
+                    .collect::<HashSet<_>>();
+                for key in &shared_guaranteed {
+                    if base_depth == 0 {
+                        self.guaranteed.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                cons_maybe.extend(alt_maybe);
+                for key in cons_maybe {
+                    if !shared_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_switch_stmt(&mut self, switch_stmt: &swc_ecma_ast::SwitchStmt) {
+                switch_stmt.discriminant.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let (switch_guaranteed, switch_maybe) = collect_switch_member_keys(
+                    switch_stmt,
+                    self.known_bindings,
+                    self.local_bindings,
+                );
+
+                for key in &switch_guaranteed {
+                    if base_depth == 0 {
+                        self.guaranteed.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                for key in switch_maybe {
+                    if !switch_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_bin_expr(&mut self, bin: &swc_ecma_ast::BinExpr) {
+                bin.left.visit_with(self);
+                if matches!(bin.op, op!("&&") | op!("||") | op!("??")) {
+                    self.conditional_depth += 1;
+                    bin.right.visit_with(self);
+                    self.conditional_depth -= 1;
+                } else {
+                    bin.right.visit_with(self);
+                }
+            }
+        }
+
+        let mut collector = BranchCollector {
+            known_bindings,
+            local_bindings,
+            optional_chain_depth: 0,
+            conditional_depth: 0,
+            guaranteed: HashSet::new(),
+            conditional: HashSet::new(),
+        };
+        stmt.visit_with(&mut collector);
+
+        let mut maybe = collector.guaranteed.clone();
+        maybe.extend(collector.conditional);
+        (collector.guaranteed, maybe)
+    }
+
+    fn collect_branch_member_keys_from_expr(
+        expr: &Expr,
+        known_bindings: &HashMap<String, bool>,
+        local_bindings: &HashSet<String>,
+    ) -> (HashSet<String>, HashSet<String>) {
+        struct BranchCollector<'a> {
+            known_bindings: &'a HashMap<String, bool>,
+            local_bindings: &'a HashSet<String>,
+            optional_chain_depth: usize,
+            conditional_depth: usize,
+            guaranteed: HashSet<String>,
+            conditional: HashSet<String>,
+        }
+
+        impl Visit for BranchCollector<'_> {
+            fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+                // Skip nested functions.
+            }
+
+            fn visit_function(&mut self, _: &Function) {
+                // Skip nested functions.
+            }
+
+            fn visit_member_expr(&mut self, member: &MemberExpr) {
+                if self.optional_chain_depth == 0 {
+                    if let Some(dep) =
+                        member_dependency(member, self.known_bindings, self.local_bindings)
+                    {
+                        if self.conditional_depth == 0 {
+                            self.guaranteed.insert(dep.key);
+                        } else {
+                            self.conditional.insert(dep.key);
+                        }
+                        return;
+                    }
+                }
+
+                member.visit_children_with(self);
+            }
+
+            fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+                self.optional_chain_depth += 1;
+                expr.visit_children_with(self);
+                self.optional_chain_depth -= 1;
+            }
+
+            fn visit_if_stmt(&mut self, if_stmt: &IfStmt) {
+                if_stmt.test.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let mut cons_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                if_stmt.cons.visit_with(&mut cons_collector);
+                let cons_guaranteed = cons_collector.guaranteed;
+                let mut cons_maybe = cons_guaranteed.clone();
+                cons_maybe.extend(cons_collector.conditional);
+
+                if let Some(alt) = &if_stmt.alt {
+                    let mut alt_collector = BranchCollector {
+                        known_bindings: self.known_bindings,
+                        local_bindings: self.local_bindings,
+                        optional_chain_depth: self.optional_chain_depth,
+                        conditional_depth: base_depth,
+                        guaranteed: HashSet::new(),
+                        conditional: HashSet::new(),
+                    };
+                    alt.visit_with(&mut alt_collector);
+                    let alt_guaranteed = alt_collector.guaranteed;
+                    let mut alt_maybe = alt_guaranteed.clone();
+                    alt_maybe.extend(alt_collector.conditional);
+
+                    let shared_guaranteed = cons_guaranteed
+                        .intersection(&alt_guaranteed)
+                        .cloned()
+                        .collect::<HashSet<_>>();
+                    for key in &shared_guaranteed {
+                        if base_depth == 0 {
+                            self.guaranteed.insert(key.clone());
+                        } else {
+                            self.conditional.insert(key.clone());
+                        }
+                    }
+
+                    cons_maybe.extend(alt_maybe);
+                    for key in cons_maybe {
+                        if !shared_guaranteed.contains(&key) {
+                            self.conditional.insert(key);
+                        }
+                    }
+                } else {
+                    for key in cons_maybe {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_cond_expr(&mut self, cond: &swc_ecma_ast::CondExpr) {
+                cond.test.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let mut cons_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                cond.cons.visit_with(&mut cons_collector);
+                let cons_guaranteed = cons_collector.guaranteed;
+                let mut cons_maybe = cons_guaranteed.clone();
+                cons_maybe.extend(cons_collector.conditional);
+
+                let mut alt_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                cond.alt.visit_with(&mut alt_collector);
+                let alt_guaranteed = alt_collector.guaranteed;
+                let mut alt_maybe = alt_guaranteed.clone();
+                alt_maybe.extend(alt_collector.conditional);
+
+                let shared_guaranteed = cons_guaranteed
+                    .intersection(&alt_guaranteed)
+                    .cloned()
+                    .collect::<HashSet<_>>();
+                for key in &shared_guaranteed {
+                    if base_depth == 0 {
+                        self.guaranteed.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                cons_maybe.extend(alt_maybe);
+                for key in cons_maybe {
+                    if !shared_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_switch_stmt(&mut self, switch_stmt: &swc_ecma_ast::SwitchStmt) {
+                switch_stmt.discriminant.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let (switch_guaranteed, switch_maybe) = collect_switch_member_keys(
+                    switch_stmt,
+                    self.known_bindings,
+                    self.local_bindings,
+                );
+
+                for key in &switch_guaranteed {
+                    if base_depth == 0 {
+                        self.guaranteed.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                for key in switch_maybe {
+                    if !switch_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_bin_expr(&mut self, bin: &swc_ecma_ast::BinExpr) {
+                bin.left.visit_with(self);
+                if matches!(bin.op, op!("&&") | op!("||") | op!("??")) {
+                    self.conditional_depth += 1;
+                    bin.right.visit_with(self);
+                    self.conditional_depth -= 1;
+                } else {
+                    bin.right.visit_with(self);
+                }
+            }
+        }
+
+        let mut collector = BranchCollector {
+            known_bindings,
+            local_bindings,
+            optional_chain_depth: 0,
+            conditional_depth: 0,
+            guaranteed: HashSet::new(),
+            conditional: HashSet::new(),
+        };
+        expr.visit_with(&mut collector);
+
+        let mut maybe = collector.guaranteed.clone();
+        maybe.extend(collector.conditional);
+        (collector.guaranteed, maybe)
+    }
+
+    fn collect_switch_member_keys(
+        switch_stmt: &swc_ecma_ast::SwitchStmt,
+        known_bindings: &HashMap<String, bool>,
+        local_bindings: &HashSet<String>,
+    ) -> (HashSet<String>, HashSet<String>) {
+        let has_default_case = switch_stmt.cases.iter().any(|case| case.test.is_none());
+        let mut maybe_union = HashSet::new();
+        let mut guaranteed_intersection = if has_default_case {
+            None::<HashSet<String>>
+        } else {
+            Some(HashSet::new())
+        };
+
+        for case in &switch_stmt.cases {
+            let case_block = Stmt::Block(BlockStmt {
+                span: DUMMY_SP,
+                ctxt: Default::default(),
+                stmts: case.cons.clone(),
+            });
+            let (case_guaranteed, case_maybe) =
+                collect_branch_member_keys_from_stmt(&case_block, known_bindings, local_bindings);
+
+            maybe_union.extend(case_maybe);
+            if has_default_case {
+                guaranteed_intersection = Some(match guaranteed_intersection.take() {
+                    Some(existing) => existing
+                        .intersection(&case_guaranteed)
+                        .cloned()
+                        .collect::<HashSet<_>>(),
+                    None => case_guaranteed,
+                });
+            }
+        }
+
+        let guaranteed = guaranteed_intersection.unwrap_or_default();
+        maybe_union.extend(guaranteed.iter().cloned());
+        (guaranteed, maybe_union)
+    }
+
     struct Collector<'a> {
         known_bindings: &'a HashMap<String, bool>,
         local_bindings: &'a HashSet<String>,
@@ -9520,21 +9967,97 @@ fn collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
         fn visit_if_stmt(&mut self, if_stmt: &IfStmt) {
             if_stmt.test.visit_with(self);
 
-            self.conditional_depth += 1;
-            if_stmt.cons.visit_with(self);
+            let (cons_guaranteed, cons_maybe) = collect_branch_member_keys_from_stmt(
+                if_stmt.cons.as_ref(),
+                self.known_bindings,
+                self.local_bindings,
+            );
             if let Some(alt) = &if_stmt.alt {
-                alt.visit_with(self);
+                let (alt_guaranteed, alt_maybe) = collect_branch_member_keys_from_stmt(
+                    alt.as_ref(),
+                    self.known_bindings,
+                    self.local_bindings,
+                );
+
+                let shared_guaranteed = cons_guaranteed
+                    .intersection(&alt_guaranteed)
+                    .cloned()
+                    .collect::<HashSet<_>>();
+                for key in &shared_guaranteed {
+                    if self.conditional_depth == 0 {
+                        self.unconditional.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                let mut maybe_union = cons_maybe;
+                maybe_union.extend(alt_maybe);
+                for key in maybe_union {
+                    if !shared_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            } else {
+                for key in cons_maybe {
+                    self.conditional.insert(key);
+                }
             }
-            self.conditional_depth -= 1;
         }
 
         fn visit_cond_expr(&mut self, cond: &swc_ecma_ast::CondExpr) {
             cond.test.visit_with(self);
 
-            self.conditional_depth += 1;
-            cond.cons.visit_with(self);
-            cond.alt.visit_with(self);
-            self.conditional_depth -= 1;
+            let (cons_guaranteed, cons_maybe) = collect_branch_member_keys_from_expr(
+                &cond.cons,
+                self.known_bindings,
+                self.local_bindings,
+            );
+            let (alt_guaranteed, alt_maybe) = collect_branch_member_keys_from_expr(
+                &cond.alt,
+                self.known_bindings,
+                self.local_bindings,
+            );
+
+            let shared_guaranteed = cons_guaranteed
+                .intersection(&alt_guaranteed)
+                .cloned()
+                .collect::<HashSet<_>>();
+            for key in &shared_guaranteed {
+                if self.conditional_depth == 0 {
+                    self.unconditional.insert(key.clone());
+                } else {
+                    self.conditional.insert(key.clone());
+                }
+            }
+
+            let mut maybe_union = cons_maybe;
+            maybe_union.extend(alt_maybe);
+            for key in maybe_union {
+                if !shared_guaranteed.contains(&key) {
+                    self.conditional.insert(key);
+                }
+            }
+        }
+
+        fn visit_switch_stmt(&mut self, switch_stmt: &swc_ecma_ast::SwitchStmt) {
+            switch_stmt.discriminant.visit_with(self);
+
+            let (switch_guaranteed, switch_maybe) =
+                collect_switch_member_keys(switch_stmt, self.known_bindings, self.local_bindings);
+            for key in &switch_guaranteed {
+                if self.conditional_depth == 0 {
+                    self.unconditional.insert(key.clone());
+                } else {
+                    self.conditional.insert(key.clone());
+                }
+            }
+
+            for key in switch_maybe {
+                if !switch_guaranteed.contains(&key) {
+                    self.conditional.insert(key);
+                }
+            }
         }
 
         fn visit_bin_expr(&mut self, bin: &swc_ecma_ast::BinExpr) {
@@ -9618,6 +10141,17 @@ fn normalize_optional_member_dependencies(
         })
     }
 
+    fn is_parent_path(parent: &str, child: &str) -> bool {
+        child.len() > parent.len()
+            && child.starts_with(parent)
+            && matches!(child.as_bytes().get(parent.len()), Some(b'.' | b'['))
+    }
+
+    let original_dep_keys = deps
+        .iter()
+        .map(|dep| dep.key.clone())
+        .collect::<HashSet<_>>();
+
     let mut normalized = Vec::with_capacity(deps.len());
     for mut dep in deps {
         if mixed_optional_member_keys.contains(&dep.key) {
@@ -9633,13 +10167,43 @@ fn normalize_optional_member_dependencies(
         if !matches!(&*dep.expr, Expr::OptChain(_))
             && conditional_only_non_optional_member_keys.contains(&dep.key)
         {
-            let mut parts = dep.key.rsplitn(2, '.');
-            let _ = parts.next();
-            if let Some(parent_key) = parts.next() {
-                if parent_key.contains('.') {
-                    dep.key = parent_key.to_string();
-                    if let Some(expr) = member_expr_from_dependency_key(dep.key.as_str()) {
-                        dep.expr = expr;
+            if let Some((root, _)) = dep.key.split_once('.') {
+                let root = root.to_string();
+                let selected_parent = original_dep_keys
+                    .iter()
+                    .filter(|candidate| {
+                        *candidate != &dep.key
+                            && !candidate.contains('[')
+                            && is_parent_path(candidate.as_str(), dep.key.as_str())
+                    })
+                    .max_by_key(|candidate| candidate.len())
+                    .cloned();
+
+                let dep_depth = dep.key.matches('.').count();
+                let target_key = selected_parent.or_else(|| {
+                    if dep_depth == 2 {
+                        Some(root.clone())
+                    } else if dep_depth > 2 {
+                        dep.key
+                            .rsplit_once('.')
+                            .map(|(parent, _)| parent.to_string())
+                    } else {
+                        None
+                    }
+                });
+
+                if let Some(target_key) = target_key {
+                    dep.key = target_key.clone();
+                    if target_key.contains('.') {
+                        if let Some(expr) = member_expr_from_dependency_key(target_key.as_str()) {
+                            dep.expr = expr;
+                        } else {
+                            dep.expr =
+                                Box::new(Expr::Ident(Ident::new_no_ctxt(root.into(), DUMMY_SP)));
+                        }
+                    } else {
+                        dep.expr =
+                            Box::new(Expr::Ident(Ident::new_no_ctxt(target_key.into(), DUMMY_SP)));
                     }
                 }
             }
@@ -9685,6 +10249,7 @@ fn reduce_dependencies(deps: Vec<ReactiveDependency>) -> Vec<ReactiveDependency>
         })
         .collect::<Vec<_>>();
     reduced.sort_by(|left, right| left.key.cmp(&right.key));
+    reduced.dedup_by(|left, right| left.key == right.key);
     reduced
 }
 
@@ -9705,6 +10270,7 @@ fn reduce_nested_member_dependencies(deps: Vec<ReactiveDependency>) -> Vec<React
     }
 
     reduced.sort_by(|left, right| left.key.cmp(&right.key));
+    reduced.dedup_by(|left, right| left.key == right.key);
     reduced
 }
 
@@ -18541,6 +19107,18 @@ fn normalize_if_return_blocks(stmts: &mut [Stmt]) {
                     stmts: vec![original],
                 }));
             }
+
+            if matches!(if_stmt.alt.as_deref(), Some(Stmt::If(_))) {
+                let original = if_stmt
+                    .alt
+                    .take()
+                    .expect("checked alt is present and is if-statement");
+                if_stmt.alt = Some(Box::new(Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    ctxt: Default::default(),
+                    stmts: vec![*original],
+                })));
+            }
         }
     }
 
@@ -18661,7 +19239,51 @@ fn normalize_switch_case_blocks(switch_stmt: &mut SwitchStmt) -> Option<Ident> {
         })];
     }
 
+    prune_redundant_terminal_switch_break(switch_stmt, label.as_ref());
+
     label
+}
+
+fn prune_redundant_terminal_switch_break(switch_stmt: &mut SwitchStmt, label: Option<&Ident>) {
+    fn break_matches_label(break_stmt: &swc_ecma_ast::BreakStmt, label: Option<&Ident>) -> bool {
+        match (&break_stmt.label, label) {
+            (Some(actual), Some(expected)) => {
+                actual.sym == expected.sym && actual.ctxt == expected.ctxt
+            }
+            _ => false,
+        }
+    }
+
+    let Some(last_case_idx) = switch_stmt.cases.len().checked_sub(1) else {
+        return;
+    };
+
+    let case = &mut switch_stmt.cases[last_case_idx];
+    let Some(last_stmt) = case.cons.last_mut() else {
+        return;
+    };
+
+    match last_stmt {
+        Stmt::Break(break_stmt) => {
+            if break_matches_label(break_stmt, label) {
+                case.cons.pop();
+            }
+        }
+        Stmt::Block(block) => {
+            if block
+                .stmts
+                .last()
+                .and_then(|stmt| match stmt {
+                    Stmt::Break(break_stmt) => Some(break_stmt),
+                    _ => None,
+                })
+                .is_some_and(|break_stmt| break_matches_label(break_stmt, label))
+            {
+                block.stmts.pop();
+            }
+        }
+        _ => {}
+    }
 }
 
 fn case_contains_unlabeled_switch_break(case: &swc_ecma_ast::SwitchCase) -> bool {

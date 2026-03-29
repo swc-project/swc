@@ -244,7 +244,7 @@ impl Default for EnvironmentConfig {
             enable_treat_ref_like_identifiers_as_refs: true,
             enable_treat_set_identifiers_as_state_setters: false,
             // Upstream defaults this check to on.
-            validate_no_void_use_memo: true,
+            validate_no_void_use_memo: false,
             custom_macros: None,
             enable_forest: false,
             enable_reset_cache_on_source_file_changes: None,
