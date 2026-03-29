@@ -265,6 +265,81 @@ impl DecoratorPass {
         }
     }
 
+    fn rewrite_implicit_globals_in_prop_name_expr(&mut self, name: &mut PropName) {
+        if let PropName::Computed(computed) = name {
+            computed.expr.visit_mut_with(self);
+        }
+    }
+
+    fn rewrite_implicit_globals_in_key_expr(&mut self, key: &mut Key) {
+        if let Key::Public(name) = key {
+            self.rewrite_implicit_globals_in_prop_name_expr(name);
+        }
+    }
+
+    fn rewrite_implicit_globals_in_class_member_exprs(&mut self, member: &mut ClassMember) {
+        match member {
+            ClassMember::ClassProp(prop) => {
+                self.rewrite_implicit_globals_in_prop_name_expr(&mut prop.key);
+                for decorator in &mut prop.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+                if prop.is_static {
+                    if let Some(value) = &mut prop.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+            }
+            ClassMember::PrivateProp(prop) => {
+                for decorator in &mut prop.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+                if prop.is_static {
+                    if let Some(value) = &mut prop.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+            }
+            ClassMember::Method(method) => {
+                self.rewrite_implicit_globals_in_prop_name_expr(&mut method.key);
+                for decorator in &mut method.function.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+            }
+            ClassMember::PrivateMethod(method) => {
+                for decorator in &mut method.function.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+            }
+            ClassMember::AutoAccessor(accessor) => {
+                self.rewrite_implicit_globals_in_key_expr(&mut accessor.key);
+                for decorator in &mut accessor.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+                if accessor.is_static {
+                    if let Some(value) = &mut accessor.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn rewrite_implicit_globals_in_class_expr(&mut self, class_expr: &mut ClassExpr) {
+        for decorator in &mut class_expr.class.decorators {
+            decorator.expr.visit_mut_with(self);
+        }
+
+        if let Some(super_class) = &mut class_expr.class.super_class {
+            super_class.visit_mut_with(self);
+        }
+
+        for member in &mut class_expr.class.body {
+            self.rewrite_implicit_globals_in_class_member_exprs(member);
+        }
+    }
+
     fn maybe_to_property_key(&self, expr: Expr) -> Expr {
         if self.is_2023_11() {
             CallExpr {
@@ -3223,12 +3298,14 @@ impl VisitMut for DecoratorPass {
         }
 
         if self.in_implicit_global_rewrite_expr {
-            // Keep rewrite mode side-effect free. We only want mark-gated
-            // implicit-global rewrites, not decorator/class transformations.
-            if e.is_class() {
+            if let Expr::Class(class_expr) = e {
+                // Traverse class-expression evaluation-time subexpressions
+                // without invoking the main decorator/class transform flow.
+                self.rewrite_implicit_globals_in_class_expr(class_expr);
                 return;
             }
 
+            // Keep rewrite mode traversal local to this expression.
             maybe_grow_default(|| e.visit_mut_children_with(self));
             return;
         }
