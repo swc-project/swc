@@ -1724,6 +1724,8 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
     let mut transformed = Vec::new();
     transformed.extend(stmts.drain(..directive_end));
     transformed.extend(param_prologue);
+    inline_unused_use_memo_effect_stmts(&mut stmts);
+    rewrite_terminal_return_reactive_hook_calls_to_decl(&mut stmts, &mut reserved, &mut next_temp);
     inline_use_memo_empty_deps_returns(&mut stmts);
     inline_use_callback_empty_deps_decls(&mut stmts);
     rewrite_use_callback_decls_to_use_memo(&mut stmts);
@@ -4645,6 +4647,184 @@ fn call_is_state_tuple_hook(call: &CallExpr) -> bool {
         hook_name.as_deref(),
         Some("useState" | "useReducer" | "useActionState" | "useTransition" | "useOptimistic")
     )
+}
+
+fn inline_unused_use_memo_effect_stmts(stmts: &mut Vec<Stmt>) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    for stmt in std::mem::take(stmts) {
+        let Some(mut inlined) = inline_use_memo_effect_stmt(&stmt) else {
+            rewritten.push(stmt);
+            continue;
+        };
+        rewritten.append(&mut inlined);
+    }
+    *stmts = rewritten;
+}
+
+fn inline_use_memo_effect_stmt(stmt: &Stmt) -> Option<Vec<Stmt>> {
+    let Stmt::Expr(expr_stmt) = stmt else {
+        return None;
+    };
+    let Expr::Call(call) = unwrap_transparent_expr(&expr_stmt.expr) else {
+        return None;
+    };
+    let Callee::Expr(callee_expr) = &call.callee else {
+        return None;
+    };
+    let Expr::Ident(callee) = unwrap_transparent_expr(callee_expr) else {
+        return None;
+    };
+    if callee.sym != "useMemo" {
+        return None;
+    }
+    let [factory, _deps] = call.args.as_slice() else {
+        return None;
+    };
+    if factory.spread.is_some() {
+        return None;
+    }
+
+    match unwrap_transparent_expr(&factory.expr) {
+        Expr::Arrow(arrow) => {
+            if arrow.is_async || arrow.is_generator {
+                return None;
+            }
+            if !arrow.params.is_empty() {
+                return None;
+            }
+            match &*arrow.body {
+                swc_ecma_ast::BlockStmtOrExpr::BlockStmt(block) => {
+                    if let Some(inlined) = inline_single_return_use_memo_callback_block(block) {
+                        return Some(inlined);
+                    }
+                    if !use_memo_callback_block_is_safe_to_inline(block) {
+                        return None;
+                    }
+                    Some(block.stmts.clone())
+                }
+                swc_ecma_ast::BlockStmtOrExpr::Expr(expr) => Some(vec![Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: expr.clone(),
+                })]),
+            }
+        }
+        Expr::Fn(function) => {
+            let function = &function.function;
+            if function.is_async || function.is_generator || !function.params.is_empty() {
+                return None;
+            }
+            let body = function.body.as_ref()?;
+            if let Some(inlined) = inline_single_return_use_memo_callback_block(body) {
+                return Some(inlined);
+            }
+            if !use_memo_callback_block_is_safe_to_inline(body) {
+                return None;
+            }
+            Some(body.stmts.clone())
+        }
+        _ => None,
+    }
+}
+
+fn inline_single_return_use_memo_callback_block(block: &BlockStmt) -> Option<Vec<Stmt>> {
+    let [Stmt::Return(return_stmt)] = block.stmts.as_slice() else {
+        return None;
+    };
+
+    let Some(arg) = &return_stmt.arg else {
+        return Some(Vec::new());
+    };
+    Some(vec![Stmt::Expr(ExprStmt {
+        span: DUMMY_SP,
+        expr: arg.clone(),
+    })])
+}
+
+fn use_memo_callback_block_is_safe_to_inline(block: &BlockStmt) -> bool {
+    #[derive(Default)]
+    struct Finder {
+        has_unsafe_control_flow: bool,
+    }
+
+    impl Visit for Finder {
+        fn visit_function(&mut self, _: &Function) {
+            // Nested functions retain their own control flow semantics.
+        }
+
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Nested functions retain their own control flow semantics.
+        }
+
+        fn visit_return_stmt(&mut self, _: &swc_ecma_ast::ReturnStmt) {
+            self.has_unsafe_control_flow = true;
+        }
+
+        fn visit_throw_stmt(&mut self, _: &swc_ecma_ast::ThrowStmt) {
+            self.has_unsafe_control_flow = true;
+        }
+
+        fn visit_break_stmt(&mut self, _: &swc_ecma_ast::BreakStmt) {
+            self.has_unsafe_control_flow = true;
+        }
+
+        fn visit_continue_stmt(&mut self, _: &swc_ecma_ast::ContinueStmt) {
+            self.has_unsafe_control_flow = true;
+        }
+    }
+
+    let mut finder = Finder::default();
+    block.visit_with(&mut finder);
+    !finder.has_unsafe_control_flow
+}
+
+fn rewrite_terminal_return_reactive_hook_calls_to_decl(
+    stmts: &mut Vec<Stmt>,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) {
+    let Some(Stmt::Return(return_stmt)) = stmts.last_mut() else {
+        return;
+    };
+    let Some(return_arg) = &return_stmt.arg else {
+        return;
+    };
+    if !is_reactive_hook_call_expr(return_arg) {
+        return;
+    }
+
+    let temp = fresh_temp_ident(next_temp, reserved);
+    let init = return_stmt.arg.take();
+    let decl = make_var_decl(
+        VarDeclKind::Const,
+        Pat::Ident(BindingIdent {
+            id: temp.clone(),
+            type_ann: None,
+        }),
+        init,
+    );
+    let return_stmt = Stmt::Return(swc_ecma_ast::ReturnStmt {
+        span: DUMMY_SP,
+        arg: Some(Box::new(Expr::Ident(temp))),
+    });
+    stmts.pop();
+    stmts.push(decl);
+    stmts.push(return_stmt);
+}
+
+fn is_reactive_hook_call_expr(expr: &Expr) -> bool {
+    let Expr::Call(call) = unwrap_transparent_expr(expr) else {
+        return false;
+    };
+    let Callee::Expr(callee_expr) = &call.callee else {
+        return false;
+    };
+    match unwrap_transparent_expr(callee_expr) {
+        Expr::Ident(callee) => callee.sym.as_ref() == "useCallback",
+        Expr::Member(member) => {
+            member_prop_name(&member.prop).is_some_and(|name| name == "useCallback")
+        }
+        _ => false,
+    }
 }
 
 fn inline_use_memo_empty_deps_returns(stmts: &mut [Stmt]) {
@@ -8142,7 +8322,24 @@ fn collect_dependencies_from_expr(
 
         fn visit_opt_call(&mut self, call: &swc_ecma_ast::OptCall) {
             if let Expr::Member(member) = &*call.callee {
-                if call.args.is_empty() || should_collapse_member_callee_dependency(member) {
+                if let Some(dep) =
+                    member_object_dependency(member, self.known_bindings, self.local_bindings)
+                {
+                    maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+                } else {
+                    member.obj.visit_with(self);
+                }
+
+                if let MemberProp::Computed(computed) = &member.prop {
+                    computed.expr.visit_with(self);
+                }
+                for arg in &call.args {
+                    arg.visit_with(self);
+                }
+                return;
+            }
+            if let Expr::OptChain(callee_chain) = &*call.callee {
+                if let OptChainBase::Member(member) = &*callee_chain.base {
                     if let Some(dep) =
                         member_object_dependency(member, self.known_bindings, self.local_bindings)
                     {
@@ -8351,7 +8548,24 @@ fn collect_dependencies_from_stmts(
 
         fn visit_opt_call(&mut self, call: &swc_ecma_ast::OptCall) {
             if let Expr::Member(member) = &*call.callee {
-                if call.args.is_empty() || should_collapse_member_callee_dependency(member) {
+                if let Some(dep) =
+                    member_object_dependency(member, self.known_bindings, self.local_bindings)
+                {
+                    maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+                } else {
+                    member.obj.visit_with(self);
+                }
+
+                if let MemberProp::Computed(computed) = &member.prop {
+                    computed.expr.visit_with(self);
+                }
+                for arg in &call.args {
+                    arg.visit_with(self);
+                }
+                return;
+            }
+            if let Expr::OptChain(callee_chain) = &*call.callee {
+                if let OptChainBase::Member(member) = &*callee_chain.base {
                     if let Some(dep) =
                         member_object_dependency(member, self.known_bindings, self.local_bindings)
                     {
@@ -9365,6 +9579,453 @@ fn collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
     known_bindings: &HashMap<String, bool>,
     local_bindings: &HashSet<String>,
 ) -> HashSet<String> {
+    fn collect_branch_member_keys_from_stmt(
+        stmt: &Stmt,
+        known_bindings: &HashMap<String, bool>,
+        local_bindings: &HashSet<String>,
+    ) -> (HashSet<String>, HashSet<String>) {
+        struct BranchCollector<'a> {
+            known_bindings: &'a HashMap<String, bool>,
+            local_bindings: &'a HashSet<String>,
+            optional_chain_depth: usize,
+            conditional_depth: usize,
+            guaranteed: HashSet<String>,
+            conditional: HashSet<String>,
+        }
+
+        impl Visit for BranchCollector<'_> {
+            fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+                // Skip nested functions.
+            }
+
+            fn visit_function(&mut self, _: &Function) {
+                // Skip nested functions.
+            }
+
+            fn visit_member_expr(&mut self, member: &MemberExpr) {
+                if self.optional_chain_depth == 0 {
+                    if let Some(dep) =
+                        member_dependency(member, self.known_bindings, self.local_bindings)
+                    {
+                        if self.conditional_depth == 0 {
+                            self.guaranteed.insert(dep.key);
+                        } else {
+                            self.conditional.insert(dep.key);
+                        }
+                        return;
+                    }
+                }
+
+                member.visit_children_with(self);
+            }
+
+            fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+                self.optional_chain_depth += 1;
+                expr.visit_children_with(self);
+                self.optional_chain_depth -= 1;
+            }
+
+            fn visit_if_stmt(&mut self, if_stmt: &IfStmt) {
+                if_stmt.test.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let mut cons_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                if_stmt.cons.visit_with(&mut cons_collector);
+                let cons_guaranteed = cons_collector.guaranteed;
+                let mut cons_maybe = cons_guaranteed.clone();
+                cons_maybe.extend(cons_collector.conditional);
+
+                if let Some(alt) = &if_stmt.alt {
+                    let mut alt_collector = BranchCollector {
+                        known_bindings: self.known_bindings,
+                        local_bindings: self.local_bindings,
+                        optional_chain_depth: self.optional_chain_depth,
+                        conditional_depth: base_depth,
+                        guaranteed: HashSet::new(),
+                        conditional: HashSet::new(),
+                    };
+                    alt.visit_with(&mut alt_collector);
+                    let alt_guaranteed = alt_collector.guaranteed;
+                    let mut alt_maybe = alt_guaranteed.clone();
+                    alt_maybe.extend(alt_collector.conditional);
+
+                    let shared_guaranteed = cons_guaranteed
+                        .intersection(&alt_guaranteed)
+                        .cloned()
+                        .collect::<HashSet<_>>();
+                    for key in &shared_guaranteed {
+                        if base_depth == 0 {
+                            self.guaranteed.insert(key.clone());
+                        } else {
+                            self.conditional.insert(key.clone());
+                        }
+                    }
+
+                    cons_maybe.extend(alt_maybe);
+                    for key in cons_maybe {
+                        if !shared_guaranteed.contains(&key) {
+                            self.conditional.insert(key);
+                        }
+                    }
+                } else {
+                    for key in cons_maybe {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_cond_expr(&mut self, cond: &swc_ecma_ast::CondExpr) {
+                cond.test.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let mut cons_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                cond.cons.visit_with(&mut cons_collector);
+                let cons_guaranteed = cons_collector.guaranteed;
+                let mut cons_maybe = cons_guaranteed.clone();
+                cons_maybe.extend(cons_collector.conditional);
+
+                let mut alt_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                cond.alt.visit_with(&mut alt_collector);
+                let alt_guaranteed = alt_collector.guaranteed;
+                let mut alt_maybe = alt_guaranteed.clone();
+                alt_maybe.extend(alt_collector.conditional);
+
+                let shared_guaranteed = cons_guaranteed
+                    .intersection(&alt_guaranteed)
+                    .cloned()
+                    .collect::<HashSet<_>>();
+                for key in &shared_guaranteed {
+                    if base_depth == 0 {
+                        self.guaranteed.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                cons_maybe.extend(alt_maybe);
+                for key in cons_maybe {
+                    if !shared_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_switch_stmt(&mut self, switch_stmt: &swc_ecma_ast::SwitchStmt) {
+                switch_stmt.discriminant.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let (switch_guaranteed, switch_maybe) = collect_switch_member_keys(
+                    switch_stmt,
+                    self.known_bindings,
+                    self.local_bindings,
+                );
+
+                for key in &switch_guaranteed {
+                    if base_depth == 0 {
+                        self.guaranteed.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                for key in switch_maybe {
+                    if !switch_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_bin_expr(&mut self, bin: &swc_ecma_ast::BinExpr) {
+                bin.left.visit_with(self);
+                if matches!(bin.op, op!("&&") | op!("||") | op!("??")) {
+                    self.conditional_depth += 1;
+                    bin.right.visit_with(self);
+                    self.conditional_depth -= 1;
+                } else {
+                    bin.right.visit_with(self);
+                }
+            }
+        }
+
+        let mut collector = BranchCollector {
+            known_bindings,
+            local_bindings,
+            optional_chain_depth: 0,
+            conditional_depth: 0,
+            guaranteed: HashSet::new(),
+            conditional: HashSet::new(),
+        };
+        stmt.visit_with(&mut collector);
+
+        let mut maybe = collector.guaranteed.clone();
+        maybe.extend(collector.conditional);
+        (collector.guaranteed, maybe)
+    }
+
+    fn collect_branch_member_keys_from_expr(
+        expr: &Expr,
+        known_bindings: &HashMap<String, bool>,
+        local_bindings: &HashSet<String>,
+    ) -> (HashSet<String>, HashSet<String>) {
+        struct BranchCollector<'a> {
+            known_bindings: &'a HashMap<String, bool>,
+            local_bindings: &'a HashSet<String>,
+            optional_chain_depth: usize,
+            conditional_depth: usize,
+            guaranteed: HashSet<String>,
+            conditional: HashSet<String>,
+        }
+
+        impl Visit for BranchCollector<'_> {
+            fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+                // Skip nested functions.
+            }
+
+            fn visit_function(&mut self, _: &Function) {
+                // Skip nested functions.
+            }
+
+            fn visit_member_expr(&mut self, member: &MemberExpr) {
+                if self.optional_chain_depth == 0 {
+                    if let Some(dep) =
+                        member_dependency(member, self.known_bindings, self.local_bindings)
+                    {
+                        if self.conditional_depth == 0 {
+                            self.guaranteed.insert(dep.key);
+                        } else {
+                            self.conditional.insert(dep.key);
+                        }
+                        return;
+                    }
+                }
+
+                member.visit_children_with(self);
+            }
+
+            fn visit_opt_chain_expr(&mut self, expr: &OptChainExpr) {
+                self.optional_chain_depth += 1;
+                expr.visit_children_with(self);
+                self.optional_chain_depth -= 1;
+            }
+
+            fn visit_if_stmt(&mut self, if_stmt: &IfStmt) {
+                if_stmt.test.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let mut cons_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                if_stmt.cons.visit_with(&mut cons_collector);
+                let cons_guaranteed = cons_collector.guaranteed;
+                let mut cons_maybe = cons_guaranteed.clone();
+                cons_maybe.extend(cons_collector.conditional);
+
+                if let Some(alt) = &if_stmt.alt {
+                    let mut alt_collector = BranchCollector {
+                        known_bindings: self.known_bindings,
+                        local_bindings: self.local_bindings,
+                        optional_chain_depth: self.optional_chain_depth,
+                        conditional_depth: base_depth,
+                        guaranteed: HashSet::new(),
+                        conditional: HashSet::new(),
+                    };
+                    alt.visit_with(&mut alt_collector);
+                    let alt_guaranteed = alt_collector.guaranteed;
+                    let mut alt_maybe = alt_guaranteed.clone();
+                    alt_maybe.extend(alt_collector.conditional);
+
+                    let shared_guaranteed = cons_guaranteed
+                        .intersection(&alt_guaranteed)
+                        .cloned()
+                        .collect::<HashSet<_>>();
+                    for key in &shared_guaranteed {
+                        if base_depth == 0 {
+                            self.guaranteed.insert(key.clone());
+                        } else {
+                            self.conditional.insert(key.clone());
+                        }
+                    }
+
+                    cons_maybe.extend(alt_maybe);
+                    for key in cons_maybe {
+                        if !shared_guaranteed.contains(&key) {
+                            self.conditional.insert(key);
+                        }
+                    }
+                } else {
+                    for key in cons_maybe {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_cond_expr(&mut self, cond: &swc_ecma_ast::CondExpr) {
+                cond.test.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let mut cons_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                cond.cons.visit_with(&mut cons_collector);
+                let cons_guaranteed = cons_collector.guaranteed;
+                let mut cons_maybe = cons_guaranteed.clone();
+                cons_maybe.extend(cons_collector.conditional);
+
+                let mut alt_collector = BranchCollector {
+                    known_bindings: self.known_bindings,
+                    local_bindings: self.local_bindings,
+                    optional_chain_depth: self.optional_chain_depth,
+                    conditional_depth: base_depth,
+                    guaranteed: HashSet::new(),
+                    conditional: HashSet::new(),
+                };
+                cond.alt.visit_with(&mut alt_collector);
+                let alt_guaranteed = alt_collector.guaranteed;
+                let mut alt_maybe = alt_guaranteed.clone();
+                alt_maybe.extend(alt_collector.conditional);
+
+                let shared_guaranteed = cons_guaranteed
+                    .intersection(&alt_guaranteed)
+                    .cloned()
+                    .collect::<HashSet<_>>();
+                for key in &shared_guaranteed {
+                    if base_depth == 0 {
+                        self.guaranteed.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                cons_maybe.extend(alt_maybe);
+                for key in cons_maybe {
+                    if !shared_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_switch_stmt(&mut self, switch_stmt: &swc_ecma_ast::SwitchStmt) {
+                switch_stmt.discriminant.visit_with(self);
+
+                let base_depth = self.conditional_depth;
+                let (switch_guaranteed, switch_maybe) = collect_switch_member_keys(
+                    switch_stmt,
+                    self.known_bindings,
+                    self.local_bindings,
+                );
+
+                for key in &switch_guaranteed {
+                    if base_depth == 0 {
+                        self.guaranteed.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                for key in switch_maybe {
+                    if !switch_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            }
+
+            fn visit_bin_expr(&mut self, bin: &swc_ecma_ast::BinExpr) {
+                bin.left.visit_with(self);
+                if matches!(bin.op, op!("&&") | op!("||") | op!("??")) {
+                    self.conditional_depth += 1;
+                    bin.right.visit_with(self);
+                    self.conditional_depth -= 1;
+                } else {
+                    bin.right.visit_with(self);
+                }
+            }
+        }
+
+        let mut collector = BranchCollector {
+            known_bindings,
+            local_bindings,
+            optional_chain_depth: 0,
+            conditional_depth: 0,
+            guaranteed: HashSet::new(),
+            conditional: HashSet::new(),
+        };
+        expr.visit_with(&mut collector);
+
+        let mut maybe = collector.guaranteed.clone();
+        maybe.extend(collector.conditional);
+        (collector.guaranteed, maybe)
+    }
+
+    fn collect_switch_member_keys(
+        switch_stmt: &swc_ecma_ast::SwitchStmt,
+        known_bindings: &HashMap<String, bool>,
+        local_bindings: &HashSet<String>,
+    ) -> (HashSet<String>, HashSet<String>) {
+        let has_default_case = switch_stmt.cases.iter().any(|case| case.test.is_none());
+        let mut maybe_union = HashSet::new();
+        let mut guaranteed_intersection = if has_default_case {
+            None::<HashSet<String>>
+        } else {
+            Some(HashSet::new())
+        };
+
+        for case in &switch_stmt.cases {
+            let case_block = Stmt::Block(BlockStmt {
+                span: DUMMY_SP,
+                ctxt: Default::default(),
+                stmts: case.cons.clone(),
+            });
+            let (case_guaranteed, case_maybe) =
+                collect_branch_member_keys_from_stmt(&case_block, known_bindings, local_bindings);
+
+            maybe_union.extend(case_maybe);
+            if has_default_case {
+                guaranteed_intersection = Some(match guaranteed_intersection.take() {
+                    Some(existing) => existing
+                        .intersection(&case_guaranteed)
+                        .cloned()
+                        .collect::<HashSet<_>>(),
+                    None => case_guaranteed,
+                });
+            }
+        }
+
+        let guaranteed = guaranteed_intersection.unwrap_or_default();
+        maybe_union.extend(guaranteed.iter().cloned());
+        (guaranteed, maybe_union)
+    }
+
     struct Collector<'a> {
         known_bindings: &'a HashMap<String, bool>,
         local_bindings: &'a HashSet<String>,
@@ -9409,21 +10070,97 @@ fn collect_conditional_only_non_optional_member_dependency_keys_from_stmts(
         fn visit_if_stmt(&mut self, if_stmt: &IfStmt) {
             if_stmt.test.visit_with(self);
 
-            self.conditional_depth += 1;
-            if_stmt.cons.visit_with(self);
+            let (cons_guaranteed, cons_maybe) = collect_branch_member_keys_from_stmt(
+                if_stmt.cons.as_ref(),
+                self.known_bindings,
+                self.local_bindings,
+            );
             if let Some(alt) = &if_stmt.alt {
-                alt.visit_with(self);
+                let (alt_guaranteed, alt_maybe) = collect_branch_member_keys_from_stmt(
+                    alt.as_ref(),
+                    self.known_bindings,
+                    self.local_bindings,
+                );
+
+                let shared_guaranteed = cons_guaranteed
+                    .intersection(&alt_guaranteed)
+                    .cloned()
+                    .collect::<HashSet<_>>();
+                for key in &shared_guaranteed {
+                    if self.conditional_depth == 0 {
+                        self.unconditional.insert(key.clone());
+                    } else {
+                        self.conditional.insert(key.clone());
+                    }
+                }
+
+                let mut maybe_union = cons_maybe;
+                maybe_union.extend(alt_maybe);
+                for key in maybe_union {
+                    if !shared_guaranteed.contains(&key) {
+                        self.conditional.insert(key);
+                    }
+                }
+            } else {
+                for key in cons_maybe {
+                    self.conditional.insert(key);
+                }
             }
-            self.conditional_depth -= 1;
         }
 
         fn visit_cond_expr(&mut self, cond: &swc_ecma_ast::CondExpr) {
             cond.test.visit_with(self);
 
-            self.conditional_depth += 1;
-            cond.cons.visit_with(self);
-            cond.alt.visit_with(self);
-            self.conditional_depth -= 1;
+            let (cons_guaranteed, cons_maybe) = collect_branch_member_keys_from_expr(
+                &cond.cons,
+                self.known_bindings,
+                self.local_bindings,
+            );
+            let (alt_guaranteed, alt_maybe) = collect_branch_member_keys_from_expr(
+                &cond.alt,
+                self.known_bindings,
+                self.local_bindings,
+            );
+
+            let shared_guaranteed = cons_guaranteed
+                .intersection(&alt_guaranteed)
+                .cloned()
+                .collect::<HashSet<_>>();
+            for key in &shared_guaranteed {
+                if self.conditional_depth == 0 {
+                    self.unconditional.insert(key.clone());
+                } else {
+                    self.conditional.insert(key.clone());
+                }
+            }
+
+            let mut maybe_union = cons_maybe;
+            maybe_union.extend(alt_maybe);
+            for key in maybe_union {
+                if !shared_guaranteed.contains(&key) {
+                    self.conditional.insert(key);
+                }
+            }
+        }
+
+        fn visit_switch_stmt(&mut self, switch_stmt: &swc_ecma_ast::SwitchStmt) {
+            switch_stmt.discriminant.visit_with(self);
+
+            let (switch_guaranteed, switch_maybe) =
+                collect_switch_member_keys(switch_stmt, self.known_bindings, self.local_bindings);
+            for key in &switch_guaranteed {
+                if self.conditional_depth == 0 {
+                    self.unconditional.insert(key.clone());
+                } else {
+                    self.conditional.insert(key.clone());
+                }
+            }
+
+            for key in switch_maybe {
+                if !switch_guaranteed.contains(&key) {
+                    self.conditional.insert(key);
+                }
+            }
         }
 
         fn visit_bin_expr(&mut self, bin: &swc_ecma_ast::BinExpr) {
@@ -9507,6 +10244,17 @@ fn normalize_optional_member_dependencies(
         })
     }
 
+    fn is_parent_path(parent: &str, child: &str) -> bool {
+        child.len() > parent.len()
+            && child.starts_with(parent)
+            && matches!(child.as_bytes().get(parent.len()), Some(b'.' | b'['))
+    }
+
+    let original_dep_keys = deps
+        .iter()
+        .map(|dep| dep.key.clone())
+        .collect::<HashSet<_>>();
+
     let mut normalized = Vec::with_capacity(deps.len());
     for mut dep in deps {
         if mixed_optional_member_keys.contains(&dep.key) {
@@ -9522,13 +10270,43 @@ fn normalize_optional_member_dependencies(
         if !matches!(&*dep.expr, Expr::OptChain(_))
             && conditional_only_non_optional_member_keys.contains(&dep.key)
         {
-            let mut parts = dep.key.rsplitn(2, '.');
-            let _ = parts.next();
-            if let Some(parent_key) = parts.next() {
-                if parent_key.contains('.') {
-                    dep.key = parent_key.to_string();
-                    if let Some(expr) = member_expr_from_dependency_key(dep.key.as_str()) {
-                        dep.expr = expr;
+            if let Some((root, _)) = dep.key.split_once('.') {
+                let root = root.to_string();
+                let selected_parent = original_dep_keys
+                    .iter()
+                    .filter(|candidate| {
+                        *candidate != &dep.key
+                            && !candidate.contains('[')
+                            && is_parent_path(candidate.as_str(), dep.key.as_str())
+                    })
+                    .max_by_key(|candidate| candidate.len())
+                    .cloned();
+
+                let dep_depth = dep.key.matches('.').count();
+                let target_key = selected_parent.or_else(|| {
+                    if dep_depth == 2 {
+                        Some(root.clone())
+                    } else if dep_depth > 2 {
+                        dep.key
+                            .rsplit_once('.')
+                            .map(|(parent, _)| parent.to_string())
+                    } else {
+                        None
+                    }
+                });
+
+                if let Some(target_key) = target_key {
+                    dep.key = target_key.clone();
+                    if target_key.contains('.') {
+                        if let Some(expr) = member_expr_from_dependency_key(target_key.as_str()) {
+                            dep.expr = expr;
+                        } else {
+                            dep.expr =
+                                Box::new(Expr::Ident(Ident::new_no_ctxt(root.into(), DUMMY_SP)));
+                        }
+                    } else {
+                        dep.expr =
+                            Box::new(Expr::Ident(Ident::new_no_ctxt(target_key.into(), DUMMY_SP)));
                     }
                 }
             }
@@ -9574,6 +10352,7 @@ fn reduce_dependencies(deps: Vec<ReactiveDependency>) -> Vec<ReactiveDependency>
         })
         .collect::<Vec<_>>();
     reduced.sort_by(|left, right| left.key.cmp(&right.key));
+    reduced.dedup_by(|left, right| left.key == right.key);
     reduced
 }
 
@@ -9594,6 +10373,7 @@ fn reduce_nested_member_dependencies(deps: Vec<ReactiveDependency>) -> Vec<React
     }
 
     reduced.sort_by(|left, right| left.key.cmp(&right.key));
+    reduced.dedup_by(|left, right| left.key == right.key);
     reduced
 }
 
@@ -10791,11 +11571,41 @@ fn inject_nested_call_memoization_into_stmts(
                     }
 
                     let arg_expr = unwrap_transparent_expr(&arg.expr);
+                    let should_split_push_call_arg = callee_is_push_method
+                        && matches!(arg_expr, Expr::Call(inner_call)
+                            if !call_has_hook_callee(inner_call)
+                                && matches!(
+                                    &inner_call.callee,
+                                    Callee::Expr(callee_expr)
+                                        if matches!(
+                                            unwrap_transparent_expr(callee_expr),
+                                            Expr::Ident(callee)
+                                                if !is_hook_name(callee.sym.as_ref())
+                                                    && !matches!(
+                                                        callee.sym.as_ref(),
+                                                        "String" | "Number" | "Boolean"
+                                                    )
+                                                    && !nested_known_bindings
+                                                        .contains_key(callee.sym.as_ref())
+                                        )
+                                )
+                                && !inner_call.args.is_empty()
+                                && inner_call.args.iter().all(|inner_arg| {
+                                    inner_arg.spread.is_none()
+                                        && matches!(
+                                            &*inner_arg.expr,
+                                            Expr::Ident(_) | Expr::Lit(_) | Expr::Member(_)
+                                        )
+                                })
+                        );
                     let should_split_array_or_object =
                         matches!(arg_expr, Expr::Array(_) | Expr::Object(_));
                     let should_split_complex_optional_push_arg =
                         callee_is_push_method && expr_contains_optional_call(arg_expr);
-                    if !should_split_array_or_object && !should_split_complex_optional_push_arg {
+                    if !should_split_array_or_object
+                        && !should_split_complex_optional_push_arg
+                        && !should_split_push_call_arg
+                    {
                         continue;
                     }
 
@@ -10806,6 +11616,9 @@ fn inject_nested_call_memoization_into_stmts(
                         &nested_known_bindings,
                         &local_bindings,
                     );
+                    if should_split_push_call_arg && nested_deps.is_empty() {
+                        continue;
+                    }
                     let arg_temp = fresh_temp_ident(next_temp, reserved);
                     let mut nested_compute =
                         vec![assign_stmt(AssignTarget::from(arg_temp.clone()), arg_expr)];
@@ -16428,6 +17241,7 @@ fn hoist_stable_jsx_fragment_children(
     next_slot: &mut u32,
     memo_blocks: &mut u32,
     memo_values: &mut u32,
+    blocked_bindings: &HashSet<String>,
 ) {
     let Some(root_expr) = jsx_root_expr_mut(return_expr) else {
         return;
@@ -16454,6 +17268,9 @@ fn hoist_stable_jsx_fragment_children(
     let has_unstable_child = child_deps
         .iter()
         .any(|deps| deps.as_ref().is_some_and(|deps| !deps.is_empty()));
+    let has_stable_child = child_deps
+        .iter()
+        .any(|deps| deps.as_ref().is_some_and(|deps| deps.is_empty()));
     let jsx_element_child_count = child_deps.iter().filter(|deps| deps.is_some()).count();
     let first_jsx_child_is_component = fragment.children.iter().find_map(|child| match child {
         swc_ecma_ast::JSXElementChild::JSXElement(element) => {
@@ -16473,10 +17290,19 @@ fn hoist_stable_jsx_fragment_children(
         let swc_ecma_ast::JSXElementChild::JSXElement(element) = child else {
             continue;
         };
-        let Some(deps) = child_deps.get(index).and_then(Clone::clone) else {
+        let Some(child_dep) = child_deps.get(index).and_then(Clone::clone) else {
             continue;
         };
-        if has_unstable_child && !deps.is_empty() {
+        if has_unstable_child {
+            if has_stable_child {
+                if !child_dep.is_empty() {
+                    continue;
+                }
+            } else if child_dep.is_empty() {
+                continue;
+            }
+        }
+        if deps_reference_bindings(&child_dep, blocked_bindings) {
             continue;
         }
         if !has_unstable_child && hoisted_one_stable_child {
@@ -16492,9 +17318,27 @@ fn hoist_stable_jsx_fragment_children(
                 expr: Box::new(Expr::JSXElement(element.clone())),
             })
         };
+        let mut hoisted_expr = Box::new(hoisted_expr);
+        // Run JSX-return hoisting recursively so nested call/array arguments in
+        // this child can get their own memoized temporaries before the child
+        // element itself is memoized.
+        hoist_string_calls_from_jsx_return(
+            &mut hoisted_expr,
+            transformed,
+            known_bindings,
+            reserved,
+            next_temp,
+            cache_ident,
+            next_slot,
+            memo_blocks,
+            memo_values,
+            blocked_bindings,
+        );
+        let local_bindings = HashSet::new();
+        let deps = collect_dependencies_from_expr(&hoisted_expr, known_bindings, &local_bindings);
         let mut compute_stmts = vec![assign_stmt(
             AssignTarget::from(value_temp.clone()),
-            Box::new(hoisted_expr),
+            hoisted_expr,
         )];
         strip_runtime_call_type_args_in_stmts(&mut compute_stmts);
 
@@ -16509,7 +17353,7 @@ fn hoist_stable_jsx_fragment_children(
         *next_slot += deps.len() as u32 + 1;
         *memo_blocks += 1;
         *memo_values += 1;
-        known_bindings.insert(value_temp.sym.to_string(), true);
+        known_bindings.insert(value_temp.sym.to_string(), deps.is_empty());
 
         *child = swc_ecma_ast::JSXElementChild::JSXExprContainer(swc_ecma_ast::JSXExprContainer {
             span: DUMMY_SP,
@@ -16557,6 +17401,7 @@ fn hoist_string_calls_from_jsx_return(
         next_slot,
         memo_blocks,
         memo_values,
+        blocked_bindings,
     );
 
     struct Hoister<'a> {
@@ -16734,16 +17579,21 @@ fn hoist_string_calls_from_jsx_return(
 }
 
 fn should_hoist_single_dependency_array_expr(array: &swc_ecma_ast::ArrayLit) -> bool {
-    let [Some(elem)] = array.elems.as_slice() else {
-        return false;
-    };
-    if elem.spread.is_some() {
+    if array.elems.is_empty() {
         return false;
     }
-    matches!(
-        unwrap_transparent_expr(&elem.expr),
-        Expr::Ident(_) | Expr::Member(_)
-    )
+    array.elems.iter().all(|elem| {
+        let Some(elem) = elem else {
+            return false;
+        };
+        if elem.spread.is_some() {
+            return false;
+        }
+        matches!(
+            unwrap_transparent_expr(&elem.expr),
+            Expr::Ident(_) | Expr::Member(_) | Expr::OptChain(_)
+        )
+    })
 }
 
 fn expr_references_bindings(expr: &Expr, bindings: &HashSet<String>) -> bool {
@@ -16778,6 +17628,22 @@ fn expr_references_bindings(expr: &Expr, bindings: &HashSet<String>) -> bool {
     };
     expr.visit_with(&mut finder);
     finder.found
+}
+
+fn deps_reference_bindings(deps: &[ReactiveDependency], bindings: &HashSet<String>) -> bool {
+    if bindings.is_empty() {
+        return false;
+    }
+
+    deps.iter().any(|dep| {
+        let base = dep
+            .key
+            .split_once('.')
+            .map(|(base, _)| base)
+            .unwrap_or(dep.key.as_str());
+        let base = base.split_once('[').map(|(base, _)| base).unwrap_or(base);
+        bindings.contains(base)
+    })
 }
 
 fn binary_has_negative_numeric_rhs(bin: &swc_ecma_ast::BinExpr) -> bool {
@@ -18377,6 +19243,18 @@ fn normalize_if_return_blocks(stmts: &mut [Stmt]) {
                     stmts: vec![original],
                 }));
             }
+
+            if matches!(if_stmt.alt.as_deref(), Some(Stmt::If(_))) {
+                let original = if_stmt
+                    .alt
+                    .take()
+                    .expect("checked alt is present and is if-statement");
+                if_stmt.alt = Some(Box::new(Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    ctxt: Default::default(),
+                    stmts: vec![*original],
+                })));
+            }
         }
     }
 
@@ -18497,7 +19375,51 @@ fn normalize_switch_case_blocks(switch_stmt: &mut SwitchStmt) -> Option<Ident> {
         })];
     }
 
+    prune_redundant_terminal_switch_break(switch_stmt, label.as_ref());
+
     label
+}
+
+fn prune_redundant_terminal_switch_break(switch_stmt: &mut SwitchStmt, label: Option<&Ident>) {
+    fn break_matches_label(break_stmt: &swc_ecma_ast::BreakStmt, label: Option<&Ident>) -> bool {
+        match (&break_stmt.label, label) {
+            (Some(actual), Some(expected)) => {
+                actual.sym == expected.sym && actual.ctxt == expected.ctxt
+            }
+            _ => false,
+        }
+    }
+
+    let Some(last_case_idx) = switch_stmt.cases.len().checked_sub(1) else {
+        return;
+    };
+
+    let case = &mut switch_stmt.cases[last_case_idx];
+    let Some(last_stmt) = case.cons.last_mut() else {
+        return;
+    };
+
+    match last_stmt {
+        Stmt::Break(break_stmt) => {
+            if break_matches_label(break_stmt, label) {
+                case.cons.pop();
+            }
+        }
+        Stmt::Block(block) => {
+            if block
+                .stmts
+                .last()
+                .and_then(|stmt| match stmt {
+                    Stmt::Break(break_stmt) => Some(break_stmt),
+                    _ => None,
+                })
+                .is_some_and(|break_stmt| break_matches_label(break_stmt, label))
+            {
+                block.stmts.pop();
+            }
+        }
+        _ => {}
+    }
 }
 
 fn case_contains_unlabeled_switch_break(case: &swc_ecma_ast::SwitchCase) -> bool {
