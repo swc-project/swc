@@ -8253,7 +8253,24 @@ fn collect_dependencies_from_expr(
 
         fn visit_opt_call(&mut self, call: &swc_ecma_ast::OptCall) {
             if let Expr::Member(member) = &*call.callee {
-                if call.args.is_empty() || should_collapse_member_callee_dependency(member) {
+                if let Some(dep) =
+                    member_object_dependency(member, self.known_bindings, self.local_bindings)
+                {
+                    maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+                } else {
+                    member.obj.visit_with(self);
+                }
+
+                if let MemberProp::Computed(computed) = &member.prop {
+                    computed.expr.visit_with(self);
+                }
+                for arg in &call.args {
+                    arg.visit_with(self);
+                }
+                return;
+            }
+            if let Expr::OptChain(callee_chain) = &*call.callee {
+                if let OptChainBase::Member(member) = &*callee_chain.base {
                     if let Some(dep) =
                         member_object_dependency(member, self.known_bindings, self.local_bindings)
                     {
@@ -8462,7 +8479,24 @@ fn collect_dependencies_from_stmts(
 
         fn visit_opt_call(&mut self, call: &swc_ecma_ast::OptCall) {
             if let Expr::Member(member) = &*call.callee {
-                if call.args.is_empty() || should_collapse_member_callee_dependency(member) {
+                if let Some(dep) =
+                    member_object_dependency(member, self.known_bindings, self.local_bindings)
+                {
+                    maybe_push_dependency(&mut self.deps, &mut self.seen, dep);
+                } else {
+                    member.obj.visit_with(self);
+                }
+
+                if let MemberProp::Computed(computed) = &member.prop {
+                    computed.expr.visit_with(self);
+                }
+                for arg in &call.args {
+                    arg.visit_with(self);
+                }
+                return;
+            }
+            if let Expr::OptChain(callee_chain) = &*call.callee {
+                if let OptChainBase::Member(member) = &*callee_chain.base {
                     if let Some(dep) =
                         member_object_dependency(member, self.known_bindings, self.local_bindings)
                     {
@@ -11468,11 +11502,41 @@ fn inject_nested_call_memoization_into_stmts(
                     }
 
                     let arg_expr = unwrap_transparent_expr(&arg.expr);
+                    let should_split_push_call_arg = callee_is_push_method
+                        && matches!(arg_expr, Expr::Call(inner_call)
+                            if !call_has_hook_callee(inner_call)
+                                && matches!(
+                                    &inner_call.callee,
+                                    Callee::Expr(callee_expr)
+                                        if matches!(
+                                            unwrap_transparent_expr(callee_expr),
+                                            Expr::Ident(callee)
+                                                if !is_hook_name(callee.sym.as_ref())
+                                                    && !matches!(
+                                                        callee.sym.as_ref(),
+                                                        "String" | "Number" | "Boolean"
+                                                    )
+                                                    && !nested_known_bindings
+                                                        .contains_key(callee.sym.as_ref())
+                                        )
+                                )
+                                && !inner_call.args.is_empty()
+                                && inner_call.args.iter().all(|inner_arg| {
+                                    inner_arg.spread.is_none()
+                                        && matches!(
+                                            &*inner_arg.expr,
+                                            Expr::Ident(_) | Expr::Lit(_) | Expr::Member(_)
+                                        )
+                                })
+                        );
                     let should_split_array_or_object =
                         matches!(arg_expr, Expr::Array(_) | Expr::Object(_));
                     let should_split_complex_optional_push_arg =
                         callee_is_push_method && expr_contains_optional_call(arg_expr);
-                    if !should_split_array_or_object && !should_split_complex_optional_push_arg {
+                    if !should_split_array_or_object
+                        && !should_split_complex_optional_push_arg
+                        && !should_split_push_call_arg
+                    {
                         continue;
                     }
 
@@ -11483,6 +11547,9 @@ fn inject_nested_call_memoization_into_stmts(
                         &nested_known_bindings,
                         &local_bindings,
                     );
+                    if should_split_push_call_arg && nested_deps.is_empty() {
+                        continue;
+                    }
                     let arg_temp = fresh_temp_ident(next_temp, reserved);
                     let mut nested_compute =
                         vec![assign_stmt(AssignTarget::from(arg_temp.clone()), arg_expr)];
