@@ -295,6 +295,7 @@ pub fn compile_fn(
     if opts.environment.validate_no_impure_functions_in_render {
         collect_validation_error(validation::validate_no_impure_functions_in_render(&hir));
     }
+    collect_validation_error(validation::validate_no_eval_unsupported(&hir));
     if opts.environment.validate_no_capitalized_calls.is_some() {
         collect_validation_error(validation::validate_no_capitalized_calls(&hir));
     }

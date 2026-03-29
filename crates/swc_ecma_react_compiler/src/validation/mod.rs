@@ -5,6 +5,7 @@ mod validate_hooks_usage;
 mod validate_locals_not_reassigned_after_render;
 mod validate_no_capitalized_calls;
 mod validate_no_derived_computations_in_effects;
+mod validate_no_eval_unsupported;
 mod validate_no_freezing_known_mutable_functions;
 mod validate_no_impure_functions_in_render;
 mod validate_no_jsx_in_try_statement;
@@ -23,6 +24,7 @@ pub use self::{
     validate_locals_not_reassigned_after_render::validate_locals_not_reassigned_after_render,
     validate_no_capitalized_calls::validate_no_capitalized_calls,
     validate_no_derived_computations_in_effects::validate_no_derived_computations_in_effects,
+    validate_no_eval_unsupported::validate_no_eval_unsupported,
     validate_no_freezing_known_mutable_functions::validate_no_freezing_known_mutable_functions,
     validate_no_impure_functions_in_render::validate_no_impure_functions_in_render,
     validate_no_jsx_in_try_statement::validate_no_jsx_in_try_statement,

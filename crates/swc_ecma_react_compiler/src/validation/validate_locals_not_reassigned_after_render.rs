@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use swc_ecma_ast::{AssignExpr, AssignTarget, Expr, Pat, UpdateExpr};
+use swc_ecma_ast::{ArrowExpr, AssignExpr, AssignTarget, Expr, Function, Pat, UpdateExpr};
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
@@ -18,6 +18,7 @@ pub fn validate_locals_not_reassigned_after_render(hir: &HirFunction) -> Result<
         collect_pat_bindings(&param.pat, &mut locals);
     }
     collect_block_bindings(body, &mut locals);
+    let render_locals = locals.clone();
 
     #[derive(Default)]
     struct Finder {
@@ -94,6 +95,12 @@ pub fn validate_locals_not_reassigned_after_render(hir: &HirFunction) -> Result<
         ..Default::default()
     };
     body.visit_with(&mut finder);
+    finder
+        .errors
+        .extend(find_self_reassigning_function_initializers(
+            body,
+            &render_locals,
+        ));
 
     if finder.errors.is_empty() {
         Ok(())
@@ -102,6 +109,226 @@ pub fn validate_locals_not_reassigned_after_render(hir: &HirFunction) -> Result<
             details: finder.errors,
         })
     }
+}
+
+fn find_self_reassigning_function_initializers(
+    body: &swc_ecma_ast::BlockStmt,
+    render_locals: &HashSet<String>,
+) -> Vec<CompilerErrorDetail> {
+    let mut errors = Vec::new();
+
+    for stmt in &body.stmts {
+        let swc_ecma_ast::Stmt::Decl(swc_ecma_ast::Decl::Var(var_decl)) = stmt else {
+            continue;
+        };
+
+        for decl in &var_decl.decls {
+            let Pat::Ident(binding) = &decl.name else {
+                continue;
+            };
+            let Some(init) = &decl.init else {
+                continue;
+            };
+
+            if let Some(span) =
+                function_initializer_self_reassign_span(init, binding.id.sym.as_ref())
+            {
+                let mut detail = CompilerErrorDetail::error(
+                    ErrorCategory::Immutability,
+                    "Cannot reassign variable after render completes",
+                );
+                detail.description = Some(format!(
+                    "Reassigning `{}` after render has completed can cause inconsistent behavior \
+                     on subsequent renders. Consider using state instead.",
+                    binding.id.sym
+                ));
+                detail.loc = Some(span);
+                errors.push(detail);
+            }
+        }
+
+        continue;
+    }
+
+    for stmt in &body.stmts {
+        let swc_ecma_ast::Stmt::Decl(swc_ecma_ast::Decl::Fn(fn_decl)) = stmt else {
+            continue;
+        };
+        if let Some((span, name)) =
+            function_reassigns_outer_binding_span(&fn_decl.function, render_locals)
+        {
+            let mut detail = CompilerErrorDetail::error(
+                ErrorCategory::Immutability,
+                "Cannot reassign variable after render completes",
+            );
+            detail.description = Some(format!(
+                "Reassigning `{name}` after render has completed can cause inconsistent behavior \
+                 on subsequent renders. Consider using state instead."
+            ));
+            detail.loc = Some(span);
+            errors.push(detail);
+        }
+    }
+
+    errors
+}
+
+fn function_initializer_self_reassign_span(init: &Expr, target: &str) -> Option<swc_common::Span> {
+    struct Finder<'a> {
+        target: &'a str,
+        shadowed: HashSet<String>,
+        found: Option<swc_common::Span>,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_assign_expr(&mut self, assign: &AssignExpr) {
+            if self.found.is_some() {
+                return;
+            }
+            if let AssignTarget::Simple(swc_ecma_ast::SimpleAssignTarget::Ident(binding)) =
+                &assign.left
+            {
+                let name = binding.id.sym.as_ref();
+                if name == self.target && !self.shadowed.contains(name) {
+                    self.found = Some(assign.span);
+                    return;
+                }
+            }
+            assign.visit_children_with(self);
+        }
+
+        fn visit_update_expr(&mut self, update: &UpdateExpr) {
+            if self.found.is_some() {
+                return;
+            }
+            if let Expr::Ident(ident) = &*update.arg {
+                let name = ident.sym.as_ref();
+                if name == self.target && !self.shadowed.contains(name) {
+                    self.found = Some(update.span);
+                    return;
+                }
+            }
+            update.visit_children_with(self);
+        }
+    }
+
+    match init {
+        Expr::Arrow(arrow) => {
+            let mut shadowed = HashSet::new();
+            for param in &arrow.params {
+                collect_pat_bindings(param, &mut shadowed);
+            }
+            if let swc_ecma_ast::BlockStmtOrExpr::BlockStmt(body) = &*arrow.body {
+                collect_block_bindings(body, &mut shadowed);
+                let mut finder = Finder {
+                    target,
+                    shadowed,
+                    found: None,
+                };
+                body.visit_with(&mut finder);
+                finder.found
+            } else {
+                None
+            }
+        }
+        Expr::Fn(fn_expr) => {
+            let mut shadowed = HashSet::new();
+            for param in &fn_expr.function.params {
+                collect_pat_bindings(&param.pat, &mut shadowed);
+            }
+            if let Some(body) = &fn_expr.function.body {
+                collect_block_bindings(body, &mut shadowed);
+                let mut finder = Finder {
+                    target,
+                    shadowed,
+                    found: None,
+                };
+                body.visit_with(&mut finder);
+                finder.found
+            } else {
+                None
+            }
+        }
+        _ => None,
+    }
+}
+
+fn function_reassigns_outer_binding_span(
+    function: &Function,
+    render_locals: &HashSet<String>,
+) -> Option<(swc_common::Span, String)> {
+    let mut shadowed = HashSet::new();
+    for param in &function.params {
+        collect_pat_bindings(&param.pat, &mut shadowed);
+    }
+    if let Some(body) = &function.body {
+        collect_block_bindings(body, &mut shadowed);
+    } else {
+        return None;
+    }
+
+    struct Finder<'a> {
+        render_locals: &'a HashSet<String>,
+        shadowed: &'a HashSet<String>,
+        found: Option<(swc_common::Span, String)>,
+    }
+
+    impl Visit for Finder<'_> {
+        fn visit_function(&mut self, _: &Function) {
+            // Skip nested functions.
+        }
+
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Skip nested functions.
+        }
+
+        fn visit_assign_expr(&mut self, assign: &AssignExpr) {
+            if self.found.is_some() {
+                return;
+            }
+            if let AssignTarget::Simple(swc_ecma_ast::SimpleAssignTarget::Ident(binding)) =
+                &assign.left
+            {
+                let name = binding.id.sym.as_ref();
+                if self.render_locals.contains(name) && !self.shadowed.contains(name) {
+                    self.found = Some((assign.span, name.to_string()));
+                    return;
+                }
+            }
+            assign.visit_children_with(self);
+        }
+
+        fn visit_update_expr(&mut self, update: &UpdateExpr) {
+            if self.found.is_some() {
+                return;
+            }
+            if let Expr::Ident(ident) = &*update.arg {
+                let name = ident.sym.as_ref();
+                if self.render_locals.contains(name) && !self.shadowed.contains(name) {
+                    self.found = Some((update.span, name.to_string()));
+                    return;
+                }
+            }
+            update.visit_children_with(self);
+        }
+    }
+
+    let body = function.body.as_ref().expect("checked above");
+    let mut finder = Finder {
+        render_locals,
+        shadowed: &shadowed,
+        found: None,
+    };
+    body.visit_with(&mut finder);
+    finder.found
 }
 
 fn collect_pat_bindings(pat: &Pat, out: &mut HashSet<String>) {

@@ -16428,6 +16428,7 @@ fn hoist_stable_jsx_fragment_children(
     next_slot: &mut u32,
     memo_blocks: &mut u32,
     memo_values: &mut u32,
+    blocked_bindings: &HashSet<String>,
 ) {
     let Some(root_expr) = jsx_root_expr_mut(return_expr) else {
         return;
@@ -16454,6 +16455,9 @@ fn hoist_stable_jsx_fragment_children(
     let has_unstable_child = child_deps
         .iter()
         .any(|deps| deps.as_ref().is_some_and(|deps| !deps.is_empty()));
+    let has_stable_child = child_deps
+        .iter()
+        .any(|deps| deps.as_ref().is_some_and(|deps| deps.is_empty()));
     let jsx_element_child_count = child_deps.iter().filter(|deps| deps.is_some()).count();
     let first_jsx_child_is_component = fragment.children.iter().find_map(|child| match child {
         swc_ecma_ast::JSXElementChild::JSXElement(element) => {
@@ -16473,10 +16477,19 @@ fn hoist_stable_jsx_fragment_children(
         let swc_ecma_ast::JSXElementChild::JSXElement(element) = child else {
             continue;
         };
-        let Some(deps) = child_deps.get(index).and_then(Clone::clone) else {
+        let Some(child_dep) = child_deps.get(index).and_then(Clone::clone) else {
             continue;
         };
-        if has_unstable_child && !deps.is_empty() {
+        if has_unstable_child {
+            if has_stable_child {
+                if !child_dep.is_empty() {
+                    continue;
+                }
+            } else if child_dep.is_empty() {
+                continue;
+            }
+        }
+        if deps_reference_bindings(&child_dep, blocked_bindings) {
             continue;
         }
         if !has_unstable_child && hoisted_one_stable_child {
@@ -16492,9 +16505,27 @@ fn hoist_stable_jsx_fragment_children(
                 expr: Box::new(Expr::JSXElement(element.clone())),
             })
         };
+        let mut hoisted_expr = Box::new(hoisted_expr);
+        // Run JSX-return hoisting recursively so nested call/array arguments in
+        // this child can get their own memoized temporaries before the child
+        // element itself is memoized.
+        hoist_string_calls_from_jsx_return(
+            &mut hoisted_expr,
+            transformed,
+            known_bindings,
+            reserved,
+            next_temp,
+            cache_ident,
+            next_slot,
+            memo_blocks,
+            memo_values,
+            blocked_bindings,
+        );
+        let local_bindings = HashSet::new();
+        let deps = collect_dependencies_from_expr(&hoisted_expr, known_bindings, &local_bindings);
         let mut compute_stmts = vec![assign_stmt(
             AssignTarget::from(value_temp.clone()),
-            Box::new(hoisted_expr),
+            hoisted_expr,
         )];
         strip_runtime_call_type_args_in_stmts(&mut compute_stmts);
 
@@ -16509,7 +16540,7 @@ fn hoist_stable_jsx_fragment_children(
         *next_slot += deps.len() as u32 + 1;
         *memo_blocks += 1;
         *memo_values += 1;
-        known_bindings.insert(value_temp.sym.to_string(), true);
+        known_bindings.insert(value_temp.sym.to_string(), deps.is_empty());
 
         *child = swc_ecma_ast::JSXElementChild::JSXExprContainer(swc_ecma_ast::JSXExprContainer {
             span: DUMMY_SP,
@@ -16557,6 +16588,7 @@ fn hoist_string_calls_from_jsx_return(
         next_slot,
         memo_blocks,
         memo_values,
+        blocked_bindings,
     );
 
     struct Hoister<'a> {
@@ -16734,16 +16766,21 @@ fn hoist_string_calls_from_jsx_return(
 }
 
 fn should_hoist_single_dependency_array_expr(array: &swc_ecma_ast::ArrayLit) -> bool {
-    let [Some(elem)] = array.elems.as_slice() else {
-        return false;
-    };
-    if elem.spread.is_some() {
+    if array.elems.is_empty() {
         return false;
     }
-    matches!(
-        unwrap_transparent_expr(&elem.expr),
-        Expr::Ident(_) | Expr::Member(_)
-    )
+    array.elems.iter().all(|elem| {
+        let Some(elem) = elem else {
+            return false;
+        };
+        if elem.spread.is_some() {
+            return false;
+        }
+        matches!(
+            unwrap_transparent_expr(&elem.expr),
+            Expr::Ident(_) | Expr::Member(_) | Expr::OptChain(_)
+        )
+    })
 }
 
 fn expr_references_bindings(expr: &Expr, bindings: &HashSet<String>) -> bool {
@@ -16778,6 +16815,22 @@ fn expr_references_bindings(expr: &Expr, bindings: &HashSet<String>) -> bool {
     };
     expr.visit_with(&mut finder);
     finder.found
+}
+
+fn deps_reference_bindings(deps: &[ReactiveDependency], bindings: &HashSet<String>) -> bool {
+    if bindings.is_empty() {
+        return false;
+    }
+
+    deps.iter().any(|dep| {
+        let base = dep
+            .key
+            .split_once('.')
+            .map(|(base, _)| base)
+            .unwrap_or(dep.key.as_str());
+        let base = base.split_once('[').map(|(base, _)| base).unwrap_or(base);
+        bindings.contains(base)
+    })
 }
 
 fn binary_has_negative_numeric_rhs(bin: &swc_ecma_ast::BinExpr) -> bool {
