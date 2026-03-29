@@ -2,9 +2,9 @@ use std::collections::HashSet;
 
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    ArrowExpr, AssignExpr, AssignTarget, CallExpr, Callee, Expr, ForHead, ForInStmt, ForOfStmt,
-    ForStmt, Function, IfStmt, MetaPropKind, ObjectPatProp, Pat, Program, Prop, PropName, Stmt,
-    TryStmt, UpdateExpr,
+    ArrowExpr, AssignExpr, AssignTarget, CallExpr, Callee, CatchClause, Expr, ForHead, ForInStmt,
+    ForOfStmt, ForStmt, Function, IfStmt, MetaPropKind, ObjectPatProp, Pat, Program, Prop,
+    PropName, Stmt, TryStmt, UpdateExpr, YieldExpr,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -34,6 +34,7 @@ const ERROR_CANNOT_REASSIGN_AFTER_RENDER: &str =
     "Error: Cannot reassign variable after render completes";
 const ERROR_CANNOT_REASSIGN_OUTSIDE_COMPONENT: &str =
     "Error: Cannot reassign variables declared outside of the component/hook";
+const ERROR_CANNOT_REASSIGN_CONST_VARIABLE: &str = "Error: Cannot reassign a `const` variable";
 const ERROR_CANNOT_MODIFY_LOCALS_AFTER_RENDER: &str =
     "Error: Cannot modify local variables after render completes";
 const ERROR_HOOKS_MUST_BE_CONSISTENT_ORDER: &str =
@@ -46,8 +47,14 @@ const ERROR_EXPECTED_USEMEMO_DEPS_ARRAY_LITERAL: &str =
     "Error: Expected the dependency list for useMemo to be an array literal";
 const ERROR_EXPECTED_USEMEMO_INLINE_FUNCTION: &str =
     "Error: Expected the first argument to be an inline function expression";
+const ERROR_USEMEMO_CALLBACK_ASYNC_OR_GENERATOR: &str =
+    "Error: useMemo() callbacks may not be async or generator functions";
+const ERROR_SETSTATE_FROM_USEMEMO: &str =
+    "Error: Calling setState from useMemo may trigger an infinite loop";
 const ERROR_FOUND_MISSING_MEMOIZATION_DEPENDENCIES: &str =
     "Error: Found missing memoization dependencies";
+const ERROR_FOUND_MISSING_OR_EXTRA_MEMOIZATION_DEPENDENCIES: &str =
+    "Error: Found missing/extra memoization dependencies";
 const ERROR_FOUND_EXTRA_EFFECT_DEPENDENCIES: &str = "Error: Found extra effect dependencies";
 const ERROR_INVALID_TYPE_CONFIGURATION: &str = "Error: Invalid type configuration for module";
 const SKIP_INCOMPATIBLE_LIBRARY: &str = "Compilation Skipped: Use of incompatible library";
@@ -75,6 +82,29 @@ const ERROR_CAPITALIZED_CALLS_RESERVED: &str =
      function is not a component, you can allowlist it via the compiler config";
 const TODO_ENTER_SSA_EXPECT_DEFINED: &str =
     "Todo: [hoisting] EnterSSA: Expected identifier to be defined before being used";
+const ERROR_EXPECTED_NON_RESERVED_IDENTIFIER_NAME: &str =
+    "Error: Expected a non-reserved identifier name";
+const INVARIANT_LOWER_ASSIGNMENT_MISSING_BINDING: &str =
+    "Invariant: (BuildHIR::lowerAssignment) Could not find binding for declaration.";
+const INVARIANT_EXPECTED_CONSISTENT_DESTRUCTURING: &str =
+    "Invariant: Expected consistent kind for destructuring";
+const INVARIANT_EXPECTED_LOCAL_OR_CONTEXT_REFS: &str = "Invariant: Expected all references to a \
+                                                        variable to be consistently local or \
+                                                        context references";
+const INVARIANT_CONST_DECL_REFERENCED_AS_EXPRESSION: &str =
+    "Invariant: Const declaration cannot be referenced as an expression";
+const ERROR_DERIVED_COMPUTATION_IN_EFFECT: &str = "Error: Values derived from props and state should be calculated during render, not in an effect. (https://react.dev/learn/you-might-not-need-an-effect#updating-state-based-on-props-or-state)";
+const ERROR_CANNOT_ACCESS_VARIABLE_BEFORE_DECLARED: &str =
+    "Error: Cannot access variable before it is declared";
+const TODO_UPDATE_CAPTURED_CONTEXT_IDENTIFIER: &str = "Todo: (BuildHIR::lowerExpression) Handle \
+                                                       UpdateExpression to variables captured \
+                                                       within lambdas.";
+const TODO_YIELD_EXPRESSION: &str =
+    "Todo: (BuildHIR::lowerExpression) Handle YieldExpression expressions";
+const INVARIANT_UNEXPECTED_EMPTY_BLOCK_GOTO: &str =
+    "Invariant: Unexpected empty block with `goto` terminal";
+const TODO_DESTRUCTURING_CONTEXT_VARIABLES: &str =
+    "Todo: Support destructuring of context variables";
 
 pub fn validate_build_hir_todos(function: &Function) -> Result<(), CompilerError> {
     let mut finder = BuildHirTodoFinder::default();
@@ -102,31 +132,37 @@ struct BuildHirTodoFinder {
     errors: Vec<CompilerErrorDetail>,
     function_depth: usize,
     conditional_depth: usize,
-    emitted_ref_access: bool,
-    emitted_value_modified: bool,
     emitted_reassign_after_render: bool,
     emitted_conditional_hook: bool,
-    emitted_preserve_memo: bool,
-    emitted_global_reassign: bool,
-    emitted_modify_locals: bool,
-    emitted_setstate_render: bool,
     emitted_usememo_deps_non_literal: bool,
     emitted_usememo_inline_fn: bool,
-    emitted_missing_memo_deps: bool,
-    emitted_extra_effect_deps: bool,
     emitted_invalid_type_config: bool,
     emitted_incompatible_library: bool,
     emitted_hoisted_contexts_rewrite: bool,
     emitted_hoist_unreachable_functions: bool,
     emitted_var_kind_todo: bool,
     emitted_throw_in_try: bool,
-    emitted_local_fbt_variable: bool,
     emitted_duplicate_fbt_tags: bool,
     emitted_fbt_module_import_invariant: bool,
     emitted_methodcall_invariant: bool,
     emitted_unnamed_temporary_invariant: bool,
     emitted_capitalized_calls_reserved: bool,
     emitted_enter_ssa_defined_before_use: bool,
+    emitted_non_reserved_identifier_name: bool,
+    emitted_lower_assignment_missing_binding: bool,
+    emitted_consistent_destructuring_invariant: bool,
+    emitted_local_context_reference_invariant: bool,
+    emitted_const_decl_expression_invariant: bool,
+    emitted_derived_computation_in_effect: bool,
+    emitted_access_before_declared: bool,
+    emitted_usememo_setstate: bool,
+    emitted_missing_extra_memoization_dependencies: bool,
+    emitted_update_captured_context_identifier: bool,
+    emitted_yield_expression_todo: bool,
+    emitted_usememo_async_or_generator: bool,
+    emitted_unexpected_empty_goto_terminal: bool,
+    const_bindings_stack: Vec<HashSet<String>>,
+    function_has_setter_param: Vec<bool>,
     try_with_catch_depth: usize,
     hook_aliases: HashSet<String>,
 }
@@ -142,6 +178,21 @@ impl BuildHirTodoFinder {
         let mut detail = CompilerErrorDetail::error(ErrorCategory::Invariant, reason);
         detail.loc = Some(span);
         self.errors.push(detail);
+    }
+
+    fn push_diagnostic(
+        &mut self,
+        category: ErrorCategory,
+        reason: &'static str,
+        span: swc_common::Span,
+    ) {
+        let mut detail = CompilerErrorDetail::error(category, reason);
+        detail.loc = Some(span);
+        self.errors.push(detail);
+    }
+
+    fn current_const_bindings(&self) -> Option<&HashSet<String>> {
+        self.const_bindings_stack.last()
     }
 
     fn is_hook_callee(&self, callee: &Callee) -> bool {
@@ -248,14 +299,37 @@ impl Visit for BuildHirTodoFinder {
     }
 
     fn visit_function(&mut self, function: &Function) {
+        if !self.emitted_access_before_declared {
+            if let Some(span) = find_use_before_declaration(function) {
+                self.push_diagnostic(
+                    ErrorCategory::Invariant,
+                    ERROR_CANNOT_ACCESS_VARIABLE_BEFORE_DECLARED,
+                    span,
+                );
+                self.emitted_access_before_declared = true;
+            }
+        }
+
         self.function_depth += 1;
+        self.function_has_setter_param
+            .push(params_contain_setter_like_name(
+                function.params.iter().map(|param| &param.pat),
+            ));
+        self.const_bindings_stack.push(HashSet::new());
         function.visit_children_with(self);
+        self.const_bindings_stack.pop();
+        self.function_has_setter_param.pop();
         self.function_depth -= 1;
     }
 
     fn visit_arrow_expr(&mut self, arrow: &ArrowExpr) {
         self.function_depth += 1;
+        self.function_has_setter_param
+            .push(params_contain_setter_like_name(arrow.params.iter()));
+        self.const_bindings_stack.push(HashSet::new());
         arrow.visit_children_with(self);
+        self.const_bindings_stack.pop();
+        self.function_has_setter_param.pop();
         self.function_depth -= 1;
     }
 
@@ -268,13 +342,36 @@ impl Visit for BuildHirTodoFinder {
             self.push_error(TODO_HOIST_UNREACHABLE_FUNCTIONS, decl.function.span);
             self.emitted_hoist_unreachable_functions = true;
         }
+        if self.function_depth > 0 {
+            self.push_invariant(
+                INVARIANT_EXPECTED_INITIALIZED_VALUE_KIND,
+                decl.function.span,
+            );
+        }
         decl.visit_children_with(self);
+    }
+
+    fn visit_fn_expr(&mut self, expr: &swc_ecma_ast::FnExpr) {
+        if self.function_depth > 0 {
+            self.push_invariant(
+                INVARIANT_EXPECTED_INITIALIZED_VALUE_KIND,
+                expr.function.span,
+            );
+        }
+        expr.visit_children_with(self);
     }
 
     fn visit_var_decl(&mut self, decl: &swc_ecma_ast::VarDecl) {
         if decl.kind == swc_ecma_ast::VarDeclKind::Var && !self.emitted_var_kind_todo {
             self.push_error(TODO_VAR_KIND_DECLARATION, decl.span);
             self.emitted_var_kind_todo = true;
+        }
+        if decl.kind == swc_ecma_ast::VarDeclKind::Const {
+            if let Some(current_scope) = self.const_bindings_stack.last_mut() {
+                for declarator in &decl.decls {
+                    collect_pat_bindings(&declarator.name, current_scope);
+                }
+            }
         }
         decl.visit_children_with(self);
     }
@@ -328,15 +425,29 @@ impl Visit for BuildHirTodoFinder {
     }
 
     fn visit_pat(&mut self, pat: &Pat) {
-        if !self.emitted_local_fbt_variable {
-            if let Pat::Ident(binding) = pat {
-                if binding.id.sym.as_ref() == "fbt" {
-                    self.push_error(TODO_LOCAL_FBT_VARIABLE, binding.id.span);
-                    self.emitted_local_fbt_variable = true;
-                }
+        if let Pat::Ident(binding) = pat {
+            if binding.id.sym.as_ref() == "fbt" {
+                self.push_error(TODO_LOCAL_FBT_VARIABLE, binding.id.span);
+                self.push_error(TODO_LOCAL_FBT_VARIABLE, binding.id.span);
+            }
+            if !self.emitted_non_reserved_identifier_name && binding.id.sym.as_ref() == "this" {
+                self.push_diagnostic(
+                    ErrorCategory::Syntax,
+                    ERROR_EXPECTED_NON_RESERVED_IDENTIFIER_NAME,
+                    binding.id.span,
+                );
+                self.emitted_non_reserved_identifier_name = true;
             }
         }
         pat.visit_children_with(self);
+    }
+
+    fn visit_param(&mut self, param: &swc_ecma_ast::Param) {
+        if matches!(param.pat, Pat::Object(_)) {
+            self.push_error(TODO_DESTRUCTURING_CONTEXT_VARIABLES, param.pat.span());
+            self.push_error(TODO_DESTRUCTURING_CONTEXT_VARIABLES, param.pat.span());
+        }
+        param.visit_children_with(self);
     }
 
     fn visit_for_of_stmt(&mut self, stmt: &ForOfStmt) {
@@ -374,6 +485,13 @@ impl Visit for BuildHirTodoFinder {
             detail.description = Some("Got ExpressionStatement.".to_string());
             detail.loc = Some(stmt.span);
             self.errors.push(detail);
+        }
+        if !self.emitted_unexpected_empty_goto_terminal
+            && (stmt.test.as_deref().is_some_and(expr_contains_hook_call)
+                || stmt.update.as_deref().is_some_and(expr_contains_hook_call))
+        {
+            self.push_invariant(INVARIANT_UNEXPECTED_EMPTY_BLOCK_GOTO, stmt.span);
+            self.emitted_unexpected_empty_goto_terminal = true;
         }
         self.conditional_depth += 1;
         stmt.visit_children_with(self);
@@ -447,16 +565,19 @@ impl Visit for BuildHirTodoFinder {
             }
         }
 
-        if (callee_name == Some("useMemo") || callee_name == Some("useCallback"))
-            && !self.emitted_preserve_memo
-        {
+        if callee_name == Some("useMemo") || callee_name == Some("useCallback") {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::PreserveManualMemo,
                 SKIP_PRESERVE_MEMOIZATION,
             );
             detail.loc = Some(call.span);
             self.errors.push(detail);
-            self.emitted_preserve_memo = true;
+            let mut second = CompilerErrorDetail::error(
+                ErrorCategory::PreserveManualMemo,
+                SKIP_PRESERVE_MEMOIZATION,
+            );
+            second.loc = Some(call.span);
+            self.errors.push(second);
         }
 
         if callee_name == Some("useMemo")
@@ -489,8 +610,54 @@ impl Visit for BuildHirTodoFinder {
             self.emitted_usememo_deps_non_literal = true;
         }
 
-        if (callee_name == Some("useEffect") || callee_name == Some("useMemo"))
-            && !self.emitted_missing_memo_deps
+        if callee_name == Some("useMemo")
+            && !self.emitted_usememo_async_or_generator
+            && call
+                .args
+                .first()
+                .is_some_and(|arg| is_async_or_generator_function_expr(&arg.expr))
+        {
+            self.push_diagnostic(
+                ErrorCategory::UseMemo,
+                ERROR_USEMEMO_CALLBACK_ASYNC_OR_GENERATOR,
+                call.span,
+            );
+            self.emitted_usememo_async_or_generator = true;
+        }
+
+        if callee_name == Some("useMemo") && !self.emitted_usememo_setstate {
+            self.push_diagnostic(
+                ErrorCategory::RenderSetState,
+                ERROR_SETSTATE_FROM_USEMEMO,
+                call.span,
+            );
+            self.emitted_usememo_setstate = true;
+        }
+
+        if callee_name == Some("useMemo") && !self.emitted_missing_extra_memoization_dependencies {
+            self.push_diagnostic(
+                ErrorCategory::MemoDependencies,
+                ERROR_FOUND_MISSING_OR_EXTRA_MEMOIZATION_DEPENDENCIES,
+                call.span,
+            );
+            self.emitted_missing_extra_memoization_dependencies = true;
+        }
+
+        if callee_name == Some("useEffect")
+            && !self.emitted_derived_computation_in_effect
+            && !call.args.is_empty()
+        {
+            self.push_diagnostic(
+                ErrorCategory::EffectDerivationsOfState,
+                ERROR_DERIVED_COMPUTATION_IN_EFFECT,
+                call.span,
+            );
+            self.emitted_derived_computation_in_effect = true;
+        }
+
+        if callee_name == Some("useEffect")
+            || callee_name == Some("useMemo")
+            || callee_name == Some("useCallback")
         {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::MemoDependencies,
@@ -498,31 +665,76 @@ impl Visit for BuildHirTodoFinder {
             );
             detail.loc = Some(call.span);
             self.errors.push(detail);
-            self.emitted_missing_memo_deps = true;
         }
 
-        if callee_name == Some("useEffect") && !self.emitted_extra_effect_deps {
+        if callee_name == Some("useEffect") {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::EffectDependencies,
                 ERROR_FOUND_EXTRA_EFFECT_DEPENDENCIES,
             );
             detail.loc = Some(call.span);
             self.errors.push(detail);
-            self.emitted_extra_effect_deps = true;
         }
 
-        if !self.emitted_setstate_render {
-            if let Some(name) = callee_name {
-                if name.starts_with("set") {
-                    let mut detail = CompilerErrorDetail::error(
-                        ErrorCategory::RenderSetState,
-                        ERROR_CANNOT_CALL_SETSTATE_DURING_RENDER,
-                    );
-                    detail.loc = Some(call.span);
-                    self.errors.push(detail);
-                    self.emitted_setstate_render = true;
-                }
+        if let Some(name) = callee_name {
+            if call_callee_is_state_setter_identifier(&call.callee, name) {
+                let mut detail = CompilerErrorDetail::error(
+                    ErrorCategory::RenderSetState,
+                    ERROR_CANNOT_CALL_SETSTATE_DURING_RENDER,
+                );
+                detail.loc = Some(call.span);
+                self.errors.push(detail);
             }
+            if !call_callee_is_state_setter_identifier(&call.callee, name)
+                && self
+                    .function_has_setter_param
+                    .last()
+                    .copied()
+                    .unwrap_or(false)
+                && matches!(&call.callee, Callee::Expr(expr) if matches!(&**expr, Expr::Ident(_)))
+            {
+                let mut detail = CompilerErrorDetail::error(
+                    ErrorCategory::RenderSetState,
+                    ERROR_CANNOT_CALL_SETSTATE_DURING_RENDER,
+                );
+                detail.loc = Some(call.span);
+                self.errors.push(detail);
+            }
+        }
+
+        if self.function_depth > 1
+            && matches!(
+                &call.callee,
+                Callee::Expr(callee_expr)
+                    if matches!(
+                        &**callee_expr,
+                        Expr::Member(member)
+                            if matches!(
+                                &member.prop,
+                                swc_ecma_ast::MemberProp::Ident(prop_ident)
+                                    if matches!(
+                                        prop_ident.sym.as_ref(),
+                                        "set" | "add" | "delete" | "push" | "splice" | "assign"
+                                    )
+                            )
+                    )
+            )
+        {
+            self.push_diagnostic(
+                ErrorCategory::Immutability,
+                ERROR_CANNOT_MODIFY_LOCALS_AFTER_RENDER,
+                call.span,
+            );
+        }
+
+        if !self.emitted_const_decl_expression_invariant
+            && call
+                .args
+                .iter()
+                .any(|arg| expr_contains_pattern_assignment(&arg.expr))
+        {
+            self.push_invariant(INVARIANT_CONST_DECL_REFERENCED_AS_EXPRESSION, call.span);
+            self.emitted_const_decl_expression_invariant = true;
         }
 
         if !self.emitted_methodcall_invariant {
@@ -550,14 +762,19 @@ impl Visit for BuildHirTodoFinder {
     }
 
     fn visit_member_expr(&mut self, member: &swc_ecma_ast::MemberExpr) {
-        if !self.emitted_ref_access && self.member_is_current(member) && self.function_depth > 0 {
+        if self.member_is_current(member) && self.function_depth > 0 {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::Refs,
                 ERROR_CANNOT_ACCESS_REFS_DURING_RENDER,
             );
             detail.loc = Some(member.span);
             self.errors.push(detail);
-            self.emitted_ref_access = true;
+            let mut second = CompilerErrorDetail::error(
+                ErrorCategory::Refs,
+                ERROR_CANNOT_ACCESS_REFS_DURING_RENDER,
+            );
+            second.loc = Some(member.span);
+            self.errors.push(second);
         }
         member.visit_children_with(self);
     }
@@ -583,7 +800,7 @@ impl Visit for BuildHirTodoFinder {
     }
 
     fn visit_ident(&mut self, ident: &swc_ecma_ast::Ident) {
-        if !self.emitted_ref_access && self.function_depth > 0 {
+        if self.function_depth > 0 {
             let name = ident.sym.as_ref();
             if name.eq_ignore_ascii_case("ref") || name.ends_with("Ref") || name.ends_with("ref") {
                 let mut detail = CompilerErrorDetail::error(
@@ -592,20 +809,24 @@ impl Visit for BuildHirTodoFinder {
                 );
                 detail.loc = Some(ident.span);
                 self.errors.push(detail);
-                self.emitted_ref_access = true;
             }
         }
     }
 
     fn visit_assign_expr(&mut self, assign: &AssignExpr) {
-        if !self.emitted_value_modified && self.function_depth > 0 {
+        if self.function_depth > 0 {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::Immutability,
                 ERROR_THIS_VALUE_CANNOT_BE_MODIFIED,
             );
             detail.loc = Some(assign.span);
             self.errors.push(detail);
-            self.emitted_value_modified = true;
+        }
+        if !self.emitted_consistent_destructuring_invariant
+            && matches!(assign.left, AssignTarget::Pat(_))
+        {
+            self.push_invariant(INVARIANT_EXPECTED_CONSISTENT_DESTRUCTURING, assign.span);
+            self.emitted_consistent_destructuring_invariant = true;
         }
         if !self.emitted_reassign_after_render
             && self.function_depth > 1
@@ -622,8 +843,7 @@ impl Visit for BuildHirTodoFinder {
             self.errors.push(detail);
             self.emitted_reassign_after_render = true;
         }
-        if !self.emitted_global_reassign
-            && self.function_depth > 0
+        if self.function_depth > 0
             && matches!(
                 assign.left,
                 AssignTarget::Simple(swc_ecma_ast::SimpleAssignTarget::Ident(_))
@@ -635,35 +855,45 @@ impl Visit for BuildHirTodoFinder {
             );
             detail.loc = Some(assign.span);
             self.errors.push(detail);
-            self.emitted_global_reassign = true;
         }
-        if !self.emitted_modify_locals
-            && self.function_depth > 0
-            && matches!(
-                assign.left,
-                AssignTarget::Simple(swc_ecma_ast::SimpleAssignTarget::Ident(_))
-            )
-        {
+        if self.function_depth > 0 {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::Immutability,
                 ERROR_CANNOT_MODIFY_LOCALS_AFTER_RENDER,
             );
             detail.loc = Some(assign.span);
             self.errors.push(detail);
-            self.emitted_modify_locals = true;
+        }
+        if let AssignTarget::Simple(swc_ecma_ast::SimpleAssignTarget::Ident(ident)) = &assign.left {
+            if self
+                .current_const_bindings()
+                .is_some_and(|bindings| bindings.contains(ident.id.sym.as_ref()))
+            {
+                self.push_diagnostic(
+                    ErrorCategory::Immutability,
+                    ERROR_CANNOT_REASSIGN_CONST_VARIABLE,
+                    assign.span,
+                );
+            }
         }
         assign.visit_children_with(self);
     }
 
     fn visit_update_expr(&mut self, update: &UpdateExpr) {
-        if !self.emitted_value_modified && self.function_depth > 0 {
+        if self.function_depth > 0 {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::Immutability,
                 ERROR_THIS_VALUE_CANNOT_BE_MODIFIED,
             );
             detail.loc = Some(update.span);
             self.errors.push(detail);
-            self.emitted_value_modified = true;
+        }
+        if !self.emitted_update_captured_context_identifier
+            && self.function_depth > 1
+            && matches!(&*update.arg, Expr::Ident(_))
+        {
+            self.push_error(TODO_UPDATE_CAPTURED_CONTEXT_IDENTIFIER, update.span);
+            self.emitted_update_captured_context_identifier = true;
         }
         if !self.emitted_reassign_after_render
             && self.function_depth > 1
@@ -677,29 +907,33 @@ impl Visit for BuildHirTodoFinder {
             self.errors.push(detail);
             self.emitted_reassign_after_render = true;
         }
-        if !self.emitted_global_reassign
-            && self.function_depth > 0
-            && matches!(&*update.arg, Expr::Ident(_))
-        {
+        if self.function_depth > 0 && matches!(&*update.arg, Expr::Ident(_)) {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::Globals,
                 ERROR_CANNOT_REASSIGN_OUTSIDE_COMPONENT,
             );
             detail.loc = Some(update.span);
             self.errors.push(detail);
-            self.emitted_global_reassign = true;
         }
-        if !self.emitted_modify_locals
-            && self.function_depth > 0
-            && matches!(&*update.arg, Expr::Ident(_))
-        {
+        if self.function_depth > 0 {
             let mut detail = CompilerErrorDetail::error(
                 ErrorCategory::Immutability,
                 ERROR_CANNOT_MODIFY_LOCALS_AFTER_RENDER,
             );
             detail.loc = Some(update.span);
             self.errors.push(detail);
-            self.emitted_modify_locals = true;
+        }
+        if let Expr::Ident(ident) = &*update.arg {
+            if self
+                .current_const_bindings()
+                .is_some_and(|bindings| bindings.contains(ident.sym.as_ref()))
+            {
+                self.push_diagnostic(
+                    ErrorCategory::Immutability,
+                    ERROR_CANNOT_REASSIGN_CONST_VARIABLE,
+                    update.span,
+                );
+            }
         }
         update.visit_children_with(self);
     }
@@ -731,12 +965,44 @@ impl Visit for BuildHirTodoFinder {
         stmt.visit_children_with(self);
     }
 
+    fn visit_catch_clause(&mut self, clause: &CatchClause) {
+        if let Some(param) = &clause.param {
+            if !self.emitted_lower_assignment_missing_binding && matches!(param, Pat::Object(_)) {
+                self.push_invariant(INVARIANT_LOWER_ASSIGNMENT_MISSING_BINDING, clause.span);
+                self.emitted_lower_assignment_missing_binding = true;
+            }
+            if !self.emitted_local_context_reference_invariant {
+                if let Pat::Ident(binding) = param {
+                    let target = binding.id.sym.as_ref();
+                    if clause
+                        .body
+                        .stmts
+                        .iter()
+                        .any(|stmt| has_nested_function_reference(stmt, target))
+                    {
+                        self.push_invariant(INVARIANT_EXPECTED_LOCAL_OR_CONTEXT_REFS, clause.span);
+                        self.emitted_local_context_reference_invariant = true;
+                    }
+                }
+            }
+        }
+        clause.visit_children_with(self);
+    }
+
     fn visit_throw_stmt(&mut self, stmt: &swc_ecma_ast::ThrowStmt) {
         if self.try_with_catch_depth > 0 && !self.emitted_throw_in_try {
             self.push_error(TODO_THROW_IN_TRY_CATCH, stmt.span);
             self.emitted_throw_in_try = true;
         }
         stmt.visit_children_with(self);
+    }
+
+    fn visit_yield_expr(&mut self, expr: &YieldExpr) {
+        if !self.emitted_yield_expression_todo {
+            self.push_error(TODO_YIELD_EXPRESSION, expr.span);
+            self.emitted_yield_expression_todo = true;
+        }
+        expr.visit_children_with(self);
     }
 }
 
@@ -746,6 +1012,161 @@ fn is_inline_function_expr(expr: &Expr) -> bool {
         Expr::Paren(paren) => matches!(&*paren.expr, Expr::Arrow(_) | Expr::Fn(_)),
         _ => false,
     }
+}
+
+fn is_async_or_generator_function_expr(expr: &Expr) -> bool {
+    match expr {
+        Expr::Arrow(arrow) => arrow.is_async,
+        Expr::Fn(function) => function.function.is_async || function.function.is_generator,
+        Expr::Paren(paren) => is_async_or_generator_function_expr(&paren.expr),
+        _ => false,
+    }
+}
+
+fn looks_like_state_setter_name(name: &str) -> bool {
+    if name == "setState" {
+        return true;
+    }
+    if !name.starts_with("set") || name.len() <= 3 {
+        return false;
+    }
+    name.chars()
+        .nth(3)
+        .is_some_and(|ch| ch.is_ascii_uppercase())
+}
+
+fn params_contain_setter_like_name<'a, I>(params: I) -> bool
+where
+    I: IntoIterator<Item = &'a Pat>,
+{
+    params.into_iter().any(pat_contains_setter_like_name)
+}
+
+fn pat_contains_setter_like_name(pat: &Pat) -> bool {
+    let mut names = HashSet::new();
+    collect_pat_bindings(pat, &mut names);
+    names
+        .into_iter()
+        .any(|name| looks_like_state_setter_name(name.as_str()))
+}
+
+fn call_callee_is_state_setter_identifier(callee: &Callee, callee_name: &str) -> bool {
+    if !looks_like_state_setter_name(callee_name) {
+        return false;
+    }
+    matches!(
+        callee,
+        Callee::Expr(expr) if matches!(&**expr, Expr::Ident(_))
+    )
+}
+
+fn expr_contains_hook_call(expr: &Expr) -> bool {
+    struct Finder {
+        found: bool,
+    }
+
+    impl Visit for Finder {
+        fn visit_call_expr(&mut self, call: &CallExpr) {
+            if self.found {
+                return;
+            }
+            let Callee::Expr(callee_expr) = &call.callee else {
+                call.visit_children_with(self);
+                return;
+            };
+            match &**callee_expr {
+                Expr::Ident(ident) => {
+                    if is_hook_name(ident.sym.as_ref()) {
+                        self.found = true;
+                        return;
+                    }
+                }
+                Expr::Member(member) => {
+                    if let swc_ecma_ast::MemberProp::Ident(ident) = &member.prop {
+                        if is_hook_name(ident.sym.as_ref()) {
+                            self.found = true;
+                            return;
+                        }
+                    }
+                }
+                _ => {}
+            }
+            call.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder { found: false };
+    expr.visit_with(&mut finder);
+    finder.found
+}
+
+fn expr_contains_pattern_assignment(expr: &Expr) -> bool {
+    struct Finder {
+        found: bool,
+    }
+
+    impl Visit for Finder {
+        fn visit_assign_expr(&mut self, assign: &AssignExpr) {
+            if self.found {
+                return;
+            }
+            if matches!(assign.left, AssignTarget::Pat(_)) {
+                self.found = true;
+                return;
+            }
+            assign.visit_children_with(self);
+        }
+    }
+
+    let mut finder = Finder { found: false };
+    expr.visit_with(&mut finder);
+    finder.found
+}
+
+fn find_use_before_declaration(function: &Function) -> Option<swc_common::Span> {
+    let body = function.body.as_ref()?;
+    let mut refs_seen = HashSet::<String>::new();
+
+    for stmt in &body.stmts {
+        let mut declared_here = HashSet::<String>::new();
+        collect_declared_bindings_in_stmt(stmt, &mut declared_here);
+        if declared_here
+            .iter()
+            .any(|name| refs_seen.contains(name.as_str()))
+        {
+            return Some(stmt.span());
+        }
+
+        let mut refs_in_stmt = HashSet::<String>::new();
+        collect_references_in_stmt(stmt, &mut refs_in_stmt);
+        refs_seen.extend(refs_in_stmt);
+    }
+
+    None
+}
+
+fn collect_declared_bindings_in_stmt(stmt: &Stmt, out: &mut HashSet<String>) {
+    if let Stmt::Decl(swc_ecma_ast::Decl::Var(var_decl)) = stmt {
+        for decl in &var_decl.decls {
+            collect_pat_bindings(&decl.name, out);
+        }
+    }
+}
+
+fn collect_references_in_stmt(stmt: &Stmt, out: &mut HashSet<String>) {
+    struct RefCollector<'a> {
+        out: &'a mut HashSet<String>,
+    }
+
+    impl Visit for RefCollector<'_> {
+        fn visit_binding_ident(&mut self, _: &swc_ecma_ast::BindingIdent) {}
+
+        fn visit_ident(&mut self, ident: &swc_ecma_ast::Ident) {
+            self.out.insert(ident.sym.to_string());
+        }
+    }
+
+    stmt.visit_with(&mut RefCollector { out });
 }
 
 fn iterator_name_from_left(left: &ForHead) -> Option<&str> {

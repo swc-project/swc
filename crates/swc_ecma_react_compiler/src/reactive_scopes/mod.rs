@@ -1724,6 +1724,8 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
     let mut transformed = Vec::new();
     transformed.extend(stmts.drain(..directive_end));
     transformed.extend(param_prologue);
+    inline_unused_use_memo_effect_stmts(&mut stmts);
+    rewrite_terminal_return_reactive_hook_calls_to_decl(&mut stmts, &mut reserved, &mut next_temp);
     inline_use_memo_empty_deps_returns(&mut stmts);
     inline_use_callback_empty_deps_decls(&mut stmts);
     rewrite_use_callback_decls_to_use_memo(&mut stmts);
@@ -4645,6 +4647,115 @@ fn call_is_state_tuple_hook(call: &CallExpr) -> bool {
         hook_name.as_deref(),
         Some("useState" | "useReducer" | "useActionState" | "useTransition" | "useOptimistic")
     )
+}
+
+fn inline_unused_use_memo_effect_stmts(stmts: &mut Vec<Stmt>) {
+    let mut rewritten = Vec::with_capacity(stmts.len());
+    for stmt in std::mem::take(stmts) {
+        let Some(mut inlined) = inline_use_memo_effect_stmt(&stmt) else {
+            rewritten.push(stmt);
+            continue;
+        };
+        rewritten.append(&mut inlined);
+    }
+    *stmts = rewritten;
+}
+
+fn inline_use_memo_effect_stmt(stmt: &Stmt) -> Option<Vec<Stmt>> {
+    let Stmt::Expr(expr_stmt) = stmt else {
+        return None;
+    };
+    let Expr::Call(call) = unwrap_transparent_expr(&expr_stmt.expr) else {
+        return None;
+    };
+    let Callee::Expr(callee_expr) = &call.callee else {
+        return None;
+    };
+    let Expr::Ident(callee) = unwrap_transparent_expr(callee_expr) else {
+        return None;
+    };
+    if callee.sym != "useMemo" {
+        return None;
+    }
+    let [factory, _deps] = call.args.as_slice() else {
+        return None;
+    };
+    if factory.spread.is_some() {
+        return None;
+    }
+
+    match unwrap_transparent_expr(&factory.expr) {
+        Expr::Arrow(arrow) => {
+            if !arrow.params.is_empty() {
+                return None;
+            }
+            match &*arrow.body {
+                swc_ecma_ast::BlockStmtOrExpr::BlockStmt(block) => Some(block.stmts.clone()),
+                swc_ecma_ast::BlockStmtOrExpr::Expr(expr) => Some(vec![Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: expr.clone(),
+                })]),
+            }
+        }
+        Expr::Fn(function) => {
+            let function = &function.function;
+            if !function.params.is_empty() {
+                return None;
+            }
+            function.body.as_ref().map(|body| body.stmts.clone())
+        }
+        _ => None,
+    }
+}
+
+fn rewrite_terminal_return_reactive_hook_calls_to_decl(
+    stmts: &mut Vec<Stmt>,
+    reserved: &mut HashSet<String>,
+    next_temp: &mut u32,
+) {
+    let Some(Stmt::Return(return_stmt)) = stmts.last_mut() else {
+        return;
+    };
+    let Some(return_arg) = &return_stmt.arg else {
+        return;
+    };
+    if !is_reactive_hook_call_expr(return_arg) {
+        return;
+    }
+
+    let temp = fresh_temp_ident(next_temp, reserved);
+    let init = return_stmt.arg.take();
+    let decl = make_var_decl(
+        VarDeclKind::Const,
+        Pat::Ident(BindingIdent {
+            id: temp.clone(),
+            type_ann: None,
+        }),
+        init,
+    );
+    let return_stmt = Stmt::Return(swc_ecma_ast::ReturnStmt {
+        span: DUMMY_SP,
+        arg: Some(Box::new(Expr::Ident(temp))),
+    });
+    stmts.pop();
+    stmts.push(decl);
+    stmts.push(return_stmt);
+}
+
+fn is_reactive_hook_call_expr(expr: &Expr) -> bool {
+    let Expr::Call(call) = unwrap_transparent_expr(expr) else {
+        return false;
+    };
+    let Callee::Expr(callee_expr) = &call.callee else {
+        return false;
+    };
+    match unwrap_transparent_expr(callee_expr) {
+        Expr::Ident(callee) => callee.sym.as_ref() == "useCallback",
+        Expr::Member(member) => {
+            member_prop_name(&member.prop).is_some_and(|name| name == "useCallback")
+        }
+        _ => false,
+    }
 }
 
 fn inline_use_memo_empty_deps_returns(stmts: &mut [Stmt]) {
