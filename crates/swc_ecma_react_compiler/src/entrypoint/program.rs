@@ -62,9 +62,18 @@ pub fn compile_program(
 ) -> Result<CompileReport, CompilerError> {
     let program_start = Instant::now();
     let mut report = CompileReport::default();
+    let mut effective_opts = pass.opts.clone();
+
+    // Upstream enables reanimated-specific typing support when the package is
+    // present and the compatibility check is enabled.
+    if effective_opts.enable_reanimated_check && program_uses_reanimated_module(program) {
+        effective_opts
+            .environment
+            .enable_custom_type_definition_for_reanimated = true;
+    }
 
     if let Some(filename) = pass.filename.as_deref() {
-        if !pass.opts.should_include_file(filename) {
+        if !effective_opts.should_include_file(filename) {
             report.events.push(LoggerEvent::CompileSkip {
                 fn_loc: None,
                 reason: "Skipped because file is excluded by `sources` filters.".into(),
@@ -72,15 +81,17 @@ pub fn compile_program(
             });
             return Ok(report);
         }
-    } else if pass.opts.sources.is_some() {
+    } else if effective_opts.sources.is_some() {
         return Err(CompilerError::invalid_config(
             "Expected a filename but found none.",
             "When the `sources` option is specified, React Compiler requires filename context.",
         ));
     }
 
-    if imports::has_memo_cache_function_import(program, pass.opts.target.runtime_module().as_ref())
-    {
+    if imports::has_memo_cache_function_import(
+        program,
+        effective_opts.target.runtime_module().as_ref(),
+    ) {
         report.events.push(LoggerEvent::CompileSkip {
             fn_loc: None,
             reason: "Skipped because compiler runtime import already exists in this file."
@@ -92,19 +103,18 @@ pub fn compile_program(
 
     imports::validate_restricted_imports(
         program,
-        &pass.opts.environment.validate_blocklisted_imports,
+        &effective_opts.environment.validate_blocklisted_imports,
     )?;
 
-    let suppression_rules = if pass
-        .opts
+    let suppression_rules = if effective_opts
         .environment
         .validate_exhaustive_memoization_dependencies
-        && pass.opts.environment.validate_hooks_usage
+        && effective_opts.environment.validate_hooks_usage
     {
         None
     } else {
         Some(
-            pass.opts
+            effective_opts
                 .eslint_suppression_rules
                 .clone()
                 .unwrap_or_else(suppression::default_eslint_suppression_rules),
@@ -113,16 +123,16 @@ pub fn compile_program(
     let program_suppressions = suppression::find_program_suppressions(
         &pass.comments,
         suppression_rules.as_deref(),
-        pass.opts.flow_suppressions,
+        effective_opts.flow_suppressions,
     );
 
     let module_scope_opt_out = {
         let directives = top_level_directives(program);
-        find_directive_disabling_memoization(&directives, &pass.opts.custom_opt_out_directives)
+        find_directive_disabling_memoization(&directives, &effective_opts.custom_opt_out_directives)
             .is_some()
     };
 
-    let output_mode = pass.opts.effective_output_mode();
+    let output_mode = effective_opts.effective_output_mode();
     let forget_should_instrument_local =
         pick_unique_external_local_name(program, "shouldInstrument");
     let forget_use_render_counter_local =
@@ -134,7 +144,7 @@ pub fn compile_program(
         .as_deref()
         .is_some_and(|code| code.contains("@expectNothingCompiled"));
     let mut compiler = ProgramCompiler {
-        opts: &pass.opts,
+        opts: &effective_opts,
         output_mode,
         module_scope_opt_out,
         function_depth: 0,
@@ -178,7 +188,8 @@ pub fn compile_program(
     });
 
     if !module_scope_opt_out && requires_runtime_import && output_mode != CompilerOutputMode::Lint {
-        if imports::add_memo_cache_import(program, pass.opts.target.runtime_module().as_ref()) {
+        if imports::add_memo_cache_import(program, effective_opts.target.runtime_module().as_ref())
+        {
             report.inserted_imports += 1;
             report.changed = true;
         }
@@ -205,7 +216,7 @@ pub fn compile_program(
             }
         }
 
-        normalize_compiler_import_order(program, pass.opts.target.runtime_module().as_ref());
+        normalize_compiler_import_order(program, effective_opts.target.runtime_module().as_ref());
     }
 
     if !module_scope_opt_out && output_mode != CompilerOutputMode::Lint {
@@ -222,13 +233,27 @@ pub fn compile_program(
         ),
     });
 
-    if let Some(logger) = pass.opts.logger.as_ref() {
+    if let Some(logger) = effective_opts.logger.as_ref() {
         for event in &report.events {
             logger.log_event(pass.filename.as_deref(), event);
         }
     }
 
     Ok(report)
+}
+
+fn program_uses_reanimated_module(program: &Program) -> bool {
+    let Program::Module(module) = program else {
+        return false;
+    };
+
+    module.body.iter().any(|item| {
+        let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = item else {
+            return false;
+        };
+
+        import_decl.src.value == "react-native-reanimated"
+    })
 }
 
 /// Compiles one function through the staged pipeline.
@@ -298,7 +323,14 @@ pub fn compile_fn(
     if opts.environment.validate_no_set_state_in_render {
         collect_validation_error(validation::validate_no_set_state_in_render(&hir));
     }
-    if opts.environment.validate_no_derived_computations_in_effects {
+    if opts
+        .environment
+        .validate_no_derived_computations_in_effects_exp
+        && output_mode == CompilerOutputMode::Lint
+    {
+        // Upstream keeps lint progression non-blocking for the experimental variant.
+        let _ = validation::validate_no_derived_computations_in_effects(&hir);
+    } else if opts.environment.validate_no_derived_computations_in_effects {
         collect_validation_error(validation::validate_no_derived_computations_in_effects(
             &hir,
         ));
