@@ -149,6 +149,37 @@ impl Visit for CurrentClassNameFinder {
     }
 }
 
+#[derive(Default)]
+struct DecoratorPresenceFinder {
+    found: bool,
+}
+
+impl Visit for DecoratorPresenceFinder {
+    noop_visit_type!();
+
+    fn visit_decorator(&mut self, _: &Decorator) {
+        self.found = true;
+    }
+
+    fn visit_module_items(&mut self, items: &[ModuleItem]) {
+        for item in items {
+            if self.found {
+                break;
+            }
+            item.visit_with(self);
+        }
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        for stmt in stmts {
+            if self.found {
+                break;
+            }
+            stmt.visit_with(self);
+        }
+    }
+}
+
 struct ImplicitGlobalUsageRewriter<'a> {
     implicit_globals: &'a mut FxHashSet<Atom>,
 }
@@ -214,6 +245,18 @@ impl DecoratorPass {
         expr.visit_mut_with(&mut ImplicitGlobalUsageRewriter {
             implicit_globals: &mut self.implicit_globals,
         });
+    }
+
+    fn module_items_have_decorators(&self, items: &[ModuleItem]) -> bool {
+        let mut finder = DecoratorPresenceFinder::default();
+        items.visit_with(&mut finder);
+        finder.found
+    }
+
+    fn stmts_have_decorators(&self, stmts: &[Stmt]) -> bool {
+        let mut finder = DecoratorPresenceFinder::default();
+        stmts.visit_with(&mut finder);
+        finder.found
     }
 
     fn maybe_to_property_key(&self, expr: Expr) -> Expr {
@@ -3192,6 +3235,12 @@ impl VisitMut for DecoratorPass {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        if self.is_2023_11() && self.module_items_have_decorators(n) {
+            n.visit_mut_with(&mut ImplicitGlobalUsageRewriter {
+                implicit_globals: &mut self.implicit_globals,
+            });
+        }
+
         let extra_vars = self.extra_vars.take();
         let extra_lets = self.extra_lets.take();
         let pre_class_inits = self.pre_class_inits.take();
@@ -3528,6 +3577,12 @@ impl VisitMut for DecoratorPass {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        if self.is_2023_11() && self.stmts_have_decorators(n) {
+            n.visit_mut_with(&mut ImplicitGlobalUsageRewriter {
+                implicit_globals: &mut self.implicit_globals,
+            });
+        }
+
         let old_state = take(&mut self.state);
         let old_pre_class_inits = self.pre_class_inits.take();
         let old_extra_lets = self.extra_lets.take();
