@@ -53,6 +53,14 @@ struct DecoratorPass {
     /// Track them to preserve sloppy-mode behavior expected by Babel fixtures.
     implicit_globals: FxHashSet<Atom>,
 
+    /// Child mark per unresolved outer mark for implicit-global rewrites that
+    /// are scoped to decorator-lifted expressions.
+    implicit_global_rewrite_marks: FxHashMap<Mark, Mark>,
+
+    /// If true, unresolved identifiers visited in the current expression are
+    /// tagged with a child mark for implicit-global rewrite.
+    in_implicit_global_rewrite_expr: bool,
+
     /// Stack of private names declared by currently visited classes.
     class_private_names: Vec<FxHashSet<Atom>>,
 }
@@ -149,89 +157,6 @@ impl Visit for CurrentClassNameFinder {
     }
 }
 
-#[derive(Default)]
-struct DecoratorPresenceFinder {
-    found: bool,
-}
-
-impl Visit for DecoratorPresenceFinder {
-    noop_visit_type!();
-
-    fn visit_decorator(&mut self, _: &Decorator) {
-        self.found = true;
-    }
-
-    fn visit_module_items(&mut self, items: &[ModuleItem]) {
-        for item in items {
-            if self.found {
-                break;
-            }
-            item.visit_with(self);
-        }
-    }
-
-    fn visit_stmts(&mut self, stmts: &[Stmt]) {
-        for stmt in stmts {
-            if self.found {
-                break;
-            }
-            stmt.visit_with(self);
-        }
-    }
-}
-
-struct ImplicitGlobalUsageRewriter<'a> {
-    implicit_globals: &'a mut FxHashSet<Atom>,
-}
-
-impl ImplicitGlobalUsageRewriter<'_> {
-    fn is_unresolved_ident(ident: &Ident) -> bool {
-        matches!(ident.ctxt.as_u32(), 0 | 1)
-    }
-
-    fn global_this_member_expr(sym: Atom, span: Span) -> MemberExpr {
-        MemberExpr {
-            span,
-            obj: Ident::new("globalThis".into(), span, SyntaxContext::empty()).into(),
-            prop: MemberProp::Ident(Ident::new(sym, span, SyntaxContext::empty()).into()),
-        }
-    }
-}
-
-impl VisitMut for ImplicitGlobalUsageRewriter<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        if let Expr::Assign(assign) = e {
-            assign.left.visit_mut_with(self);
-            assign.right.visit_mut_with(self);
-
-            if assign.op == op!("=") {
-                if let AssignTarget::Simple(SimpleAssignTarget::Ident(binding)) = &assign.left {
-                    let id = &binding.id;
-                    if Self::is_unresolved_ident(id) {
-                        self.implicit_globals.insert(id.sym.clone());
-                        assign.left = AssignTarget::Simple(SimpleAssignTarget::Member(
-                            Self::global_this_member_expr(id.sym.clone(), id.span),
-                        ));
-                    }
-                }
-            }
-
-            return;
-        }
-
-        if let Expr::Ident(ident) = e {
-            if Self::is_unresolved_ident(ident) && self.implicit_globals.contains(&ident.sym) {
-                *e = Self::global_this_member_expr(ident.sym.clone(), ident.span).into();
-            }
-            return;
-        }
-
-        maybe_grow_default(|| e.visit_mut_children_with(self));
-    }
-}
-
 impl DecoratorPass {
     fn is_2023_11(&self) -> bool {
         matches!(self.version, DecoratorVersion::V202311)
@@ -242,21 +167,51 @@ impl DecoratorPass {
             return;
         }
 
-        expr.visit_mut_with(&mut ImplicitGlobalUsageRewriter {
-            implicit_globals: &mut self.implicit_globals,
-        });
+        let old = self.in_implicit_global_rewrite_expr;
+        self.in_implicit_global_rewrite_expr = true;
+        expr.visit_mut_with(self);
+        self.in_implicit_global_rewrite_expr = old;
     }
 
-    fn module_items_have_decorators(&self, items: &[ModuleItem]) -> bool {
-        let mut finder = DecoratorPresenceFinder::default();
-        items.visit_with(&mut finder);
-        finder.found
+    fn is_unresolved_ident(&self, ident: &Ident) -> bool {
+        matches!(ident.ctxt.as_u32(), 0 | 1)
     }
 
-    fn stmts_have_decorators(&self, stmts: &[Stmt]) -> bool {
-        let mut finder = DecoratorPresenceFinder::default();
-        stmts.visit_with(&mut finder);
-        finder.found
+    fn global_this_member_expr(&self, sym: Atom, span: Span) -> MemberExpr {
+        MemberExpr {
+            span,
+            obj: Ident::new("globalThis".into(), span, SyntaxContext::empty()).into(),
+            prop: MemberProp::Ident(Ident::new(sym, span, SyntaxContext::empty()).into()),
+        }
+    }
+
+    fn unresolved_outer_mark_for_implicit_global_rewrite(&self, ident: &Ident) -> Option<Mark> {
+        if !self.is_unresolved_ident(ident) {
+            return None;
+        }
+
+        let unresolved_outer_mark = ident.ctxt.outer();
+        (unresolved_outer_mark != Mark::root()).then_some(unresolved_outer_mark)
+    }
+
+    fn mark_ident_for_implicit_global_rewrite(&mut self, ident: &mut Ident) {
+        let Some(unresolved_outer_mark) =
+            self.unresolved_outer_mark_for_implicit_global_rewrite(ident)
+        else {
+            return;
+        };
+
+        let child_mark = self
+            .implicit_global_rewrite_marks
+            .entry(unresolved_outer_mark)
+            .or_insert_with(|| Mark::fresh(unresolved_outer_mark));
+        ident.ctxt = ident.ctxt.apply_mark(*child_mark);
+    }
+
+    fn is_marked_for_implicit_global_rewrite(&self, ident: &Ident) -> bool {
+        self.implicit_global_rewrite_marks
+            .values()
+            .any(|&mark| ident.ctxt.has_mark(mark))
     }
 
     fn maybe_to_property_key(&self, expr: Expr) -> Expr {
@@ -2098,6 +2053,7 @@ impl DecoratorPass {
 
                 let mut key_expr = self.maybe_to_property_key(prop_name_to_expr_value(name.take()));
                 self.maybe_alias_current_class_name_expr(&mut key_expr);
+                self.rewrite_implicit_globals_in_expr(&mut key_expr);
                 let prefer_class_key = self.should_queue_class_key_init(&key_expr, true);
 
                 self.queue_pre_class_init(
@@ -2163,6 +2119,12 @@ impl VisitMut for DecoratorPass {
         self.current_class_name = n.ident.clone();
         n.class.visit_mut_with(self);
         self.current_class_name = old_name;
+    }
+
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        if self.in_implicit_global_rewrite_expr {
+            self.mark_ident_for_implicit_global_rewrite(n);
+        }
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
@@ -3162,6 +3124,39 @@ impl VisitMut for DecoratorPass {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if let Expr::Assign(assign) = e {
+            assign.left.visit_mut_with(self);
+            assign.right.visit_mut_with(self);
+
+            if self.is_2023_11() && assign.op == op!("=") {
+                if let AssignTarget::Simple(SimpleAssignTarget::Ident(binding)) = &assign.left {
+                    let id = &binding.id;
+                    if self.is_marked_for_implicit_global_rewrite(id) {
+                        self.implicit_globals.insert(id.sym.clone());
+                        assign.left = AssignTarget::Simple(SimpleAssignTarget::Member(
+                            self.global_this_member_expr(id.sym.clone(), id.span),
+                        ));
+                    }
+                }
+            }
+
+            return;
+        }
+
+        if let Expr::Ident(ident) = e {
+            self.visit_mut_ident(ident);
+
+            if self.is_2023_11()
+                && self.is_marked_for_implicit_global_rewrite(ident)
+                && self.implicit_globals.contains(&ident.sym)
+            {
+                *e = self
+                    .global_this_member_expr(ident.sym.clone(), ident.span)
+                    .into();
+            }
+            return;
+        }
+
         if let Expr::Class(c) = e {
             if !c.class.decorators.is_empty() {
                 let new = self.handle_class_expr(&mut c.class, c.ident.as_ref());
@@ -3235,12 +3230,6 @@ impl VisitMut for DecoratorPass {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        if self.is_2023_11() && self.module_items_have_decorators(n) {
-            n.visit_mut_with(&mut ImplicitGlobalUsageRewriter {
-                implicit_globals: &mut self.implicit_globals,
-            });
-        }
-
         let extra_vars = self.extra_vars.take();
         let extra_lets = self.extra_lets.take();
         let pre_class_inits = self.pre_class_inits.take();
@@ -3577,12 +3566,6 @@ impl VisitMut for DecoratorPass {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        if self.is_2023_11() && self.stmts_have_decorators(n) {
-            n.visit_mut_with(&mut ImplicitGlobalUsageRewriter {
-                implicit_globals: &mut self.implicit_globals,
-            });
-        }
-
         let old_state = take(&mut self.state);
         let old_pre_class_inits = self.pre_class_inits.take();
         let old_extra_lets = self.extra_lets.take();
