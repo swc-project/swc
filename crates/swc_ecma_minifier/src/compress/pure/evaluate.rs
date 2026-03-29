@@ -539,7 +539,7 @@ impl Pure<'_> {
             if let Some(first_arg) = args.first() {
                 if first_arg.spread.is_some() {
                     Value::Unknown
-                } else if first_arg.expr.is_undefined(self.expr_ctx) {
+                } else if first_arg.expr.is_undefined(self.expr_ctx) || first_arg.expr.is_void() {
                     Value::Known(None)
                 } else {
                     eval_as_number(self.expr_ctx, &first_arg.expr)
