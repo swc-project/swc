@@ -242,10 +242,19 @@ pub fn compile_fn(
     let mut normalized = function.clone();
     normalize_function_params_for_lowering(&mut normalized);
     let mut hir = crate::hir::lower(&normalized, id, fn_type)?;
+    let mut validation_errors = CompilerError::new();
+    let mut collect_validation_error = |result: Result<(), CompilerError>| {
+        if let Err(err) = result {
+            validation_errors.extend(err);
+        }
+    };
 
     optimization::prune_maybe_throws(&mut hir);
-    validation::validate_context_variable_lvalues(&hir)?;
-    validation::validate_use_memo(&hir, opts.environment.validate_no_void_use_memo)?;
+    collect_validation_error(validation::validate_context_variable_lvalues(&hir));
+    collect_validation_error(validation::validate_use_memo(
+        &hir,
+        opts.environment.validate_no_void_use_memo,
+    ));
     inference::drop_manual_memoization(&mut hir);
     inference::inline_immediately_invoked_function_expressions(&mut hir);
 
@@ -256,13 +265,13 @@ pub fn compile_fn(
     inference::infer_types(&mut hir);
 
     if opts.environment.validate_hooks_usage {
-        validation::validate_hooks_usage(&hir)?;
+        collect_validation_error(validation::validate_hooks_usage(&hir));
     }
     if opts.environment.validate_no_impure_functions_in_render {
-        validation::validate_no_impure_functions_in_render(&hir)?;
+        collect_validation_error(validation::validate_no_impure_functions_in_render(&hir));
     }
     if opts.environment.validate_no_capitalized_calls.is_some() {
-        validation::validate_no_capitalized_calls(&hir)?;
+        collect_validation_error(validation::validate_no_capitalized_calls(&hir));
     }
 
     optimization::optimize_props_method_calls(&mut hir);
@@ -279,16 +288,20 @@ pub fn compile_fn(
     inference::infer_mutation_aliasing_ranges(&mut hir);
     // Upstream runs this validation unconditionally and reserves
     // `assert_valid_mutable_ranges` for additional internal checks.
-    validation::validate_locals_not_reassigned_after_render(&hir)?;
+    collect_validation_error(validation::validate_locals_not_reassigned_after_render(
+        &hir,
+    ));
 
     if opts.environment.validate_ref_access_during_render {
-        validation::validate_no_ref_access_in_render(&hir)?;
+        collect_validation_error(validation::validate_no_ref_access_in_render(&hir));
     }
     if opts.environment.validate_no_set_state_in_render {
-        validation::validate_no_set_state_in_render(&hir)?;
+        collect_validation_error(validation::validate_no_set_state_in_render(&hir));
     }
     if opts.environment.validate_no_derived_computations_in_effects {
-        validation::validate_no_derived_computations_in_effects(&hir)?;
+        collect_validation_error(validation::validate_no_derived_computations_in_effects(
+            &hir,
+        ));
     }
     if opts.environment.validate_no_set_state_in_effects && output_mode == CompilerOutputMode::Lint
     {
@@ -303,7 +316,9 @@ pub fn compile_fn(
         .environment
         .validate_no_freezing_known_mutable_functions
     {
-        validation::validate_no_freezing_known_mutable_functions(&hir)?;
+        collect_validation_error(validation::validate_no_freezing_known_mutable_functions(
+            &hir,
+        ));
     }
 
     inference::infer_reactive_places(&mut hir);
@@ -316,12 +331,12 @@ pub fn compile_fn(
             .validate_exhaustive_effect_dependencies
             .is_enabled()
     {
-        validation::validate_exhaustive_dependencies(
+        collect_validation_error(validation::validate_exhaustive_dependencies(
             &hir,
             opts.environment
                 .validate_exhaustive_memoization_dependencies,
             opts.environment.validate_exhaustive_effect_dependencies,
-        )?;
+        ));
     }
     ssa::rewrite_instruction_kinds_based_on_reassignment(&mut hir);
 
@@ -345,16 +360,19 @@ pub fn compile_fn(
             .environment
             .validate_preserve_existing_memoization_guarantees
     {
-        validation::validate_preserved_manual_memoization(&hir)?;
+        collect_validation_error(validation::validate_preserved_manual_memoization(&hir));
     }
     if opts.environment.validate_static_components && output_mode == CompilerOutputMode::Lint {
         let _ = validation::validate_static_components(&hir);
     }
     if opts.environment.validate_source_locations {
-        validation::validate_source_locations(&hir)?;
+        collect_validation_error(validation::validate_source_locations(&hir));
     }
     if opts.environment.throw_unknown_exception_testonly {
         panic!("unexpected error");
+    }
+    if validation_errors.has_any_errors() {
+        return Err(validation_errors);
     }
 
     Ok(reactive_scopes::codegen_function(reactive))

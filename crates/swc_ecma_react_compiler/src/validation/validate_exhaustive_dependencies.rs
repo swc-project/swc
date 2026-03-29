@@ -65,6 +65,10 @@ pub fn validate_exhaustive_dependencies(
 
             let inferred = collect_callback_dependencies(&callback_expr, self.outer_bindings);
             let inferred = dedup_dependencies(inferred);
+            let inferred = inferred
+                .into_iter()
+                .filter(|dep| !dep.path.iter().any(|segment| segment == "current"))
+                .collect::<Vec<_>>();
             let manual = dedup_dependencies(manual);
 
             let mut missing = Vec::new();

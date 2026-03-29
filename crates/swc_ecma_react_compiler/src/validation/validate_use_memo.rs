@@ -366,9 +366,14 @@ fn assigns_outer_context(function_like: &FunctionLike, parent_bindings: &HashSet
                 body.visit_with(&mut finder);
             }
         }
-        FunctionLike::Arrow(arrow) => {
-            arrow.visit_with(&mut finder);
-        }
+        FunctionLike::Arrow(arrow) => match &*arrow.body {
+            swc_ecma_ast::BlockStmtOrExpr::BlockStmt(block) => {
+                block.visit_with(&mut finder);
+            }
+            swc_ecma_ast::BlockStmtOrExpr::Expr(expr) => {
+                expr.visit_with(&mut finder);
+            }
+        },
     }
     finder.assigns_outer
 }

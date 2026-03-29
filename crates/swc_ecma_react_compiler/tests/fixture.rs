@@ -569,10 +569,23 @@ fn normalize_js_like(value: &str) -> String {
 }
 
 fn expected_error_reasons(expected: &str) -> Vec<String> {
+    const PREFIXES: &[&str] = &["Error: ", "Todo: ", "Invariant: ", "Compilation Skipped: "];
+
     expected
         .lines()
-        .filter_map(|line| line.trim().strip_prefix("Error: "))
-        .map(|reason| reason.trim().to_string())
+        .filter_map(|line| {
+            let trimmed = line.trim();
+            for prefix in PREFIXES {
+                if let Some(reason) = trimmed.strip_prefix(prefix) {
+                    let reason = reason.trim();
+                    if *prefix == "Error: " {
+                        return Some(reason.to_string());
+                    }
+                    return Some(format!("{prefix}{reason}"));
+                }
+            }
+            None
+        })
         .collect()
 }
 
