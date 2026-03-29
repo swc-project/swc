@@ -106,6 +106,10 @@ pub fn compile_program(
         &effective_opts.environment.validate_blocklisted_imports,
     )?;
 
+    if let Err(err) = validation::validate_build_hir_todos_program(program) {
+        report.diagnostics.extend(err.details);
+    }
+
     let suppression_rules = if effective_opts
         .environment
         .validate_exhaustive_memoization_dependencies
@@ -166,7 +170,14 @@ pub fn compile_program(
 
     program.visit_mut_with(&mut compiler);
 
-    if let Some(err) = compiler.fatal_error {
+    if compiler.fatal_error.is_some() {
+        let mut err = compiler
+            .fatal_error
+            .take()
+            .expect("fatal_error was checked to be present");
+        for detail in compiler.report.diagnostics {
+            err.push(detail);
+        }
         return Err(err);
     }
 
@@ -264,15 +275,17 @@ pub fn compile_fn(
     output_mode: CompilerOutputMode,
     opts: &ParsedPluginOptions,
 ) -> Result<CodegenFunction, CompilerError> {
-    let mut normalized = function.clone();
-    normalize_function_params_for_lowering(&mut normalized);
-    let mut hir = crate::hir::lower(&normalized, id, fn_type)?;
     let mut validation_errors = CompilerError::new();
     let mut collect_validation_error = |result: Result<(), CompilerError>| {
         if let Err(err) = result {
             validation_errors.extend(err);
         }
     };
+    collect_validation_error(validation::validate_reorderable_default_params(function));
+
+    let mut normalized = function.clone();
+    normalize_function_params_for_lowering(&mut normalized);
+    let mut hir = crate::hir::lower(&normalized, id, fn_type)?;
 
     optimization::prune_maybe_throws(&mut hir);
     collect_validation_error(validation::validate_context_variable_lvalues(&hir));

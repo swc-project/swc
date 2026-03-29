@@ -1,4 +1,5 @@
 mod dependency;
+mod validate_build_hir_todos;
 mod validate_context_variable_lvalues;
 mod validate_exhaustive_dependencies;
 mod validate_hooks_usage;
@@ -13,11 +14,13 @@ mod validate_no_ref_access_in_render;
 mod validate_no_set_state_in_effects;
 mod validate_no_set_state_in_render;
 mod validate_preserved_manual_memoization;
+mod validate_reorderable_default_params;
 mod validate_source_locations;
 mod validate_static_components;
 mod validate_use_memo;
 
 pub use self::{
+    validate_build_hir_todos::{validate_build_hir_todos, validate_build_hir_todos_program},
     validate_context_variable_lvalues::validate_context_variable_lvalues,
     validate_exhaustive_dependencies::validate_exhaustive_dependencies,
     validate_hooks_usage::validate_hooks_usage,
@@ -32,6 +35,8 @@ pub use self::{
     validate_no_set_state_in_effects::validate_no_set_state_in_effects,
     validate_no_set_state_in_render::validate_no_set_state_in_render,
     validate_preserved_manual_memoization::validate_preserved_manual_memoization,
+    validate_reorderable_default_params::validate_reorderable_default_params,
     validate_source_locations::validate_source_locations,
-    validate_static_components::validate_static_components, validate_use_memo::validate_use_memo,
+    validate_static_components::validate_static_components,
+    validate_use_memo::validate_use_memo,
 };
