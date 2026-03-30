@@ -104,13 +104,28 @@ fn propagate_stmt(
                 }
             }
         }
+        Stmt::Throw(throw_stmt) => {
+            fold_constants_in_expr(&mut throw_stmt.arg, env);
+            if let Some(value) = eval_expr(&throw_stmt.arg, env) {
+                throw_stmt.arg = value.to_expr();
+            }
+        }
         Stmt::If(if_stmt) => {
             fold_constants_in_expr(&mut if_stmt.test, env);
             let Some(test) = eval_expr(&if_stmt.test, env) else {
                 if try_propagate_phi_assignment(if_stmt, env) {
                     return;
                 }
+                let mut cons_env = env.clone();
+                let mut cons_const_bindings = const_bindings.clone();
+                propagate_stmt(&mut if_stmt.cons, &mut cons_env, &mut cons_const_bindings);
+                if let Some(alt) = &mut if_stmt.alt {
+                    let mut alt_env = env.clone();
+                    let mut alt_const_bindings = const_bindings.clone();
+                    propagate_stmt(alt, &mut alt_env, &mut alt_const_bindings);
+                }
                 env.clear();
+                const_bindings.clear();
                 return;
             };
 
@@ -129,9 +144,32 @@ fn propagate_stmt(
             propagate_stmt(&mut replacement, env, const_bindings);
             *stmt = replacement;
         }
+        Stmt::Switch(switch_stmt) => {
+            fold_constants_in_expr(&mut switch_stmt.discriminant, env);
+            if let Some(value) = eval_expr(&switch_stmt.discriminant, env) {
+                switch_stmt.discriminant = value.to_expr();
+            }
+
+            for case in &mut switch_stmt.cases {
+                if let Some(test) = &mut case.test {
+                    fold_constants_in_expr(test, env);
+                    if let Some(value) = eval_expr(test, env) {
+                        *test = value.to_expr();
+                    }
+                }
+
+                let mut case_env = env.clone();
+                let mut case_const_bindings = const_bindings.clone();
+                for stmt in &mut case.cons {
+                    propagate_stmt(stmt, &mut case_env, &mut case_const_bindings);
+                }
+            }
+
+            env.clear();
+            const_bindings.clear();
+        }
         // Keep propagation conservative around branching/loops.
-        Stmt::Switch(_)
-        | Stmt::ForIn(_)
+        Stmt::ForIn(_)
         | Stmt::ForOf(_)
         | Stmt::DoWhile(_)
         | Stmt::Try(_)

@@ -2271,6 +2271,87 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
         {
             break;
         }
+        if reassigned_after
+            && matches!(
+                unwrap_transparent_expr(init.as_ref()),
+                Expr::Array(_) | Expr::Object(_)
+            )
+            && binding_passed_to_potentially_mutating_call_after(
+                &stmts[prefix_index + 1..],
+                binding.sym.as_ref(),
+            )
+        {
+            if let Some(Stmt::Expr(next_expr_stmt)) = stmts.get(prefix_index + 1) {
+                if let Expr::Call(next_call) = unwrap_transparent_expr(&next_expr_stmt.expr) {
+                    if call_mutates_binding(next_call, binding.sym.as_ref()) {
+                        break;
+                    }
+                }
+            }
+        }
+        if reassigned_after
+            && matches!(
+                unwrap_transparent_expr(init.as_ref()),
+                Expr::Array(_) | Expr::Object(_)
+            )
+            && can_split_reassigned_binding_initial_mutation(
+                &stmts[prefix_index + 2..],
+                binding.sym.as_ref(),
+            )
+        {
+            if let Some(Stmt::Expr(next_expr_stmt)) = stmts.get(prefix_index + 1) {
+                if let Expr::Call(next_call) = unwrap_transparent_expr(&next_expr_stmt.expr) {
+                    if call_mutates_binding(next_call, binding.sym.as_ref()) {
+                        transformed.extend(std::mem::take(&mut pending_prefix_stmts));
+
+                        let mut deps = {
+                            let local = HashSet::new();
+                            collect_dependencies_from_expr(&init, &known_bindings, &local)
+                        };
+                        let next_call_expr = Expr::Call(next_call.clone());
+                        let local = HashSet::new();
+                        for dep in
+                            collect_dependencies_from_expr(&next_call_expr, &known_bindings, &local)
+                        {
+                            if dep.key == binding.sym.as_ref()
+                                || dep.key.starts_with(&format!("{}.", binding.sym.as_ref()))
+                            {
+                                continue;
+                            }
+                            if !deps.iter().any(|existing| existing.key == dep.key) {
+                                deps.push(dep);
+                            }
+                        }
+                        deps = reduce_dependencies(deps);
+
+                        let mut compute_stmts = vec![
+                            assign_stmt(
+                                AssignTarget::from(binding.clone()),
+                                Box::new((*init).clone()),
+                            ),
+                            Stmt::Expr(next_expr_stmt.clone()),
+                        ];
+                        strip_runtime_call_type_args_in_stmts(&mut compute_stmts);
+                        let value_slot = next_slot + deps.len() as u32;
+                        transformed.extend(build_memoized_block(
+                            &cache_ident,
+                            next_slot,
+                            &deps,
+                            &binding,
+                            compute_stmts,
+                            true,
+                        ));
+
+                        next_slot = value_slot + 1;
+                        memo_blocks += 1;
+                        memo_values += 1;
+                        known_bindings.insert(binding.sym.to_string(), deps.is_empty());
+                        prefix_index += 2;
+                        continue;
+                    }
+                }
+            }
+        }
         let mut mutated_after =
             binding_mutated_via_member_call_after(&stmts[prefix_index + 1..], binding.sym.as_ref());
         let mut member_assignment_after = matches!(&*init, Expr::Array(_) | Expr::Object(_))
@@ -2610,6 +2691,25 @@ fn memoize_reactive_function(reactive: &mut ReactiveFunction) -> (u32, u32, u32,
         transformed.push(tail.remove(0));
     }
     if !tail.is_empty() {
+        if let Some((if_stmt, return_ident)) = extract_conditional_if_return_tail(&tail) {
+            if let Some((lowered_if, slots, blocks, values)) = lower_conditional_if_tail_to_memo(
+                if_stmt,
+                &return_ident,
+                &known_bindings,
+                &cache_ident,
+                next_slot,
+            ) {
+                transformed.push(lowered_if);
+                transformed.push(Stmt::Return(swc_ecma_ast::ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(Box::new(Expr::Ident(return_ident))),
+                }));
+                next_slot += slots;
+                memo_blocks += blocks;
+                memo_values += values;
+                tail.clear();
+            }
+        }
         if let Some(return_expr) = tail.last().and_then(|stmt| match stmt {
             Stmt::Return(return_stmt) => return_stmt.arg.clone(),
             _ => None,
@@ -12648,6 +12748,353 @@ fn binding_reassigned_after(stmts: &[Stmt], name: &str) -> bool {
         }
     }
     false
+}
+
+const BINDING_STATE_NOT_REASSIGNED: u8 = 0b01;
+const BINDING_STATE_REASSIGNED: u8 = 0b10;
+
+fn can_split_reassigned_binding_initial_mutation(stmts: &[Stmt], name: &str) -> bool {
+    analyze_binding_mutation_order_in_stmts(stmts, name, BINDING_STATE_NOT_REASSIGNED).is_some()
+}
+
+fn analyze_binding_mutation_order_in_stmts(
+    stmts: &[Stmt],
+    name: &str,
+    mut states: u8,
+) -> Option<u8> {
+    for stmt in stmts {
+        states = analyze_binding_mutation_order_in_stmt(stmt, name, states)?;
+    }
+    Some(states)
+}
+
+fn analyze_binding_mutation_order_in_stmt(stmt: &Stmt, name: &str, states: u8) -> Option<u8> {
+    match stmt {
+        Stmt::Expr(expr_stmt) => {
+            analyze_binding_mutation_order_in_expr(&expr_stmt.expr, name, states)
+        }
+        Stmt::Decl(Decl::Var(var_decl)) => {
+            let mut states = states;
+            for decl in &var_decl.decls {
+                if let Some(init) = &decl.init {
+                    states = analyze_binding_mutation_order_in_expr(init, name, states)?;
+                }
+                if decl.init.is_some()
+                    && collect_pattern_binding_names(&decl.name)
+                        .into_iter()
+                        .any(|binding| binding == name)
+                {
+                    states = force_binding_reassigned_state(states);
+                }
+            }
+            Some(states)
+        }
+        Stmt::Return(return_stmt) => {
+            let Some(arg) = &return_stmt.arg else {
+                return Some(states);
+            };
+            analyze_binding_mutation_order_in_expr(arg, name, states)
+        }
+        Stmt::Throw(throw_stmt) => {
+            analyze_binding_mutation_order_in_expr(&throw_stmt.arg, name, states)
+        }
+        Stmt::If(if_stmt) => {
+            let states = analyze_binding_mutation_order_in_expr(&if_stmt.test, name, states)?;
+            let cons_states = analyze_binding_mutation_order_in_stmt(&if_stmt.cons, name, states)?;
+            let alt_states = if let Some(alt) = &if_stmt.alt {
+                analyze_binding_mutation_order_in_stmt(alt, name, states)?
+            } else {
+                states
+            };
+            Some(cons_states | alt_states)
+        }
+        Stmt::Block(block) => analyze_binding_mutation_order_in_stmts(&block.stmts, name, states),
+        Stmt::Labeled(labeled) => {
+            analyze_binding_mutation_order_in_stmt(&labeled.body, name, states)
+        }
+        // Conservatively avoid this split optimization for complex control-flow.
+        Stmt::Switch(_)
+        | Stmt::For(_)
+        | Stmt::ForIn(_)
+        | Stmt::ForOf(_)
+        | Stmt::While(_)
+        | Stmt::DoWhile(_)
+        | Stmt::Try(_)
+        | Stmt::With(_) => None,
+        Stmt::Empty(_) | Stmt::Debugger(_) | Stmt::Break(_) | Stmt::Continue(_) => Some(states),
+        Stmt::Decl(_) => Some(states),
+    }
+}
+
+fn analyze_binding_mutation_order_in_expr(expr: &Expr, name: &str, states: u8) -> Option<u8> {
+    let expr = unwrap_transparent_expr(expr);
+    match expr {
+        Expr::Assign(assign) => {
+            let states = analyze_binding_mutation_order_in_expr(&assign.right, name, states)?;
+            if assign_target_is_member_of_binding(&assign.left, name)
+                && has_binding_not_reassigned_state(states)
+            {
+                return None;
+            }
+            if assign_target_assigns_binding(&assign.left, name) {
+                if assign.op != op!("=") && has_binding_not_reassigned_state(states) {
+                    return None;
+                }
+                return Some(force_binding_reassigned_state(states));
+            }
+            Some(states)
+        }
+        Expr::Update(update) => match &*update.arg {
+            Expr::Ident(ident) if ident.sym == name => {
+                if has_binding_not_reassigned_state(states) {
+                    None
+                } else {
+                    Some(force_binding_reassigned_state(states))
+                }
+            }
+            Expr::Member(member) if member_root_is_binding(member, name) => {
+                if has_binding_not_reassigned_state(states) {
+                    None
+                } else {
+                    Some(states)
+                }
+            }
+            _ => Some(states),
+        },
+        Expr::Call(call) => {
+            let mut states = states;
+            if let Callee::Expr(callee_expr) = &call.callee {
+                states = analyze_binding_mutation_order_in_expr(callee_expr, name, states)?;
+            }
+            for arg in &call.args {
+                states = analyze_binding_mutation_order_in_expr(&arg.expr, name, states)?;
+            }
+            if (call_mutates_binding(call, name)
+                || call_passes_binding_to_potentially_mutating_identifier(call, name))
+                && has_binding_not_reassigned_state(states)
+            {
+                return None;
+            }
+            Some(states)
+        }
+        Expr::Seq(seq) => {
+            let mut states = states;
+            for expr in &seq.exprs {
+                states = analyze_binding_mutation_order_in_expr(expr, name, states)?;
+            }
+            Some(states)
+        }
+        Expr::Cond(cond) => {
+            let states = analyze_binding_mutation_order_in_expr(&cond.test, name, states)?;
+            let cons_states = analyze_binding_mutation_order_in_expr(&cond.cons, name, states)?;
+            let alt_states = analyze_binding_mutation_order_in_expr(&cond.alt, name, states)?;
+            Some(cons_states | alt_states)
+        }
+        Expr::Paren(paren) => analyze_binding_mutation_order_in_expr(&paren.expr, name, states),
+        Expr::TsAs(ts_as) => analyze_binding_mutation_order_in_expr(&ts_as.expr, name, states),
+        Expr::TsTypeAssertion(type_assertion) => {
+            analyze_binding_mutation_order_in_expr(&type_assertion.expr, name, states)
+        }
+        Expr::TsNonNull(ts_non_null) => {
+            analyze_binding_mutation_order_in_expr(&ts_non_null.expr, name, states)
+        }
+        Expr::TsConstAssertion(ts_const) => {
+            analyze_binding_mutation_order_in_expr(&ts_const.expr, name, states)
+        }
+        Expr::TsInstantiation(ts_instantiation) => {
+            analyze_binding_mutation_order_in_expr(&ts_instantiation.expr, name, states)
+        }
+        Expr::TsSatisfies(ts_satisfies) => {
+            analyze_binding_mutation_order_in_expr(&ts_satisfies.expr, name, states)
+        }
+        Expr::Bin(bin) => {
+            let states = analyze_binding_mutation_order_in_expr(&bin.left, name, states)?;
+            analyze_binding_mutation_order_in_expr(&bin.right, name, states)
+        }
+        Expr::Unary(unary) => {
+            if matches!(unary.op, swc_ecma_ast::UnaryOp::Delete) {
+                if let Expr::Member(member) = unwrap_transparent_expr(&unary.arg) {
+                    if member_root_is_binding(member, name)
+                        && has_binding_not_reassigned_state(states)
+                    {
+                        return None;
+                    }
+                }
+            }
+            analyze_binding_mutation_order_in_expr(&unary.arg, name, states)
+        }
+        Expr::Array(array) => {
+            let mut states = states;
+            for elem in array.elems.iter().flatten() {
+                states = analyze_binding_mutation_order_in_expr(&elem.expr, name, states)?;
+            }
+            Some(states)
+        }
+        Expr::Object(object) => {
+            let mut states = states;
+            for prop in &object.props {
+                match prop {
+                    swc_ecma_ast::PropOrSpread::Spread(spread) => {
+                        states =
+                            analyze_binding_mutation_order_in_expr(&spread.expr, name, states)?;
+                    }
+                    swc_ecma_ast::PropOrSpread::Prop(prop) => match &**prop {
+                        swc_ecma_ast::Prop::Shorthand(_) => {}
+                        swc_ecma_ast::Prop::KeyValue(key_value) => {
+                            states = analyze_binding_mutation_order_in_expr(
+                                &key_value.value,
+                                name,
+                                states,
+                            )?;
+                        }
+                        swc_ecma_ast::Prop::Assign(assign) => {
+                            states = analyze_binding_mutation_order_in_expr(
+                                &assign.value,
+                                name,
+                                states,
+                            )?;
+                        }
+                        swc_ecma_ast::Prop::Getter(_) | swc_ecma_ast::Prop::Setter(_) => {}
+                        swc_ecma_ast::Prop::Method(_) => {}
+                    },
+                }
+            }
+            Some(states)
+        }
+        Expr::Member(member) => {
+            let mut states = analyze_binding_mutation_order_in_expr(&member.obj, name, states)?;
+            if let MemberProp::Computed(computed) = &member.prop {
+                states = analyze_binding_mutation_order_in_expr(&computed.expr, name, states)?;
+            }
+            Some(states)
+        }
+        Expr::OptChain(_)
+        | Expr::Await(_)
+        | Expr::Yield(_)
+        | Expr::New(_)
+        | Expr::TaggedTpl(_)
+        | Expr::Tpl(_)
+        | Expr::SuperProp(_)
+        | Expr::PrivateName(_)
+        | Expr::MetaProp(_)
+        | Expr::JSXMember(_)
+        | Expr::JSXNamespacedName(_)
+        | Expr::JSXEmpty(_)
+        | Expr::JSXElement(_)
+        | Expr::JSXFragment(_)
+        | Expr::Invalid(_) => None,
+        Expr::This(_)
+        | Expr::Ident(_)
+        | Expr::Lit(_)
+        | Expr::Fn(_)
+        | Expr::Arrow(_)
+        | Expr::Class(_) => Some(states),
+    }
+}
+
+fn force_binding_reassigned_state(states: u8) -> u8 {
+    if states == 0 {
+        0
+    } else {
+        BINDING_STATE_REASSIGNED
+    }
+}
+
+fn has_binding_not_reassigned_state(states: u8) -> bool {
+    states & BINDING_STATE_NOT_REASSIGNED != 0
+}
+
+fn extract_conditional_if_return_tail(stmts: &[Stmt]) -> Option<(&IfStmt, Ident)> {
+    let [Stmt::If(if_stmt), Stmt::Return(return_stmt)] = stmts else {
+        return None;
+    };
+    if if_stmt.alt.is_some() {
+        return None;
+    }
+    let Some(arg) = &return_stmt.arg else {
+        return None;
+    };
+    let Expr::Ident(return_ident) = unwrap_transparent_expr(arg) else {
+        return None;
+    };
+    Some((if_stmt, return_ident.clone()))
+}
+
+fn lower_conditional_if_tail_to_memo(
+    if_stmt: &IfStmt,
+    return_ident: &Ident,
+    known_bindings: &HashMap<String, bool>,
+    cache_ident: &Ident,
+    slot_start: u32,
+) -> Option<(Stmt, u32, u32, u32)> {
+    let mut cons_stmts = match &*if_stmt.cons {
+        Stmt::Block(block) => block.stmts.clone(),
+        stmt => vec![stmt.clone()],
+    };
+    if cons_stmts.is_empty()
+        || contains_return_stmt_in_stmts(&cons_stmts)
+        || prelude_contains_control_flow_stmt(&cons_stmts)
+    {
+        return None;
+    }
+    if !binding_reassigned_after(&cons_stmts, return_ident.sym.as_ref()) {
+        return None;
+    }
+
+    let mut local_bindings = HashSet::new();
+    for stmt in &cons_stmts {
+        collect_stmt_bindings_including_nested_blocks(stmt, &mut local_bindings);
+    }
+    let mut deps = collect_dependencies_from_stmts(&cons_stmts, known_bindings, &local_bindings);
+    for dep in collect_called_local_function_capture_dependencies(&cons_stmts, known_bindings) {
+        if !deps.iter().any(|existing| existing.key == dep.key) {
+            deps.push(dep);
+        }
+    }
+    for dep in collect_stmt_function_capture_dependencies(&cons_stmts, known_bindings) {
+        if !deps.iter().any(|existing| existing.key == dep.key) {
+            deps.push(dep);
+        }
+    }
+    deps = reduce_dependencies(deps);
+    deps.retain(|dep| {
+        dep.key != return_ident.sym.as_ref()
+            && !dep
+                .key
+                .starts_with(&format!("{}.", return_ident.sym.as_ref()))
+            && !dep
+                .key
+                .starts_with(&format!("{}[", return_ident.sym.as_ref()))
+    });
+    deps = reduce_nested_member_dependencies(deps);
+    if deps.is_empty() {
+        return None;
+    }
+
+    strip_runtime_call_type_args_in_stmts(&mut cons_stmts);
+    let inner = build_memoized_block(
+        cache_ident,
+        slot_start,
+        &deps,
+        return_ident,
+        cons_stmts,
+        false,
+    );
+    Some((
+        Stmt::If(IfStmt {
+            span: if_stmt.span,
+            test: if_stmt.test.clone(),
+            cons: Box::new(Stmt::Block(BlockStmt {
+                span: DUMMY_SP,
+                ctxt: Default::default(),
+                stmts: inner,
+            })),
+            alt: None,
+        }),
+        deps.len() as u32 + 1,
+        1,
+        1,
+    ))
 }
 
 fn binding_reassigned_in_called_iife_after(stmts: &[Stmt], name: &str) -> bool {

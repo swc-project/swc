@@ -10,8 +10,8 @@ use swc_atoms::Atom;
 use swc_common::{comments::Comment, Span, DUMMY_SP};
 use swc_ecma_ast::{
     op, ArrowExpr, AssignExpr, BindingIdent, BlockStmt, BlockStmtOrExpr, Callee, Decl, DefaultDecl,
-    Expr, FnDecl, Function, Ident, Lit, ModuleDecl, ModuleItem, Param, Pat, Program, Prop,
-    PropName, PropOrSpread, Stmt,
+    Expr, FnDecl, Function, Ident, LabeledStmt, Lit, ModuleDecl, ModuleItem, Param, Pat, Program,
+    Prop, PropName, PropOrSpread, Stmt, SwitchStmt,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -2188,6 +2188,8 @@ fn normalize_static_string_members_in_block(block: &mut BlockStmt) {
 }
 
 fn normalize_block_labels(block: &mut BlockStmt) {
+    label_unlabeled_top_level_switch_breaks(block);
+
     struct LabelNormalizer {
         map: HashMap<String, String>,
         next_index: usize,
@@ -2223,6 +2225,223 @@ fn normalize_block_labels(block: &mut BlockStmt) {
         next_index: 0,
     };
     block.visit_mut_with(&mut normalizer);
+}
+
+fn label_unlabeled_top_level_switch_breaks(block: &mut BlockStmt) {
+    fn switch_needs_label(switch_stmt: &SwitchStmt) -> bool {
+        struct Finder {
+            loop_depth: usize,
+            found: bool,
+        }
+
+        impl Visit for Finder {
+            fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+                // Skip nested function scopes.
+            }
+
+            fn visit_function(&mut self, _: &Function) {
+                // Skip nested function scopes.
+            }
+
+            fn visit_for_stmt(&mut self, for_stmt: &swc_ecma_ast::ForStmt) {
+                self.loop_depth += 1;
+                for_stmt.visit_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_for_in_stmt(&mut self, for_in_stmt: &swc_ecma_ast::ForInStmt) {
+                self.loop_depth += 1;
+                for_in_stmt.visit_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_for_of_stmt(&mut self, for_of_stmt: &swc_ecma_ast::ForOfStmt) {
+                self.loop_depth += 1;
+                for_of_stmt.visit_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_while_stmt(&mut self, while_stmt: &swc_ecma_ast::WhileStmt) {
+                self.loop_depth += 1;
+                while_stmt.visit_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_do_while_stmt(&mut self, do_while_stmt: &swc_ecma_ast::DoWhileStmt) {
+                self.loop_depth += 1;
+                do_while_stmt.visit_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_break_stmt(&mut self, break_stmt: &swc_ecma_ast::BreakStmt) {
+                if self.loop_depth == 0 && break_stmt.label.is_none() {
+                    self.found = true;
+                }
+            }
+        }
+
+        let mut finder = Finder {
+            loop_depth: 0,
+            found: false,
+        };
+        switch_stmt.visit_with(&mut finder);
+        finder.found
+    }
+
+    fn label_switch_breaks(switch_stmt: &mut SwitchStmt, label: &Ident) {
+        struct Labeler<'a> {
+            label: &'a Ident,
+            loop_depth: usize,
+        }
+
+        impl VisitMut for Labeler<'_> {
+            fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {
+                // Skip nested function scopes.
+            }
+
+            fn visit_mut_function(&mut self, _: &mut Function) {
+                // Skip nested function scopes.
+            }
+
+            fn visit_mut_for_stmt(&mut self, for_stmt: &mut swc_ecma_ast::ForStmt) {
+                self.loop_depth += 1;
+                for_stmt.visit_mut_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_mut_for_in_stmt(&mut self, for_in_stmt: &mut swc_ecma_ast::ForInStmt) {
+                self.loop_depth += 1;
+                for_in_stmt.visit_mut_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_mut_for_of_stmt(&mut self, for_of_stmt: &mut swc_ecma_ast::ForOfStmt) {
+                self.loop_depth += 1;
+                for_of_stmt.visit_mut_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_mut_while_stmt(&mut self, while_stmt: &mut swc_ecma_ast::WhileStmt) {
+                self.loop_depth += 1;
+                while_stmt.visit_mut_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_mut_do_while_stmt(&mut self, do_while_stmt: &mut swc_ecma_ast::DoWhileStmt) {
+                self.loop_depth += 1;
+                do_while_stmt.visit_mut_children_with(self);
+                self.loop_depth -= 1;
+            }
+
+            fn visit_mut_break_stmt(&mut self, break_stmt: &mut swc_ecma_ast::BreakStmt) {
+                if self.loop_depth == 0 && break_stmt.label.is_none() {
+                    break_stmt.label = Some(self.label.clone());
+                }
+            }
+        }
+
+        switch_stmt.visit_mut_with(&mut Labeler {
+            label,
+            loop_depth: 0,
+        });
+    }
+
+    fn transform_stmt(stmt: Stmt, in_loop: bool, next_label: &mut usize) -> Stmt {
+        match stmt {
+            Stmt::Block(mut block) => {
+                block.stmts = block
+                    .stmts
+                    .into_iter()
+                    .map(|stmt| transform_stmt(stmt, in_loop, next_label))
+                    .collect();
+                Stmt::Block(block)
+            }
+            Stmt::If(mut if_stmt) => {
+                if_stmt.cons = Box::new(transform_stmt(*if_stmt.cons, in_loop, next_label));
+                if let Some(alt) = if_stmt.alt {
+                    if_stmt.alt = Some(Box::new(transform_stmt(*alt, in_loop, next_label)));
+                }
+                Stmt::If(if_stmt)
+            }
+            Stmt::Labeled(mut labeled) => {
+                labeled.body = Box::new(transform_stmt(*labeled.body, in_loop, next_label));
+                Stmt::Labeled(labeled)
+            }
+            Stmt::For(mut for_stmt) => {
+                for_stmt.body = Box::new(transform_stmt(*for_stmt.body, true, next_label));
+                Stmt::For(for_stmt)
+            }
+            Stmt::ForIn(mut for_in_stmt) => {
+                for_in_stmt.body = Box::new(transform_stmt(*for_in_stmt.body, true, next_label));
+                Stmt::ForIn(for_in_stmt)
+            }
+            Stmt::ForOf(mut for_of_stmt) => {
+                for_of_stmt.body = Box::new(transform_stmt(*for_of_stmt.body, true, next_label));
+                Stmt::ForOf(for_of_stmt)
+            }
+            Stmt::While(mut while_stmt) => {
+                while_stmt.body = Box::new(transform_stmt(*while_stmt.body, true, next_label));
+                Stmt::While(while_stmt)
+            }
+            Stmt::DoWhile(mut do_while_stmt) => {
+                do_while_stmt.body =
+                    Box::new(transform_stmt(*do_while_stmt.body, true, next_label));
+                Stmt::DoWhile(do_while_stmt)
+            }
+            Stmt::Switch(mut switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    case.cons = std::mem::take(&mut case.cons)
+                        .into_iter()
+                        .map(|stmt| transform_stmt(stmt, in_loop, next_label))
+                        .collect();
+                }
+
+                if in_loop || !switch_needs_label(&switch_stmt) {
+                    return Stmt::Switch(switch_stmt);
+                }
+
+                let label = Ident::new_no_ctxt(
+                    format!("__react_compiler_switch_{}", *next_label).into(),
+                    DUMMY_SP,
+                );
+                *next_label += 1;
+                label_switch_breaks(&mut switch_stmt, &label);
+                Stmt::Labeled(LabeledStmt {
+                    span: DUMMY_SP,
+                    label,
+                    body: Box::new(Stmt::Switch(switch_stmt)),
+                })
+            }
+            Stmt::Try(mut try_stmt) => {
+                try_stmt.block.stmts = try_stmt
+                    .block
+                    .stmts
+                    .into_iter()
+                    .map(|stmt| transform_stmt(stmt, in_loop, next_label))
+                    .collect();
+                if let Some(handler) = &mut try_stmt.handler {
+                    handler.body.stmts = std::mem::take(&mut handler.body.stmts)
+                        .into_iter()
+                        .map(|stmt| transform_stmt(stmt, in_loop, next_label))
+                        .collect();
+                }
+                if let Some(finalizer) = &mut try_stmt.finalizer {
+                    finalizer.stmts = std::mem::take(&mut finalizer.stmts)
+                        .into_iter()
+                        .map(|stmt| transform_stmt(stmt, in_loop, next_label))
+                        .collect();
+                }
+                Stmt::Try(try_stmt)
+            }
+            other => other,
+        }
+    }
+
+    let mut next_label = 0usize;
+    block.stmts = std::mem::take(&mut block.stmts)
+        .into_iter()
+        .map(|stmt| transform_stmt(stmt, false, &mut next_label))
+        .collect();
 }
 
 fn normalize_compound_assignments_in_block(block: &mut BlockStmt) {

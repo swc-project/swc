@@ -1,5 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     op, AssignExpr, AssignTarget, Decl, Expr, Lit, Pat, SimpleAssignTarget, Stmt, VarDecl,
     VarDeclKind,
@@ -17,20 +18,14 @@ pub fn dead_code_elimination(hir: &mut HirFunction) {
     let originally_declared = collect_declared_bindings_in_stmts(&body.stmts);
 
     let function_captures = collect_function_like_captures(&body.stmts);
-    let mut original = Vec::new();
-    std::mem::swap(&mut body.stmts, &mut original);
-
+    let assigned_bindings = collect_assigned_bindings_in_stmts(&body.stmts);
     let mut live = HashSet::<String>::new();
-    let mut kept_rev = Vec::with_capacity(original.len());
-
-    for mut stmt in original.into_iter().rev() {
-        if keep_statement(&mut stmt, &mut live, &function_captures) {
-            kept_rev.push(stmt);
-        }
-    }
-
-    kept_rev.reverse();
-    body.stmts = kept_rev;
+    prune_stmts_with_liveness(
+        &mut body.stmts,
+        &mut live,
+        &function_captures,
+        &assigned_bindings,
+    );
 
     let mut read_bindings = collect_read_bindings(&body.stmts);
     let mut written_bindings = collect_assigned_bindings_in_stmts(&body.stmts);
@@ -45,12 +40,34 @@ pub fn dead_code_elimination(hir: &mut HirFunction) {
         &read_bindings,
         &originally_declared,
     );
+    simplify_overwritten_pure_assignments_in_stmts(&mut body.stmts);
+    prune_empty_statements(&mut body.stmts);
+}
+
+fn prune_stmts_with_liveness(
+    stmts: &mut Vec<Stmt>,
+    live: &mut HashSet<String>,
+    function_captures: &HashMap<String, HashSet<String>>,
+    assigned_bindings: &HashSet<String>,
+) {
+    let original = std::mem::take(stmts);
+    let mut kept_rev = Vec::with_capacity(original.len());
+
+    for mut stmt in original.into_iter().rev() {
+        if keep_statement(&mut stmt, live, function_captures, assigned_bindings) {
+            kept_rev.push(stmt);
+        }
+    }
+
+    kept_rev.reverse();
+    *stmts = kept_rev;
 }
 
 fn keep_statement(
     stmt: &mut Stmt,
     live: &mut HashSet<String>,
     function_captures: &HashMap<String, HashSet<String>>,
+    assigned_bindings: &HashSet<String>,
 ) -> bool {
     match stmt {
         Stmt::Return(return_stmt) => {
@@ -59,7 +76,7 @@ fn keep_statement(
             }
             true
         }
-        Stmt::Decl(Decl::Var(var_decl)) => keep_var_decl(var_decl, live),
+        Stmt::Decl(Decl::Var(var_decl)) => keep_var_decl(var_decl, live, assigned_bindings),
         Stmt::Expr(expr_stmt) => match &mut *expr_stmt.expr {
             Expr::Assign(assign) => keep_assign_expr(assign, live, function_captures),
             Expr::Update(update) => {
@@ -85,6 +102,78 @@ fn keep_statement(
                 }
             }
         },
+        Stmt::Block(block) => {
+            prune_stmts_with_liveness(&mut block.stmts, live, function_captures, assigned_bindings);
+            !block.stmts.is_empty()
+        }
+        Stmt::If(if_stmt) => {
+            let mut cons_live = live.clone();
+            if !keep_statement(
+                &mut if_stmt.cons,
+                &mut cons_live,
+                function_captures,
+                assigned_bindings,
+            ) {
+                if_stmt.cons = Box::new(Stmt::Empty(swc_ecma_ast::EmptyStmt { span: DUMMY_SP }));
+            }
+
+            let mut alt_live = live.clone();
+            if let Some(alt) = &mut if_stmt.alt {
+                if !keep_statement(alt, &mut alt_live, function_captures, assigned_bindings) {
+                    if_stmt.alt = None;
+                }
+            }
+
+            *live = cons_live;
+            live.extend(alt_live);
+            collect_expr_reads(&if_stmt.test, live);
+            true
+        }
+        Stmt::Switch(switch_stmt) => {
+            let mut merged_live = live.clone();
+
+            for case in &mut switch_stmt.cases {
+                let mut case_live = live.clone();
+                prune_stmts_with_liveness(
+                    &mut case.cons,
+                    &mut case_live,
+                    function_captures,
+                    assigned_bindings,
+                );
+                merged_live.extend(case_live);
+                if let Some(test) = &case.test {
+                    collect_expr_reads(test, &mut merged_live);
+                }
+            }
+
+            *live = merged_live;
+            collect_expr_reads(&switch_stmt.discriminant, live);
+            true
+        }
+        Stmt::While(_) | Stmt::DoWhile(_) | Stmt::For(_) | Stmt::ForIn(_) | Stmt::ForOf(_) => {
+            // Loop-carried values require fixed-point liveness. Keep conservative
+            // statement-level behavior here to avoid pruning assignments that are
+            // read on subsequent iterations.
+            collect_stmt_reads(stmt, live);
+            true
+        }
+        Stmt::Labeled(labeled) => {
+            if !keep_statement(
+                &mut labeled.body,
+                live,
+                function_captures,
+                assigned_bindings,
+            ) {
+                return false;
+            }
+            true
+        }
+        Stmt::Try(_) => {
+            // Conservatively retain try/catch/finally structure. Reordering or
+            // pruning inside exception regions can change observable behavior.
+            collect_stmt_reads(stmt, live);
+            true
+        }
         other => {
             collect_stmt_reads(other, live);
             true
@@ -92,7 +181,42 @@ fn keep_statement(
     }
 }
 
-fn keep_var_decl(var_decl: &mut VarDecl, live: &mut HashSet<String>) -> bool {
+fn collect_pat_names(pat: &Pat, out: &mut HashSet<String>) {
+    match pat {
+        Pat::Ident(binding) => {
+            out.insert(binding.id.sym.to_string());
+        }
+        Pat::Array(array) => {
+            for element in array.elems.iter().flatten() {
+                collect_pat_names(element, out);
+            }
+        }
+        Pat::Object(object) => {
+            for prop in &object.props {
+                match prop {
+                    swc_ecma_ast::ObjectPatProp::Assign(assign) => {
+                        out.insert(assign.key.id.sym.to_string());
+                    }
+                    swc_ecma_ast::ObjectPatProp::KeyValue(key_value) => {
+                        collect_pat_names(&key_value.value, out);
+                    }
+                    swc_ecma_ast::ObjectPatProp::Rest(rest) => {
+                        collect_pat_names(&rest.arg, out);
+                    }
+                }
+            }
+        }
+        Pat::Assign(assign) => collect_pat_names(&assign.left, out),
+        Pat::Rest(rest) => collect_pat_names(&rest.arg, out),
+        Pat::Expr(_) | Pat::Invalid(_) => {}
+    }
+}
+
+fn keep_var_decl(
+    var_decl: &mut VarDecl,
+    live: &mut HashSet<String>,
+    assigned_bindings: &HashSet<String>,
+) -> bool {
     if var_decl.kind == VarDeclKind::Var || var_decl.decls.len() != 1 {
         collect_stmt_reads(&Stmt::Decl(Decl::Var(Box::new(var_decl.clone()))), live);
         return true;
@@ -109,6 +233,9 @@ fn keep_var_decl(var_decl: &mut VarDecl, live: &mut HashSet<String>) -> bool {
         if let Some(init) = &decl.init {
             collect_expr_reads(init, live);
         }
+        return true;
+    }
+    if decl.init.is_none() && assigned_bindings.contains(&name) {
         return true;
     }
 
@@ -425,6 +552,16 @@ fn prune_dead_writes_with_known_reads(
                 prune_dead_writes_in_nested_stmt(&mut for_of_stmt.body, reads, written);
                 rewritten.push(stmt);
             }
+            Stmt::Switch(switch_stmt) => {
+                for case in &mut switch_stmt.cases {
+                    prune_dead_writes_with_known_reads(&mut case.cons, reads, written);
+                }
+                rewritten.push(stmt);
+            }
+            Stmt::Labeled(labeled) => {
+                prune_dead_writes_in_nested_stmt(&mut labeled.body, reads, written);
+                rewritten.push(stmt);
+            }
             _ => rewritten.push(stmt),
         }
     }
@@ -526,6 +663,14 @@ fn prune_dead_writes_in_nested_stmt(
         Stmt::ForOf(for_of_stmt) => {
             prune_dead_writes_in_nested_stmt(&mut for_of_stmt.body, reads, written)
         }
+        Stmt::Switch(switch_stmt) => {
+            for case in &mut switch_stmt.cases {
+                prune_dead_writes_with_known_reads(&mut case.cons, reads, written);
+            }
+        }
+        Stmt::Labeled(labeled) => {
+            prune_dead_writes_in_nested_stmt(&mut labeled.body, reads, written);
+        }
         _ => {}
     }
 }
@@ -578,10 +723,25 @@ fn ensure_uninitialized_declarations_for_assigned_reads(
         return;
     }
 
-    let insert_index = stmts
+    let directive_end = stmts
         .iter()
         .take_while(|stmt| matches!(stmt, Stmt::Expr(expr_stmt) if matches!(&*expr_stmt.expr, Expr::Lit(Lit::Str(_)))))
         .count();
+
+    let missing_set = decls
+        .iter()
+        .filter_map(|decl| pat_ident_name(&decl.name))
+        .collect::<HashSet<_>>();
+    let first_use_index = stmts.iter().position(|stmt| {
+        let mut read = HashSet::new();
+        let mut assigned = HashSet::new();
+        collect_stmt_reads(stmt, &mut read);
+        collect_assigned_bindings(stmt, &mut assigned);
+        read.iter()
+            .chain(assigned.iter())
+            .any(|name| missing_set.contains(name))
+    });
+    let insert_index = first_use_index.map_or(directive_end, |index| index.max(directive_end));
     stmts.insert(
         insert_index,
         Stmt::Decl(Decl::Var(Box::new(VarDecl {
@@ -651,4 +811,406 @@ fn collect_assigned_bindings(stmt: &Stmt, out: &mut HashSet<String>) {
     }
 
     stmt.visit_with(&mut Collector { out });
+}
+
+fn simplify_overwritten_pure_assignments_in_stmts(stmts: &mut [Stmt]) {
+    for stmt in stmts {
+        simplify_overwritten_pure_assignments_in_stmt(stmt);
+    }
+}
+
+fn simplify_overwritten_pure_assignments_in_stmt(stmt: &mut Stmt) {
+    match stmt {
+        Stmt::Expr(expr_stmt) => simplify_overwritten_pure_assignments_in_expr(&mut expr_stmt.expr),
+        Stmt::Decl(Decl::Var(var_decl)) => {
+            for decl in &mut var_decl.decls {
+                if let Some(init) = &mut decl.init {
+                    simplify_overwritten_pure_assignments_in_expr(init);
+                }
+            }
+        }
+        Stmt::Return(return_stmt) => {
+            if let Some(arg) = &mut return_stmt.arg {
+                simplify_overwritten_pure_assignments_in_expr(arg);
+            }
+        }
+        Stmt::Throw(throw_stmt) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut throw_stmt.arg);
+        }
+        Stmt::If(if_stmt) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut if_stmt.test);
+            simplify_overwritten_pure_assignments_in_stmt(&mut if_stmt.cons);
+            if let Some(alt) = &mut if_stmt.alt {
+                simplify_overwritten_pure_assignments_in_stmt(alt);
+            }
+        }
+        Stmt::Block(block) => simplify_overwritten_pure_assignments_in_stmts(&mut block.stmts),
+        Stmt::Switch(switch_stmt) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut switch_stmt.discriminant);
+            for case in &mut switch_stmt.cases {
+                if let Some(test) = &mut case.test {
+                    simplify_overwritten_pure_assignments_in_expr(test);
+                }
+                simplify_overwritten_pure_assignments_in_stmts(&mut case.cons);
+            }
+        }
+        Stmt::Labeled(labeled) => simplify_overwritten_pure_assignments_in_stmt(&mut labeled.body),
+        Stmt::For(for_stmt) => {
+            if let Some(init) = &mut for_stmt.init {
+                match init {
+                    swc_ecma_ast::VarDeclOrExpr::VarDecl(var_decl) => {
+                        for decl in &mut var_decl.decls {
+                            if let Some(init) = &mut decl.init {
+                                simplify_overwritten_pure_assignments_in_expr(init);
+                            }
+                        }
+                    }
+                    swc_ecma_ast::VarDeclOrExpr::Expr(expr) => {
+                        simplify_overwritten_pure_assignments_in_expr(expr);
+                    }
+                }
+            }
+            if let Some(test) = &mut for_stmt.test {
+                simplify_overwritten_pure_assignments_in_expr(test);
+            }
+            if let Some(update) = &mut for_stmt.update {
+                simplify_overwritten_pure_assignments_in_expr(update);
+            }
+            simplify_overwritten_pure_assignments_in_stmt(&mut for_stmt.body);
+        }
+        Stmt::ForIn(for_in_stmt) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut for_in_stmt.right);
+            simplify_overwritten_pure_assignments_in_stmt(&mut for_in_stmt.body);
+        }
+        Stmt::ForOf(for_of_stmt) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut for_of_stmt.right);
+            simplify_overwritten_pure_assignments_in_stmt(&mut for_of_stmt.body);
+        }
+        Stmt::While(while_stmt) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut while_stmt.test);
+            simplify_overwritten_pure_assignments_in_stmt(&mut while_stmt.body);
+        }
+        Stmt::DoWhile(do_while_stmt) => {
+            simplify_overwritten_pure_assignments_in_stmt(&mut do_while_stmt.body);
+            simplify_overwritten_pure_assignments_in_expr(&mut do_while_stmt.test);
+        }
+        Stmt::Try(try_stmt) => {
+            simplify_overwritten_pure_assignments_in_stmts(&mut try_stmt.block.stmts);
+            if let Some(handler) = &mut try_stmt.handler {
+                simplify_overwritten_pure_assignments_in_stmts(&mut handler.body.stmts);
+            }
+            if let Some(finalizer) = &mut try_stmt.finalizer {
+                simplify_overwritten_pure_assignments_in_stmts(&mut finalizer.stmts);
+            }
+        }
+        _ => {}
+    }
+}
+
+fn simplify_overwritten_pure_assignments_in_expr(expr: &mut Expr) {
+    match expr {
+        Expr::Paren(paren) => simplify_overwritten_pure_assignments_in_expr(&mut paren.expr),
+        Expr::TsAs(ts_as) => simplify_overwritten_pure_assignments_in_expr(&mut ts_as.expr),
+        Expr::TsTypeAssertion(type_assertion) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut type_assertion.expr)
+        }
+        Expr::TsNonNull(ts_non_null) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut ts_non_null.expr)
+        }
+        Expr::TsConstAssertion(ts_const) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut ts_const.expr)
+        }
+        Expr::TsInstantiation(ts_instantiation) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut ts_instantiation.expr)
+        }
+        Expr::TsSatisfies(ts_satisfies) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut ts_satisfies.expr)
+        }
+        Expr::Cond(cond) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut cond.test);
+            simplify_overwritten_pure_assignments_in_expr(&mut cond.cons);
+            simplify_overwritten_pure_assignments_in_expr(&mut cond.alt);
+        }
+        Expr::Seq(seq) => {
+            for expr in &mut seq.exprs {
+                simplify_overwritten_pure_assignments_in_expr(expr);
+            }
+
+            let original = std::mem::take(&mut seq.exprs);
+            let mut needed = HashSet::<String>::new();
+            let mut kept_rev = Vec::with_capacity(original.len());
+
+            for expr in original.into_iter().rev() {
+                if let Expr::Assign(assign) = unwrap_transparent_expr(expr.as_ref()) {
+                    if assign.op == op!("=") {
+                        if let Some(name) = assign_target_single_binding_name(&assign.left) {
+                            if !needed.contains(&name) && expr_is_pure(&assign.right) {
+                                continue;
+                            }
+                        }
+                    }
+                }
+
+                update_needed_bindings_from_expr(&expr, &mut needed);
+                kept_rev.push(expr);
+            }
+
+            kept_rev.reverse();
+            seq.exprs = kept_rev;
+        }
+        Expr::Array(array) => {
+            for elem in array.elems.iter_mut().flatten() {
+                simplify_overwritten_pure_assignments_in_expr(&mut elem.expr);
+            }
+        }
+        Expr::Object(object) => {
+            for prop in &mut object.props {
+                match prop {
+                    swc_ecma_ast::PropOrSpread::Spread(spread) => {
+                        simplify_overwritten_pure_assignments_in_expr(&mut spread.expr);
+                    }
+                    swc_ecma_ast::PropOrSpread::Prop(prop) => match &mut **prop {
+                        swc_ecma_ast::Prop::Shorthand(_) => {}
+                        swc_ecma_ast::Prop::KeyValue(key_value) => {
+                            simplify_overwritten_pure_assignments_in_expr(&mut key_value.value);
+                        }
+                        swc_ecma_ast::Prop::Assign(assign) => {
+                            simplify_overwritten_pure_assignments_in_expr(&mut assign.value);
+                        }
+                        swc_ecma_ast::Prop::Getter(getter) => {
+                            if let Some(body) = &mut getter.body {
+                                simplify_overwritten_pure_assignments_in_stmts(&mut body.stmts);
+                            }
+                        }
+                        swc_ecma_ast::Prop::Setter(setter) => {
+                            if let Some(body) = &mut setter.body {
+                                simplify_overwritten_pure_assignments_in_stmts(&mut body.stmts);
+                            }
+                        }
+                        swc_ecma_ast::Prop::Method(method) => {
+                            if let Some(body) = &mut method.function.body {
+                                simplify_overwritten_pure_assignments_in_stmts(&mut body.stmts);
+                            }
+                        }
+                    },
+                }
+            }
+        }
+        Expr::Call(call) => {
+            if let swc_ecma_ast::Callee::Expr(callee_expr) = &mut call.callee {
+                simplify_overwritten_pure_assignments_in_expr(callee_expr);
+            }
+            for arg in &mut call.args {
+                simplify_overwritten_pure_assignments_in_expr(&mut arg.expr);
+            }
+        }
+        Expr::OptChain(opt_chain) => {
+            simplify_overwritten_pure_assignments_in_opt_chain_base(&mut opt_chain.base);
+        }
+        Expr::Bin(bin) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut bin.left);
+            simplify_overwritten_pure_assignments_in_expr(&mut bin.right);
+        }
+        Expr::Unary(unary) => simplify_overwritten_pure_assignments_in_expr(&mut unary.arg),
+        Expr::Assign(assign) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut assign.right);
+            if let AssignTarget::Simple(SimpleAssignTarget::Member(member)) = &mut assign.left {
+                simplify_overwritten_pure_assignments_in_expr(&mut member.obj);
+                if let swc_ecma_ast::MemberProp::Computed(computed) = &mut member.prop {
+                    simplify_overwritten_pure_assignments_in_expr(&mut computed.expr);
+                }
+            }
+        }
+        Expr::Member(member) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut member.obj);
+            if let swc_ecma_ast::MemberProp::Computed(computed) = &mut member.prop {
+                simplify_overwritten_pure_assignments_in_expr(&mut computed.expr);
+            }
+        }
+        Expr::New(new_expr) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut new_expr.callee);
+            if let Some(args) = &mut new_expr.args {
+                for arg in args {
+                    simplify_overwritten_pure_assignments_in_expr(&mut arg.expr);
+                }
+            }
+        }
+        Expr::Await(await_expr) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut await_expr.arg)
+        }
+        Expr::Yield(yield_expr) => {
+            if let Some(arg) = &mut yield_expr.arg {
+                simplify_overwritten_pure_assignments_in_expr(arg);
+            }
+        }
+        Expr::Tpl(tpl) => {
+            for expr in &mut tpl.exprs {
+                simplify_overwritten_pure_assignments_in_expr(expr);
+            }
+        }
+        Expr::TaggedTpl(tagged_tpl) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut tagged_tpl.tag);
+            for expr in &mut tagged_tpl.tpl.exprs {
+                simplify_overwritten_pure_assignments_in_expr(expr);
+            }
+        }
+        Expr::Fn(function) => {
+            if let Some(body) = &mut function.function.body {
+                simplify_overwritten_pure_assignments_in_stmts(&mut body.stmts);
+            }
+        }
+        Expr::Arrow(arrow) => match &mut *arrow.body {
+            swc_ecma_ast::BlockStmtOrExpr::BlockStmt(block) => {
+                simplify_overwritten_pure_assignments_in_stmts(&mut block.stmts)
+            }
+            swc_ecma_ast::BlockStmtOrExpr::Expr(expr) => {
+                simplify_overwritten_pure_assignments_in_expr(expr)
+            }
+        },
+        Expr::Class(class_expr) => {
+            if let Some(super_class) = &mut class_expr.class.super_class {
+                simplify_overwritten_pure_assignments_in_expr(super_class);
+            }
+        }
+        Expr::This(_)
+        | Expr::Ident(_)
+        | Expr::Lit(_)
+        | Expr::MetaProp(_)
+        | Expr::Update(_)
+        | Expr::SuperProp(_)
+        | Expr::PrivateName(_)
+        | Expr::Invalid(_)
+        | Expr::JSXMember(_)
+        | Expr::JSXNamespacedName(_)
+        | Expr::JSXEmpty(_)
+        | Expr::JSXElement(_)
+        | Expr::JSXFragment(_) => {}
+    }
+}
+
+fn simplify_overwritten_pure_assignments_in_opt_chain_base(base: &mut swc_ecma_ast::OptChainBase) {
+    match base {
+        swc_ecma_ast::OptChainBase::Member(member) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut member.obj);
+            if let swc_ecma_ast::MemberProp::Computed(computed) = &mut member.prop {
+                simplify_overwritten_pure_assignments_in_expr(&mut computed.expr);
+            }
+        }
+        swc_ecma_ast::OptChainBase::Call(call) => {
+            simplify_overwritten_pure_assignments_in_expr(&mut call.callee);
+            for arg in &mut call.args {
+                simplify_overwritten_pure_assignments_in_expr(&mut arg.expr);
+            }
+        }
+    }
+}
+
+fn assign_target_single_binding_name(target: &AssignTarget) -> Option<String> {
+    if let Some(ident) = target.as_ident() {
+        return Some(ident.id.sym.to_string());
+    }
+    let AssignTarget::Pat(assign_pat) = target else {
+        return None;
+    };
+    let mut names = HashSet::new();
+    collect_pat_names(&Pat::from(assign_pat.clone()), &mut names);
+    if names.len() == 1 {
+        return names.into_iter().next();
+    }
+    None
+}
+
+fn update_needed_bindings_from_expr(expr: &Expr, needed: &mut HashSet<String>) {
+    if let Expr::Assign(assign) = unwrap_transparent_expr(expr) {
+        if assign.op == op!("=") {
+            if let Some(name) = assign_target_single_binding_name(&assign.left) {
+                needed.remove(&name);
+                collect_expr_reads(&assign.right, needed);
+                return;
+            }
+        }
+    }
+    collect_expr_reads(expr, needed);
+}
+
+fn unwrap_transparent_expr(expr: &Expr) -> &Expr {
+    match expr {
+        Expr::Paren(paren) => unwrap_transparent_expr(&paren.expr),
+        Expr::TsAs(ts_as) => unwrap_transparent_expr(&ts_as.expr),
+        Expr::TsTypeAssertion(type_assertion) => unwrap_transparent_expr(&type_assertion.expr),
+        Expr::TsNonNull(ts_non_null) => unwrap_transparent_expr(&ts_non_null.expr),
+        Expr::TsConstAssertion(ts_const) => unwrap_transparent_expr(&ts_const.expr),
+        Expr::TsInstantiation(ts_instantiation) => unwrap_transparent_expr(&ts_instantiation.expr),
+        Expr::TsSatisfies(ts_satisfies) => unwrap_transparent_expr(&ts_satisfies.expr),
+        _ => expr,
+    }
+}
+
+fn prune_empty_statements(stmts: &mut Vec<Stmt>) {
+    let mut pruned = Vec::with_capacity(stmts.len());
+    for mut stmt in std::mem::take(stmts) {
+        prune_empty_in_stmt(&mut stmt);
+        if is_empty_stmt(&stmt) {
+            continue;
+        }
+        pruned.push(stmt);
+    }
+    *stmts = pruned;
+}
+
+fn prune_empty_in_stmt(stmt: &mut Stmt) {
+    match stmt {
+        Stmt::Block(block) => {
+            prune_empty_statements(&mut block.stmts);
+        }
+        Stmt::If(if_stmt) => {
+            prune_empty_in_stmt(&mut if_stmt.cons);
+            if let Some(alt) = &mut if_stmt.alt {
+                prune_empty_in_stmt(alt);
+                if is_empty_stmt(alt) {
+                    if_stmt.alt = None;
+                }
+            }
+        }
+        Stmt::Switch(switch_stmt) => {
+            for case in &mut switch_stmt.cases {
+                prune_empty_statements(&mut case.cons);
+            }
+        }
+        Stmt::Labeled(labeled) => {
+            prune_empty_in_stmt(&mut labeled.body);
+            if is_empty_stmt(&labeled.body) {
+                *stmt = Stmt::Empty(swc_ecma_ast::EmptyStmt { span: DUMMY_SP });
+            }
+        }
+        Stmt::For(for_stmt) => {
+            prune_empty_in_stmt(&mut for_stmt.body);
+        }
+        Stmt::ForIn(for_in_stmt) => {
+            prune_empty_in_stmt(&mut for_in_stmt.body);
+        }
+        Stmt::ForOf(for_of_stmt) => {
+            prune_empty_in_stmt(&mut for_of_stmt.body);
+        }
+        Stmt::While(while_stmt) => {
+            prune_empty_in_stmt(&mut while_stmt.body);
+        }
+        Stmt::DoWhile(do_while_stmt) => {
+            prune_empty_in_stmt(&mut do_while_stmt.body);
+        }
+        Stmt::Try(try_stmt) => {
+            prune_empty_statements(&mut try_stmt.block.stmts);
+            if let Some(handler) = &mut try_stmt.handler {
+                prune_empty_statements(&mut handler.body.stmts);
+            }
+            if let Some(finalizer) = &mut try_stmt.finalizer {
+                prune_empty_statements(&mut finalizer.stmts);
+            }
+        }
+        _ => {}
+    }
+}
+
+fn is_empty_stmt(stmt: &Stmt) -> bool {
+    matches!(stmt, Stmt::Empty(_)) || matches!(stmt, Stmt::Block(block) if block.stmts.is_empty())
 }
