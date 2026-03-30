@@ -194,10 +194,6 @@ opt-level = 3
 [profile.test.package.swc_ecma_transforms_optimization]
 opt-level = 3
 
-[profile.test.package.swc_ecma_usage_analyzer]
-opt-level = 3
-
-
 [profile.release.package]
 
 [profile.release.package.wasmer-wasix]

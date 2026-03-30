@@ -129,12 +129,6 @@ pub mod ecma {
         pub use swc_ecma_preset_env::*;
     }
 
-    #[cfg(feature = "ecma_usage_analyzer")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "ecma_usage_analyzer")))]
-    pub mod usage_analyzer {
-        pub use swc_ecma_usage_analyzer::*;
-    }
-
     // visit* interfaces
     #[cfg(feature = "ecma_lints")]
     #[cfg_attr(docsrs, doc(cfg(feature = "ecma_lints")))]

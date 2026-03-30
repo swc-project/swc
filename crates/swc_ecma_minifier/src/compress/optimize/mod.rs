@@ -9,7 +9,6 @@ use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
     prepend_stmts, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, IsEmpty, ModuleItemLike,
     StmtLike, Type, Value,
@@ -33,6 +32,7 @@ use crate::{
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
+    usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks},
     util::{contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt},
 };
 

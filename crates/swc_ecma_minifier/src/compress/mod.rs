@@ -6,7 +6,6 @@ use std::thread;
 use pretty_assertions::assert_eq;
 use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
 #[cfg(debug_assertions)]
 use swc_ecma_visit::VisitWith;
@@ -26,6 +25,7 @@ use crate::{
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::analyze,
+    usage_analyzer::marks::Marks,
     util::force_dump_program,
 };
 

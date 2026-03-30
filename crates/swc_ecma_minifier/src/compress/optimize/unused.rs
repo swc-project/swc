@@ -4,9 +4,6 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::{
-    analyzer::storage::Storage, util::is_global_var_with_pure_property_access,
-};
 use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -17,6 +14,7 @@ use crate::{
     compress::optimize::{util::extract_class_side_effect, BitCtx},
     option::PureGetterOption,
     program_data::{ScopeData, VarUsageInfoFlags},
+    usage_analyzer::{analyzer::storage::Storage, util::is_global_var_with_pure_property_access},
 };
 
 #[derive(Debug, Default, Clone, Copy)]

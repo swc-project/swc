@@ -2,13 +2,13 @@ use par_iter::prelude::*;
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::analyzer::UsageAnalyzer;
 use swc_ecma_utils::{find_pat_ids, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use super::util::drop_invalid_stmts;
 use crate::{
     program_data::{ProgramData, VarUsageInfoFlags},
+    usage_analyzer::analyzer::UsageAnalyzer,
     util::{is_hoisted_var_decl_without_init, sort::is_sorted_by, IsModuleItem, ModuleItemExt},
 };
 

@@ -4,7 +4,6 @@ use parking_lot::Mutex;
 use rustc_hash::FxHashMap;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{ExprCtx, ExprExt};
 use swc_ecma_visit::VisitMutWith;
 
@@ -12,6 +11,7 @@ use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     mode::Mode,
     option::{CompressOptions, TopLevelOptions},
+    usage_analyzer::marks::Marks,
 };
 
 pub struct Evaluator {

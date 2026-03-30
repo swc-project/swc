@@ -4,7 +4,6 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{
     class_has_side_effect, collect_decls, contains_ident_ref, contains_this_expr, find_pat_ids,
     ExprExt, Remapper,
@@ -18,6 +17,7 @@ use crate::{
         util::contains_super,
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
+    usage_analyzer::alias::{collect_infects_from, AliasConfig},
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
     },
