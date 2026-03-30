@@ -8,8 +8,8 @@ use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor_with_span,
-    is_maybe_branch_directive, private_ident, prop_name_to_expr_value, quote_ident, replace_ident,
-    stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
+    for_each_binding_ident, is_maybe_branch_directive, private_ident, prop_name_to_expr_value,
+    quote_ident, replace_ident, stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -52,6 +52,19 @@ struct DecoratorPass {
     /// In module-mode exec tests, assignment to unresolved identifiers throws.
     /// Track them to preserve sloppy-mode behavior expected by Babel fixtures.
     implicit_globals: FxHashSet<Atom>,
+
+    /// Child mark per unresolved outer mark for implicit-global rewrites that
+    /// are scoped to decorator-lifted expressions.
+    implicit_global_rewrite_marks: FxHashMap<Mark, Mark>,
+
+    /// If true, unresolved identifiers visited in the current expression are
+    /// tagged with a child mark for implicit-global rewrite.
+    in_implicit_global_rewrite_expr: bool,
+
+    /// Local bindings referenced by decorator expressions.
+    /// Initializers of these bindings are also rewrite-scoped because they can
+    /// be executed by decorator application.
+    decorator_binding_ids_for_implicit_global_rewrite: FxHashSet<Id>,
 
     /// Stack of private names declared by currently visited classes.
     class_private_names: Vec<FxHashSet<Atom>>,
@@ -152,6 +165,182 @@ impl Visit for CurrentClassNameFinder {
 impl DecoratorPass {
     fn is_2023_11(&self) -> bool {
         matches!(self.version, DecoratorVersion::V202311)
+    }
+
+    fn rewrite_implicit_globals_in_expr(&mut self, expr: &mut Expr) {
+        if !self.is_2023_11() {
+            return;
+        }
+
+        let old = self.in_implicit_global_rewrite_expr;
+        self.in_implicit_global_rewrite_expr = true;
+        expr.visit_mut_with(self);
+        self.in_implicit_global_rewrite_expr = old;
+    }
+
+    fn is_unresolved_ident(&self, ident: &Ident) -> bool {
+        matches!(ident.ctxt.as_u32(), 0 | 1)
+    }
+
+    fn global_this_member_expr(&self, sym: Atom, span: Span) -> MemberExpr {
+        MemberExpr {
+            span,
+            obj: Ident::new("globalThis".into(), span, SyntaxContext::empty()).into(),
+            prop: MemberProp::Ident(Ident::new(sym, span, SyntaxContext::empty()).into()),
+        }
+    }
+
+    fn unresolved_outer_mark_for_implicit_global_rewrite(&self, ident: &Ident) -> Option<Mark> {
+        if !self.is_unresolved_ident(ident) {
+            return None;
+        }
+
+        let unresolved_outer_mark = ident.ctxt.outer();
+        (unresolved_outer_mark != Mark::root()).then_some(unresolved_outer_mark)
+    }
+
+    fn mark_ident_for_implicit_global_rewrite(&mut self, ident: &mut Ident) {
+        let Some(unresolved_outer_mark) =
+            self.unresolved_outer_mark_for_implicit_global_rewrite(ident)
+        else {
+            return;
+        };
+
+        let child_mark = self
+            .implicit_global_rewrite_marks
+            .entry(unresolved_outer_mark)
+            .or_insert_with(|| Mark::fresh(unresolved_outer_mark));
+        ident.ctxt = ident.ctxt.apply_mark(*child_mark);
+    }
+
+    fn is_marked_for_implicit_global_rewrite(&self, ident: &Ident) -> bool {
+        self.implicit_global_rewrite_marks
+            .values()
+            .any(|&mark| ident.ctxt.has_mark(mark))
+    }
+
+    fn maybe_rewrite_implicit_globals_in_decorator_binding_var_decl(
+        &mut self,
+        var_decl: &mut VarDecl,
+    ) {
+        for decl in &mut var_decl.decls {
+            let mut is_decorator_binding = false;
+            for_each_binding_ident(&decl.name, |binding| {
+                if self
+                    .decorator_binding_ids_for_implicit_global_rewrite
+                    .contains(&binding.id.to_id())
+                {
+                    is_decorator_binding = true;
+                }
+            });
+
+            if !is_decorator_binding {
+                continue;
+            }
+
+            if let Some(init) = decl.init.as_mut() {
+                self.rewrite_implicit_globals_in_expr(init);
+            }
+        }
+    }
+
+    fn maybe_rewrite_implicit_globals_in_decorator_binding_stmt(&mut self, stmt: &mut Stmt) {
+        if let Stmt::Decl(Decl::Var(var_decl)) = stmt {
+            self.maybe_rewrite_implicit_globals_in_decorator_binding_var_decl(var_decl);
+        }
+    }
+
+    fn maybe_rewrite_implicit_globals_in_decorator_binding_module_item(
+        &mut self,
+        module_item: &mut ModuleItem,
+    ) {
+        match module_item {
+            ModuleItem::Stmt(stmt) => {
+                self.maybe_rewrite_implicit_globals_in_decorator_binding_stmt(stmt);
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(var_decl),
+                ..
+            })) => {
+                self.maybe_rewrite_implicit_globals_in_decorator_binding_var_decl(var_decl);
+            }
+            _ => {}
+        }
+    }
+
+    fn rewrite_implicit_globals_in_prop_name_expr(&mut self, name: &mut PropName) {
+        if let PropName::Computed(computed) = name {
+            computed.expr.visit_mut_with(self);
+        }
+    }
+
+    fn rewrite_implicit_globals_in_key_expr(&mut self, key: &mut Key) {
+        if let Key::Public(name) = key {
+            self.rewrite_implicit_globals_in_prop_name_expr(name);
+        }
+    }
+
+    fn rewrite_implicit_globals_in_class_member_exprs(&mut self, member: &mut ClassMember) {
+        match member {
+            ClassMember::ClassProp(prop) => {
+                self.rewrite_implicit_globals_in_prop_name_expr(&mut prop.key);
+                for decorator in &mut prop.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+                if prop.is_static {
+                    if let Some(value) = &mut prop.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+            }
+            ClassMember::PrivateProp(prop) => {
+                for decorator in &mut prop.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+                if prop.is_static {
+                    if let Some(value) = &mut prop.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+            }
+            ClassMember::Method(method) => {
+                self.rewrite_implicit_globals_in_prop_name_expr(&mut method.key);
+                for decorator in &mut method.function.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+            }
+            ClassMember::PrivateMethod(method) => {
+                for decorator in &mut method.function.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+            }
+            ClassMember::AutoAccessor(accessor) => {
+                self.rewrite_implicit_globals_in_key_expr(&mut accessor.key);
+                for decorator in &mut accessor.decorators {
+                    decorator.expr.visit_mut_with(self);
+                }
+                if accessor.is_static {
+                    if let Some(value) = &mut accessor.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn rewrite_implicit_globals_in_class_expr(&mut self, class_expr: &mut ClassExpr) {
+        for decorator in &mut class_expr.class.decorators {
+            decorator.expr.visit_mut_with(self);
+        }
+
+        if let Some(super_class) = &mut class_expr.class.super_class {
+            super_class.visit_mut_with(self);
+        }
+
+        for member in &mut class_expr.class.body {
+            self.rewrite_implicit_globals_in_class_member_exprs(member);
+        }
     }
 
     fn maybe_to_property_key(&self, expr: Expr) -> Expr {
@@ -419,18 +608,6 @@ impl DecoratorPass {
         replace_ident(expr, class_name.to_id(), alias);
     }
 
-    fn is_unresolved_ident(&self, ident: &Ident) -> bool {
-        matches!(ident.ctxt.as_u32(), 0 | 1)
-    }
-
-    fn global_this_member_expr(&self, sym: Atom, span: Span) -> MemberExpr {
-        MemberExpr {
-            span,
-            obj: Ident::new("globalThis".into(), span, SyntaxContext::empty()).into(),
-            prop: MemberProp::Ident(Ident::new(sym, span, SyntaxContext::empty()).into()),
-        }
-    }
-
     fn memoize_static_closure(
         &mut self,
         hint: &str,
@@ -571,6 +748,9 @@ impl DecoratorPass {
     }
 
     fn preserve_decorator_this_target(&mut self, target: Box<Expr>) -> Box<Expr> {
+        let mut target = target;
+        self.rewrite_implicit_globals_in_expr(&mut target);
+
         if target.is_ident() || target.is_this() {
             return target;
         }
@@ -945,11 +1125,22 @@ impl DecoratorPass {
         dec: Box<Expr>,
         allow_class_name_queue: bool,
     ) -> Box<Expr> {
-        if dec.is_ident()
+        if self.is_2023_11() {
+            if let Expr::Ident(ident) = &*dec {
+                self.decorator_binding_ids_for_implicit_global_rewrite
+                    .insert(ident.to_id());
+            }
+        }
+
+        let return_directly = dec.is_ident()
             || dec.is_arrow()
             || dec.is_fn_expr()
-            || (!self.is_2023_11() && self.expr_uses_current_class_private_name(&dec))
-        {
+            || (!self.is_2023_11() && self.expr_uses_current_class_private_name(&dec));
+
+        let mut dec = dec;
+        self.rewrite_implicit_globals_in_expr(&mut dec);
+
+        if return_directly {
             return dec;
         }
 
@@ -1224,6 +1415,7 @@ impl DecoratorPass {
 
                 let mut key_expr = self.maybe_to_property_key(prop_name_to_expr_value(name.take()));
                 self.maybe_alias_current_class_name_expr(&mut key_expr);
+                self.rewrite_implicit_globals_in_expr(&mut key_expr);
                 let prefer_class_key = self.should_queue_class_key_init(&key_expr, true);
 
                 self.queue_pre_class_init(
@@ -1321,7 +1513,9 @@ impl DecoratorPass {
     }
 
     fn handle_super_class(&mut self, class: &mut Class) {
-        if let Some(super_class) = class.super_class.take() {
+        if let Some(mut super_class) = class.super_class.take() {
+            self.rewrite_implicit_globals_in_expr(&mut super_class);
+
             let id = alias_ident_for(&super_class, "_super");
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
@@ -1964,6 +2158,13 @@ impl DecoratorPass {
 
     fn process_decorators(&mut self, decorators: &mut [Decorator]) {
         decorators.iter_mut().for_each(|dec| {
+            if self.is_2023_11() {
+                if let Expr::Ident(ident) = &*dec.expr {
+                    self.decorator_binding_ids_for_implicit_global_rewrite
+                        .insert(ident.to_id());
+                }
+            }
+
             self.maybe_alias_current_class_name_expr(&mut dec.expr);
 
             let e = if self.is_2023_11()
@@ -1995,6 +2196,7 @@ impl DecoratorPass {
 
                 let mut key_expr = self.maybe_to_property_key(prop_name_to_expr_value(name.take()));
                 self.maybe_alias_current_class_name_expr(&mut key_expr);
+                self.rewrite_implicit_globals_in_expr(&mut key_expr);
                 let prefer_class_key = self.should_queue_class_key_init(&key_expr, true);
 
                 self.queue_pre_class_init(
@@ -2060,6 +2262,12 @@ impl VisitMut for DecoratorPass {
         self.current_class_name = n.ident.clone();
         n.class.visit_mut_with(self);
         self.current_class_name = old_name;
+    }
+
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        if self.in_implicit_global_rewrite_expr {
+            self.mark_ident_for_implicit_global_rewrite(n);
+        }
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
@@ -3066,7 +3274,7 @@ impl VisitMut for DecoratorPass {
             if self.is_2023_11() && assign.op == op!("=") {
                 if let AssignTarget::Simple(SimpleAssignTarget::Ident(binding)) = &assign.left {
                     let id = &binding.id;
-                    if self.is_unresolved_ident(id) {
+                    if self.is_marked_for_implicit_global_rewrite(id) {
                         self.implicit_globals.insert(id.sym.clone());
                         assign.left = AssignTarget::Simple(SimpleAssignTarget::Member(
                             self.global_this_member_expr(id.sym.clone(), id.span),
@@ -3079,14 +3287,29 @@ impl VisitMut for DecoratorPass {
         }
 
         if let Expr::Ident(ident) = e {
+            self.visit_mut_ident(ident);
+
             if self.is_2023_11()
-                && self.is_unresolved_ident(ident)
+                && self.is_marked_for_implicit_global_rewrite(ident)
                 && self.implicit_globals.contains(&ident.sym)
             {
                 *e = self
                     .global_this_member_expr(ident.sym.clone(), ident.span)
                     .into();
             }
+            return;
+        }
+
+        if self.in_implicit_global_rewrite_expr {
+            if let Expr::Class(class_expr) = e {
+                // Traverse class-expression evaluation-time subexpressions
+                // without invoking the main decorator/class transform flow.
+                self.rewrite_implicit_globals_in_class_expr(class_expr);
+                return;
+            }
+
+            // Keep rewrite mode traversal local to this expression.
+            maybe_grow_default(|| e.visit_mut_children_with(self));
             return;
         }
 
@@ -3195,6 +3418,10 @@ impl VisitMut for DecoratorPass {
                     .into(),
                 );
             }
+        }
+
+        for module_item in n.iter_mut() {
+            self.maybe_rewrite_implicit_globals_in_decorator_binding_module_item(module_item);
         }
 
         if !self.extra_vars.is_empty() {
@@ -3530,6 +3757,10 @@ impl VisitMut for DecoratorPass {
                     .into(),
                 );
             }
+        }
+
+        for stmt in n.iter_mut() {
+            self.maybe_rewrite_implicit_globals_in_decorator_binding_stmt(stmt);
         }
 
         if !self.extra_vars.is_empty() {
