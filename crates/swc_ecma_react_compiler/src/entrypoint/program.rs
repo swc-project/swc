@@ -18,7 +18,7 @@ use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use crate::{
     entrypoint::{gating::find_dynamic_gating, imports, suppression},
     error::{CompilerError, CompilerErrorDetail, ErrorCategory, ErrorSeverity},
-    inference, optimization,
+    hir, inference, optimization,
     options::{
         CompilationMode, CompilerOutputMode, CompilerReactTarget, LoggerEvent,
         PanicThresholdOptions, ParsedPluginOptions,
@@ -295,6 +295,7 @@ pub fn compile_fn(
     ));
     inference::drop_manual_memoization(&mut hir);
     inference::inline_immediately_invoked_function_expressions(&mut hir);
+    hir::merge_consecutive_blocks(&mut hir);
 
     ssa::enter_ssa(&mut hir);
     ssa::eliminate_redundant_phi(&mut hir);
@@ -368,6 +369,7 @@ pub fn compile_fn(
     }
 
     inference::infer_reactive_places(&mut hir);
+    hir::propagate_scope_dependencies(&mut hir);
 
     if opts
         .environment
@@ -774,7 +776,7 @@ struct ProgramCompiler<'a> {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum FixtureFnTypeHint {
     Kind(ReactFunctionType),
-    NotReact,
+    ForceCompile,
 }
 
 #[derive(Clone)]
@@ -979,14 +981,17 @@ impl ProgramCompiler<'_> {
             .iter()
             .map(|param| param.pat.clone())
             .collect::<Vec<_>>();
-        let inferred_type = match fn_type_hint {
-            Some(FixtureFnTypeHint::NotReact) => return,
-            Some(FixtureFnTypeHint::Kind(kind)) => Some(kind),
-            None => infer_function_type(
-                name.map(|ident| ident.sym.as_ref()),
-                &function_params,
-                body,
-                is_forward_ref_or_memo_callback,
+        let (inferred_type, force_compile) = match fn_type_hint {
+            Some(FixtureFnTypeHint::Kind(kind)) => (Some(kind), false),
+            Some(FixtureFnTypeHint::ForceCompile) => (None, true),
+            None => (
+                infer_function_type(
+                    name.map(|ident| ident.sym.as_ref()),
+                    &function_params,
+                    body,
+                    is_forward_ref_or_memo_callback,
+                ),
+                false,
             ),
         };
 
@@ -998,16 +1003,19 @@ impl ProgramCompiler<'_> {
                     None
                 }
             }
-            CompilationMode::Infer => syntax_type.or(inferred_type).or_else(|| {
-                if is_top_level
-                    && self.allow_infer_return_fallback_for(name)
-                    && has_return_with_value(body)
-                {
-                    Some(ReactFunctionType::Component)
-                } else {
-                    None
-                }
-            }),
+            CompilationMode::Infer => syntax_type
+                .or(inferred_type)
+                .or_else(|| {
+                    if is_top_level
+                        && self.allow_infer_return_fallback_for(name)
+                        && has_return_with_value(body)
+                    {
+                        Some(ReactFunctionType::Component)
+                    } else {
+                        None
+                    }
+                })
+                .or_else(|| force_compile.then_some(ReactFunctionType::Other)),
             CompilationMode::Syntax => syntax_type,
             CompilationMode::All => {
                 if is_top_level {
@@ -1175,14 +1183,17 @@ impl ProgramCompiler<'_> {
             }
         };
 
-        let inferred_type = match fn_type_hint {
-            Some(FixtureFnTypeHint::NotReact) => return,
-            Some(FixtureFnTypeHint::Kind(kind)) => Some(kind),
-            None => infer_function_type(
-                name.map(|ident| ident.sym.as_ref()),
-                &arrow.params,
-                &block,
-                is_forward_ref_or_memo_callback,
+        let (inferred_type, force_compile) = match fn_type_hint {
+            Some(FixtureFnTypeHint::Kind(kind)) => (Some(kind), false),
+            Some(FixtureFnTypeHint::ForceCompile) => (None, true),
+            None => (
+                infer_function_type(
+                    name.map(|ident| ident.sym.as_ref()),
+                    &arrow.params,
+                    &block,
+                    is_forward_ref_or_memo_callback,
+                ),
+                false,
             ),
         };
 
@@ -1206,7 +1217,8 @@ impl ProgramCompiler<'_> {
                     } else {
                         None
                     }
-                }),
+                })
+                .or_else(|| force_compile.then_some(ReactFunctionType::Other)),
             CompilationMode::Syntax => None,
             CompilationMode::All => {
                 if is_top_level {
@@ -1762,8 +1774,8 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, F
 
             let mut fn_name = None;
             let mut fn_type = None;
+            let mut force_compile = false;
             let mut saw_react_kind_hint = false;
-            let mut explicit_not_react = false;
             for prop in &object.props {
                 let PropOrSpread::Prop(prop) = prop else {
                     continue;
@@ -1788,6 +1800,8 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, F
                             Expr::Lit(Lit::Bool(bool_lit)) => {
                                 if bool_lit.value {
                                     fn_type = Some(ReactFunctionType::Component);
+                                } else {
+                                    force_compile = true;
                                 }
                             }
                             // Upstream fixtures also use truthy string tags (e.g. "TodoAdd")
@@ -1804,7 +1818,7 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, F
                             if bool_lit.value {
                                 fn_type = Some(ReactFunctionType::Hook);
                             } else {
-                                explicit_not_react = true;
+                                force_compile = true;
                             }
                         }
                     }
@@ -1813,10 +1827,10 @@ fn collect_fixture_entrypoint_type_hints(program: &Program) -> HashMap<String, F
             }
 
             if let Some(fn_name) = fn_name {
-                if explicit_not_react {
-                    hints.insert(fn_name, FixtureFnTypeHint::NotReact);
-                } else if let Some(kind) = fn_type {
+                if let Some(kind) = fn_type {
                     hints.insert(fn_name, FixtureFnTypeHint::Kind(kind));
+                } else if force_compile {
+                    hints.insert(fn_name, FixtureFnTypeHint::ForceCompile);
                 } else if !saw_react_kind_hint {
                     if is_hook_name(fn_name.as_str()) {
                         hints.insert(fn_name, FixtureFnTypeHint::Kind(ReactFunctionType::Hook));
@@ -3251,5 +3265,53 @@ mod tests {
         assert!(report.diagnostics.is_empty(), "report: {report:?}");
         assert!(output.contains("bb0: if (a)"), "{output}");
         assert!(output.contains("break bb0"), "{output}");
+    }
+
+    #[test]
+    fn compiles_fixture_entrypoint_with_explicit_non_react_hint() {
+        let mut program = parse_program(
+            "function foo() {\n  let x = 1;\n  let y = 2;\n}\nexport const FIXTURE_ENTRYPOINT = { \
+             fn: foo, params: [], isComponent: false };\n",
+        );
+
+        let report = compile_program(
+            &mut program,
+            &CompilerPass {
+                opts: crate::options::default_options(),
+                filename: Some("src/fixture.js".into()),
+                comments: Vec::new(),
+                code: None,
+            },
+        )
+        .unwrap();
+        let output = print_program(&program);
+
+        assert!(report.compiled_functions >= 1, "report: {report:?}");
+        assert!(output.contains("function foo() {}"), "{output}");
+    }
+
+    #[test]
+    fn compiles_fixture_entrypoint_with_explicit_non_react_hint_and_return() {
+        let mut program = parse_program(
+            "function foo() {\n  const x = [];\n  const y = {};\n  y.x = x;\n  return \
+             y;\n}\nexport const FIXTURE_ENTRYPOINT = { fn: foo, params: [], isComponent: false \
+             };\n",
+        );
+
+        let report = compile_program(
+            &mut program,
+            &CompilerPass {
+                opts: crate::options::default_options(),
+                filename: Some("src/fixture.js".into()),
+                comments: Vec::new(),
+                code: None,
+            },
+        )
+        .unwrap();
+        let output = print_program(&program);
+
+        assert!(report.compiled_functions >= 1, "report: {report:?}");
+        assert!(output.contains("react/compiler-runtime"), "{output}");
+        assert!(output.contains("_c("), "{output}");
     }
 }

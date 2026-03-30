@@ -1623,6 +1623,30 @@ fn fixture_cases_upstream_phase1() {
 }
 
 #[test]
+fn fixture_cases_upstream_foundation4() {
+    let fixture_root = fixtures_root();
+    let manifest = configured_path(
+        &fixture_root,
+        "REACT_COMPILER_UPSTREAM_FOUNDATION4_MANIFEST",
+        "upstream_foundation4_manifest.txt",
+    );
+    let upstream_root = configured_path(
+        &fixture_root,
+        "REACT_COMPILER_UPSTREAM_FOUNDATION4_ROOT",
+        "upstream",
+    );
+
+    let inputs = upstream_inputs(&manifest, &upstream_root);
+    assert!(
+        !inputs.is_empty(),
+        "no upstream foundation4 fixtures found. run `scripts/sync_fixtures.sh --manifest \
+         tests/fixtures/upstream_foundation4_manifest.txt --out-dir tests/fixtures/upstream` first"
+    );
+
+    run_fixture_suite(inputs);
+}
+
+#[test]
 fn parses_custom_opt_out_directive_pragma() {
     let source = r#"
 // @customOptOutDirectives:["use todo memo"]

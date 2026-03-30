@@ -1,8 +1,8 @@
 use super::dependency::{
-    collect_callback_dependencies, collect_function_like_bindings, collect_stable_hook_bindings,
-    collect_top_level_bindings, dependency_prefix_match, format_dependency, hook_call_kind,
-    is_probably_stable_dependency, parse_manual_dependencies, resolve_callback_expr, Dependency,
-    FunctionLike, HookCallKind, ManualDeps,
+    collect_callback_dependencies_with_hints, collect_function_like_bindings,
+    collect_stable_hook_bindings, collect_top_level_bindings, dependency_prefix_match,
+    format_dependency, hook_call_kind, is_probably_stable_dependency, parse_manual_dependencies,
+    resolve_callback_expr, Dependency, FunctionLike, HookCallKind, ManualDeps,
 };
 use crate::{
     error::{CompilerError, CompilerErrorDetail, ErrorCategory},
@@ -25,6 +25,7 @@ pub fn validate_exhaustive_dependencies(
     let mut details = Vec::<CompilerErrorDetail>::new();
 
     struct Visitor<'a> {
+        hir: &'a HirFunction,
         outer_bindings: &'a std::collections::HashSet<String>,
         function_like_bindings: &'a std::collections::HashMap<String, FunctionLike>,
         stable_bindings: &'a std::collections::HashSet<String>,
@@ -63,7 +64,11 @@ pub fn validate_exhaustive_dependencies(
                 return;
             };
 
-            let inferred = collect_callback_dependencies(&callback_expr, self.outer_bindings);
+            let inferred = collect_callback_dependencies_with_hints(
+                self.hir,
+                &callback_expr,
+                self.outer_bindings,
+            );
             let inferred = dedup_dependencies(inferred);
             let inferred = inferred
                 .into_iter()
@@ -154,6 +159,7 @@ pub fn validate_exhaustive_dependencies(
 
     use swc_ecma_visit::VisitWith;
     let mut visitor = Visitor {
+        hir,
         outer_bindings: &outer_bindings,
         function_like_bindings: &function_like_bindings,
         stable_bindings: &stable_bindings,

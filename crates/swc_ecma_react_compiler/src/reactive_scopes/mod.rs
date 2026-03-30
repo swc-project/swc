@@ -9409,16 +9409,38 @@ fn collect_loop_test_dependencies_from_expr(
 }
 
 fn should_collapse_member_callee_dependency(member: &MemberExpr) -> bool {
+    fn collapsible_method(name: &str) -> bool {
+        matches!(
+            name,
+            "at" | "toString"
+                | "toLocaleString"
+                | "valueOf"
+                | "filter"
+                | "map"
+                | "forEach"
+                | "some"
+                | "every"
+                | "find"
+                | "findIndex"
+                | "findLast"
+                | "findLastIndex"
+                | "includes"
+                | "indexOf"
+                | "lastIndexOf"
+                | "flat"
+                | "flatMap"
+                | "slice"
+                | "concat"
+                | "join"
+        )
+    }
+
     match &member.prop {
-        MemberProp::Ident(prop) => matches!(
-            prop.sym.as_ref(),
-            "at" | "toString" | "toLocaleString" | "valueOf"
-        ),
+        MemberProp::Ident(prop) => collapsible_method(prop.sym.as_ref()),
         MemberProp::Computed(computed) => match &*computed.expr {
-            Expr::Lit(Lit::Str(str_lit)) => matches!(
-                str_lit.value.to_string_lossy().as_ref(),
-                "at" | "toString" | "toLocaleString" | "valueOf"
-            ),
+            Expr::Lit(Lit::Str(str_lit)) => {
+                collapsible_method(str_lit.value.to_string_lossy().as_ref())
+            }
             _ => false,
         },
         MemberProp::PrivateName(_) => false,

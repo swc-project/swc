@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     ArrowExpr, BlockStmt, CallExpr, Callee, Expr, ExprOrSpread, Function, MemberExpr, MemberProp,
     OptChainBase, OptChainExpr, Pat, Stmt, VarDeclarator,
@@ -353,6 +353,40 @@ pub fn collect_callback_dependencies(
     };
     callback_expr.visit_with(&mut collector);
     collector.deps
+}
+
+pub fn collect_callback_dependencies_with_hints(
+    hir: &HirFunction,
+    callback_expr: &Expr,
+    outer_bindings: &HashSet<String>,
+) -> Vec<Dependency> {
+    if let Some(hints) = hir.callback_hint(callback_expr.span()) {
+        let mut hinted = hints
+            .iter()
+            .map(|dep| Dependency {
+                root: dep.root.clone(),
+                path: dep.path.clone(),
+                span: callback_expr.span(),
+            })
+            .collect::<Vec<_>>();
+        if !hinted.is_empty() {
+            // Metadata is authoritative when present, but keep a conservative
+            // fallback union in case a callback was normalized after hints were
+            // collected.
+            let fallback = collect_callback_dependencies(callback_expr, outer_bindings);
+            for dep in fallback {
+                if hinted
+                    .iter()
+                    .any(|existing| existing.root == dep.root && existing.path == dep.path)
+                {
+                    continue;
+                }
+                hinted.push(dep);
+            }
+            return hinted;
+        }
+    }
+    collect_callback_dependencies(callback_expr, outer_bindings)
 }
 
 fn collect_stmt_bindings(stmt: &Stmt, out: &mut HashSet<String>) {
