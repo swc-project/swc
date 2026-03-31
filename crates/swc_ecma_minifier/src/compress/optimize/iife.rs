@@ -669,6 +669,16 @@ impl Optimizer<'_> {
                             return;
                         }
 
+                        // Keep this path conservative: expression-body IIFE inlining is only
+                        // safe if every parameter can be substituted directly. If we would need
+                        // to synthesize temporary param bindings / assignments, skip this
+                        // optimization to avoid introducing unbound references in closures.
+                        if !self
+                            .can_inline_expr_iife_params_without_tmp(param_ids.clone(), &call.args)
+                        {
+                            return;
+                        }
+
                         if let Expr::Lit(Lit::Num(..)) = &**body {
                             if self.ctx.bit_ctx.contains(BitCtx::InObjOfNonComputedMember) {
                                 return;
@@ -848,6 +858,50 @@ impl Optimizer<'_> {
             Expr::Fn(..) | Expr::Arrow(..) if usage.can_inline_fn_once() => true,
             _ => false,
         }
+    }
+
+    fn can_inline_expr_iife_params_without_tmp<'a>(
+        &self,
+        param_ids: impl ExactSizeIterator<Item = &'a Ident>,
+        args: &[ExprOrSpread],
+    ) -> bool {
+        for (idx, pid) in param_ids.enumerate() {
+            let Some(arg) = args.get(idx) else {
+                log_abort!(
+                    "iife: [x] Cannot inline expression-body iife due to missing argument for `{}`",
+                    pid
+                );
+                return false;
+            };
+
+            let Some(usage) = self.data.vars.get(&pid.to_id()) else {
+                log_abort!(
+                    "iife: [x] Cannot inline expression-body iife due to missing usage data for \
+                     `{}`",
+                    pid
+                );
+                return false;
+            };
+
+            // Keep the fast path equivalent to `inline_fn_param`'s no-temp branch.
+            if !(usage.ref_count == 1
+                && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                && usage.property_mutation_count == 0
+                && matches!(
+                    &*arg.expr,
+                    Expr::Lit(Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::BigInt(..))
+                ))
+            {
+                log_abort!(
+                    "iife: [x] Cannot inline expression-body iife because `{}` needs temporary \
+                     binding",
+                    pid
+                );
+                return false;
+            }
+        }
+
+        true
     }
 
     fn can_extract_param<'a>(

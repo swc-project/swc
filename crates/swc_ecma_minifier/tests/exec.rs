@@ -11973,3 +11973,39 @@ console.log(getStatusMessage(999).message);
 "#;
     run_default_exec_test(src);
 }
+
+/// Issue #11755: Avoid unbound references when inlining expression-body IIFE
+/// params in closures.
+#[test]
+fn issue_11755() {
+    let src = r#"
+function f() {
+  const getConfigId = ({ id, configIndex }) => `${id}-${configIndex}`;
+  const createSelector = (id, configIndex) => (data) =>
+    data[getConfigId({ id, configIndex })];
+
+  const selector = createSelector("item-1", 0);
+  const result = selector({ "item-1-0": 100 });
+
+  if (result === 100) {
+    console.log("Test PASSED!");
+  } else {
+    console.log("Test FAILED!");
+  }
+}
+
+f();
+f();
+"#;
+
+    let config = r#"{
+    "defaults": false,
+    "toplevel": true,
+    "inline": 3,
+    "unused": true,
+    "collapse_vars": true,
+    "reduce_vars": false
+}"#;
+
+    run_exec_test(src, config, false);
+}
