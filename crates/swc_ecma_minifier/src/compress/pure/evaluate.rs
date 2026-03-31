@@ -531,6 +531,29 @@ impl Pure<'_> {
             return;
         }
 
+        // We already have `eval_array_spread`, `eval_spread_array_in_args` and
+        // `eval_spread_array_in_array` runs before `eval_number_method_call`
+        // so assumeing that there is no spread in arguments is safe.
+
+        let first_arg: Value<Option<f64>> = {
+            if let Some(first_arg) = args.first() {
+                if first_arg.spread.is_some() {
+                    Value::Unknown
+                } else if first_arg.expr.is_undefined(self.expr_ctx) || first_arg.expr.is_void() {
+                    Value::Known(None)
+                } else {
+                    eval_as_number(self.expr_ctx, &first_arg.expr)
+                        .map_or(Value::Unknown, |res| Value::Known(Some(res)))
+                }
+            } else {
+                Value::Known(None)
+            }
+        };
+
+        let Value::Known(first_arg) = first_arg else {
+            return;
+        };
+
         if &*method.sym == "toFixed" {
             // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
             //
@@ -547,47 +570,42 @@ impl Pure<'_> {
 
             // 1. Let x be ? thisNumberValue(this value).
             // 2. Let f be ? ToIntegerOrInfinity(fractionDigits).
-            if let Some(precision) = args
-                .first()
-                // 3. Assert: If fractionDigits is undefined, then f is 0.
-                .map_or(Some(0f64), |arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
-                let f = precision.trunc() as u8;
+            // 3. Assert: If fractionDigits is undefined, then f is 0.
+            let precision = first_arg.unwrap_or(0f64);
+            let f = precision.trunc() as u8;
 
-                // 4. If f is not finite, throw a RangeError exception.
-                // 5. If f < 0 or f > 100, throw a RangeError exception.
+            // 4. If f is not finite, throw a RangeError exception.
+            // 5. If f < 0 or f > 100, throw a RangeError exception.
 
-                // Note: ES2018 increased the maximum number of fraction digits from 20 to 100.
-                // It relies on runtime behavior.
-                if !(0..=20).contains(&f) {
-                    return;
-                }
-
-                let mut buffer = ryu_js::Buffer::new();
-                let value = buffer.format_to_fixed(num.value, f);
-
-                self.changed = true;
-                report_change!(
-                    "evaluate: Evaluating `{}.toFixed({})` as `{}`",
-                    num,
-                    precision,
-                    value
-                );
-
-                *e = Lit::Str(Str {
-                    span: e.span(),
-                    raw: None,
-                    value: value.into(),
-                })
-                .into();
+            // Note: ES2018 increased the maximum number of fraction digits from 20 to 100.
+            // It relies on runtime behavior.
+            if !(0..=20).contains(&f) {
+                return;
             }
+
+            let mut buffer = ryu_js::Buffer::new();
+            let value = buffer.format_to_fixed(num.value, f);
+
+            self.changed = true;
+            report_change!(
+                "evaluate: Evaluating `{}.toFixed({})` as `{}`",
+                num,
+                precision,
+                value
+            );
+
+            *e = Lit::Str(Str {
+                span: e.span(),
+                raw: None,
+                value: value.into(),
+            })
+            .into();
 
             return;
         }
 
         if &*method.sym == "toPrecision" {
-            // TODO: handle num.toPrecision(undefined)
-            if args.is_empty() {
+            if first_arg.is_none() {
                 // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
                 // 2. If precision is undefined, return ! ToString(x).
                 let value = num.value.to_js_string().into();
@@ -606,12 +624,7 @@ impl Pure<'_> {
                 })
                 .into();
                 return;
-            }
-
-            if let Some(precision) = args
-                .first()
-                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
+            } else if let Some(precision) = first_arg {
                 let p = precision.trunc() as usize;
                 // 5. If p < 1 or p > 100, throw a RangeError exception.
                 if !(1..=21).contains(&p) {
@@ -636,8 +649,7 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toExponential" {
-            // TODO: handle num.toExponential(undefined)
-            if args.is_empty() {
+            if first_arg.is_none() {
                 let value = f64_to_exponential(num.value).into();
 
                 self.changed = true;
@@ -654,10 +666,7 @@ impl Pure<'_> {
                 })
                 .into();
                 return;
-            } else if let Some(precision) = args
-                .first()
-                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
+            } else if let Some(precision) = first_arg {
                 let p = precision.trunc() as usize;
                 // 5. If p < 1 or p > 100, throw a RangeError exception.
                 if !(0..=20).contains(&p) {
@@ -668,7 +677,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toPrecision({})` as `{:?}`",
+                    "evaluate: Evaluating `{}.toExponential({})` as `{:?}`",
                     num,
                     precision,
                     value
@@ -685,44 +694,40 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toString" {
-            if let Some(base) = args
-                .first()
-                .map_or(Some(10f64), |arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
-                if base.trunc() == 10. {
-                    let value = num.value.to_js_string().into();
-                    *e = Lit::Str(Str {
-                        span: e.span(),
-                        raw: None,
-                        value,
-                    })
-                    .into();
-                    return;
-                }
+            let base = first_arg.unwrap_or(10f64);
+            if base.trunc() == 10. {
+                let value = num.value.to_js_string().into();
+                *e = Lit::Str(Str {
+                    span: e.span(),
+                    raw: None,
+                    value,
+                })
+                .into();
+                return;
+            }
 
-                if num.value.fract() == 0.0 && (2.0..=36.0).contains(&base) && base.fract() == 0.0 {
-                    let base = base.floor() as u8;
+            if num.value.fract() == 0.0 && (2.0..=36.0).contains(&base) && base.fract() == 0.0 {
+                let base = base.floor() as u8;
 
-                    self.changed = true;
+                self.changed = true;
 
-                    let value = {
-                        let x = num.value;
-                        if x < 0. {
-                            // I don't know if u128 is really needed, but it works.
-                            format!("-{}", Radix::new(-x as u128, base))
-                        } else {
-                            Radix::new(x as u128, base).to_string()
-                        }
+                let value = {
+                    let x = num.value;
+                    if x < 0. {
+                        // I don't know if u128 is really needed, but it works.
+                        format!("-{}", Radix::new(-x as u128, base))
+                    } else {
+                        Radix::new(x as u128, base).to_string()
                     }
-                    .into();
-
-                    *e = Lit::Str(Str {
-                        span: e.span(),
-                        raw: None,
-                        value,
-                    })
-                    .into()
                 }
+                .into();
+
+                *e = Lit::Str(Str {
+                    span: e.span(),
+                    raw: None,
+                    value,
+                })
+                .into()
             }
         }
     }
