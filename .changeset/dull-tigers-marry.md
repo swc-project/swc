@@ -1,6 +1,5 @@
 ---
-swc_ecma_minifier: patch
-swc_core: major
+swc_ecma_minifier: major
 ---
 
 refactor(minifier): inline usage analyzer and remove crate
