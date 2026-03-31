@@ -359,7 +359,8 @@ impl<'a> Lexer<'a> {
             } else {
                 Token::MinusMinus
             }
-        } else if self.input.eat_byte(b'=') {
+        // Safety: b'=' is ASCII.
+        } else if unsafe { self.input.eat_byte(b'=') } {
             if C == b'+' {
                 Token::PlusEq
             } else {
@@ -378,10 +379,12 @@ impl<'a> Lexer<'a> {
 
         self.bump(1); // first `!` or `=`
 
-        Ok(if self.input.eat_byte(b'=') {
+        // Safety: b'=' is ASCII.
+        Ok(if unsafe { self.input.eat_byte(b'=') } {
             // "=="
 
-            if self.input.eat_byte(b'=') {
+            // Safety: b'=' is ASCII.
+            if unsafe { self.input.eat_byte(b'=') } {
                 if C == b'!' {
                     Token::NotEqEq
                 } else {
@@ -401,7 +404,8 @@ impl<'a> Lexer<'a> {
             } else {
                 Token::EqEq
             }
-        } else if C == b'=' && self.input.eat_byte(b'>') {
+        // Safety: b'>' is ASCII.
+        } else if C == b'=' && unsafe { self.input.eat_byte(b'>') } {
             // "=>"
 
             Token::Arrow
@@ -639,7 +643,8 @@ impl<'a> Lexer<'a> {
 
     #[inline(always)]
     fn eat(&mut self, c: u8) -> bool {
-        self.input_mut().eat_byte(c)
+        // Safety: All callers pass ASCII bytes.
+        unsafe { self.input_mut().eat_byte(c) }
     }
 
     #[inline(always)]
@@ -2114,8 +2119,9 @@ impl<'a> Lexer<'a> {
     fn read_token_question_mark(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some_and(|c| c == b'?'));
         self.bump(1); // first `?`
-        if self.input_mut().eat_byte(b'?') {
-            if self.input_mut().eat_byte(b'=') {
+                      // Safety: b'?' and b'=' are ASCII.
+        if unsafe { self.input_mut().eat_byte(b'?') } {
+            if unsafe { self.input_mut().eat_byte(b'=') } {
                 Ok(Token::NullishEq)
             } else {
                 Ok(Token::NullishCoalescing)
@@ -2176,7 +2182,8 @@ impl<'a> Lexer<'a> {
         };
 
         // '|=', '&='
-        if self.input_mut().eat_byte(b'=') {
+        // Safety: b'=' is ASCII.
+        if unsafe { self.input_mut().eat_byte(b'=') } {
             return Ok(if is_bit_and {
                 Token::BitAndEq
             } else {
@@ -2228,7 +2235,8 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.cur().is_some_and(|c| c == b'*' || c == b'%'));
         self.bump(1); // `*` or `%`
         let token = if IS_MUL {
-            if self.input_mut().eat_byte(b'*') {
+            // Safety: b'*' is ASCII.
+            if unsafe { self.input_mut().eat_byte(b'*') } {
                 // `**`
                 Token::Exp
             } else {
@@ -2238,7 +2246,8 @@ impl<'a> Lexer<'a> {
             Token::Percent
         };
 
-        Ok(if self.input_mut().eat_byte(b'=') {
+        // Safety: b'=' is ASCII.
+        Ok(if unsafe { self.input_mut().eat_byte(b'=') } {
             if token == Token::Asterisk {
                 Token::MulEq
             } else if token == Token::Percent {

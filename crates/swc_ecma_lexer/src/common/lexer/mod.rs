@@ -163,7 +163,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
     #[inline(always)]
     fn eat(&mut self, c: u8) -> bool {
-        self.input_mut().eat_byte(c)
+        // Safety: All callers pass ASCII bytes.
+        unsafe { self.input_mut().eat_byte(c) }
     }
 
     #[inline(always)]
@@ -1874,8 +1875,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_token_question_mark(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some_and(|c| c == b'?'));
         self.bump();
-        if self.input_mut().eat_byte(b'?') {
-            if self.input_mut().eat_byte(b'=') {
+        // Safety: b'?' and b'=' are ASCII.
+        if unsafe { self.input_mut().eat_byte(b'?') } {
+            if unsafe { self.input_mut().eat_byte(b'=') } {
                 Ok(Self::Token::NULLISH_ASSIGN)
             } else {
                 Ok(Self::Token::NULLISH_COALESCING)
@@ -1940,7 +1942,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         };
 
         // '|=', '&='
-        if self.input_mut().eat_byte(b'=') {
+        // Safety: b'=' is ASCII.
+        if unsafe { self.input_mut().eat_byte(b'=') } {
             return Ok(if is_bit_and {
                 Self::Token::BIT_AND_EQ
             } else {
@@ -1995,7 +1998,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         debug_assert!(self.cur().is_some_and(|c| c == b'*' || c == b'%'));
         self.bump();
         let token = if is_mul {
-            if self.input_mut().eat_byte(b'*') {
+            // Safety: b'*' is ASCII.
+            if unsafe { self.input_mut().eat_byte(b'*') } {
                 // `**`
                 Self::Token::EXP
             } else {
@@ -2005,7 +2009,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             Self::Token::MOD
         };
 
-        Ok(if self.input_mut().eat_byte(b'=') {
+        // Safety: b'=' is ASCII.
+        Ok(if unsafe { self.input_mut().eat_byte(b'=') } {
             if token.is_star() {
                 Self::Token::MUL_EQ
             } else if token.is_mod() {

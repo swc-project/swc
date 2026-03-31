@@ -255,14 +255,14 @@ impl<'a> Lexer<'a> {
             }
             b'?' => {
                 self.bump_ascii();
-                if self.input.eat_byte(b'.') {
+                if unsafe { self.input.eat_byte(b'.') } {
                     Token::simple(
                         TokenKind::QuestionDot,
                         Span::new_with_checked(start, self.input.cur_pos()),
                         had_line_break_before,
                     )
-                } else if self.input.eat_byte(b'?') {
-                    if self.input.eat_byte(b'=') {
+                } else if unsafe { self.input.eat_byte(b'?') } {
+                    if unsafe { self.input.eat_byte(b'=') } {
                         Token::simple(
                             TokenKind::NullishEq,
                             Span::new_with_checked(start, self.input.cur_pos()),
@@ -343,9 +343,9 @@ impl<'a> Lexer<'a> {
     fn plus_like(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         self.bump_ascii();
-        let kind = if self.input.eat_byte(b'+') {
+        let kind = if unsafe { self.input.eat_byte(b'+') } {
             TokenKind::PlusPlus
-        } else if self.input.eat_byte(b'=') {
+        } else if unsafe { self.input.eat_byte(b'=') } {
             TokenKind::PlusEq
         } else {
             TokenKind::Plus
@@ -361,9 +361,9 @@ impl<'a> Lexer<'a> {
     fn minus_like(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         self.bump_ascii();
-        let kind = if self.input.eat_byte(b'-') {
+        let kind = if unsafe { self.input.eat_byte(b'-') } {
             TokenKind::MinusMinus
-        } else if self.input.eat_byte(b'=') {
+        } else if unsafe { self.input.eat_byte(b'=') } {
             TokenKind::MinusEq
         } else {
             TokenKind::Minus
@@ -380,13 +380,13 @@ impl<'a> Lexer<'a> {
         let start = self.input.cur_pos();
         self.bump_ascii();
 
-        let kind = if self.input.eat_byte(b'&') {
-            if self.input.eat_byte(b'=') {
+        let kind = if unsafe { self.input.eat_byte(b'&') } {
+            if unsafe { self.input.eat_byte(b'=') } {
                 TokenKind::AndAndEq
             } else {
                 TokenKind::AndAnd
             }
-        } else if self.input.eat_byte(b'=') {
+        } else if unsafe { self.input.eat_byte(b'=') } {
             TokenKind::AmpEq
         } else {
             TokenKind::Amp
@@ -403,13 +403,13 @@ impl<'a> Lexer<'a> {
         let start = self.input.cur_pos();
         self.bump_ascii();
 
-        let kind = if self.input.eat_byte(b'|') {
-            if self.input.eat_byte(b'=') {
+        let kind = if unsafe { self.input.eat_byte(b'|') } {
+            if unsafe { self.input.eat_byte(b'=') } {
                 TokenKind::OrOrEq
             } else {
                 TokenKind::OrOr
             }
-        } else if self.input.eat_byte(b'=') {
+        } else if unsafe { self.input.eat_byte(b'=') } {
             TokenKind::PipeEq
         } else {
             TokenKind::Pipe
@@ -426,13 +426,13 @@ impl<'a> Lexer<'a> {
         let start = self.input.cur_pos();
         self.bump_ascii();
 
-        let kind = if self.input.eat_byte(b'=') {
-            if self.input.eat_byte(b'=') {
+        let kind = if unsafe { self.input.eat_byte(b'=') } {
+            if unsafe { self.input.eat_byte(b'=') } {
                 TokenKind::EqEqEq
             } else {
                 TokenKind::EqEq
             }
-        } else if self.input.eat_byte(b'>') {
+        } else if unsafe { self.input.eat_byte(b'>') } {
             TokenKind::Arrow
         } else {
             TokenKind::Eq
@@ -449,8 +449,8 @@ impl<'a> Lexer<'a> {
         let start = self.input.cur_pos();
         self.bump_ascii();
 
-        let kind = if self.input.eat_byte(b'=') {
-            if self.input.eat_byte(b'=') {
+        let kind = if unsafe { self.input.eat_byte(b'=') } {
+            if unsafe { self.input.eat_byte(b'=') } {
                 TokenKind::NotEqEq
             } else {
                 TokenKind::NotEq
@@ -469,13 +469,13 @@ impl<'a> Lexer<'a> {
     fn lt_like(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         self.bump_ascii();
-        let kind = if self.input.eat_byte(b'<') {
-            if self.input.eat_byte(b'=') {
+        let kind = if unsafe { self.input.eat_byte(b'<') } {
+            if unsafe { self.input.eat_byte(b'=') } {
                 TokenKind::LtLtEq
             } else {
                 TokenKind::LtLt
             }
-        } else if self.input.eat_byte(b'=') {
+        } else if unsafe { self.input.eat_byte(b'=') } {
             TokenKind::LtEq
         } else {
             TokenKind::Lt
@@ -490,19 +490,19 @@ impl<'a> Lexer<'a> {
     fn gt_like(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         self.bump_ascii();
-        let kind = if self.input.eat_byte(b'>') {
-            if self.input.eat_byte(b'>') {
-                if self.input.eat_byte(b'=') {
+        let kind = if unsafe { self.input.eat_byte(b'>') } {
+            if unsafe { self.input.eat_byte(b'>') } {
+                if unsafe { self.input.eat_byte(b'=') } {
                     TokenKind::GtGtGtEq
                 } else {
                     TokenKind::GtGtGt
                 }
-            } else if self.input.eat_byte(b'=') {
+            } else if unsafe { self.input.eat_byte(b'=') } {
                 TokenKind::GtGtEq
             } else {
                 TokenKind::GtGt
             }
-        } else if self.input.eat_byte(b'=') {
+        } else if unsafe { self.input.eat_byte(b'=') } {
             TokenKind::GtEq
         } else {
             TokenKind::Gt
@@ -522,7 +522,7 @@ impl<'a> Lexer<'a> {
     ) -> Token {
         let start = self.input.cur_pos();
         self.bump_ascii();
-        let kind = if self.input.eat_byte(b'=') {
+        let kind = if unsafe { self.input.eat_byte(b'=') } {
             assign
         } else {
             plain
@@ -537,13 +537,13 @@ impl<'a> Lexer<'a> {
     fn star_like(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         self.bump_ascii();
-        let kind = if self.input.eat_byte(b'*') {
-            if self.input.eat_byte(b'=') {
+        let kind = if unsafe { self.input.eat_byte(b'*') } {
+            if unsafe { self.input.eat_byte(b'=') } {
                 TokenKind::StarStarEq
             } else {
                 TokenKind::StarStar
             }
-        } else if self.input.eat_byte(b'=') {
+        } else if unsafe { self.input.eat_byte(b'=') } {
             TokenKind::StarEq
         } else {
             TokenKind::Star
