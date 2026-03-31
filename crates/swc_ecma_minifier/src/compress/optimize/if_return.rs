@@ -22,7 +22,7 @@ use crate::{
 /// deeply nested ternary expressions (notably WebKit on iOS). Known limitation:
 /// very long chains stay as `if` statements, which may produce slightly larger
 /// output, but avoids stack overflows.
-const MAX_IF_RETURN_CHAINED_CONDITIONALS: usize = 500;
+const MAX_IF_RETURN_CHAINED_CONDITIONALS: usize = 250;
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
