@@ -1,4 +1,0 @@
-function Component({useFoo}) {
-  useFoo();
-}
-
