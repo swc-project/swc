@@ -1,18 +1,34 @@
 import { _ as _inherits } from "./_inherits.js";
 import { _ as _set_prototype_of } from "./_set_prototype_of.js";
 
-function _wrap_reg_exp(re, groups) {
-    _wrap_reg_exp = function(re, groups) {
-        return new WrappedRegExp(re, undefined, groups);
+function _wrap_reg_exp(re, groups, source) {
+    _wrap_reg_exp = function(re, groups, source) {
+        return new WrappedRegExp(re, undefined, groups, source);
     };
     var _super = RegExp.prototype;
     var _groups = new WeakMap();
-    function WrappedRegExp(re, flags, groups) {
+    var _sources = new WeakMap();
+    var _native_source = Object.getOwnPropertyDescriptor(_super, "source").get;
+    function WrappedRegExp(re, flags, groups, source) {
         var _re = new RegExp(re, flags);
         _groups.set(_re, groups || _groups.get(re));
+        _sources.set(_re, source !== undefined ? source : _sources.get(re));
         return _set_prototype_of(_re, WrappedRegExp.prototype);
     }
     _inherits(WrappedRegExp, RegExp);
+    Object.defineProperty(WrappedRegExp.prototype, "source", {
+        configurable: true,
+        get: function() {
+            var source = _sources.get(this);
+            if (source !== undefined) {
+                try {
+                    new RegExp(source, this.flags);
+                    return source;
+                } catch (_) {}
+            }
+            return _native_source.call(this);
+        }
+    });
     WrappedRegExp.prototype.exec = function(str) {
         var result = _super.exec.call(this, str);
         if (result) {

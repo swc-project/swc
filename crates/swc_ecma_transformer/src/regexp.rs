@@ -220,8 +220,10 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
             Expr::Lit(Lit::Regex(regex)) => {
                 // Try named groups transform first
                 if self.options.named_capturing_groups_regex && regex.exp.contains("(?<") {
+                    let original_exp = regex.exp.clone();
+
                     if let Some((stripped_exp, group_mapping)) =
-                        self.extract_and_strip_named_groups(&regex.exp, &regex.flags)
+                        self.extract_and_strip_named_groups(&original_exp, &regex.flags)
                     {
                         let Regex { flags, span, .. } = regex.take();
 
@@ -261,11 +263,16 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                         };
 
                         let mapping_expr = self.build_mapping_object(group_mapping);
+                        let source_expr: Expr = original_exp.into();
 
                         *expr = CallExpr {
                             span,
                             callee: helper!(span, wrap_reg_exp),
-                            args: vec![regex_arg.as_arg(), mapping_expr.as_arg()],
+                            args: vec![
+                                regex_arg.as_arg(),
+                                mapping_expr.as_arg(),
+                                source_expr.as_arg(),
+                            ],
                             ..Default::default()
                         }
                         .into();

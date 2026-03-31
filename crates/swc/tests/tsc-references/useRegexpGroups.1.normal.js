@@ -4,7 +4,7 @@ var re = _wrap_reg_exp(RegExp("(\\d{4})-(\\d{2})-(\\d{2})", "u"), {
     year: 1,
     month: 2,
     day: 3
-});
+}, "(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})");
 var result = re.exec("2015-01-02");
 var date = result[0];
 var year1 = result.groups.year;
@@ -15,4 +15,4 @@ var day1 = result.groups.day;
 var day2 = result[3];
 var foo = "foo".match(_wrap_reg_exp(/(foo)/, {
     bar: 1
-})).groups.foo;
+}, "(?<bar>foo)")).groups.foo;
