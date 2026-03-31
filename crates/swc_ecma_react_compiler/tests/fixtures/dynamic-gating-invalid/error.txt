@@ -1,1 +1,0 @@
-Dynamic gating directive is not a valid JavaScript identifier
