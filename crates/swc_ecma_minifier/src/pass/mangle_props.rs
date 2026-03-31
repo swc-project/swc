@@ -4,10 +4,12 @@ use once_cell::sync::Lazy;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::util::get_mut_object_define_property_name_arg;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{option::ManglePropertiesOptions, program_data::analyze, util::base54::Base54Chars};
+use crate::{
+    option::ManglePropertiesOptions, program_data::analyze,
+    usage_analyzer::util::get_mut_object_define_property_name_arg, util::base54::Base54Chars,
+};
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<FxHashSet<Atom>> = Lazy::new(|| {
     let domprops: Vec<Atom> = serde_json::from_str(include_str!("../lists/domprops.json"))

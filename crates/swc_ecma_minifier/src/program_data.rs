@@ -5,7 +5,10 @@ use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::Wtf8Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::{
+use swc_ecma_utils::{Merge, Type, Value};
+use swc_ecma_visit::VisitWith;
+
+use crate::usage_analyzer::{
     alias::{Access, AccessKind},
     analyzer::{
         analyze_with_custom_storage,
@@ -15,8 +18,6 @@ use swc_ecma_usage_analyzer::{
     marks::Marks,
     util::is_global_var_with_pure_property_access,
 };
-use swc_ecma_utils::{Merge, Type, Value};
-use swc_ecma_visit::VisitWith;
 
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>, collect_property_atoms: bool) -> ProgramData
 where

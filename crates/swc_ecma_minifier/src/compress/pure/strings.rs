@@ -658,12 +658,12 @@ mod tests {
     };
     use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
     use swc_ecma_transforms_base::{fixer::fixer, resolver};
-    use swc_ecma_usage_analyzer::marks::Marks;
     use swc_ecma_visit::VisitMutWith;
 
     use crate::{
         compress::pure::{pure_optimizer, PureOptimizerConfig},
         option::CompressOptions,
+        usage_analyzer::marks::Marks,
     };
 
     /// Helper to minify code with specific EcmaScript version and run

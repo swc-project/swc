@@ -43,11 +43,11 @@ use pass::mangle_names::mangle_names;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 
 pub use crate::pass::global_defs::globals_defs;
+use crate::usage_analyzer::marks::Marks;
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     metadata::info_marker,
@@ -77,10 +77,11 @@ mod pass;
 mod program_data;
 mod size_hint;
 pub mod timing;
+mod usage_analyzer;
 mod util;
 
 pub mod marks {
-    pub use swc_ecma_usage_analyzer::marks::Marks;
+    pub use crate::usage_analyzer::marks::Marks;
 }
 
 const DISABLE_BUGGY_PASSES: bool = true;

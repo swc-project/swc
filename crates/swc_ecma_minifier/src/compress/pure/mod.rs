@@ -3,7 +3,6 @@
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
-use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{
     parallel::{cpu_count, Parallel, ParallelExt},
     ExprCtx,
@@ -13,7 +12,10 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::Level;
 
 use self::{ctx::Ctx, misc::DropOpts};
-use crate::{debug::AssertValid, maybe_par, option::CompressOptions, util::ModuleItemExt};
+use crate::{
+    debug::AssertValid, maybe_par, option::CompressOptions, usage_analyzer::marks::Marks,
+    util::ModuleItemExt,
+};
 
 mod arrows;
 mod bools;

@@ -9,13 +9,15 @@ use swc_atoms::{
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value};
 
 use super::Pure;
-use crate::compress::{
-    pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-    util::is_pure_undefined,
+use crate::{
+    compress::{
+        pure::{strings::convert_str_value_to_tpl_raw, Ctx},
+        util::is_pure_undefined,
+    },
+    usage_analyzer::util::is_global_var_with_pure_property_access,
 };
 
 fn is_definitely_string(expr: &Expr) -> bool {

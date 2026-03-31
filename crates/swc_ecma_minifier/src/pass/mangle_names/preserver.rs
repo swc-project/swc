@@ -2,11 +2,10 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
-use crate::option::MangleOptions;
+use crate::{option::MangleOptions, usage_analyzer::marks::Marks};
 
 pub(crate) struct PreversedIdents {
     pub preserved: FxHashSet<Id>,

@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{Type, Value};
 
 use super::{ctx::Ctx, ScopeKind};
-use crate::alias::Access;
+use crate::usage_analyzer::alias::Access;
 
 pub trait Storage: Sized {
     type ScopeData: ScopeDataLike;
@@ -62,7 +62,8 @@ pub trait ScopeDataLike: Sized + Default + Clone {
 }
 
 pub trait VarDataLike: Sized {
-    /// See `declared_as_fn_param` of [crate::analyzer::VarUsageInfo].
+    /// See `declared_as_fn_param` of
+    /// [crate::usage_analyzer::analyzer::VarUsageInfo].
     fn mark_declared_as_fn_param(&mut self);
 
     fn mark_as_lazy_init(&mut self);

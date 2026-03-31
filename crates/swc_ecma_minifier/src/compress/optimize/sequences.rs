@@ -3,10 +3,6 @@ use std::{iter::once, mem::take};
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Either, util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::{
-    alias::{try_collect_infects_from, AccessKind, AliasConfig},
-    util::is_global_var_with_pure_property_access,
-};
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
 };
@@ -24,6 +20,10 @@ use crate::{
     },
     option::CompressOptions,
     program_data::{ScopeData, VarUsageInfoFlags},
+    usage_analyzer::{
+        alias::{try_collect_infects_from, AccessKind, AliasConfig},
+        util::is_global_var_with_pure_property_access,
+    },
     util::{
         idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, IdentUsageCollector,
         ModuleItemExt,

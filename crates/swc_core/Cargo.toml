@@ -160,9 +160,6 @@ ecma_minifier = ["__ecma", "swc_ecma_minifier"]
 ecma_preset_env = ["__ecma", "swc_ecma_preset_env"]
 ecma_preset_env_es3 = ["ecma_preset_env", "swc_ecma_preset_env/es3"]
 
-# Enable swc_ecma_usage_analyzer
-ecma_usage_analyzer = ["__ecma", "swc_ecma_usage_analyzer"]
-
 ecma_helpers_inline = ["__ecma", "swc_ecma_transforms_base/inline-helpers"]
 
 # Enable swc_css
@@ -372,7 +369,6 @@ swc_ecma_transforms_proposal     = { optional = true, version = "39.0.1", path =
 swc_ecma_transforms_react        = { optional = true, version = "43.0.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing      = { optional = true, version = "43.0.0", path = "../swc_ecma_transforms_testing" }
 swc_ecma_transforms_typescript   = { optional = true, version = "43.0.0", path = "../swc_ecma_transforms_typescript" }
-swc_ecma_usage_analyzer          = { optional = true, version = "31.0.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils                   = { optional = true, version = "27.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "21.0.0", path = "../swc_ecma_visit" }
 swc_malloc                       = { optional = true, version = "1.2.5", path = "../swc_malloc" }

@@ -5863,7 +5863,6 @@ dependencies = [
  "swc_ecma_transforms_react",
  "swc_ecma_transforms_testing",
  "swc_ecma_transforms_typescript",
- "swc_ecma_usage_analyzer",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_malloc",
@@ -6422,7 +6421,6 @@ dependencies = [
  "swc_ecma_testing",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_optimization",
- "swc_ecma_usage_analyzer",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_malloc",
@@ -6849,22 +6847,6 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "testing",
-]
-
-[[package]]
-name = "swc_ecma_usage_analyzer"
-version = "31.0.0"
-dependencies = [
- "bitflags 2.10.0",
- "indexmap 2.12.0",
- "rustc-hash 2.1.1",
- "swc_atoms",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_utils",
- "swc_ecma_visit",
- "swc_timer",
- "tracing",
 ]
 
 [[package]]

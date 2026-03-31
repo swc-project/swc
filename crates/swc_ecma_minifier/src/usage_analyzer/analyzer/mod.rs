@@ -10,7 +10,7 @@ use swc_timer::timer;
 
 pub use self::ctx::Ctx;
 use self::storage::*;
-use crate::{
+use crate::usage_analyzer::{
     alias::{collect_infects_from, AliasConfig},
     marks::Marks,
     util::{can_end_conditionally, get_object_define_property_name_arg},

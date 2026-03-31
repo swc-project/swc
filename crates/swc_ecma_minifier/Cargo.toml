@@ -32,6 +32,7 @@ default = ["serde-impl"]
 extra-serde = ["swc_ecma_ast/serde-impl", "serde-impl"]
 serde-impl  = []
 trace-ast   = []
+tracing-spans = []
 
 [dependencies]
 arrayvec = { workspace = true }
@@ -67,7 +68,6 @@ swc_ecma_parser = { version = "36.0.0", path = "../swc_ecma_parser", default-fea
 ] }
 swc_ecma_transforms_base = { version = "39.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_optimization = { version = "41.0.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_usage_analyzer = { version = "31.0.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "27.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "21.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
