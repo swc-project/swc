@@ -216,7 +216,7 @@ impl<'a> Input<'a> for StringInput<'a> {
     }
 
     #[inline]
-    fn eat_byte(&mut self, c: u8) -> bool {
+    unsafe fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
             self.remaining = unsafe { self.remaining.get_unchecked(1..) };
             self.last_pos = self.last_pos + BytePos(1_u32);
@@ -299,9 +299,13 @@ pub trait Input<'a>: Clone {
 
     /// Implementors can override the method to make it faster.
     ///
-    /// `c` must be ASCII.
+    /// # Safety
+    ///
+    /// `c` must be ASCII (i.e., `c <= 0x7F`). Passing a non-ASCII byte may
+    /// advance the input into the middle of a multi-byte UTF-8 sequence,
+    /// which would violate the UTF-8 invariant of the underlying `&str`.
     #[inline]
-    fn eat_byte(&mut self, c: u8) -> bool {
+    unsafe fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
             unsafe {
                 // Safety: We are sure that the input is not empty
