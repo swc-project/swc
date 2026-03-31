@@ -15,6 +15,15 @@ use crate::{
     util::ExprOptExt,
 };
 
+/// Prevent creating extremely deep nested conditionals from long `if (...)
+/// return ...` chains.
+///
+/// Some engines have recursion/stack limits while parsing or transforming
+/// deeply nested ternary expressions (notably WebKit on iOS). Known limitation:
+/// very long chains stay as `if` statements, which may produce slightly larger
+/// output, but avoids stack overflows.
+const MAX_IF_RETURN_CHAINED_CONDITIONALS: usize = 250;
+
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
 impl Optimizer<'_> {
@@ -267,6 +276,26 @@ impl Optimizer<'_> {
                     });
             if !can_merge {
                 return;
+            }
+        }
+
+        {
+            let mut chained_conditionals = 0usize;
+            let chain_limit_plus_one = MAX_IF_RETURN_CHAINED_CONDITIONALS + 1;
+
+            for stmt in &stmts[skip..=last_idx] {
+                if matches!(stmt, Stmt::If(..)) {
+                    chained_conditionals += 1;
+
+                    if chained_conditionals >= chain_limit_plus_one {
+                        log_abort!(
+                            "if_return: [x] Aborting to avoid very deep conditional chain (limit \
+                             = {})",
+                            MAX_IF_RETURN_CHAINED_CONDITIONALS
+                        );
+                        return;
+                    }
+                }
             }
         }
 
