@@ -512,6 +512,8 @@ where
                                 tag_name,
                                 ..
                             }) if is_html_tag_name(*namespace, tag_name)
+                                // Keep </p> under span to preserve parser stability for invalid
+                                // markup such as `<span><p>...` (#11748).
                                 && !matches!(
                                     &**tag_name,
                                     "a" | "audio"
@@ -524,6 +526,7 @@ where
                                         | "strike"
                                         | "map"
                                         | "noscript"
+                                        | "span"
                                         | "video"
                                         | "kbd"
                                         | "rbc"
