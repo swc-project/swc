@@ -356,16 +356,16 @@ impl VisitMut for Finalizer<'_> {
                     return;
                 }
             }
-            Expr::Member(e) => {
+            Expr::Member(e) => 'a: {
                 if let Expr::Ident(obj) = &*e.obj {
                     let sym = match &e.prop {
                         MemberProp::Ident(i) => i.sym.borrow(),
                         MemberProp::Computed(e) => match &*e.expr {
                             Expr::Ident(ident) => ident.sym.borrow(),
                             Expr::Lit(Lit::Str(s)) => &s.value,
-                            _ => return,
+                            _ => break 'a,
                         },
-                        _ => return,
+                        MemberProp::PrivateName(_) => break 'a,
                     };
 
                     if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), sym.clone())) {
@@ -396,7 +396,7 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.visit_mut_children_with(self);
 
-        if let MemberProp::Computed(ref mut prop) = e.prop {
+        if let MemberProp::Computed(prop) = &mut e.prop {
             if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
                 self.check(&mut e.obj, FinalizerMode::MemberAccess);
             }
