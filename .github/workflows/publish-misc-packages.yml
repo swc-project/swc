@@ -1,0 +1,70 @@
+name: "Publish misc packages"
+run-name: "Publish misc packages (${{ inputs.npmTag }})"
+
+env:
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
+
+permissions:
+  contents: read
+  id-token: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      npmTag:
+        description: "NPM dist-tag used for publishing"
+        required: true
+        type: choice
+        default: latest
+        options:
+          - latest
+          - nightly
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    name: "Publish ${{ matrix.package.name }}"
+    runs-on: ubuntu-latest
+    environment: publish
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - name: "@swc/types"
+            dir: "packages/types"
+          - name: "@swc/helpers"
+            dir: "packages/helpers"
+    steps:
+      - name: Ensure workflow runs from main
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF}" != "refs/heads/main" ]]; then
+            echo "This workflow can only run from refs/heads/main. Current ref: ${GITHUB_REF}"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v5
+
+      - uses: ./.github/actions/setup-node
+
+      - name: Update npm to latest
+        shell: bash
+        run: npm install -g npm@latest
+
+      - name: Log package version
+        shell: bash
+        working-directory: ${{ matrix.package.dir }}
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          echo "Publishing ${{ matrix.package.name }}@${version} with npm tag '${{ inputs.npmTag }}'"
+
+      - name: Publish
+        shell: bash
+        working-directory: ${{ matrix.package.dir }}
+        run: yarn npm publish --access public --tag "${{ inputs.npmTag }}" --tolerate-republish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
