@@ -1,6 +1,10 @@
 name: "Publish misc packages"
 run-name: "Publish misc packages (${{ inputs.npmTag }})"
 
+env:
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
+
 permissions:
   contents: read
   id-token: write
