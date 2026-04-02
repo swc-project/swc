@@ -6,7 +6,7 @@ use std::{
     io::Write,
     path::{Path, PathBuf},
     process::{Command, Output},
-    sync::Arc,
+    sync::{Arc, Mutex},
 };
 
 use anyhow::{Context, Error};
@@ -15,10 +15,11 @@ use swc::{
         Config, InputSourceMap, IsModule, JscConfig, JscExperimental, ModuleConfig, Options,
         SourceMapsConfig,
     },
-    Compiler,
+    try_with_handler, Compiler, HandlerOpts,
 };
 use swc_ecma_parser::Syntax;
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
+use tracing_subscriber::fmt::MakeWriter;
 use walkdir::WalkDir;
 
 fn file(f: &str, config: Config) -> Result<(), StdErr> {
@@ -612,4 +613,114 @@ export const fixupRiskConfigData = (data: any): types.RiskConfigType => {
 
         Ok(())
     });
+}
+
+#[derive(Clone, Default)]
+struct LogBuffer {
+    inner: Arc<Mutex<Vec<u8>>>,
+}
+
+struct LogBufferWriter {
+    inner: Arc<Mutex<Vec<u8>>>,
+}
+
+impl<'a> MakeWriter<'a> for LogBuffer {
+    type Writer = LogBufferWriter;
+
+    fn make_writer(&'a self) -> Self::Writer {
+        LogBufferWriter {
+            inner: Arc::clone(&self.inner),
+        }
+    }
+}
+
+impl Write for LogBufferWriter {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        self.inner
+            .lock()
+            .expect("log buffer mutex poisoned")
+            .extend_from_slice(buf);
+        Ok(buf.len())
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+
+fn collect_source_map_logs(suppress_source_map_error_logging: bool) -> String {
+    let log_buffer = LogBuffer::default();
+    let subscriber = tracing_subscriber::fmt()
+        .with_ansi(false)
+        .without_time()
+        .with_target(false)
+        .with_max_level(tracing::Level::WARN)
+        .with_writer(log_buffer.clone())
+        .finish();
+
+    tracing::subscriber::with_default(subscriber, || {
+        let cm = Arc::new(swc_common::SourceMap::new(
+            swc_common::FilePathMapping::empty(),
+        ));
+        let c = Compiler::new(cm.clone());
+        let filename = temp_dir().join("swc-issue-9416-missing-input-sourcemap.js");
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real(filename).into(),
+            "console.log('x');\n//# sourceMappingURL=missing.js.map".to_string(),
+        );
+
+        swc_common::GLOBALS.set(&Default::default(), || {
+            try_with_handler(cm.clone(), HandlerOpts::default(), |handler| {
+                let _ = c
+                    .process_js_file(
+                        fm,
+                        handler,
+                        &Options {
+                            swcrc: false,
+                            source_maps: Some(SourceMapsConfig::Bool(true)),
+                            config: Config {
+                                input_source_map: Some(InputSourceMap::Bool(true)),
+                                suppress_source_map_error_logging:
+                                    suppress_source_map_error_logging.into(),
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
+                    )
+                    .expect("failed to process fixture");
+
+                Ok(())
+            })
+            .expect("failed to run transform with handler");
+        });
+    });
+
+    let bytes = log_buffer
+        .inner
+        .lock()
+        .expect("log buffer mutex poisoned")
+        .clone();
+    String::from_utf8(bytes).expect("captured logs should be utf-8")
+}
+
+#[test]
+fn issue_9416_suppress_source_map_error_logging() {
+    const MISSING_MAP_WARN: &str =
+        "source map is specified by sourceMappingURL but there's no source map at";
+    const SOURCE_MAP_ERROR: &str = "failed to read input source map";
+
+    let logs_with_default = collect_source_map_logs(false);
+    assert!(
+        logs_with_default.contains(MISSING_MAP_WARN)
+            || logs_with_default.contains(SOURCE_MAP_ERROR),
+        "expected source map loading errors to be logged by default, got: {logs_with_default}"
+    );
+
+    let logs_with_suppression = collect_source_map_logs(true);
+    assert!(
+        !logs_with_suppression.contains(MISSING_MAP_WARN)
+            && !logs_with_suppression.contains(SOURCE_MAP_ERROR),
+        "source map loading errors should be suppressed when suppressSourceMapErrorLogging=true, \
+         got: {logs_with_suppression}"
+    );
 }

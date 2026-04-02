@@ -566,6 +566,13 @@ export interface Config {
      */
     sourceMaps?: boolean | "inline";
 
+    /**
+     * Suppress logging for failures while loading input source maps.
+     *
+     * Defaults to `false`.
+     */
+    suppressSourceMapErrorLogging?: boolean;
+
     inlineSourcesContent?: boolean;
 }
 

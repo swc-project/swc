@@ -167,6 +167,7 @@ swc_ecma_transforms_compat = { version = "45.0.0", path = "../swc_ecma_transform
 ] }
 swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
 testing = { version = "20.0.0", path = "../testing" }
+tracing-subscriber = { workspace = true }
 
 [[example]]
 name = "transform"
