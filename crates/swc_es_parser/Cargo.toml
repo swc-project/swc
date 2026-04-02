@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "tests/**/*.rs", "examples/**/*.rs
 license       = { workspace = true }
 name          = "swc_es_parser"
 repository    = { workspace = true }
-version       = "0.1.0"
+version       = "0.2.0"
 
 [lib]
 bench = false
@@ -23,14 +23,14 @@ seq-macro  = { workspace = true }
 unicode-id-start = { workspace = true }
 
 swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "19.0.0", path = "../swc_common" }
-swc_es_ast = { version = "0.1.0", path = "../swc_es_ast" }
+swc_common = { version = "20.0.0", path = "../swc_common" }
+swc_es_ast = { version = "0.2.0", path = "../swc_es_ast" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
-swc_es_ast = { version = "0.1.0", path = "../swc_es_ast", features = ["serde-impl"] }
-swc_es_visit = { version = "0.1.0", path = "../swc_es_visit" }
-testing = { version = "20.0.0", path = "../testing" }
+swc_es_ast = { version = "0.2.0", path = "../swc_es_ast", features = ["serde-impl"] }
+swc_es_visit = { version = "0.2.0", path = "../swc_es_visit" }
+testing = { version = "21.0.0", path = "../testing" }
 walkdir = { workspace = true }
 serde_json = { workspace = true }
 

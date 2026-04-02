@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_es_transforms"
 repository    = { workspace = true }
-version       = "0.1.0"
+version       = "0.2.0"
 
 [lib]
 bench = false
@@ -18,10 +18,10 @@ default = []
 rustc-hash = { workspace = true }
 
 swc_atoms        = { version = "9.0.0", path = "../swc_atoms" }
-swc_common       = { version = "19.0.0", path = "../swc_common" }
-swc_es_ast       = { version = "0.1.0", path = "../swc_es_ast" }
-swc_es_semantics = { version = "0.1.0", path = "../swc_es_semantics" }
-swc_es_visit     = { version = "0.1.0", path = "../swc_es_visit" }
+swc_common       = { version = "20.0.0", path = "../swc_common" }
+swc_es_ast       = { version = "0.2.0", path = "../swc_es_ast" }
+swc_es_semantics = { version = "0.2.0", path = "../swc_es_semantics" }
+swc_es_visit     = { version = "0.2.0", path = "../swc_es_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
@@ -29,11 +29,11 @@ serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 walkdir = { workspace = true }
 
-swc_common    = { version = "19.0.0", path = "../swc_common" }
-swc_es_codegen = { version = "0.1.0", path = "../swc_es_codegen" }
-swc_es_parser = { version = "0.1.0", path = "../swc_es_parser" }
+swc_common    = { version = "20.0.0", path = "../swc_common" }
+swc_es_codegen = { version = "0.2.0", path = "../swc_es_codegen" }
+swc_es_parser = { version = "0.2.0", path = "../swc_es_parser" }
 swc_malloc    = { version = "1.2.5", path = "../swc_malloc" }
-testing       = { version = "20.0.0", path = "../testing" }
+testing       = { version = "21.0.0", path = "../testing" }
 
 [[bench]]
 harness = false
