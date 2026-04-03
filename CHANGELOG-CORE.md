@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [swc_core@v61.0.1] - 2026-04-03
 
 ### Ci
 
@@ -2569,12 +2569,6 @@
 - Fix CI ([#10641](https://github.com/swc-project/swc/issues/10641)) ([9df98f7](https://github.com/swc-project/swc/commit/9df98f748eba99de4c51dc407de34b97456e93ce))
 
 ## [swc_core@v29.0.0] - 2025-06-19
-
-### Bug Fixes
-
-
-
-- Update `par-core` and `par-iter` ([#10629](https://github.com/swc-project/swc/issues/10629)) ([38f7d51](https://github.com/swc-project/swc/commit/38f7d51d3ca2d55a85020cca0cffc22b2e5b5b8a))
 
 ### Refactor
 
