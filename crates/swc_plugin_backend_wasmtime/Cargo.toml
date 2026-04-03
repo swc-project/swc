@@ -5,14 +5,14 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "swc_plugin_backend_wasmtime"
 repository  = { workspace = true }
-version     = "8.0.0"
+version     = "9.0.0"
 
 [dependencies]
 anyhow      = { workspace = true }
 wasi-common = { workspace = true, features = ["sync", "wasmtime"] }
 wasmtime    = { workspace = true, features = ["runtime", "cranelift", "threads"] }
 
-swc_common = { version = "20.0.0", path = "../swc_common", features = [
+swc_common = { version = "21.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "26.0.0", path = "../swc_plugin_runner" }
+swc_plugin_runner = { version = "27.0.0", path = "../swc_plugin_runner" }

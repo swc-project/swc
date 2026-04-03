@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_es_codegen"
 repository    = { workspace = true }
-version       = "0.2.0"
+version       = "0.3.0"
 
 [lib]
 bench = false
@@ -16,15 +16,15 @@ default = []
 
 [dependencies]
 ryu-js = { workspace = true }
-swc_es_ast = { version = "0.2.0", path = "../swc_es_ast" }
+swc_es_ast = { version = "0.3.0", path = "../swc_es_ast" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
-testing = { version = "21.0.0", path = "../testing" }
+testing = { version = "22.0.0", path = "../testing" }
 walkdir = { workspace = true }
 
-swc_common = { version = "20.0.0", path = "../swc_common" }
-swc_es_parser = { version = "0.2.0", path = "../swc_es_parser" }
+swc_common = { version = "21.0.0", path = "../swc_common" }
+swc_es_parser = { version = "0.3.0", path = "../swc_es_parser" }
 swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
 
 [[bench]]

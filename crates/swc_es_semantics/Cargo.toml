@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_es_semantics"
 repository    = { workspace = true }
-version       = "0.2.0"
+version       = "0.3.0"
 
 [lib]
 bench = false
@@ -18,14 +18,14 @@ default = []
 rustc-hash = { workspace = true }
 
 swc_atoms   = { version = "9.0.0", path = "../swc_atoms" }
-swc_es_ast  = { version = "0.2.0", path = "../swc_es_ast" }
-swc_es_visit = { version = "0.2.0", path = "../swc_es_visit" }
+swc_es_ast  = { version = "0.3.0", path = "../swc_es_ast" }
+swc_es_visit = { version = "0.3.0", path = "../swc_es_visit" }
 
 [dev-dependencies]
 serde       = { workspace = true, features = ["derive"] }
 serde_json   = { workspace = true }
 walkdir      = { workspace = true }
 
-swc_common   = { version = "20.0.0", path = "../swc_common" }
-swc_es_parser = { version = "0.2.0", path = "../swc_es_parser" }
-testing      = { version = "21.0.0", path = "../testing" }
+swc_common   = { version = "21.0.0", path = "../swc_common" }
+swc_es_parser = { version = "0.3.0", path = "../swc_es_parser" }
+testing      = { version = "22.0.0", path = "../testing" }
