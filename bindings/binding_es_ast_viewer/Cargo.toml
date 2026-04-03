@@ -5,7 +5,7 @@ license    = { workspace = true }
 name       = "binding_es_ast_viewer"
 publish    = false
 repository = { workspace = true }
-version    = "1.15.21"
+version    = "1.15.23-nightly-20260403.1"
 
 [dependencies]
 anyhow       = { workspace = true }
