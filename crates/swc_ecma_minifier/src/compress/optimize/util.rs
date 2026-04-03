@@ -826,7 +826,7 @@ pub fn get_ids_of_pat(pat: &Pat) -> Vec<Id> {
 /// Creates a PropName for a shorthand property, handling the special case of
 /// `__proto__`. When the property name is `__proto__`, it must be converted to
 /// a computed property to preserve JavaScript semantics.
-fn prop_name_from_ident(ident: Ident) -> PropName {
+pub(crate) fn prop_name_from_ident(ident: Ident) -> PropName {
     if ident.sym == "__proto__" {
         PropName::Computed(ComputedPropName {
             span: ident.span,

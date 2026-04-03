@@ -912,7 +912,6 @@ impl Optimizer<'_> {
         }
     }
 
-    /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
         if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign) {
             return;
@@ -936,81 +935,89 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
-                let id = i.to_id();
-                if let Some(value) = self.vars.lits.get(&id).or_else(|| {
-                    if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
-                        self.vars.simple_functions.get(&id)
-                    } else {
-                        None
-                    }
-                }) {
-                    if !matches!(**value, Expr::Ident(..) | Expr::Member(..))
-                        && self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
-                    {
-                        return;
-                    }
-
-                    // currently renamer relies on the fact no distinct var has same ctxt, we need
-                    // to remap all new bindings.
-                    let bindings: FxHashSet<Id> = collect_decls(value);
-                    let new_mark = Mark::new();
-                    let mut cache = FxHashMap::default();
-                    let mut remap = FxHashMap::default();
-
-                    for id in bindings {
-                        let new_ctxt = cache
-                            .entry(id.1)
-                            .or_insert_with(|| id.1.apply_mark(new_mark));
-
-                        let new_ctxt = *new_ctxt;
-
-                        if let Some(usage) = self.data.vars.get(&id).cloned() {
-                            let new_id = (id.0.clone(), new_ctxt);
-                            self.data.vars.insert(new_id, usage);
-                        }
-
-                        remap.insert(id, new_ctxt);
-                    }
-
-                    let mut value = value.clone();
-                    if !remap.is_empty() {
-                        let mut remapper = Remapper::new(&remap);
-                        value.visit_mut_with(&mut remapper);
-                    }
-
-                    self.changed = true;
-                    report_change!("inline: Replacing a variable `{}` with cheap expression", i);
-
-                    *e = *value;
-                    return;
-                }
-
-                // Check without cloning
-                if let Some(value) = self.vars.vars_for_inlining.get(&id) {
-                    if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign)
-                        && !is_valid_for_lhs(value)
-                    {
-                        return;
-                    }
-
-                    if let Expr::Member(..) = &**value {
-                        if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
-                            return;
-                        }
-                    }
-                }
-
-                if let Some(value) = self.vars.vars_for_inlining.remove(&id) {
-                    self.changed = true;
-                    report_change!("inline: Replacing '{}' with an expression", i);
-
-                    *e = *value;
-
-                    log_abort!("inline: [Change] {}", crate::debug::dump(&*e, false))
+                if let Some(value) = self.inline_ident(i) {
+                    *e = *value
                 }
             }
             _ => (),
         }
+    }
+
+    /// Actually inlines variables.
+    pub(super) fn inline_ident(&mut self, ident: &Ident) -> Option<Box<Expr>> {
+        let id = ident.to_id();
+
+        if let Some(value) = self.vars.lits.get(&id).or_else(|| {
+            if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
+                self.vars.simple_functions.get(&id)
+            } else {
+                None
+            }
+        }) {
+            if !matches!(**value, Expr::Ident(..) | Expr::Member(..))
+                && self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
+            {
+                return None;
+            }
+
+            // currently renamer relies on the fact no distinct var has same ctxt, we need
+            // to remap all new bindings.
+            let bindings: FxHashSet<Id> = collect_decls(value);
+            let new_mark = Mark::new();
+            let mut cache = FxHashMap::default();
+            let mut remap = FxHashMap::default();
+
+            for id in bindings {
+                let new_ctxt = cache
+                    .entry(id.1)
+                    .or_insert_with(|| id.1.apply_mark(new_mark));
+
+                let new_ctxt = *new_ctxt;
+
+                if let Some(usage) = self.data.vars.get(&id).cloned() {
+                    let new_id = (id.0.clone(), new_ctxt);
+                    self.data.vars.insert(new_id, usage);
+                }
+
+                remap.insert(id, new_ctxt);
+            }
+
+            let mut value = value.clone();
+            if !remap.is_empty() {
+                let mut remapper = Remapper::new(&remap);
+                value.visit_mut_with(&mut remapper);
+            }
+
+            self.changed = true;
+            report_change!(
+                "inline: Replacing a variable `{}` with cheap expression",
+                ident
+            );
+
+            return Some(value);
+        }
+
+        // Check without cloning
+        if let Some(value) = self.vars.vars_for_inlining.get(&id) {
+            if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign) && !is_valid_for_lhs(value) {
+                return None;
+            }
+
+            if let Expr::Member(..) = &**value {
+                if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+                    return None;
+                }
+            }
+        }
+
+        if let Some(value) = self.vars.vars_for_inlining.remove(&id) {
+            self.changed = true;
+            report_change!("inline: Replacing '{}' with an expression", ident);
+
+            return Some(value);
+        }
+
+        None
     }
 }
 
