@@ -1,6 +1,6 @@
 {
   "name": "@swc/html-darwin-x64",
-  "version": "1.15.24-nightly-20260404.1",
+  "version": "1.15.24",
   "os": [
     "darwin"
   ],
