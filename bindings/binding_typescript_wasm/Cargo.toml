@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_typescript_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.15.23-nightly-20260403.1"
+version     = "1.15.24-nightly-20260404.1"
 
 [lib]
 bench      = false
