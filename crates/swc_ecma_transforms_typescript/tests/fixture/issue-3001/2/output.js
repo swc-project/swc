@@ -17,6 +17,6 @@ var Baz = function(Baz) {
     Baz[Baz["a"] = 0] = "a";
     Baz[Baz["b"] = 1] = "b";
     // @ts-ignore
-    Baz[Baz["x"] = Baz.a.toString()] = "x";
+    Baz[Baz["x"] = 0..toString()] = "x";
     return Baz;
 }(Baz || {});
