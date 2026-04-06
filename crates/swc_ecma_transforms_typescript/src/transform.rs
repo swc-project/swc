@@ -1074,17 +1074,22 @@ impl Transform {
             return FoldedDecl::Empty;
         }
 
-        let opaque = member_list
-            .iter()
-            .any(|item| matches!(item.value, TsEnumRecordValue::Opaque(..)));
+        let namespace_export = self.namespace_id.is_some() && is_export;
+        let iife = !is_first || namespace_export;
+
+        let mut opaque = false;
 
         let stmts = member_list
             .into_iter()
             .filter(|item| !ts_enum_safe_remove || !item.is_const())
-            .map(|item| item.build_assign(&id.to_id()));
+            .map(|mut item| {
+                if let TsEnumRecordValue::Opaque(ref mut expr) = item.value {
+                    opaque = true;
+                    expr.visit_mut_with(self);
+                }
 
-        let namespace_export = self.namespace_id.is_some() && is_export;
-        let iife = !is_first || namespace_export;
+                item.build_assign(&id.to_id())
+            });
 
         let body = if !iife {
             let return_stmt: Stmt = ReturnStmt {

@@ -155,6 +155,14 @@ impl EnumValueComputer<'_> {
             Expr::Bin(e) => self.compute_bin(e),
             Expr::Member(e) => self.compute_member(e),
             Expr::Tpl(e) => self.compute_tpl(e),
+            // Handle TypeScript type expressions by stripping them
+            // and computing the inner expression
+            Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => self.compute_rec(expr),
             _ => TsEnumRecordValue::Opaque(expr),
         }
     }
