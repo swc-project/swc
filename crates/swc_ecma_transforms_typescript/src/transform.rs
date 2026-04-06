@@ -22,7 +22,7 @@ use crate::{
     retain::{should_retain_module_item, should_retain_stmt},
     semantic::SemanticInfo,
     shared::enum_member_id_atom,
-    ts_enum::{TsEnumRecordKey, TsEnumRecordValue},
+    ts_enum::{EnumValueComputer, TsEnumRecordKey, TsEnumRecordValue},
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
 
@@ -1063,7 +1063,16 @@ impl Transform {
                     member_name: name.clone(),
                 };
 
-                let value = self.semantic.enum_record.get(&key).unwrap().clone();
+                let mut value = self.semantic.enum_record.get(&key).unwrap().clone();
+
+                if let TsEnumRecordValue::Opaque(expr) = &mut value {
+                    *expr = m.init.unwrap();
+                    expr.visit_mut_with(&mut EnumValueComputer {
+                        enum_id: &id.to_id(),
+                        unresolved_ctxt: self.unresolved_ctxt,
+                        record: &self.semantic.enum_record,
+                    });
+                }
 
                 EnumMemberItem { span, name, value }
             })
@@ -1074,22 +1083,17 @@ impl Transform {
             return FoldedDecl::Empty;
         }
 
-        let namespace_export = self.namespace_id.is_some() && is_export;
-        let iife = !is_first || namespace_export;
-
-        let mut opaque = false;
+        let opaque = member_list
+            .iter()
+            .any(|item| matches!(item.value, TsEnumRecordValue::Opaque(..)));
 
         let stmts = member_list
             .into_iter()
             .filter(|item| !ts_enum_safe_remove || !item.is_const())
-            .map(|mut item| {
-                if let TsEnumRecordValue::Opaque(ref mut expr) = item.value {
-                    opaque = true;
-                    expr.visit_mut_with(self);
-                }
+            .map(|item| item.build_assign(&id.to_id()));
 
-                item.build_assign(&id.to_id())
-            });
+        let namespace_export = self.namespace_id.is_some() && is_export;
+        let iife = !is_first || namespace_export;
 
         let body = if !iife {
             let return_stmt: Stmt = ReturnStmt {

@@ -112,11 +112,7 @@ pub(crate) struct EnumValueComputer<'a> {
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl EnumValueComputer<'_> {
     pub fn compute(&mut self, expr: Box<Expr>) -> TsEnumRecordValue {
-        let mut expr = self.compute_rec(expr);
-        if let TsEnumRecordValue::Opaque(expr) = &mut expr {
-            expr.visit_mut_with(self);
-        }
-        expr
+        self.compute_rec(expr)
     }
 
     fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
