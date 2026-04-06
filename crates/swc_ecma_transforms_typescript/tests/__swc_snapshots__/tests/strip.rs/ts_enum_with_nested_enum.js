@@ -1,9 +1,10 @@
 var Foo = function(Foo) {
     Foo[Foo["a"] = (()=>{
-        (function(Bar) {
+        let Bar = /*#__PURE__*/ function(Bar) {
             Bar["a"] = "a";
             Bar["b"] = "b";
-        })(Bar);
+            return Bar;
+        }({});
         return 0;
     })()] = "a";
     return Foo;

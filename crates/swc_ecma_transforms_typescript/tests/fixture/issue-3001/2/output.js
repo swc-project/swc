@@ -2,7 +2,7 @@ var x = 10;
 var Foo = function(Foo) {
     Foo[Foo["a"] = 10] = "a";
     Foo[Foo["b"] = 10] = "b";
-    Foo[Foo["c"] = 10 + x] = "c";
+    Foo[Foo["c"] = Foo.b + x] = "c";
     Foo[Foo["d"] = Foo.c] = "d";
     return Foo;
 }(Foo || {});
@@ -17,6 +17,6 @@ var Baz = function(Baz) {
     Baz[Baz["a"] = 0] = "a";
     Baz[Baz["b"] = 1] = "b";
     // @ts-ignore
-    Baz[Baz["x"] = 0..toString()] = "x";
+    Baz[Baz["x"] = Baz.a.toString()] = "x";
     return Baz;
 }(Baz || {});
