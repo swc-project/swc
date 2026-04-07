@@ -1756,10 +1756,10 @@ impl DecoratorPass {
                     | ClassMember::AutoAccessor(..) => {
                         replace_ident(m, c.ident.to_id(), &new_class_name);
                     }
-                    ClassMember::Method(method) if method.is_static => {
+                    ClassMember::Method(method) => {
                         replace_ident(method, c.ident.to_id(), &new_class_name);
                     }
-                    ClassMember::PrivateMethod(method) if method.is_static => {
+                    ClassMember::PrivateMethod(method) => {
                         replace_ident(method, c.ident.to_id(), &new_class_name);
                     }
 

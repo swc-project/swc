@@ -17,7 +17,7 @@ new class extends _identity {
             ]));
         }
         autoScroll() {
-            console.log(ScrollView.scrollInterval);
+            console.log(_ScrollView.scrollInterval);
         }
     }];
     scrollInterval = 100;
