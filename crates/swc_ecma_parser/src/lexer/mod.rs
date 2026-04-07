@@ -1502,7 +1502,10 @@ impl<'a> Lexer<'a> {
                     }
                 }
 
-                chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
+                // `read_jsx_new_line` can consume an entire CRLF sequence, so
+                // restart from the actual current position instead of advancing
+                // by only the first code unit.
+                chunk_start = self.input().cur_pos();
             } else {
                 self.bump(ch.len_utf8());
             }

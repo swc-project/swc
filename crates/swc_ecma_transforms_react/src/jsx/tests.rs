@@ -11,7 +11,9 @@ use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};
 use swc_ecma_transforms_compat::es2015::{arrow, classes};
 #[cfg(feature = "es3")]
 use swc_ecma_transforms_compat::es3::property_literals;
-use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
+use swc_ecma_transforms_testing::{
+    parse_options, test, test_fixture, test_inline, FixtureTestConfig, Tester,
+};
 use testing::NormalizedOutput;
 
 use super::*;
@@ -1300,6 +1302,40 @@ test!(
     "
     <div title=\"\u{2028}\"/>
     "
+);
+
+// Keep CR / CRLF coverage inline because fixture files in this repository are
+// normalized to LF.
+test_inline!(
+    Syntax::Es(EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    jsx_attr_string_preserves_carriage_return,
+    concat!(
+        "const element = <div data-anything=\"line1",
+        "\r",
+        "    line2\" />;"
+    ),
+    "const element = /*#__PURE__*/ React.createElement(\"div\", {\n    \"data-anything\": \
+     \"line1\\r    line2\"\n});"
+);
+
+test_inline!(
+    Syntax::Es(EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    jsx_attr_string_preserves_crlf,
+    concat!(
+        "const element = <div data-anything=\"line1",
+        "\r\n",
+        "    line2\" />;"
+    ),
+    "const element = /*#__PURE__*/ React.createElement(\"div\", {\n    \"data-anything\": \
+     \"line1\\r\\n    line2\"\n});"
 );
 
 #[testing::fixture("tests/jsx/fixture/**/input.js")]

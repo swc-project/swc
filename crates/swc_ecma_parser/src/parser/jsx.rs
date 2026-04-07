@@ -582,6 +582,37 @@ mod tests {
     }
 
     #[test]
+    fn crlf_in_attr() {
+        assert_eq_ignore_span!(
+            jsx(concat!(
+                "<div data-anything=\"line1",
+                "\r\n",
+                "    line2\" />"
+            )),
+            Box::new(Expr::JSXElement(Box::new(JSXElement {
+                span,
+                opening: JSXOpeningElement {
+                    span,
+                    attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
+                        span,
+                        name: JSXAttrName::Ident(IdentName::new(atom!("data-anything"), span)),
+                        value: Some(JSXAttrValue::Str(Str {
+                            span,
+                            value: atom!("line1\r\n    line2").into(),
+                            raw: Some(Atom::new(concat!("\"line1", "\r\n", "    line2\""))),
+                        })),
+                    })],
+                    name: JSXElementName::Ident(Ident::new_no_ctxt(atom!("div"), span)),
+                    self_closing: true,
+                    type_args: None,
+                },
+                children: Vec::new(),
+                closing: None
+            })))
+        );
+    }
+
+    #[test]
     fn issue_584() {
         assert_eq_ignore_span!(
             jsx(r#"<test other={4} />;"#),
