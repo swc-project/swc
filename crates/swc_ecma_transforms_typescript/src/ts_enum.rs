@@ -119,12 +119,12 @@ impl EnumValueComputer<'_> {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(atom_from_wtf8_atom(&s.value)),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value.into()),
             Expr::Ident(Ident { ctxt, ref sym, .. })
-                if *sym == "NaN" && ctxt == self.unresolved_ctxt =>
+                if sym == "NaN" && ctxt == self.unresolved_ctxt =>
             {
                 TsEnumRecordValue::Number(f64::NAN.into())
             }
             Expr::Ident(Ident { ctxt, ref sym, .. })
-                if *sym == "Infinity" && ctxt == self.unresolved_ctxt =>
+                if sym == "Infinity" && ctxt == self.unresolved_ctxt =>
             {
                 TsEnumRecordValue::Number(f64::INFINITY.into())
             }
