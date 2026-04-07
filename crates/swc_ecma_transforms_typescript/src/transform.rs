@@ -22,7 +22,7 @@ use crate::{
     retain::{should_retain_module_item, should_retain_stmt},
     semantic::SemanticInfo,
     shared::enum_member_id_atom,
-    ts_enum::{TsEnumRecordKey, TsEnumRecordValue},
+    ts_enum::{EnumValueComputer, TsEnumRecordKey, TsEnumRecordValue},
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
 
@@ -1060,6 +1060,12 @@ impl Transform {
             .map(|k| k.member_name.clone())
             .collect();
 
+        let enum_computer = EnumValueComputer {
+            enum_id: &id.to_id(),
+            unresolved_ctxt: self.unresolved_ctxt,
+            record: &self.semantic.enum_record,
+        };
+
         let member_list: Vec<_> = members
             .into_iter()
             .map(|m| {
@@ -1074,14 +1080,20 @@ impl Transform {
                 let mut value = self.semantic.enum_record.get(&key).unwrap().clone();
 
                 if let TsEnumRecordValue::Opaque(expr) = &mut value {
-                    *expr = m.init.unwrap();
-                    expr.visit_mut_with(&mut RefRewriter {
+                    let e = m.init.unwrap();
+                    // [TODO]: We have computed twice for TsEnumRecordValue::Opaque case.
+                    // Try to avoid this if it causes performance issue.
+                    let TsEnumRecordValue::Opaque(mut e) = enum_computer.compute(e) else {
+                        unreachable!();
+                    };
+                    e.visit_mut_with(&mut RefRewriter {
                         query: EnumMemberRefQuery {
                             enum_id: &id.to_id(),
                             member_names: &member_names,
                             unresolved_ctxt: self.unresolved_ctxt,
                         },
                     });
+                    *expr = e;
                 }
 
                 EnumMemberItem { span, name, value }
