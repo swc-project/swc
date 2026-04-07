@@ -1056,6 +1056,7 @@ impl Transform {
             .semantic
             .enum_record
             .keys()
+            .filter(|k| k.enum_id == id.to_id())
             .map(|k| k.member_name.clone())
             .collect();
 
