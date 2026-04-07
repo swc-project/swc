@@ -6084,6 +6084,7 @@ dependencies = [
  "string_enum",
  "swc_atoms",
  "swc_common",
+ "swc_ecma_parser",
  "swc_visit",
  "unicode-id-start",
 ]

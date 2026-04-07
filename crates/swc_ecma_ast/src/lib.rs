@@ -89,6 +89,8 @@ mod module_decl;
 mod operators;
 mod pat;
 mod prop;
+#[cfg(feature = "serde-impl")]
+mod serde_impl;
 mod source_map;
 mod stmt;
 mod typescript;

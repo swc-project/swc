@@ -997,6 +997,7 @@ impl Take for CondExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct CallExpr {
     pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     pub callee: Callee,
@@ -1026,6 +1027,7 @@ impl Take for CallExpr {
 pub struct NewExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     pub callee: Box<Expr>,
@@ -1079,6 +1081,7 @@ impl Take for SeqExpr {
 pub struct ArrowExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     pub params: Vec<Pat>,
@@ -1214,6 +1217,7 @@ impl Take for Tpl {
 pub struct TaggedTpl {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     pub tag: Box<Expr>,
@@ -1748,6 +1752,7 @@ impl Default for OptChainBase {
 pub struct OptCall {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     pub callee: Box<Expr>,

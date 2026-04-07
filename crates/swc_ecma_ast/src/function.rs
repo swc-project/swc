@@ -21,6 +21,7 @@ pub struct Function {
 
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]

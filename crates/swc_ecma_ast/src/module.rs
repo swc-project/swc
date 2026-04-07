@@ -4,11 +4,58 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
 
-#[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    ::swc_common::FromVariant,
+    ::swc_common::Spanned,
+    Debug,
+    PartialEq,
+    ::swc_common::DeserializeEnum,
+    Clone,
+    Eq,
+    Hash,
+    Is,
+    EqIgnoreSpan,
+)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
+)]
+#[cfg_attr(feature = "rkyv-impl", repr(u32))]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    rkyv(
+        serialize_bounds(
+            __S: rkyv::ser::Writer + rkyv::ser::Allocator,
+            __S::Error: rkyv::rancor::Source
+        )
+    )
+)]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    rkyv(bytecheck(bounds(
+        __C: rkyv::validation::ArchiveContext,
+        __C::Error: rkyv::rancor::Source
+    )))
+)]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum Program {
+    #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+    #[from_variant(ignore)]
+    #[span(unknown)]
+    #[encoding(unknown)]
+    Unknown(u32, swc_common::unknown::Unknown),
+
     #[tag("Module")]
     Module(Module),
     #[tag("Script")]

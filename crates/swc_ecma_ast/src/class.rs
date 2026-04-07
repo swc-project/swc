@@ -21,6 +21,7 @@ use crate::{
 pub struct Class {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -278,6 +279,7 @@ pub struct PrivateMethod {
 pub struct Constructor {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     pub key: PropName,

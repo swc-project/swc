@@ -17,6 +17,7 @@ pub struct BlockStmt {
     /// Span including the braces.
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     pub stmts: Vec<Stmt>,
