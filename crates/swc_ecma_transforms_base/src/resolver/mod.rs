@@ -1272,6 +1272,19 @@ impl VisitMut for Resolver<'_> {
             //
             // We keep those references unresolved here so the TypeScript enum transform
             // can rewrite them using semantic.enum_record.
+            child.current.mark = self.config.unresolved_mark;
+            // add the enum member names as declared symbols for this scope
+            // Ex. `enum Foo { a, b = a }`
+            let member_names = decl.members.iter().filter_map(|m| match &m.id {
+                TsEnumMemberId::Ident(id) => Some((id.sym.clone(), DeclKind::Lexical)),
+                TsEnumMemberId::Str(s) => s
+                    .value
+                    .as_atom()
+                    .map(|atom| (atom.clone(), DeclKind::Lexical)),
+                #[cfg(swc_ast_unknown)]
+                _ => None,
+            });
+            child.current.declared_symbols.extend(member_names);
 
             decl.members.visit_mut_with(child);
         });
