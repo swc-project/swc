@@ -2,7 +2,10 @@ use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::number::{JsNumber, ToJsString};
+use swc_ecma_utils::{
+    number::{JsNumber, ToJsString},
+    ExprFactory,
+};
 
 #[inline]
 fn atom_from_wtf8_atom(value: &Wtf8Atom) -> Atom {
@@ -116,15 +119,20 @@ impl EnumValueComputer<'_> {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(atom_from_wtf8_atom(&s.value)),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value.into()),
             Expr::Ident(ref ident) if ident.ctxt == self.unresolved_ctxt => {
-                if let Some(value) = self
-                    .record
-                    .get(&TsEnumRecordKey {
-                        enum_id: self.enum_id.clone(),
-                        member_name: ident.sym.clone(),
-                    })
-                    .filter(|value| value.is_const())
-                {
-                    value.clone()
+                if let Some(value) = self.record.get(&TsEnumRecordKey {
+                    enum_id: self.enum_id.clone(),
+                    member_name: ident.sym.clone(),
+                }) {
+                    if value.is_const() {
+                        value.clone()
+                    } else {
+                        TsEnumRecordValue::Opaque(
+                            self.enum_id
+                                .clone()
+                                .make_member(ident.clone().into())
+                                .into(),
+                        )
+                    }
                 } else {
                     match ident.sym.as_ref() {
                         "Infinity" => TsEnumRecordValue::Number(f64::INFINITY.into()),
