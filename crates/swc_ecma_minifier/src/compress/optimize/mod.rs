@@ -10,8 +10,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
-    prepend_stmts, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, IsEmpty, ModuleItemLike,
-    StmtLike, Type, Value,
+    prepend_stmts, prop_name_from_ident, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, IsEmpty,
+    ModuleItemLike, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
@@ -26,10 +26,7 @@ use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::{
-        optimize::util::{get_ids_of_pat, prop_name_from_ident},
-        util::is_pure_undefined,
-    },
+    compress::{optimize::util::get_ids_of_pat, util::is_pure_undefined},
     debug::AssertValid,
     maybe_par,
     mode::Mode,
