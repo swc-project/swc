@@ -22,7 +22,7 @@ use crate::{
     retain::{should_retain_module_item, should_retain_stmt},
     semantic::SemanticInfo,
     shared::enum_member_id_atom,
-    ts_enum::{EnumValueComputer, TsEnumRecordKey, TsEnumRecordValue},
+    ts_enum::{TsEnumRecordKey, TsEnumRecordValue},
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
 
@@ -1052,6 +1052,13 @@ impl Transform {
             && !is_export
             && !self.semantic.exported_binding.contains_key(&id.to_id());
 
+        let member_names = self
+            .semantic
+            .enum_record
+            .keys()
+            .map(|k| k.member_name.clone())
+            .collect();
+
         let member_list: Vec<_> = members
             .into_iter()
             .map(|m| {
@@ -1067,10 +1074,12 @@ impl Transform {
 
                 if let TsEnumRecordValue::Opaque(expr) = &mut value {
                     *expr = m.init.unwrap();
-                    expr.visit_mut_with(&mut EnumValueComputer {
-                        enum_id: &id.to_id(),
-                        unresolved_ctxt: self.unresolved_ctxt,
-                        record: &self.semantic.enum_record,
+                    expr.visit_mut_with(&mut RefRewriter {
+                        query: EnumMemberRefQuery {
+                            enum_id: &id.to_id(),
+                            member_names: &member_names,
+                            unresolved_ctxt: self.unresolved_ctxt,
+                        },
                     });
                 }
 
@@ -1823,6 +1832,46 @@ impl QueryRef for ExportQuery {
                 }
                 .into()
             })
+    }
+}
+
+struct EnumMemberRefQuery<'a> {
+    enum_id: &'a Id,
+    member_names: &'a FxHashSet<Atom>,
+    unresolved_ctxt: SyntaxContext,
+}
+
+impl QueryRef for EnumMemberRefQuery<'_> {
+    fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
+        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(&ident.sym) {
+            Some(
+                self.enum_id
+                    .clone()
+                    .make_member(ident.clone().into())
+                    .into(),
+            )
+        } else {
+            None
+        }
+    }
+
+    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
+        self.query_ref(ident)
+    }
+
+    fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
+        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(&ident.sym) {
+            Some(
+                JSXMemberExpr {
+                    span: DUMMY_SP,
+                    obj: JSXObject::Ident(self.enum_id.clone().into()),
+                    prop: ident.clone().into(),
+                }
+                .into(),
+            )
+        } else {
+            None
+        }
     }
 }
 

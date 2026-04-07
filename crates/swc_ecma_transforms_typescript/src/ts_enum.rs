@@ -6,7 +6,6 @@ use swc_ecma_utils::{
     number::{JsNumber, ToJsString},
     ExprFactory,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[inline]
 fn atom_from_wtf8_atom(value: &Wtf8Atom) -> Atom {
@@ -119,33 +118,36 @@ impl EnumValueComputer<'_> {
         match *expr {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(atom_from_wtf8_atom(&s.value)),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value.into()),
-            Expr::Ident(Ident { ctxt, sym, .. })
-                if &*sym == "NaN" && ctxt == self.unresolved_ctxt =>
+            Expr::Ident(Ident { ctxt, ref sym, .. })
+                if *sym == "NaN" && ctxt == self.unresolved_ctxt =>
             {
                 TsEnumRecordValue::Number(f64::NAN.into())
             }
-            Expr::Ident(Ident { ctxt, sym, .. })
-                if &*sym == "Infinity" && ctxt == self.unresolved_ctxt =>
+            Expr::Ident(Ident { ctxt, ref sym, .. })
+                if *sym == "Infinity" && ctxt == self.unresolved_ctxt =>
             {
                 TsEnumRecordValue::Number(f64::INFINITY.into())
             }
-            Expr::Ident(ref ident) => self
-                .record
-                .get(&TsEnumRecordKey {
-                    enum_id: self.enum_id.clone(),
-                    member_name: ident.sym.clone(),
-                })
-                .cloned()
-                .map(|value| match value {
-                    TsEnumRecordValue::String(..) | TsEnumRecordValue::Number(..) => value,
-                    _ => TsEnumRecordValue::Opaque(
-                        self.enum_id
-                            .clone()
-                            .make_member(ident.clone().into())
-                            .into(),
-                    ),
-                })
-                .unwrap_or_else(|| TsEnumRecordValue::Opaque(expr)),
+            Expr::Ident(ref ident @ Ident { ctxt, ref sym, .. })
+                if ctxt == self.unresolved_ctxt =>
+            {
+                self.record
+                    .get(&TsEnumRecordKey {
+                        enum_id: self.enum_id.clone(),
+                        member_name: sym.clone(),
+                    })
+                    .cloned()
+                    .map(|value| match value {
+                        TsEnumRecordValue::String(..) | TsEnumRecordValue::Number(..) => value,
+                        _ => TsEnumRecordValue::Opaque(
+                            self.enum_id
+                                .clone()
+                                .make_member(ident.clone().into())
+                                .into(),
+                        ),
+                    })
+                    .unwrap_or_else(|| TsEnumRecordValue::Opaque(expr))
+            }
             Expr::Paren(e) => self.compute_rec(e.expr),
             Expr::Unary(e) => self.compute_unary(e),
             Expr::Bin(e) => self.compute_bin(e),
@@ -319,26 +321,5 @@ impl EnumValueComputer<'_> {
         }
 
         TsEnumRecordValue::String(string.into())
-    }
-}
-
-impl VisitMut for EnumValueComputer<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
-
-        let Expr::Ident(ident) = expr else { return };
-
-        if self.record.contains_key(&TsEnumRecordKey {
-            enum_id: self.enum_id.clone(),
-            member_name: ident.sym.clone(),
-        }) {
-            *expr = self
-                .enum_id
-                .clone()
-                .make_member(ident.clone().into())
-                .into();
-        }
     }
 }
