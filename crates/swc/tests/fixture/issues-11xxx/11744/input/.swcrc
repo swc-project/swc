@@ -1,0 +1,19 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "decorators": true
+    },
+    "transform": {
+      "decoratorVersion": "2022-03",
+      "legacyDecorator": false
+    },
+    "target": "es2022",
+    "loose": false,
+    "minify": {
+      "compress": false
+    }
+  },
+  "isModule": true,
+  "minify": false
+}
