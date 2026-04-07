@@ -1258,7 +1258,7 @@ impl VisitMut for Resolver<'_> {
         self.modify(&mut decl.id, DeclKind::Lexical);
 
         self.with_child(ScopeKind::Block, |child| {
-            // Intentionally do not predeclare enum members in the resolver.
+            // Predeclare enum members in a child scope marked with `unresolved_mark`.
             // Enum initializers may reference other members, including quoted names whose
             // text is a valid identifier:
             //
@@ -1270,8 +1270,10 @@ impl VisitMut for Resolver<'_> {
             //   }
             // ```
             //
-            // We keep those references unresolved here so the TypeScript enum transform
-            // can rewrite them using semantic.enum_record.
+            // This keeps references like `A`, `B`, and `b = a` in the unresolved
+            // context instead of resolving them to the enum's lexical scope, so the
+            // TypeScript enum transform can rewrite them later using
+            // `semantic.enum_record`.
             child.current.mark = self.config.unresolved_mark;
             // add the enum member names as declared symbols for this scope
             // Ex. `enum Foo { a, b = a }`
