@@ -1338,6 +1338,23 @@ test_inline!(
      \"line1\\r\\n    line2\"\n});"
 );
 
+test_inline!(
+    Syntax::Es(EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    jsx_attr_string_preserves_repeated_crlf_and_collapses_tabs,
+    concat!(
+        "const element = <div data-anything=\"line1",
+        "\r\n",
+        "\r\n",
+        "\tline2\" />;"
+    ),
+    "const element = /*#__PURE__*/ React.createElement(\"div\", {\n    \"data-anything\": \
+     \"line1\\r\\n\\r\\n line2\"\n});"
+);
+
 #[testing::fixture("tests/jsx/fixture/**/input.js")]
 fn fixture(input: PathBuf) {
     let mut output = input.with_file_name("output.js");
