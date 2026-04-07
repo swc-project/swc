@@ -110,7 +110,7 @@ pub(crate) struct EnumValueComputer<'a> {
 
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl EnumValueComputer<'_> {
-    pub fn compute(&mut self, expr: Box<Expr>) -> TsEnumRecordValue {
+    pub fn compute(&self, expr: Box<Expr>) -> TsEnumRecordValue {
         self.compute_rec(expr)
     }
 
