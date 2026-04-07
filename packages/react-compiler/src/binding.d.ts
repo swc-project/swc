@@ -4,10 +4,13 @@ export declare function isReactCompilerRequired(code: Buffer, signal?: AbortSign
 
 export declare function isReactCompilerRequiredSync(code: Buffer): boolean
 
+export declare function transform(code: Buffer, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
+
+/** Output returned by the native React Compiler binding. */
 export interface TransformOutput {
   code: string
   map?: string
-  output?: string
   diagnostics: Array<string>
 }
 
+export declare function transformSync(code: Buffer, options: Buffer): TransformOutput

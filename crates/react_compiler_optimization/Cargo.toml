@@ -1,0 +1,14 @@
+[package]
+description = "Vendored React Compiler optimization passes from facebook/react#36173"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "react_compiler_optimization"
+repository  = { workspace = true }
+version     = "0.1.0"
+
+[dependencies]
+react_compiler_diagnostics = { path = "../react_compiler_diagnostics" }
+react_compiler_hir = { path = "../react_compiler_hir" }
+react_compiler_lowering = { path = "../react_compiler_lowering" }
+react_compiler_ssa = { path = "../react_compiler_ssa" }
+indexmap = { workspace = true }

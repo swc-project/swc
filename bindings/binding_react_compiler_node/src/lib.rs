@@ -21,3 +21,11 @@ fn init() {
         }));
     }
 }
+
+/// Output returned by the native React Compiler binding.
+#[napi(object)]
+pub struct TransformOutput {
+    pub code: String,
+    pub map: Option<String>,
+    pub diagnostics: Vec<String>,
+}

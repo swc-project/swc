@@ -1,5 +1,5 @@
 [package]
-description   = "SWC helpers for the React Compiler"
+description   = "SWC adapter for the vendored React Compiler from facebook/react#36173"
 documentation = "https://rustdoc.swc.rs/swc_ecma_react_compiler/"
 edition       = { workspace = true }
 license       = { workspace = true }
@@ -13,8 +13,19 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
-swc_ecma_ast   = { version = "23.0.0", path = "../swc_ecma_ast" }
-swc_ecma_visit = { version = "23.0.0", path = "../swc_ecma_visit" }
+indexmap                    = { workspace = true, features = ["serde"] }
+react_compiler             = { path = "../react_compiler" }
+react_compiler_ast         = { path = "../react_compiler_ast" }
+react_compiler_diagnostics = { path = "../react_compiler_diagnostics" }
+react_compiler_hir         = { path = "../react_compiler_hir" }
+serde                      = { workspace = true, features = ["derive"] }
+serde_json                 = { workspace = true }
+swc_atoms                  = { version = "9.0.0", path = "../swc_atoms" }
+swc_common                 = { version = "21.0.0", path = "../swc_common" }
+swc_ecma_ast               = { version = "23.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen           = { version = "26.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser            = { version = "38.0.0", path = "../swc_ecma_parser" }
+swc_ecma_visit             = { version = "23.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 swc_common = { version = "21.0.0", path = "../swc_common" }

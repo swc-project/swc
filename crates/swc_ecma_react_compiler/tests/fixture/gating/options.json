@@ -1,0 +1,6 @@
+{
+  "gating": {
+    "source": "react-compiler-runtime",
+    "importSpecifierName": "isForgetEnabled"
+  }
+}

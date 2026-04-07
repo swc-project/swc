@@ -1,0 +1,13 @@
+[package]
+description = "Vendored React Compiler HIR from facebook/react#36173"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "react_compiler_hir"
+repository  = { workspace = true }
+version     = "0.1.0"
+
+[dependencies]
+react_compiler_diagnostics = { path = "../react_compiler_diagnostics" }
+indexmap = { workspace = true, features = ["serde"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }

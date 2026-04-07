@@ -1,0 +1,13 @@
+[package]
+description = "Vendored React Compiler SSA passes from facebook/react#36173"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "react_compiler_ssa"
+repository  = { workspace = true }
+version     = "0.1.0"
+
+[dependencies]
+react_compiler_diagnostics = { path = "../react_compiler_diagnostics" }
+react_compiler_hir = { path = "../react_compiler_hir" }
+react_compiler_lowering = { path = "../react_compiler_lowering" }
+indexmap = { workspace = true }

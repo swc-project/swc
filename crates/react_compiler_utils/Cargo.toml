@@ -1,0 +1,10 @@
+[package]
+description = "Vendored React Compiler utilities from facebook/react#36173"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "react_compiler_utils"
+repository  = { workspace = true }
+version     = "0.1.0"
+
+[dependencies]
+indexmap = { workspace = true }
