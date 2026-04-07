@@ -84,6 +84,7 @@ impl FastDts {
         return_type.map(|return_type| {
             Box::new(TsType::TsFnOrConstructorType(
                 TsFnOrConstructorType::TsFnType(TsFnType {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     params: self.transform_fn_params_to_ts_type(&function.params),
                     type_params: function.type_params.clone(),
@@ -108,12 +109,14 @@ impl FastDts {
         return_type.map(|return_type| {
             Box::new(TsType::TsFnOrConstructorType(
                 TsFnOrConstructorType::TsFnType(TsFnType {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     params: self.transform_fn_params_to_ts_type(
                         &arrow
                             .params
                             .iter()
                             .map(|pat| Param {
+                                node_id: Default::default(),
                                 span: pat.span(),
                                 decorators: Vec::new(),
                                 pat: pat.clone(),
@@ -180,6 +183,7 @@ impl FastDts {
                         let span = kv.key.span().with_hi(kv.value.span_hi());
                         let key = self.transform_property_name_to_expr(&kv.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+                            node_id: Default::default(),
                             span,
                             readonly: is_const,
                             key: Box::new(key),
@@ -216,6 +220,7 @@ impl FastDts {
                         let span = getter.span;
                         let key = self.transform_property_name_to_expr(&getter.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+                            node_id: Default::default(),
                             span,
                             readonly: !has_setter,
                             key: Box::new(key),
@@ -253,6 +258,7 @@ impl FastDts {
                         let span = setter.span;
                         let key = self.transform_property_name_to_expr(&setter.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+                            node_id: Default::default(),
                             span,
                             readonly: false,
                             key: Box::new(key),
@@ -270,6 +276,7 @@ impl FastDts {
                         if is_const {
                             let key = self.transform_property_name_to_expr(&method.key);
                             members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+                                node_id: Default::default(),
                                 span,
                                 readonly: is_const,
                                 key: Box::new(key),
@@ -286,6 +293,7 @@ impl FastDts {
                             let return_type = self.infer_function_return_type(&method.function);
                             let key = self.transform_property_name_to_expr(&method.key);
                             members.push(TsTypeElement::TsMethodSignature(TsMethodSignature {
+                                node_id: Default::default(),
                                 span,
                                 key: Box::new(key),
                                 computed: method.key.is_computed(),
@@ -310,6 +318,7 @@ impl FastDts {
         }
 
         Some(Box::new(TsType::TsTypeLit(TsTypeLit {
+            node_id: Default::default(),
             span: DUMMY_SP,
             members,
         })))
@@ -320,6 +329,7 @@ impl FastDts {
         for elem in &array.elems {
             let Some(elem) = elem else {
                 elements.push(TsTupleElement {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     label: None,
                     ty: ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword),
@@ -334,6 +344,7 @@ impl FastDts {
 
             if let Some(type_ann) = self.transform_expr_to_ts_type(&elem.expr) {
                 elements.push(TsTupleElement {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     label: None,
                     ty: type_ann,
@@ -344,9 +355,11 @@ impl FastDts {
         }
 
         Some(Box::new(TsType::TsTypeOperator(TsTypeOperator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             op: TsTypeOperatorOp::ReadOnly,
             type_ann: Box::new(TsType::TsTupleType(TsTupleType {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 elem_types: elements,
             })),
@@ -365,6 +378,7 @@ impl FastDts {
                     let symbol = quote_ident!(ctxt, "Symbol");
 
                     return MemberExpr {
+                        node_id: Default::default(),
                         span: name.span(),
                         obj: symbol.into(),
                         prop: prop.clone(),
@@ -376,6 +390,7 @@ impl FastDts {
                     span,
                     exprs,
                     quasis,
+                    ..
                 }) = computed.expr.as_ref()
                 {
                     if exprs.is_empty() {
@@ -386,6 +401,7 @@ impl FastDts {
                             .clone();
 
                         let str_prop = Str {
+                            node_id: Default::default(),
                             span: *span,
                             value: str_prop,
                             raw: None,
@@ -453,6 +469,7 @@ impl FastDts {
         }
 
         tpl.quasis.first().map(|element| Str {
+            node_id: Default::default(),
             span: DUMMY_SP,
             value: element
                 .cooked

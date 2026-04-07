@@ -339,6 +339,7 @@ pub trait Parser<'a>: Sized + Clone {
         };
         let tail = self.input_mut().is(&Self::Token::BACKQUOTE);
         Ok(TplElement {
+            node_id: Default::default(),
             span: self.span(start),
             raw,
             tail,
@@ -357,6 +358,7 @@ pub trait Parser<'a>: Sized + Clone {
             } else if cur.is_num() {
                 let (value, raw) = p.input_mut().expect_number_token_and_bump();
                 PropName::Num(Number {
+                    node_id: Default::default(),
                     span: p.span(start),
                     value,
                     raw: Some(raw),
@@ -364,6 +366,7 @@ pub trait Parser<'a>: Sized + Clone {
             } else if cur.is_bigint() {
                 let (value, raw) = p.input_mut().expect_bigint_token_and_bump();
                 PropName::BigInt(BigInt {
+                    node_id: Default::default(),
                     span: p.span(start),
                     value,
                     raw: Some(raw),
@@ -384,6 +387,7 @@ pub trait Parser<'a>: Sized + Clone {
                     p.emit_err(p.span(inner_start), SyntaxError::TS1171);
                     expr = Box::new(
                         SeqExpr {
+                            node_id: Default::default(),
                             span: p.span(inner_start),
                             exprs,
                         }
@@ -392,6 +396,7 @@ pub trait Parser<'a>: Sized + Clone {
                 }
                 expect!(p, &Self::Token::RBRACKET);
                 PropName::Computed(ComputedPropName {
+                    node_id: Default::default(),
                     span: p.span(start),
                     expr,
                 })
@@ -424,9 +429,17 @@ pub trait Parser<'a>: Sized + Clone {
                         },
                     )
                 })
-                .map(|expr| ExprOrSpread { spread, expr })
+                .map(|expr| ExprOrSpread {
+                    node_id: Default::default(),
+                    spread,
+                    expr,
+                })
         } else {
-            parse_assignment_expr(self).map(|expr| ExprOrSpread { spread: None, expr })
+            parse_assignment_expr(self).map(|expr| ExprOrSpread {
+                node_id: Default::default(),
+                spread: None,
+                expr,
+            })
         }
     }
 
@@ -444,6 +457,7 @@ pub trait Parser<'a>: Sized + Clone {
             }
 
             return Ok(SeqExpr {
+                node_id: Default::default(),
                 span: self.span(start),
                 exprs,
             }

@@ -12,7 +12,7 @@ use std::{
 use common::Normalizer;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -291,14 +291,13 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let json =
                     serde_json::to_string_pretty(&src).expect("failed to serialize module as json");
 
-                let deser = serde_json::from_str::<Module>(&json)
-                    .unwrap_or_else(|err| {
-                        panic!("failed to deserialize json back to module: {err}\n{json}")
-                    })
-                    .fold_with(&mut Normalizer {
-                        drop_span: true,
-                        is_test262: true,
-                    });
+                let deser = normalize(
+                    serde_json::from_str::<serde_json::Value>(&json)
+                        .and_then(serde_json::from_value::<Module>)
+                        .unwrap_or_else(|err| {
+                            panic!("failed to deserialize json back to module: {err}\n{json}")
+                        }),
+                );
                 assert_eq!(src, deser, "JSON:\n{json}");
             } else {
                 let p = |explicit| {
@@ -371,13 +370,21 @@ fn error() {
     test_main(&args, tests, Some(Options::new()));
 }
 
-pub fn normalize<T>(t: T) -> T
+fn normalize<T>(t: T) -> T
 where
-    T: FoldWith<Normalizer>,
+    T: FoldWith<Normalizer> + FoldWith<NodeIdNormalizer>,
 {
     let mut n = Normalizer {
         drop_span: true,
         is_test262: true,
     };
-    t.fold_with(&mut n)
+    t.fold_with(&mut n).fold_with(&mut NodeIdNormalizer)
+}
+
+struct NodeIdNormalizer;
+
+impl Fold for NodeIdNormalizer {
+    fn fold_node_id(&mut self, _: NodeId) -> NodeId {
+        NodeId::DUMMY
+    }
 }

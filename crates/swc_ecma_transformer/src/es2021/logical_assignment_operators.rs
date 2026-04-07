@@ -97,6 +97,7 @@ impl VisitMutHook<TraverseCtx> for LogicalAssignmentOperatorsPass {
 
         // Create assignment: `assign_target = right`
         let assignment = Box::new(Expr::Assign(AssignExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             op: AssignOp::Assign,
             left: AssignTarget::Simple(assign_target),
@@ -105,6 +106,7 @@ impl VisitMutHook<TraverseCtx> for LogicalAssignmentOperatorsPass {
 
         // Create binary expression: `left_expr op assignment`
         *expr = Expr::Bin(BinExpr {
+            node_id: Default::default(),
             span,
             op,
             left: left_expr,
@@ -131,9 +133,11 @@ impl LogicalAssignmentOperatorsPass {
                 self.inject_var_decl(&alias, ctx);
 
                 let left_obj = Box::new(Expr::Assign(AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                        node_id: Default::default(),
                         id: alias.clone(),
                         type_ann: None,
                     })),
@@ -155,11 +159,14 @@ impl LogicalAssignmentOperatorsPass {
                 self.inject_var_decl(&alias, ctx);
 
                 let left_prop = MemberProp::Computed(ComputedPropName {
+                    node_id: Default::default(),
                     span: computed.span,
                     expr: Box::new(Expr::Assign(AssignExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         op: AssignOp::Assign,
                         left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                            node_id: Default::default(),
                             id: alias.clone(),
                             type_ann: None,
                         })),
@@ -168,6 +175,7 @@ impl LogicalAssignmentOperatorsPass {
                 });
 
                 let right_prop = MemberProp::Computed(ComputedPropName {
+                    node_id: Default::default(),
                     span: computed.span,
                     expr: Box::new(Expr::Ident(alias)),
                 });
@@ -180,6 +188,7 @@ impl LogicalAssignmentOperatorsPass {
 
         // Build left expression: `(_a = a).b` or `(_a = a)[_b = b]`
         let left_expr = Box::new(Expr::Member(MemberExpr {
+            node_id: Default::default(),
             span: member_expr.span,
             obj: left_obj,
             prop: left_prop,
@@ -187,6 +196,7 @@ impl LogicalAssignmentOperatorsPass {
 
         // Build assignment target: `_a.b` or `_a[_b]`
         let assign_target = SimpleAssignTarget::Member(MemberExpr {
+            node_id: Default::default(),
             span: member_expr.span,
             obj: right_obj,
             prop: right_prop,
@@ -208,11 +218,14 @@ impl LogicalAssignmentOperatorsPass {
                 self.inject_var_decl(&alias, ctx);
 
                 let left_prop = SuperProp::Computed(ComputedPropName {
+                    node_id: Default::default(),
                     span: computed.span,
                     expr: Box::new(Expr::Assign(AssignExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         op: AssignOp::Assign,
                         left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                            node_id: Default::default(),
                             id: alias.clone(),
                             type_ann: None,
                         })),
@@ -221,6 +234,7 @@ impl LogicalAssignmentOperatorsPass {
                 });
 
                 let right_prop = SuperProp::Computed(ComputedPropName {
+                    node_id: Default::default(),
                     span: computed.span,
                     expr: Box::new(Expr::Ident(alias)),
                 });
@@ -231,12 +245,14 @@ impl LogicalAssignmentOperatorsPass {
         };
 
         let left_expr = Box::new(Expr::SuperProp(SuperPropExpr {
+            node_id: Default::default(),
             span: super_prop_expr.span,
             obj: super_prop_expr.obj,
             prop: left_prop,
         }));
 
         let assign_target = SimpleAssignTarget::SuperProp(SuperPropExpr {
+            node_id: Default::default(),
             span: super_prop_expr.span,
             obj: super_prop_expr.obj,
             prop: right_prop,
@@ -248,6 +264,7 @@ impl LogicalAssignmentOperatorsPass {
     fn inject_var_decl(&mut self, ident: &Ident, ctx: &mut TraverseCtx) {
         ctx.var_declarations.insert_var(
             BindingIdent {
+                node_id: Default::default(),
                 id: ident.clone(),
                 type_ann: None,
             },

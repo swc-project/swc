@@ -94,7 +94,12 @@ pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     expect!(p, &P::Token::RBRACKET);
 
     let span = p.span(start);
-    Ok(ArrayLit { span, elems }.into())
+    Ok(ArrayLit {
+        node_id: Default::default(),
+        span,
+        elems,
+    }
+    .into())
 }
 
 pub fn at_possible_async<'a, P: Parser<'a>>(p: &P, expr: &Expr) -> bool {
@@ -129,6 +134,7 @@ fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             )
         })?;
         Ok(YieldExpr {
+            node_id: Default::default(),
             span: p.span(start),
             arg: Some(arg),
             delegate: has_star,
@@ -145,6 +151,7 @@ fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             && !cur.starts_expr()
     } {
         Ok(YieldExpr {
+            node_id: Default::default(),
             span: p.span(start),
             arg: None,
             delegate: false,
@@ -191,6 +198,7 @@ fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<Tpl> 
 
     let span = p.span(start);
     Ok(Tpl {
+        node_id: Default::default(),
         span,
         exprs,
         quasis,
@@ -228,6 +236,7 @@ pub fn parse_str_lit<'a>(p: &mut impl Parser<'a>) -> swc_ecma_ast::Str {
     let start = token_and_span.span().lo;
     let (value, raw) = p.input_mut().expect_string_token_and_bump();
     swc_ecma_ast::Str {
+        node_id: Default::default(),
         span: p.span(start),
         value,
         raw: Some(raw),
@@ -241,17 +250,25 @@ pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
     let v = if cur.is_null() {
         p.bump();
         let span = p.span(start);
-        Lit::Null(swc_ecma_ast::Null { span })
+        Lit::Null(swc_ecma_ast::Null {
+            node_id: Default::default(),
+            span,
+        })
     } else if cur.is_true() || cur.is_false() {
         let value = cur.is_true();
         p.bump();
         let span = p.span(start);
-        Lit::Bool(swc_ecma_ast::Bool { span, value })
+        Lit::Bool(swc_ecma_ast::Bool {
+            node_id: Default::default(),
+            span,
+            value,
+        })
     } else if cur.is_str() {
         Lit::Str(parse_str_lit(p))
     } else if cur.is_num() {
         let (value, raw) = p.input_mut().expect_number_token_and_bump();
         Lit::Num(swc_ecma_ast::Number {
+            node_id: Default::default(),
             span: p.span(start),
             value,
             raw: Some(raw),
@@ -259,6 +276,7 @@ pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
     } else if cur.is_bigint() {
         let (value, raw) = p.input_mut().expect_bigint_token_and_bump();
         Lit::BigInt(swc_ecma_ast::BigInt {
+            node_id: Default::default(),
             span: p.span(start),
             value,
             raw: Some(raw),
@@ -505,6 +523,7 @@ pub fn finish_assignment_expr<'a, P: Parser<'a>>(
         p.bump();
         let right = parse_assignment_expr(p)?;
         Ok(AssignExpr {
+            node_id: Default::default(),
             span: p.span(start),
             op,
             // TODO:
@@ -546,6 +565,7 @@ fn parse_cond_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
 
         let span = Span::new_with_checked(start, alt.span_hi());
         Ok(CondExpr {
+            node_id: Default::default(),
             span,
             test,
             cons,
@@ -610,6 +630,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
             };
             return Ok((
                 TsNonNullExpr {
+                    node_id: Default::default(),
                     span: p.span(start),
                     expr,
                 }
@@ -663,6 +684,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                             if let Expr::OptChain(..) = &**callee {
                                 return Ok(Some((
                                     OptChainExpr {
+                                        node_id: Default::default(),
                                         span: p.span(start),
                                         base: Box::new(OptChainBase::Call(OptCall {
                                             span: p.span(start),
@@ -706,6 +728,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     } else if cur.is_equal() || cur.is_as() || cur.is_satisfies() {
                         Ok(Some((
                             TsInstantiation {
+                                node_id: Default::default(),
                                 span: p.span(start),
                                 expr: match mut_obj_opt {
                                     Some(Callee::Expr(obj)) => obj.take(),
@@ -767,6 +790,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
         let span = Span::new_with_checked(obj.span_lo(), p.input().last_pos());
         debug_assert_eq!(obj.span_lo(), span.lo());
         let prop = ComputedPropName {
+            node_id: Default::default(),
             span: Span::new_with_checked(bracket_lo, p.input().last_pos()),
             expr: prop,
         };
@@ -793,6 +817,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                         }
                     } else {
                         SuperPropExpr {
+                            node_id: Default::default(),
                             span,
                             obj,
                             prop: SuperProp::Computed(prop),
@@ -803,12 +828,14 @@ fn parse_subscript<'a, P: Parser<'a>>(
                 Callee::Expr(obj) => {
                     let is_opt_chain = unwrap_ts_non_null(&obj).is_opt_chain();
                     let expr = MemberExpr {
+                        node_id: Default::default(),
                         span,
                         obj,
                         prop: MemberProp::Computed(prop),
                     };
                     let expr = if is_opt_chain || question_dot_token.is_some() {
                         OptChainExpr {
+                            node_id: Default::default(),
                             span,
                             optional: question_dot_token.is_some(),
                             base: Box::new(OptChainBase::Member(expr)),
@@ -820,6 +847,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
 
                     if let Some(type_args) = type_args {
                         TsInstantiation {
+                            node_id: Default::default(),
                             expr: Box::new(expr),
                             type_args,
                             span: p.span(start),
@@ -863,6 +891,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                 }
                 Callee::Expr(callee) => Ok((
                     OptChainExpr {
+                        node_id: Default::default(),
                         span,
                         optional: question_dot_token.is_some(),
                         base: Box::new(OptChainBase::Call(OptCall {
@@ -920,6 +949,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                         }
                         match &*sym {
                             "meta" => MetaPropExpr {
+                                node_id: Default::default(),
                                 span,
                                 kind: MetaPropKind::ImportMeta,
                             }
@@ -956,6 +986,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     } else {
                         match prop {
                             MemberProp::Ident(ident) => SuperPropExpr {
+                                node_id: Default::default(),
                                 span,
                                 obj,
                                 prop: SuperProp::Ident(ident),
@@ -975,11 +1006,17 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     }
                 }
                 Callee::Expr(obj) => {
-                    let expr = MemberExpr { span, obj, prop };
+                    let expr = MemberExpr {
+                        node_id: Default::default(),
+                        span,
+                        obj,
+                        prop,
+                    };
                     let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain()
                         || question_dot_token.is_some()
                     {
                         OptChainExpr {
+                            node_id: Default::default(),
                             span: p.span(start),
                             optional: question_dot_token.is_some(),
                             base: Box::new(OptChainBase::Member(expr)),
@@ -990,6 +1027,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     };
                     if let Some(type_args) = type_args {
                         TsInstantiation {
+                            node_id: Default::default(),
                             expr: Box::new(expr),
                             type_args,
                             span: p.span(start),
@@ -1010,6 +1048,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
         Callee::Expr(expr) => {
             let expr = if let Some(type_args) = type_args {
                 TsInstantiation {
+                    node_id: Default::default(),
                     expr,
                     type_args,
                     span: p.span(start),
@@ -1064,6 +1103,7 @@ pub fn parse_dynamic_import_or_import_meta<'a, P: Parser<'a>>(
                     p.emit_err(span, SyntaxError::ImportMetaInScript);
                 }
                 let expr = MetaPropExpr {
+                    node_id: Default::default(),
                     span,
                     kind: MetaPropKind::ImportMeta,
                 };
@@ -1085,6 +1125,7 @@ fn parse_dynamic_import_call<'a>(
     phase: ImportPhase,
 ) -> PResult<Box<Expr>> {
     let import = Callee::Import(Import {
+        node_id: Default::default(),
         span: p.span(start),
         phase,
     });
@@ -1118,6 +1159,7 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
             if p.input_mut().eat(&P::Token::TARGET) {
                 let span = p.span(start);
                 let expr = MetaPropExpr {
+                    node_id: Default::default(),
                     span,
                     kind: MetaPropKind::NewTarget,
                 }
@@ -1217,6 +1259,7 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
 
     if p.input_mut().eat(&P::Token::SUPER) {
         let base = Callee::Super(Super {
+            node_id: Default::default(),
             span: p.span(start),
         });
         return parse_subscripts(p, base, true, false);
@@ -1234,6 +1277,7 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
     let obj = if let Some(type_args) = type_args {
         trace_cur!(p, parse_member_expr_or_new_expr__with_type_args);
         TsInstantiation {
+            node_id: Default::default(),
             expr: obj,
             type_args,
             span: p.span(start),
@@ -1272,7 +1316,11 @@ pub fn parse_bin_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
                 || cur.is_bin_op()
             {
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1109);
-                Invalid { span: err.span() }.into()
+                Invalid {
+                    node_id: Default::default(),
+                    span: err.span(),
+                }
+                .into()
             } else {
                 return Err(err);
             }
@@ -1343,6 +1391,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
                 p.bump(); // as
                 p.bump(); // const
                 TsConstAssertion {
+                    node_id: Default::default(),
                     span: p.span(start),
                     expr,
                 }
@@ -1350,6 +1399,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
             } else {
                 let type_ann = next_then_parse_ts_type(p)?;
                 TsAsExpr {
+                    node_id: Default::default(),
                     span: p.span(start),
                     expr,
                     type_ann,
@@ -1364,6 +1414,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
             let node = {
                 let type_ann = next_then_parse_ts_type(p)?;
                 TsSatisfiesExpr {
+                    node_id: Default::default(),
                     span: p.span(start),
                     expr,
                     type_ann,
@@ -1470,6 +1521,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
     }
 
     let node = BinExpr {
+        node_id: Default::default(),
         span: Span::new_with_checked(left.span_lo(), right.span_hi()),
         op,
         left,
@@ -1496,6 +1548,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             expect!(p, &P::Token::GREATER);
             let expr = p.parse_unary_expr()?;
             return Ok(TsConstAssertion {
+                node_id: Default::default(),
                 span: p.span(start),
                 expr,
             }
@@ -1519,6 +1572,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         p.check_assign_target(&arg, false);
 
         return Ok(UpdateExpr {
+            node_id: Default::default(),
             span,
             prefix: true,
             op,
@@ -1557,6 +1611,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             Err(err) => {
                 p.emit_error(err);
                 Invalid {
+                    node_id: Default::default(),
                     span: Span::new_with_checked(arg_start, arg_start),
                 }
                 .into()
@@ -1575,6 +1630,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         }
 
         return Ok(UnaryExpr {
+            node_id: Default::default(),
             span: Span::new_with_checked(start, arg.span_hi()),
             op,
             arg,
@@ -1604,6 +1660,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         p.bump();
 
         return Ok(UpdateExpr {
+            node_id: Default::default(),
             span: p.span(expr.span_lo()),
             prefix: false,
             op,
@@ -1665,6 +1722,7 @@ pub fn parse_await_expr<'a, P: Parser<'a>>(
 
     let arg = p.parse_unary_expr()?;
     Ok(AwaitExpr {
+        node_id: Default::default(),
         span: p.span(start),
         arg,
     }
@@ -1721,6 +1779,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
     if cur.is_super() {
         p.bump(); // eat `super`
         let obj = Callee::Super(Super {
+            node_id: Default::default(),
             span: p.span(start),
         });
         return parse_subscripts(p, obj, false, false);
@@ -1771,6 +1830,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
         let (callee, is_import) = match callee {
             _ if callee.is_ident_ref_to("import") => (
                 Callee::Import(Import {
+                    node_id: Default::default(),
                     span: callee.span(),
                     phase: Default::default(),
                 }),
@@ -1782,6 +1842,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
 
         let call_expr = match callee {
             Callee::Expr(e) if unwrap_ts_non_null(&e).is_opt_chain() => OptChainExpr {
+                node_id: Default::default(),
                 span: p.span(start),
                 base: Box::new(OptChainBase::Call(OptCall {
                     span: p.span(start),
@@ -1876,7 +1937,11 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     expr
                 };
 
-                ExprOrSpread { spread, expr }
+                ExprOrSpread {
+                    node_id: Default::default(),
+                    spread,
+                    expr,
+                }
             } else {
                 p.allow_in_expr(|p| p.parse_expr_or_spread())?
             }
@@ -1918,8 +1983,10 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     })?;
 
                     arg = ExprOrSpread {
+                        node_id: Default::default(),
                         spread: None,
                         expr: CondExpr {
+                            node_id: Default::default(),
                             span: Span::new_with_checked(start, alt.span_hi()),
                             test,
                             cons,
@@ -1955,6 +2022,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
             }
             if let Some(span) = arg.spread {
                 pat = RestPat {
+                    node_id: Default::default(),
                     span: p.span(pat_start),
                     dot3_token: span,
                     arg: Box::new(pat),
@@ -2005,6 +2073,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
             if p.input_mut().eat(&P::Token::EQUAL) {
                 let right = parse_assignment_expr(p)?;
                 pat = AssignPat {
+                    node_id: Default::default(),
                     span: p.span(pat_start),
                     left: Box::new(pat),
                     right,
@@ -2049,6 +2118,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
             let span = p.span(start);
 
             items.push(AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                node_id: Default::default(),
                 expr: Box::new(
                     ArrowExpr {
                         span,
@@ -2269,10 +2339,12 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
             ExprOrSpread {
                 spread: Some(..),
                 ref expr,
+                ..
             } => syntax_error!(p, expr.span(), SyntaxError::SpreadInParenExpr),
             ExprOrSpread { expr, .. } => expr,
         };
         Ok(ParenExpr {
+            node_id: Default::default(),
             span: p.span(expr_start),
             expr,
         }
@@ -2286,6 +2358,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
                 ExprOrSpread {
                     spread: Some(..),
                     ref expr,
+                    ..
                 } => syntax_error!(p, expr.span(), SyntaxError::SpreadInParenExpr),
                 ExprOrSpread { expr, .. } => exprs.push(expr),
             }
@@ -2294,6 +2367,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
 
         // span of sequence expression should not include '(', ')'
         let seq_expr = SeqExpr {
+            node_id: Default::default(),
             span: Span::new_with_checked(
                 exprs.first().unwrap().span_lo(),
                 exprs.last().unwrap().span_hi(),
@@ -2302,6 +2376,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
         }
         .into();
         Ok(ParenExpr {
+            node_id: Default::default(),
             span: p.span(expr_start),
             expr: seq_expr,
         }
@@ -2361,6 +2436,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
                     // async as type
                     let type_ann = p.in_type(parse_ts_type)?;
                     return Ok(TsAsExpr {
+                        node_id: Default::default(),
                         span: p.span(start),
                         expr: Box::new(id.into()),
                         type_ann,
@@ -2430,6 +2506,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
         p.bump(); // consume `#`
         let id = parse_ident_name(p)?;
         Ok(PrivateName {
+            node_id: Default::default(),
             span: p.span(start),
             name: id.sym,
         }
@@ -2486,7 +2563,15 @@ pub fn try_parse_regexp<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> Option<
             p.emit_err(span, SyntaxError::DuplicatedRegExpFlags(*flag));
         }
 
-        Some(Lit::Regex(Regex { span, exp, flags }).into())
+        Some(
+            Lit::Regex(Regex {
+                node_id: Default::default(),
+                span,
+                exp,
+                flags,
+            })
+            .into(),
+        )
     } else {
         None
     }
@@ -2539,6 +2624,7 @@ pub fn parse_this_expr<'a>(p: &mut impl Parser<'a>, start: BytePos) -> PResult<B
     debug_assert!(p.input().cur().is_this());
     p.input_mut().bump();
     Ok(ThisExpr {
+        node_id: Default::default(),
         span: p.span(start),
     }
     .into())

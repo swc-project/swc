@@ -9,6 +9,7 @@ fn traverse_lookup() {
         span: DUMMY_SP,
         callee: Callee::Expr(
             AwaitExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 arg: Ident::new_no_ctxt(atom!("foo"), DUMMY_SP).into(),
             }

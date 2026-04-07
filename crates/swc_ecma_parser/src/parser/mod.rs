@@ -5,6 +5,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_visit::assign_node_ids;
 
 #[cfg(feature = "typescript")]
 use crate::lexer::TokenAndSpan;
@@ -222,7 +223,8 @@ impl<I: Tokens> Parser<I> {
 
         let shebang = self.parse_shebang()?;
 
-        let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
+        let mut ret = self.parse_stmt_block_body(true, None).map(|body| Script {
+            node_id: Default::default(),
             span: self.span(start),
             body,
             shebang,
@@ -230,6 +232,8 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
+
+        assign_node_ids(&mut ret);
 
         Ok(ret)
     }
@@ -246,7 +250,8 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
-        let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
+        let mut ret = self.parse_stmt_block_body(true, None).map(|body| Script {
+            node_id: Default::default(),
             span: self.span(start),
             body,
             shebang,
@@ -254,6 +259,8 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
+
+        assign_node_ids(&mut ret);
 
         Ok(ret)
     }
@@ -271,9 +278,10 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
-        let ret = self
+        let mut ret = self
             .parse_module_item_block_body(true, None)
             .map(|body| Module {
+                node_id: Default::default(),
                 span: self.span(start),
                 body,
                 shebang,
@@ -281,6 +289,8 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
+
+        assign_node_ids(&mut ret);
 
         Ok(ret)
     }
@@ -312,11 +322,12 @@ impl<I: Tokens> Parser<I> {
             self.input.set_ctx(ctx);
         }
 
-        let ret = if has_module_item {
+        let mut ret = if has_module_item {
             if self.syntax().flow() {
                 self.report_duplicate_exports(&body);
             }
             Program::Module(Module {
+                node_id: Default::default(),
                 span: self.span(start),
                 body,
                 shebang,
@@ -332,6 +343,7 @@ impl<I: Tokens> Parser<I> {
                 })
                 .collect();
             Program::Script(Script {
+                node_id: Default::default(),
                 span: self.span(start),
                 body,
                 shebang,
@@ -340,6 +352,8 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
+
+        assign_node_ids(&mut ret);
 
         Ok(ret)
     }
@@ -356,9 +370,10 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
-        let ret = self
+        let mut ret = self
             .parse_module_item_block_body(true, None)
             .map(|body| Module {
+                node_id: Default::default(),
                 span: self.span(start),
                 body,
                 shebang,
@@ -369,6 +384,8 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
+
+        assign_node_ids(&mut ret);
 
         Ok(ret)
     }
@@ -754,6 +771,7 @@ impl<I: Tokens> Parser<I> {
 
                 let raw = p.input.iter.read_string(token_span);
                 PropName::Num(Number {
+                    node_id: Default::default(),
                     span: p.span(start),
                     value,
                     raw: Some(Atom::new(raw)),
@@ -765,6 +783,7 @@ impl<I: Tokens> Parser<I> {
 
                 let raw = p.input.iter.read_string(token_span);
                 PropName::BigInt(BigInt {
+                    node_id: Default::default(),
                     span: p.span(start),
                     value,
                     raw: Some(Atom::new(raw)),
@@ -780,6 +799,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 let key = p.input_mut().expect_word_token_and_bump();
                 PropName::Str(Str {
+                    node_id: Default::default(),
                     span: p.span(start),
                     value: format!("@@{key}").into(),
                     raw: None,
@@ -800,6 +820,7 @@ impl<I: Tokens> Parser<I> {
                     p.emit_err(p.span(inner_start), SyntaxError::TS1171);
                     expr = Box::new(
                         SeqExpr {
+                            node_id: Default::default(),
                             span: p.span(inner_start),
                             exprs,
                         }
@@ -808,6 +829,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 expect!(p, Token::RBracket);
                 PropName::Computed(ComputedPropName {
+                    node_id: Default::default(),
                     span: p.span(start),
                     expr,
                 })

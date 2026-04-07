@@ -135,6 +135,7 @@ impl<I: Tokens> Parser<I> {
         let expr = self.parse_maybe_decorator_args(expr)?;
 
         Ok(Decorator {
+            node_id: Default::default(),
             span: self.span(start),
             expr,
         })
@@ -369,6 +370,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             Ok(Box::new(Function {
+                node_id: Default::default(),
                 span: p.span(start),
                 decorators,
                 type_params,
@@ -599,6 +601,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 Ok(PrivateMethod {
+                    node_id: Default::default(),
                     span,
 
                     accessibility,
@@ -619,6 +622,7 @@ impl<I: Tokens> Parser<I> {
                     self.emit_err(span, SyntaxError::TS1245)
                 }
                 Ok(ClassMethod {
+                    node_id: Default::default(),
                     span,
 
                     accessibility,
@@ -849,6 +853,7 @@ impl<I: Tokens> Parser<I> {
 
             if accessor_token.is_some() {
                 return Ok(ClassMember::AutoAccessor(AutoAccessor {
+                    node_id: Default::default(),
                     span: p.span(start),
                     key,
                     value,
@@ -870,6 +875,7 @@ impl<I: Tokens> Parser<I> {
                     }
 
                     PrivateProp {
+                        node_id: Default::default(),
                         span: p.span(start),
                         key,
                         value,
@@ -891,6 +897,7 @@ impl<I: Tokens> Parser<I> {
                         p.emit_err(span, SyntaxError::TS1267)
                     }
                     ClassProp {
+                        node_id: Default::default(),
                         span,
                         key,
                         value,
@@ -922,7 +929,12 @@ impl<I: Tokens> Parser<I> {
         )?;
 
         let span = self.span(start);
-        Ok(StaticBlock { span, body }.into())
+        Ok(StaticBlock {
+            node_id: Default::default(),
+            span,
+            body,
+        }
+        .into())
     }
 
     fn parse_class_member_with_is_static(
@@ -1699,7 +1711,10 @@ impl<I: Tokens> Parser<I> {
             if self.input_mut().eat(Token::Semi) {
                 let span = self.input().prev_span();
                 debug_assert!(span.lo <= span.hi);
-                elems.push(ClassMember::Empty(EmptyStmt { span }));
+                elems.push(ClassMember::Empty(EmptyStmt {
+                    node_id: Default::default(),
+                    span,
+                }));
                 continue;
             }
             let elem =
@@ -1993,7 +2008,12 @@ impl OutputType for Box<Expr> {
         ident: Option<Ident>,
         function: Box<Function>,
     ) -> Result<Self, SyntaxError> {
-        Ok(FnExpr { ident, function }.into())
+        Ok(FnExpr {
+            node_id: Default::default(),
+            ident,
+            function,
+        }
+        .into())
     }
 
     fn finish_class(
@@ -2001,7 +2021,12 @@ impl OutputType for Box<Expr> {
         ident: Option<Ident>,
         class: Box<Class>,
     ) -> Result<Self, SyntaxError> {
-        Ok(ClassExpr { ident, class }.into())
+        Ok(ClassExpr {
+            node_id: Default::default(),
+            ident,
+            class,
+        }
+        .into())
     }
 }
 
@@ -2014,8 +2039,13 @@ impl OutputType for ExportDefaultDecl {
         function: Box<Function>,
     ) -> Result<Self, SyntaxError> {
         Ok(ExportDefaultDecl {
+            node_id: Default::default(),
             span,
-            decl: DefaultDecl::Fn(FnExpr { ident, function }),
+            decl: DefaultDecl::Fn(FnExpr {
+                node_id: Default::default(),
+                ident,
+                function,
+            }),
         })
     }
 
@@ -2025,8 +2055,13 @@ impl OutputType for ExportDefaultDecl {
         class: Box<Class>,
     ) -> Result<Self, SyntaxError> {
         Ok(ExportDefaultDecl {
+            node_id: Default::default(),
             span,
-            decl: DefaultDecl::Class(ClassExpr { ident, class }),
+            decl: DefaultDecl::Class(ClassExpr {
+                node_id: Default::default(),
+                ident,
+                class,
+            }),
         })
     }
 }
@@ -2042,6 +2077,7 @@ impl OutputType for Decl {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
         Ok(FnDecl {
+            node_id: Default::default(),
             declare: false,
             ident,
             function,
@@ -2053,6 +2089,7 @@ impl OutputType for Decl {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
         Ok(ClassDecl {
+            node_id: Default::default(),
             declare: false,
             ident,
             class,
@@ -2121,8 +2158,10 @@ mod tests {
         assert_eq_ignore_span!(
             expr("(class extends a {})"),
             Box::new(Expr::Paren(ParenExpr {
+                node_id: Default::default(),
                 span,
                 expr: Box::new(Expr::Class(ClassExpr {
+                    node_id: Default::default(),
                     ident: None,
                     class: Box::new(Class {
                         decorators: Vec::new(),

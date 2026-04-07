@@ -1000,6 +1000,14 @@ pub trait VisitHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_new_expr(&mut self, node: &NewExpr, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `NodeId` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_node_id(&mut self, node: &NodeId, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `NodeId` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_node_id(&mut self, node: &NodeId, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Null` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -3971,6 +3979,18 @@ where
     fn exit_new_expr(&mut self, node: &NewExpr, ctx: &mut C) {
         self.second.exit_new_expr(node, ctx);
         self.first.exit_new_expr(node, ctx);
+    }
+
+    #[inline]
+    fn enter_node_id(&mut self, node: &NodeId, ctx: &mut C) {
+        self.first.enter_node_id(node, ctx);
+        self.second.enter_node_id(node, ctx);
+    }
+
+    #[inline]
+    fn exit_node_id(&mut self, node: &NodeId, ctx: &mut C) {
+        self.second.exit_node_id(node, ctx);
+        self.first.exit_node_id(node, ctx);
     }
 
     #[inline]
@@ -8019,6 +8039,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_new_expr(node, ctx),
             Self::Right(hook) => hook.exit_new_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_node_id(&mut self, node: &NodeId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_node_id(node, ctx),
+            Self::Right(hook) => hook.enter_node_id(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_node_id(&mut self, node: &NodeId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_node_id(node, ctx),
+            Self::Right(hook) => hook.exit_node_id(node, ctx),
         }
     }
 
@@ -12525,6 +12561,20 @@ where
     }
 
     #[inline]
+    fn enter_node_id(&mut self, node: &NodeId, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_node_id(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_node_id(&mut self, node: &NodeId, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_node_id(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_null(&mut self, node: &Null, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_null(node, ctx);
@@ -15980,6 +16030,14 @@ impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
         self.hook.exit_new_expr(node, &mut self.context);
     }
 
+    #[doc = "Visits a node of type `NodeId` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_node_id(&mut self, node: &NodeId) {
+        self.hook.enter_node_id(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_node_id(node, &mut self.context);
+    }
+
     #[doc = "Visits a node of type `Null` using the hook's enter and exit methods."]
     #[inline]
     fn visit_null(&mut self, node: &Null) {
@@ -18468,6 +18526,14 @@ pub trait VisitMutHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_new_expr(&mut self, node: &mut NewExpr, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `NodeId` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_node_id(&mut self, node: &mut NodeId, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `NodeId` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_node_id(&mut self, node: &mut NodeId, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Null` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -21483,6 +21549,18 @@ where
     fn exit_new_expr(&mut self, node: &mut NewExpr, ctx: &mut C) {
         self.second.exit_new_expr(node, ctx);
         self.first.exit_new_expr(node, ctx);
+    }
+
+    #[inline]
+    fn enter_node_id(&mut self, node: &mut NodeId, ctx: &mut C) {
+        self.first.enter_node_id(node, ctx);
+        self.second.enter_node_id(node, ctx);
+    }
+
+    #[inline]
+    fn exit_node_id(&mut self, node: &mut NodeId, ctx: &mut C) {
+        self.second.exit_node_id(node, ctx);
+        self.first.exit_node_id(node, ctx);
     }
 
     #[inline]
@@ -25567,6 +25645,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_new_expr(node, ctx),
             Self::Right(hook) => hook.exit_new_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_node_id(&mut self, node: &mut NodeId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_node_id(node, ctx),
+            Self::Right(hook) => hook.enter_node_id(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_node_id(&mut self, node: &mut NodeId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_node_id(node, ctx),
+            Self::Right(hook) => hook.exit_node_id(node, ctx),
         }
     }
 
@@ -30109,6 +30203,20 @@ where
     }
 
     #[inline]
+    fn enter_node_id(&mut self, node: &mut NodeId, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_node_id(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_node_id(&mut self, node: &mut NodeId, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_node_id(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_null(&mut self, node: &mut Null, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_null(node, ctx);
@@ -33590,6 +33698,14 @@ impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
         self.hook.enter_new_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
         self.hook.exit_new_expr(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `NodeId` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_node_id(&mut self, node: &mut NodeId) {
+        self.hook.enter_node_id(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_node_id(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Null` using the hook's enter and exit methods."]

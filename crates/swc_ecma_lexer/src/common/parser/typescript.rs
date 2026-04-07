@@ -300,11 +300,13 @@ where
 
         return Ok(Box::new(TsType::TsUnionOrIntersectionType(match kind {
             UnionOrIntersection::Union => TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                node_id: Default::default(),
                 span: p.span(start),
                 types,
             }),
             UnionOrIntersection::Intersection => {
                 TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
+                    node_id: Default::default(),
                     span: p.span(start),
                     types,
                 })
@@ -407,6 +409,7 @@ pub fn parse_ts_this_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsThisTy
     debug_assert!(p.input().syntax().typescript());
     expect!(p, &P::Token::THIS);
     Ok(TsThisType {
+        node_id: Default::default(),
         span: p.input().prev_span(),
     })
 }
@@ -443,7 +446,12 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
             parse_ident(p, false, false)?.into()
         };
         let span = p.span(start);
-        entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { span, left, right }));
+        entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName {
+            node_id: Default::default(),
+            span,
+            left,
+            right,
+        }));
     }
     Ok(entity)
 }
@@ -494,7 +502,11 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
         p.emit_err(span, SyntaxError::EmptyTypeArgumentList);
     }
 
-    Ok(Box::new(TsTypeParamInstantiation { span, params }))
+    Ok(Box::new(TsTypeParamInstantiation {
+        node_id: Default::default(),
+        span,
+        params,
+    }))
 }
 
 /// `tsParseTypeReference`
@@ -523,6 +535,7 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
     }
 
     Ok(TsTypeRef {
+        node_id: Default::default(),
         span: p.span(start),
         type_name,
         type_params,
@@ -552,6 +565,7 @@ pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
         let type_ann = parse_ts_type(p)?;
 
         Ok(Box::new(TsTypeAnn {
+            node_id: Default::default(),
             span: p.span(start),
             type_ann,
         }))
@@ -579,6 +593,7 @@ pub fn parse_ts_this_type_predicate<'a, P: Parser<'a>>(
     };
 
     Ok(TsTypePredicate {
+        node_id: Default::default(),
         span: p.span(start),
         asserts: has_asserts_keyword,
         param_name,
@@ -638,6 +653,7 @@ fn parse_ts_mapped_type_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypePar
     let constraint = Some(expect_then_parse_ts_type(p, &P::Token::IN, "in")?);
 
     Ok(TsTypeParam {
+        node_id: Default::default(),
         span: p.span(start),
         name: name.into(),
         is_in: false,
@@ -714,6 +730,7 @@ fn parse_ts_type_param<'a, P: Parser<'a>>(
     let default = eat_then_parse_ts_type(p, &P::Token::EQUAL)?;
 
     Ok(TsTypeParam {
+        node_id: Default::default(),
         span: p.span(start),
         name,
         is_in,
@@ -749,6 +766,7 @@ pub fn parse_ts_type_params<'a, P: Parser<'a>>(
             )?;
 
             Ok(Box::new(TsTypeParamDecl {
+                node_id: Default::default(),
                 span: p.span(start),
                 params,
             }))
@@ -834,6 +852,7 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
         };
 
         let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
+            node_id: Default::default(),
             span: p.span(type_pred_start),
             asserts: has_type_pred_asserts,
             param_name: TsThisTypeOrIdent::Ident(type_pred_var.into()),
@@ -841,6 +860,7 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
         }));
 
         Ok(Box::new(TsTypeAnn {
+            node_id: Default::default(),
             span: p.span(return_token_start),
             type_ann: node,
         }))
@@ -973,6 +993,7 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
         p.emit_err(span, SyntaxError::TS2452);
 
         TsEnumMemberId::Str(Str {
+            node_id: Default::default(),
             span,
             value: value.to_string().into(),
             raw: Some(new_raw.into()),
@@ -997,6 +1018,7 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
                 let value = tpl.cooked.unwrap();
 
                 TsEnumMemberId::Str(Str {
+                    node_id: Default::default(),
                     span,
                     value,
                     raw: None,
@@ -1030,6 +1052,7 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
     };
 
     Ok(TsEnumMember {
+        node_id: Default::default(),
         span: p.span(start),
         id,
         init,
@@ -1050,6 +1073,7 @@ pub fn parse_ts_enum_decl<'a, P: Parser<'a>>(
     expect!(p, &P::Token::RBRACE);
 
     Ok(Box::new(TsEnumDecl {
+        node_id: Default::default(),
         span: p.span(start),
         declare: false,
         is_const,
@@ -1088,6 +1112,7 @@ fn parse_ts_tpl_lit_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTplLitType> 
     expect!(p, &P::Token::BACKQUOTE);
 
     Ok(TsTplLitType {
+        node_id: Default::default(),
         span: p.span(start),
         types,
         quasis,
@@ -1141,6 +1166,7 @@ fn parse_ts_lit_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsLitType> {
     };
 
     Ok(TsLitType {
+        node_id: Default::default(),
         span: p.span(start),
         lit,
     })
@@ -1175,6 +1201,7 @@ fn parse_ts_heritage_clause_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsE
 
     match *expr {
         Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
+            node_id: Default::default(),
             span: v.span,
             expr: v.expr,
             type_args: Some(v.type_args),
@@ -1189,6 +1216,7 @@ fn parse_ts_heritage_clause_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsE
             };
 
             Ok(TsExprWithTypeArgs {
+                node_id: Default::default(),
                 span: p.span(start),
                 expr,
                 type_args,
@@ -1313,6 +1341,7 @@ pub fn try_parse_ts_index_signature<'a, P: Parser<'a>>(
     parse_ts_type_member_semicolon(p)?;
 
     Ok(Some(TsIndexSignature {
+        node_id: Default::default(),
         span: p.span(index_signature_start),
         readonly,
         is_static,
@@ -1355,6 +1384,7 @@ fn parse_ts_external_module_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsExter
     let expr = parse_str_lit(p);
     expect!(p, &P::Token::RPAREN);
     Ok(TsExternalModuleRef {
+        node_id: Default::default(),
         span: p.span(start),
         expr,
     })
@@ -1375,6 +1405,7 @@ pub fn parse_ts_import_equals_decl<'a, P: Parser<'a>>(
     p.expect_general_semi()?;
 
     Ok(Box::new(TsImportEqualsDecl {
+        node_id: Default::default(),
         span: p.span(start),
         id,
         is_export,
@@ -1465,6 +1496,7 @@ fn parse_ts_signature_member<'a, P: Parser<'a>>(
 
     match kind {
         SignatureParsingMode::TSCallSignatureDeclaration => Ok(Either::Left(TsCallSignatureDecl {
+            node_id: Default::default(),
             span: p.span(start),
             params,
             type_ann,
@@ -1472,6 +1504,7 @@ fn parse_ts_signature_member<'a, P: Parser<'a>>(
         })),
         SignatureParsingMode::TSConstructSignatureDeclaration => {
             Ok(Either::Right(TsConstructSignatureDecl {
+                node_id: Default::default(),
                 span: p.span(start),
                 params,
                 type_ann,
@@ -1504,6 +1537,7 @@ fn try_parse_ts_tuple_element_name<'a, P: Parser<'a>>(p: &mut P) -> Option<Pat> 
 
         Ok(Some(if let Some(dot3_token) = rest {
             RestPat {
+                node_id: Default::default(),
                 span: p.span(start),
                 dot3_token,
                 arg: ident.into(),
@@ -1528,9 +1562,11 @@ fn parse_ts_tuple_element_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleE
     if p.input_mut().eat(&P::Token::DOTDOTDOT) {
         let type_ann = parse_ts_type(p)?;
         return Ok(TsTupleElement {
+            node_id: Default::default(),
             span: p.span(start),
             label,
             ty: Box::new(TsType::TsRestType(TsRestType {
+                node_id: Default::default(),
                 span: p.span(start),
                 type_ann,
             })),
@@ -1542,9 +1578,11 @@ fn parse_ts_tuple_element_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleE
     if p.input_mut().eat(&P::Token::QUESTION) {
         let type_ann = ty;
         return Ok(TsTupleElement {
+            node_id: Default::default(),
             span: p.span(start),
             label,
             ty: Box::new(TsType::TsOptionalType(TsOptionalType {
+                node_id: Default::default(),
                 span: p.span(start),
                 type_ann,
             })),
@@ -1552,6 +1590,7 @@ fn parse_ts_tuple_element_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleE
     }
 
     Ok(TsTupleElement {
+        node_id: Default::default(),
         span: p.span(start),
         label,
         ty,
@@ -1591,6 +1630,7 @@ pub fn parse_ts_tuple_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleType>
     }
 
     Ok(TsTupleType {
+        node_id: Default::default(),
         span: p.span(start),
         elem_types: elems,
     })
@@ -1644,6 +1684,7 @@ pub fn parse_ts_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsMappedTyp
     expect!(p, &P::Token::RBRACE);
 
     Ok(TsMappedType {
+        node_id: Default::default(),
         span: p.span(start),
         readonly,
         optional,
@@ -1663,6 +1704,7 @@ pub fn parse_ts_parenthesized_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsPa
     let type_ann = parse_ts_type(p)?;
     expect!(p, &P::Token::RPAREN);
     Ok(TsParenthesizedType {
+        node_id: Default::default(),
         span: p.span(start),
         type_ann,
     })
@@ -1680,6 +1722,7 @@ pub fn parse_ts_type_alias_decl<'a, P: Parser<'a>>(
     let type_ann = expect_then_parse_ts_type(p, &P::Token::EQUAL, "=")?;
     p.expect_general_semi()?;
     Ok(Box::new(TsTypeAliasDecl {
+        node_id: Default::default(),
         declare: false,
         span: p.span(start),
         id: id.into(),
@@ -1716,6 +1759,7 @@ fn parse_ts_fn_or_constructor_type<'a, P: Parser<'a>>(
 
     Ok(if is_fn_type {
         TsFnOrConstructorType::TsFnType(TsFnType {
+            node_id: Default::default(),
             span: p.span(start),
             type_params,
             params,
@@ -1723,6 +1767,7 @@ fn parse_ts_fn_or_constructor_type<'a, P: Parser<'a>>(
         })
     } else {
         TsFnOrConstructorType::TsConstructorType(TsConstructorType {
+            node_id: Default::default(),
             span: p.span(start),
             type_params,
             params,
@@ -1809,6 +1854,7 @@ fn parse_ts_type_operator<'a, P: Parser<'a>>(
 
     let type_ann = parse_ts_type_operator_or_higher(p)?;
     Ok(TsTypeOperator {
+        node_id: Default::default(),
         span: p.span(start),
         op,
         type_ann,
@@ -1833,6 +1879,7 @@ fn parse_ts_infer_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsInferType> {
         }
     });
     let type_param = TsTypeParam {
+        node_id: Default::default(),
         span: type_param_name.span(),
         name: type_param_name.into(),
         is_in: false,
@@ -1842,6 +1889,7 @@ fn parse_ts_infer_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsInferType> {
         default: None,
     };
     Ok(TsInferType {
+        node_id: Default::default(),
         span: p.span(start),
         type_param,
     })
@@ -1883,6 +1931,7 @@ fn parse_ts_array_type_or_higher<'a, P: Parser<'a>>(
     while !p.input().had_line_break_before_cur() && p.input_mut().eat(&P::Token::LBRACKET) {
         if p.input_mut().eat(&P::Token::RBRACKET) {
             ty = Box::new(TsType::TsArrayType(TsArrayType {
+                node_id: Default::default(),
                 span: p.span(ty.span_lo()),
                 elem_type: ty,
             }));
@@ -1890,6 +1939,7 @@ fn parse_ts_array_type_or_higher<'a, P: Parser<'a>>(
             let index_type = parse_ts_type(p)?;
             expect!(p, &P::Token::RBRACKET);
             ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
+                node_id: Default::default(),
                 span: p.span(ty.span_lo()),
                 readonly,
                 obj_type: ty,
@@ -1935,6 +1985,7 @@ pub fn parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
         let false_type = parse_ts_type(p)?;
 
         Ok(Box::new(TsType::TsConditionalType(TsConditionalType {
+            node_id: Default::default(),
             span: p.span(start),
             check_type,
             extends_type,
@@ -2009,6 +2060,7 @@ fn parse_ts_property_or_method_signature<'a, P: Parser<'a>>(
 
         parse_ts_type_member_semicolon(p)?;
         Ok(Either::Right(TsMethodSignature {
+            node_id: Default::default(),
             span: p.span(start),
             computed,
             key,
@@ -2022,6 +2074,7 @@ fn parse_ts_property_or_method_signature<'a, P: Parser<'a>>(
 
         parse_ts_type_member_semicolon(p)?;
         Ok(Either::Left(TsPropertySignature {
+            node_id: Default::default(),
             span: p.span(start),
             computed,
             readonly,
@@ -2084,6 +2137,7 @@ fn parse_ts_type_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeElement> 
             parse_ts_type_member_semicolon(p)?;
 
             Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
+                node_id: Default::default(),
                 span: p.span(start),
                 key,
                 computed,
@@ -2100,6 +2154,7 @@ fn parse_ts_type_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeElement> 
             parse_ts_type_member_semicolon(p)?;
 
             Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
+                node_id: Default::default(),
                 span: p.span(start),
                 key,
                 computed,
@@ -2133,6 +2188,7 @@ pub fn parse_ts_type_lit<'a>(p: &mut impl Parser<'a>) -> PResult<TsTypeLit> {
     let start = p.cur_pos();
     let members = parse_ts_object_type_members(p)?;
     Ok(TsTypeLit {
+        node_id: Default::default(),
         span: p.span(start),
         members,
     })
@@ -2176,10 +2232,12 @@ pub fn parse_ts_interface_decl<'a, P: Parser<'a>>(
     let body_start = p.cur_pos();
     let body = p.in_type(parse_ts_object_type_members)?;
     let body = TsInterfaceBody {
+        node_id: Default::default(),
         span: p.span(body_start),
         body,
     };
     Ok(Box::new(TsInterfaceDecl {
+        node_id: Default::default(),
         span: p.span(start),
         declare: false,
         id: id.into(),
@@ -2207,6 +2265,7 @@ pub fn parse_ts_type_assertion<'a, P: Parser<'a>>(
     expect!(p, &P::Token::GREATER);
     let expr = p.parse_unary_expr()?;
     Ok(TsTypeAssertion {
+        node_id: Default::default(),
         span: p.span(start),
         type_ann,
         expr,
@@ -2232,6 +2291,7 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
         p.bump();
         p.emit_err(arg_span, SyntaxError::TS1141);
         Str {
+            node_id: Default::default(),
             span: arg_span,
             value: Wtf8Atom::default(),
             raw: Some(atom!("\"\"")),
@@ -2266,6 +2326,7 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
     };
 
     Ok(TsImportType {
+        node_id: Default::default(),
         span: p.span(start),
         arg,
         qualifier,
@@ -2289,6 +2350,7 @@ fn parse_ts_call_options<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportCallOp
     p.input_mut().eat(&P::Token::COMMA);
     expect!(p, &P::Token::RBRACE);
     Ok(TsImportCallOptions {
+        node_id: Default::default(),
         span: p.span(start),
         with: Box::new(value),
     })
@@ -2319,6 +2381,7 @@ fn parse_ts_type_query<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeQuery> {
     };
 
     Ok(TsTypeQuery {
+        node_id: Default::default(),
         span: p.span(start),
         expr_name,
         type_args,
@@ -2340,6 +2403,7 @@ fn parse_ts_module_block<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsModuleBlock>
     })?;
 
     Ok(TsModuleBlock {
+        node_id: Default::default(),
         span: p.span(start),
         body,
     })
@@ -2358,6 +2422,7 @@ fn parse_ts_module_or_ns_decl<'a, P: Parser<'a>>(
         let inner_start = p.cur_pos();
         let inner = parse_ts_module_or_ns_decl(p, inner_start, namespace)?;
         let inner = TsNamespaceDecl {
+            node_id: Default::default(),
             span: inner.span,
             id: match inner.id {
                 TsModuleName::Ident(i) => i,
@@ -2373,6 +2438,7 @@ fn parse_ts_module_or_ns_decl<'a, P: Parser<'a>>(
     };
 
     Ok(Box::new(TsModuleDecl {
+        node_id: Default::default(),
         span: p.span(start),
         declare: false,
         id: TsModuleName::Ident(id.into()),
@@ -2407,6 +2473,7 @@ fn parse_ts_ambient_external_module_decl<'a, P: Parser<'a>>(
     };
 
     Ok(Box::new(TsModuleDecl {
+        node_id: Default::default(),
         span: p.span(start),
         declare: false,
         id,
@@ -2478,6 +2545,7 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
             Some(kind) if !peeked_is_dot => {
                 p.bump();
                 return Ok(Box::new(TsType::TsKeywordType(TsKeywordType {
+                    node_id: Default::default(),
                     span: p.span(start),
                     kind,
                 })));
@@ -2508,7 +2576,9 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
 
         let lit = parse_lit(p)?;
         let lit = match lit {
-            Lit::Num(Number { span, value, raw }) => {
+            Lit::Num(Number {
+                span, value, raw, ..
+            }) => {
                 let mut new_raw = String::from("-");
 
                 match raw {
@@ -2521,12 +2591,15 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
                 };
 
                 TsLit::Number(Number {
+                    node_id: Default::default(),
                     span,
                     value: -value,
                     raw: Some(new_raw.into()),
                 })
             }
-            Lit::BigInt(BigInt { span, value, raw }) => {
+            Lit::BigInt(BigInt {
+                span, value, raw, ..
+            }) => {
                 let mut new_raw = String::from("-");
 
                 match raw {
@@ -2539,6 +2612,7 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
                 };
 
                 TsLit::BigInt(BigInt {
+                    node_id: Default::default(),
                     span,
                     value: Box::new(-*value),
                     raw: Some(new_raw.into()),
@@ -2548,6 +2622,7 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
         };
 
         return Ok(Box::new(TsType::TsLitType(TsLitType {
+            node_id: Default::default(),
             span: p.span(start),
             lit,
         })));
@@ -2623,6 +2698,7 @@ pub fn parse_ts_expr_stmt<'a, P: Parser<'a>>(
                     .map(Some)?;
                 Ok(Some(
                     TsModuleDecl {
+                        node_id: Default::default(),
                         span: p.span(start),
                         global,
                         declare: false,

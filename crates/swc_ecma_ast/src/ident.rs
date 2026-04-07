@@ -12,7 +12,7 @@ use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 
-use crate::{typescript::TsTypeAnn, Expr};
+use crate::{typescript::TsTypeAnn, Expr, NodeId};
 
 /// Identifier used as a pattern.
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]
@@ -45,6 +45,9 @@ use crate::{typescript::TsTypeAnn, Expr};
     derive(::swc_common::Encode, ::swc_common::Decode)
 )]
 pub struct BindingIdent {
+    #[cfg_attr(feature = "serde-impl", serde(skip))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub id: Ident,
@@ -96,6 +99,7 @@ impl From<&'_ BindingIdent> for Ident {
     fn from(bi: &'_ BindingIdent) -> Self {
         Ident {
             span: bi.span,
+            node_id: bi.id.node_id,
             ctxt: bi.ctxt,
             sym: bi.sym.clone(),
             optional: bi.optional,
@@ -120,6 +124,7 @@ impl From<Ident> for BindingIdent {
     fn from(id: Ident) -> Self {
         BindingIdent {
             id,
+            node_id: Default::default(),
             ..Default::default()
         }
     }
@@ -183,6 +188,9 @@ bridge_from!(BindingIdent, Ident, Id);
 pub struct Ident {
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub ctxt: SyntaxContext,
@@ -423,6 +431,9 @@ pub struct IdentName {
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     pub sym: Atom,
 }
@@ -431,6 +442,7 @@ impl From<Atom> for IdentName {
     fn from(sym: Atom) -> Self {
         IdentName {
             span: DUMMY_SP,
+            node_id: Default::default(),
             sym,
         }
     }
@@ -438,7 +450,11 @@ impl From<Atom> for IdentName {
 
 impl From<(Atom, Span)> for IdentName {
     fn from((sym, span): (Atom, Span)) -> Self {
-        IdentName { span, sym }
+        IdentName {
+            span,
+            node_id: Default::default(),
+            sym,
+        }
     }
 }
 
@@ -456,7 +472,11 @@ impl AsRef<str> for IdentName {
 
 impl IdentName {
     pub const fn new(sym: Atom, span: Span) -> Self {
-        Self { span, sym }
+        Self {
+            span,
+            node_id: NodeId::DUMMY,
+            sym,
+        }
     }
 }
 
@@ -470,6 +490,7 @@ impl From<Ident> for IdentName {
     fn from(i: Ident) -> Self {
         IdentName {
             span: i.span,
+            node_id: i.node_id,
             sym: i.sym,
         }
     }
@@ -570,6 +591,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
 
         Ok(Self {
             span,
+            node_id: Default::default(),
             sym,
             optional,
             ctxt: Default::default(),
@@ -583,6 +605,9 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct PrivateName {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     pub name: Atom,
 }
@@ -597,6 +622,7 @@ impl Ident {
     pub const fn new(sym: Atom, span: Span, ctxt: SyntaxContext) -> Self {
         Ident {
             span,
+            node_id: NodeId::DUMMY,
             ctxt,
             sym,
             optional: false,

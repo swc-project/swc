@@ -156,6 +156,7 @@ impl ReturnTypeInferrer {
         if visitor.return_expr_count > 1 {
             if expr_type.is_ts_fn_or_constructor_type() {
                 expr_type = Box::new(TsType::TsParenthesizedType(TsParenthesizedType {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     type_ann: expr_type,
                 }));
@@ -163,6 +164,7 @@ impl ReturnTypeInferrer {
 
             expr_type = Box::new(TsType::TsUnionOrIntersectionType(
                 TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     types: vec![
                         expr_type,

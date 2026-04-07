@@ -105,6 +105,7 @@ impl VisitMut for InlineGlobals {
                     // It's ok because we don't recurse into member expressions.
                     if let Some(value) = self.typeofs.get(sym).cloned() {
                         *expr = Lit::Str(Str {
+                            node_id: Default::default(),
                             span: *span,
                             raw: None,
                             value: value.into(),
@@ -177,6 +178,7 @@ impl VisitMut for InlineGlobals {
             if let Some(mut value) = self.globals.get(&i.sym).cloned().map(Box::new) {
                 value.visit_mut_with(self);
                 *p = Prop::KeyValue(KeyValueProp {
+                    node_id: Default::default(),
                     key: PropName::Ident(i.clone().into()),
                     value,
                 });

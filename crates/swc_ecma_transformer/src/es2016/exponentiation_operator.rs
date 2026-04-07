@@ -93,9 +93,11 @@ impl ExponentiationOperatorPass {
                 let pow_call = create_math_pow(pow_left, right);
 
                 *expr = Expr::Assign(AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                        node_id: Default::default(),
                         id: left,
                         type_ann: None,
                     })),
@@ -145,9 +147,11 @@ impl ExponentiationOperatorPass {
 
             // Add assignment to sequence: _obj = obj
             sequence_exprs.push(Expr::Assign(AssignExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 op: AssignOp::Assign,
                 left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                    node_id: Default::default(),
                     id: temp_ident.clone(),
                     type_ann: None,
                 })),
@@ -165,6 +169,7 @@ impl ExponentiationOperatorPass {
             MemberProp::Ident(prop_name) => {
                 // Create Math.pow(obj.prop, right)
                 let pow_left = Box::new(Expr::Member(MemberExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     obj: obj_for_pow,
                     prop: MemberProp::Ident(prop_name.clone()),
@@ -173,9 +178,11 @@ impl ExponentiationOperatorPass {
 
                 // obj.prop = Math.pow(obj.prop, right)
                 let assignment = Expr::Assign(AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         obj: final_obj,
                         prop: MemberProp::Ident(prop_name),
@@ -186,6 +193,7 @@ impl ExponentiationOperatorPass {
                 if needs_obj_temp {
                     sequence_exprs.push(assignment);
                     *expr = Expr::Seq(SeqExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         exprs: sequence_exprs.into_iter().map(Box::new).collect(),
                     });
@@ -214,9 +222,11 @@ impl ExponentiationOperatorPass {
 
                     // Add assignment to sequence: _prop = prop
                     sequence_exprs.push(Expr::Assign(AssignExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         op: AssignOp::Assign,
                         left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                            node_id: Default::default(),
                             id: temp_ident.clone(),
                             type_ann: None,
                         })),
@@ -231,9 +241,11 @@ impl ExponentiationOperatorPass {
 
                 // Create Math.pow(obj[computed], right)
                 let pow_left = Box::new(Expr::Member(MemberExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     obj: obj_for_pow,
                     prop: MemberProp::Computed(ComputedPropName {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         expr: prop_for_pow,
                     }),
@@ -242,12 +254,15 @@ impl ExponentiationOperatorPass {
 
                 // obj[computed] = Math.pow(obj[computed], right)
                 let assignment = Expr::Assign(AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         obj: final_obj,
                         prop: MemberProp::Computed(ComputedPropName {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             expr: final_prop,
                         }),
@@ -258,6 +273,7 @@ impl ExponentiationOperatorPass {
                 if needs_obj_temp || needs_prop_temp {
                     sequence_exprs.push(assignment);
                     *expr = Expr::Seq(SeqExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         exprs: sequence_exprs.into_iter().map(Box::new).collect(),
                     });
@@ -281,27 +297,33 @@ fn is_literal_expr(expr: &Expr) -> bool {
 /// Create `Math.pow(left, right)` call expression
 fn create_math_pow(left: Box<Expr>, right: Box<Expr>) -> Expr {
     Expr::Call(CallExpr {
+        node_id: Default::default(),
         span: DUMMY_SP,
         ctxt: SyntaxContext::empty(),
         callee: Callee::Expr(Box::new(Expr::Member(MemberExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             obj: Box::new(Expr::Ident(Ident {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 ctxt: SyntaxContext::empty(),
                 sym: "Math".into(),
                 optional: false,
             })),
             prop: MemberProp::Ident(IdentName {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 sym: "pow".into(),
             }),
         }))),
         args: vec![
             ExprOrSpread {
+                node_id: Default::default(),
                 spread: None,
                 expr: left,
             },
             ExprOrSpread {
+                node_id: Default::default(),
                 spread: None,
                 expr: right,
             },

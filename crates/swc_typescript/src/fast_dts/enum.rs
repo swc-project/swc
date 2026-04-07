@@ -55,6 +55,7 @@ impl FastDts {
                         let is_neg = v < 0.0;
                         let expr = if v.is_infinite() {
                             Expr::Ident(Ident {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 sym: atom!("Infinity"),
                                 ctxt: SyntaxContext::empty(),
@@ -62,6 +63,7 @@ impl FastDts {
                             })
                         } else {
                             Expr::Lit(Lit::Num(Number {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 value: v,
                                 raw: Some(v.to_string().into()),
@@ -70,6 +72,7 @@ impl FastDts {
 
                         if is_neg {
                             Expr::Unary(UnaryExpr {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 arg: Box::new(expr),
                                 op: UnaryOp::Minus,
@@ -79,6 +82,7 @@ impl FastDts {
                         }
                     }
                     ConstantValue::String(s) => Expr::Lit(Lit::Str(Str {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         value: s.clone().into(),
                         raw: None,

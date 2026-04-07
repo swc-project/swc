@@ -329,6 +329,7 @@ impl Visit for CriticalRules {
                         DefaultDecl::Fn(FnExpr {
                             ident: Some(ident),
                             function: f,
+                            ..
                         }),
                     ..
                 }),

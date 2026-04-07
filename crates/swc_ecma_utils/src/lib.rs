@@ -467,6 +467,7 @@ pub trait StmtExt {
             decls: ids
                 .into_iter()
                 .map(|i| VarDeclarator {
+                    node_id: Default::default(),
                     span: i.span,
                     name: i.into(),
                     init: None,
@@ -1454,6 +1455,7 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
 pub fn prop_name_to_expr_value(p: PropName) -> Expr {
     match p {
         PropName::Ident(i) => Lit::Str(Str {
+            node_id: Default::default(),
             span: i.span,
             raw: None,
             value: i.sym.into(),
@@ -1472,15 +1474,18 @@ pub fn prop_name_to_member_prop(prop_name: PropName) -> MemberProp {
     match prop_name {
         PropName::Ident(i) => MemberProp::Ident(i),
         PropName::Str(s) => MemberProp::Computed(ComputedPropName {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: s.into(),
         }),
         PropName::Num(n) => MemberProp::Computed(ComputedPropName {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: n.into(),
         }),
         PropName::Computed(c) => MemberProp::Computed(c),
         PropName::BigInt(b) => MemberProp::Computed(ComputedPropName {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: b.into(),
         }),
@@ -1501,9 +1506,11 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
         is_optional: false,
         params: if has_super {
             vec![ParamOrTsParamProp::Param(Param {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 decorators: Vec::new(),
                 pat: Pat::Rest(RestPat {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     dot3_token: DUMMY_SP,
                     arg: Box::new(Pat::Ident(quote_ident!("args").into())),
@@ -1517,8 +1524,12 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
             stmts: if has_super {
                 vec![CallExpr {
                     span: super_call_span,
-                    callee: Callee::Super(Super { span: DUMMY_SP }),
+                    callee: Callee::Super(Super {
+                        node_id: Default::default(),
+                        span: DUMMY_SP,
+                    }),
                     args: vec![ExprOrSpread {
+                        node_id: Default::default(),
                         spread: Some(DUMMY_SP),
                         expr: Box::new(Expr::Ident(quote_ident!("args").into())),
                     }],
@@ -1551,24 +1562,35 @@ pub fn opt_chain_test(
 ) -> Expr {
     if no_document_all {
         BinExpr {
+            node_id: Default::default(),
             span,
             left,
             op: op!("=="),
-            right: Lit::Null(Null { span: DUMMY_SP }).into(),
+            right: Lit::Null(Null {
+                node_id: Default::default(),
+                span: DUMMY_SP,
+            })
+            .into(),
         }
         .into()
     } else {
         BinExpr {
+            node_id: Default::default(),
             span,
             left: BinExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 left,
                 op: op!("==="),
-                right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                right: Box::new(Expr::Lit(Lit::Null(Null {
+                    node_id: Default::default(),
+                    span: DUMMY_SP,
+                }))),
             }
             .into(),
             op: op!("||"),
             right: BinExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 left: right,
                 op: op!("==="),
@@ -1849,7 +1871,12 @@ impl ExprCtx {
         } else {
             exprs.push(val);
 
-            SeqExpr { exprs, span }.into()
+            SeqExpr {
+                node_id: Default::default(),
+                exprs,
+                span,
+            }
+            .into()
         }
     }
 
@@ -1936,7 +1963,7 @@ impl ExprCtx {
                 props.retain(|node| match node {
                     PropOrSpread::Prop(node) => match &**node {
                         Prop::Shorthand(..) => false,
-                        Prop::KeyValue(KeyValueProp { key, value }) => {
+                        Prop::KeyValue(KeyValueProp { key, value, .. }) => {
                             if let PropName::Computed(e) = key {
                                 if e.expr.may_have_side_effects(self) {
                                     return true;
@@ -1969,12 +1996,19 @@ impl ExprCtx {
                 });
 
                 if has_spread {
-                    to.push(ObjectLit { span, props }.into())
+                    to.push(
+                        ObjectLit {
+                            node_id: Default::default(),
+                            span,
+                            props,
+                        }
+                        .into(),
+                    )
                 } else {
                     props.into_iter().for_each(|prop| match prop {
                         PropOrSpread::Prop(node) => match *node {
                             Prop::Shorthand(..) => {}
-                            Prop::KeyValue(KeyValueProp { key, value }) => {
+                            Prop::KeyValue(KeyValueProp { key, value, .. }) => {
                                 if let PropName::Computed(e) = key {
                                     self.extract_side_effects_to(to, *e.expr);
                                 }
@@ -2092,6 +2126,7 @@ impl VisitMut for IdentReplacer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
+                        node_id: Default::default(),
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: i.clone().into(),
                     });
@@ -2183,6 +2218,7 @@ where
             DefaultDecl::Fn(FnExpr {
                 ident: Some(ident),
                 function: f,
+                ..
             }) if f.body.is_some() => {
                 self.add(ident);
             }
@@ -2428,8 +2464,10 @@ impl VisitMut for IdentRenamer<'_> {
                 match p.value.take() {
                     Some(default) => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            node_id: Default::default(),
                             key: PropName::Ident(orig.clone().into()),
                             value: AssignPat {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 left: p.key.clone().into(),
                                 right: default,
@@ -2439,6 +2477,7 @@ impl VisitMut for IdentRenamer<'_> {
                     }
                     None => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            node_id: Default::default(),
                             key: PropName::Ident(orig.clone().into()),
                             value: p.key.clone().into(),
                         });
@@ -2459,6 +2498,7 @@ impl VisitMut for IdentRenamer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
+                        node_id: Default::default(),
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: i.clone().into(),
                     });
@@ -2507,6 +2547,7 @@ where
         if let Prop::Shorthand(shorthand) = n {
             if let Some(expr) = self.query.query_ref(shorthand) {
                 *n = KeyValueProp {
+                    node_id: Default::default(),
                     key: shorthand.take().into(),
                     value: expr,
                 }
@@ -2573,6 +2614,7 @@ where
                     .unwrap_or(expr);
 
                 *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                    node_id: Default::default(),
                     key: PropName::Ident(key.take().into()),
                     value: value.into(),
                 });
@@ -3719,7 +3761,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Object(ObjectLit { props, .. }) => props.iter().any(|node| match node {
             PropOrSpread::Prop(node) => match &**node {
                 Prop::Shorthand(..) => false,
-                Prop::KeyValue(KeyValueProp { key, value }) => {
+                Prop::KeyValue(KeyValueProp { key, value, .. }) => {
                     let k = match key {
                         PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
                         _ => false,
@@ -3870,6 +3912,7 @@ mod ident_usage_finder_parallel_tests {
     fn test_visit_expr_or_spreads() {
         let id = make_id("foo");
         let expr = ExprOrSpread {
+            node_id: Default::default(),
             spread: None,
             expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
         };
@@ -3883,6 +3926,7 @@ mod ident_usage_finder_parallel_tests {
     fn test_visit_module_items() {
         let id = make_id("foo");
         let item = ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
         }));
@@ -3896,6 +3940,7 @@ mod ident_usage_finder_parallel_tests {
     fn test_visit_stmts() {
         let id = make_id("foo");
         let stmt = Stmt::Expr(ExprStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
         });
@@ -3909,6 +3954,7 @@ mod ident_usage_finder_parallel_tests {
     fn test_visit_opt_vec_expr_or_spreads() {
         let id = make_id("foo");
         let expr = Some(ExprOrSpread {
+            node_id: Default::default(),
             spread: None,
             expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
         });
@@ -3922,6 +3968,7 @@ mod ident_usage_finder_parallel_tests {
     fn test_visit_var_declarators() {
         let id = make_id("foo");
         let decl = VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: Pat::Ident(quote_ident!("foo").into()),
             init: None,

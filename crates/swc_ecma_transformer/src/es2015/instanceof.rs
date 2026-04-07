@@ -60,6 +60,7 @@ impl VisitMutHook<TraverseCtx> for InstanceOfPass {
             left,
             op: op!("instanceof"),
             right,
+            ..
         }) = expr
         {
             let instanceof_span = Span {

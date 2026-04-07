@@ -124,9 +124,11 @@ impl ClassStaticBlock {
         };
 
         ClassMember::PrivateProp(PrivateProp {
+            node_id: Default::default(),
             span,
             ctxt: Default::default(),
             key: PrivateName {
+                node_id: Default::default(),
                 // Use PLACEHOLDER_SP to signal to class_properties
                 // that this came from a static block
                 span: PLACEHOLDER_SP,
@@ -147,9 +149,11 @@ impl ClassStaticBlock {
     /// Wrap statements in an immediately-invoked arrow function expression
     fn wrap_in_iife(&self, stmts: Vec<Stmt>) -> Expr {
         let arrow = ArrowExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             params: vec![],
             body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 stmts,
                 ctxt: Default::default(),
@@ -162,6 +166,7 @@ impl ClassStaticBlock {
         };
 
         CallExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             callee: arrow.as_callee(),
             args: vec![],

@@ -28,6 +28,7 @@ fn parse_jsx_closing_element_at<'a, P: Parser<'a>>(
 
     if p.input_mut().eat(&P::Token::JSX_TAG_END) {
         return Ok(Either::Left(JSXClosingFragment {
+            node_id: Default::default(),
             span: p.span(start),
         }));
     }
@@ -35,6 +36,7 @@ fn parse_jsx_closing_element_at<'a, P: Parser<'a>>(
     let name = parse_jsx_element_name(p)?;
     expect!(p, &P::Token::JSX_TAG_END);
     Ok(Either::Right(JSXClosingElement {
+        node_id: Default::default(),
         span: p.span(start),
         name,
     }))
@@ -54,6 +56,7 @@ pub fn parse_jsx_expr_container<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXExpr
     };
     expect!(p, &P::Token::RBRACE);
     Ok(JSXExprContainer {
+        node_id: Default::default(),
         span: p.span(start),
         expr,
     })
@@ -86,6 +89,7 @@ fn parse_jsx_namespaced_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrNam
     }
     let name = parse_jsx_ident(p).map(IdentName::from)?;
     Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
+        node_id: Default::default(),
         span: Span::new_with_checked(start, name.span.hi),
         ns,
         name,
@@ -107,6 +111,7 @@ fn parse_jsx_element_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXElementNam
     while p.input_mut().eat(&P::Token::DOT) {
         let prop = parse_jsx_ident(p).map(IdentName::from)?;
         let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
+            node_id: Default::default(),
             span: p.span(start),
             obj: match node {
                 JSXElementName::Ident(i) => JSXObject::Ident(i),
@@ -127,6 +132,7 @@ pub fn parse_jsx_empty_expr<'a>(p: &mut impl Parser<'a>) -> JSXEmptyExpr {
     debug_assert!(p.input().syntax().jsx());
     let start = p.input().cur_pos();
     JSXEmptyExpr {
+        node_id: Default::default(),
         span: Span::new_with_checked(start, start),
     }
 }
@@ -138,7 +144,12 @@ pub fn parse_jsx_text<'a>(p: &mut impl Parser<'a>) -> JSXText {
     debug_assert!(cur.is_jsx_text());
     let (value, raw) = p.input_mut().expect_jsx_text_token_and_bump();
     let span = p.input().prev_span();
-    JSXText { span, value, raw }
+    JSXText {
+        node_id: Default::default(),
+        span,
+        value,
+        raw,
+    }
 }
 
 pub fn jsx_expr_container_to_jsx_attr_value<'a, P: Parser<'a>>(
@@ -196,6 +207,7 @@ fn parse_jsx_spread_child<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXSpreadChil
     expect!(p, &P::Token::RBRACE);
 
     Ok(JSXSpreadChild {
+        node_id: Default::default(),
         span: p.span(start),
         expr,
     })
@@ -214,7 +226,12 @@ fn parse_jsx_attr<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrOrSpread> {
         let dot3_token = p.span(dot3_start);
         let expr = parse_assignment_expr(p)?;
         expect!(p, &P::Token::RBRACE);
-        return Ok(SpreadElement { dot3_token, expr }.into());
+        return Ok(SpreadElement {
+            node_id: Default::default(),
+            dot3_token,
+            expr,
+        }
+        .into());
     }
 
     let name = parse_jsx_namespaced_name(p)?;
@@ -229,6 +246,7 @@ fn parse_jsx_attr<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrOrSpread> {
     };
 
     Ok(JSXAttr {
+        node_id: Default::default(),
         span: p.span(start),
         name,
         value,
@@ -245,6 +263,7 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
 
     if p.input_mut().eat(&P::Token::JSX_TAG_END) {
         return Ok(Either::Left(JSXOpeningFragment {
+            node_id: Default::default(),
             span: p.span(start),
         }));
     }
@@ -300,6 +319,7 @@ fn parse_jsx_opening_element_after_name<'a, P: Parser<'a>>(
         unexpected!(p, "> (jsx closing tag)");
     }
     Ok(JSXOpeningElement {
+        node_id: Default::default(),
         span: p.span(start),
         name,
         attrs,
@@ -397,12 +417,14 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
                     );
                 }
                 (Either::Left(opening), Some(Either::Left(closing))) => Either::Left(JSXFragment {
+                    node_id: Default::default(),
                     span,
                     opening,
                     children,
                     closing,
                 }),
                 (Either::Right(opening), None) => Either::Right(JSXElement {
+                    node_id: Default::default(),
                     span,
                     opening,
                     children,
@@ -421,6 +443,7 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
                         );
                     }
                     Either::Right(JSXElement {
+                        node_id: Default::default(),
                         span,
                         opening,
                         children,

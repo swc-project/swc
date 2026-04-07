@@ -308,6 +308,7 @@ impl Fold for Normalizer {
 
     fn fold_number(&mut self, n: Number) -> Number {
         Number {
+            node_id: Default::default(),
             span: n.span,
             value: n.value,
             raw: None,
@@ -319,6 +320,7 @@ impl Fold for Normalizer {
 
         match name {
             PropName::Ident(i) => PropName::Str(Str {
+                node_id: Default::default(),
                 raw: None,
                 value: i.sym.into(),
                 span: i.span,
@@ -334,6 +336,7 @@ impl Fold for Normalizer {
                     format!("{}", n.value).into()
                 };
                 PropName::Str(Str {
+                    node_id: Default::default(),
                     raw: None,
                     value: value.into(),
                     span: n.span,
@@ -362,9 +365,19 @@ impl Fold for Normalizer {
         let stmt = stmt.fold_children_with(self);
 
         match stmt {
-            Stmt::Expr(ExprStmt { span, expr }) => match *expr {
-                Expr::Paren(ParenExpr { expr, .. }) => ExprStmt { span, expr }.into(),
-                _ => ExprStmt { span, expr }.into(),
+            Stmt::Expr(ExprStmt { span, expr, .. }) => match *expr {
+                Expr::Paren(ParenExpr { expr, .. }) => ExprStmt {
+                    node_id: Default::default(),
+                    span,
+                    expr,
+                }
+                .into(),
+                _ => ExprStmt {
+                    node_id: Default::default(),
+                    span,
+                    expr,
+                }
+                .into(),
             },
             _ => stmt,
         }
@@ -372,6 +385,7 @@ impl Fold for Normalizer {
 
     fn fold_str(&mut self, s: Str) -> Str {
         Str {
+            node_id: Default::default(),
             span: s.span,
             value: s.value,
             raw: None,

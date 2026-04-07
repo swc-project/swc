@@ -41,6 +41,7 @@ pub use self::{
         ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportPhase, ImportSpecifier,
         ImportStarAsSpecifier, ModuleDecl, ModuleExportName, NamedExport,
     },
+    node_id::NodeId,
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::{
         ArrayPat, AssignPat, AssignPatProp, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, RestPat,
@@ -86,6 +87,7 @@ mod list;
 mod lit;
 mod module;
 mod module_decl;
+mod node_id;
 mod operators;
 mod pat;
 mod prop;
@@ -337,6 +339,9 @@ where
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Invalid {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 impl Take for Invalid {

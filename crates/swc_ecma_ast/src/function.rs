@@ -6,6 +6,7 @@ use crate::{
     pat::Pat,
     stmt::BlockStmt,
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
+    NodeId,
 };
 
 /// Common parts of function and method.
@@ -20,6 +21,9 @@ pub struct Function {
     pub decorators: Vec<Decorator>,
 
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub ctxt: SyntaxContext,
 
@@ -67,6 +71,9 @@ impl Take for Function {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Param {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
     pub pat: Pat,
@@ -76,6 +83,7 @@ impl From<Pat> for Param {
     fn from(pat: Pat) -> Self {
         Self {
             span: DUMMY_SP,
+            node_id: Default::default(),
             decorators: Default::default(),
             pat,
         }

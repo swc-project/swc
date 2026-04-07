@@ -58,6 +58,7 @@ pub fn parse_private_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<PrivateName> 
     }
     let id = parse_ident_name(p)?;
     Ok(PrivateName {
+        node_id: Default::default(),
         span: p.span(start),
         name: id.sym,
     })

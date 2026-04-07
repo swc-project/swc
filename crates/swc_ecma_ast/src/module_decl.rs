@@ -10,7 +10,7 @@ use crate::{
     ident::Ident,
     lit::Str,
     typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
-    BindingIdent, IdentName, ObjectLit,
+    BindingIdent, IdentName, NodeId, ObjectLit,
 };
 
 #[ast_node]
@@ -100,6 +100,9 @@ impl Take for ModuleDecl {
 pub struct ExportDefaultExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
@@ -111,6 +114,9 @@ pub struct ExportDefaultExpr {
 pub struct ExportDecl {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "declaration"))]
     pub decl: Decl,
 }
@@ -121,6 +127,9 @@ pub struct ExportDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ImportDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub specifiers: Vec<ImportSpecifier>,
@@ -171,6 +180,7 @@ impl Take for ImportDecl {
     fn dummy() -> Self {
         ImportDecl {
             span: DUMMY_SP,
+            node_id: Default::default(),
             specifiers: Take::dummy(),
             src: Take::dummy(),
             type_only: Default::default(),
@@ -187,6 +197,9 @@ impl Take for ImportDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ExportAll {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "source"))]
     pub src: Box<Str>,
@@ -206,6 +219,7 @@ impl Take for ExportAll {
     fn dummy() -> Self {
         Self {
             span: DUMMY_SP,
+            node_id: Default::default(),
             src: Take::dummy(),
             type_only: Default::default(),
             with: Take::dummy(),
@@ -221,6 +235,9 @@ impl Take for ExportAll {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct NamedExport {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub specifiers: Vec<ExportSpecifier>,
 
@@ -246,6 +263,7 @@ impl Take for NamedExport {
     fn dummy() -> Self {
         Self {
             span: DUMMY_SP,
+            node_id: Default::default(),
             specifiers: Take::dummy(),
             src: Take::dummy(),
             type_only: Default::default(),
@@ -260,6 +278,9 @@ impl Take for NamedExport {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ExportDefaultDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub decl: DefaultDecl,
 }
@@ -332,6 +353,9 @@ impl ImportSpecifier {
 pub struct ImportDefaultSpecifier {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub local: Ident,
 }
 /// e.g. `import * as foo from 'mod.js'`.
@@ -341,6 +365,9 @@ pub struct ImportDefaultSpecifier {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ImportStarAsSpecifier {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub local: Ident,
 }
@@ -353,6 +380,9 @@ pub struct ImportStarAsSpecifier {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ImportNamedSpecifier {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub local: Ident,
 
@@ -390,6 +420,9 @@ pub enum ExportSpecifier {
 pub struct ExportNamespaceSpecifier {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub name: ModuleExportName,
 }
 
@@ -399,6 +432,9 @@ pub struct ExportNamespaceSpecifier {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ExportDefaultSpecifier {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[span]
     pub exported: Ident,
 }
@@ -409,6 +445,9 @@ pub struct ExportDefaultSpecifier {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ExportNamedSpecifier {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     /// `foo` in `export { foo as bar }`
     pub orig: ModuleExportName,
     /// `Some(bar)` in `export { foo as bar }`

@@ -72,6 +72,7 @@ impl Mode {
         match self {
             Mode::ClassExpr { vars, init_exprs } => {
                 vars.push(VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: n.clone().into(),
                     init: None,
@@ -80,9 +81,11 @@ impl Mode {
                 if let Some(init) = init {
                     init_exprs.push(
                         AssignExpr {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             op: op!("="),
                             left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                                node_id: Default::default(),
                                 id: n,
                                 type_ann: None,
                             })),
@@ -94,6 +97,7 @@ impl Mode {
             }
             Mode::ClassDecl { vars } => {
                 vars.push(VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: n.into(),
                     init,
@@ -209,6 +213,7 @@ impl PrivatePropertyInObjectPass {
                 for expr in take(&mut self.cls.constructor_exprs) {
                     body.stmts.push(
                         ExprStmt {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             expr: Box::new(expr),
                         }
@@ -297,6 +302,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
             };
             bs.stmts.push(
                 ReturnStmt {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     arg: Some(p.right.take()),
                 }
@@ -304,8 +310,10 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
             );
 
             p.right = CallExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 callee: ArrowExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     params: Default::default(),
                     body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
@@ -349,6 +357,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 _ => {
                     prepend_exprs.push(e.take());
                     *e = SeqExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         exprs: prepend_exprs.into_iter().map(Box::new).collect(),
                     }
@@ -365,6 +374,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 op: op!("in"),
                 left,
                 right,
+                ..
             }) if left.is_private_name() => {
                 let left = left.take().expect_private_name();
 
@@ -375,6 +385,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 if let Some(cls_ident) = self.cls.ident.clone() {
                     if is_static && is_method {
                         *e = BinExpr {
+                            node_id: Default::default(),
                             span: *span,
                             op: op!("==="),
                             left: cls_ident.into(),
@@ -395,6 +406,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                         var_name.clone(),
                         Some(
                             NewExpr {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 callee: Box::new(quote_ident!("WeakSet").into()),
                                 args: Some(Default::default()),
@@ -409,14 +421,22 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                     if is_method {
                         self.cls.constructor_exprs.push(
                             CallExpr {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 callee: var_name
                                     .clone()
                                     .make_member(quote_ident!("add"))
                                     .as_callee(),
                                 args: vec![ExprOrSpread {
+                                    node_id: Default::default(),
                                     spread: None,
-                                    expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                    expr: Box::new(
+                                        ThisExpr {
+                                            node_id: Default::default(),
+                                            span: DUMMY_SP,
+                                        }
+                                        .into(),
+                                    ),
                                 }],
                                 type_args: Default::default(),
                                 ctxt: Default::default(),
@@ -428,9 +448,11 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
 
                 // Transform to WeakSet.has() call
                 *e = CallExpr {
+                    node_id: Default::default(),
                     span: *span,
                     callee: var_name.make_member(quote_ident!("has")).as_callee(),
                     args: vec![ExprOrSpread {
+                        node_id: Default::default(),
                         spread: None,
                         expr: right.take(),
                     }],
@@ -460,9 +482,11 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 self.cls.vars.push_var(tmp.clone(), None);
 
                 let assign = AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: op!("="),
                     left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                        node_id: Default::default(),
                         id: tmp.clone(),
                         type_ann: None,
                     })),
@@ -471,11 +495,19 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 .into();
 
                 let add_to_checker = CallExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     callee: var_name.make_member(quote_ident!("add")).as_callee(),
                     args: vec![ExprOrSpread {
+                        node_id: Default::default(),
                         spread: None,
-                        expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                        expr: Box::new(
+                            ThisExpr {
+                                node_id: Default::default(),
+                                span: DUMMY_SP,
+                            }
+                            .into(),
+                        ),
                     }],
                     type_args: Default::default(),
                     ctxt: Default::default(),
@@ -483,6 +515,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 .into();
 
                 *init = SeqExpr {
+                    node_id: Default::default(),
                     span: init_span,
                     exprs: vec![
                         Box::new(assign),
@@ -495,15 +528,24 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
             None => {
                 n.value = Some(
                     UnaryExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         op: op!("void"),
                         arg: Box::new(
                             CallExpr {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 callee: var_name.make_member(quote_ident!("add")).as_callee(),
                                 args: vec![ExprOrSpread {
+                                    node_id: Default::default(),
                                     spread: None,
-                                    expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                    expr: Box::new(
+                                        ThisExpr {
+                                            node_id: Default::default(),
+                                            span: DUMMY_SP,
+                                        }
+                                        .into(),
+                                    ),
                                 }],
                                 type_args: Default::default(),
                                 ctxt: Default::default(),
@@ -525,6 +567,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
         s.insert(
             0,
             VarDecl {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: Default::default(),
@@ -543,6 +586,7 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
         items.insert(
             0,
             VarDecl {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: Default::default(),

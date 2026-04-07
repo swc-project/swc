@@ -65,7 +65,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     // Object Spread and Rest: Transform { ...x } and ({ ...x } = y)
     fn exit_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
         // Handle object spread FIRST (fast path for most common case)
-        if let Expr::Object(ObjectLit { span, props }) = expr {
+        if let Expr::Object(ObjectLit { span, props, .. }) = expr {
             // Quick check for spread
             if !props.iter().any(|p| matches!(p, PropOrSpread::Spread(..))) {
                 return;
@@ -81,6 +81,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             let args = {
                 let mut buf = Vec::new();
                 let mut obj = ObjectLit {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     props: Vec::new(),
                 };
@@ -149,6 +150,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             left: AssignTarget::Pat(pat),
             op: op!("="),
             right,
+            ..
         }) = expr
         else {
             return;
@@ -174,6 +176,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             out.ctx
                 .var_declarations
                 .insert_var_declarator(VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: ref_ident.clone().into(),
                     init: None,
@@ -182,6 +185,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             // _ref = source
             out.exprs.push(
                 AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     left: ref_ident.clone().into(),
                     op: op!("="),
@@ -199,7 +203,12 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         let exprs = lowerer.out.into_exprs();
 
         let exprs = exprs.into_iter().map(Box::new).collect();
-        *expr = SeqExpr { span: *span, exprs }.into();
+        *expr = SeqExpr {
+            node_id: Default::default(),
+            span: *span,
+            exprs,
+        }
+        .into();
     }
 
     // Object Rest: Transform variable declarations
@@ -232,6 +241,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             let source_init = if aliased {
                 // Need temp variable for complex expression
                 new_decls.push(VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: ref_ident.clone().into(),
                     init: Some(init),
@@ -309,6 +319,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                         let mut body_stmts = stmts;
                         body_stmts.push(
                             ReturnStmt {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 arg: Some(expr.take()),
                             }
@@ -453,6 +464,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     span,
                     decl: Decl::Var(var_decl),
+                    ..
                 })) => {
                     let var_decl_ptr = &*var_decl as *const VarDecl;
 
@@ -462,11 +474,13 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                         if !exported_names.is_empty() {
                             rewritten.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                 NamedExport {
+                                    node_id: Default::default(),
                                     span,
                                     specifiers: exported_names
                                         .into_iter()
                                         .map(|id| {
                                             ExportSpecifier::Named(ExportNamedSpecifier {
+                                                node_id: Default::default(),
                                                 span: DUMMY_SP,
                                                 orig: ModuleExportName::Ident(id),
                                                 exported: None,
@@ -483,6 +497,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     } else {
                         rewritten.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
                             ExportDecl {
+                                node_id: Default::default(),
                                 span,
                                 decl: Decl::Var(var_decl),
                             },
@@ -548,6 +563,7 @@ impl ObjectRestSpreadPass {
                 let ref_ident = private_ident!("_ref");
 
                 ctx.var_declarations.insert_var_declarator(VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: ref_ident.clone().into(),
                     init: None,
@@ -564,6 +580,7 @@ impl ObjectRestSpreadPass {
 
                 let exprs = exprs.into_iter().map(Box::new).collect();
                 let assign_stmt: Stmt = SeqExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     exprs,
                 }
@@ -801,6 +818,7 @@ impl<O: RestOutput> RestLowerer<O> {
         // Continue with remaining properties
         if let Some(after_init) = after_init {
             let remaining = ObjectPat {
+                node_id: Default::default(),
                 span,
                 props: remaining_props,
                 optional: false,
@@ -872,6 +890,7 @@ impl<O: RestOutput> RestLowerer<O> {
         let remaining = if !remaining_elems.is_empty() {
             let tail_ref = self.out.declare_temp("_rest");
             arr.elems.push(Some(Pat::Rest(RestPat {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 arg: Box::new(tail_ref.clone().into()),
                 dot3_token: DUMMY_SP,
@@ -891,6 +910,7 @@ impl<O: RestOutput> RestLowerer<O> {
         // Continue with remaining elements
         if let Some((tail_ref, remaining_elems)) = remaining {
             let remaining_arr = ArrayPat {
+                node_id: Default::default(),
                 span,
                 elems: remaining_elems,
                 optional: false,
@@ -927,6 +947,7 @@ impl<'a> DeclOutput<'a> {
 impl<'a> RestOutput for DeclOutput<'a> {
     fn assign(&mut self, pat: Pat, init: Box<Expr>) {
         self.decls.push(VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: pat,
             init: Some(init),
@@ -944,6 +965,7 @@ impl<'a> RestOutput for DeclOutput<'a> {
             _ => {
                 let temp = private_ident!("_ref");
                 self.decls.push(VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: temp.clone().into(),
                     init: Some(init),
@@ -979,6 +1001,7 @@ impl<'a> RestOutput for ExprOutput<'a> {
         if let Ok(target) = pat.try_into() {
             self.exprs.push(
                 AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     left: target,
                     op: op!("="),
@@ -995,6 +1018,7 @@ impl<'a> RestOutput for ExprOutput<'a> {
         self.ctx
             .var_declarations
             .insert_var_declarator(VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: temp.clone().into(),
                 init: None,
@@ -1011,6 +1035,7 @@ impl<'a> RestOutput for ExprOutput<'a> {
                 let temp = self.declare_temp("_ref");
                 self.exprs.push(
                     AssignExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         left: temp.clone().into(),
                         op: op!("="),
@@ -1056,6 +1081,7 @@ fn make_rest_call(config: Config, source: Ident, excluded: Vec<PropName>) -> Exp
                 PropName::Ident(id) => Expr::Lit(Lit::Str(id.sym.into())),
                 PropName::Str(s) => Expr::Lit(Lit::Str(s)),
                 PropName::Num(n) => Expr::Lit(Lit::Str(Str {
+                    node_id: Default::default(),
                     span: n.span,
                     value: n.value.to_string().into(),
                     raw: None,
@@ -1068,6 +1094,7 @@ fn make_rest_call(config: Config, source: Ident, excluded: Vec<PropName>) -> Exp
                 .into(),
                 PropName::Computed(c) => *c.expr,
                 PropName::BigInt(b) => Expr::Lit(Lit::Str(Str {
+                    node_id: Default::default(),
                     span: b.span,
                     value: b.value.to_string().into(),
                     raw: None,
@@ -1129,6 +1156,7 @@ impl<'a> ParamCollector<'a> {
             Pat::Rest(rest_pat) => mem::replace(&mut *rest_pat.arg, temp.clone().into()),
             Pat::Assign(pat) => {
                 let init = AssignPat {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     left: Box::new(temp.clone().into()),
                     right: Expr::undefined(DUMMY_SP),
@@ -1174,6 +1202,7 @@ impl<'a> ParamCollector<'a> {
                         VarDecl {
                             kind: VarDeclKind::Let,
                             decls: vec![VarDeclarator {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 name: pat,
                                 init: Some(init_arg.expr),
@@ -1202,10 +1231,12 @@ impl<'a> ParamCollector<'a> {
             // Step 1: Create array variable: _ref = [temps...]
             let array_temp = private_ident!("_ref");
             decls.push(VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: array_temp.clone().into(),
                 init: Some(Box::new(
                     ArrayLit {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         elems: self.temp_exprs.into_iter().map(Some).collect(),
                     }
@@ -1236,6 +1267,7 @@ impl<'a> ParamCollector<'a> {
                     // Create the element pattern, preserving default value if present
                     let elem_pat = if let Pat::Assign(ref assign_pat) = pat {
                         Pat::Assign(AssignPat {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             left: Box::new(temp.clone().into()),
                             right: assign_pat.right.clone(),
@@ -1248,8 +1280,10 @@ impl<'a> ParamCollector<'a> {
                     if is_last {
                         // Last element: [temp] = current_array or [temp = default] = current_array
                         decls.push(VarDeclarator {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             name: ArrayPat {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 elems: vec![Some(elem_pat)],
                                 optional: false,
@@ -1264,12 +1298,15 @@ impl<'a> ParamCollector<'a> {
                         // current_array
                         let rest = private_ident!("_rest");
                         decls.push(VarDeclarator {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             name: ArrayPat {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 elems: vec![
                                     Some(elem_pat),
                                     Some(Pat::Rest(RestPat {
+                                        node_id: Default::default(),
                                         span: DUMMY_SP,
                                         arg: Box::new(rest.clone().into()),
                                         dot3_token: DUMMY_SP,
@@ -1301,8 +1338,10 @@ impl<'a> ParamCollector<'a> {
                     if is_last {
                         // Last element: [pattern] = current_array
                         decls.push(VarDeclarator {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             name: ArrayPat {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 elems: vec![Some(pat)],
                                 optional: false,
@@ -1316,12 +1355,15 @@ impl<'a> ParamCollector<'a> {
                         // Not last: [pattern, ...rest] = current_array
                         let rest = private_ident!("_rest");
                         decls.push(VarDeclarator {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             name: ArrayPat {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 elems: vec![
                                     Some(pat),
                                     Some(Pat::Rest(RestPat {
+                                        node_id: Default::default(),
                                         span: DUMMY_SP,
                                         arg: Box::new(rest.clone().into()),
                                         dot3_token: DUMMY_SP,
@@ -1351,6 +1393,7 @@ impl<'a> ParamCollector<'a> {
         } else {
             // No rest - simple array destructuring
             let array_pat = Pat::Array(ArrayPat {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 elems: self.collected_pats.into_iter().map(Some).collect(),
                 optional: false,
@@ -1359,6 +1402,7 @@ impl<'a> ParamCollector<'a> {
 
             let array_init = Box::new(
                 ArrayLit {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     elems: self.temp_exprs.into_iter().map(Some).collect(),
                 }
@@ -1369,6 +1413,7 @@ impl<'a> ParamCollector<'a> {
                 VarDecl {
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         name: array_pat,
                         init: Some(array_init),
@@ -1410,8 +1455,12 @@ fn collect_idents_from_pat(pat: &Pat, out: &mut Vec<Ident>) {
 }
 
 fn pat_to_assign_target_pat(pat: Pat) -> AssignTargetPat {
-    pat.try_into()
-        .unwrap_or_else(|p: Pat| AssignTargetPat::Invalid(Invalid { span: p.span() }))
+    pat.try_into().unwrap_or_else(|p: Pat| {
+        AssignTargetPat::Invalid(Invalid {
+            node_id: Default::default(),
+            span: p.span(),
+        })
+    })
 }
 
 fn is_lit_str(expr: &Expr) -> bool {

@@ -201,6 +201,7 @@ impl VisitMut for Fixer<'_> {
             AssignTarget::Pat(b) => {
                 if let AssignTargetPat::Invalid(_) = b {
                     *n = AssignTarget::Simple(SimpleAssignTarget::Invalid(Invalid {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                     }));
                 }
@@ -840,7 +841,7 @@ impl Fixer<'_> {
             }
 
             // Flatten seq expr
-            Expr::Seq(SeqExpr { span, exprs }) => {
+            Expr::Seq(SeqExpr { span, exprs, .. }) => {
                 let len = exprs
                     .iter()
                     .map(|expr| match **expr {
@@ -948,7 +949,12 @@ impl Fixer<'_> {
                     }
                 }
 
-                let mut expr = SeqExpr { span: *span, exprs }.into();
+                let mut expr = SeqExpr {
+                    node_id: Default::default(),
+                    span: *span,
+                    exprs,
+                }
+                .into();
 
                 if let Context::ForcedExpr = self.ctx {
                     self.wrap(&mut expr);
@@ -1057,7 +1063,12 @@ impl Fixer<'_> {
         }
 
         let expr = Box::new(e.take());
-        *e = ParenExpr { expr, span }.into();
+        *e = ParenExpr {
+            node_id: Default::default(),
+            expr,
+            span,
+        }
+        .into();
     }
 
     /// Removes paren
@@ -1127,7 +1138,7 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
                 Some(expr)
             }
         }
-        Expr::Seq(SeqExpr { span, exprs }) => {
+        Expr::Seq(SeqExpr { span, exprs, .. }) => {
             let len = exprs.len();
             let mut exprs: Vec<_> = exprs
                 .into_iter()
@@ -1143,7 +1154,14 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
 
             match exprs.len() {
                 0 | 1 => exprs.pop(),
-                _ => Some(SeqExpr { span, exprs }.into()),
+                _ => Some(
+                    SeqExpr {
+                        node_id: Default::default(),
+                        span,
+                        exprs,
+                    }
+                    .into(),
+                ),
             }
         }
         Expr::Unary(UnaryExpr {

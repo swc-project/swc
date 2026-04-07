@@ -74,6 +74,7 @@ impl VarDeclarationsStore {
     #[inline]
     pub fn insert_var(&mut self, ident: BindingIdent, init: Option<Box<Expr>>) {
         let declarator = VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: Pat::Ident(ident),
             init,
@@ -87,6 +88,7 @@ impl VarDeclarationsStore {
     #[inline]
     pub fn insert_let(&mut self, ident: BindingIdent, init: Option<Box<Expr>>) {
         let declarator = VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: Pat::Ident(ident),
             init,
@@ -100,6 +102,7 @@ impl VarDeclarationsStore {
     #[inline]
     pub fn insert_var_pattern(&mut self, pattern: Pat, init: Option<Box<Expr>>) {
         let declarator = VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: pattern,
             init,
@@ -113,6 +116,7 @@ impl VarDeclarationsStore {
     #[inline]
     pub fn insert_let_pattern(&mut self, pattern: Pat, init: Option<Box<Expr>>) {
         let declarator = VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: pattern,
             init,

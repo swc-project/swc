@@ -156,6 +156,7 @@ impl FastDts {
         if items.is_empty() || (has_non_exported_stmt && !has_export) {
             items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                 NamedExport {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     specifiers: Vec::new(),
                     src: None,
@@ -256,8 +257,10 @@ impl FastDts {
                             kind: VarDeclKind::Const,
                             declare: true,
                             decls: vec![VarDeclarator {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 name: Pat::Ident(BindingIdent {
+                                    node_id: Default::default(),
                                     id: name_ident.clone(),
                                     type_ann,
                                 }),
@@ -273,6 +276,7 @@ impl FastDts {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => items
                             .push(
                                 ExportDefaultExpr {
+                                    node_id: Default::default(),
                                     span: export.span,
                                     expr: name_ident.into(),
                                 }
@@ -281,6 +285,7 @@ impl FastDts {
                         ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => items
                             .push(
                                 TsExportAssignment {
+                                    node_id: Default::default(),
                                     span: export.span,
                                     expr: name_ident.into(),
                                 }

@@ -85,6 +85,7 @@ impl FastDts {
                                 accessibility == Accessibility::Private
                             }) {
                                 class.body.push(ClassMember::ClassProp(ClassProp {
+                                    node_id: Default::default(),
                                     span: method.span,
                                     key: method.key.clone(),
                                     value: None,
@@ -126,9 +127,11 @@ impl FastDts {
                                 accessibility == Accessibility::Private
                             }) {
                                 method.function.params = vec![Param {
+                                    node_id: Default::default(),
                                     span: DUMMY_SP,
                                     decorators: Vec::new(),
                                     pat: Pat::Ident(BindingIdent {
+                                        node_id: Default::default(),
                                         id: atom!("value").into(),
                                         type_ann: None,
                                     }),
@@ -146,9 +149,11 @@ impl FastDts {
 
                             if method.function.params.is_empty() {
                                 method.function.params.push(Param {
+                                    node_id: Default::default(),
                                     span: DUMMY_SP,
                                     decorators: Vec::new(),
                                     pat: Pat::Ident(BindingIdent {
+                                        node_id: Default::default(),
                                         id: atom!("value").into(),
                                         type_ann: None,
                                     }),
@@ -259,9 +264,11 @@ impl FastDts {
             class.body.insert(
                 0,
                 ClassMember::PrivateProp(PrivateProp {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     ctxt: SyntaxContext::empty(),
                     key: PrivateName {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         name: atom!("private"),
                     },
@@ -428,6 +435,7 @@ impl FastDts {
         };
 
         Some(ClassMember::ClassProp(ClassProp {
+            node_id: Default::default(),
             span: DUMMY_SP,
             key: PropName::Ident(ident.into()),
             value: None,

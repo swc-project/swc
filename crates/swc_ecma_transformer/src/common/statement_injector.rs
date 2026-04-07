@@ -89,6 +89,7 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
             *node.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![Stmt::Return(ReturnStmt {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     arg: Some(expr.take()),
                 })],
@@ -211,8 +212,10 @@ mod tests {
 
     fn labeled_stmt(label: &str) -> Stmt {
         Stmt::Expr(ExprStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: Box::new(Expr::Lit(Lit::Str(Str {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 value: label.into(),
                 raw: None,
@@ -233,6 +236,7 @@ mod tests {
 
     fn empty_named_export() -> ModuleItem {
         ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+            node_id: Default::default(),
             span: DUMMY_SP,
             specifiers: Vec::new(),
             src: None,

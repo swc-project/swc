@@ -44,7 +44,12 @@ impl OutputType for Box<Expr> {
         ident: Option<Ident>,
         function: Box<Function>,
     ) -> Result<Self, SyntaxError> {
-        Ok(FnExpr { ident, function }.into())
+        Ok(FnExpr {
+            node_id: Default::default(),
+            ident,
+            function,
+        }
+        .into())
     }
 
     fn finish_class(
@@ -52,7 +57,12 @@ impl OutputType for Box<Expr> {
         ident: Option<Ident>,
         class: Box<Class>,
     ) -> Result<Self, SyntaxError> {
-        Ok(ClassExpr { ident, class }.into())
+        Ok(ClassExpr {
+            node_id: Default::default(),
+            ident,
+            class,
+        }
+        .into())
     }
 }
 
@@ -65,8 +75,13 @@ impl OutputType for ExportDefaultDecl {
         function: Box<Function>,
     ) -> Result<Self, SyntaxError> {
         Ok(ExportDefaultDecl {
+            node_id: Default::default(),
             span,
-            decl: DefaultDecl::Fn(FnExpr { ident, function }),
+            decl: DefaultDecl::Fn(FnExpr {
+                node_id: Default::default(),
+                ident,
+                function,
+            }),
         })
     }
 
@@ -76,8 +91,13 @@ impl OutputType for ExportDefaultDecl {
         class: Box<Class>,
     ) -> Result<Self, SyntaxError> {
         Ok(ExportDefaultDecl {
+            node_id: Default::default(),
             span,
-            decl: DefaultDecl::Class(ClassExpr { ident, class }),
+            decl: DefaultDecl::Class(ClassExpr {
+                node_id: Default::default(),
+                ident,
+                class,
+            }),
         })
     }
 }
@@ -93,6 +113,7 @@ impl OutputType for Decl {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
         Ok(FnDecl {
+            node_id: Default::default(),
             declare: false,
             ident,
             function,
@@ -104,6 +125,7 @@ impl OutputType for Decl {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
         Ok(ClassDecl {
+            node_id: Default::default(),
             declare: false,
             ident,
             class,

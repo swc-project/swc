@@ -74,6 +74,7 @@ impl VisitMut for JsonParse {
                         span: expr.span(),
                         callee: member_expr!(Default::default(), DUMMY_SP, JSON.parse).as_callee(),
                         args: vec![Lit::Str(Str {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             raw: None,
                             value: value.into(),

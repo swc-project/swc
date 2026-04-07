@@ -121,6 +121,7 @@ enum FlowComponentParam {
 impl<I: Tokens> Parser<I> {
     fn make_flow_any_keyword_type(&mut self, start: BytePos) -> Box<TsType> {
         Box::new(TsType::TsKeywordType(TsKeywordType {
+            node_id: Default::default(),
             span: self.span(start),
             kind: TsKeywordTypeKind::TsAnyKeyword,
         }))
@@ -163,6 +164,7 @@ impl<I: Tokens> Parser<I> {
 
     fn make_flow_component_fallback_binding(&mut self, span: Span) -> Pat {
         Pat::Ident(BindingIdent {
+            node_id: Default::default(),
             id: Ident::new_no_ctxt(atom!("component_prop"), span),
             type_ann: None,
         })
@@ -170,6 +172,7 @@ impl<I: Tokens> Parser<I> {
 
     fn make_flow_component_rest_fallback_binding(&mut self, span: Span) -> Pat {
         Pat::Ident(BindingIdent {
+            node_id: Default::default(),
             id: Ident::new_no_ctxt(atom!("component_rest"), span),
             type_ann: None,
         })
@@ -230,12 +233,14 @@ impl<I: Tokens> Parser<I> {
                     let type_ann_span = type_ann.span();
                     return Ok(FlowComponentParam::Rest {
                         rest: RestPat {
+                            node_id: Default::default(),
                             span: self.span(start),
                             dot3_token,
                             arg: Box::new(
                                 self.make_flow_component_rest_fallback_binding(self.span(start)),
                             ),
                             type_ann: Some(Box::new(TsTypeAnn {
+                                node_id: Default::default(),
                                 span: type_ann_span,
                                 type_ann,
                             })),
@@ -257,6 +262,7 @@ impl<I: Tokens> Parser<I> {
 
             return Ok(FlowComponentParam::Rest {
                 rest: RestPat {
+                    node_id: Default::default(),
                     span: self.span(start),
                     dot3_token,
                     arg: Box::new(arg),
@@ -278,6 +284,7 @@ impl<I: Tokens> Parser<I> {
             if self.input_mut().eat(Token::Eq) {
                 let right = self.parse_assignment_expr()?;
                 value = Pat::Assign(AssignPat {
+                    node_id: Default::default(),
                     span: self.span(start),
                     left: Box::new(value),
                     right,
@@ -309,6 +316,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             match &key {
                 PropName::Ident(id) => Pat::Ident(BindingIdent {
+                    node_id: Default::default(),
                     id: Ident::new_no_ctxt(id.sym.clone(), id.span),
                     type_ann: None,
                 }),
@@ -339,6 +347,7 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::Eq) {
             let right = self.parse_assignment_expr()?;
             value = Pat::Assign(AssignPat {
+                node_id: Default::default(),
                 span: self.span(start),
                 left: Box::new(value),
                 right,
@@ -393,6 +402,7 @@ impl<I: Tokens> Parser<I> {
             match param {
                 FlowComponentParam::Prop { key, value, .. } => {
                     props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
+                        node_id: Default::default(),
                         key,
                         value: Box::new(value),
                     }));
@@ -404,6 +414,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         ObjectPat {
+            node_id: Default::default(),
             span: self.span(start),
             props,
             optional: false,
@@ -421,6 +432,7 @@ impl<I: Tokens> Parser<I> {
 
         let type_ann = self.in_type(Self::parse_ts_type)?;
         Ok(Some(Box::new(TsTypeAnn {
+            node_id: Default::default(),
             span: self.span(start),
             type_ann,
         })))
@@ -437,6 +449,7 @@ impl<I: Tokens> Parser<I> {
         let type_params = self.try_parse_ts_type_params(false, true)?;
         let component_params = self.parse_flow_component_params(declare, !declare, declare)?;
         let params = vec![Param {
+            node_id: Default::default(),
             span: self.span(start),
             decorators: Vec::new(),
             pat: Pat::Object(self.make_flow_component_props_pat(start, component_params)),
@@ -454,9 +467,11 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(Decl::Fn(FnDecl {
+            node_id: Default::default(),
             declare,
             ident,
             function: Box::new(Function {
+                node_id: Default::default(),
                 span: self.span(start),
                 decorators,
                 type_params,
@@ -489,6 +504,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(Decl::Fn(FnDecl {
+            node_id: Default::default(),
             declare,
             ident,
             function,
@@ -508,6 +524,7 @@ impl<I: Tokens> Parser<I> {
             renders
         } else {
             Box::new(TsTypeAnn {
+                node_id: Default::default(),
                 span: self.span(start),
                 type_ann: self.make_flow_any_keyword_type(start),
             })
@@ -519,6 +536,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(TsType::TsFnOrConstructorType(
             TsFnOrConstructorType::TsFnType(TsFnType {
+                node_id: Default::default(),
                 span: self.span(start),
                 params,
                 type_params,
@@ -558,6 +576,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(TsType::TsFnOrConstructorType(
             TsFnOrConstructorType::TsFnType(TsFnType {
+                node_id: Default::default(),
                 span: self.span(start),
                 params,
                 type_params,
@@ -642,7 +661,9 @@ impl<I: Tokens> Parser<I> {
             DefaultDecl::Class(ClassExpr {
                 ident: Some(ident),
                 class,
+                ..
             }) => Decl::Class(ClassDecl {
+                node_id: Default::default(),
                 declare: true,
                 ident,
                 class: Box::new(Class {
@@ -656,7 +677,9 @@ impl<I: Tokens> Parser<I> {
             DefaultDecl::Fn(FnExpr {
                 ident: Some(ident),
                 function,
+                ..
             }) => Decl::Fn(FnDecl {
+                node_id: Default::default(),
                 declare: true,
                 ident,
                 function: Box::new(Function {
@@ -947,11 +970,13 @@ impl<I: Tokens> Parser<I> {
 
             return Ok(Box::new(TsType::TsUnionOrIntersectionType(match kind {
                 UnionOrIntersection::Union => TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                    node_id: Default::default(),
                     span: self.span(start),
                     types,
                 }),
                 UnionOrIntersection::Intersection => {
                     TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
+                        node_id: Default::default(),
                         span: self.span(start),
                         types,
                     })
@@ -1057,6 +1082,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
         expect!(self, Token::This);
         Ok(TsThisType {
+            node_id: Default::default(),
             span: self.input().prev_span(),
         })
     }
@@ -1091,7 +1117,12 @@ impl<I: Tokens> Parser<I> {
                 self.parse_ident(false, false)?.into()
             };
             let span = self.span(start);
-            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { span, left, right }));
+            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName {
+                node_id: Default::default(),
+                span,
+                left,
+                right,
+            }));
         }
         Ok(entity)
     }
@@ -1154,7 +1185,11 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(span, SyntaxError::EmptyTypeArgumentList);
         }
 
-        Ok(Box::new(TsTypeParamInstantiation { span, params }))
+        Ok(Box::new(TsTypeParamInstantiation {
+            node_id: Default::default(),
+            span,
+            params,
+        }))
     }
 
     /// `tsParseTypeReference`
@@ -1193,6 +1228,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(TsTypeRef {
+            node_id: Default::default(),
             span: self.span(start),
             type_name,
             type_params,
@@ -1222,6 +1258,7 @@ impl<I: Tokens> Parser<I> {
             let type_ann = p.parse_ts_type()?;
 
             Ok(Box::new(TsTypeAnn {
+                node_id: Default::default(),
                 span: p.span(start),
                 type_ann,
             }))
@@ -1246,6 +1283,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(TsTypePredicate {
+            node_id: Default::default(),
             span: self.span(start),
             asserts: has_asserts_keyword,
             param_name,
@@ -1302,6 +1340,7 @@ impl<I: Tokens> Parser<I> {
         let constraint = Some(self.expect_then_parse_ts_type(Token::In, "in")?);
 
         Ok(TsTypeParam {
+            node_id: Default::default(),
             span: self.span(start),
             name: name.into(),
             is_in: false,
@@ -1471,6 +1510,7 @@ impl<I: Tokens> Parser<I> {
         let default = self.eat_then_parse_ts_type(Token::Eq)?;
 
         Ok(TsTypeParam {
+            node_id: Default::default(),
             span: self.span(start),
             name,
             is_in,
@@ -1522,6 +1562,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 Ok(Box::new(TsTypeParamDecl {
+                    node_id: Default::default(),
                     span: p.span(start),
                     params,
                 }))
@@ -1583,6 +1624,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 return Ok(Box::new(TsTypeAnn {
+                    node_id: Default::default(),
                     span: p.span(return_token_start),
                     type_ann: p.make_flow_any_keyword_type(return_token_start),
                 }));
@@ -1658,6 +1700,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
+                node_id: Default::default(),
                 span: p.span(type_pred_start),
                 asserts: has_type_pred_asserts,
                 param_name,
@@ -1665,6 +1708,7 @@ impl<I: Tokens> Parser<I> {
             }));
 
             Ok(Box::new(TsTypeAnn {
+                node_id: Default::default(),
                 span: p.span(return_token_start),
                 type_ann: node,
             }))
@@ -1867,6 +1911,7 @@ impl<I: Tokens> Parser<I> {
         let span = self.span(start);
         Ok((
             TsEnumMember {
+                node_id: Default::default(),
                 span,
                 id: TsEnumMemberId::Ident(id.into()),
                 init,
@@ -2024,6 +2069,7 @@ impl<I: Tokens> Parser<I> {
         self.validate_flow_enum_members(explicit_kind, &member_meta);
 
         Ok(Box::new(TsEnumDecl {
+            node_id: Default::default(),
             span: self.span(start),
             declare: false,
             is_const,
@@ -2061,6 +2107,7 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(span, SyntaxError::TS2452);
 
             TsEnumMemberId::Str(Str {
+                node_id: Default::default(),
                 span,
                 value: value.to_string().into(),
                 raw: Some(new_raw.into()),
@@ -2085,6 +2132,7 @@ impl<I: Tokens> Parser<I> {
                     let value = tpl.cooked.unwrap();
 
                     TsEnumMemberId::Str(Str {
+                        node_id: Default::default(),
                         span,
                         value,
                         raw: None,
@@ -2120,6 +2168,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(TsEnumMember {
+            node_id: Default::default(),
             span: self.span(start),
             id,
             init,
@@ -2145,6 +2194,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::RBrace);
 
         Ok(Box::new(TsEnumDecl {
+            node_id: Default::default(),
             span: self.span(start),
             declare: false,
             is_const,
@@ -2182,6 +2232,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::BackQuote);
 
         Ok(TsTplLitType {
+            node_id: Default::default(),
             span: self.span(start),
             types,
             quasis,
@@ -2247,6 +2298,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(TsLitType {
+            node_id: Default::default(),
             span: self.span(start),
             lit,
         })
@@ -2280,6 +2332,7 @@ impl<I: Tokens> Parser<I> {
 
         match *expr {
             Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
+                node_id: Default::default(),
                 span: v.span,
                 expr: v.expr,
                 type_args: Some(v.type_args),
@@ -2294,6 +2347,7 @@ impl<I: Tokens> Parser<I> {
                 };
 
                 Ok(TsExprWithTypeArgs {
+                    node_id: Default::default(),
                     span: self.span(start),
                     expr,
                     type_args,
@@ -2451,6 +2505,7 @@ impl<I: Tokens> Parser<I> {
         self.parse_ts_type_member_semicolon()?;
 
         Ok(Some(TsIndexSignature {
+            node_id: Default::default(),
             span: self.span(index_signature_start),
             readonly,
             is_static,
@@ -2494,6 +2549,7 @@ impl<I: Tokens> Parser<I> {
         let expr = self.parse_str_lit();
         expect!(self, Token::RParen);
         Ok(TsExternalModuleRef {
+            node_id: Default::default(),
             span: self.span(start),
             expr,
         })
@@ -2514,6 +2570,7 @@ impl<I: Tokens> Parser<I> {
         self.expect_general_semi()?;
 
         Ok(Box::new(TsImportEqualsDecl {
+            node_id: Default::default(),
             span: self.span(start),
             id,
             is_export,
@@ -2584,6 +2641,7 @@ impl<I: Tokens> Parser<I> {
                             let right = self.parse_assignment_expr()?;
                             self.emit_err(pat.span(), SyntaxError::TS1048);
                             pat = AssignPat {
+                                node_id: Default::default(),
                                 span: self.span(pat_start),
                                 left: Box::new(pat),
                                 right,
@@ -2601,6 +2659,7 @@ impl<I: Tokens> Parser<I> {
                         };
 
                         let pat: Pat = RestPat {
+                            node_id: Default::default(),
                             span: self.span(pat_start),
                             dot3_token,
                             arg: Box::new(pat),
@@ -2704,6 +2763,7 @@ impl<I: Tokens> Parser<I> {
         match kind {
             SignatureParsingMode::TSCallSignatureDeclaration => {
                 Ok(Either::Left(TsCallSignatureDecl {
+                    node_id: Default::default(),
                     span: self.span(start),
                     params,
                     type_ann,
@@ -2712,6 +2772,7 @@ impl<I: Tokens> Parser<I> {
             }
             SignatureParsingMode::TSConstructSignatureDeclaration => {
                 Ok(Either::Right(TsConstructSignatureDecl {
+                    node_id: Default::default(),
                     span: self.span(start),
                     params,
                     type_ann,
@@ -2748,6 +2809,7 @@ impl<I: Tokens> Parser<I> {
 
             Ok(Some(if let Some(dot3_token) = rest {
                 RestPat {
+                    node_id: Default::default(),
                     span: p.span(start),
                     dot3_token,
                     arg: ident.into(),
@@ -2824,9 +2886,11 @@ impl<I: Tokens> Parser<I> {
                 self.parse_ts_type()?
             };
             return Ok(TsTupleElement {
+                node_id: Default::default(),
                 span: self.span(start),
                 label,
                 ty: Box::new(TsType::TsRestType(TsRestType {
+                    node_id: Default::default(),
                     span: self.span(start),
                     type_ann,
                 })),
@@ -2838,9 +2902,11 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::QuestionMark) {
             let type_ann = ty;
             return Ok(TsTupleElement {
+                node_id: Default::default(),
                 span: self.span(start),
                 label,
                 ty: Box::new(TsType::TsOptionalType(TsOptionalType {
+                    node_id: Default::default(),
                     span: self.span(start),
                     type_ann,
                 })),
@@ -2848,6 +2914,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(TsTupleElement {
+            node_id: Default::default(),
             span: self.span(start),
             label,
             ty,
@@ -2897,6 +2964,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(TsTupleType {
+            node_id: Default::default(),
             span: self.span(start),
             elem_types: elems,
         })
@@ -2954,6 +3022,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::RBrace);
 
         Ok(TsMappedType {
+            node_id: Default::default(),
             span: self.span(start),
             readonly,
             optional,
@@ -2977,6 +3046,7 @@ impl<I: Tokens> Parser<I> {
         };
         expect!(self, Token::RParen);
         Ok(TsParenthesizedType {
+            node_id: Default::default(),
             span: self.span(start),
             type_ann,
         })
@@ -2997,6 +3067,7 @@ impl<I: Tokens> Parser<I> {
         let type_ann = self.expect_then_parse_ts_type(Token::Eq, "=")?;
         self.expect_general_semi()?;
         Ok(Box::new(TsTypeAliasDecl {
+            node_id: Default::default(),
             declare: false,
             span: self.span(start),
             id: id.into(),
@@ -3012,6 +3083,7 @@ impl<I: Tokens> Parser<I> {
         type_ann: Box<TsType>,
     ) -> Box<TsTypeAliasDecl> {
         Box::new(TsTypeAliasDecl {
+            node_id: Default::default(),
             declare: false,
             span: self.span(start),
             id: Ident::new_no_ctxt(id, self.span(start)),
@@ -3050,6 +3122,7 @@ impl<I: Tokens> Parser<I> {
         self.expect_general_semi()?;
 
         Ok(Box::new(TsTypeAliasDecl {
+            node_id: Default::default(),
             declare: false,
             span: self.span(start),
             id: id.into(),
@@ -3086,6 +3159,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(if is_fn_type {
             TsFnOrConstructorType::TsFnType(TsFnType {
+                node_id: Default::default(),
                 span: self.span(start),
                 type_params,
                 params,
@@ -3093,6 +3167,7 @@ impl<I: Tokens> Parser<I> {
             })
         } else {
             TsFnOrConstructorType::TsConstructorType(TsConstructorType {
+                node_id: Default::default(),
                 span: self.span(start),
                 type_params,
                 params,
@@ -3111,11 +3186,13 @@ impl<I: Tokens> Parser<I> {
     ) -> TsFnParam {
         let ann_span = type_ann.span();
         let type_ann = Some(Box::new(TsTypeAnn {
+            node_id: Default::default(),
             span: ann_span,
             type_ann,
         }));
         let param_span = Span::new_with_checked(start, ann_span.hi);
         let ident = BindingIdent {
+            node_id: Default::default(),
             id: Ident::new_no_ctxt(
                 format!("__flow_anon_param_{index}").into(),
                 Span::new_with_checked(param_span.lo, param_span.lo),
@@ -3125,6 +3202,7 @@ impl<I: Tokens> Parser<I> {
 
         if let Some(dot3_token) = dot3_token {
             TsFnParam::Rest(RestPat {
+                node_id: Default::default(),
                 span: param_span,
                 dot3_token,
                 arg: Box::new(Pat::Ident(ident)),
@@ -3270,6 +3348,7 @@ impl<I: Tokens> Parser<I> {
 
         let type_ann = self.parse_ts_type_or_type_predicate_ann(Token::Arrow)?;
         Ok(Some(TsFnType {
+            node_id: Default::default(),
             span: self.span(start),
             params,
             type_params: None,
@@ -3349,6 +3428,7 @@ impl<I: Tokens> Parser<I> {
                         let type_ann = self.parse_ts_type_or_type_predicate_ann(Token::Arrow)?;
                         return Ok(Box::new(TsType::TsFnOrConstructorType(
                             TsFnOrConstructorType::TsFnType(TsFnType {
+                                node_id: Default::default(),
                                 span: self.span(start),
                                 type_params: None,
                                 params: vec![param],
@@ -3378,6 +3458,7 @@ impl<I: Tokens> Parser<I> {
 
         let type_ann = self.parse_ts_type_operator_or_higher()?;
         Ok(TsTypeOperator {
+            node_id: Default::default(),
             span: self.span(start),
             op,
             type_ann,
@@ -3403,6 +3484,7 @@ impl<I: Tokens> Parser<I> {
             }
         });
         let type_param = TsTypeParam {
+            node_id: Default::default(),
             span: type_param_name.span(),
             name: type_param_name.into(),
             is_in: false,
@@ -3412,6 +3494,7 @@ impl<I: Tokens> Parser<I> {
             default: None,
         };
         Ok(TsInferType {
+            node_id: Default::default(),
             span: self.span(start),
             type_param,
         })
@@ -3491,6 +3574,7 @@ impl<I: Tokens> Parser<I> {
 
             if self.input_mut().eat(Token::RBracket) {
                 ty = Box::new(TsType::TsArrayType(TsArrayType {
+                    node_id: Default::default(),
                     span: self.span(ty.span_lo()),
                     elem_type: ty,
                 }));
@@ -3498,6 +3582,7 @@ impl<I: Tokens> Parser<I> {
                 let index_type = self.parse_ts_type()?;
                 expect!(self, Token::RBracket);
                 ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
+                    node_id: Default::default(),
                     span: self.span(ty.span_lo()),
                     readonly,
                     obj_type: ty,
@@ -3530,12 +3615,14 @@ impl<I: Tokens> Parser<I> {
             {
                 if let TsType::TsThisType(this_ty) = &*ty {
                     let this_ident = BindingIdent {
+                        node_id: Default::default(),
                         id: Ident::new_no_ctxt(atom!("this"), this_ty.span),
                         type_ann: None,
                     };
                     let type_ann = p.parse_ts_type_or_type_predicate_ann(Token::Arrow)?;
                     return Ok(Box::new(TsType::TsFnOrConstructorType(
                         TsFnOrConstructorType::TsFnType(TsFnType {
+                            node_id: Default::default(),
                             span: p.span(start),
                             type_params: None,
                             params: vec![TsFnParam::Ident(this_ident)],
@@ -3563,6 +3650,7 @@ impl<I: Tokens> Parser<I> {
             let false_type = p.parse_ts_type()?;
 
             Ok(Box::new(TsType::TsConditionalType(TsConditionalType {
+                node_id: Default::default(),
                 span: p.span(start),
                 check_type,
                 extends_type,
@@ -3592,6 +3680,7 @@ impl<I: Tokens> Parser<I> {
             (
                 false,
                 Box::new(Expr::Lit(Lit::Str(Str {
+                    node_id: Default::default(),
                     span: self.span(start),
                     value: format!("@@{key}").into(),
                     raw: None,
@@ -3663,6 +3752,7 @@ impl<I: Tokens> Parser<I> {
 
             self.parse_ts_type_member_semicolon()?;
             Ok(Either::Right(TsMethodSignature {
+                node_id: Default::default(),
                 span: self.span(start),
                 computed,
                 key,
@@ -3680,6 +3770,7 @@ impl<I: Tokens> Parser<I> {
 
             self.parse_ts_type_member_semicolon()?;
             Ok(Either::Left(TsPropertySignature {
+                node_id: Default::default(),
                 span: self.span(start),
                 computed,
                 readonly,
@@ -3741,6 +3832,7 @@ impl<I: Tokens> Parser<I> {
 
                 Ok(Some(TsTypeElement::TsPropertySignature(
                     TsPropertySignature {
+                        node_id: Default::default(),
                         span: p.span(start),
                         computed: false,
                         readonly,
@@ -3772,6 +3864,7 @@ impl<I: Tokens> Parser<I> {
             } else {
                 let type_ann = self.parse_ts_type()?;
                 Some(Box::new(TsTypeAnn {
+                    node_id: Default::default(),
                     span: Span::new_with_checked(start, self.input().prev_span().hi),
                     type_ann,
                 }))
@@ -3781,6 +3874,7 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().eat(Token::Semi);
 
             return Ok(TsPropertySignature {
+                node_id: Default::default(),
                 span: self.span(start),
                 computed: false,
                 readonly: false,
@@ -3823,6 +3917,7 @@ impl<I: Tokens> Parser<I> {
                 p.parse_ts_type_member_semicolon()?;
 
                 Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
+                    node_id: Default::default(),
                     span: p.span(start),
                     key,
                     computed,
@@ -3843,6 +3938,7 @@ impl<I: Tokens> Parser<I> {
                 p.parse_ts_type_member_semicolon()?;
 
                 Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
+                    node_id: Default::default(),
                     span: p.span(start),
                     key,
                     computed,
@@ -3927,6 +4023,7 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let members = self.parse_ts_object_type_members()?;
         Ok(TsTypeLit {
+            node_id: Default::default(),
             span: self.span(start),
             members,
         })
@@ -3986,10 +4083,12 @@ impl<I: Tokens> Parser<I> {
         }
 
         let body = TsInterfaceBody {
+            node_id: Default::default(),
             span: self.span(body_start),
             body: body_members,
         };
         Ok(Box::new(TsInterfaceDecl {
+            node_id: Default::default(),
             span: self.span(start),
             declare: false,
             id: id.into(),
@@ -4014,6 +4113,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::Gt);
         let expr = self.parse_unary_expr()?;
         Ok(TsTypeAssertion {
+            node_id: Default::default(),
             span: self.span(start),
             type_ann,
             expr,
@@ -4039,6 +4139,7 @@ impl<I: Tokens> Parser<I> {
             self.bump();
             self.emit_err(arg_span, SyntaxError::TS1141);
             Str {
+                node_id: Default::default(),
                 span: arg_span,
                 value: Wtf8Atom::default(),
                 raw: Some(atom!("\"\"")),
@@ -4076,6 +4177,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(TsImportType {
+            node_id: Default::default(),
             span: self.span(start),
             arg,
             qualifier,
@@ -4099,6 +4201,7 @@ impl<I: Tokens> Parser<I> {
         self.input_mut().eat(Token::Comma);
         expect!(self, Token::RBrace);
         Ok(TsImportCallOptions {
+            node_id: Default::default(),
             span: self.span(start),
             with: Box::new(value),
         })
@@ -4136,6 +4239,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(TsTypeQuery {
+            node_id: Default::default(),
             span: self.span(start),
             expr_name,
             type_args,
@@ -4157,6 +4261,7 @@ impl<I: Tokens> Parser<I> {
         })?;
 
         Ok(TsModuleBlock {
+            node_id: Default::default(),
             span: self.span(start),
             body,
         })
@@ -4175,6 +4280,7 @@ impl<I: Tokens> Parser<I> {
             let inner_start = self.cur_pos();
             let inner = self.parse_ts_module_or_ns_decl(inner_start, namespace)?;
             let inner = TsNamespaceDecl {
+                node_id: Default::default(),
                 span: inner.span,
                 id: match inner.id {
                     TsModuleName::Ident(i) => i,
@@ -4190,6 +4296,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(Box::new(TsModuleDecl {
+            node_id: Default::default(),
             span: self.span(start),
             declare: false,
             id: TsModuleName::Ident(id.into()),
@@ -4224,6 +4331,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(Box::new(TsModuleDecl {
+            node_id: Default::default(),
             span: self.span(start),
             declare: false,
             id,
@@ -4340,6 +4448,7 @@ impl<I: Tokens> Parser<I> {
                 Some(kind) if !peeked_is_dot => {
                     self.bump();
                     return Ok(Box::new(TsType::TsKeywordType(TsKeywordType {
+                        node_id: Default::default(),
                         span: self.span(start),
                         kind,
                     })));
@@ -4373,7 +4482,9 @@ impl<I: Tokens> Parser<I> {
 
             let lit = self.parse_lit()?;
             let lit = match lit {
-                Lit::Num(Number { span, value, raw }) => {
+                Lit::Num(Number {
+                    span, value, raw, ..
+                }) => {
                     if self.input().syntax().flow()
                         && raw.as_deref().is_some_and(is_legacy_octal_number_raw)
                     {
@@ -4392,12 +4503,15 @@ impl<I: Tokens> Parser<I> {
                     };
 
                     TsLit::Number(Number {
+                        node_id: Default::default(),
                         span,
                         value: -value,
                         raw: Some(new_raw.into()),
                     })
                 }
-                Lit::BigInt(BigInt { span, value, raw }) => {
+                Lit::BigInt(BigInt {
+                    span, value, raw, ..
+                }) => {
                     let mut new_raw = String::from("-");
 
                     match raw {
@@ -4410,6 +4524,7 @@ impl<I: Tokens> Parser<I> {
                     };
 
                     TsLit::BigInt(BigInt {
+                        node_id: Default::default(),
                         span,
                         value: Box::new(-*value),
                         raw: Some(new_raw.into()),
@@ -4419,6 +4534,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             return Ok(Box::new(TsType::TsLitType(TsLitType {
+                node_id: Default::default(),
                 span: self.span(start),
                 lit,
             })));
@@ -4454,16 +4570,19 @@ impl<I: Tokens> Parser<I> {
             let span = self.span(start);
 
             let null_type = Box::new(TsType::TsKeywordType(TsKeywordType {
+                node_id: Default::default(),
                 span,
                 kind: TsKeywordTypeKind::TsNullKeyword,
             }));
             let undefined_type = Box::new(TsType::TsKeywordType(TsKeywordType {
+                node_id: Default::default(),
                 span,
                 kind: TsKeywordTypeKind::TsUndefinedKeyword,
             }));
 
             return Ok(Box::new(TsType::TsUnionOrIntersectionType(
                 TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                    node_id: Default::default(),
                     span,
                     types: vec![inner_type, null_type, undefined_type],
                 }),
@@ -4471,6 +4590,7 @@ impl<I: Tokens> Parser<I> {
         } else if self.input().syntax().flow() && cur == Token::Asterisk {
             self.bump();
             return Ok(Box::new(TsType::TsKeywordType(TsKeywordType {
+                node_id: Default::default(),
                 span: self.span(start),
                 kind: TsKeywordTypeKind::TsAnyKeyword,
             })));
@@ -4548,6 +4668,7 @@ impl<I: Tokens> Parser<I> {
                         .map(Some)?;
                     Ok(Some(
                         TsModuleDecl {
+                            node_id: Default::default(),
                             span: self.span(start),
                             global,
                             declare: false,
@@ -5131,30 +5252,49 @@ mod tests {
     use swc_atoms::atom;
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
-    use swc_ecma_visit::assert_eq_ignore_span;
+    use swc_ecma_visit::{assert_eq_ignore_span, VisitMut, VisitMutWith};
 
     use crate::{test_parser, Syntax};
 
+    struct NodeIdStripper;
+
+    impl VisitMut for NodeIdStripper {
+        fn visit_mut_node_id(&mut self, node_id: &mut NodeId) {
+            *node_id = NodeId::DUMMY;
+        }
+    }
+
+    fn strip_node_ids<N>(node: &mut N)
+    where
+        N: VisitMutWith<NodeIdStripper>,
+    {
+        node.visit_mut_with(&mut NodeIdStripper);
+    }
+
     #[test]
     fn issue_708_1() {
-        let actual = test_parser(
+        let mut actual = test_parser(
             "type test = -1;",
             Syntax::Typescript(Default::default()),
             |p| p.parse_module(),
         );
 
-        let expected = Module {
+        let mut expected = Module {
+            node_id: Default::default(),
             span: DUMMY_SP,
             shebang: None,
             body: {
                 let first = TsTypeAliasDecl {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     declare: false,
                     id: Ident::new_no_ctxt(atom!("test"), DUMMY_SP),
                     type_params: None,
                     type_ann: Box::new(TsType::TsLitType(TsLitType {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         lit: TsLit::Number(Number {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             value: -1.0,
                             raw: Some(atom!("-1")),
@@ -5166,18 +5306,21 @@ mod tests {
             },
         };
 
+        strip_node_ids(&mut actual);
+        strip_node_ids(&mut expected);
         assert_eq_ignore_span!(actual, expected);
     }
 
     #[test]
     fn issue_708_2() {
-        let actual = test_parser(
+        let mut actual = test_parser(
             "const t = -1;",
             Syntax::Typescript(Default::default()),
             |p| p.parse_module(),
         );
 
-        let expected = Module {
+        let mut expected = Module {
+            node_id: Default::default(),
             span: DUMMY_SP,
             shebang: None,
             body: {
@@ -5186,12 +5329,15 @@ mod tests {
                     kind: VarDeclKind::Const,
                     declare: false,
                     decls: vec![VarDeclarator {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         name: Pat::Ident(Ident::new_no_ctxt(atom!("t"), DUMMY_SP).into()),
                         init: Some(Box::new(Expr::Unary(UnaryExpr {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             op: op!(unary, "-"),
                             arg: Box::new(Expr::Lit(Lit::Num(Number {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 value: 1.0,
                                 raw: Some(atom!("1")),
@@ -5206,6 +5352,8 @@ mod tests {
             },
         };
 
+        strip_node_ids(&mut actual);
+        strip_node_ids(&mut expected);
         assert_eq_ignore_span!(actual, expected);
     }
 }

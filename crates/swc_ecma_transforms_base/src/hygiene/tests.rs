@@ -90,6 +90,7 @@ where
     test_module(
         |tester| {
             Ok(Module {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 body: op(tester)?.into_iter().map(ModuleItem::Stmt).collect(),
                 shebang: None,
@@ -438,6 +439,7 @@ fn mark_root() {
             Ok(vec![
                 tester.parse_stmt("actual1.js", "var foo = 'bar';")?,
                 Stmt::Decl(Decl::Fn(FnDecl {
+                    node_id: Default::default(),
                     ident: quote_ident!("Foo").into(),
                     function: Box::new(Function {
                         span: DUMMY_SP,
@@ -524,6 +526,7 @@ fn fn_args() {
             let mark2 = Mark::fresh(Mark::root());
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+                node_id: Default::default(),
                 ident: quote_ident!("Foo").into(),
                 function: Box::new(Function {
                     span: DUMMY_SP,
@@ -537,6 +540,7 @@ fn fn_args() {
                         ..Default::default()
                     }),
                     params: vec![Param {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         decorators: Vec::new(),
                         pat: quote_ident!("force").into(),
@@ -564,6 +568,7 @@ fn block_in_fn() {
             let mark2 = Mark::fresh(mark1);
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+                node_id: Default::default(),
                 ident: quote_ident!("Foo").into(),
                 function: Box::new(Function {
                     span: DUMMY_SP,
@@ -616,6 +621,7 @@ fn flat_in_fn() {
             let mark2 = Mark::fresh(mark1);
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+                node_id: Default::default(),
                 ident: quote_ident!("Foo").into(),
                 function: Box::new(Function {
                     span: DUMMY_SP,
@@ -657,6 +663,7 @@ fn params_in_fn() {
             let mark2 = Mark::fresh(Mark::root());
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+                node_id: Default::default(),
                 ident: quote_ident!("Foo").into(),
                 function: Box::new(Function {
                     span: DUMMY_SP,
@@ -668,6 +675,7 @@ fn params_in_fn() {
                     }),
                     params: vec![
                         Param {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             decorators: Default::default(),
                             pat: Ident::new(
@@ -678,6 +686,7 @@ fn params_in_fn() {
                             .into(),
                         },
                         Param {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             decorators: Default::default(),
                             pat: Ident::new(

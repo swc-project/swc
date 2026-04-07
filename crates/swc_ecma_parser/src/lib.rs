@@ -152,6 +152,7 @@ pub mod unstable {
 use error::Error;
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
+use swc_ecma_visit::assign_node_ids;
 
 mod context;
 pub mod error;
@@ -226,7 +227,10 @@ expose!(parse_file_as_expr, Box<Expr>, |p| {
     // This allow to parse `import.meta`
     let ctx = p.ctx();
     p.set_ctx(ctx.union(Context::CanBeModule));
-    p.parse_expr()
+    p.parse_expr().map(|mut expr| {
+        assign_node_ids(&mut expr);
+        expr
+    })
 });
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });
 expose!(parse_file_as_script, Script, |p| { p.parse_script() });

@@ -16,6 +16,7 @@ impl Swcify for TSTypeParameterInstantiation {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsTypeParamInstantiation {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             params: self.params.swcify(ctx),
         }
@@ -47,6 +48,7 @@ impl Swcify for TSTypeParameterDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsTypeParamDecl {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             params: self.params.swcify(ctx),
         }
@@ -59,6 +61,7 @@ impl Swcify for TSTypeParameter {
     fn swcify(self, ctx: &Context) -> Self::Output {
         let span = ctx.span(&self.base);
         TsTypeParam {
+            node_id: Default::default(),
             span,
             name: Ident::new_no_ctxt(self.name, span),
             is_in: self.is_in,
@@ -87,6 +90,7 @@ impl Swcify for TSTypeAnnotation {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsTypeAnn {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             type_ann: self.type_annotation.swcify(ctx),
         }
@@ -140,6 +144,7 @@ impl Swcify for TSQualifiedName {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsQualifiedName {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             left: self.left.swcify(ctx),
             right: self.right.swcify(ctx).into(),

@@ -30,6 +30,7 @@ impl Swcify for StringLiteral {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Str {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             value: self.value,
             raw: Some(self.raw),
@@ -42,6 +43,7 @@ impl Swcify for NumberLiteral {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Number {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             value: self.value,
             // TODO improve me
@@ -55,6 +57,7 @@ impl Swcify for NumericLiteral {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Number {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             value: self.value,
             // TODO improve me
@@ -68,6 +71,7 @@ impl Swcify for NullLiteral {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Null {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
         }
     }
@@ -78,6 +82,7 @@ impl Swcify for BooleanLiteral {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Bool {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             value: self.value,
         }
@@ -89,6 +94,7 @@ impl Swcify for RegExpLiteral {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Regex {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             exp: self.pattern,
             flags: self.flags,
@@ -101,6 +107,7 @@ impl Swcify for TemplateLiteral {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Tpl {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             exprs: self.expressions.swcify(ctx),
             quasis: self.quasis.swcify(ctx),
@@ -124,6 +131,7 @@ impl Swcify for TemplateElement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TplElement {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             tail: self.tail,
             cooked: self.value.cooked,
@@ -137,6 +145,7 @@ impl Swcify for BigIntLiteral {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         BigInt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             value: self
                 .value
@@ -154,6 +163,7 @@ impl Swcify for DecimalLiteral {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Number {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             value: self
                 .value

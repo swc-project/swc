@@ -53,6 +53,7 @@ macro_rules! quote_str {
     };
     ($span:expr, $s:expr) => {{
         $crate::swc_ecma_ast::Str {
+            node_id: Default::default(),
             span: $span,
             raw: None,
             value: $s.into(),
@@ -99,6 +100,7 @@ macro_rules! member_expr {
         let prop = MemberProp::Ident(IdentName::new(stringify!($first).into(), $span));
 
         member_expr!(@EXT, $span, Box::new(Expr::Member(MemberExpr{
+            node_id: Default::default(),
             span: $crate::swc_common::DUMMY_SP,
             obj: $obj,
             prop,
@@ -110,6 +112,7 @@ macro_rules! member_expr {
         let prop = MemberProp::Ident(IdentName::new(stringify!($first).into(), $span));
 
         MemberExpr{
+            node_id: Default::default(),
             span: $crate::swc_common::DUMMY_SP,
             obj: $obj,
             prop,
@@ -137,8 +140,10 @@ mod tests {
         assert_eq!(
             expr,
             Box::new(Expr::Member(MemberExpr {
+                node_id: Default::default(),
                 span,
                 obj: Box::new(Expr::Member(MemberExpr {
+                    node_id: Default::default(),
                     span,
                     obj: member_expr!(Default::default(), Default::default(), Function),
                     prop: MemberProp::Ident(atom!("prototype").into()),

@@ -62,6 +62,7 @@ fn parse_binding_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<ObjectPatP
         let arg = Box::new(parse_binding_pat_or_ident(p, false)?);
 
         return Ok(ObjectPatProp::Rest(RestPat {
+            node_id: Default::default(),
             span: p.span(start),
             dot3_token,
             arg,
@@ -73,7 +74,11 @@ fn parse_binding_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<ObjectPatP
     if p.input_mut().eat(&P::Token::COLON) {
         let value = Box::new(parse_binding_element(p)?);
 
-        return Ok(ObjectPatProp::KeyValue(KeyValuePatProp { key, value }));
+        return Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+            node_id: Default::default(),
+            key,
+            value,
+        }));
     }
     let key = match key {
         PropName::Ident(ident) => ident,
@@ -91,6 +96,7 @@ fn parse_binding_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<ObjectPatP
     };
 
     Ok(ObjectPatProp::Assign(AssignPatProp {
+        node_id: Default::default(),
         span: p.span(start),
         key: key.into(),
         value,
@@ -128,6 +134,7 @@ fn make_binding_object<'a, P: Parser<'a>>(
         && p.input_mut().eat(&P::Token::QUESTION);
 
     Ok(ObjectPat {
+        node_id: Default::default(),
         span,
         props,
         optional,
@@ -151,7 +158,12 @@ fn make_expr_object<'a, P: Parser<'a>>(
             .trailing_commas
             .insert(span.lo, trailing_comma);
     }
-    Ok(ObjectLit { span, props }.into())
+    Ok(ObjectLit {
+        node_id: Default::default(),
+        span,
+        props,
+    }
+    .into())
 }
 
 fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread> {
@@ -166,7 +178,11 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
 
         let expr = p.allow_in_expr(parse_assignment_expr)?;
 
-        return Ok(PropOrSpread::Spread(SpreadElement { dot3_token, expr }));
+        return Ok(PropOrSpread::Spread(SpreadElement {
+            node_id: Default::default(),
+            dot3_token,
+            expr,
+        }));
     }
 
     if p.input_mut().eat(&P::Token::MUL) {
@@ -187,6 +203,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
             })
             .map(|function| {
                 PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
+                    node_id: Default::default(),
                     key: name,
                     function,
                 })))
@@ -217,8 +234,10 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
 
         p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
         return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+            node_id: Default::default(),
             key,
             value: Invalid {
+                node_id: Default::default(),
                 span: p.span(start),
             }
             .into(),
@@ -232,6 +251,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
     if p.input_mut().eat(&P::Token::COLON) {
         let value = p.allow_in_expr(parse_assignment_expr)?;
         return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+            node_id: Default::default(),
             key,
             value,
         }))));
@@ -255,7 +275,13 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                     )
                 })
             })
-            .map(|function| Box::new(Prop::Method(MethodProp { key, function })))
+            .map(|function| {
+                Box::new(Prop::Method(MethodProp {
+                    node_id: Default::default(),
+                    key,
+                    function,
+                }))
+            })
             .map(PropOrSpread::Prop);
     }
 
@@ -281,6 +307,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
             let value = p.allow_in_expr(parse_assignment_expr)?;
             let span = p.span(start);
             return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
+                node_id: Default::default(),
                 span,
                 key: ident.into(),
                 value,
@@ -337,6 +364,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                                 }
 
                                 PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
+                                    node_id: Default::default(),
                                     span: parser.span(start),
                                     key,
                                     type_ann: return_type,
@@ -392,13 +420,18 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                                             || {
                                                 parser.emit_err(key_span, SyntaxError::SetterParam);
 
-                                                Invalid { span: DUMMY_SP }.into()
+                                                Invalid {
+                                                    node_id: Default::default(),
+                                                    span: DUMMY_SP,
+                                                }
+                                                .into()
                                             },
                                         ),
                                     );
 
                                     // debug_assert_eq!(params.len(), 1);
                                     PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                        node_id: Default::default(),
                                         span: parser.span(start),
                                         key,
                                         body,
@@ -418,7 +451,11 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                             is_generator,
                         )
                         .map(|function| {
-                            PropOrSpread::Prop(Box::new(Prop::Method(MethodProp { key, function })))
+                            PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
+                                node_id: Default::default(),
+                                key,
+                                function,
+                            })))
                         }),
                         _ => unreachable!(),
                     }

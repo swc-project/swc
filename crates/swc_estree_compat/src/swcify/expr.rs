@@ -84,6 +84,7 @@ impl Swcify for ArrayExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ArrayLit {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             elems: self.elements.swcify(ctx),
         }
@@ -95,6 +96,7 @@ impl Swcify for AssignmentExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         AssignExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             op: self.operator.parse().unwrap_or_else(|_| {
                 panic!(
@@ -114,6 +116,7 @@ impl Swcify for BinaryExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         BinExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             op: self.operator.swcify(ctx),
             left: self.left.swcify(ctx),
@@ -127,6 +130,7 @@ impl Swcify for swc_estree_ast::PrivateName {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::PrivateName {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             name: self.id.swcify(ctx).sym.clone(),
         }
@@ -261,15 +265,18 @@ impl Swcify for Arg {
     fn swcify(self, ctx: &Context) -> Self::Output {
         Some(match self {
             Arg::Spread(s) => ExprOrSpread {
+                node_id: Default::default(),
                 spread: Some(ctx.span(&s.base)),
                 expr: s.argument.swcify(ctx),
             },
             Arg::JSXName(e) => ExprOrSpread {
+                node_id: Default::default(),
                 spread: None,
                 expr: e.swcify(ctx).into(),
             },
             Arg::Placeholder(_) => return None,
             Arg::Expr(e) => ExprOrSpread {
+                node_id: Default::default(),
                 spread: None,
                 expr: e.swcify(ctx),
             },
@@ -282,6 +289,7 @@ impl Swcify for ConditionalExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         CondExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
             cons: self.consequent.swcify(ctx),
@@ -295,6 +303,7 @@ impl Swcify for FunctionExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         FnExpr {
+            node_id: Default::default(),
             ident: self.id.swcify(ctx).map(|v| v.into()),
             function: Box::new(Function {
                 params: self.params.swcify(ctx),
@@ -316,7 +325,9 @@ impl Swcify for Identifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         BindingIdent {
+            node_id: Default::default(),
             id: Ident {
+                node_id: Default::default(),
                 span: ctx.span(&self.base),
                 sym: self.name,
                 optional: self.optional.unwrap_or(false),
@@ -350,6 +361,7 @@ impl Swcify for LogicalExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         BinExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             op: self.operator.swcify(ctx),
             left: self.left.swcify(ctx),
@@ -364,6 +376,7 @@ impl Swcify for MemberExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         match *self.object {
             Expression::Super(s) => SuperPropExpr {
+                node_id: Default::default(),
                 span: ctx.span(&self.base),
                 obj: s.swcify(ctx),
                 prop: match (*self.property, self.computed) {
@@ -371,6 +384,7 @@ impl Swcify for MemberExpression {
                     (MemberExprProp::Expr(e), true) => {
                         let expr = e.swcify(ctx);
                         SuperProp::Computed(ComputedPropName {
+                            node_id: Default::default(),
                             span: expr.span(),
                             expr,
                         })
@@ -380,6 +394,7 @@ impl Swcify for MemberExpression {
             }
             .into(),
             _ => MemberExpr {
+                node_id: Default::default(),
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (*self.property, self.computed) {
@@ -390,6 +405,7 @@ impl Swcify for MemberExpression {
                     (MemberExprProp::Expr(e), true) => {
                         let expr = e.swcify(ctx);
                         MemberProp::Computed(ComputedPropName {
+                            node_id: Default::default(),
                             span: expr.span(),
                             expr,
                         })
@@ -432,6 +448,7 @@ impl Swcify for ObjectExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ObjectLit {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             props: self.properties.swcify(ctx),
         }
@@ -446,6 +463,7 @@ impl Swcify for ObjectExprProp {
             ObjectExprProp::Method(m) => PropOrSpread::Prop(Box::new(Prop::Method(m.swcify(ctx)))),
             ObjectExprProp::Prop(p) => PropOrSpread::Prop(Box::new(Prop::KeyValue(p.swcify(ctx)))),
             ObjectExprProp::Spread(p) => PropOrSpread::Spread(SpreadElement {
+                node_id: Default::default(),
                 // TODO: Use exact span
                 dot3_token: ctx.span(&p.base),
                 expr: p.argument.swcify(ctx),
@@ -459,6 +477,7 @@ impl Swcify for ObjectMethod {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         MethodProp {
+            node_id: Default::default(),
             key: self.key.swcify(ctx),
             function: Box::new(Function {
                 params: self.params.swcify(ctx),
@@ -480,6 +499,7 @@ impl Swcify for swc_estree_ast::Decorator {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::Decorator {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             expr: self.expression.swcify(ctx),
         }
@@ -497,6 +517,7 @@ impl Swcify for ObjectKey {
             ObjectKey::Expr(v) => {
                 let expr = v.swcify(ctx);
                 PropName::Computed(ComputedPropName {
+                    node_id: Default::default(),
                     span: expr.span(),
                     expr,
                 })
@@ -510,6 +531,7 @@ impl Swcify for ObjectProperty {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         KeyValueProp {
+            node_id: Default::default(),
             key: self.key.swcify(ctx),
             value: match self.value {
                 ObjectPropVal::Pattern(pat) => match pat {
@@ -529,6 +551,7 @@ impl Swcify for SequenceExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         SeqExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             exprs: self.expressions.swcify(ctx),
         }
@@ -540,6 +563,7 @@ impl Swcify for ParenthesizedExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ParenExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             expr: self.expression.swcify(ctx),
         }
@@ -551,6 +575,7 @@ impl Swcify for ThisExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ThisExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
         }
     }
@@ -561,6 +586,7 @@ impl Swcify for UnaryExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         UnaryExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             op: self.operator.swcify(ctx),
             arg: self.argument.swcify(ctx),
@@ -606,6 +632,7 @@ impl Swcify for UpdateExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         UpdateExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             op: match self.operator {
                 UpdateExprOp::Increment => {
@@ -654,6 +681,7 @@ impl Swcify for ClassExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ClassExpr {
+            node_id: Default::default(),
             ident: self.id.swcify(ctx).map(|v| v.into()),
             class: Box::new(swc_ecma_ast::Class {
                 span: ctx.span(&self.base),
@@ -678,10 +706,12 @@ impl Swcify for MetaProperty {
         let prop: Ident = self.property.swcify(ctx).into();
         match (&*meta.sym, &*prop.sym) {
             ("new", "target") => MetaPropExpr {
+                node_id: Default::default(),
                 kind: MetaPropKind::NewTarget,
                 span: ctx.span(&self.base),
             },
             ("import", "meta") => MetaPropExpr {
+                node_id: Default::default(),
                 kind: MetaPropKind::NewTarget,
                 span: ctx.span(&self.base),
             },
@@ -695,6 +725,7 @@ impl Swcify for swc_estree_ast::Super {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::Super {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
         }
     }
@@ -730,6 +761,7 @@ impl Swcify for YieldExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         YieldExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             arg: self.argument.swcify(ctx),
             delegate: self.delegate,
@@ -742,6 +774,7 @@ impl Swcify for AwaitExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         AwaitExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             arg: self.argument.swcify(ctx),
         }
@@ -753,6 +786,7 @@ impl Swcify for BabelImport {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Import {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             // TODO
             phase: Default::default(),
@@ -765,10 +799,12 @@ impl Swcify for OptionalMemberExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         OptChainExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             // TODO: Use correct span.
             optional: self.optional,
             base: Box::new(OptChainBase::Member(MemberExpr {
+                node_id: Default::default(),
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (self.property, self.computed) {
@@ -778,6 +814,7 @@ impl Swcify for OptionalMemberExpression {
                     (OptionalMemberExprProp::Expr(e), true) => {
                         let expr = e.swcify(ctx);
                         MemberProp::Computed(ComputedPropName {
+                            node_id: Default::default(),
                             span: expr.span(),
                             expr,
                         })
@@ -805,6 +842,7 @@ impl Swcify for OptionalCallExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         OptChainExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             optional: self.optional,
             base: Box::new(OptChainBase::Call(OptCall {
@@ -831,6 +869,7 @@ impl Swcify for swc_estree_ast::JSXElement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::JSXElement {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             opening: self.opening_element.swcify(ctx),
             children: self.children.swcify(ctx),
@@ -844,6 +883,7 @@ impl Swcify for swc_estree_ast::JSXOpeningElement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::JSXOpeningElement {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             name: self.name.swcify(ctx),
             attrs: self.attributes.swcify(ctx),
@@ -876,6 +916,7 @@ impl Swcify for JSXMemberExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         JSXMemberExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             obj: self.object.swcify(ctx),
             prop: self.property.swcify(ctx).into(),
@@ -912,6 +953,7 @@ impl Swcify for JSXAttribute {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         JSXAttr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             name: self.name.swcify(ctx),
             value: self.value.swcify(ctx),
@@ -952,6 +994,7 @@ impl Swcify for JSXExpressionContainer {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         JSXExprContainer {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             expr: self.expression.swcify(ctx),
         }
@@ -974,6 +1017,7 @@ impl Swcify for JSXEmptyExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         JSXEmptyExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
         }
     }
@@ -984,6 +1028,7 @@ impl Swcify for JSXSpreadAttribute {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         SpreadElement {
+            node_id: Default::default(),
             dot3_token: ctx.span(&self.base),
             expr: self.argument.swcify(ctx),
         }
@@ -1019,6 +1064,7 @@ impl Swcify for swc_estree_ast::JSXText {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::JSXText {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             value: self.value,
             // TODO fix me
@@ -1032,6 +1078,7 @@ impl Swcify for swc_estree_ast::JSXSpreadChild {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::JSXSpreadChild {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             expr: self.expression.swcify(ctx),
         }
@@ -1043,6 +1090,7 @@ impl Swcify for swc_estree_ast::JSXClosingElement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::JSXClosingElement {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             name: self.name.swcify(ctx),
         }
@@ -1054,6 +1102,7 @@ impl Swcify for swc_estree_ast::JSXFragment {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::JSXFragment {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             opening: self.opening_fragment.swcify(ctx),
             children: self.children.swcify(ctx),
@@ -1067,6 +1116,7 @@ impl Swcify for swc_estree_ast::JSXOpeningFragment {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::JSXOpeningFragment {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
         }
     }
@@ -1077,6 +1127,7 @@ impl Swcify for swc_estree_ast::JSXClosingFragment {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::JSXClosingFragment {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
         }
     }
@@ -1135,6 +1186,7 @@ impl Swcify for TSAsExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsAsExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             expr: self.expression.swcify(ctx),
             type_ann: self.type_annotation.swcify(ctx),
@@ -1147,6 +1199,7 @@ impl Swcify for TSTypeAssertion {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsTypeAssertion {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             expr: self.expression.swcify(ctx),
             type_ann: self.type_annotation.swcify(ctx),
@@ -1159,6 +1212,7 @@ impl Swcify for TSNonNullExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsNonNullExpr {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             expr: self.expression.swcify(ctx),
         }
@@ -1171,11 +1225,13 @@ impl Swcify for ArrayExprEl {
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
             ArrayExprEl::Spread(s) => ExprOrSpread {
+                node_id: Default::default(),
                 // TODO: Use correct span
                 spread: Some(ctx.span(&s.base)),
                 expr: s.argument.swcify(ctx),
             },
             ArrayExprEl::Expr(e) => ExprOrSpread {
+                node_id: Default::default(),
                 spread: None,
                 expr: e.swcify(ctx),
             },

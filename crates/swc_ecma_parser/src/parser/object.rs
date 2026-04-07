@@ -56,6 +56,7 @@ impl<I: Tokens> Parser<I> {
             let arg = Box::new(self.parse_binding_pat_or_ident(false)?);
 
             return Ok(ObjectPatProp::Rest(RestPat {
+                node_id: Default::default(),
                 span: self.span(start),
                 dot3_token,
                 arg,
@@ -67,7 +68,11 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::Colon) {
             let value = Box::new(self.parse_binding_element()?);
 
-            return Ok(ObjectPatProp::KeyValue(KeyValuePatProp { key, value }));
+            return Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                node_id: Default::default(),
+                key,
+                value,
+            }));
         }
         let key = match key {
             PropName::Ident(ident) => ident,
@@ -113,6 +118,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(ObjectPatProp::Assign(AssignPatProp {
+            node_id: Default::default(),
             span: self.span(start),
             key: key.into(),
             value,
@@ -150,6 +156,7 @@ impl<I: Tokens> Parser<I> {
             && self.input_mut().eat(Token::QuestionMark);
 
         Ok(ObjectPat {
+            node_id: Default::default(),
             span,
             props,
             optional,
@@ -173,7 +180,12 @@ impl<I: Tokens> Parser<I> {
                 .trailing_commas
                 .insert(span.lo, trailing_comma);
         }
-        Ok(ObjectLit { span, props }.into())
+        Ok(ObjectLit {
+            node_id: Default::default(),
+            span,
+            props,
+        }
+        .into())
     }
 
     fn parse_expr_object_prop(&mut self) -> PResult<PropOrSpread> {
@@ -188,7 +200,11 @@ impl<I: Tokens> Parser<I> {
 
             let expr = self.allow_in_expr(Self::parse_assignment_expr)?;
 
-            return Ok(PropOrSpread::Spread(SpreadElement { dot3_token, expr }));
+            return Ok(PropOrSpread::Spread(SpreadElement {
+                node_id: Default::default(),
+                dot3_token,
+                expr,
+            }));
         }
 
         if self.input_mut().eat(Token::Asterisk) {
@@ -208,6 +224,7 @@ impl<I: Tokens> Parser<I> {
                 })
                 .map(|function| {
                     PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
+                        node_id: Default::default(),
                         key: name,
                         function,
                     })))
@@ -241,8 +258,10 @@ impl<I: Tokens> Parser<I> {
 
             self.emit_err(self.input().cur_span(), SyntaxError::TS1005);
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                node_id: Default::default(),
                 key,
                 value: Invalid {
+                    node_id: Default::default(),
                     span: self.span(start),
                 }
                 .into(),
@@ -256,6 +275,7 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::Colon) {
             let value = self.allow_in_expr(Self::parse_assignment_expr)?;
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                node_id: Default::default(),
                 key,
                 value,
             }))));
@@ -289,7 +309,13 @@ impl<I: Tokens> Parser<I> {
                         )
                     })
                 })
-                .map(|function| Box::new(Prop::Method(MethodProp { key, function })))
+                .map(|function| {
+                    Box::new(Prop::Method(MethodProp {
+                        node_id: Default::default(),
+                        key,
+                        function,
+                    }))
+                })
                 .map(PropOrSpread::Prop);
         }
 
@@ -349,6 +375,7 @@ impl<I: Tokens> Parser<I> {
                 let value = self.allow_in_expr(Self::parse_assignment_expr)?;
                 let span = self.span(start);
                 return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
+                    node_id: Default::default(),
                     span,
                     key: ident.into(),
                     value,
@@ -409,6 +436,7 @@ impl<I: Tokens> Parser<I> {
                                         }
 
                                         PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
+                                            node_id: Default::default(),
                                             span: p.span(start),
                                             key,
                                             type_ann: return_type,
@@ -466,12 +494,17 @@ impl<I: Tokens> Parser<I> {
                                                 .unwrap_or_else(|| {
                                                     p.emit_err(key_span, SyntaxError::SetterParam);
 
-                                                    Invalid { span: DUMMY_SP }.into()
+                                                    Invalid {
+                                                        node_id: Default::default(),
+                                                        span: DUMMY_SP,
+                                                    }
+                                                    .into()
                                                 }),
                                         );
 
                                         // debug_assert_eq!(params.len(), 1);
                                         PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                            node_id: Default::default(),
                                             span: p.span(start),
                                             key,
                                             body,
@@ -492,6 +525,7 @@ impl<I: Tokens> Parser<I> {
                                 )
                                 .map(|function| {
                                     PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
+                                        node_id: Default::default(),
                                         key,
                                         function,
                                     })))
