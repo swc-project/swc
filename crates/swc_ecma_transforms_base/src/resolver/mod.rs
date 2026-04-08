@@ -1258,11 +1258,31 @@ impl VisitMut for Resolver<'_> {
         self.modify(&mut decl.id, DeclKind::Lexical);
 
         self.with_child(ScopeKind::Block, |child| {
+            // Predeclare enum members in a child scope marked with `unresolved_mark`.
+            // Enum initializers may reference other members, including quoted names whose
+            // text is a valid identifier:
+            //
+            // ```TypeScript
+            //   enum E {
+            //       A = "A",
+            //       "B" = "B",
+            //       C = (() => { console.log(A, B); })(),
+            //   }
+            // ```
+            //
+            // This keeps references like `A`, `B`, and `b = a` in the unresolved
+            // context instead of resolving them to the enum's lexical scope, so the
+            // TypeScript enum transform can rewrite them later using
+            // `semantic.enum_record`.
+            child.current.mark = self.config.unresolved_mark;
             // add the enum member names as declared symbols for this scope
             // Ex. `enum Foo { a, b = a }`
             let member_names = decl.members.iter().filter_map(|m| match &m.id {
                 TsEnumMemberId::Ident(id) => Some((id.sym.clone(), DeclKind::Lexical)),
-                TsEnumMemberId::Str(_) => None,
+                TsEnumMemberId::Str(s) => s
+                    .value
+                    .as_atom()
+                    .map(|atom| (atom.clone(), DeclKind::Lexical)),
                 #[cfg(swc_ast_unknown)]
                 _ => None,
             });

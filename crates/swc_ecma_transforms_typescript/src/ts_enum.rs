@@ -6,7 +6,6 @@ use swc_ecma_utils::{
     number::{JsNumber, ToJsString},
     ExprFactory,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[inline]
 fn atom_from_wtf8_atom(value: &Wtf8Atom) -> Atom {
@@ -111,50 +110,50 @@ pub(crate) struct EnumValueComputer<'a> {
 
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl EnumValueComputer<'_> {
-    pub fn compute(&mut self, expr: Box<Expr>) -> TsEnumRecordValue {
-        let mut expr = self.compute_rec(expr);
-        if let TsEnumRecordValue::Opaque(expr) = &mut expr {
-            expr.visit_mut_with(self);
-        }
-        expr
+    pub fn compute(&self, expr: Box<Expr>) -> TsEnumRecordValue {
+        self.compute_rec(expr)
     }
 
     fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
         match *expr {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(atom_from_wtf8_atom(&s.value)),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value.into()),
-            Expr::Ident(Ident { ctxt, sym, .. })
-                if &*sym == "NaN" && ctxt == self.unresolved_ctxt =>
-            {
-                TsEnumRecordValue::Number(f64::NAN.into())
-            }
-            Expr::Ident(Ident { ctxt, sym, .. })
-                if &*sym == "Infinity" && ctxt == self.unresolved_ctxt =>
-            {
-                TsEnumRecordValue::Number(f64::INFINITY.into())
-            }
-            Expr::Ident(ref ident) => self
-                .record
-                .get(&TsEnumRecordKey {
+            Expr::Ident(ref ident) if ident.ctxt == self.unresolved_ctxt => {
+                if let Some(value) = self.record.get(&TsEnumRecordKey {
                     enum_id: self.enum_id.clone(),
                     member_name: ident.sym.clone(),
-                })
-                .cloned()
-                .map(|value| match value {
-                    TsEnumRecordValue::String(..) | TsEnumRecordValue::Number(..) => value,
-                    _ => TsEnumRecordValue::Opaque(
-                        self.enum_id
-                            .clone()
-                            .make_member(ident.clone().into())
-                            .into(),
-                    ),
-                })
-                .unwrap_or_else(|| TsEnumRecordValue::Opaque(expr)),
+                }) {
+                    if value.is_const() {
+                        value.clone()
+                    } else {
+                        TsEnumRecordValue::Opaque(
+                            self.enum_id
+                                .clone()
+                                .make_member(ident.clone().into())
+                                .into(),
+                        )
+                    }
+                } else {
+                    match ident.sym.as_ref() {
+                        "Infinity" => TsEnumRecordValue::Number(f64::INFINITY.into()),
+                        "NaN" => TsEnumRecordValue::Number(f64::NAN.into()),
+                        _ => TsEnumRecordValue::Opaque(expr),
+                    }
+                }
+            }
             Expr::Paren(e) => self.compute_rec(e.expr),
             Expr::Unary(e) => self.compute_unary(e),
             Expr::Bin(e) => self.compute_bin(e),
             Expr::Member(e) => self.compute_member(e),
             Expr::Tpl(e) => self.compute_tpl(e),
+            // Handle TypeScript type expressions by stripping them
+            // and computing the inner expression
+            Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => self.compute_rec(expr),
             _ => TsEnumRecordValue::Opaque(expr),
         }
     }
@@ -315,26 +314,5 @@ impl EnumValueComputer<'_> {
         }
 
         TsEnumRecordValue::String(string.into())
-    }
-}
-
-impl VisitMut for EnumValueComputer<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
-
-        let Expr::Ident(ident) = expr else { return };
-
-        if self.record.contains_key(&TsEnumRecordKey {
-            enum_id: self.enum_id.clone(),
-            member_name: ident.sym.clone(),
-        }) {
-            *expr = self
-                .enum_id
-                .clone()
-                .make_member(ident.clone().into())
-                .into();
-        }
     }
 }

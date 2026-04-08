@@ -353,6 +353,43 @@ to!(
 }"
 );
 
+to!(
+    ts_enum_with_type_assertion,
+    "enum RefType {
+  property = '11' as any,
+  event = '22' as any,
+}"
+);
+
+to!(
+    ts_enum_with_opaque_expr,
+    "enum Foo {
+    a = foo('x' as any),
+}"
+);
+
+to!(
+    ts_enum_with_nested_class,
+    "enum Foo {
+    a = (class {
+        constructor(public b: string) { }
+    }, 0)
+}"
+);
+
+to!(
+    ts_enum_with_nested_enum,
+    "enum Foo {
+    a = (() => {
+        enum Bar {
+            a = 'a',
+            b = 'b',
+        }
+        return 0;
+    })(),
+}"
+);
+
 to!(module_01, "module 'foo'{ }");
 
 to!(declare_01, "declare var env: FOO");
