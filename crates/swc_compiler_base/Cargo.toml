@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_compiler_base"
 repository    = { workspace = true }
-version       = "53.0.0"
+version       = "54.0.0"
 
 [features]
 node = ["napi", "napi-derive"]
@@ -27,10 +27,10 @@ swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
 swc_common = { version = "21.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_config = { version = "4.0.0", path = "../swc_config" }
+swc_config = { version = "4.0.1", path = "../swc_config" }
 swc_ecma_ast = { version = "23.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "26.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "50.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "51.0.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "38.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }

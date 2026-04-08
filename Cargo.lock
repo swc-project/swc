@@ -472,7 +472,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "60.0.0"
+version = "61.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1777,7 +1777,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "51.0.0"
+version = "52.0.0"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -5554,7 +5554,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "60.0.0"
+version = "61.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5707,7 +5707,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.107.2"
+version = "0.108.0"
 dependencies = [
  "anyhow",
  "par-core",
@@ -5716,7 +5716,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "62.0.0"
+version = "63.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -5771,7 +5771,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "53.0.0"
+version = "54.0.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -5797,7 +5797,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "4.0.0"
+version = "4.0.1"
 dependencies = [
  "anyhow",
  "bytes-str",
@@ -5826,7 +5826,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "62.0.0"
+version = "63.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6388,7 +6388,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "50.0.0"
+version = "51.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6752,7 +6752,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "41.0.0"
+version = "41.0.1"
 dependencies = [
  "either",
  "rustc-hash 2.1.1",
@@ -6881,7 +6881,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "58.0.0"
+version = "59.0.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -7121,7 +7121,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "50.0.0"
+version = "51.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "once_cell",
@@ -7208,7 +7208,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "61.0.0"
+version = "62.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",

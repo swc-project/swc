@@ -38,7 +38,7 @@ codspeed-criterion-compat = { workspace = true }
 swc_ecma_codegen             = { version = "26.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser              = { version = "38.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat   = { version = "47.0.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_proposal = { version = "41.0.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_proposal = { version = "41.0.1", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing  = { version = "45.0.0", path = "../swc_ecma_transforms_testing" }
 testing                      = { version = "22.0.0", path = "../testing" }
 

@@ -52,7 +52,7 @@ swc_ecma_transforms_base = { version = "41.0.0", path = "../swc_ecma_transforms_
 ] }
 swc_ecma_transforms_compat = { version = "47.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_module = { version = "45.0.0", path = "../swc_ecma_transforms_module" }
-swc_ecma_transforms_proposal = { version = "41.0.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_proposal = { version = "41.0.1", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing = { version = "45.0.0", path = "../swc_ecma_transforms_testing" }
 swc_ecma_transforms_typescript = { version = "45.0.0", path = "../swc_ecma_transforms_typescript" }
 testing = { version = "22.0.0", path = "../testing" }

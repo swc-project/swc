@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_minifier"
 repository    = { workspace = true }
-version       = "50.0.0"
+version       = "51.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -53,7 +53,7 @@ serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
 swc_common = { version = "21.0.0", path = "../swc_common" }
-swc_config = { version = "4.0.0", path = "../swc_config", features = [
+swc_config = { version = "4.0.1", path = "../swc_config", features = [
   "sourcemap",
   "file_pattern",
   "regex_js",

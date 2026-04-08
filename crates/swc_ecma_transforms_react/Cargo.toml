@@ -33,7 +33,7 @@ sha1       = { workspace = true }
 string_enum                = { version = "1.0.2", path = "../string_enum" }
 swc_atoms                  = { version = "9.0.0", path = "../swc_atoms" }
 swc_common                 = { version = "21.0.0", path = "../swc_common" }
-swc_config                 = { version = "4.0.0", path = "../swc_config" }
+swc_config                 = { version = "4.0.1", path = "../swc_config" }
 swc_ecma_ast               = { version = "23.0.0", path = "../swc_ecma_ast" }
 swc_ecma_hooks             = { version = "0.7.0", path = "../swc_ecma_hooks" }
 swc_ecma_parser            = { version = "38.0.0", path = "../swc_ecma_parser", default-features = false, features = [
