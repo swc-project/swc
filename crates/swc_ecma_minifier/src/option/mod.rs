@@ -161,7 +161,8 @@ impl Default for CompressExperimentalOptions {
 }
 
 /// Please do not rely on Hash for GlobalDefs.
-/// This implementation uses XOR to combine per-pair hashes, which may lead to hash collisions in some cases.
+/// This implementation uses XOR to combine per-pair hashes, which may lead to
+/// hash collisions in some cases.
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
 pub struct GlobalDefs(pub FxHashMap<Box<Expr>, Box<Expr>>);
 
@@ -194,7 +195,8 @@ impl DerefMut for GlobalDefs {
 impl Hash for GlobalDefs {
     fn hash<H: Hasher>(&self, state: &mut H) {
         // Use iteration order-independent hash combination.
-        // Method: Mix all key-value pair hashes with XOR, and include the length for distinction.
+        // Method: Mix all key-value pair hashes with XOR, and include the length for
+        // distinction.
         let mut hash = 0u64;
         for (k, v) in &self.0 {
             // let mut pair_hasher = std::collections::hash_map::DefaultHasher::new();
@@ -204,7 +206,8 @@ impl Hash for GlobalDefs {
             // XOR ensures order independence: a ^ b == b ^ a
             hash ^= pair_hasher.finish();
         }
-        // Mix length to prevent conflicts like `[("a",1),("b",2)]` and `[("a",1),("b",2),("a",1),("b",2)]`
+        // Mix length to prevent conflicts like `[("a",1),("b",2)]` and
+        // `[("a",1),("b",2),("a",1),("b",2)]`
         self.0.len().hash(state);
         hash.hash(state);
     }

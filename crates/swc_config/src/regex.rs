@@ -32,9 +32,10 @@ impl Deref for CachedRegex {
     }
 }
 
-// Note: PartialEq, Eq, and Hash for CachedRegex should use the pattern string for comparison and hashing,
-// as recommended in https://github.com/rust-lang/regex/issues/670.
-// These traits are implemented below by delegating to the `as_str()` of the internal Regex.
+// Note: PartialEq, Eq, and Hash for CachedRegex should use the pattern string
+// for comparison and hashing, as recommended in https://github.com/rust-lang/regex/issues/670.
+// These traits are implemented below by delegating to the `as_str()` of the
+// internal Regex.
 impl PartialEq for CachedRegex {
     fn eq(&self, other: &Self) -> bool {
         self.regex.as_str() == other.regex.as_str()
