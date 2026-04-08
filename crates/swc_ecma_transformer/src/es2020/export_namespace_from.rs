@@ -38,6 +38,7 @@ impl ExportNamespaceFromPass {
                     src: Some(src),
                     type_only: false,
                     with,
+                    ..
                 })) if specifiers.iter().any(|s| s.is_namespace()) => {
                     let mut origin_specifiers = Vec::new();
 
@@ -46,7 +47,11 @@ impl ExportNamespaceFromPass {
 
                     for s in specifiers.into_iter() {
                         match s {
-                            ExportSpecifier::Namespace(ExportNamespaceSpecifier { span, name }) => {
+                            ExportSpecifier::Namespace(ExportNamespaceSpecifier {
+                                span,
+                                name,
+                                ..
+                            }) => {
                                 let local_bridge = private_ident!(format!(
                                     "_{}",
                                     normalize_module_export_name(&name)
@@ -54,12 +59,14 @@ impl ExportNamespaceFromPass {
 
                                 import_specifiers.push(ImportSpecifier::Namespace(
                                     ImportStarAsSpecifier {
+                                        node_id: Default::default(),
                                         span,
                                         local: local_bridge.clone(),
                                     },
                                 ));
                                 export_specifiers.push(ExportSpecifier::Named(
                                     ExportNamedSpecifier {
+                                        node_id: Default::default(),
                                         span,
                                         orig: local_bridge.into(),
                                         exported: Some(name),
@@ -77,6 +84,7 @@ impl ExportNamespaceFromPass {
 
                     stmts.push(
                         ImportDecl {
+                            node_id: Default::default(),
                             span,
                             specifiers: import_specifiers,
                             src: src.clone(),
@@ -89,6 +97,7 @@ impl ExportNamespaceFromPass {
 
                     stmts.push(
                         NamedExport {
+                            node_id: Default::default(),
                             span,
                             specifiers: export_specifiers,
                             src: None,
@@ -101,6 +110,7 @@ impl ExportNamespaceFromPass {
                     if !origin_specifiers.is_empty() {
                         stmts.push(
                             NamedExport {
+                                node_id: Default::default(),
                                 span,
                                 specifiers: origin_specifiers,
                                 src: Some(src),

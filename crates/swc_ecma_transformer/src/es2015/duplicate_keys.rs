@@ -85,7 +85,9 @@ impl PropFolder {
                     || !self.setter_props.insert(ident.sym.clone())
                 {
                     *prop = Prop::KeyValue(KeyValueProp {
+                        node_id: Default::default(),
                         key: PropName::Computed(ComputedPropName {
+                            node_id: Default::default(),
                             span: ident.span,
                             expr: quote_str!(ident.sym.clone()).into(),
                         }),
@@ -125,8 +127,10 @@ impl PropFolder {
                         }
                         if should_transform {
                             *key = PropName::Computed(ComputedPropName {
+                                node_id: Default::default(),
                                 span,
                                 expr: Lit::Str(Str {
+                                    node_id: Default::default(),
                                     span,
                                     raw: None,
                                     value: ident.sym.clone().into(),
@@ -145,6 +149,7 @@ impl PropFolder {
                         }
                         if should_transform {
                             *key = PropName::Computed(ComputedPropName {
+                                node_id: Default::default(),
                                 span: s.span,
                                 expr: s.clone().into(),
                             });
@@ -177,8 +182,10 @@ impl PropFolder {
             PropName::Ident(ident) => {
                 if !props.insert(ident.sym.clone()) {
                     *name = PropName::Computed(ComputedPropName {
+                        node_id: Default::default(),
                         span,
                         expr: Lit::Str(Str {
+                            node_id: Default::default(),
                             span,
                             raw: None,
                             value: ident.sym.clone().into(),
@@ -190,6 +197,7 @@ impl PropFolder {
             PropName::Str(s) => {
                 if !props.insert(atom_from_wtf8(&s.value)) {
                     *name = PropName::Computed(ComputedPropName {
+                        node_id: Default::default(),
                         span: s.span,
                         expr: s.clone().into(),
                     })

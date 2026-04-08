@@ -30,6 +30,7 @@ impl Swcify for RestElement {
         let span = ctx.span(&self.base);
 
         RestPat {
+            node_id: Default::default(),
             span,
             dot3_token: span,
             arg: Box::new(self.argument.swcify(ctx)),
@@ -43,6 +44,7 @@ impl Swcify for AssignmentPattern {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         AssignPat {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             left: Box::new(self.left.swcify(ctx)),
             right: self.right.swcify(ctx),
@@ -68,6 +70,7 @@ impl Swcify for ArrayPattern {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ArrayPat {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             elems: self.elements.swcify(ctx),
             optional: false,
@@ -95,6 +98,7 @@ impl Swcify for ObjectPattern {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ObjectPat {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             props: self.properties.swcify(ctx),
             optional: false,
@@ -112,6 +116,7 @@ impl Swcify for ObjectPatternProp {
             ObjectPatternProp::Prop(prop) => {
                 if prop.shorthand {
                     return ObjectPatProp::Assign(AssignPatProp {
+                        node_id: Default::default(),
                         span: ctx.span(&prop.base),
                         key: prop.key.swcify(ctx).expect_ident().into(),
                         value: None,
@@ -121,12 +126,14 @@ impl Swcify for ObjectPatternProp {
                 match prop.value {
                     swc_estree_ast::ObjectPropVal::Pattern(v) => {
                         ObjectPatProp::KeyValue(KeyValuePatProp {
+                            node_id: Default::default(),
                             key: prop.key.swcify(ctx),
                             value: Box::new(v.swcify(ctx)),
                         })
                     }
                     swc_estree_ast::ObjectPropVal::Expr(v) => {
                         ObjectPatProp::Assign(AssignPatProp {
+                            node_id: Default::default(),
                             span: ctx.span(&prop.base),
                             key: prop.key.swcify(ctx).expect_ident().into(),
                             value: Some(v.swcify(ctx)),
@@ -159,6 +166,7 @@ impl Swcify for swc_estree_ast::Param {
                 let pat = v.swcify(ctx);
 
                 swc_ecma_ast::Param {
+                    node_id: Default::default(),
                     span: pat.span(),
                     decorators: Default::default(),
                     pat: pat.into(),
@@ -168,12 +176,14 @@ impl Swcify for swc_estree_ast::Param {
                 let pat = v.swcify(ctx);
 
                 swc_ecma_ast::Param {
+                    node_id: Default::default(),
                     span: pat.span(),
                     decorators: Default::default(),
                     pat,
                 }
             }
             swc_estree_ast::Param::Rest(v) => swc_ecma_ast::Param {
+                node_id: Default::default(),
                 span: ctx.span(&v.base),
                 decorators: v.decorators.swcify(ctx).unwrap_or_default(),
                 pat: v.argument.swcify(ctx),

@@ -111,6 +111,7 @@ impl VisitMutHook<TraverseCtx> for TypeofSymbolPass {
             span,
             op: op!("typeof"),
             arg,
+            ..
         }) = expr
         {
             match &**arg {
@@ -118,10 +119,12 @@ impl VisitMutHook<TraverseCtx> for TypeofSymbolPass {
                     let undefined_str: Box<Expr> = quote_str!("undefined").into();
 
                     let test = BinExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         op: op!("==="),
                         left: Box::new(
                             UnaryExpr {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 op: op!("typeof"),
                                 arg: arg.clone(),
@@ -141,6 +144,7 @@ impl VisitMutHook<TraverseCtx> for TypeofSymbolPass {
                     .into();
 
                     *expr = CondExpr {
+                        node_id: Default::default(),
                         span: *span,
                         test,
                         cons: undefined_str,

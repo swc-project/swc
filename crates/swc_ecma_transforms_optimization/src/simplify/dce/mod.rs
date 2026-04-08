@@ -908,6 +908,7 @@ impl VisitMut for TreeShaker {
                     Expr::Fn(FnExpr {
                         ident: None,
                         function: f,
+                        ..
                     }) if matches!(
                         &**f,
                         Function {
@@ -1056,7 +1057,11 @@ impl VisitMut for TreeShaker {
                 {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
-                    *n = EmptyStmt { span: DUMMY_SP }.into();
+                    *n = EmptyStmt {
+                        node_id: Default::default(),
+                        span: DUMMY_SP,
+                    }
+                    .into();
                 }
             }
             _ => {
@@ -1148,10 +1153,15 @@ impl VisitMut for TreeShaker {
                 self.changed = true;
 
                 if exprs.is_empty() {
-                    *s = EmptyStmt { span: DUMMY_SP }.into();
+                    *s = EmptyStmt {
+                        node_id: Default::default(),
+                        span: DUMMY_SP,
+                    }
+                    .into();
                     return;
                 } else {
                     *s = ExprStmt {
+                        node_id: Default::default(),
                         span,
                         expr: Expr::from_exprs(exprs),
                     }
@@ -1162,7 +1172,11 @@ impl VisitMut for TreeShaker {
 
         if let Stmt::Decl(Decl::Var(v)) = s {
             if v.decls.is_empty() {
-                *s = EmptyStmt { span: DUMMY_SP }.into();
+                *s = EmptyStmt {
+                    node_id: Default::default(),
+                    span: DUMMY_SP,
+                }
+                .into();
             }
         }
 

@@ -219,6 +219,7 @@ impl VisitMut for ConstModules {
                 let sym_wtf8: Wtf8Atom = id.sym.clone().into();
                 if let Some(value) = self.scope.imported.get(&sym_wtf8) {
                     *n = Prop::KeyValue(KeyValueProp {
+                        node_id: Default::default(),
                         key: id.take().into(),
                         value: Box::new((**value).clone()),
                     });

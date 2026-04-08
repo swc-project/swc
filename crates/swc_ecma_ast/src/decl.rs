@@ -9,6 +9,7 @@ use crate::{
     ident::Ident,
     pat::Pat,
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
+    NodeId,
 };
 
 #[ast_node]
@@ -99,6 +100,9 @@ impl Take for Decl {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct FnDecl {
+    #[cfg_attr(feature = "serde-impl", serde(skip))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "identifier"))]
     pub ident: Ident,
 
@@ -113,6 +117,7 @@ pub struct FnDecl {
 impl Take for FnDecl {
     fn dummy() -> Self {
         FnDecl {
+            node_id: Default::default(),
             ident: Take::dummy(),
             declare: Default::default(),
             function: Take::dummy(),
@@ -125,6 +130,9 @@ impl Take for FnDecl {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ClassDecl {
+    #[cfg_attr(feature = "serde-impl", serde(skip))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "identifier"))]
     pub ident: Ident,
 
@@ -139,6 +147,7 @@ pub struct ClassDecl {
 impl Take for ClassDecl {
     fn dummy() -> Self {
         ClassDecl {
+            node_id: Default::default(),
             ident: Take::dummy(),
             declare: Default::default(),
             class: Take::dummy(),
@@ -152,6 +161,9 @@ impl Take for ClassDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct VarDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub ctxt: SyntaxContext,
 
@@ -200,6 +212,9 @@ pub enum VarDeclKind {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct VarDeclarator {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "id"))]
     pub name: Pat,
 
@@ -220,6 +235,7 @@ impl Take for VarDeclarator {
     fn dummy() -> Self {
         VarDeclarator {
             span: DUMMY_SP,
+            node_id: Default::default(),
             name: Take::dummy(),
             init: Take::dummy(),
             definite: Default::default(),
@@ -236,6 +252,9 @@ pub struct UsingDecl {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_await: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -246,6 +265,7 @@ impl Take for UsingDecl {
     fn dummy() -> Self {
         Self {
             span: DUMMY_SP,
+            node_id: Default::default(),
             is_await: Default::default(),
             decls: Take::dummy(),
         }

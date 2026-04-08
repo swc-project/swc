@@ -159,6 +159,7 @@ impl VisitMut for SimplifyExpr {
                         }
                         _ => {
                             let seq = SeqExpr {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 exprs: vec![0.0.into(), e.take()],
                             };
@@ -255,6 +256,7 @@ impl VisitMut for SimplifyExpr {
                 test,
                 cons,
                 alt,
+                ..
             }) => {
                 if let (p, Known(val)) = test.cast_to_bool(self.expr_ctx) {
                     self.changed = true;
@@ -263,6 +265,7 @@ impl VisitMut for SimplifyExpr {
                     *expr = if p.is_pure() {
                         if expr_value.directness_matters() {
                             SeqExpr {
+                                node_id: Default::default(),
                                 span: *span,
                                 exprs: vec![0.into(), expr_value.take()],
                             }
@@ -272,6 +275,7 @@ impl VisitMut for SimplifyExpr {
                         }
                     } else {
                         SeqExpr {
+                            node_id: Default::default(),
                             span: *span,
                             exprs: vec![test.take(), expr_value.take()],
                         }
@@ -299,11 +303,13 @@ impl VisitMut for SimplifyExpr {
                         Some(ExprOrSpread {
                             spread: Some(..),
                             expr,
+                            ..
                         }) if expr.is_array() => {
                             self.changed = true;
 
                             e.extend(expr.array().unwrap().elems.into_iter().map(|elem| {
                                 Some(elem.unwrap_or_else(|| ExprOrSpread {
+                                    node_id: Default::default(),
                                     spread: None,
                                     expr: Expr::undefined(DUMMY_SP),
                                 }))
@@ -340,6 +346,7 @@ impl VisitMut for SimplifyExpr {
                                     _ => panic!("unable to access unknown nodes"),
                                 }) {
                                     ps.push(PropOrSpread::Spread(SpreadElement {
+                                        node_id: Default::default(),
                                         dot3_token,
                                         expr,
                                     }));
@@ -502,7 +509,7 @@ impl VisitMut for SimplifyExpr {
                 Expr::Lit(_) => {}
 
                 // Flatten array
-                Expr::Array(ArrayLit { span, elems }) => {
+                Expr::Array(ArrayLit { span, elems, .. }) => {
                     let is_simple = elems
                         .iter()
                         .all(|elem| matches!(elem, None | Some(ExprOrSpread { spread: None, .. })));
@@ -510,7 +517,14 @@ impl VisitMut for SimplifyExpr {
                     if is_simple {
                         exprs.extend(elems.into_iter().flatten().map(|e| e.expr));
                     } else {
-                        exprs.push(Box::new(ArrayLit { span, elems }.into()));
+                        exprs.push(Box::new(
+                            ArrayLit {
+                                node_id: Default::default(),
+                                span,
+                                elems,
+                            }
+                            .into(),
+                        ));
                     }
                 }
 
@@ -583,7 +597,16 @@ fn make_bool_expr<I>(ctx: ExprCtx, span: Span, value: bool, orig: I) -> Box<Expr
 where
     I: IntoIterator<Item = Box<Expr>>,
 {
-    ctx.preserve_effects(span, Lit::Bool(Bool { value, span }).into(), orig)
+    ctx.preserve_effects(
+        span,
+        Lit::Bool(Bool {
+            node_id: Default::default(),
+            value,
+            span,
+        })
+        .into(),
+        orig,
+    )
 }
 
 /// Gets the `idx`-th UTF-16 code unit from the given [Wtf8].
@@ -759,6 +782,7 @@ pub fn optimize_member_expr(
                 };
 
                 *expr = Lit::Num(Number {
+                    node_id: Default::default(),
                     value: value.chars().map(|c| c.len_utf16()).sum::<usize>() as _,
                     span: *span,
                     raw: None,
@@ -782,6 +806,7 @@ pub fn optimize_member_expr(
                 value.push(c);
 
                 *expr = Lit::Str(Str {
+                    node_id: Default::default(),
                     raw: None,
                     value: value.into(),
                     span: *span,
@@ -798,7 +823,7 @@ pub fn optimize_member_expr(
         // [1, 2, 3].length
         //
         // [1, 2, 3][0]
-        Expr::Array(ArrayLit { elems, span }) => {
+        Expr::Array(ArrayLit { elems, span, .. }) => {
             // do nothing if spread exists
             let has_spread = elems.iter().any(|elem| {
                 elem.as_ref()
@@ -826,6 +851,7 @@ pub fn optimize_member_expr(
                     *changed = true;
 
                     *expr = Lit::Num(Number {
+                        node_id: Default::default(),
                         value: elems.len() as _,
                         span: *span,
                         raw: None,
@@ -908,7 +934,7 @@ pub fn optimize_member_expr(
         // { foo: true }['foo']
         //
         // { 0.5: true }[0.5]
-        Expr::Object(ObjectLit { props, span }) => {
+        Expr::Object(ObjectLit { props, span, .. }) => {
             // get key
             let key = match op {
                 KnownOp::Index(i) => Atom::from(i.to_string()),
@@ -929,6 +955,7 @@ pub fn optimize_member_expr(
                 v,
                 once(
                     ObjectLit {
+                        node_id: Default::default(),
                         props: props.take(),
                         span: *span,
                     }
@@ -948,6 +975,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
         op,
         right,
         span,
+        ..
     } = match expr {
         Expr::Bin(bin) => bin,
         _ => return,
@@ -976,6 +1004,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                     let value_expr = if !v.is_nan() {
                         Expr::Lit(Lit::Num(Number {
+                            node_id: Default::default(),
                             value: v,
                             span: *span,
                             raw: None,
@@ -1008,6 +1037,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                     *changed = true;
 
                     *expr = Lit::Str(Str {
+                        node_id: Default::default(),
                         raw: None,
                         value: l.into(),
                         span: *span,
@@ -1035,6 +1065,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                                 value.push_wtf8(&r);
 
                                 *expr = Lit::Str(Str {
+                                    node_id: Default::default(),
                                     raw: None,
                                     value: value.into(),
                                     span: *span,
@@ -1057,6 +1088,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                                 let value_expr = if !v.is_nan() {
                                     Lit::Num(Number {
+                                        node_id: Default::default(),
                                         value: v,
                                         span,
                                         raw: None,
@@ -1111,6 +1143,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                     if node.directness_matters() {
                         *expr = SeqExpr {
+                            node_id: Default::default(),
                             span: node.span(),
                             exprs: vec![0.into(), node.take()],
                         }
@@ -1122,6 +1155,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                     *changed = true;
 
                     let seq = SeqExpr {
+                        node_id: Default::default(),
                         span: *span,
                         exprs: vec![left.take(), node.take()],
                     };
@@ -1224,12 +1258,14 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 left: left_lhs,
                 op: left_op,
                 right: left_rhs,
+                ..
             }) = &mut **left
             {
                 if *left_op == op {
                     if let Known(value) = perform_arithmetic_op(expr_ctx, op, left_rhs, right) {
                         let value_expr = if !value.is_nan() {
                             Lit::Num(Number {
+                                node_id: Default::default(),
                                 value,
                                 span: *span,
                                 raw: None,
@@ -1271,7 +1307,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
 /// **NOTE**: This is **NOT** a public API. DO NOT USE.
 pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
-    let UnaryExpr { op, arg, span } = match expr {
+    let UnaryExpr { op, arg, span, .. } = match expr {
         Expr::Unary(unary) => unary,
         _ => return,
     };
@@ -1319,6 +1355,7 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
                 *expr = *expr_ctx.preserve_effects(
                     *span,
                     Lit::Num(Number {
+                        node_id: Default::default(),
                         value: v,
                         span: *span,
                         raw: None,
@@ -1338,6 +1375,7 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
             Expr::Lit(Lit::Num(Number { value: f, .. })) => {
                 *changed = true;
                 *expr = Lit::Num(Number {
+                    node_id: Default::default(),
                     value: -f,
                     span: *span,
                     raw: None,
@@ -1358,6 +1396,7 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
             *changed = true;
 
             *arg = Lit::Num(Number {
+                node_id: Default::default(),
                 value: 0.0,
                 span: arg.span(),
                 raw: None,
@@ -1370,6 +1409,7 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
                 if value.fract() == 0.0 {
                     *changed = true;
                     *expr = Lit::Num(Number {
+                        node_id: Default::default(),
                         span: *span,
                         value: if value < 0.0 {
                             !(value as i32 as u32) as i32 as f64
@@ -1393,7 +1433,7 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
 ///
 /// typeof(6) --> "number"
 fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
-    let UnaryExpr { op, arg, span } = match expr {
+    let UnaryExpr { op, arg, span, .. } = match expr {
         Expr::Unary(unary) => unary,
         _ => return,
     };
@@ -1423,6 +1463,7 @@ fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
     *changed = true;
 
     *expr = Lit::Str(Str {
+        node_id: Default::default(),
         span: *span,
         raw: None,
         value: val.into(),
@@ -1676,6 +1717,7 @@ fn perform_abstract_eq_cmp(
                 span,
                 left,
                 &Lit::Num(Number {
+                    node_id: Default::default(),
                     value: rv,
                     span,
                     raw: None,
@@ -1690,6 +1732,7 @@ fn perform_abstract_eq_cmp(
                 expr_ctx,
                 span,
                 &Lit::Num(Number {
+                    node_id: Default::default(),
                     value: lv,
                     span,
                     raw: None,

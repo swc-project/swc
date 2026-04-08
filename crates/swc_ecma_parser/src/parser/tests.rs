@@ -1,8 +1,10 @@
 use std::hint::black_box;
 
+use serde_json::Value;
 use swc_atoms::atom;
 use swc_common::{comments::SingleThreadedComments, BytePos, FileName, SourceMap, DUMMY_SP};
-use swc_ecma_visit::assert_eq_ignore_span;
+use swc_ecma_ast::NodeId;
+use swc_ecma_visit::{assert_eq_ignore_span, assign_node_ids, Visit, VisitWith};
 
 use super::*;
 use crate::{parse_file_as_expr, EsSyntax, TsSyntax};
@@ -19,6 +21,45 @@ fn module(src: &'static str) -> Module {
 /// Assert that Parser.parse_program returns [Program::Script].
 fn script(src: &'static str) -> Script {
     program(src).expect_script()
+}
+
+#[derive(Default)]
+struct NodeIdChecker {
+    count: usize,
+}
+
+impl Visit for NodeIdChecker {
+    fn visit_node_id(&mut self, node: &NodeId) {
+        self.count += 1;
+        assert_ne!(*node, NodeId::DUMMY, "found a dummy node id");
+    }
+}
+
+fn assert_all_node_ids_assigned<N>(node: &N)
+where
+    N: VisitWith<NodeIdChecker>,
+{
+    let mut checker = NodeIdChecker::default();
+    node.visit_with(&mut checker);
+    assert!(checker.count > 0, "expected at least one node id");
+}
+
+fn strip_node_ids(value: &mut Value) {
+    match value {
+        Value::Array(items) => {
+            for item in items {
+                strip_node_ids(item);
+            }
+        }
+        Value::Object(map) => {
+            map.remove("nodeId");
+
+            for value in map.values_mut() {
+                strip_node_ids(value);
+            }
+        }
+        _ => {}
+    }
 }
 
 /// Assert that Parser.parse_program returns [Program::Module] and has errors.
@@ -63,6 +104,44 @@ fn parse_program_module_02() {
         export default foo;
         ",
     );
+}
+
+#[test]
+fn parsed_program_has_assigned_node_ids() {
+    let program = program(
+        "
+        let a = 1;
+        function foo(b) {
+            return a + b;
+        }
+        foo(2);
+        ",
+    );
+
+    assert_all_node_ids_assigned(&program);
+}
+
+#[test]
+fn assign_node_ids_after_deserializing_without_node_id() {
+    let program = program(
+        "
+        import { Foo } from 'foo';
+        class Bar {
+            method() {
+                return Foo;
+            }
+        }
+        ",
+    );
+
+    let mut json = serde_json::to_value(&program).expect("failed to serialize program");
+    strip_node_ids(&mut json);
+
+    let mut program: Program =
+        serde_json::from_value(json).expect("failed to deserialize program without node ids");
+    assign_node_ids(&mut program);
+
+    assert_all_node_ids_assigned(&program);
 }
 
 #[test]
@@ -501,11 +580,13 @@ fn expr(s: &'static str) -> Box<Expr> {
 }
 fn regex_expr() -> Box<Expr> {
     AssignExpr {
+        node_id: Default::default(),
         span: DUMMY_SP,
         left: Ident::new_no_ctxt(atom!("re"), DUMMY_SP).into(),
         op: AssignOp::Assign,
         right: Box::new(
             Lit::Regex(Regex {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 exp: atom!("w+"),
                 flags: atom!(""),
@@ -525,6 +606,7 @@ fn simple() {
     assert_eq_ignore_span!(
         bin("5 + 4 * 7"),
         Box::new(Expr::Bin(BinExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             op: op!(bin, "+"),
             left: bin("5"),
@@ -538,6 +620,7 @@ fn same_prec() {
     assert_eq_ignore_span!(
         bin("5 + 4 + 7"),
         Box::new(Expr::Bin(BinExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             op: op!(bin, "+"),
             left: bin("5 + 4"),
@@ -580,6 +663,7 @@ fn arrow_assign() {
     assert_eq_ignore_span!(
         expr("a = b => false"),
         Box::new(Expr::Assign(AssignExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             left: Ident::new_no_ctxt(atom!("a"), DUMMY_SP).into(),
             op: op!("="),
@@ -625,9 +709,11 @@ fn object_rest_pat() {
             is_async: false,
             is_generator: false,
             params: vec![Pat::Object(ObjectPat {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 optional: false,
                 props: vec![ObjectPatProp::Rest(RestPat {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     dot3_token: DUMMY_SP,
                     arg: Box::new(Pat::Ident(
@@ -651,14 +737,17 @@ fn object_spread() {
     assert_eq_ignore_span!(
         expr("foo = {a, ...bar, b}"),
         Box::new(Expr::Assign(AssignExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             left: Ident::new_no_ctxt(atom!("foo"), DUMMY_SP).into(),
             op: op!("="),
             right: Box::new(Expr::Object(ObjectLit {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 props: vec![
                     PropOrSpread::Prop(Box::new(Ident::new_no_ctxt(atom!("a"), DUMMY_SP).into())),
                     PropOrSpread::Spread(SpreadElement {
+                        node_id: Default::default(),
                         dot3_token: DUMMY_SP,
                         expr: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("bar"), DUMMY_SP))),
                     }),
@@ -674,6 +763,7 @@ fn new_expr_should_not_eat_too_much() {
     assert_eq_ignore_span!(
         new_expr("new Date().toString()"),
         Box::new(Expr::Member(MemberExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             obj: member_expr("new Date()"),
             prop: MemberProp::Ident(IdentName::new(atom!("toString"), DUMMY_SP)),
@@ -743,6 +833,7 @@ fn arrow_fn_rest() {
             is_async: false,
             is_generator: false,
             params: vec![Pat::Rest(RestPat {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 dot3_token: DUMMY_SP,
                 arg: Box::new(Pat::Ident(Ident::new_no_ctxt(atom!("a"), DUMMY_SP).into())),
@@ -798,9 +889,11 @@ fn array_lit() {
     assert_eq_ignore_span!(
         expr("[a,,,,, ...d,, e]"),
         Box::new(Expr::Array(ArrayLit {
+            node_id: Default::default(),
             span: DUMMY_SP,
             elems: vec![
                 Some(ExprOrSpread {
+                    node_id: Default::default(),
                     spread: None,
                     expr: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("a"), DUMMY_SP))),
                 }),
@@ -809,11 +902,13 @@ fn array_lit() {
                 None,
                 None,
                 Some(ExprOrSpread {
+                    node_id: Default::default(),
                     spread: Some(DUMMY_SP),
                     expr: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("d"), DUMMY_SP))),
                 }),
                 None,
                 Some(ExprOrSpread {
+                    node_id: Default::default(),
                     spread: None,
                     expr: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("e"), DUMMY_SP))),
                 }),
@@ -827,6 +922,7 @@ fn max_integer() {
     assert_eq_ignore_span!(
         expr("1.7976931348623157e+308"),
         Box::new(Expr::Lit(Lit::Num(Number {
+            node_id: Default::default(),
             span: DUMMY_SP,
             value: 1.797_693_134_862_315_7e308,
             raw: Some(atom!("1.7976931348623157e+308")),
@@ -855,6 +951,7 @@ fn issue_319_1() {
             span: DUMMY_SP,
             callee: Callee::Expr(expr("obj")),
             args: vec![ExprOrSpread {
+                node_id: Default::default(),
                 spread: None,
                 expr: expr("({ async f() { await g(); } })"),
             }],
@@ -870,16 +967,20 @@ fn issue_328() {
             p.parse_stmt()
         }),
         Stmt::Expr(ExprStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: Callee::Import(Import {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     phase: Default::default()
                 }),
                 args: vec![ExprOrSpread {
+                    node_id: Default::default(),
                     spread: None,
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         value: atom!("test").into(),
                         raw: Some(atom!("'test'")),
@@ -909,6 +1010,7 @@ ok\
 hehe.";"#,
         ),
         Box::new(Expr::Lit(Lit::Str(Str {
+            node_id: Default::default(),
             span: DUMMY_SP,
             value: atom!("okokhehe.").into(),
             raw: Some(atom!("\"ok\\\nok\\\nhehe.\"")),
@@ -940,9 +1042,14 @@ fn super_expr() {
         Box::new(Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: Callee::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
-                obj: Super { span: DUMMY_SP },
+                obj: Super {
+                    node_id: Default::default(),
+                    span: DUMMY_SP
+                },
                 prop: SuperProp::Ident(IdentName {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     sym: atom!("foo"),
                 })
@@ -957,12 +1064,18 @@ fn super_expr_computed() {
     assert_eq_ignore_span!(
         expr("super[a] ??= 123;"),
         Box::new(Expr::Assign(AssignExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             op: AssignOp::NullishAssign,
             left: SuperPropExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
-                obj: Super { span: DUMMY_SP },
+                obj: Super {
+                    node_id: Default::default(),
+                    span: DUMMY_SP
+                },
                 prop: SuperProp::Computed(ComputedPropName {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     expr: Box::new(Expr::Ident(Ident {
                         span: DUMMY_SP,
@@ -973,6 +1086,7 @@ fn super_expr_computed() {
             }
             .into(),
             right: Box::new(Expr::Lit(Lit::Num(Number {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 value: 123f64,
                 raw: Some(atom!("123")),

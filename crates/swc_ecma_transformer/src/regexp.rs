@@ -194,11 +194,14 @@ impl RegexpPass {
             .into_iter()
             .map(|(name, idx)| {
                 PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                    node_id: Default::default(),
                     key: PropName::Ident(IdentName {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         sym: name,
                     }),
                     value: Box::new(Expr::Lit(Lit::Num(Number {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         value: idx as f64,
                         raw: None,
@@ -208,6 +211,7 @@ impl RegexpPass {
             .collect();
 
         Expr::Object(ObjectLit {
+            node_id: Default::default(),
             span: DUMMY_SP,
             props,
         })
@@ -255,6 +259,7 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                         } else {
                             // Keep as regex literal with stripped named groups
                             Lit::Regex(Regex {
+                                node_id: Default::default(),
                                 span,
                                 exp: stripped_exp.into(),
                                 flags,
@@ -285,7 +290,9 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                 let needs_transform = self.needs_regexp_constructor(&regex.exp, &regex.flags);
 
                 if needs_transform {
-                    let Regex { exp, flags, span } = regex.take();
+                    let Regex {
+                        exp, flags, span, ..
+                    } = regex.take();
 
                     // Transform the pattern if it contains unicode property escapes
                     let transformed_pattern = self

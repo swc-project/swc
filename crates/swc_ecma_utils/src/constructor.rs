@@ -92,20 +92,24 @@ impl VisitMut for Injector {
 
             *node = if ignore_return_value {
                 SeqExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     exprs: exprs.collect(),
                 }
                 .into()
             } else {
                 let array = ArrayLit {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     elems: exprs.map(ExprOrSpread::from).map(Some).collect(),
                 };
 
                 MemberExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     obj: array.into(),
                     prop: ComputedPropName {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         expr: 0.into(),
                     }

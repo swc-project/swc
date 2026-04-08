@@ -12,7 +12,7 @@ use swc_atoms::{
 };
 use swc_common::{ast_node, errors::HANDLER, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
-use crate::{jsx::JSXText, TplElement};
+use crate::{jsx::JSXText, NodeId, TplElement};
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
@@ -86,6 +86,9 @@ impl Lit {
 #[derive(Eq, Hash)]
 pub struct BigInt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeBigInt))]
     #[cfg_attr(feature = "encoding-impl", encoding(with = "EncodeBigInt2"))]
     pub value: Box<BigIntValue>,
@@ -210,6 +213,7 @@ impl From<BigIntValue> for BigInt {
     fn from(value: BigIntValue) -> Self {
         BigInt {
             span: DUMMY_SP,
+            node_id: Default::default(),
             value: Box::new(value),
             raw: None,
         }
@@ -222,6 +226,9 @@ impl From<BigIntValue> for BigInt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Str {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub value: Wtf8Atom,
 
@@ -238,6 +245,7 @@ impl Take for Str {
     fn dummy() -> Self {
         Str {
             span: DUMMY_SP,
+            node_id: Default::default(),
             value: Wtf8Atom::default(),
             raw: None,
         }
@@ -458,6 +466,7 @@ impl From<Atom> for Str {
     fn from(value: Atom) -> Self {
         Str {
             span: DUMMY_SP,
+            node_id: Default::default(),
             value: value.into(),
             raw: None,
         }
@@ -469,6 +478,7 @@ impl From<Wtf8Atom> for Str {
     fn from(value: Wtf8Atom) -> Self {
         Str {
             span: DUMMY_SP,
+            node_id: Default::default(),
             value,
             raw: None,
         }
@@ -494,6 +504,9 @@ bridge_from!(Str, Atom, Cow<'_, str>);
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Bool {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub value: bool,
 }
 
@@ -501,6 +514,7 @@ impl Take for Bool {
     fn dummy() -> Self {
         Bool {
             span: DUMMY_SP,
+            node_id: Default::default(),
             value: false,
         }
     }
@@ -511,6 +525,7 @@ impl From<bool> for Bool {
     fn from(value: bool) -> Self {
         Bool {
             span: DUMMY_SP,
+            node_id: Default::default(),
             value,
         }
     }
@@ -522,11 +537,17 @@ impl From<bool> for Bool {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Null {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 impl Take for Null {
     fn dummy() -> Self {
-        Null { span: DUMMY_SP }
+        Null {
+            span: DUMMY_SP,
+            node_id: Default::default(),
+        }
     }
 }
 
@@ -535,6 +556,9 @@ impl Take for Null {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Regex {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "pattern"))]
     pub exp: Atom,
@@ -547,6 +571,7 @@ impl Take for Regex {
     fn dummy() -> Self {
         Self {
             span: DUMMY_SP,
+            node_id: Default::default(),
             exp: Default::default(),
             flags: Default::default(),
         }
@@ -582,6 +607,9 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Number {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.
     ///
     /// If you store `NaN` in this field, a hash map will behave strangely.
@@ -659,6 +687,7 @@ impl From<f64> for Number {
     fn from(value: f64) -> Self {
         Number {
             span: DUMMY_SP,
+            node_id: Default::default(),
             value,
             raw: None,
         }
@@ -670,6 +699,7 @@ impl From<usize> for Number {
     fn from(value: usize) -> Self {
         Number {
             span: DUMMY_SP,
+            node_id: Default::default(),
             value: value as _,
             raw: None,
         }

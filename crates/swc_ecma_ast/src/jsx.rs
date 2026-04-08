@@ -6,7 +6,7 @@ use crate::{
     expr::{Expr, SpreadElement},
     ident::Ident,
     typescript::TsTypeParamInstantiation,
-    IdentName, Str,
+    IdentName, NodeId, Str,
 };
 
 /// Used for `obj` property of `JSXMemberExpr`.
@@ -29,6 +29,9 @@ pub enum JSXObject {
 pub struct JSXMemberExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
     pub obj: JSXObject,
 
@@ -43,6 +46,9 @@ pub struct JSXMemberExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXNamespacedName {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "namespace"))]
     pub ns: IdentName,
     pub name: IdentName,
@@ -54,6 +60,9 @@ pub struct JSXNamespacedName {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXEmptyExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 #[ast_node("JSXExpressionContainer")]
@@ -62,6 +71,9 @@ pub struct JSXEmptyExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXExprContainer {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: JSXExpr,
 }
@@ -84,6 +96,9 @@ pub enum JSXExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXSpreadChild {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
@@ -116,6 +131,9 @@ pub struct JSXOpeningElement {
 
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "attributes"))]
     pub attrs: Vec<JSXAttrOrSpread>,
 
@@ -137,6 +155,7 @@ impl Take for JSXOpeningElement {
         JSXOpeningElement {
             name: Take::dummy(),
             span: DUMMY_SP,
+            node_id: Default::default(),
             attrs: Take::dummy(),
             self_closing: Default::default(),
             type_args: Take::dummy(),
@@ -162,6 +181,9 @@ pub enum JSXAttrOrSpread {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXClosingElement {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub name: JSXElementName,
 }
 
@@ -171,6 +193,9 @@ pub struct JSXClosingElement {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXAttr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub name: JSXAttrName,
     /// Babel uses Expr instead of JSXAttrValue
     #[cfg_attr(
@@ -214,6 +239,9 @@ pub enum JSXAttrValue {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXText {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub value: Atom,
     pub raw: Atom,
 }
@@ -236,6 +264,9 @@ impl<'a> arbitrary::Arbitrary<'a> for JSXText {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXElement {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub opening: JSXOpeningElement,
     pub children: Vec<JSXElementChild>,
     #[cfg_attr(
@@ -249,6 +280,7 @@ impl Take for JSXElement {
     fn dummy() -> Self {
         JSXElement {
             span: DUMMY_SP,
+            node_id: Default::default(),
             opening: Take::dummy(),
             children: Take::dummy(),
             closing: Take::dummy(),
@@ -284,6 +316,9 @@ pub enum JSXElementChild {
 pub struct JSXFragment {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub opening: JSXOpeningFragment,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -296,6 +331,7 @@ impl Take for JSXFragment {
     fn dummy() -> Self {
         JSXFragment {
             span: DUMMY_SP,
+            node_id: Default::default(),
             opening: Take::dummy(),
             children: Take::dummy(),
             closing: Take::dummy(),
@@ -309,11 +345,17 @@ impl Take for JSXFragment {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXOpeningFragment {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 impl Take for JSXOpeningFragment {
     fn dummy() -> Self {
-        JSXOpeningFragment { span: DUMMY_SP }
+        JSXOpeningFragment {
+            span: DUMMY_SP,
+            node_id: Default::default(),
+        }
     }
 }
 
@@ -323,10 +365,16 @@ impl Take for JSXOpeningFragment {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXClosingFragment {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 impl Take for JSXClosingFragment {
     fn dummy() -> Self {
-        JSXClosingFragment { span: DUMMY_SP }
+        JSXClosingFragment {
+            span: DUMMY_SP,
+            node_id: Default::default(),
+        }
     }
 }

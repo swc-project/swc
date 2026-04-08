@@ -177,6 +177,7 @@ impl FastDts {
             if ty.is_ts_fn_or_constructor_type() {
                 ty = Box::new(
                     TsParenthesizedType {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         type_ann: Box::new(*ty),
                     }
@@ -185,6 +186,7 @@ impl FastDts {
             }
             type_ann.type_ann = Box::new(TsType::TsUnionOrIntersectionType(
                 TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     types: vec![ty, ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword)],
                 }),

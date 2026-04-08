@@ -97,9 +97,11 @@ impl NullishCoalescingPass {
         let (test_expr, cons_expr) = if needs_temp {
             // Complex left side: (_ref = left) !== null && _ref !== void 0 ? _ref : right
             let assign_expr = Box::new(Expr::Assign(AssignExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 op: AssignOp::Assign,
                 left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                    node_id: Default::default(),
                     id: alias_ident.clone(),
                     type_ann: None,
                 })),
@@ -119,6 +121,7 @@ impl NullishCoalescingPass {
         };
 
         *expr = Expr::Cond(CondExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             test: test_expr,
             cons: cons_expr,
@@ -149,13 +152,16 @@ impl NullishCoalescingPass {
                 );
 
                 *expr = Expr::Assign(AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                        node_id: Default::default(),
                         id: ident_ref.clone(),
                         type_ann: None,
                     })),
                     right: Box::new(Expr::Cond(CondExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         test,
                         cons: Box::new(Expr::Ident(ident_ref)),
@@ -175,9 +181,11 @@ impl NullishCoalescingPass {
 
                 // Create: (_ref = left) !== null && _ref !== void 0 ? _ref : (left = right)
                 let assign_to_temp = Box::new(Expr::Assign(AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                        node_id: Default::default(),
                         id: alias.clone(),
                         type_ann: None,
                     })),
@@ -189,6 +197,7 @@ impl NullishCoalescingPass {
                 let cons = Box::new(Expr::Ident(alias.clone()));
 
                 let alt = Box::new(Expr::Assign(AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(left_clone),
@@ -198,13 +207,16 @@ impl NullishCoalescingPass {
                 // Final: _ref = (_ref = left) !== null && _ref !== void 0 ? _ref : (left =
                 // right)
                 *expr = Expr::Assign(AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                        node_id: Default::default(),
                         id: alias,
                         type_ann: None,
                     })),
                     right: Box::new(Expr::Cond(CondExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         test,
                         cons,
@@ -226,23 +238,33 @@ fn create_nullish_test(no_document_all: bool, test_expr: Box<Expr>, alias: &Iden
     if no_document_all {
         // Simplified: test_expr != null
         Box::new(Expr::Bin(BinExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             left: test_expr,
             op: BinaryOp::NotEq,
-            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+            right: Box::new(Expr::Lit(Lit::Null(Null {
+                node_id: Default::default(),
+                span: DUMMY_SP,
+            }))),
         }))
     } else {
         // Standard: test_expr !== null && alias !== void 0
         Box::new(Expr::Bin(BinExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             left: Box::new(Expr::Bin(BinExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 left: test_expr,
                 op: BinaryOp::NotEqEq,
-                right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                right: Box::new(Expr::Lit(Lit::Null(Null {
+                    node_id: Default::default(),
+                    span: DUMMY_SP,
+                }))),
             })),
             op: BinaryOp::LogicalAnd,
             right: Box::new(Expr::Bin(BinExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 left: Box::new(Expr::Ident(alias.clone())),
                 op: BinaryOp::NotEqEq,

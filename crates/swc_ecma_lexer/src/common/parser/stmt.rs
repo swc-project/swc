@@ -96,6 +96,7 @@ pub fn parse_return_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     };
     p.expect_general_semi()?;
     let stmt = Ok(ReturnStmt {
+        node_id: Default::default(),
         span: p.span(start),
         arg,
     }
@@ -189,6 +190,7 @@ fn parse_var_declarator<'a, P: Parser<'a>>(
     };
 
     Ok(VarDeclarator {
+        node_id: Default::default(),
         span: p.span(start),
         name,
         init,
@@ -365,6 +367,7 @@ pub fn parse_using_decl<'a, P: Parser<'a>>(
     p.expect_general_semi()?;
 
     Ok(Some(Box::new(UsingDecl {
+        node_id: Default::default(),
         span: p.span(start),
         is_await,
         decls,
@@ -459,6 +462,7 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
     if is_using_decl {
         let name = parse_binding_ident(p, false)?;
         let decl = VarDeclarator {
+            node_id: Default::default(),
             name: name.into(),
             span: p.span(start),
             init: None,
@@ -466,6 +470,7 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
         };
 
         let pat = Box::new(UsingDecl {
+            node_id: Default::default(),
             span: p.span(start),
             is_await: is_await_using_decl,
             decls: vec![decl],
@@ -544,6 +549,7 @@ fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
             }
 
             ForStmt {
+                node_id: Default::default(),
                 span,
                 init,
                 test,
@@ -558,6 +564,7 @@ fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
             }
 
             ForInStmt {
+                node_id: Default::default(),
                 span,
                 left,
                 right,
@@ -565,7 +572,8 @@ fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
             }
             .into()
         }
-        TempForHead::ForOf { left, right } => ForOfStmt {
+        TempForHead::ForOf { left, right, .. } => ForOfStmt {
+            node_id: Default::default(),
             span,
             is_await: await_token.is_some(),
             left,
@@ -686,6 +694,7 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
 
     let span = p.span(start);
     Ok(IfStmt {
+        node_id: Default::default(),
         span,
         test,
         cons,
@@ -707,7 +716,12 @@ fn parse_throw_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     p.expect_general_semi()?;
 
     let span = p.span(start);
-    Ok(ThrowStmt { span, arg }.into())
+    Ok(ThrowStmt {
+        node_id: Default::default(),
+        span,
+        arg,
+    }
+    .into())
 }
 
 fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
@@ -736,7 +750,13 @@ fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
         .map(Box::new)?;
 
     let span = p.span(start);
-    Ok(WithStmt { span, obj, body }.into())
+    Ok(WithStmt {
+        node_id: Default::default(),
+        span,
+        obj,
+        body,
+    }
+    .into())
 }
 
 fn parse_while_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
@@ -756,7 +776,13 @@ fn parse_while_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
         .map(Box::new)?;
 
     let span = p.span(start);
-    Ok(WhileStmt { span, test, body }.into())
+    Ok(WhileStmt {
+        node_id: Default::default(),
+        span,
+        test,
+        body,
+    }
+    .into())
 }
 
 /// It's optional since es2019
@@ -776,6 +802,7 @@ fn parse_catch_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Pat>> {
                 | Pat::Rest(RestPat { type_ann, .. })
                 | Pat::Object(ObjectPat { type_ann, .. }) => {
                     *type_ann = Some(Box::new(TsTypeAnn {
+                        node_id: Default::default(),
                         span: p.span(type_ann_start),
                         type_ann: ty,
                     }));
@@ -818,7 +845,13 @@ fn parse_do_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     let span = p.span(start);
 
-    Ok(DoWhileStmt { span, test, body }.into())
+    Ok(DoWhileStmt {
+        node_id: Default::default(),
+        span,
+        test,
+        body,
+    }
+    .into())
 }
 
 fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> {
@@ -865,6 +898,7 @@ fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> 
             }
 
             Ok(LabeledStmt {
+                node_id: Default::default(),
                 span: p.span(start),
                 label: l,
                 body,
@@ -885,6 +919,7 @@ pub fn parse_block<'a, P: Parser<'a>>(p: &mut P, allow_directives: bool) -> PRes
 
     let span = p.span(start);
     Ok(BlockStmt {
+        node_id: Default::default(),
         span,
         stmts,
         ctxt: Default::default(),
@@ -905,6 +940,7 @@ fn parse_catch_clause<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<CatchClaus
         let param = parse_catch_param(p)?;
         parse_block(p, false)
             .map(|body| CatchClause {
+                node_id: Default::default(),
                 span: p.span(start),
                 param,
                 body,
@@ -934,6 +970,7 @@ fn parse_try_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     let span = p.span(start);
     Ok(TryStmt {
+        node_id: Default::default(),
         span,
         block,
         handler,
@@ -985,6 +1022,7 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
             }
 
             cases.push(SwitchCase {
+                node_id: Default::default(),
                 span: Span::new_with_checked(case_start, p.input().prev_span().hi),
                 test,
                 cons,
@@ -998,6 +1036,7 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     expect!(p, &P::Token::RBRACE);
 
     Ok(SwitchStmt {
+        node_id: Default::default(),
         span: p.span(switch_start),
         discriminant,
         cases,
@@ -1049,6 +1088,7 @@ fn handle_import_export<'a, P: Parser<'a>>(p: &mut P, _: Vec<Decorator>) -> PRes
         p.eat_general_semi();
 
         return Ok(ExprStmt {
+            node_id: Default::default(),
             span: p.span(start),
             expr,
         }
@@ -1061,6 +1101,7 @@ fn handle_import_export<'a, P: Parser<'a>>(p: &mut P, _: Vec<Decorator>) -> PRes
         p.eat_general_semi();
 
         return Ok(ExprStmt {
+            node_id: Default::default(),
             span: p.span(start),
             expr,
         }
@@ -1117,7 +1158,12 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             p.eat_general_semi();
 
             let span = p.span(start);
-            return Ok(ExprStmt { span, expr }.into());
+            return Ok(ExprStmt {
+                node_id: Default::default(),
+                span,
+                expr,
+            }
+            .into());
         }
     } else if cur.is_break() || cur.is_continue() {
         let is_break = p.input().is(&P::Token::BREAK);
@@ -1142,14 +1188,25 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             p.emit_err(span, SyntaxError::TS1107);
         }
         return Ok(if is_break {
-            BreakStmt { span, label }.into()
+            BreakStmt {
+                node_id: Default::default(),
+                span,
+                label,
+            }
+            .into()
         } else {
-            ContinueStmt { span, label }.into()
+            ContinueStmt {
+                node_id: Default::default(),
+                span,
+                label,
+            }
+            .into()
         });
     } else if cur.is_debugger() {
         p.bump();
         p.expect_general_semi()?;
         return Ok(DebuggerStmt {
+            node_id: Default::default(),
             span: p.span(start),
         }
         .into());
@@ -1184,8 +1241,13 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         let _ = parse_finally_block(p);
 
         return Ok(ExprStmt {
+            node_id: Default::default(),
             span,
-            expr: Invalid { span }.into(),
+            expr: Invalid {
+                node_id: Default::default(),
+                span,
+            }
+            .into(),
         }
         .into());
     } else if cur.is_finally() {
@@ -1196,8 +1258,13 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         let _ = parse_finally_block(p);
 
         return Ok(ExprStmt {
+            node_id: Default::default(),
             span,
-            expr: Invalid { span }.into(),
+            expr: Invalid {
+                node_id: Default::default(),
+                span,
+            }
+            .into(),
         }
         .into());
     } else if cur.is_try() {
@@ -1256,6 +1323,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
     } else if cur.is_semi() {
         p.bump();
         return Ok(EmptyStmt {
+            node_id: Default::default(),
             span: p.span(start),
         }
         .into());
@@ -1295,6 +1363,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             p.eat_general_semi();
 
             return Ok(ExprStmt {
+                node_id: Default::default(),
                 span: p.span(start),
                 expr,
             }
@@ -1326,6 +1395,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
 
     if p.eat_general_semi() {
         Ok(ExprStmt {
+            node_id: Default::default(),
             span: p.span(start),
             expr,
         }
@@ -1336,6 +1406,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
             let expr = parse_bin_op_recursively(p, expr, 0)?;
             return Ok(ExprStmt {
+                node_id: Default::default(),
                 span: p.span(start),
                 expr,
             }

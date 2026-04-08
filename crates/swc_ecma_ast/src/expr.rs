@@ -23,7 +23,7 @@ use crate::{
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
     ArrayPat, BindingIdent, ComputedPropName, Id, IdentName, ImportPhase, Invalid, KeyValueProp,
-    Number, ObjectPat, PropName, Str,
+    NodeId, Number, ObjectPat, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -181,9 +181,11 @@ impl Expr {
     pub fn undefined(span: Span) -> Box<Expr> {
         UnaryExpr {
             span,
+            node_id: Default::default(),
             op: op!("void"),
             arg: Lit::Num(Number {
                 span,
+                node_id: Default::default(),
                 value: 0.0,
                 raw: None,
             })
@@ -313,6 +315,7 @@ impl Expr {
         } else {
             SeqExpr {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 exprs,
             }
             .into()
@@ -434,7 +437,11 @@ impl Clone for Expr {
 
 impl Take for Expr {
     fn dummy() -> Self {
-        Invalid { span: DUMMY_SP }.into()
+        Invalid {
+            span: DUMMY_SP,
+            node_id: Default::default(),
+        }
+        .into()
     }
 }
 
@@ -500,11 +507,17 @@ boxed_expr!(Invalid);
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ThisExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(skip))]
+    pub node_id: NodeId,
 }
 
 impl Take for ThisExpr {
     fn dummy() -> Self {
-        ThisExpr { span: DUMMY_SP }
+        ThisExpr {
+            span: DUMMY_SP,
+            node_id: Default::default(),
+        }
     }
 }
 
@@ -515,6 +528,9 @@ impl Take for ThisExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ArrayLit {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(skip))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
     #[cfg_attr(
@@ -528,6 +544,7 @@ impl Take for ArrayLit {
     fn dummy() -> Self {
         ArrayLit {
             span: DUMMY_SP,
+            node_id: Default::default(),
             elems: Default::default(),
         }
     }
@@ -540,6 +557,9 @@ impl Take for ArrayLit {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ObjectLit {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "properties"))]
     pub props: Vec<PropOrSpread>,
@@ -582,6 +602,7 @@ impl ObjectLit {
 
         Some(ImportWith {
             span: self.span,
+            node_id: Default::default(),
             values,
         })
     }
@@ -591,11 +612,13 @@ impl From<ImportWith> for ObjectLit {
     fn from(v: ImportWith) -> Self {
         ObjectLit {
             span: v.span,
+            node_id: Default::default(),
             props: v
                 .values
                 .into_iter()
                 .map(|item| {
                     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        node_id: Default::default(),
                         key: PropName::Ident(item.key),
                         value: Lit::Str(item.value).into(),
                     })))
@@ -610,8 +633,14 @@ impl From<ImportWith> for ObjectLit {
 /// values:
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct ImportWith {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub values: Vec<ImportWithItem>,
 }
 
@@ -628,6 +657,9 @@ impl ImportWith {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct ImportWithItem {
     pub key: IdentName,
     pub value: Str,
@@ -637,6 +669,7 @@ impl Take for ObjectLit {
     fn dummy() -> Self {
         ObjectLit {
             span: DUMMY_SP,
+            node_id: Default::default(),
             props: Default::default(),
         }
     }
@@ -660,6 +693,7 @@ bridge_from!(PropOrSpread, Box<Prop>, Prop);
 impl Take for PropOrSpread {
     fn dummy() -> Self {
         PropOrSpread::Spread(SpreadElement {
+            node_id: Default::default(),
             dot3_token: DUMMY_SP,
             expr: Take::dummy(),
         })
@@ -671,6 +705,9 @@ impl Take for PropOrSpread {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SpreadElement {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "spread"))]
     #[span(lo)]
     pub dot3_token: Span,
@@ -683,6 +720,7 @@ pub struct SpreadElement {
 impl Take for SpreadElement {
     fn dummy() -> Self {
         SpreadElement {
+            node_id: Default::default(),
             dot3_token: DUMMY_SP,
             expr: Take::dummy(),
         }
@@ -696,6 +734,9 @@ impl Take for SpreadElement {
 pub struct UnaryExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: UnaryOp,
 
@@ -707,6 +748,7 @@ impl Take for UnaryExpr {
     fn dummy() -> Self {
         UnaryExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             op: op!("!"),
             arg: Take::dummy(),
         }
@@ -719,6 +761,9 @@ impl Take for UnaryExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct UpdateExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: UpdateOp,
@@ -733,6 +778,7 @@ impl Take for UpdateExpr {
     fn dummy() -> Self {
         UpdateExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             op: op!("++"),
             prefix: false,
             arg: Take::dummy(),
@@ -747,6 +793,9 @@ impl Take for UpdateExpr {
 pub struct BinExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: BinaryOp,
 
@@ -759,6 +808,7 @@ impl Take for BinExpr {
     fn dummy() -> Self {
         BinExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             op: op!("*"),
             left: Take::dummy(),
             right: Take::dummy(),
@@ -772,6 +822,9 @@ impl Take for BinExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct FnExpr {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
     #[cfg_attr(
         feature = "encoding-impl",
@@ -787,6 +840,7 @@ pub struct FnExpr {
 impl Take for FnExpr {
     fn dummy() -> Self {
         FnExpr {
+            node_id: Default::default(),
             ident: None,
             function: Take::dummy(),
         }
@@ -796,6 +850,7 @@ impl Take for FnExpr {
 impl From<Box<Function>> for FnExpr {
     fn from(function: Box<Function>) -> Self {
         Self {
+            node_id: Default::default(),
             ident: None,
             function,
         }
@@ -811,6 +866,9 @@ bridge_expr_from!(FnExpr, Box<Function>);
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ClassExpr {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
     #[cfg_attr(
         feature = "encoding-impl",
@@ -826,6 +884,7 @@ pub struct ClassExpr {
 impl Take for ClassExpr {
     fn dummy() -> Self {
         ClassExpr {
+            node_id: Default::default(),
             ident: None,
             class: Take::dummy(),
         }
@@ -834,7 +893,11 @@ impl Take for ClassExpr {
 
 impl From<Box<Class>> for ClassExpr {
     fn from(class: Box<Class>) -> Self {
-        Self { ident: None, class }
+        Self {
+            node_id: Default::default(),
+            ident: None,
+            class,
+        }
     }
 }
 
@@ -848,6 +911,9 @@ bridge_expr_from!(ClassExpr, Box<Class>);
 pub struct AssignExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: AssignOp,
 
@@ -860,6 +926,7 @@ impl Take for AssignExpr {
     fn dummy() -> Self {
         AssignExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             op: op!("="),
             left: Take::dummy(),
             right: Take::dummy(),
@@ -879,6 +946,9 @@ impl AssignExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct MemberExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
     pub obj: Box<Expr>,
@@ -913,6 +983,9 @@ impl MemberProp {
 pub struct SuperPropExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub obj: Super,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "property"))]
@@ -934,6 +1007,7 @@ impl Take for MemberExpr {
     fn dummy() -> Self {
         MemberExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             obj: Take::dummy(),
             prop: Take::dummy(),
         }
@@ -971,6 +1045,9 @@ impl Default for SuperProp {
 pub struct CondExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub test: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
@@ -984,6 +1061,7 @@ impl Take for CondExpr {
     fn dummy() -> Self {
         CondExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             test: Take::dummy(),
             cons: Take::dummy(),
             alt: Take::dummy(),
@@ -997,6 +1075,9 @@ impl Take for CondExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct CallExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub ctxt: SyntaxContext,
 
     pub callee: Callee,
@@ -1025,6 +1106,9 @@ impl Take for CallExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct NewExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub ctxt: SyntaxContext,
 
@@ -1059,6 +1143,9 @@ impl Take for NewExpr {
 pub struct SeqExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
     pub exprs: Vec<Box<Expr>>,
 }
@@ -1067,6 +1154,7 @@ impl Take for SeqExpr {
     fn dummy() -> Self {
         SeqExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             exprs: Take::dummy(),
         }
     }
@@ -1078,6 +1166,9 @@ impl Take for SeqExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ArrowExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub ctxt: SyntaxContext,
 
@@ -1122,6 +1213,9 @@ impl Take for ArrowExpr {
 pub struct YieldExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
     #[cfg_attr(
         feature = "encoding-impl",
@@ -1137,6 +1231,7 @@ impl Take for YieldExpr {
     fn dummy() -> Self {
         YieldExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             arg: Take::dummy(),
             delegate: false,
         }
@@ -1149,6 +1244,9 @@ impl Take for YieldExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct MetaPropExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub kind: MetaPropKind,
 }
 
@@ -1180,6 +1278,9 @@ pub enum MetaPropKind {
 pub struct AwaitExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Expr>,
 }
@@ -1191,6 +1292,9 @@ pub struct AwaitExpr {
 pub struct Tpl {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
     pub exprs: Vec<Box<Expr>>,
 
@@ -1201,6 +1305,7 @@ impl Take for Tpl {
     fn dummy() -> Self {
         Tpl {
             span: DUMMY_SP,
+            node_id: Default::default(),
             exprs: Take::dummy(),
             quasis: Take::dummy(),
         }
@@ -1213,6 +1318,9 @@ impl Take for Tpl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TaggedTpl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub ctxt: SyntaxContext,
 
@@ -1241,6 +1349,9 @@ impl Take for TaggedTpl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TplElement {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub tail: bool,
 
     /// This value is never used by `swc_ecma_codegen`, and this fact is
@@ -1263,6 +1374,7 @@ impl Take for TplElement {
     fn dummy() -> Self {
         TplElement {
             span: DUMMY_SP,
+            node_id: Default::default(),
             tail: Default::default(),
             cooked: None,
             raw: Default::default(),
@@ -1294,6 +1406,9 @@ impl<'a> arbitrary::Arbitrary<'a> for TplElement {
 pub struct ParenExpr {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
@@ -1301,6 +1416,7 @@ impl Take for ParenExpr {
     fn dummy() -> Self {
         ParenExpr {
             span: DUMMY_SP,
+            node_id: Default::default(),
             expr: Take::dummy(),
         }
     }
@@ -1340,11 +1456,17 @@ impl Take for Callee {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Super {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 impl Take for Super {
     fn dummy() -> Self {
-        Super { span: DUMMY_SP }
+        Super {
+            span: DUMMY_SP,
+            node_id: Default::default(),
+        }
     }
 }
 
@@ -1354,6 +1476,9 @@ impl Take for Super {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Import {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub phase: ImportPhase,
 }
 
@@ -1361,6 +1486,7 @@ impl Take for Import {
     fn dummy() -> Self {
         Import {
             span: DUMMY_SP,
+            node_id: Default::default(),
             phase: ImportPhase::default(),
         }
     }
@@ -1396,6 +1522,9 @@ impl Take for Import {
     derive(::swc_common::Encode, ::swc_common::Decode)
 )]
 pub struct ExprOrSpread {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     #[cfg_attr(
@@ -1435,7 +1564,11 @@ impl Spanned for ExprOrSpread {
 
 impl From<Box<Expr>> for ExprOrSpread {
     fn from(expr: Box<Expr>) -> Self {
-        Self { expr, spread: None }
+        Self {
+            node_id: Default::default(),
+            expr,
+            spread: None,
+        }
     }
 }
 
@@ -1719,6 +1852,9 @@ impl Take for AssignTarget {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct OptChainExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub optional: bool,
     /// This is boxed to reduce the type size of [Expr].
     pub base: Box<OptChainBase>,
@@ -1748,6 +1884,9 @@ impl Default for OptChainBase {
 pub struct OptCall {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub ctxt: SyntaxContext,
 
     pub callee: Box<Expr>,
@@ -1768,6 +1907,7 @@ impl Take for OptChainExpr {
     fn dummy() -> Self {
         Self {
             span: DUMMY_SP,
+            node_id: Default::default(),
             optional: false,
             base: Box::new(OptChainBase::Member(Take::dummy())),
         }
@@ -1779,6 +1919,7 @@ impl From<OptChainBase> for Expr {
         match opt {
             OptChainBase::Call(OptCall {
                 span,
+                node_id,
                 ctxt,
                 callee,
                 args,
@@ -1787,6 +1928,7 @@ impl From<OptChainBase> for Expr {
                 callee: Callee::Expr(callee),
                 args,
                 span,
+                node_id,
                 type_args,
                 ctxt,
             }),
@@ -1809,6 +1951,7 @@ impl From<OptCall> for CallExpr {
     fn from(
         OptCall {
             span,
+            node_id,
             ctxt,
             callee,
             args,
@@ -1817,6 +1960,7 @@ impl From<OptCall> for CallExpr {
     ) -> Self {
         Self {
             span,
+            node_id,
             callee: Callee::Expr(callee),
             args,
             type_args,

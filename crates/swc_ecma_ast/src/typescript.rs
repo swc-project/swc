@@ -20,7 +20,7 @@ use crate::{
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
-    BigInt, BindingIdent, IdentName, TplElement,
+    BigInt, BindingIdent, IdentName, NodeId, TplElement,
 };
 
 #[ast_node("TsTypeAnnotation")]
@@ -29,6 +29,9 @@ use crate::{
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeAnn {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
@@ -39,6 +42,9 @@ pub struct TsTypeAnn {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeParamDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "parameters"))]
     pub params: Vec<TsTypeParam>,
 }
@@ -49,6 +55,9 @@ pub struct TsTypeParamDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeParam {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub name: Ident,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "in"))]
@@ -81,6 +90,9 @@ pub struct TsTypeParam {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeParamInstantiation {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub params: Vec<Box<TsType>>,
 }
 
@@ -90,6 +102,9 @@ pub struct TsTypeParamInstantiation {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsParamProp {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
     /// At least one of `accessibility` or `readonly` must be set.
@@ -123,6 +138,9 @@ pub enum TsParamPropParam {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsQualifiedName {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub left: TsEntityName,
     pub right: IdentName,
 }
@@ -177,6 +195,9 @@ pub enum TsTypeElement {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsCallSignatureDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(
@@ -198,6 +219,9 @@ pub struct TsCallSignatureDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConstructSignatureDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(
@@ -219,6 +243,9 @@ pub struct TsConstructSignatureDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsPropertySignature {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub readonly: bool,
     pub key: Box<Expr>,
     pub computed: bool,
@@ -237,6 +264,9 @@ pub struct TsPropertySignature {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsGetterSignature {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub key: Box<Expr>,
     pub computed: bool,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
@@ -253,6 +283,9 @@ pub struct TsGetterSignature {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsSetterSignature {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub key: Box<Expr>,
     pub computed: bool,
     pub param: TsFnParam,
@@ -264,6 +297,9 @@ pub struct TsSetterSignature {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsMethodSignature {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub key: Box<Expr>,
     pub computed: bool,
     pub optional: bool,
@@ -299,6 +335,9 @@ pub struct TsIndexSignature {
     #[cfg_attr(feature = "serde-impl", serde(rename = "static"))]
     pub is_static: bool,
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 // ================
@@ -446,6 +485,9 @@ impl From<TsIntersectionType> for TsType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsKeywordType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub kind: TsKeywordTypeKind,
 }
 
@@ -511,6 +553,9 @@ pub enum TsKeywordTypeKind {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsThisType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 #[ast_node]
@@ -537,6 +582,9 @@ pub enum TsFnParam {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsFnType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub params: Vec<TsFnParam>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -555,6 +603,9 @@ pub struct TsFnType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConstructorType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
@@ -573,6 +624,9 @@ pub struct TsConstructorType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeRef {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub type_name: TsEntityName,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
@@ -588,6 +642,9 @@ pub struct TsTypeRef {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypePredicate {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub asserts: bool,
     pub param_name: TsThisTypeOrIdent,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -618,6 +675,9 @@ pub enum TsThisTypeOrIdent {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeQuery {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub expr_name: TsTypeQueryExpr,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     #[cfg_attr(
@@ -645,6 +705,9 @@ pub enum TsTypeQueryExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsImportCallOptions {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub with: Box<ObjectLit>,
 }
@@ -655,6 +718,9 @@ pub struct TsImportCallOptions {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsImportType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Str,
     #[cfg_attr(
@@ -682,6 +748,9 @@ pub struct TsImportType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeLit {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub members: Vec<TsTypeElement>,
 }
 
@@ -691,6 +760,9 @@ pub struct TsTypeLit {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsArrayType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub elem_type: Box<TsType>,
 }
 
@@ -700,6 +772,9 @@ pub struct TsArrayType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTupleType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub elem_types: Vec<TsTupleElement>,
 }
 
@@ -709,6 +784,9 @@ pub struct TsTupleType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTupleElement {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     /// `Ident` or `RestPat { arg: Ident }`
     #[cfg_attr(
         feature = "encoding-impl",
@@ -724,6 +802,9 @@ pub struct TsTupleElement {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsOptionalType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
@@ -734,6 +815,9 @@ pub struct TsOptionalType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsRestType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
@@ -756,6 +840,9 @@ pub enum TsUnionOrIntersectionType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsUnionType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub types: Vec<Box<TsType>>,
 }
 
@@ -765,6 +852,9 @@ pub struct TsUnionType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsIntersectionType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub types: Vec<Box<TsType>>,
 }
 
@@ -774,6 +864,9 @@ pub struct TsIntersectionType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConditionalType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub check_type: Box<TsType>,
     pub extends_type: Box<TsType>,
     pub true_type: Box<TsType>,
@@ -786,6 +879,9 @@ pub struct TsConditionalType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInferType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub type_param: TsTypeParam,
 }
 
@@ -795,6 +891,9 @@ pub struct TsInferType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsParenthesizedType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
@@ -805,6 +904,9 @@ pub struct TsParenthesizedType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeOperator {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub op: TsTypeOperatorOp,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
@@ -839,6 +941,9 @@ pub enum TsTypeOperatorOp {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsIndexedAccessType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub readonly: bool,
     #[cfg_attr(feature = "serde-impl", serde(rename = "objectType"))]
     pub obj_type: Box<TsType>,
@@ -928,6 +1033,9 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsMappedType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
         feature = "encoding-impl",
@@ -961,6 +1069,9 @@ pub struct TsMappedType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsLitType {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "literal"))]
     pub lit: TsLit,
 }
@@ -993,6 +1104,9 @@ pub enum TsLit {
 pub struct TsTplLitType {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub types: Vec<Box<TsType>>,
 
     pub quasis: Vec<TplElement>,
@@ -1008,6 +1122,9 @@ pub struct TsTplLitType {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInterfaceDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub id: Ident,
     pub declare: bool,
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -1026,6 +1143,9 @@ pub struct TsInterfaceDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInterfaceBody {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub body: Vec<TsTypeElement>,
 }
 
@@ -1035,6 +1155,9 @@ pub struct TsInterfaceBody {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsExprWithTypeArgs {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
@@ -1051,6 +1174,9 @@ pub struct TsExprWithTypeArgs {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeAliasDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub declare: bool,
     pub id: Ident,
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -1069,6 +1195,9 @@ pub struct TsTypeAliasDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsEnumDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub declare: bool,
     pub is_const: bool,
     pub id: Ident,
@@ -1081,6 +1210,9 @@ pub struct TsEnumDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsEnumMember {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub id: TsEnumMemberId,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
@@ -1110,6 +1242,9 @@ pub enum TsEnumMemberId {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsModuleDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub declare: bool,
     /// In TypeScript, this is only available through`node.flags`.
     pub global: bool,
@@ -1144,6 +1279,9 @@ pub enum TsNamespaceBody {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsModuleBlock {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub body: Vec<ModuleItem>,
 }
 
@@ -1153,6 +1291,9 @@ pub struct TsModuleBlock {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsNamespaceDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub declare: bool,
     /// In TypeScript, this is only available through`node.flags`.
     pub global: bool,
@@ -1178,6 +1319,9 @@ pub enum TsModuleName {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsImportEqualsDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub is_export: bool,
     pub is_type_only: bool,
     pub id: Ident,
@@ -1203,6 +1347,9 @@ pub enum TsModuleRef {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsExternalModuleRef {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Str,
 }
@@ -1216,6 +1363,9 @@ pub struct TsExternalModuleRef {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsExportAssignment {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
@@ -1226,6 +1376,9 @@ pub struct TsExportAssignment {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsNamespaceExportDecl {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub id: Ident,
 }
 
@@ -1239,6 +1392,9 @@ pub struct TsNamespaceExportDecl {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsAsExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -1251,6 +1407,9 @@ pub struct TsAsExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeAssertion {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -1263,6 +1422,9 @@ pub struct TsTypeAssertion {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsNonNullExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
@@ -1273,6 +1435,9 @@ pub struct TsNonNullExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsSatisfiesExpr {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -1309,6 +1474,9 @@ pub enum Accessibility {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConstAssertion {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
@@ -1319,6 +1487,9 @@ pub struct TsConstAssertion {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInstantiation {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeArguments"))]

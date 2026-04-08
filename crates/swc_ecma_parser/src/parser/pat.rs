@@ -78,7 +78,11 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn assign_pat_type_ann(&mut self, pat: &mut Pat, span: Span, type_ann: Box<TsType>) {
-        let type_ann = Some(Box::new(TsTypeAnn { span, type_ann }));
+        let type_ann = Some(Box::new(TsTypeAnn {
+            node_id: Default::default(),
+            span,
+            type_ann,
+        }));
 
         match pat {
             Pat::Ident(BindingIdent {
@@ -134,16 +138,19 @@ impl<I: Tokens> Parser<I> {
                     expr,
                     type_ann,
                     span,
+                    ..
                 })
                 | Expr::TsTypeAssertion(TsTypeAssertion {
                     expr,
                     type_ann,
                     span,
+                    ..
                 })
                 | Expr::TsSatisfies(TsSatisfiesExpr {
                     expr,
                     type_ann,
                     span,
+                    ..
                 }) => {
                     let mut pat = self.reparse_expr_as_pat_inner(pat_ty, expr)?;
                     self.assign_pat_type_ann(&mut pat, span, type_ann);
@@ -222,7 +229,11 @@ impl<I: Tokens> Parser<I> {
         match *expr {
             Expr::Paren(..) => {
                 self.emit_err(span, SyntaxError::InvalidPat);
-                Ok(Invalid { span }.into())
+                Ok(Invalid {
+                    node_id: Default::default(),
+                    span,
+                }
+                .into())
             }
             Expr::Assign(
                 assign_expr @ AssignExpr {
@@ -234,6 +245,7 @@ impl<I: Tokens> Parser<I> {
                     span, left, right, ..
                 } = assign_expr;
                 Ok(AssignPat {
+                    node_id: Default::default(),
                     span,
                     left: match left {
                         AssignTarget::Simple(left) => {
@@ -250,10 +262,12 @@ impl<I: Tokens> Parser<I> {
             Expr::Object(ObjectLit {
                 span: object_span,
                 props,
+                ..
             }) => {
                 // {}
                 let len = props.len();
                 Ok(ObjectPat {
+                    node_id: Default::default(),
                     span: object_span,
                     props: props
                         .into_iter()
@@ -264,6 +278,7 @@ impl<I: Tokens> Parser<I> {
                                 PropOrSpread::Prop(prop) => match *prop {
                                     Prop::Shorthand(id) => {
                                         Ok(ObjectPatProp::Assign(AssignPatProp {
+                                            node_id: Default::default(),
                                             span: id.span(),
                                             key: id.into(),
                                             value: None,
@@ -271,6 +286,7 @@ impl<I: Tokens> Parser<I> {
                                     }
                                     Prop::KeyValue(kv_prop) => {
                                         Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                            node_id: Default::default(),
                                             key: kv_prop.key,
                                             value: Box::new(self.reparse_expr_as_pat(
                                                 pat_ty.element(),
@@ -280,6 +296,7 @@ impl<I: Tokens> Parser<I> {
                                     }
                                     Prop::Assign(assign_prop) => {
                                         Ok(ObjectPatProp::Assign(AssignPatProp {
+                                            node_id: Default::default(),
                                             span,
                                             key: assign_prop.key.into(),
                                             value: Some(assign_prop.value),
@@ -288,7 +305,9 @@ impl<I: Tokens> Parser<I> {
                                     _ => syntax_error!(self, prop.span(), SyntaxError::InvalidPat),
                                 },
 
-                                PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
+                                PropOrSpread::Spread(SpreadElement {
+                                    dot3_token, expr, ..
+                                }) => {
                                     if idx != len - 1 {
                                         self.emit_err(span, SyntaxError::NonLastRestParam)
                                     } else if let Some(trailing_comma) =
@@ -306,7 +325,10 @@ impl<I: Tokens> Parser<I> {
                                             i.into()
                                         } else {
                                             self.emit_err(span, SyntaxError::DotsWithoutIdentifier);
-                                            Pat::Invalid(Invalid { span })
+                                            Pat::Invalid(Invalid {
+                                                node_id: Default::default(),
+                                                span,
+                                            })
                                         }
                                     } else {
                                         self.reparse_expr_as_pat(element_pat_ty, expr)?
@@ -315,6 +337,7 @@ impl<I: Tokens> Parser<I> {
                                         self.emit_err(span, SyntaxError::TS1048)
                                     };
                                     Ok(ObjectPatProp::Rest(RestPat {
+                                        node_id: Default::default(),
                                         span,
                                         dot3_token,
                                         arg: Box::new(pat),
@@ -337,6 +360,7 @@ impl<I: Tokens> Parser<I> {
             }) => {
                 if exprs.is_empty() {
                     return Ok(ArrayPat {
+                        node_id: Default::default(),
                         span,
                         elems: Vec::new(),
                         optional: false,
@@ -377,6 +401,7 @@ impl<I: Tokens> Parser<I> {
                         Some(ExprOrSpread {
                             spread: Some(dot3_token),
                             expr,
+                            ..
                         }) => {
                             // TODO: is BindingPat correct?
                             if let Expr::Assign(_) = *expr {
@@ -390,6 +415,7 @@ impl<I: Tokens> Parser<I> {
                             self.reparse_expr_as_pat(pat_ty.element(), expr)
                                 .map(|pat| {
                                     RestPat {
+                                        node_id: Default::default(),
                                         span: expr_span,
                                         dot3_token,
                                         arg: Box::new(pat),
@@ -409,6 +435,7 @@ impl<I: Tokens> Parser<I> {
                     params.push(last);
                 }
                 Ok(ArrayPat {
+                    node_id: Default::default(),
                     span,
                     elems: params,
                     optional: false,
@@ -421,18 +448,30 @@ impl<I: Tokens> Parser<I> {
             // Note that assignment expression with '=' is valid, and handled above.
             Expr::Lit(..) | Expr::Assign(..) => {
                 self.emit_err(span, SyntaxError::InvalidPat);
-                Ok(Invalid { span }.into())
+                Ok(Invalid {
+                    node_id: Default::default(),
+                    span,
+                }
+                .into())
             }
 
             Expr::Yield(..) if self.ctx().contains(Context::InGenerator) => {
                 self.emit_err(span, SyntaxError::InvalidPat);
-                Ok(Invalid { span }.into())
+                Ok(Invalid {
+                    node_id: Default::default(),
+                    span,
+                }
+                .into())
             }
 
             _ => {
                 self.emit_err(span, SyntaxError::InvalidPat);
 
-                Ok(Invalid { span }.into())
+                Ok(Invalid {
+                    node_id: Default::default(),
+                    span,
+                }
+                .into())
             }
         }
     }
@@ -458,6 +497,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             return Ok(AssignPat {
+                node_id: Default::default(),
                 span: self.span(start),
                 left: Box::new(left),
                 right,
@@ -515,6 +555,7 @@ impl<I: Tokens> Parser<I> {
                 let pat = self.parse_binding_pat_or_ident(false)?;
                 rest_span = self.span(start);
                 let pat = RestPat {
+                    node_id: Default::default(),
                     span: rest_span,
                     dot3_token,
                     arg: Box::new(pat),
@@ -539,6 +580,7 @@ impl<I: Tokens> Parser<I> {
             && self.input_mut().eat(Token::QuestionMark);
 
         Ok(ArrayPat {
+            node_id: Default::default(),
             span: self.span(start),
             elems,
             optional,
@@ -649,6 +691,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             AssignPat {
+                node_id: Default::default(),
                 span: self.span(start),
                 left: Box::new(pat),
                 right,
@@ -684,6 +727,7 @@ impl<I: Tokens> Parser<I> {
         if accessibility.is_none() && !is_override && !readonly {
             let pat = self.parse_formal_param_pat()?;
             Ok(ParamOrTsParamProp::Param(Param {
+                node_id: Default::default(),
                 span: self.span(param_start),
                 decorators,
                 pat,
@@ -695,6 +739,7 @@ impl<I: Tokens> Parser<I> {
                 node => syntax_error!(self, node.span(), SyntaxError::TsInvalidParamPropPat),
             };
             Ok(ParamOrTsParamProp::TsParamProp(TsParamProp {
+                node_id: Default::default(),
                 span: self.span(param_start),
                 accessibility,
                 is_override,
@@ -734,6 +779,7 @@ impl<I: Tokens> Parser<I> {
 
                 rest_span = self.span(pat_start);
                 let pat = RestPat {
+                    node_id: Default::default(),
                     span: rest_span,
                     dot3_token,
                     arg: Box::new(pat),
@@ -741,6 +787,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into();
                 params.push(ParamOrTsParamProp::Param(Param {
+                    node_id: Default::default(),
                     span: self.span(param_start),
                     decorators,
                     pat,
@@ -782,6 +829,7 @@ impl<I: Tokens> Parser<I> {
                     let right = self.parse_assignment_expr()?;
                     self.emit_err(pat.span(), SyntaxError::TS1048);
                     pat = AssignPat {
+                        node_id: Default::default(),
                         span: self.span(pat_start),
                         left: Box::new(pat),
                         right,
@@ -800,6 +848,7 @@ impl<I: Tokens> Parser<I> {
 
                 rest_span = self.span(pat_start);
                 let pat = RestPat {
+                    node_id: Default::default(),
                     span: rest_span,
                     dot3_token,
                     arg: Box::new(pat),
@@ -819,6 +868,7 @@ impl<I: Tokens> Parser<I> {
             let is_rest = matches!(pat, Pat::Rest(_));
 
             params.push(Param {
+                node_id: Default::default(),
                 span: self.span(param_start),
                 decorators,
                 pat,
@@ -897,6 +947,7 @@ impl<I: Tokens> Parser<I> {
             AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
                 spread: Some(dot3_token),
                 expr,
+                ..
             }) => {
                 if let Expr::Assign(_) = *expr {
                     self.emit_err(outer_expr_span, SyntaxError::TS1048)
@@ -907,6 +958,7 @@ impl<I: Tokens> Parser<I> {
                 let expr_span = expr.span();
                 self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
                     RestPat {
+                        node_id: Default::default(),
                         span: expr_span,
                         dot3_token,
                         arg: Box::new(pat),
@@ -967,6 +1019,7 @@ mod tests {
     fn rest() -> Option<Pat> {
         Some(
             RestPat {
+                node_id: Default::default(),
                 span,
                 dot3_token: span,
                 type_ann: None,
@@ -981,17 +1034,20 @@ mod tests {
         assert_eq_ignore_span!(
             array_pat("[a, [b], [c]]"),
             Pat::Array(ArrayPat {
+                node_id: Default::default(),
                 span,
                 optional: false,
                 elems: vec![
                     Some(Pat::Ident(ident("a").into())),
                     Some(Pat::Array(ArrayPat {
+                        node_id: Default::default(),
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("b").into()))],
                         type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
+                        node_id: Default::default(),
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("c").into()))],
@@ -1008,18 +1064,21 @@ mod tests {
         assert_eq_ignore_span!(
             array_pat("[, a, [b], [c]]"),
             Pat::Array(ArrayPat {
+                node_id: Default::default(),
                 span,
                 optional: false,
                 elems: vec![
                     None,
                     Some(Pat::Ident(ident("a").into())),
                     Some(Pat::Array(ArrayPat {
+                        node_id: Default::default(),
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("b").into()))],
                         type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
+                        node_id: Default::default(),
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("c").into()))],
@@ -1036,18 +1095,21 @@ mod tests {
         assert_eq_ignore_span!(
             array_pat("[a, , [b], [c]]"),
             Pat::Array(ArrayPat {
+                node_id: Default::default(),
                 span,
                 optional: false,
                 elems: vec![
                     Some(Pat::Ident(ident("a").into())),
                     None,
                     Some(Pat::Array(ArrayPat {
+                        node_id: Default::default(),
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("b").into()))],
                         type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
+                        node_id: Default::default(),
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("c").into()))],
@@ -1064,6 +1126,7 @@ mod tests {
         assert_eq_ignore_span!(
             array_pat("[a, ,]"),
             Pat::Array(ArrayPat {
+                node_id: Default::default(),
                 span,
                 optional: false,
                 elems: vec![Some(Pat::Ident(ident("a").into())), None,],
@@ -1077,6 +1140,7 @@ mod tests {
         assert_eq_ignore_span!(
             array_pat("[...tail]"),
             Pat::Array(ArrayPat {
+                node_id: Default::default(),
                 span,
                 optional: false,
                 elems: vec![rest()],
@@ -1090,14 +1154,17 @@ mod tests {
         assert_eq_ignore_span!(
             array_pat("[,a=1,]"),
             Pat::Array(ArrayPat {
+                node_id: Default::default(),
                 span,
                 optional: false,
                 elems: vec![
                     None,
                     Some(Pat::Assign(AssignPat {
+                        node_id: Default::default(),
                         span,
                         left: Box::new(Pat::Ident(ident("a").into())),
                         right: Box::new(Expr::Lit(Lit::Num(Number {
+                            node_id: Default::default(),
                             span,
                             value: 1.0,
                             raw: Some(atom!("1"))
@@ -1114,6 +1181,7 @@ mod tests {
         assert_eq_ignore_span!(
             array_pat("[,,,...tail]"),
             Pat::Array(ArrayPat {
+                node_id: Default::default(),
                 span,
                 optional: false,
                 elems: vec![None, None, None, rest()],
@@ -1127,6 +1195,7 @@ mod tests {
         assert_eq_ignore_span!(
             array_pat("[,,,...[...tail]]"),
             Pat::Array(ArrayPat {
+                node_id: Default::default(),
                 span,
                 optional: false,
                 elems: vec![
@@ -1134,10 +1203,12 @@ mod tests {
                     None,
                     None,
                     Some(Pat::Rest(RestPat {
+                        node_id: Default::default(),
                         span,
                         dot3_token: span,
                         type_ann: None,
                         arg: Box::new(Pat::Array(ArrayPat {
+                            node_id: Default::default(),
                             span,
                             optional: false,
                             elems: vec![rest()],
@@ -1155,10 +1226,12 @@ mod tests {
         assert_eq_ignore_span!(
             object_pat("{...obj}"),
             Pat::Object(ObjectPat {
+                node_id: Default::default(),
                 span,
                 type_ann: None,
                 optional: false,
                 props: vec![ObjectPatProp::Rest(RestPat {
+                    node_id: Default::default(),
                     span,
                     dot3_token: span,
                     type_ann: None,
@@ -1173,13 +1246,16 @@ mod tests {
         assert_eq_ignore_span!(
             object_pat("{prop = 10 }"),
             Pat::Object(ObjectPat {
+                node_id: Default::default(),
                 span,
                 type_ann: None,
                 optional: false,
                 props: vec![ObjectPatProp::Assign(AssignPatProp {
+                    node_id: Default::default(),
                     span,
                     key: ident("prop").into(),
                     value: Some(Box::new(Expr::Lit(Lit::Num(Number {
+                        node_id: Default::default(),
                         span,
                         value: 10.0,
                         raw: Some(atom!("10"))
@@ -1193,8 +1269,10 @@ mod tests {
     fn object_binding_pattern_with_prop_and_label() {
         fn prop(key: PropName, assign_name: &str, expr: Expr) -> PropOrSpread {
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                node_id: Default::default(),
                 key,
                 value: AssignExpr {
+                    node_id: Default::default(),
                     span,
                     op: AssignOp::Assign,
                     left: ident(assign_name).into(),
@@ -1209,19 +1287,23 @@ mod tests {
                 "{obj = {$: num = 10, '': sym = '', \" \": quote = \" \", _: under = [...tail],}}"
             ),
             Pat::Object(ObjectPat {
+                node_id: Default::default(),
                 span,
                 type_ann: None,
                 optional: false,
                 props: vec![ObjectPatProp::Assign(AssignPatProp {
+                    node_id: Default::default(),
                     span,
                     key: ident("obj").into(),
                     value: Some(Box::new(Expr::Object(ObjectLit {
+                        node_id: Default::default(),
                         span,
                         props: vec![
                             prop(
                                 PropName::Ident(ident_name("$")),
                                 "num",
                                 Expr::Lit(Lit::Num(Number {
+                                    node_id: Default::default(),
                                     span,
                                     value: 10.0,
                                     raw: Some(atom!("10"))
@@ -1229,12 +1311,14 @@ mod tests {
                             ),
                             prop(
                                 PropName::Str(Str {
+                                    node_id: Default::default(),
                                     span,
                                     value: atom!("").into(),
                                     raw: Some(atom!("''")),
                                 }),
                                 "sym",
                                 Expr::Lit(Lit::Str(Str {
+                                    node_id: Default::default(),
                                     span,
                                     value: atom!("").into(),
                                     raw: Some(atom!("''")),
@@ -1242,12 +1326,14 @@ mod tests {
                             ),
                             prop(
                                 PropName::Str(Str {
+                                    node_id: Default::default(),
                                     span,
                                     value: atom!(" ").into(),
                                     raw: Some(atom!("\" \"")),
                                 }),
                                 "quote",
                                 Expr::Lit(Lit::Str(Str {
+                                    node_id: Default::default(),
                                     span,
                                     value: atom!(" ").into(),
                                     raw: Some(atom!("\" \"")),
@@ -1257,8 +1343,10 @@ mod tests {
                                 PropName::Ident(ident_name("_")),
                                 "under",
                                 Expr::Array(ArrayLit {
+                                    node_id: Default::default(),
                                     span,
                                     elems: vec![Some(ExprOrSpread {
+                                        node_id: Default::default(),
                                         spread: Some(span),
                                         expr: Box::new(Expr::Ident(ident("tail")))
                                     })]

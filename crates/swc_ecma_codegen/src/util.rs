@@ -313,6 +313,7 @@ impl StartsWithAlphaNum for ExprOrSpread {
             ExprOrSpread {
                 spread: None,
                 ref expr,
+                ..
             } => expr.starts_with_alpha_num(),
         }
     }

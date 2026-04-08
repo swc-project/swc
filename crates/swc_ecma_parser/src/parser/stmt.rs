@@ -108,6 +108,7 @@ impl<I: Tokens> Parser<I> {
         };
         self.expect_general_semi()?;
         let stmt = Ok(ReturnStmt {
+            node_id: Default::default(),
             span: self.span(start),
             arg,
         }
@@ -202,6 +203,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(VarDeclarator {
+            node_id: Default::default(),
             span: self.span(start),
             name,
             init,
@@ -378,6 +380,7 @@ impl<I: Tokens> Parser<I> {
         self.expect_general_semi()?;
 
         Ok(Some(Box::new(UsingDecl {
+            node_id: Default::default(),
             span: self.span(start),
             is_await,
             decls,
@@ -483,6 +486,7 @@ impl<I: Tokens> Parser<I> {
         if is_using_decl {
             let name = self.parse_binding_ident(false)?;
             let decl = VarDeclarator {
+                node_id: Default::default(),
                 name: name.into(),
                 span: self.span(start),
                 init: None,
@@ -490,6 +494,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             let pat = Box::new(UsingDecl {
+                node_id: Default::default(),
                 span: self.span(start),
                 is_await: is_await_using_decl,
                 decls: vec![decl],
@@ -568,6 +573,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 ForStmt {
+                    node_id: Default::default(),
                     span,
                     init,
                     test,
@@ -582,6 +588,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 ForInStmt {
+                    node_id: Default::default(),
                     span,
                     left,
                     right,
@@ -598,6 +605,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 ForOfStmt {
+                    node_id: Default::default(),
                     span,
                     is_await: await_token.is_some(),
                     left,
@@ -720,6 +728,7 @@ impl<I: Tokens> Parser<I> {
 
         let span = self.span(start);
         Ok(IfStmt {
+            node_id: Default::default(),
             span,
             test,
             cons,
@@ -741,7 +750,12 @@ impl<I: Tokens> Parser<I> {
         self.expect_general_semi()?;
 
         let span = self.span(start);
-        Ok(ThrowStmt { span, arg }.into())
+        Ok(ThrowStmt {
+            node_id: Default::default(),
+            span,
+            arg,
+        }
+        .into())
     }
 
     fn parse_with_stmt(&mut self) -> PResult<Stmt> {
@@ -770,7 +784,13 @@ impl<I: Tokens> Parser<I> {
             .map(Box::new)?;
 
         let span = self.span(start);
-        Ok(WithStmt { span, obj, body }.into())
+        Ok(WithStmt {
+            node_id: Default::default(),
+            span,
+            obj,
+            body,
+        }
+        .into())
     }
 
     fn parse_while_stmt(&mut self) -> PResult<Stmt> {
@@ -790,7 +810,13 @@ impl<I: Tokens> Parser<I> {
             .map(Box::new)?;
 
         let span = self.span(start);
-        Ok(WhileStmt { span, test, body }.into())
+        Ok(WhileStmt {
+            node_id: Default::default(),
+            span,
+            test,
+            body,
+        }
+        .into())
     }
 
     /// It's optional since es2019
@@ -810,6 +836,7 @@ impl<I: Tokens> Parser<I> {
                     | Pat::Rest(RestPat { type_ann, .. })
                     | Pat::Object(ObjectPat { type_ann, .. }) => {
                         *type_ann = Some(Box::new(TsTypeAnn {
+                            node_id: Default::default(),
                             span: self.span(type_ann_start),
                             type_ann: ty,
                         }));
@@ -852,7 +879,13 @@ impl<I: Tokens> Parser<I> {
 
         let span = self.span(start);
 
-        Ok(DoWhileStmt { span, test, body }.into())
+        Ok(DoWhileStmt {
+            node_id: Default::default(),
+            span,
+            test,
+            body,
+        }
+        .into())
     }
 
     fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
@@ -899,6 +932,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 Ok(LabeledStmt {
+                    node_id: Default::default(),
                     span: p.span(start),
                     label: l,
                     body,
@@ -919,6 +953,7 @@ impl<I: Tokens> Parser<I> {
 
         let span = self.span(start);
         Ok(BlockStmt {
+            node_id: Default::default(),
             span,
             stmts,
             ctxt: Default::default(),
@@ -939,6 +974,7 @@ impl<I: Tokens> Parser<I> {
             let param = self.parse_catch_param()?;
             self.parse_block(false)
                 .map(|body| CatchClause {
+                    node_id: Default::default(),
                     span: self.span(start),
                     param,
                     body,
@@ -968,6 +1004,7 @@ impl<I: Tokens> Parser<I> {
 
         let span = self.span(start);
         Ok(TryStmt {
+            node_id: Default::default(),
             span,
             block,
             handler,
@@ -1021,6 +1058,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 cases.push(SwitchCase {
+                    node_id: Default::default(),
                     span: Span::new_with_checked(case_start, p.input().prev_span().hi),
                     test,
                     cons,
@@ -1034,6 +1072,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::RBrace);
 
         Ok(SwitchStmt {
+            node_id: Default::default(),
             span: self.span(switch_start),
             discriminant,
             cases,
@@ -1061,7 +1100,11 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn flow_match_true_expr(&self, span: Span) -> Box<Expr> {
-        Box::new(Expr::Lit(Lit::Bool(Bool { span, value: true })))
+        Box::new(Expr::Lit(Lit::Bool(Bool {
+            node_id: Default::default(),
+            span,
+            value: true,
+        })))
     }
 
     fn flow_match_bin_expr(
@@ -1072,6 +1115,7 @@ impl<I: Tokens> Parser<I> {
         right: Box<Expr>,
     ) -> Box<Expr> {
         Box::new(Expr::Bin(BinExpr {
+            node_id: Default::default(),
             span,
             op,
             left,
@@ -1095,18 +1139,25 @@ impl<I: Tokens> Parser<I> {
         let prop = match key {
             PropName::Ident(id) => MemberProp::Ident(id.clone()),
             _ => MemberProp::Computed(ComputedPropName {
+                node_id: Default::default(),
                 span,
                 expr: self.flow_match_prop_key_expr(key),
             }),
         };
 
-        Box::new(Expr::Member(MemberExpr { span, obj, prop }))
+        Box::new(Expr::Member(MemberExpr {
+            node_id: Default::default(),
+            span,
+            obj,
+            prop,
+        }))
     }
 
     #[allow(unreachable_patterns)]
     fn flow_match_prop_key_expr(&self, key: &PropName) -> Box<Expr> {
         match key {
             PropName::Ident(id) => Box::new(Expr::Lit(Lit::Str(Str {
+                node_id: Default::default(),
                 span: id.span,
                 value: id.sym.clone().into(),
                 raw: None,
@@ -1183,21 +1234,27 @@ impl<I: Tokens> Parser<I> {
                     self.flow_match_eq_expr(
                         span,
                         Box::new(Expr::Unary(UnaryExpr {
+                            node_id: Default::default(),
                             span,
                             op: op!("typeof"),
                             arg: value.clone(),
                         })),
                         Box::new(Expr::Lit(Lit::Str(Str {
+                            node_id: Default::default(),
                             span,
                             value: atom!("object").into(),
                             raw: None,
                         }))),
                     ),
                     Box::new(Expr::Bin(BinExpr {
+                        node_id: Default::default(),
                         span,
                         op: BinaryOp::NotEqEq,
                         left: value.clone(),
-                        right: Box::new(Expr::Lit(Lit::Null(Null { span }))),
+                        right: Box::new(Expr::Lit(Lit::Null(Null {
+                            node_id: Default::default(),
+                            span,
+                        }))),
                     })),
                 );
                 let mut bindings = Vec::new();
@@ -1236,6 +1293,7 @@ impl<I: Tokens> Parser<I> {
             }
             FlowMatchPattern::Array { elems, rest } => {
                 let array_ctor = Box::new(Expr::Member(MemberExpr {
+                    node_id: Default::default(),
                     span,
                     obj: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("Array"), span))),
                     prop: MemberProp::Ident(IdentName::new(atom!("isArray"), span)),
@@ -1244,6 +1302,7 @@ impl<I: Tokens> Parser<I> {
                     span,
                     callee: Callee::Expr(array_ctor),
                     args: vec![ExprOrSpread {
+                        node_id: Default::default(),
                         spread: None,
                         expr: value.clone(),
                     }],
@@ -1263,6 +1322,7 @@ impl<I: Tokens> Parser<I> {
                         BinaryOp::GtEq,
                         len_expr,
                         Box::new(Expr::Lit(Lit::Num(Number {
+                            node_id: Default::default(),
                             span,
                             value: elems.len() as f64,
                             raw: None,
@@ -1276,6 +1336,7 @@ impl<I: Tokens> Parser<I> {
                         span,
                         value.clone(),
                         &PropName::Num(Number {
+                            node_id: Default::default(),
                             span,
                             value: idx as f64,
                             raw: None,
@@ -1288,6 +1349,7 @@ impl<I: Tokens> Parser<I> {
 
                 if let Some(Some(binding)) = rest {
                     let slice_callee = Box::new(Expr::Member(MemberExpr {
+                        node_id: Default::default(),
                         span,
                         obj: value.clone(),
                         prop: MemberProp::Ident(IdentName::new(atom!("slice"), span)),
@@ -1299,8 +1361,10 @@ impl<I: Tokens> Parser<I> {
                             span,
                             callee: Callee::Expr(slice_callee),
                             args: vec![ExprOrSpread {
+                                node_id: Default::default(),
                                 spread: None,
                                 expr: Box::new(Expr::Lit(Lit::Num(Number {
+                                    node_id: Default::default(),
                                     span,
                                     value: elems.len() as f64,
                                     raw: None,
@@ -1326,6 +1390,7 @@ impl<I: Tokens> Parser<I> {
             kind: binding.kind,
             declare: false,
             decls: vec![VarDeclarator {
+                node_id: Default::default(),
                 span: binding.span,
                 name: binding.pat,
                 init: Some(binding.init),
@@ -1372,6 +1437,7 @@ impl<I: Tokens> Parser<I> {
             if self.input_mut().eat(Token::Dot) {
                 let prop = self.parse_ident_name()?;
                 expr = Box::new(Expr::Member(MemberExpr {
+                    node_id: Default::default(),
                     span: self.span(start),
                     obj: expr,
                     prop: MemberProp::Ident(prop),
@@ -1383,9 +1449,11 @@ impl<I: Tokens> Parser<I> {
                 let prop_expr = self.allow_in_expr(Self::parse_assignment_expr)?;
                 expect!(self, Token::RBracket);
                 expr = Box::new(Expr::Member(MemberExpr {
+                    node_id: Default::default(),
                     span: self.span(start),
                     obj: expr,
                     prop: MemberProp::Computed(ComputedPropName {
+                        node_id: Default::default(),
                         span: self.span(start),
                         expr: prop_expr,
                     }),
@@ -1549,6 +1617,7 @@ impl<I: Tokens> Parser<I> {
             }
             let lit = self.parse_lit()?;
             return Ok(FlowMatchPattern::Value(Box::new(Expr::Unary(UnaryExpr {
+                node_id: Default::default(),
                 span: self.span(start),
                 op,
                 arg: Box::new(Expr::Lit(lit)),
@@ -1603,6 +1672,7 @@ impl<I: Tokens> Parser<I> {
         if args.is_empty() {
             self.emit_err(self.span(start), SyntaxError::TS1003);
             return Ok(Box::new(Expr::Invalid(Invalid {
+                node_id: Default::default(),
                 span: self.span(start),
             })));
         }
@@ -1613,6 +1683,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(arg.expr.span(), SyntaxError::TS1003);
             }
             elems.push(Some(ExprOrSpread {
+                node_id: Default::default(),
                 spread: None,
                 expr: arg.expr,
             }));
@@ -1622,6 +1693,7 @@ impl<I: Tokens> Parser<I> {
             Ok(elems.pop().unwrap().unwrap().expr)
         } else {
             Ok(Box::new(Expr::Array(ArrayLit {
+                node_id: Default::default(),
                 span: self.span(start),
                 elems,
             })))
@@ -1638,8 +1710,10 @@ impl<I: Tokens> Parser<I> {
             kind: VarDeclKind::Const,
             declare: false,
             decls: vec![VarDeclarator {
+                node_id: Default::default(),
                 span,
                 name: Pat::Ident(BindingIdent {
+                    node_id: Default::default(),
                     id: ident.clone(),
                     type_ann: None,
                 }),
@@ -1653,6 +1727,7 @@ impl<I: Tokens> Parser<I> {
     fn flow_match_non_exhaustive_throw(&self, span: Span) -> Stmt {
         let error_ctor = Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("Error"), span)));
         let arg = Box::new(Expr::Lit(Lit::Str(Str {
+            node_id: Default::default(),
             span,
             value: atom!("Non-exhaustive match").into(),
             raw: None,
@@ -1661,23 +1736,31 @@ impl<I: Tokens> Parser<I> {
             span,
             callee: error_ctor,
             args: Some(vec![ExprOrSpread {
+                node_id: Default::default(),
                 spread: None,
                 expr: arg,
             }]),
             ..Default::default()
         }));
 
-        Stmt::Throw(ThrowStmt { span, arg: err })
+        Stmt::Throw(ThrowStmt {
+            node_id: Default::default(),
+            span,
+            arg: err,
+        })
     }
 
     fn flow_match_make_iife_expr(&self, span: Span, stmts: Vec<Stmt>) -> Box<Expr> {
         let fn_expr = Box::new(Expr::Fn(FnExpr {
+            node_id: Default::default(),
             ident: None,
             function: Box::new(Function {
+                node_id: Default::default(),
                 span,
                 params: Vec::new(),
                 decorators: Vec::new(),
                 body: Some(BlockStmt {
+                    node_id: Default::default(),
                     span,
                     stmts,
                     ctxt: Default::default(),
@@ -1730,14 +1813,17 @@ impl<I: Tokens> Parser<I> {
                 .map(|binding| self.flow_match_binding_to_stmt(binding))
                 .collect::<Vec<_>>();
             cons_stmts.push(Stmt::Return(ReturnStmt {
+                node_id: Default::default(),
                 span,
                 arg: Some(body),
             }));
 
             stmts.push(Stmt::If(IfStmt {
+                node_id: Default::default(),
                 span,
                 test,
                 cons: Box::new(Stmt::Block(BlockStmt {
+                    node_id: Default::default(),
                     span,
                     stmts: cons_stmts,
                     ctxt: Default::default(),
@@ -1777,8 +1863,13 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
                 let expr = self.allow_in_expr(Self::parse_assignment_expr)?;
                 BlockStmt {
+                    node_id: Default::default(),
                     span,
-                    stmts: vec![Stmt::Expr(ExprStmt { span, expr })],
+                    stmts: vec![Stmt::Expr(ExprStmt {
+                        node_id: Default::default(),
+                        span,
+                        expr,
+                    })],
                     ctxt: Default::default(),
                 }
             };
@@ -1797,9 +1888,11 @@ impl<I: Tokens> Parser<I> {
             stmts.extend(body.stmts);
 
             cases.push(IfStmt {
+                node_id: Default::default(),
                 span,
                 test,
                 cons: Box::new(Stmt::Block(BlockStmt {
+                    node_id: Default::default(),
                     span,
                     stmts,
                     ctxt: Default::default(),
@@ -1824,6 +1917,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(Stmt::Block(BlockStmt {
+            node_id: Default::default(),
             span,
             stmts,
             ctxt: Default::default(),
@@ -1922,7 +2016,12 @@ impl<I: Tokens> Parser<I> {
                 self.eat_general_semi();
 
                 let span = self.span(start);
-                return Ok(ExprStmt { span, expr }.into());
+                return Ok(ExprStmt {
+                    node_id: Default::default(),
+                    span,
+                    expr,
+                }
+                .into());
             }
         } else if cur == Token::Break || cur == Token::Continue {
             let is_break = self.input().is(Token::Break);
@@ -1948,14 +2047,25 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(span, SyntaxError::TS1107);
             }
             return Ok(if is_break {
-                BreakStmt { span, label }.into()
+                BreakStmt {
+                    node_id: Default::default(),
+                    span,
+                    label,
+                }
+                .into()
             } else {
-                ContinueStmt { span, label }.into()
+                ContinueStmt {
+                    node_id: Default::default(),
+                    span,
+                    label,
+                }
+                .into()
             });
         } else if cur == Token::Debugger {
             self.bump();
             self.expect_general_semi()?;
             return Ok(DebuggerStmt {
+                node_id: Default::default(),
                 span: self.span(start),
             }
             .into());
@@ -1992,8 +2102,13 @@ impl<I: Tokens> Parser<I> {
             let _ = self.parse_finally_block();
 
             return Ok(ExprStmt {
+                node_id: Default::default(),
                 span,
-                expr: Invalid { span }.into(),
+                expr: Invalid {
+                    node_id: Default::default(),
+                    span,
+                }
+                .into(),
             }
             .into());
         } else if cur == Token::Finally {
@@ -2004,8 +2119,13 @@ impl<I: Tokens> Parser<I> {
             let _ = self.parse_finally_block();
 
             return Ok(ExprStmt {
+                node_id: Default::default(),
                 span,
-                expr: Invalid { span }.into(),
+                expr: Invalid {
+                    node_id: Default::default(),
+                    span,
+                }
+                .into(),
             }
             .into());
         } else if cur == Token::Try {
@@ -2065,6 +2185,7 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::Semi {
             self.bump();
             return Ok(EmptyStmt {
+                node_id: Default::default(),
                 span: self.span(start),
             }
             .into());
@@ -2105,6 +2226,7 @@ impl<I: Tokens> Parser<I> {
             self.eat_general_semi();
 
             return Ok(ExprStmt {
+                node_id: Default::default(),
                 span: self.span(start),
                 expr,
             }
@@ -2132,6 +2254,7 @@ impl<I: Tokens> Parser<I> {
 
         if self.eat_general_semi() {
             Ok(ExprStmt {
+                node_id: Default::default(),
                 span: self.span(start),
                 expr,
             }
@@ -2142,6 +2265,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(self.input().cur_span(), SyntaxError::TS1005);
                 let expr = self.parse_bin_op_recursively(expr, 0)?;
                 return Ok(ExprStmt {
+                    node_id: Default::default(),
                     span: self.span(start),
                     expr,
                 }
@@ -2231,6 +2355,7 @@ fn handle_import_export<I: Tokens>(p: &mut Parser<I>, _: Vec<Decorator>) -> PRes
         p.eat_general_semi();
 
         return Ok(ExprStmt {
+            node_id: Default::default(),
             span: p.span(start),
             expr,
         }
@@ -2243,6 +2368,7 @@ fn handle_import_export<I: Tokens>(p: &mut Parser<I>, _: Vec<Decorator>) -> PRes
         p.eat_general_semi();
 
         return Ok(ExprStmt {
+            node_id: Default::default(),
             span: p.span(start),
             expr,
         }
@@ -2277,6 +2403,7 @@ mod tests {
         assert_eq_ignore_span!(
             stmt("a + b + c"),
             Stmt::Expr(ExprStmt {
+                node_id: Default::default(),
                 span,
                 expr: expr("a + b + c")
             })
@@ -2288,17 +2415,21 @@ mod tests {
         assert_eq_ignore_span!(
             stmt("try {} catch({ ...a34 }) {}"),
             Stmt::Try(Box::new(TryStmt {
+                node_id: Default::default(),
                 span,
                 block: BlockStmt {
                     span,
                     ..Default::default()
                 },
                 handler: Some(CatchClause {
+                    node_id: Default::default(),
                     span,
                     param: Pat::Object(ObjectPat {
+                        node_id: Default::default(),
                         span,
                         optional: false,
                         props: vec![ObjectPatProp::Rest(RestPat {
+                            node_id: Default::default(),
                             span,
                             dot3_token: span,
                             arg: Box::new(Pat::Ident(
@@ -2324,6 +2455,7 @@ mod tests {
         assert_eq_ignore_span!(
             stmt("throw this"),
             Stmt::Throw(ThrowStmt {
+                node_id: Default::default(),
                 span,
                 arg: expr("this"),
             })
@@ -2335,12 +2467,14 @@ mod tests {
         assert_eq_ignore_span!(
             stmt("for await (const a of b) ;"),
             Stmt::ForOf(ForOfStmt {
+                node_id: Default::default(),
                 span,
                 is_await: true,
                 left: ForHead::VarDecl(Box::new(VarDecl {
                     span,
                     kind: VarDeclKind::Const,
                     decls: vec![VarDeclarator {
+                        node_id: Default::default(),
                         span,
                         init: None,
                         name: Pat::Ident(Ident::new_no_ctxt(atom!("a"), span).into()),
@@ -2350,7 +2484,10 @@ mod tests {
                 })),
                 right: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("b"), span))),
 
-                body: Box::new(Stmt::Empty(EmptyStmt { span })),
+                body: Box::new(Stmt::Empty(EmptyStmt {
+                    node_id: Default::default(),
+                    span
+                })),
             })
         )
     }
@@ -2381,6 +2518,7 @@ mod tests {
         assert_eq_ignore_span!(
             stmt("if (a) b; else c"),
             Stmt::If(IfStmt {
+                node_id: Default::default(),
                 span,
                 test: expr("a"),
                 cons: Box::new(stmt("b;")),
@@ -2405,15 +2543,18 @@ mod tests {
                 |p| p.parse_stmt_list_item(),
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
+                node_id: Default::default(),
                 ident: Ident::new_no_ctxt(atom!("Foo"), span),
                 class: Box::new(Class {
                     span,
                     decorators: vec![
                         Decorator {
+                            node_id: Default::default(),
                             span,
                             expr: expr("decorator")
                         },
                         Decorator {
+                            node_id: Default::default(),
                             span,
                             expr: expr("dec2")
                         }
@@ -2828,8 +2969,10 @@ export default function waitUntil(callback, options = {}) {
                     declare: false,
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
+                        node_id: Default::default(),
                         span,
                         name: Pat::Array(ArrayPat {
+                            node_id: Default::default(),
                             span,
                             type_ann: None,
                             optional: false,
@@ -2860,12 +3003,15 @@ export default function waitUntil(callback, options = {}) {
                     span,
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
+                        node_id: Default::default(),
                         span,
                         name: Pat::Object(ObjectPat {
+                            node_id: Default::default(),
                             optional: false,
                             type_ann: None,
                             span,
                             props: vec![ObjectPatProp::Assign(AssignPatProp {
+                                node_id: Default::default(),
                                 span,
                                 key: Ident::new_no_ctxt(atom!("num"), span).into(),
                                 value: None
@@ -3023,6 +3169,7 @@ export default function waitUntil(callback, options = {}) {
         assert_eq_ignore_span!(
             test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
             Box::new(Expr::Class(ClassExpr {
+                node_id: Default::default(),
                 ident: Some(Ident {
                     span,
                     sym: atom!("Foo"),
@@ -3037,6 +3184,7 @@ export default function waitUntil(callback, options = {}) {
                     is_abstract: false,
                     implements: Vec::new(),
                     body: vec!(ClassMember::StaticBlock(StaticBlock {
+                        node_id: Default::default(),
                         span,
                         body: BlockStmt {
                             span,
@@ -3056,6 +3204,7 @@ export default function waitUntil(callback, options = {}) {
         assert_eq_ignore_span!(
             test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
             Box::new(Expr::Class(ClassExpr {
+                node_id: Default::default(),
                 ident: Some(Ident {
                     span,
                     sym: atom!("Foo"),
@@ -3068,6 +3217,7 @@ export default function waitUntil(callback, options = {}) {
                     is_abstract: false,
                     body: vec!(
                         ClassMember::StaticBlock(StaticBlock {
+                            node_id: Default::default(),
                             span,
                             body: BlockStmt {
                                 span,
@@ -3076,6 +3226,7 @@ export default function waitUntil(callback, options = {}) {
                             },
                         }),
                         ClassMember::StaticBlock(StaticBlock {
+                            node_id: Default::default(),
                             span,
                             body: BlockStmt {
                                 span,
@@ -3101,6 +3252,7 @@ export default function waitUntil(callback, options = {}) {
         assert_eq_ignore_span!(
             test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
             Box::new(Expr::Class(ClassExpr {
+                node_id: Default::default(),
                 ident: Some(Ident {
                     span,
                     sym: atom!("Foo"),
@@ -3110,6 +3262,7 @@ export default function waitUntil(callback, options = {}) {
                     span,
                     is_abstract: false,
                     body: vec!(ClassMember::StaticBlock(StaticBlock {
+                        node_id: Default::default(),
                         span,
                         body: BlockStmt {
                             span,
@@ -3132,6 +3285,7 @@ export default function waitUntil(callback, options = {}) {
         assert_eq_ignore_span!(
             test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
             Box::new(Expr::Class(ClassExpr {
+                node_id: Default::default(),
                 ident: Some(Ident {
                     span,
                     sym: atom!("Foo"),
@@ -3141,6 +3295,7 @@ export default function waitUntil(callback, options = {}) {
                     span,
                     is_abstract: false,
                     body: vec!(ClassMember::StaticBlock(StaticBlock {
+                        node_id: Default::default(),
                         span,
                         body: BlockStmt {
                             span,

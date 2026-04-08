@@ -54,6 +54,7 @@ where
         class.visit_mut_with(self);
 
         let class_expr = ClassExpr {
+            node_id: Default::default(),
             ident: Some(orig_name),
             class: Box::new(class.take()),
         };
@@ -128,6 +129,7 @@ where
                 let expr = self.keep_class_name(&mut cls.ident, &mut cls.class);
                 if let Some(expr) = expr {
                     let var = VarDeclarator {
+                        node_id: Default::default(),
                         span,
                         name: cls.ident.clone().into(),
                         init: Some(expr.into()),
@@ -245,8 +247,10 @@ where
                 self.extra
                     .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
+                            node_id: Default::default(),
                             span,
                             specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 orig: $ident,
                                 exported: Some($orig),
@@ -268,7 +272,9 @@ where
                         ident,
                         class,
                         declare,
+                        ..
                     }),
+                ..
             })) => {
                 let mut ident = ident.take();
                 let mut class = class.take();
@@ -278,6 +284,7 @@ where
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
                         *item = ClassDecl {
+                            node_id: Default::default(),
                             ident: ident.clone(),
                             class: class.take(),
                             declare: *declare,
@@ -290,8 +297,10 @@ where
                     }
                     Err(..) => {
                         *item = ExportDecl {
+                            node_id: Default::default(),
                             span: *span,
                             decl: ClassDecl {
+                                node_id: Default::default(),
                                 ident: ident.take(),
                                 class: class.take(),
                                 declare: *declare,
@@ -309,7 +318,9 @@ where
                         ident,
                         function,
                         declare,
+                        ..
                     }),
+                ..
             })) => {
                 let mut ident = ident.take();
                 let mut function = function.take();
@@ -319,6 +330,7 @@ where
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
                         *item = FnDecl {
+                            node_id: Default::default(),
                             ident: ident.clone(),
                             function,
                             declare: *declare,
@@ -331,8 +343,10 @@ where
                     }
                     Err(..) => {
                         *item = ExportDecl {
+                            node_id: Default::default(),
                             span: *span,
                             decl: FnDecl {
+                                node_id: Default::default(),
                                 ident,
                                 function,
                                 declare: *declare,
@@ -361,6 +375,7 @@ where
 
                 if renamed.is_empty() {
                     *item = ExportDecl {
+                        node_id: Default::default(),
                         span,
                         decl: VarDecl {
                             decls,
@@ -378,6 +393,7 @@ where
                 .into();
                 self.extra.push(
                     NamedExport {
+                        node_id: Default::default(),
                         span,
                         specifiers: renamed,
                         src: None,
@@ -473,9 +489,11 @@ where
                 }
 
                 *n = KeyValuePatProp {
+                    node_id: Default::default(),
                     key: PropName::Ident(p.key.take().into()),
                     value: match p.value.take() {
                         Some(default_expr) => AssignPat {
+                            node_id: Default::default(),
                             span: p.span,
                             left: renamed.into(),
                             right: default_expr,
@@ -505,7 +523,9 @@ where
                     }
 
                     *prop = Prop::KeyValue(KeyValueProp {
+                        node_id: Default::default(),
                         key: PropName::Ident(IdentName {
+                            node_id: Default::default(),
                             // clear mark
                             span: i.span,
                             sym: i.sym.clone(),
@@ -636,6 +656,7 @@ where
         if self.orig.rename_ident(i).is_ok() {
             self.renamed
                 .push(ExportSpecifier::Named(ExportNamedSpecifier {
+                    node_id: Default::default(),
                     span: i.span,
                     exported: Some(ModuleExportName::Ident(orig)),
                     orig: ModuleExportName::Ident(i.clone()),

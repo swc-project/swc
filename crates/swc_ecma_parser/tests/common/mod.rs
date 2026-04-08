@@ -31,7 +31,9 @@ impl Fold for Normalizer {
             }
             .into(),
             // Flatten comma expressions.
-            Expr::Seq(SeqExpr { mut exprs, span }) => {
+            Expr::Seq(SeqExpr {
+                mut exprs, span, ..
+            }) => {
                 let need_work = exprs.iter().any(|n| matches!(**n, Expr::Seq(..)));
 
                 if need_work {
@@ -43,7 +45,12 @@ impl Fold for Normalizer {
                         v
                     });
                 }
-                SeqExpr { exprs, span }.into()
+                SeqExpr {
+                    node_id: Default::default(),
+                    exprs,
+                    span,
+                }
+                .into()
             }
             _ => e,
         }
@@ -105,11 +112,13 @@ impl Fold for Normalizer {
 
         match n {
             PropName::Ident(IdentName { span, sym, .. }) => PropName::Str(Str {
+                node_id: Default::default(),
                 span,
                 value: sym.into(),
                 raw: None,
             }),
             PropName::Num(num) => PropName::Str(Str {
+                node_id: Default::default(),
                 span: num.span,
                 value: num.to_string().into(),
                 raw: None,
@@ -131,6 +140,7 @@ impl Fold for Normalizer {
 
         if self.is_test262 {
             Str {
+                node_id: Default::default(),
                 span,
                 value: s.value,
                 raw: None,

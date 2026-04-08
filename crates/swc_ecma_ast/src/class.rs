@@ -11,7 +11,7 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    BigInt, ComputedPropName, EmptyStmt, Id, Ident, IdentName, Number,
+    BigInt, ComputedPropName, EmptyStmt, Id, Ident, IdentName, NodeId, Number,
 };
 
 #[ast_node]
@@ -20,6 +20,9 @@ use crate::{
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Class {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub ctxt: SyntaxContext,
 
@@ -99,7 +102,10 @@ pub enum ClassMember {
 
 impl Take for ClassMember {
     fn dummy() -> Self {
-        ClassMember::Empty(EmptyStmt { span: DUMMY_SP })
+        ClassMember::Empty(EmptyStmt {
+            span: DUMMY_SP,
+            node_id: Default::default(),
+        })
     }
 }
 
@@ -110,6 +116,9 @@ impl Take for ClassMember {
 pub struct ClassProp {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub key: PropName,
 
@@ -170,6 +179,9 @@ pub struct PrivateProp {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     pub key: PrivateName,
@@ -222,6 +234,9 @@ pub struct PrivateProp {
 pub struct ClassMethod {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub key: PropName,
     pub function: Box<Function>,
     pub kind: MethodKind,
@@ -250,6 +265,9 @@ pub struct ClassMethod {
 pub struct PrivateMethod {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub key: PrivateName,
     pub function: Box<Function>,
     pub kind: MethodKind,
@@ -277,6 +295,9 @@ pub struct PrivateMethod {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Constructor {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub ctxt: SyntaxContext,
 
@@ -308,6 +329,9 @@ pub struct Constructor {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Decorator {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
@@ -344,6 +368,9 @@ pub enum MethodKind {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct StaticBlock {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub body: BlockStmt,
 }
 
@@ -351,6 +378,7 @@ impl Take for StaticBlock {
     fn dummy() -> Self {
         StaticBlock {
             span: DUMMY_SP,
+            node_id: Default::default(),
             body: Take::dummy(),
         }
     }
@@ -399,6 +427,9 @@ pub struct AutoAccessor {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub key: Key,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -443,6 +474,7 @@ impl Take for AutoAccessor {
     fn dummy() -> AutoAccessor {
         AutoAccessor {
             span: Take::dummy(),
+            node_id: Default::default(),
             key: Take::dummy(),
             value: Take::dummy(),
             type_ann: None,

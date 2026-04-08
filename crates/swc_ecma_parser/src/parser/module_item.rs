@@ -72,6 +72,7 @@ impl<I: Tokens> Parser<I> {
                             }
 
                             return Ok(ExportNamedSpecifier {
+                                node_id: Default::default(),
                                 span: self.span(start),
                                 orig: ModuleExportName::Ident(possibly_orig),
                                 exported: None,
@@ -93,6 +94,7 @@ impl<I: Tokens> Parser<I> {
 
                                 debug_assert!(start <= orig_ident.span.hi());
                                 return Ok(ExportNamedSpecifier {
+                                    node_id: Default::default(),
                                     span: Span::new_with_checked(start, orig_ident.span.hi()),
                                     orig: ModuleExportName::Ident(possibly_orig),
                                     exported: Some(ModuleExportName::Ident(exported)),
@@ -101,6 +103,7 @@ impl<I: Tokens> Parser<I> {
                             } else {
                                 // `export { type as as }`
                                 return Ok(ExportNamedSpecifier {
+                                    node_id: Default::default(),
                                     span: Span::new_with_checked(start, orig_ident.span.hi()),
                                     orig: ModuleExportName::Ident(orig_ident),
                                     exported: Some(ModuleExportName::Ident(maybe_as)),
@@ -110,6 +113,7 @@ impl<I: Tokens> Parser<I> {
                         } else {
                             // `export { type as xxx }`
                             return Ok(ExportNamedSpecifier {
+                                node_id: Default::default(),
                                 span: Span::new_with_checked(start, orig_ident.span.hi()),
                                 orig: ModuleExportName::Ident(orig_ident),
                                 exported: Some(ModuleExportName::Ident(maybe_as)),
@@ -140,6 +144,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(ExportNamedSpecifier {
+            node_id: Default::default(),
             span: self.span(start),
             orig,
             exported,
@@ -216,6 +221,7 @@ impl<I: Tokens> Parser<I> {
                         }
 
                         return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                            node_id: Default::default(),
                             span: Span::new_with_checked(start, local.span.hi()),
                             local,
                             imported: Some(imported),
@@ -241,6 +247,7 @@ impl<I: Tokens> Parser<I> {
                         }
 
                         return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                            node_id: Default::default(),
                             span: Span::new_with_checked(start, local.span.hi()),
                             local,
                             imported: Some(imported),
@@ -267,6 +274,7 @@ impl<I: Tokens> Parser<I> {
                                 }
 
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                    node_id: Default::default(),
                                     span: self.span(start),
                                     local: possibly_orig_name,
                                     imported: None,
@@ -287,6 +295,7 @@ impl<I: Tokens> Parser<I> {
                                     }
 
                                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                        node_id: Default::default(),
                                         span: Span::new_with_checked(start, local.span.hi()),
                                         local,
                                         imported: Some(ModuleExportName::Ident(possibly_orig_name)),
@@ -295,6 +304,7 @@ impl<I: Tokens> Parser<I> {
                                 } else {
                                     // `import { type as as } from 'mod'`
                                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                        node_id: Default::default(),
                                         span: Span::new_with_checked(start, maybe_as.span.hi()),
                                         local: maybe_as,
                                         imported: Some(ModuleExportName::Ident(orig_name)),
@@ -304,6 +314,7 @@ impl<I: Tokens> Parser<I> {
                             } else {
                                 // `import { type as xxx } from 'mod'`
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                    node_id: Default::default(),
                                     span: Span::new_with_checked(start, maybe_as.span.hi()),
                                     local: maybe_as,
                                     imported: Some(ModuleExportName::Ident(orig_name)),
@@ -329,6 +340,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_flow_reserved_type_name_error(local.span, &local.sym);
                     }
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                        node_id: Default::default(),
                         span: Span::new_with_checked(start, local.span.hi()),
                         local,
                         imported: Some(ModuleExportName::Ident(orig_name)),
@@ -354,6 +366,7 @@ impl<I: Tokens> Parser<I> {
                     self.emit_flow_reserved_type_name_error(local.span, &local.sym);
                 }
                 Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                    node_id: Default::default(),
                     span: self.span(start),
                     local,
                     imported: None,
@@ -364,6 +377,7 @@ impl<I: Tokens> Parser<I> {
                 if self.input_mut().eat(Token::As) {
                     let local: Ident = self.parse_binding_ident(false)?.into();
                     Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                        node_id: Default::default(),
                         span: Span::new_with_checked(start, local.span.hi()),
                         local,
                         imported: Some(ModuleExportName::Str(orig_str)),
@@ -406,6 +420,7 @@ impl<I: Tokens> Parser<I> {
             // TODO: Remove
             if let Some(decl) = self.try_parse_ts_declare(after_export_start, decorators.clone())? {
                 return Ok(ExportDecl {
+                    node_id: Default::default(),
                     span: self.span(start),
                     decl,
                 }
@@ -420,6 +435,7 @@ impl<I: Tokens> Parser<I> {
                 // TODO: remove clone
                 if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
                     return Ok(ExportDecl {
+                        node_id: Default::default(),
                         span: self.span(start),
                         decl,
                     }
@@ -453,6 +469,7 @@ impl<I: Tokens> Parser<I> {
                 let expr = self.parse_expr()?;
                 self.expect_general_semi()?;
                 return Ok(TsExportAssignment {
+                    node_id: Default::default(),
                     span: self.span(start),
                     expr,
                 }
@@ -466,6 +483,7 @@ impl<I: Tokens> Parser<I> {
                 let id = self.parse_ident(false, false)?;
                 self.expect_general_semi()?;
                 return Ok(TsNamespaceExportDecl {
+                    node_id: Default::default(),
                     span: self.span(start),
                     id,
                 }
@@ -527,6 +545,7 @@ impl<I: Tokens> Parser<I> {
                         .parse_ts_interface_decl(interface_start)
                         .map(DefaultDecl::from)?;
                     return Ok(ExportDefaultDecl {
+                        node_id: Default::default(),
                         span: self.span(start),
                         decl,
                     }
@@ -541,14 +560,17 @@ impl<I: Tokens> Parser<I> {
                         {
                             return match decl {
                                 Decl::Fn(fn_decl) => Ok(ExportDefaultDecl {
+                                    node_id: Default::default(),
                                     span: self.span(start),
                                     decl: DefaultDecl::Fn(FnExpr {
+                                        node_id: Default::default(),
                                         ident: Some(fn_decl.ident),
                                         function: fn_decl.function,
                                     }),
                                 }
                                 .into()),
                                 _ => Ok(ExportDecl {
+                                    node_id: Default::default(),
                                     span: self.span(start),
                                     decl,
                                 }
@@ -584,6 +606,7 @@ impl<I: Tokens> Parser<I> {
                 // `export default enum` is valid in Flow, but SWC's default export decl AST
                 // variant does not model enum declarations.
                 return Ok(ExportDecl {
+                    node_id: Default::default(),
                     span: self.span(start),
                     decl: Decl::TsEnum(decl),
                 }
@@ -603,6 +626,7 @@ impl<I: Tokens> Parser<I> {
                 let expr = self.allow_in_expr(Self::parse_assignment_expr)?;
                 self.expect_general_semi()?;
                 return Ok(ExportDefaultExpr {
+                    node_id: Default::default(),
                     span: self.span(start),
                     expr,
                 }
@@ -662,6 +686,7 @@ impl<I: Tokens> Parser<I> {
                 .map(Decl::from)
                 .map(|decl| {
                     ExportDecl {
+                        node_id: Default::default(),
                         span: self.span(start),
                         decl,
                     }
@@ -711,6 +736,7 @@ impl<I: Tokens> Parser<I> {
                 // improve error message for `export * from foo`
                 let (src, with) = self.parse_from_clause_and_semi()?;
                 return Ok(ExportAll {
+                    node_id: Default::default(),
                     span: self.span(start),
                     src,
                     type_only,
@@ -727,6 +753,7 @@ impl<I: Tokens> Parser<I> {
             if let Some(default) = default {
                 has_default = true;
                 specifiers.push(ExportSpecifier::Default(ExportDefaultSpecifier {
+                    node_id: Default::default(),
                     exported: default,
                 }))
             }
@@ -761,6 +788,7 @@ impl<I: Tokens> Parser<I> {
                     self.emit_err(name_span, SyntaxError::TS1003);
                 }
                 specifiers.push(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
+                    node_id: Default::default(),
                     span: self.span(ns_export_specifier_start),
                     name,
                 }));
@@ -770,6 +798,7 @@ impl<I: Tokens> Parser<I> {
                 if self.input().is(Token::From) {
                     let (src, with) = self.parse_from_clause_and_semi()?;
                     return Ok(NamedExport {
+                        node_id: Default::default(),
                         span: self.span(start),
                         specifiers,
                         src: Some(src),
@@ -848,6 +877,7 @@ impl<I: Tokens> Parser<I> {
                 None => (None, None),
             };
             return Ok(NamedExport {
+                node_id: Default::default(),
                 span: self.span(start),
                 specifiers,
                 src,
@@ -858,6 +888,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(ExportDecl {
+            node_id: Default::default(),
             span: self.span(start),
             decl,
         }
@@ -873,6 +904,7 @@ impl<I: Tokens> Parser<I> {
             self.eat_general_semi();
 
             return Ok(ExprStmt {
+                node_id: Default::default(),
                 span: self.span(start),
                 expr,
             }
@@ -885,6 +917,7 @@ impl<I: Tokens> Parser<I> {
             self.eat_general_semi();
 
             return Ok(ExprStmt {
+                node_id: Default::default(),
                 span: self.span(start),
                 expr,
             }
@@ -917,6 +950,7 @@ impl<I: Tokens> Parser<I> {
             };
             self.eat_general_semi();
             return Ok(ImportDecl {
+                node_id: Default::default(),
                 span: self.span(start),
                 src,
                 specifiers: Vec::new(),
@@ -1023,6 +1057,7 @@ impl<I: Tokens> Parser<I> {
                     expect!(self, Token::Comma);
                 }
                 specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
+                    node_id: Default::default(),
                     span: local.span,
                     local,
                 }));
@@ -1042,6 +1077,7 @@ impl<I: Tokens> Parser<I> {
                     self.emit_flow_reserved_type_name_error(local.span, &local.sym);
                 }
                 specifiers.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
+                    node_id: Default::default(),
                     span: self.span(import_spec_start),
                     local,
                 }));
@@ -1084,6 +1120,7 @@ impl<I: Tokens> Parser<I> {
         self.expect_general_semi()?;
 
         Ok(ImportDecl {
+            node_id: Default::default(),
             span: self.span(start),
             specifiers,
             src,

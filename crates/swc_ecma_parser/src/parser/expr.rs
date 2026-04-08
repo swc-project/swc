@@ -31,6 +31,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             return Ok(SeqExpr {
+                node_id: Default::default(),
                 span: self.span(start),
                 exprs,
             }
@@ -59,10 +60,17 @@ impl<I: Tokens> Parser<I> {
                         },
                     )
                 })
-                .map(|expr| ExprOrSpread { spread, expr })
+                .map(|expr| ExprOrSpread {
+                    node_id: Default::default(),
+                    spread,
+                    expr,
+                })
         } else {
-            self.parse_assignment_expr()
-                .map(|expr| ExprOrSpread { spread: None, expr })
+            self.parse_assignment_expr().map(|expr| ExprOrSpread {
+                node_id: Default::default(),
+                spread: None,
+                expr,
+            })
         }
     }
 
@@ -212,6 +220,7 @@ impl<I: Tokens> Parser<I> {
                 self.expect(Token::Gt)?;
                 let expr = self.parse_unary_expr()?;
                 Ok(TsConstAssertion {
+                    node_id: Default::default(),
                     span: self.span(start),
                     expr,
                 }
@@ -248,6 +257,7 @@ impl<I: Tokens> Parser<I> {
             self.check_assign_target(&arg, false);
 
             return Ok(UpdateExpr {
+                node_id: Default::default(),
                 span,
                 prefix: true,
                 op,
@@ -286,6 +296,7 @@ impl<I: Tokens> Parser<I> {
                 Err(err) => {
                     self.emit_error(err);
                     Invalid {
+                        node_id: Default::default(),
                         span: Span::new_with_checked(arg_start, arg_start),
                     }
                     .into()
@@ -316,6 +327,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             return Ok(UnaryExpr {
+                node_id: Default::default(),
                 span: Span::new_with_checked(start, arg.span_hi()),
                 op,
                 arg,
@@ -348,6 +360,7 @@ impl<I: Tokens> Parser<I> {
             self.bump();
 
             return Ok(UpdateExpr {
+                node_id: Default::default(),
                 span: self.span(expr.span_lo()),
                 prefix: false,
                 op,
@@ -428,6 +441,7 @@ impl<I: Tokens> Parser<I> {
         if cur == Token::Super {
             self.bump(); // eat `super`
             let obj = Callee::Super(Super {
+                node_id: Default::default(),
                 span: self.span(start),
             });
             return self.parse_subscripts(obj, false, false);
@@ -478,6 +492,7 @@ impl<I: Tokens> Parser<I> {
             let (callee, is_import) = match callee {
                 _ if callee.is_ident_ref_to("import") => (
                     Callee::Import(Import {
+                        node_id: Default::default(),
                         span: callee.span(),
                         phase: Default::default(),
                     }),
@@ -489,6 +504,7 @@ impl<I: Tokens> Parser<I> {
 
             let call_expr = match callee {
                 Callee::Expr(e) if unwrap_ts_non_null(&e).is_opt_chain() => OptChainExpr {
+                    node_id: Default::default(),
                     span: self.span(start),
                     base: Box::new(OptChainBase::Call(OptCall {
                         span: self.span(start),
@@ -557,7 +573,12 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::RBracket);
 
         let span = self.span(start);
-        Ok(ArrayLit { span, elems }.into())
+        Ok(ArrayLit {
+            node_id: Default::default(),
+            span,
+            elems,
+        }
+        .into())
     }
 
     fn at_possible_async(&mut self, expr: &Expr) -> bool {
@@ -592,6 +613,7 @@ impl<I: Tokens> Parser<I> {
                 )
             })?;
             Ok(YieldExpr {
+                node_id: Default::default(),
                 span: p.span(start),
                 arg: Some(arg),
                 delegate: has_star,
@@ -608,6 +630,7 @@ impl<I: Tokens> Parser<I> {
                 && !cur.starts_expr()
         } {
             Ok(YieldExpr {
+                node_id: Default::default(),
                 span: self.span(start),
                 arg: None,
                 delegate: false,
@@ -696,9 +719,11 @@ impl<I: Tokens> Parser<I> {
         self.bump();
 
         Ok(Tpl {
+            node_id: Default::default(),
             span: self.span(start),
             exprs: vec![],
             quasis: vec![TplElement {
+                node_id: Default::default(),
                 span,
                 tail: true,
                 raw,
@@ -730,6 +755,7 @@ impl<I: Tokens> Parser<I> {
         self.bump();
 
         Ok(TplElement {
+            node_id: Default::default(),
             span,
             raw,
             tail: false,
@@ -746,6 +772,7 @@ impl<I: Tokens> Parser<I> {
         let (exprs, quasis) = self.parse_tpl_elements(is_tagged_tpl)?;
 
         Ok(Tpl {
+            node_id: Default::default(),
             span: self.span(start),
             exprs,
             quasis,
@@ -805,6 +832,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(TplElement {
+            node_id: Default::default(),
             span,
             raw,
             tail,
@@ -844,9 +872,11 @@ impl<I: Tokens> Parser<I> {
         self.bump();
 
         Ok(TsTplLitType {
+            node_id: Default::default(),
             span: self.span(start),
             types: vec![],
             quasis: vec![TplElement {
+                node_id: Default::default(),
                 span,
                 tail: true,
                 raw,
@@ -867,6 +897,7 @@ impl<I: Tokens> Parser<I> {
         let _ = self.input.cur();
 
         Ok(TsTplLitType {
+            node_id: Default::default(),
             span: self.span(start),
             types,
             quasis,
@@ -886,6 +917,7 @@ impl<I: Tokens> Parser<I> {
         tpl_ty.map(|tpl_ty| {
             let lit = TsLit::Tpl(tpl_ty);
             TsLitType {
+                node_id: Default::default(),
                 span: self.span(start),
                 lit,
             }
@@ -900,6 +932,7 @@ impl<I: Tokens> Parser<I> {
         self.bump();
 
         swc_ecma_ast::Str {
+            node_id: Default::default(),
             span: self.span(start),
             value,
             raw: Some(raw),
@@ -913,12 +946,19 @@ impl<I: Tokens> Parser<I> {
         let v = if cur == Token::Null {
             self.bump();
             let span = self.span(start);
-            Lit::Null(swc_ecma_ast::Null { span })
+            Lit::Null(swc_ecma_ast::Null {
+                node_id: Default::default(),
+                span,
+            })
         } else if cur == Token::True || cur == Token::False {
             let value = cur == Token::True;
             self.bump();
             let span = self.span(start);
-            Lit::Bool(swc_ecma_ast::Bool { span, value })
+            Lit::Bool(swc_ecma_ast::Bool {
+                node_id: Default::default(),
+                span,
+                value,
+            })
         } else if cur == Token::Str {
             Lit::Str(self.parse_str_lit())
         } else if cur == Token::Num {
@@ -927,6 +967,7 @@ impl<I: Tokens> Parser<I> {
             self.bump();
 
             Lit::Num(swc_ecma_ast::Number {
+                node_id: Default::default(),
                 span: self.span(start),
                 value,
                 raw: Some(raw),
@@ -937,6 +978,7 @@ impl<I: Tokens> Parser<I> {
             self.bump();
 
             Lit::BigInt(swc_ecma_ast::BigInt {
+                node_id: Default::default(),
                 span: self.span(start),
                 value,
                 raw: Some(raw),
@@ -1029,6 +1071,7 @@ impl<I: Tokens> Parser<I> {
             self.bump();
             let right = self.parse_assignment_expr()?;
             Ok(AssignExpr {
+                node_id: Default::default(),
                 span: self.span(start),
                 op,
                 // TODO:
@@ -1073,6 +1116,7 @@ impl<I: Tokens> Parser<I> {
 
             let span = Span::new_with_checked(start, alt.span_hi());
             Ok(CondExpr {
+                node_id: Default::default(),
                 span,
                 test,
                 cons,
@@ -1125,6 +1169,7 @@ impl<I: Tokens> Parser<I> {
                 self.assert_and_bump(Token::Bang);
 
                 let expr = Box::new(Expr::TsNonNull(TsNonNullExpr {
+                    node_id: Default::default(),
                     span: self.span(start),
                     expr: callee,
                 }));
@@ -1161,6 +1206,7 @@ impl<I: Tokens> Parser<I> {
 
                             let expr = if callee.is_opt_chain() {
                                 Expr::OptChain(OptChainExpr {
+                                    node_id: Default::default(),
                                     span: p.span(start),
                                     base: Box::new(OptChainBase::Call(OptCall {
                                         span: p.span(start),
@@ -1193,6 +1239,7 @@ impl<I: Tokens> Parser<I> {
                                 .map(Some)
                         } else if matches!(cur, Token::Eq | Token::As | Token::Satisfies) {
                             let expr = Expr::TsInstantiation(TsInstantiation {
+                                node_id: Default::default(),
                                 span: p.span(start),
                                 expr: callee.take(),
                                 type_args,
@@ -1243,6 +1290,7 @@ impl<I: Tokens> Parser<I> {
             let span = Span::new_with_checked(callee.span_lo(), self.input().last_pos());
             debug_assert_eq!(callee.span_lo(), span.lo());
             let prop = ComputedPropName {
+                node_id: Default::default(),
                 span: Span::new_with_checked(bracket_lo, self.input().last_pos()),
                 expr: prop,
             };
@@ -1255,12 +1303,14 @@ impl<I: Tokens> Parser<I> {
 
             let is_opt_chain = unwrap_ts_non_null(&callee).is_opt_chain();
             let expr = MemberExpr {
+                node_id: Default::default(),
                 span,
                 obj: callee,
                 prop: MemberProp::Computed(prop),
             };
             let expr = if is_opt_chain || question_dot {
                 OptChainExpr {
+                    node_id: Default::default(),
                     span,
                     optional: question_dot,
                     base: Box::new(OptChainBase::Member(expr)),
@@ -1272,6 +1322,7 @@ impl<I: Tokens> Parser<I> {
 
             let expr = if let Some(type_args) = type_args {
                 Expr::TsInstantiation(TsInstantiation {
+                    node_id: Default::default(),
                     expr: Box::new(expr),
                     type_args,
                     span: self.span(start),
@@ -1296,6 +1347,7 @@ impl<I: Tokens> Parser<I> {
             let span = self.span(start);
             return if question_dot || unwrap_ts_non_null(&callee).is_opt_chain() {
                 let expr = OptChainExpr {
+                    node_id: Default::default(),
                     span,
                     optional: question_dot,
                     base: Box::new(OptChainBase::Call(OptCall {
@@ -1342,12 +1394,14 @@ impl<I: Tokens> Parser<I> {
             };
 
             let expr = MemberExpr {
+                node_id: Default::default(),
                 span,
                 obj: callee,
                 prop,
             };
             let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain() || question_dot {
                 OptChainExpr {
+                    node_id: Default::default(),
                     span: self.span(start),
                     optional: question_dot,
                     base: Box::new(OptChainBase::Member(expr)),
@@ -1359,6 +1413,7 @@ impl<I: Tokens> Parser<I> {
 
             let expr = if let Some(type_args) = type_args {
                 Expr::TsInstantiation(TsInstantiation {
+                    node_id: Default::default(),
                     expr: Box::new(expr),
                     type_args,
                     span: self.span(start),
@@ -1372,6 +1427,7 @@ impl<I: Tokens> Parser<I> {
 
         let expr = if let Some(type_args) = ts_instantiation {
             TsInstantiation {
+                node_id: Default::default(),
                 expr: callee,
                 type_args,
                 span: self.span(start),
@@ -1414,6 +1470,7 @@ impl<I: Tokens> Parser<I> {
                 let span = Span::new_with_checked(lhs.span_lo(), self.input().last_pos());
                 debug_assert_eq!(lhs.span_lo(), span.lo());
                 let prop = ComputedPropName {
+                    node_id: Default::default(),
                     span: Span::new_with_checked(bracket_lo, self.input().last_pos()),
                     expr: prop,
                 };
@@ -1424,6 +1481,7 @@ impl<I: Tokens> Parser<I> {
                     syntax_error!(self, lhs.span, SyntaxError::InvalidSuper)
                 } else {
                     Ok(Box::new(Expr::SuperProp(SuperPropExpr {
+                        node_id: Default::default(),
                         span,
                         obj: lhs,
                         prop: SuperProp::Computed(prop),
@@ -1460,6 +1518,7 @@ impl<I: Tokens> Parser<I> {
                 } else {
                     let expr = match prop {
                         MemberProp::Ident(ident) => SuperPropExpr {
+                            node_id: Default::default(),
                             span,
                             obj: lhs,
                             prop: SuperProp::Ident(ident),
@@ -1539,6 +1598,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(span, SyntaxError::ImportMetaInScript);
                     }
                     let expr = MetaPropExpr {
+                        node_id: Default::default(),
                         span,
                         kind: MetaPropKind::ImportMeta,
                     };
@@ -1559,6 +1619,7 @@ impl<I: Tokens> Parser<I> {
         phase: ImportPhase,
     ) -> PResult<Box<Expr>> {
         let import = Callee::Import(Import {
+            node_id: Default::default(),
             span: self.span(start),
             phase,
         });
@@ -1585,6 +1646,7 @@ impl<I: Tokens> Parser<I> {
                 if self.input_mut().eat(Token::Target) {
                     let span = self.span(start);
                     let expr = MetaPropExpr {
+                        node_id: Default::default(),
                         span,
                         kind: MetaPropKind::NewTarget,
                     }
@@ -1690,6 +1752,7 @@ impl<I: Tokens> Parser<I> {
 
         if self.input_mut().eat(Token::Super) {
             let base = Callee::Super(Super {
+                node_id: Default::default(),
                 span: self.span(start),
             });
             return self.parse_subscripts(base, true, false);
@@ -1707,6 +1770,7 @@ impl<I: Tokens> Parser<I> {
         let obj = if let Some(type_args) = type_args {
             trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
             TsInstantiation {
+                node_id: Default::default(),
                 expr: obj,
                 type_args,
                 span: self.span(start),
@@ -1745,7 +1809,11 @@ impl<I: Tokens> Parser<I> {
                     || cur.is_bin_op()
                 {
                     self.emit_err(self.input().cur_span(), SyntaxError::TS1109);
-                    Invalid { span: err.span() }.into()
+                    Invalid {
+                        node_id: Default::default(),
+                        span: err.span(),
+                    }
+                    .into()
                 } else {
                     return Err(err);
                 }
@@ -1816,6 +1884,7 @@ impl<I: Tokens> Parser<I> {
                     self.bump(); // as
                     self.bump(); // const
                     TsConstAssertion {
+                        node_id: Default::default(),
                         span: self.span(start),
                         expr,
                     }
@@ -1823,6 +1892,7 @@ impl<I: Tokens> Parser<I> {
                 } else {
                     let type_ann = self.next_then_parse_ts_type()?;
                     TsAsExpr {
+                        node_id: Default::default(),
                         span: self.span(start),
                         expr,
                         type_ann,
@@ -1837,6 +1907,7 @@ impl<I: Tokens> Parser<I> {
                 let node = {
                     let type_ann = self.next_then_parse_ts_type()?;
                     TsSatisfiesExpr {
+                        node_id: Default::default(),
                         span: self.span(start),
                         expr,
                         type_ann,
@@ -1954,6 +2025,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let node = BinExpr {
+            node_id: Default::default(),
             span: Span::new_with_checked(left.span_lo(), right.span_hi()),
             op,
             left,
@@ -2018,6 +2090,7 @@ impl<I: Tokens> Parser<I> {
 
         let arg = self.parse_unary_expr()?;
         Ok(AwaitExpr {
+            node_id: Default::default(),
             span: self.span(start),
             arg,
         }
@@ -2088,7 +2161,11 @@ impl<I: Tokens> Parser<I> {
                         expr
                     };
 
-                    ExprOrSpread { spread, expr }
+                    ExprOrSpread {
+                        node_id: Default::default(),
+                        spread,
+                        expr,
+                    }
                 } else {
                     self.allow_in_expr(|p| p.parse_expr_or_spread())?
                 }
@@ -2137,8 +2214,10 @@ impl<I: Tokens> Parser<I> {
                         })?;
 
                         arg = ExprOrSpread {
+                            node_id: Default::default(),
                             spread: None,
                             expr: CondExpr {
+                                node_id: Default::default(),
                                 span: Span::new_with_checked(start, alt.span_hi()),
                                 test,
                                 cons,
@@ -2182,9 +2261,11 @@ impl<I: Tokens> Parser<I> {
                         let cast_span =
                             Span::new_with_checked(arg.expr.span_lo(), self.input().prev_span().hi);
                         items.push(AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                            node_id: Default::default(),
                             spread: None,
                             expr: Box::new(
                                 TsAsExpr {
+                                    node_id: Default::default(),
                                     span: cast_span,
                                     expr: arg.expr,
                                     type_ann: type_ann.type_ann,
@@ -2215,6 +2296,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 if let Some(span) = arg.spread {
                     pat = RestPat {
+                        node_id: Default::default(),
                         span: self.span(pat_start),
                         dot3_token: span,
                         arg: Box::new(pat),
@@ -2269,6 +2351,7 @@ impl<I: Tokens> Parser<I> {
                 if self.input_mut().eat(Token::Eq) {
                     let right = self.parse_assignment_expr()?;
                     pat = AssignPat {
+                        node_id: Default::default(),
                         span: self.span(pat_start),
                         left: Box::new(pat),
                         right,
@@ -2312,6 +2395,7 @@ impl<I: Tokens> Parser<I> {
                 let span = self.span(start);
 
                 items.push(AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                    node_id: Default::default(),
                     expr: Box::new(
                         ArrowExpr {
                             span,
@@ -2548,7 +2632,8 @@ impl<I: Tokens> Parser<I> {
                         AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
                             spread: None,
                             expr
-                        }) if matches!(expr.as_ref(), Expr::TsAs(..))
+                        ,
+                            ..}) if matches!(expr.as_ref(), Expr::TsAs(..))
                     )
                 })
             {
@@ -2602,10 +2687,12 @@ impl<I: Tokens> Parser<I> {
                 ExprOrSpread {
                     spread: Some(..),
                     ref expr,
+                    ..
                 } => syntax_error!(self, expr.span(), SyntaxError::SpreadInParenExpr),
                 ExprOrSpread { expr, .. } => expr,
             };
             Ok(ParenExpr {
+                node_id: Default::default(),
                 span: self.span(expr_start),
                 expr,
             }
@@ -2619,6 +2706,7 @@ impl<I: Tokens> Parser<I> {
                     ExprOrSpread {
                         spread: Some(..),
                         ref expr,
+                        ..
                     } => syntax_error!(self, expr.span(), SyntaxError::SpreadInParenExpr),
                     ExprOrSpread { expr, .. } => exprs.push(expr),
                 }
@@ -2627,6 +2715,7 @@ impl<I: Tokens> Parser<I> {
 
             // span of sequence expression should not include '(', ')'
             let seq_expr = SeqExpr {
+                node_id: Default::default(),
                 span: Span::new_with_checked(
                     exprs.first().unwrap().span_lo(),
                     exprs.last().unwrap().span_hi(),
@@ -2635,6 +2724,7 @@ impl<I: Tokens> Parser<I> {
             }
             .into();
             Ok(ParenExpr {
+                node_id: Default::default(),
                 span: self.span(expr_start),
                 expr: seq_expr,
             }
@@ -2699,6 +2789,7 @@ impl<I: Tokens> Parser<I> {
                         // async as type
                         let type_ann = p.in_type(Self::parse_ts_type)?;
                         return Ok(TsAsExpr {
+                            node_id: Default::default(),
                             span: p.span(start),
                             expr: Box::new(id.into()),
                             type_ann,
@@ -2767,6 +2858,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(self.span(start), SyntaxError::TS1003);
             }
             Ok(PrivateName {
+                node_id: Default::default(),
                 span: self.span(start),
                 name: id.sym,
             }
@@ -2821,7 +2913,15 @@ impl<I: Tokens> Parser<I> {
 
             self.bump();
             let span = self.span(start);
-            Some(Lit::Regex(Regex { span, exp, flags }).into())
+            Some(
+                Lit::Regex(Regex {
+                    node_id: Default::default(),
+                    span,
+                    exp,
+                    flags,
+                })
+                .into(),
+            )
         } else {
             None
         }
@@ -2867,6 +2967,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().cur() == Token::This);
         self.input_mut().bump();
         Ok(ThisExpr {
+            node_id: Default::default(),
             span: self.span(start),
         }
         .into())

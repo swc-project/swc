@@ -24,6 +24,7 @@ impl<I: Tokens> Parser<I> {
         };
         expect!(self, Token::RBrace);
         Ok(JSXExprContainer {
+            node_id: Default::default(),
             span: self.span(start),
             expr,
         })
@@ -36,6 +37,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().jsx());
         let start = self.input().cur_pos();
         JSXEmptyExpr {
+            node_id: Default::default(),
             span: Span::new_with_checked(start, start),
         }
     }
@@ -65,7 +67,12 @@ impl<I: Tokens> Parser<I> {
 
         self.input.scan_jsx_token();
         let span = self.input().prev_span();
-        JSXText { span, value, raw }
+        JSXText {
+            node_id: Default::default(),
+            span,
+            value,
+            raw,
+        }
     }
 
     fn parse_jsx_ident(&mut self) -> PResult<Ident> {
@@ -100,6 +107,7 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().scan_jsx_identifier();
             let name: IdentName = self.parse_jsx_ident()?.into();
             JSXAttrName::JSXNamespacedName(JSXNamespacedName {
+                node_id: Default::default(),
                 span: Span::new_with_checked(start, name.span.hi),
                 ns,
                 name,
@@ -123,6 +131,7 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().scan_jsx_identifier();
             let prop: IdentName = self.parse_jsx_ident()?.into();
             let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
+                node_id: Default::default(),
                 span: self.span(start),
                 obj: match node {
                     JSXElementName::Ident(i) => JSXObject::Ident(i),
@@ -169,6 +178,7 @@ impl<I: Tokens> Parser<I> {
 
         let span = self.span(start);
         Ok(JSXClosingElement {
+            node_id: Default::default(),
             span,
             name: tagname,
         })
@@ -190,7 +200,10 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().scan_jsx_token();
         }
         let span = self.span(start);
-        Ok(JSXClosingFragment { span })
+        Ok(JSXClosingFragment {
+            node_id: Default::default(),
+            span,
+        })
     }
 
     fn parse_jsx_children(&mut self) -> Vec<JSXElementChild> {
@@ -222,6 +235,7 @@ impl<I: Tokens> Parser<I> {
                             p.expect_without_advance(Token::RBrace)?;
                             p.input_mut().scan_jsx_token();
                             JSXElementChild::JSXSpreadChild(JSXSpreadChild {
+                                node_id: Default::default(),
                                 span: p.span(start),
                                 expr,
                             })
@@ -234,6 +248,7 @@ impl<I: Tokens> Parser<I> {
                             p.expect_without_advance(Token::RBrace)?;
                             p.input_mut().scan_jsx_token();
                             JSXElementChild::JSXExprContainer(JSXExprContainer {
+                                node_id: Default::default(),
                                 span: p.span(start),
                                 expr,
                             })
@@ -270,6 +285,7 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().scan_jsx_identifier();
             let name = self.parse_jsx_ident()?;
             Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
+                node_id: Default::default(),
                 span: Span::new_with_checked(start, name.span.hi),
                 ns: attr_name.into(),
                 name: name.into(),
@@ -320,6 +336,7 @@ impl<I: Tokens> Parser<I> {
             let expr = self.parse_assignment_expr()?;
             self.expect(Token::RBrace)?;
             Ok(JSXAttrOrSpread::SpreadElement(SpreadElement {
+                node_id: Default::default(),
                 dot3_token,
                 expr,
             }))
@@ -331,6 +348,7 @@ impl<I: Tokens> Parser<I> {
                 |p| p.parse_jsx_attr_value(),
             )?;
             Ok(JSXAttrOrSpread::JSXAttr(JSXAttr {
+                node_id: Default::default(),
                 span: self.span(start),
                 name,
                 value,
@@ -376,12 +394,14 @@ impl<I: Tokens> Parser<I> {
                 // <>xxxxxx</>
                 p.input_mut().scan_jsx_token();
                 let opening = JSXOpeningFragment {
+                    node_id: Default::default(),
                     span: p.span(start),
                 };
                 let children = p.parse_jsx_children();
                 let closing = p.parse_jsx_closing_fragment(in_expr_context)?;
                 let span = p.span(start);
                 Ok(either::Either::Left(JSXFragment {
+                    node_id: Default::default(),
                     span,
                     opening,
                     children,
@@ -406,6 +426,7 @@ impl<I: Tokens> Parser<I> {
                     p.input_mut().scan_jsx_token();
                     let span = Span::new_with_checked(start, p.input.get_cur().span.lo);
                     let opening = JSXOpeningElement {
+                        node_id: Default::default(),
                         span,
                         name,
                         type_args,
@@ -420,6 +441,7 @@ impl<I: Tokens> Parser<I> {
                         Span::new_with_checked(start, p.cur_pos())
                     };
                     Ok(either::Either::Right(JSXElement {
+                        node_id: Default::default(),
                         span,
                         opening,
                         children,
@@ -446,8 +468,10 @@ impl<I: Tokens> Parser<I> {
                         Span::new_with_checked(start, p.cur_pos())
                     };
                     Ok(either::Either::Right(JSXElement {
+                        node_id: Default::default(),
                         span,
                         opening: JSXOpeningElement {
+                            node_id: Default::default(),
                             span,
                             name,
                             type_args,
@@ -514,8 +538,10 @@ mod tests {
         assert_eq_ignore_span!(
             jsx("<a />"),
             Box::new(Expr::JSXElement(Box::new(JSXElement {
+                node_id: Default::default(),
                 span,
                 opening: JSXOpeningElement {
+                    node_id: Default::default(),
                     span,
                     name: JSXElementName::Ident(Ident::new_no_ctxt(atom!("a"), span)),
                     self_closing: true,
@@ -533,8 +559,10 @@ mod tests {
         assert_eq_ignore_span!(
             jsx("<a>foo</a>"),
             Box::new(Expr::JSXElement(Box::new(JSXElement {
+                node_id: Default::default(),
                 span,
                 opening: JSXOpeningElement {
+                    node_id: Default::default(),
                     span,
                     name: JSXElementName::Ident(Ident::new_no_ctxt(atom!("a"), span)),
                     self_closing: false,
@@ -542,11 +570,13 @@ mod tests {
                     type_args: None,
                 },
                 children: vec![JSXElementChild::JSXText(JSXText {
+                    node_id: Default::default(),
                     span,
                     raw: atom!("foo"),
                     value: atom!("foo"),
                 })],
                 closing: Some(JSXClosingElement {
+                    node_id: Default::default(),
                     span,
                     name: JSXElementName::Ident(Ident::new_no_ctxt(atom!("a"), span)),
                 })
@@ -559,13 +589,17 @@ mod tests {
         assert_eq_ignore_span!(
             jsx(r#"<div id="w &lt; w" />;"#),
             Box::new(Expr::JSXElement(Box::new(JSXElement {
+                node_id: Default::default(),
                 span,
                 opening: JSXOpeningElement {
+                    node_id: Default::default(),
                     span,
                     attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
+                        node_id: Default::default(),
                         span,
                         name: JSXAttrName::Ident(IdentName::new(atom!("id"), span)),
                         value: Some(JSXAttrValue::Str(Str {
+                            node_id: Default::default(),
                             span,
                             value: atom!("w < w").into(),
                             raw: Some(atom!("\"w &lt; w\"")),
@@ -586,16 +620,21 @@ mod tests {
         assert_eq_ignore_span!(
             jsx(r#"<test other={4} />;"#),
             Box::new(Expr::JSXElement(Box::new(JSXElement {
+                node_id: Default::default(),
                 span,
                 opening: JSXOpeningElement {
+                    node_id: Default::default(),
                     span,
                     name: JSXElementName::Ident(Ident::new_no_ctxt(atom!("test"), span)),
                     attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
+                        node_id: Default::default(),
                         span,
                         name: JSXAttrName::Ident(IdentName::new(atom!("other"), span)),
                         value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                            node_id: Default::default(),
                             span,
                             expr: JSXExpr::Expr(Box::new(Expr::Lit(Lit::Num(Number {
+                                node_id: Default::default(),
                                 span,
                                 value: 4.0,
                                 raw: Some(atom!("4"))

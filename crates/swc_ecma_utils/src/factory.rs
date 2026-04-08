@@ -29,6 +29,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     /// use swc_ecma_utils::ExprFactory;
     ///
     /// let first = Lit::Num(Number {
+    ///     node_id: Default::default(),
     ///     span: DUMMY_SP,
     ///     value: 0.0,
     ///     raw: None,
@@ -38,6 +39,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_arg(self) -> ExprOrSpread {
         ExprOrSpread {
+            node_id: Default::default(),
             expr: self.into(),
             spread: None,
         }
@@ -48,6 +50,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     fn into_stmt(self) -> Stmt {
         let expr = self.into();
         ExprStmt {
+            node_id: Default::default(),
             span: expr.span(),
             expr,
         }
@@ -58,6 +61,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_return_stmt(self) -> ReturnStmt {
         ReturnStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             arg: Some(self.into()),
         }
@@ -121,6 +125,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_var_decl(self, kind: VarDeclKind, name: Pat) -> VarDecl {
         let var_declarator = VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name,
             init: Some(self.into()),
@@ -188,7 +193,9 @@ pub trait ExprFactory: Into<Box<Expr>> {
             Expr::Fn(FnExpr {
                 ident: Some(ident),
                 function,
+                ..
             }) => Some(FnDecl {
+                node_id: Default::default(),
                 ident,
                 declare: false,
                 function,
@@ -203,7 +210,9 @@ pub trait ExprFactory: Into<Box<Expr>> {
             Expr::Class(ClassExpr {
                 ident: Some(ident),
                 class,
+                ..
             }) => Some(ClassDecl {
+                node_id: Default::default(),
                 ident,
                 declare: false,
                 class,
@@ -216,7 +225,12 @@ pub trait ExprFactory: Into<Box<Expr>> {
     fn wrap_with_paren(self) -> Expr {
         let expr = self.into();
         let span = expr.span();
-        ParenExpr { expr, span }.into()
+        ParenExpr {
+            node_id: Default::default(),
+            expr,
+            span,
+        }
+        .into()
     }
 
     /// Creates a binary expr `$self === `
@@ -237,6 +251,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
         let right = Box::new(right.into());
 
         BinExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             left: self.into(),
             op,
@@ -251,6 +266,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
         let right = self.into();
 
         AssignExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             left,
             op,
@@ -262,6 +278,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn make_member(self, prop: IdentName) -> MemberExpr {
         MemberExpr {
+            node_id: Default::default(),
             obj: self.into(),
             span: DUMMY_SP,
             prop: MemberProp::Ident(prop),
@@ -274,9 +291,11 @@ pub trait ExprFactory: Into<Box<Expr>> {
         T: Into<Box<Expr>>,
     {
         MemberExpr {
+            node_id: Default::default(),
             obj: self.into(),
             span: DUMMY_SP,
             prop: MemberProp::Computed(ComputedPropName {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 expr: prop.into(),
             }),
@@ -311,6 +330,7 @@ impl IntoIndirectCall for Callee {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_indirect(self) -> Callee {
         SeqExpr {
+            node_id: Default::default(),
             span: DUMMY_SP,
             exprs: vec![0f64.into(), self.expect_expr()],
         }
@@ -326,6 +346,7 @@ impl IntoIndirectCall for TaggedTpl {
         Self {
             tag: Box::new(
                 SeqExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     exprs: vec![0f64.into(), self.tag.take()],
                 }
@@ -340,6 +361,7 @@ pub trait FunctionFactory: Into<Box<Function>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_fn_expr(self, ident: Option<Ident>) -> FnExpr {
         FnExpr {
+            node_id: Default::default(),
             ident,
             function: self.into(),
         }
@@ -348,6 +370,7 @@ pub trait FunctionFactory: Into<Box<Function>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_fn_decl(self, ident: Ident) -> FnDecl {
         FnDecl {
+            node_id: Default::default(),
             ident,
             declare: false,
             function: self.into(),
@@ -357,6 +380,7 @@ pub trait FunctionFactory: Into<Box<Function>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_method_prop(self, key: PropName) -> MethodProp {
         MethodProp {
+            node_id: Default::default(),
             key,
             function: self.into(),
         }

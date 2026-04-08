@@ -57,6 +57,7 @@ impl<I: Tokens> Parser<I> {
         }
         let id = self.parse_ident_name()?;
         Ok(PrivateName {
+            node_id: Default::default(),
             span: self.span(start),
             name: id.sym,
         })

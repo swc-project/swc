@@ -70,6 +70,7 @@ macro_rules! add_import_to {
         if enable {
             let ctxt = SyntaxContext::empty().apply_mark($mark);
             let s = ImportSpecifier::Named(ImportNamedSpecifier {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 local: Ident::new(concat!("_", stringify!($name)).into(), DUMMY_SP, ctxt),
                 imported: Some(quote_ident!("_").into()),
@@ -79,6 +80,7 @@ macro_rules! add_import_to {
             let src: Str = concat!("@swc/helpers/_/_", stringify!($name)).into();
 
             $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 specifiers: vec![s],
                 src: Box::new(src),
@@ -484,6 +486,7 @@ impl InjectHelpers {
             })
             .as_callee(),
             args: vec![Str {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 value: format!("@swc/helpers/_/_{name}").into(),
                 raw: None,
@@ -495,6 +498,7 @@ impl InjectHelpers {
         VarDecl {
             kind: VarDeclKind::Var,
             decls: vec![VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: Pat::Ident(Ident::new(format!("_{name}").into(), DUMMY_SP, ctxt).into()),
                 init: Some(c.into()),
@@ -512,6 +516,7 @@ impl InjectHelpers {
                 let ident = ref_ident.clone().without_loc();
 
                 MemberExpr {
+                    node_id: Default::default(),
                     span: ref_ident.span,
                     obj: Box::new(ident.into()),
                     prop: MemberProp::Ident(atom!("_").into()),

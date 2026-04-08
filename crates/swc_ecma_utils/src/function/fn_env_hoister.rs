@@ -86,14 +86,22 @@ impl FnEnvHoister {
         let mut decls = Vec::with_capacity(3);
         if let Some(this_id) = this {
             decls.push(VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: this_id.into(),
-                init: Some(ThisExpr { span: DUMMY_SP }.into()),
+                init: Some(
+                    ThisExpr {
+                        node_id: Default::default(),
+                        span: DUMMY_SP,
+                    }
+                    .into(),
+                ),
                 definite: false,
             });
         }
         if let Some(id) = args {
             decls.push(VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: id.into(),
                 init: Some(Ident::new_no_ctxt(atom!("arguments"), DUMMY_SP).into()),
@@ -102,10 +110,12 @@ impl FnEnvHoister {
         }
         if let Some(id) = new_target {
             decls.push(VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: id.into(),
                 init: Some(
                     MetaPropExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         kind: MetaPropKind::NewTarget,
                     }
@@ -149,6 +159,7 @@ impl FnEnvHoister {
         let mut decls = Vec::with_capacity(3);
         if let Some(this_id) = &this {
             decls.push(VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: this_id.clone().into(),
                 init: None,
@@ -157,6 +168,7 @@ impl FnEnvHoister {
         }
         if let Some(id) = args {
             decls.push(VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: id.into(),
                 init: Some(Ident::new_no_ctxt(atom!("arguments"), DUMMY_SP).into()),
@@ -165,10 +177,12 @@ impl FnEnvHoister {
         }
         if let Some(id) = new_target {
             decls.push(VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: id.into(),
                 init: Some(
                     MetaPropExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         kind: MetaPropKind::NewTarget,
                     }
@@ -305,6 +319,7 @@ impl VisitMut for FnEnvHoister {
                         .take()
                         .into_iter()
                         .map(|ident| VarDeclarator {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             name: ident.into(),
                             init: None,
@@ -333,6 +348,7 @@ impl VisitMut for FnEnvHoister {
                                 .take()
                                 .into_iter()
                                 .map(|ident| VarDeclarator {
+                                    node_id: Default::default(),
                                     span: DUMMY_SP,
                                     name: ident.into(),
                                     init: None,
@@ -342,6 +358,7 @@ impl VisitMut for FnEnvHoister {
                             ..Default::default()
                         }))),
                         Stmt::Return(ReturnStmt {
+                            node_id: Default::default(),
                             span: e.span(),
                             arg: Some(e.take()),
                         }),
@@ -386,6 +403,7 @@ impl VisitMut for FnEnvHoister {
                 right,
                 span,
                 op,
+                ..
             }) => {
                 let expr = match left {
                     AssignTarget::Simple(e) => e,
@@ -410,6 +428,7 @@ impl VisitMut for FnEnvHoister {
                                     self.extra_ident.push(tmp.clone());
                                     vec![
                                         Expr::Assign(AssignExpr {
+                                            node_id: Default::default(),
                                             span: DUMMY_SP,
                                             left: tmp.clone().into(),
                                             op: op!("="),
@@ -417,6 +436,7 @@ impl VisitMut for FnEnvHoister {
                                         })
                                         .as_arg(),
                                         Expr::Bin(BinExpr {
+                                            node_id: Default::default(),
                                             span: DUMMY_SP,
                                             left: Box::new(Expr::Call(CallExpr {
                                                 span: DUMMY_SP,
@@ -448,6 +468,7 @@ impl VisitMut for FnEnvHoister {
                                     span: *span,
                                     args: vec![(if let Some(op) = op.to_update() {
                                         Box::new(Expr::Bin(BinExpr {
+                                            node_id: Default::default(),
                                             span: DUMMY_SP,
                                             left: Box::new(
                                                 self.super_get(&id.sym, id.span)
@@ -632,16 +653,22 @@ impl VisitMut for InitThis<'_> {
         {
             let span = call_expr.span;
             *expr = ParenExpr {
+                node_id: Default::default(),
                 span,
                 expr: SeqExpr {
+                    node_id: Default::default(),
                     span,
                     exprs: vec![
                         Box::new(Expr::Call(call_expr.take())),
                         Box::new(Expr::Assign(AssignExpr {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             left: self.this_id.clone().into(),
                             op: AssignOp::Assign,
-                            right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                            right: Box::new(Expr::This(ThisExpr {
+                                node_id: Default::default(),
+                                span: DUMMY_SP,
+                            })),
                         })),
                     ],
                 }
@@ -661,13 +688,16 @@ fn extend_super(
     decls.extend(update.ident.into_iter().map(|(key, ident)| {
         let value = private_ident!("v");
         VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: ident.into(),
             init: Some(
                 ObjectLit {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     props: vec![
                         Prop::Getter(GetterProp {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             key: PropName::Ident(atom!("_").into()),
                             type_ann: None,
@@ -686,6 +716,7 @@ fn extend_super(
                             }),
                         }),
                         Prop::Setter(SetterProp {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             key: PropName::Ident(atom!("_").into()),
                             this_param: None,
@@ -719,6 +750,7 @@ fn extend_super(
         let value = private_ident!("v");
 
         decls.push(VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: id.into(),
             init: Some(
@@ -727,9 +759,11 @@ fn extend_super(
                     params: vec![prop.clone().into()],
                     body: Box::new(BlockStmtOrExpr::Expr(Box::new(
                         ObjectLit {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             props: vec![
                                 Prop::Getter(GetterProp {
+                                    node_id: Default::default(),
                                     span: DUMMY_SP,
                                     key: PropName::Ident(atom!("_").into()),
                                     type_ann: None,
@@ -747,6 +781,7 @@ fn extend_super(
                                     }),
                                 }),
                                 Prop::Setter(SetterProp {
+                                    node_id: Default::default(),
                                     span: DUMMY_SP,
                                     key: PropName::Ident(atom!("_").into()),
                                     this_param: None,
@@ -781,6 +816,7 @@ fn extend_super(
     }
     decls.extend(get.ident.into_iter().map(|(key, ident)| {
         VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: ident.without_loc().into(),
             init: Some(
@@ -789,7 +825,11 @@ fn extend_super(
                     params: Vec::new(),
                     body: Box::new(BlockStmtOrExpr::Expr(Box::new(
                         SuperPropExpr {
-                            obj: Super { span: DUMMY_SP },
+                            node_id: Default::default(),
+                            obj: Super {
+                                node_id: Default::default(),
+                                span: DUMMY_SP,
+                            },
                             prop: SuperProp::Ident(key.into()),
                             span: DUMMY_SP,
                         }
@@ -805,6 +845,7 @@ fn extend_super(
     if let Some(id) = get.computed {
         let param = private_ident!("_prop");
         decls.push(VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: id.without_loc().into(),
             init: Some(
@@ -813,8 +854,13 @@ fn extend_super(
                     params: vec![param.clone().into()],
                     body: Box::new(BlockStmtOrExpr::Expr(Box::new(
                         SuperPropExpr {
-                            obj: Super { span: DUMMY_SP },
+                            node_id: Default::default(),
+                            obj: Super {
+                                node_id: Default::default(),
+                                span: DUMMY_SP,
+                            },
                             prop: SuperProp::Computed(ComputedPropName {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 expr: Box::new(Expr::Ident(param)),
                             }),
@@ -832,6 +878,7 @@ fn extend_super(
     decls.extend(set.ident.into_iter().map(|(key, ident)| {
         let value = private_ident!("_value");
         VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: ident.without_loc().into(),
             init: Some(
@@ -840,9 +887,14 @@ fn extend_super(
                     params: vec![value.clone().into()],
                     body: Box::new(BlockStmtOrExpr::Expr(Box::new(
                         AssignExpr {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             left: SuperPropExpr {
-                                obj: Super { span: DUMMY_SP },
+                                node_id: Default::default(),
+                                obj: Super {
+                                    node_id: Default::default(),
+                                    span: DUMMY_SP,
+                                },
                                 prop: SuperProp::Ident(key.into()),
                                 span: DUMMY_SP,
                             }
@@ -863,6 +915,7 @@ fn extend_super(
         let prop = private_ident!("_prop");
         let value = private_ident!("_value");
         decls.push(VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: id.without_loc().into(),
             init: Some(
@@ -871,10 +924,16 @@ fn extend_super(
                     params: vec![prop.clone().into(), value.clone().into()],
                     body: Box::new(BlockStmtOrExpr::Expr(Box::new(
                         AssignExpr {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             left: SuperPropExpr {
-                                obj: Super { span: DUMMY_SP },
+                                node_id: Default::default(),
+                                obj: Super {
+                                    node_id: Default::default(),
+                                    span: DUMMY_SP,
+                                },
                                 prop: SuperProp::Computed(ComputedPropName {
+                                    node_id: Default::default(),
                                     span: DUMMY_SP,
                                     expr: Box::new(Expr::Ident(prop)),
                                 }),

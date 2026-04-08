@@ -34,7 +34,10 @@ struct StickyRegexPass;
 
 impl VisitMutHook<TraverseCtx> for StickyRegexPass {
     fn exit_expr(&mut self, e: &mut Expr, _ctx: &mut TraverseCtx) {
-        if let Expr::Lit(Lit::Regex(Regex { exp, flags, span })) = e {
+        if let Expr::Lit(Lit::Regex(Regex {
+            exp, flags, span, ..
+        })) = e
+        {
             if flags.contains('y') {
                 *e = NewExpr {
                     span: *span,

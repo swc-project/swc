@@ -161,7 +161,11 @@ fn reparse_expr_as_pat_inner<'a>(
     match *expr {
         Expr::Paren(..) => {
             p.emit_err(span, SyntaxError::InvalidPat);
-            Ok(Invalid { span }.into())
+            Ok(Invalid {
+                node_id: Default::default(),
+                span,
+            }
+            .into())
         }
         Expr::Assign(
             assign_expr @ AssignExpr {
@@ -173,6 +177,7 @@ fn reparse_expr_as_pat_inner<'a>(
                 span, left, right, ..
             } = assign_expr;
             Ok(AssignPat {
+                node_id: Default::default(),
                 span,
                 left: match left {
                     AssignTarget::Simple(left) => {
@@ -189,10 +194,12 @@ fn reparse_expr_as_pat_inner<'a>(
         Expr::Object(ObjectLit {
             span: object_span,
             props,
+            ..
         }) => {
             // {}
             let len = props.len();
             Ok(ObjectPat {
+                node_id: Default::default(),
                 span: object_span,
                 props: props
                     .into_iter()
@@ -202,12 +209,14 @@ fn reparse_expr_as_pat_inner<'a>(
                         match prop {
                             PropOrSpread::Prop(prop) => match *prop {
                                 Prop::Shorthand(id) => Ok(ObjectPatProp::Assign(AssignPatProp {
+                                    node_id: Default::default(),
                                     span: id.span(),
                                     key: id.into(),
                                     value: None,
                                 })),
                                 Prop::KeyValue(kv_prop) => {
                                     Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                        node_id: Default::default(),
                                         key: kv_prop.key,
                                         value: Box::new(reparse_expr_as_pat(
                                             p,
@@ -218,6 +227,7 @@ fn reparse_expr_as_pat_inner<'a>(
                                 }
                                 Prop::Assign(assign_prop) => {
                                     Ok(ObjectPatProp::Assign(AssignPatProp {
+                                        node_id: Default::default(),
                                         span,
                                         key: assign_prop.key.into(),
                                         value: Some(assign_prop.value),
@@ -226,7 +236,9 @@ fn reparse_expr_as_pat_inner<'a>(
                                 _ => syntax_error!(p, prop.span(), SyntaxError::InvalidPat),
                             },
 
-                            PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
+                            PropOrSpread::Spread(SpreadElement {
+                                dot3_token, expr, ..
+                            }) => {
                                 if idx != len - 1 {
                                     p.emit_err(span, SyntaxError::NonLastRestParam)
                                 } else if let Some(trailing_comma) =
@@ -241,7 +253,10 @@ fn reparse_expr_as_pat_inner<'a>(
                                         i.into()
                                     } else {
                                         p.emit_err(span, SyntaxError::DotsWithoutIdentifier);
-                                        Pat::Invalid(Invalid { span })
+                                        Pat::Invalid(Invalid {
+                                            node_id: Default::default(),
+                                            span,
+                                        })
                                     }
                                 } else {
                                     reparse_expr_as_pat(p, element_pat_ty, expr)?
@@ -250,6 +265,7 @@ fn reparse_expr_as_pat_inner<'a>(
                                     p.emit_err(span, SyntaxError::TS1048)
                                 };
                                 Ok(ObjectPatProp::Rest(RestPat {
+                                    node_id: Default::default(),
                                     span,
                                     dot3_token,
                                     arg: Box::new(pat),
@@ -273,6 +289,7 @@ fn reparse_expr_as_pat_inner<'a>(
         }) => {
             if exprs.is_empty() {
                 return Ok(ArrayPat {
+                    node_id: Default::default(),
                     span,
                     elems: Vec::new(),
                     optional: false,
@@ -312,6 +329,7 @@ fn reparse_expr_as_pat_inner<'a>(
                     Some(ExprOrSpread {
                         spread: Some(dot3_token),
                         expr,
+                        ..
                     }) => {
                         // TODO: is BindingPat correct?
                         if let Expr::Assign(_) = *expr {
@@ -324,6 +342,7 @@ fn reparse_expr_as_pat_inner<'a>(
                         reparse_expr_as_pat(p, pat_ty.element(), expr)
                             .map(|pat| {
                                 RestPat {
+                                    node_id: Default::default(),
                                     span: expr_span,
                                     dot3_token,
                                     arg: Box::new(pat),
@@ -343,6 +362,7 @@ fn reparse_expr_as_pat_inner<'a>(
                 params.push(last);
             }
             Ok(ArrayPat {
+                node_id: Default::default(),
                 span,
                 elems: params,
                 optional: false,
@@ -355,18 +375,30 @@ fn reparse_expr_as_pat_inner<'a>(
         // Note that assignment expression with '=' is valid, and handled above.
         Expr::Lit(..) | Expr::Assign(..) => {
             p.emit_err(span, SyntaxError::InvalidPat);
-            Ok(Invalid { span }.into())
+            Ok(Invalid {
+                node_id: Default::default(),
+                span,
+            }
+            .into())
         }
 
         Expr::Yield(..) if p.ctx().contains(Context::InGenerator) => {
             p.emit_err(span, SyntaxError::InvalidPat);
-            Ok(Invalid { span }.into())
+            Ok(Invalid {
+                node_id: Default::default(),
+                span,
+            }
+            .into())
         }
 
         _ => {
             p.emit_err(span, SyntaxError::InvalidPat);
 
-            Ok(Invalid { span }.into())
+            Ok(Invalid {
+                node_id: Default::default(),
+                span,
+            }
+            .into())
         }
     }
 }
@@ -385,6 +417,7 @@ pub(super) fn parse_binding_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat
         }
 
         return Ok(AssignPat {
+            node_id: Default::default(),
             span: p.span(start),
             left: Box::new(left),
             right,
@@ -445,6 +478,7 @@ pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
             let pat = parse_binding_pat_or_ident(p, false)?;
             rest_span = p.span(start);
             let pat = RestPat {
+                node_id: Default::default(),
                 span: rest_span,
                 dot3_token,
                 arg: Box::new(pat),
@@ -469,6 +503,7 @@ pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
         && p.input_mut().eat(&P::Token::QUESTION);
 
     Ok(ArrayPat {
+        node_id: Default::default(),
         span: p.span(start),
         elems,
         optional,
@@ -571,6 +606,7 @@ fn parse_formal_param_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
         }
 
         AssignPat {
+            node_id: Default::default(),
             span: p.span(start),
             left: Box::new(pat),
             right,
@@ -606,6 +642,7 @@ fn parse_constructor_param<'a, P: Parser<'a>>(
     if accessibility.is_none() && !is_override && !readonly {
         let pat = parse_formal_param_pat(p)?;
         Ok(ParamOrTsParamProp::Param(Param {
+            node_id: Default::default(),
             span: p.span(param_start),
             decorators,
             pat,
@@ -617,6 +654,7 @@ fn parse_constructor_param<'a, P: Parser<'a>>(
             node => syntax_error!(p, node.span(), SyntaxError::TsInvalidParamPropPat),
         };
         Ok(ParamOrTsParamProp::TsParamProp(TsParamProp {
+            node_id: Default::default(),
             span: p.span(param_start),
             accessibility,
             is_override,
@@ -655,6 +693,7 @@ pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Par
 
             rest_span = p.span(pat_start);
             let pat = RestPat {
+                node_id: Default::default(),
                 span: rest_span,
                 dot3_token,
                 arg: Box::new(pat),
@@ -662,6 +701,7 @@ pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Par
             }
             .into();
             params.push(ParamOrTsParamProp::Param(Param {
+                node_id: Default::default(),
                 span: p.span(param_start),
                 decorators,
                 pat,
@@ -703,6 +743,7 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
                 let right = parse_assignment_expr(p)?;
                 p.emit_err(pat.span(), SyntaxError::TS1048);
                 pat = AssignPat {
+                    node_id: Default::default(),
                     span: p.span(pat_start),
                     left: Box::new(pat),
                     right,
@@ -720,6 +761,7 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
 
             rest_span = p.span(pat_start);
             let pat = RestPat {
+                node_id: Default::default(),
                 span: rest_span,
                 dot3_token,
                 arg: Box::new(pat),
@@ -739,6 +781,7 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
         let is_rest = matches!(pat, Pat::Rest(_));
 
         params.push(Param {
+            node_id: Default::default(),
             span: p.span(param_start),
             decorators,
             pat,
@@ -797,6 +840,7 @@ pub(super) fn parse_paren_items_as_params<'a, P: Parser<'a>>(
         AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
             spread: Some(dot3_token),
             expr,
+            ..
         }) => {
             if let Expr::Assign(_) = *expr {
                 p.emit_err(outer_expr_span, SyntaxError::TS1048)
@@ -807,6 +851,7 @@ pub(super) fn parse_paren_items_as_params<'a, P: Parser<'a>>(
             let expr_span = expr.span();
             reparse_expr_as_pat(p, pat_ty, expr).map(|pat| {
                 RestPat {
+                    node_id: Default::default(),
                     span: expr_span,
                     dot3_token,
                     arg: Box::new(pat),

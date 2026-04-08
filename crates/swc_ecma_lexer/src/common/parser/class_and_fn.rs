@@ -145,6 +145,7 @@ fn parse_decorator<'a, P: Parser<'a>>(p: &mut P) -> PResult<Decorator> {
     let expr = parse_maybe_decorator_args(p, expr)?;
 
     Ok(Decorator {
+        node_id: Default::default(),
         span: p.span(start),
         expr,
     })
@@ -314,6 +315,7 @@ where
         }
 
         Ok(Box::new(Function {
+            node_id: Default::default(),
             span: p.span(start),
             decorators,
             type_params,
@@ -548,6 +550,7 @@ where
             }
 
             Ok(PrivateMethod {
+                node_id: Default::default(),
                 span,
 
                 accessibility,
@@ -568,6 +571,7 @@ where
                 p.emit_err(span, SyntaxError::TS1245)
             }
             Ok(ClassMethod {
+                node_id: Default::default(),
                 span,
 
                 accessibility,
@@ -761,6 +765,7 @@ fn make_property<'a, P: Parser<'a>>(
 
         if accessor_token.is_some() {
             return Ok(ClassMember::AutoAccessor(AutoAccessor {
+                node_id: Default::default(),
                 span: p.span(start),
                 key,
                 value,
@@ -782,6 +787,7 @@ fn make_property<'a, P: Parser<'a>>(
                 }
 
                 PrivateProp {
+                    node_id: Default::default(),
                     span: p.span(start),
                     key,
                     value,
@@ -803,6 +809,7 @@ fn make_property<'a, P: Parser<'a>>(
                     p.emit_err(span, SyntaxError::TS1267)
                 }
                 ClassProp {
+                    node_id: Default::default(),
                     span,
                     key,
                     value,
@@ -834,7 +841,12 @@ fn parse_static_block<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> PResult<C
     )?;
 
     let span = p.span(start);
-    Ok(StaticBlock { span, body }.into())
+    Ok(StaticBlock {
+        node_id: Default::default(),
+        span,
+        body,
+    }
+    .into())
 }
 
 fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
@@ -1510,7 +1522,10 @@ fn parse_class_body<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ClassMember>> {
         if p.input_mut().eat(&P::Token::SEMI) {
             let span = p.input().prev_span();
             debug_assert!(span.lo <= span.hi);
-            elems.push(ClassMember::Empty(EmptyStmt { span }));
+            elems.push(ClassMember::Empty(EmptyStmt {
+                node_id: Default::default(),
+                span,
+            }));
             continue;
         }
         let elem = p.do_inside_of_context(Context::AllowDirectSuper, parse_class_member)?;

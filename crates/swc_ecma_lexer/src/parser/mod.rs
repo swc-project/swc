@@ -152,6 +152,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let shebang = parse_shebang(self)?;
 
         let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
+            node_id: Default::default(),
             span: self.span(start),
             body,
             shebang,
@@ -173,6 +174,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let shebang = parse_shebang(self)?;
 
         let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
+            node_id: Default::default(),
             span: self.span(start),
             body,
             shebang,
@@ -198,6 +200,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let shebang = parse_shebang(self)?;
 
         let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
+            node_id: Default::default(),
             span: self.span(start),
             body,
             shebang,
@@ -238,6 +241,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
         let ret = if has_module_item {
             Program::Module(Module {
+                node_id: Default::default(),
                 span: self.span(start),
                 body,
                 shebang,
@@ -256,6 +260,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 })
                 .collect();
             Program::Script(Script {
+                node_id: Default::default(),
                 span: self.span(start),
                 body,
                 shebang,
@@ -281,6 +286,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let shebang = parse_shebang(self)?;
 
         let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
+            node_id: Default::default(),
             span: self.span(start),
             body,
             shebang,

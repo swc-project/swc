@@ -93,6 +93,7 @@ impl Swcify for BreakStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         BreakStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             label: self.label.swcify(ctx).map(|v| v.into()),
         }
@@ -104,6 +105,7 @@ impl Swcify for ContinueStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ContinueStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             label: self.label.swcify(ctx).map(|v| v.into()),
         }
@@ -115,6 +117,7 @@ impl Swcify for DebuggerStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         DebuggerStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
         }
     }
@@ -125,6 +128,7 @@ impl Swcify for DoWhileStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         DoWhileStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
             body: Box::new(self.body.swcify(ctx).expect_stmt()),
@@ -137,6 +141,7 @@ impl Swcify for EmptyStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         EmptyStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
         }
     }
@@ -147,6 +152,7 @@ impl Swcify for ExpressionStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExprStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             expr: self.expression.swcify(ctx),
         }
@@ -158,6 +164,7 @@ impl Swcify for ForInStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ForInStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             left: self.left.swcify(ctx),
             right: self.right.swcify(ctx),
@@ -182,6 +189,7 @@ impl Swcify for ForStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ForStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             init: self.init.swcify(ctx),
             test: self.test.swcify(ctx),
@@ -207,6 +215,7 @@ impl Swcify for FunctionDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         FnDecl {
+            node_id: Default::default(),
             ident: self.id.swcify(ctx).map(|v| v.into()).unwrap(),
             declare: false,
             function: swc_ecma_ast::Function {
@@ -228,6 +237,7 @@ impl Swcify for IfStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         IfStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
             cons: Box::new(self.consequent.swcify(ctx).expect_stmt()),
@@ -245,6 +255,7 @@ impl Swcify for LabeledStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         LabeledStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             label: self.label.swcify(ctx).into(),
             body: Box::new(self.body.swcify(ctx).expect_stmt()),
@@ -257,6 +268,7 @@ impl Swcify for ReturnStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ReturnStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             arg: self.argument.swcify(ctx),
         }
@@ -268,6 +280,7 @@ impl Swcify for SwitchStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         SwitchStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             discriminant: self.discriminant.swcify(ctx),
             cases: self.cases.swcify(ctx),
@@ -280,6 +293,7 @@ impl Swcify for swc_estree_ast::SwitchCase {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::SwitchCase {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
             cons: self
@@ -297,6 +311,7 @@ impl Swcify for ThrowStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ThrowStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             arg: self.argument.swcify(ctx),
         }
@@ -308,6 +323,7 @@ impl Swcify for TryStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TryStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             block: self.block.swcify(ctx),
             handler: self.handler.swcify(ctx),
@@ -321,6 +337,7 @@ impl Swcify for swc_estree_ast::CatchClause {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::CatchClause {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             param: self.param.swcify(ctx),
             body: self.body.swcify(ctx),
@@ -363,6 +380,7 @@ impl Swcify for VariableDeclarator {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         VarDeclarator {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             name: self.id.swcify(ctx),
             init: self.init.swcify(ctx),
@@ -376,6 +394,7 @@ impl Swcify for WhileStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         WhileStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
             body: Box::new(self.body.swcify(ctx).expect_stmt()),
@@ -388,6 +407,7 @@ impl Swcify for WithStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         WithStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             obj: self.object.swcify(ctx),
             body: Box::new(self.body.swcify(ctx).expect_stmt()),
@@ -400,6 +420,7 @@ impl Swcify for ClassDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ClassDecl {
+            node_id: Default::default(),
             ident: self.id.swcify(ctx).into(),
             declare: self.declare.unwrap_or_default(),
             class: swc_ecma_ast::Class {
@@ -420,6 +441,7 @@ impl Swcify for ExportAllDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportAll {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             src: self.source.swcify(ctx).into(),
             type_only: self.export_kind == Some(ExportKind::Type),
@@ -436,6 +458,7 @@ impl Swcify for ExportAllDeclaration {
                 })
                 .map(|props| {
                     ObjectLit {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         props,
                     }
@@ -450,6 +473,7 @@ impl Swcify for ImportAttribute {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         KeyValueProp {
+            node_id: Default::default(),
             key: self.key.swcify(ctx),
             value: Lit::Str(self.value.swcify(ctx)).into(),
         }
@@ -475,8 +499,10 @@ impl Swcify for ExportDefaultDeclaration {
             ExportDefaultDeclType::Func(v) => {
                 let d = v.swcify(ctx);
                 ExportDefaultDecl {
+                    node_id: Default::default(),
                     span: ctx.span(&self.base),
                     decl: DefaultDecl::Fn(FnExpr {
+                        node_id: Default::default(),
                         ident: Some(d.ident),
                         function: d.function,
                     }),
@@ -486,8 +512,10 @@ impl Swcify for ExportDefaultDeclaration {
             ExportDefaultDeclType::Class(v) => {
                 let d = v.swcify(ctx);
                 ExportDefaultDecl {
+                    node_id: Default::default(),
                     span: ctx.span(&self.base),
                     decl: DefaultDecl::Class(ClassExpr {
+                        node_id: Default::default(),
                         ident: Some(d.ident),
                         class: d.class,
                     }),
@@ -495,6 +523,7 @@ impl Swcify for ExportDefaultDeclaration {
                 .into()
             }
             ExportDefaultDeclType::Expr(v) => ExportDefaultExpr {
+                node_id: Default::default(),
                 span: ctx.span(&self.base),
                 expr: v.swcify(ctx),
             }
@@ -511,6 +540,7 @@ impl Swcify for ExportNamedDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         NamedExport {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             specifiers: self.specifiers.swcify(ctx),
             src: self.source.swcify(ctx).map(Box::new),
@@ -528,6 +558,7 @@ impl Swcify for ExportNamedDeclaration {
                 })
                 .map(|props| {
                     ObjectLit {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         props,
                     }
@@ -560,6 +591,7 @@ impl Swcify for swc_estree_ast::ExportSpecifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportNamedSpecifier {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             orig: self.local.swcify(ctx),
             exported: Some(self.exported.swcify(ctx)),
@@ -573,6 +605,7 @@ impl Swcify for swc_estree_ast::ExportDefaultSpecifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::ExportDefaultSpecifier {
+            node_id: Default::default(),
             exported: self.exported.swcify(ctx).into(),
         }
     }
@@ -583,6 +616,7 @@ impl Swcify for swc_estree_ast::ExportNamespaceSpecifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::ExportNamespaceSpecifier {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             name: self.exported.swcify(ctx),
         }
@@ -594,6 +628,7 @@ impl Swcify for ForOfStatement {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ForOfStmt {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             is_await: false,
             left: self.left.swcify(ctx),
@@ -608,6 +643,7 @@ impl Swcify for ImportDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ImportDecl {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             specifiers: self.specifiers.swcify(ctx),
             src: self.source.swcify(ctx).into(),
@@ -625,6 +661,7 @@ impl Swcify for ImportDeclaration {
                 })
                 .map(|props| {
                     ObjectLit {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         props,
                     }
@@ -679,6 +716,7 @@ impl Swcify for swc_estree_ast::ImportSpecifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ImportNamedSpecifier {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             local: self.local.swcify(ctx).into(),
             imported: Some(self.imported.swcify(ctx)),
@@ -692,6 +730,7 @@ impl Swcify for swc_estree_ast::ImportDefaultSpecifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::ImportDefaultSpecifier {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             local: self.local.swcify(ctx).into(),
         }
@@ -703,6 +742,7 @@ impl Swcify for ImportNamespaceSpecifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ImportStarAsSpecifier {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             local: self.local.swcify(ctx).into(),
         }
@@ -778,6 +818,7 @@ impl Swcify for DeclareExportAllDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportAll {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             src: self.source.swcify(ctx).into(),
             type_only: self.export_kind == Some(ExportKind::Type),

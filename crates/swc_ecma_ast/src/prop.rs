@@ -8,7 +8,7 @@ use crate::{
     lit::{BigInt, Number, Str},
     stmt::BlockStmt,
     typescript::TsTypeAnn,
-    Id, IdentName, MemberProp, Pat,
+    Id, IdentName, MemberProp, NodeId, Pat,
 };
 
 #[ast_node]
@@ -45,6 +45,9 @@ bridge_from!(Prop, Ident, IdentName);
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct KeyValueProp {
+    #[cfg_attr(feature = "serde-impl", serde(skip))]
+    pub node_id: NodeId,
+
     #[span(lo)]
     pub key: PropName,
 
@@ -58,6 +61,9 @@ pub struct KeyValueProp {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct AssignProp {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub key: Ident,
     pub value: Box<Expr>,
 }
@@ -68,6 +74,9 @@ pub struct AssignProp {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct GetterProp {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub key: PropName,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(
@@ -88,6 +97,9 @@ pub struct GetterProp {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SetterProp {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub key: PropName,
     #[cfg_attr(
         feature = "encoding-impl",
@@ -107,6 +119,9 @@ pub struct SetterProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct MethodProp {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub key: PropName,
 
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
@@ -155,14 +170,17 @@ impl From<PropName> for MemberProp {
             PropName::Computed(p) => MemberProp::Computed(p),
             PropName::Str(p) => MemberProp::Computed(ComputedPropName {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 expr: p.into(),
             }),
             PropName::Num(p) => MemberProp::Computed(ComputedPropName {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 expr: p.into(),
             }),
             PropName::BigInt(p) => MemberProp::Computed(ComputedPropName {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 expr: p.into(),
             }),
             #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
@@ -178,6 +196,9 @@ impl From<PropName> for MemberProp {
 pub struct ComputedPropName {
     /// Span including `[` and `]`.
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
@@ -186,6 +207,7 @@ impl Take for ComputedPropName {
     fn dummy() -> Self {
         Self {
             span: DUMMY_SP,
+            node_id: Default::default(),
             expr: Take::dummy(),
         }
     }

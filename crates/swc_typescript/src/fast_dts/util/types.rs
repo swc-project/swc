@@ -7,6 +7,7 @@ pub fn any_type_ann() -> Box<TsTypeAnn> {
 
 pub fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
     Box::new(TsTypeAnn {
+        node_id: Default::default(),
         span: DUMMY_SP,
         type_ann: ts_type,
     })
@@ -14,6 +15,7 @@ pub fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
 
 pub fn ts_keyword_type(kind: TsKeywordTypeKind) -> Box<TsType> {
     Box::new(TsType::TsKeywordType(TsKeywordType {
+        node_id: Default::default(),
         span: DUMMY_SP,
         kind,
     }))
@@ -21,6 +23,7 @@ pub fn ts_keyword_type(kind: TsKeywordTypeKind) -> Box<TsType> {
 
 pub fn ts_lit_type(lit: TsLit) -> Box<TsType> {
     Box::new(TsType::TsLitType(TsLitType {
+        node_id: Default::default(),
         span: DUMMY_SP,
         lit,
     }))

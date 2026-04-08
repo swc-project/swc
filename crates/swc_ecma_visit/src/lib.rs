@@ -15,6 +15,61 @@ use swc_visit::{Repeat, Repeated};
 pub use crate::generated::*;
 mod generated;
 
+#[doc(hidden)]
+#[derive(Default)]
+pub struct MaxNodeIdFinder {
+    max: u32,
+}
+
+impl Visit for MaxNodeIdFinder {
+    #[inline]
+    fn visit_node_id(&mut self, node: &NodeId) {
+        if !node.is_dummy() {
+            self.max = self.max.max(node.as_u32());
+        }
+    }
+}
+
+#[doc(hidden)]
+pub struct NodeIdAssigner {
+    next: u32,
+}
+
+impl NodeIdAssigner {
+    #[inline]
+    fn new(current_max: u32) -> Self {
+        Self { next: current_max }
+    }
+}
+
+impl VisitMut for NodeIdAssigner {
+    #[inline]
+    fn visit_mut_node_id(&mut self, node: &mut NodeId) {
+        if node.is_dummy() {
+            self.next = self
+                .next
+                .checked_add(1)
+                .expect("too many AST nodes to assign NodeId");
+            *node = NodeId::from_u32(self.next);
+        }
+    }
+}
+
+/// Assign stable [`NodeId`] values to all AST nodes with a dummy id.
+///
+/// Existing non-dummy ids are preserved so the pass can be rerun after
+/// synthesizing or grafting partial AST fragments.
+pub fn assign_node_ids<N>(node: &mut N)
+where
+    N: VisitWith<MaxNodeIdFinder> + VisitMutWith<NodeIdAssigner>,
+{
+    let mut finder = MaxNodeIdFinder::default();
+    node.visit_with(&mut finder);
+
+    let mut assigner = NodeIdAssigner::new(finder.max);
+    node.visit_mut_with(&mut assigner);
+}
+
 pub fn fold_pass<V>(pass: V) -> FoldPass<V>
 where
     V: Fold,

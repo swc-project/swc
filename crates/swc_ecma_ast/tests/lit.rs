@@ -21,6 +21,7 @@ fn convert_wtf8_to_raw(s: &Wtf8) -> String {
 /// Helper function to test `Str::from_tpl_raw`
 fn test_from_tpl_raw(raw: &str, expected: &str) {
     let tpl = TplElement {
+        node_id: Default::default(),
         span: DUMMY_SP,
         tail: true,
         raw: Atom::new(raw.to_string()),

@@ -5,7 +5,7 @@ use crate::{
     decl::{Decl, VarDecl},
     expr::Expr,
     pat::Pat,
-    Ident, Lit, Str, UsingDecl,
+    Ident, Lit, NodeId, Str, UsingDecl,
 };
 
 /// Use when only block statements are allowed.
@@ -17,6 +17,9 @@ pub struct BlockStmt {
     /// Span including the braces.
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub ctxt: SyntaxContext,
 
     pub stmts: Vec<Stmt>,
@@ -26,6 +29,7 @@ impl Take for BlockStmt {
     fn dummy() -> Self {
         BlockStmt {
             span: DUMMY_SP,
+            node_id: Default::default(),
             stmts: Vec::new(),
             ctxt: Default::default(),
         }
@@ -203,7 +207,10 @@ impl Clone for Stmt {
 
 impl Default for Stmt {
     fn default() -> Self {
-        Self::Empty(EmptyStmt { span: DUMMY_SP })
+        Self::Empty(EmptyStmt {
+            span: DUMMY_SP,
+            node_id: Default::default(),
+        })
     }
 }
 
@@ -219,6 +226,9 @@ impl Take for Stmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ExprStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
@@ -230,6 +240,9 @@ pub struct ExprStmt {
 pub struct EmptyStmt {
     /// Span of semicolon.
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 #[ast_node("DebuggerStatement")]
@@ -238,6 +251,9 @@ pub struct EmptyStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct DebuggerStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 }
 
 #[ast_node("WithStatement")]
@@ -246,6 +262,9 @@ pub struct DebuggerStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct WithStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
     pub obj: Box<Expr>,
     pub body: Box<Stmt>,
@@ -257,6 +276,9 @@ pub struct WithStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ReturnStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
     #[cfg_attr(
         feature = "encoding-impl",
@@ -271,6 +293,9 @@ pub struct ReturnStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct LabeledStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub label: Ident,
     pub body: Box<Stmt>,
 }
@@ -281,6 +306,9 @@ pub struct LabeledStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BreakStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
         feature = "encoding-impl",
@@ -295,6 +323,9 @@ pub struct BreakStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ContinueStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
         feature = "encoding-impl",
@@ -309,6 +340,9 @@ pub struct ContinueStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct IfStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub test: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
@@ -328,6 +362,9 @@ pub struct IfStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SwitchStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub discriminant: Box<Expr>,
     pub cases: Vec<SwitchCase>,
 }
@@ -338,6 +375,9 @@ pub struct SwitchStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ThrowStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Expr>,
 }
@@ -348,6 +388,9 @@ pub struct ThrowStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TryStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub block: BlockStmt,
 
@@ -372,6 +415,9 @@ pub struct TryStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct WhileStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub test: Box<Expr>,
     pub body: Box<Stmt>,
 }
@@ -382,6 +428,9 @@ pub struct WhileStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct DoWhileStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub test: Box<Expr>,
     pub body: Box<Stmt>,
 }
@@ -392,6 +441,9 @@ pub struct DoWhileStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
@@ -423,6 +475,9 @@ pub struct ForStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForInStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub left: ForHead,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
@@ -434,6 +489,9 @@ pub struct ForInStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForOfStmt {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     /// Span of the await token.
     ///
     /// es2018
@@ -459,6 +517,9 @@ impl Take for ForOfStmt {
 pub struct SwitchCase {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     /// None for `default:`
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
@@ -475,6 +536,7 @@ impl Take for SwitchCase {
     fn dummy() -> Self {
         Self {
             span: DUMMY_SP,
+            node_id: Default::default(),
             test: None,
             cons: Vec::new(),
         }
@@ -487,6 +549,9 @@ impl Take for SwitchCase {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct CatchClause {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     /// es2019
     ///
     /// The param is null if the catch binding is omitted. E.g., try { foo() }

@@ -73,7 +73,7 @@ impl VisitMut for SuperFieldAccessFolder<'_> {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
-            Expr::This(ThisExpr { span }) if self.in_nested_scope => {
+            Expr::This(ThisExpr { span, .. }) if self.in_nested_scope => {
                 *n = quote_ident!(
                     SyntaxContext::empty().apply_mark(
                         *self
@@ -203,7 +203,11 @@ impl SuperFieldAccessFolder<'_> {
                             ident
                         }
                     }
-                    _ => ThisExpr { span: DUMMY_SP }.as_arg(),
+                    _ => ThisExpr {
+                        node_id: Default::default(),
+                        span: DUMMY_SP,
+                    }
+                    .as_arg(),
                 };
 
                 let callee = self.super_to_get_call(*super_token, prop.clone());
@@ -248,7 +252,9 @@ impl SuperFieldAccessFolder<'_> {
         if let Expr::Assign(AssignExpr {
             left:
                 AssignTarget::Simple(SimpleAssignTarget::SuperProp(SuperPropExpr {
-                    obj: Super { span: super_token },
+                    obj: Super {
+                        span: super_token, ..
+                    },
                     prop,
                     ..
                 })),
@@ -271,7 +277,9 @@ impl SuperFieldAccessFolder<'_> {
     /// ```
     fn visit_mut_super_member_get(&mut self, n: &mut Expr) {
         if let Expr::SuperProp(SuperPropExpr {
-            obj: Super { span: super_token },
+            obj: Super {
+                span: super_token, ..
+            },
             prop,
             ..
         }) = n
@@ -294,7 +302,9 @@ impl SuperFieldAccessFolder<'_> {
 
             if let AssignTarget::Simple(expr) = left {
                 if let SimpleAssignTarget::SuperProp(SuperPropExpr {
-                    obj: Super { span: super_token },
+                    obj: Super {
+                        span: super_token, ..
+                    },
                     prop,
                     ..
                 }) = expr.take()
@@ -308,6 +318,7 @@ impl SuperFieldAccessFolder<'_> {
     fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Box<Expr> {
         if self.constant_super {
             MemberExpr {
+                node_id: Default::default(),
                 span: super_token,
                 obj: Box::new({
                     let name = self.super_class.clone().unwrap_or_else(|| {
@@ -361,11 +372,16 @@ impl SuperFieldAccessFolder<'_> {
                 "_this"
             )
             .into(),
-            None => ThisExpr { span: super_token }.into(),
+            None => ThisExpr {
+                node_id: Default::default(),
+                span: super_token,
+            }
+            .into(),
         });
 
         if self.constant_super {
             let left = MemberExpr {
+                node_id: Default::default(),
                 span: super_token,
                 obj: this_expr,
                 prop: match prop {
@@ -377,6 +393,7 @@ impl SuperFieldAccessFolder<'_> {
             };
 
             AssignExpr {
+                node_id: Default::default(),
                 span: super_token,
                 left: left.into(),
                 op,
@@ -451,6 +468,7 @@ impl SuperFieldAccessFolder<'_> {
             let this = quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this");
 
             proto_arg = SeqExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 exprs: vec![
                     Expr::Call(CallExpr {
@@ -477,7 +495,11 @@ impl SuperFieldAccessFolder<'_> {
                 "_this"
             )
             .into(),
-            None => ThisExpr { span: super_token }.into(),
+            None => ThisExpr {
+                node_id: Default::default(),
+                span: super_token,
+            }
+            .into(),
         }
     }
 }
@@ -494,6 +516,7 @@ fn prop_arg(prop: SuperProp) -> Expr {
         SuperProp::Ident(IdentName {
             sym: value, span, ..
         }) => Lit::Str(Str {
+            node_id: Default::default(),
             span,
             raw: None,
             value: value.into(),

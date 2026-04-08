@@ -41,6 +41,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
         match self.kind.unwrap_or(ClassMethodKind::Method) {
             ClassMethodKind::Get | ClassMethodKind::Set | ClassMethodKind::Method => {
                 swc_ecma_ast::ClassMethod {
+                    node_id: Default::default(),
                     span: ctx.span(&self.base),
                     key: self.key.swcify(ctx),
                     function: Function {
@@ -98,6 +99,7 @@ impl Swcify for swc_estree_ast::ClassPrivateMethod {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::PrivateMethod {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             key: self.key.swcify(ctx),
             function: Function {
@@ -136,6 +138,7 @@ impl Swcify for swc_estree_ast::ClassProperty {
         let key = self.key.swcify(ctx);
 
         swc_ecma_ast::ClassProp {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             key,
             value: self.value.swcify(ctx),
@@ -158,6 +161,7 @@ impl Swcify for swc_estree_ast::ClassPrivateProperty {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::PrivateProp {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             key: self.key.swcify(ctx),
             value: self.value.swcify(ctx),
@@ -203,6 +207,7 @@ impl Swcify for TSExpressionWithTypeArguments {
         }
         fn swcify_qualified_name(qualified_name: TSQualifiedName, ctx: &Context) -> Box<Expr> {
             MemberExpr {
+                node_id: Default::default(),
                 obj: swcify_expr(*qualified_name.left, ctx),
                 prop: MemberProp::Ident(qualified_name.right.swcify(ctx).into()),
                 span: ctx.span(&qualified_name.base),
@@ -211,6 +216,7 @@ impl Swcify for TSExpressionWithTypeArguments {
         }
 
         TsExprWithTypeArgs {
+            node_id: Default::default(),
             span: ctx.span(&self.base),
             expr: swcify_expr(self.expression, ctx),
             type_args: self.type_parameters.swcify(ctx).map(Box::new),

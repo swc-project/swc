@@ -6,7 +6,7 @@ use crate::{
     ident::{BindingIdent, Ident},
     prop::PropName,
     typescript::TsTypeAnn,
-    Id, IdentName, Invalid,
+    Id, IdentName, Invalid, NodeId,
 };
 
 #[ast_node(no_clone)]
@@ -58,7 +58,11 @@ impl Clone for Pat {
 
 impl Default for Pat {
     fn default() -> Self {
-        Invalid { span: DUMMY_SP }.into()
+        Invalid {
+            span: DUMMY_SP,
+            node_id: Default::default(),
+        }
+        .into()
     }
 }
 impl Take for Pat {
@@ -92,6 +96,9 @@ pat_to_other!(Box<Expr>);
 pub struct ArrayPat {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "elements"))]
     #[cfg_attr(
         feature = "encoding-impl",
@@ -118,6 +125,9 @@ pub struct ArrayPat {
 pub struct ObjectPat {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "properties"))]
     pub props: Vec<ObjectPatProp>,
 
@@ -140,6 +150,9 @@ pub struct ObjectPat {
 pub struct AssignPat {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub left: Box<Pat>,
 
     pub right: Box<Expr>,
@@ -152,6 +165,9 @@ pub struct AssignPat {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct RestPat {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "rest"))]
     pub dot3_token: Span,
@@ -188,6 +204,9 @@ pub enum ObjectPatProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct KeyValuePatProp {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     #[span(lo)]
     pub key: PropName,
 
@@ -201,6 +220,9 @@ pub struct KeyValuePatProp {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct AssignPatProp {
     pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     /// Note: This type is to help implementing visitor and the field `type_ann`
     /// is always [None].
     pub key: BindingIdent,

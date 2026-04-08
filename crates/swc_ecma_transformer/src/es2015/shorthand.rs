@@ -49,8 +49,10 @@ impl VisitMutHook<TraverseCtx> for ShorthandPass {
                 let value = ident.clone().into();
 
                 *prop = Prop::KeyValue(KeyValueProp {
+                    node_id: Default::default(),
                     key: if ident.sym == "__proto__" {
                         PropName::Computed(ComputedPropName {
+                            node_id: Default::default(),
                             span: ident.span,
                             expr: ident.sym.clone().into(),
                         })
@@ -60,10 +62,11 @@ impl VisitMutHook<TraverseCtx> for ShorthandPass {
                     value,
                 });
             }
-            Prop::Method(MethodProp { key, function }) => {
+            Prop::Method(MethodProp { key, function, .. }) => {
                 let key = match key.take() {
                     PropName::Ident(IdentName { span, sym, .. }) if sym == "__proto__" => {
                         ComputedPropName {
+                            node_id: Default::default(),
                             span,
                             expr: sym.into(),
                         }
@@ -73,6 +76,7 @@ impl VisitMutHook<TraverseCtx> for ShorthandPass {
                         if s.value.as_str() == Some("__proto__") =>
                     {
                         ComputedPropName {
+                            node_id: Default::default(),
                             span,
                             expr: s.into(),
                         }
@@ -81,8 +85,10 @@ impl VisitMutHook<TraverseCtx> for ShorthandPass {
                     key => key,
                 };
                 *prop = Prop::KeyValue(KeyValueProp {
+                    node_id: Default::default(),
                     key,
                     value: FnExpr {
+                        node_id: Default::default(),
                         ident: None,
                         function: function.take(),
                     }

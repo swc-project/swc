@@ -100,6 +100,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                     .count();
                 for i in 0..fn_len {
                     params.push(Param {
+                        node_id: Default::default(),
                         pat: private_ident!(format!("_{}", i)).into(),
                         span: DUMMY_SP,
                         decorators: vec![],
@@ -287,9 +288,11 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 
                         // Add `var _this;` at the beginning
                         let decl = VarDecl {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
+                                node_id: Default::default(),
                                 span: DUMMY_SP,
                                 name: this_var.into(),
                                 init: None,
@@ -340,7 +343,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             Expr::Ident(Ident { sym, .. }) if sym == "arguments" => {
                 fn_state.use_arguments = true;
             }
-            Expr::Await(AwaitExpr { arg, span }) => {
+            Expr::Await(AwaitExpr { arg, span, .. }) => {
                 *expr = if fn_state.is_generator {
                     let callee = helper!(await_async_generator);
                     let arg = CallExpr {
@@ -351,12 +354,14 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                     }
                     .into();
                     YieldExpr {
+                        node_id: Default::default(),
                         span: *span,
                         delegate: false,
                         arg: Some(arg),
                     }
                 } else {
                     YieldExpr {
+                        node_id: Default::default(),
                         span: *span,
                         delegate: false,
                         arg: Some(arg.take()),
@@ -368,6 +373,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 span,
                 arg: Some(arg),
                 delegate: true,
+                ..
             }) => {
                 let async_iter =
                     helper_expr!(async_iterator).as_call(DUMMY_SP, vec![arg.take().as_arg()]);
@@ -377,6 +383,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                     .into();
 
                 *expr = YieldExpr {
+                    node_id: Default::default(),
                     span: *span,
                     delegate: true,
                     arg: Some(arg),
@@ -417,7 +424,10 @@ fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: BlockStmt) -> Expr 
         helper_expr!(DUMMY_SP, async_to_generator)
     }
     .as_callee();
-    let this = ThisExpr { span: DUMMY_SP };
+    let this = ThisExpr {
+        node_id: Default::default(),
+        span: DUMMY_SP,
+    };
     let arguments = quote_ident!("arguments");
 
     let inner_fn = Function {
@@ -506,6 +516,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         {
             // let value = _step.value;
             let value_var = VarDeclarator {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 name: value.clone().into(),
                 init: Some(step.clone().make_member(quote_ident!("value")).into()),
@@ -527,6 +538,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             ForHead::VarDecl(v) => {
                 let var = v.decls.into_iter().next().unwrap();
                 let var_decl = VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: var.name,
                     init: Some(value.into()),
@@ -546,8 +558,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             ForHead::Pat(p) => {
                 for_loop_body.push(
                     ExprStmt {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         expr: AssignExpr {
+                            node_id: Default::default(),
                             span: DUMMY_SP,
                             op: op!("="),
                             left: p.try_into().unwrap(),
@@ -577,6 +591,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         let mut init_var_decls = Vec::new();
         // _iterator = _async_iterator(lol())
         init_var_decls.push(VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: iterator.clone().into(),
             init: {
@@ -595,6 +610,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             definite: false,
         });
         init_var_decls.push(VarDeclarator {
+            node_id: Default::default(),
             span: DUMMY_SP,
             name: step.clone().into(),
             init: None,
@@ -602,6 +618,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         });
 
         let for_stmt = ForStmt {
+            node_id: Default::default(),
             span: s.span,
             // var _iterator = _async_iterator(lol()), _step;
             init: Some(
@@ -637,10 +654,12 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 };
 
                 let assign_to_step: Expr = AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: op!("="),
                     left: step.into(),
                     right: YieldExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         arg: Some(yield_arg),
                         delegate: false,
@@ -650,6 +669,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 .into();
 
                 let right = UnaryExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: op!("!"),
                     arg: assign_to_step.make_member(quote_ident!("done")).into(),
@@ -660,6 +680,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 
                 Some(
                     AssignExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         op: op!("="),
                         left,
@@ -671,6 +692,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // _iteratorNormalCompletion = true
             update: Some(
                 AssignExpr {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     op: op!("="),
                     left: iterator_abrupt_completion.clone().into(),
@@ -692,8 +714,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let catch_clause = {
         // _didIteratorError = true;
         let mark_as_errorred = ExprStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: AssignExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 op: op!("="),
                 left: did_iteration_error.clone().into(),
@@ -704,8 +728,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         .into();
         // _iteratorError = err;
         let store_error = ExprStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: AssignExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 op: op!("="),
                 left: iterator_error.clone().into(),
@@ -716,6 +742,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         .into();
 
         CatchClause {
+            node_id: Default::default(),
             span: DUMMY_SP,
             param: Some(err_param.into()),
             body: BlockStmt {
@@ -727,11 +754,13 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 
     let finally_block = {
         let throw_iterator_error = ThrowStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             arg: iterator_error.clone().into(),
         }
         .into();
         let throw_iterator_error = IfStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             test: did_iteration_error.clone().into(),
             cons: Box::new(Stmt::Block(BlockStmt {
@@ -758,8 +787,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         // or
         // yield _awaitAsyncGenerator(_iterator.return());
         let yield_stmt = ExprStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             expr: YieldExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 delegate: false,
                 arg: Some(if is_async_generator {
@@ -779,9 +810,11 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         .into();
 
         let conditional_yield = IfStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             // _iteratorAbruptCompletion && _iterator.return != null
             test: BinExpr {
+                node_id: Default::default(),
                 span: DUMMY_SP,
                 op: op!("&&"),
                 // _iteratorAbruptCompletion
@@ -789,10 +822,15 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 // _iterator.return != null
                 right: Box::new(
                     BinExpr {
+                        node_id: Default::default(),
                         span: DUMMY_SP,
                         op: op!("!="),
                         left: iterator.make_member(quote_ident!("return")).into(),
-                        right: Null { span: DUMMY_SP }.into(),
+                        right: Null {
+                            node_id: Default::default(),
+                            span: DUMMY_SP,
+                        }
+                        .into(),
                     }
                     .into(),
                 ),
@@ -811,6 +849,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         };
 
         let inner_try = TryStmt {
+            node_id: Default::default(),
             span: DUMMY_SP,
             block: body,
             handler: None,
@@ -827,6 +866,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     };
 
     let try_stmt = TryStmt {
+        node_id: Default::default(),
         span: s.span,
         block: try_body,
         handler: Some(catch_clause),
@@ -839,6 +879,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             decls: vec![
                 // var _iteratorAbruptCompletion = false;
                 VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: iterator_abrupt_completion.into(),
                     init: Some(false.into()),
@@ -846,6 +887,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 },
                 // var _didIteratorError = false;
                 VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: did_iteration_error.into(),
                     init: Some(false.into()),
@@ -853,6 +895,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 },
                 // var _iteratorError;
                 VarDeclarator {
+                    node_id: Default::default(),
                     span: DUMMY_SP,
                     name: iterator_error.into(),
                     init: None,

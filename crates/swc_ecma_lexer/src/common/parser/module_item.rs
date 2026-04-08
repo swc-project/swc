@@ -114,6 +114,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
                         }
 
                         return Ok(ExportNamedSpecifier {
+                            node_id: Default::default(),
                             span: p.span(start),
                             orig: ModuleExportName::Ident(possibly_orig),
                             exported: None,
@@ -134,6 +135,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
 
                             debug_assert!(start <= orig_ident.span.hi());
                             return Ok(ExportNamedSpecifier {
+                                node_id: Default::default(),
                                 span: Span::new_with_checked(start, orig_ident.span.hi()),
                                 orig: ModuleExportName::Ident(possibly_orig),
                                 exported: Some(ModuleExportName::Ident(exported)),
@@ -142,6 +144,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
                         } else {
                             // `export { type as as }`
                             return Ok(ExportNamedSpecifier {
+                                node_id: Default::default(),
                                 span: Span::new_with_checked(start, orig_ident.span.hi()),
                                 orig: ModuleExportName::Ident(orig_ident),
                                 exported: Some(ModuleExportName::Ident(maybe_as)),
@@ -151,6 +154,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
                     } else {
                         // `export { type as xxx }`
                         return Ok(ExportNamedSpecifier {
+                            node_id: Default::default(),
                             span: Span::new_with_checked(start, orig_ident.span.hi()),
                             orig: ModuleExportName::Ident(orig_ident),
                             exported: Some(ModuleExportName::Ident(maybe_as)),
@@ -181,6 +185,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
     };
 
     Ok(ExportNamedSpecifier {
+        node_id: Default::default(),
         span: p.span(start),
         orig,
         exported,
@@ -234,6 +239,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
                         }
 
                         return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                            node_id: Default::default(),
                             span: p.span(start),
                             local: possibly_orig_name,
                             imported: None,
@@ -253,6 +259,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
                             }
 
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                node_id: Default::default(),
                                 span: Span::new_with_checked(start, orig_name.span.hi()),
                                 local,
                                 imported: Some(ModuleExportName::Ident(possibly_orig_name)),
@@ -261,6 +268,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
                         } else {
                             // `import { type as as } from 'mod'`
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                node_id: Default::default(),
                                 span: Span::new_with_checked(start, maybe_as.span.hi()),
                                 local: maybe_as,
                                 imported: Some(ModuleExportName::Ident(orig_name)),
@@ -270,6 +278,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
                     } else {
                         // `import { type as xxx } from 'mod'`
                         return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                            node_id: Default::default(),
                             span: Span::new_with_checked(start, orig_name.span.hi()),
                             local: maybe_as,
                             imported: Some(ModuleExportName::Ident(orig_name)),
@@ -291,6 +300,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
             if p.input_mut().eat(&P::Token::AS) {
                 let local: Ident = parse_binding_ident(p, false)?.into();
                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                    node_id: Default::default(),
                     span: Span::new_with_checked(start, local.span.hi()),
                     local,
                     imported: Some(ModuleExportName::Ident(orig_name)),
@@ -308,6 +318,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
 
             let local = orig_name;
             Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                node_id: Default::default(),
                 span: p.span(start),
                 local,
                 imported: None,
@@ -318,6 +329,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
             if p.input_mut().eat(&P::Token::AS) {
                 let local: Ident = parse_binding_ident(p, false)?.into();
                 Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                    node_id: Default::default(),
                     span: Span::new_with_checked(start, local.span.hi()),
                     local,
                     imported: Some(ModuleExportName::Str(orig_str)),
@@ -364,6 +376,7 @@ fn parse_export<'a, P: Parser<'a>>(
         // TODO: Remove
         if let Some(decl) = try_parse_ts_declare(p, after_export_start, decorators.clone())? {
             return Ok(ExportDecl {
+                node_id: Default::default(),
                 span: p.span(start),
                 decl,
             }
@@ -378,6 +391,7 @@ fn parse_export<'a, P: Parser<'a>>(
             // TODO: remove clone
             if let Some(decl) = try_parse_ts_export_decl(p, decorators.clone(), sym) {
                 return Ok(ExportDecl {
+                    node_id: Default::default(),
                     span: p.span(start),
                     decl,
                 }
@@ -411,6 +425,7 @@ fn parse_export<'a, P: Parser<'a>>(
             let expr = p.parse_expr()?;
             p.expect_general_semi()?;
             return Ok(TsExportAssignment {
+                node_id: Default::default(),
                 span: p.span(start),
                 expr,
             }
@@ -424,6 +439,7 @@ fn parse_export<'a, P: Parser<'a>>(
             let id = parse_ident(p, false, false)?;
             p.expect_general_semi()?;
             return Ok(TsNamespaceExportDecl {
+                node_id: Default::default(),
                 span: p.span(start),
                 id,
             }
@@ -476,6 +492,7 @@ fn parse_export<'a, P: Parser<'a>>(
                 p.assert_and_bump(&P::Token::INTERFACE);
                 let decl = parse_ts_interface_decl(p, interface_start).map(DefaultDecl::from)?;
                 return Ok(ExportDefaultDecl {
+                    node_id: Default::default(),
                     span: p.span(start),
                     decl,
                 }
@@ -506,6 +523,7 @@ fn parse_export<'a, P: Parser<'a>>(
             let expr = p.allow_in_expr(parse_assignment_expr)?;
             p.expect_general_semi()?;
             return Ok(ExportDefaultExpr {
+                node_id: Default::default(),
                 span: p.span(start),
                 expr,
             }
@@ -547,6 +565,7 @@ fn parse_export<'a, P: Parser<'a>>(
             .map(Decl::from)
             .map(|decl| {
                 ExportDecl {
+                    node_id: Default::default(),
                     span: p.span(start),
                     decl,
                 }
@@ -594,6 +613,7 @@ fn parse_export<'a, P: Parser<'a>>(
             // improve error message for `export * from foo`
             let (src, with) = parse_from_clause_and_semi(p)?;
             return Ok(ExportAll {
+                node_id: Default::default(),
                 span: p.span(start),
                 src,
                 type_only,
@@ -610,6 +630,7 @@ fn parse_export<'a, P: Parser<'a>>(
         if let Some(default) = default {
             has_default = true;
             specifiers.push(ExportSpecifier::Default(ExportDefaultSpecifier {
+                node_id: Default::default(),
                 exported: default,
             }))
         }
@@ -635,6 +656,7 @@ fn parse_export<'a, P: Parser<'a>>(
             expect!(p, &P::Token::AS);
             let name = parse_module_export_name(p)?;
             specifiers.push(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
+                node_id: Default::default(),
                 span: p.span(ns_export_specifier_start),
                 name,
             }));
@@ -644,6 +666,7 @@ fn parse_export<'a, P: Parser<'a>>(
             if p.input().is(&P::Token::FROM) {
                 let (src, with) = parse_from_clause_and_semi(p)?;
                 return Ok(NamedExport {
+                    node_id: Default::default(),
                     span: p.span(start),
                     specifiers,
                     src: Some(src),
@@ -716,6 +739,7 @@ fn parse_export<'a, P: Parser<'a>>(
             None => (None, None),
         };
         return Ok(NamedExport {
+            node_id: Default::default(),
             span: p.span(start),
             specifiers,
             src,
@@ -726,6 +750,7 @@ fn parse_export<'a, P: Parser<'a>>(
     };
 
     Ok(ExportDecl {
+        node_id: Default::default(),
         span: p.span(start),
         decl,
     }
@@ -741,6 +766,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
         p.eat_general_semi();
 
         return Ok(ExprStmt {
+            node_id: Default::default(),
             span: p.span(start),
             expr,
         }
@@ -753,6 +779,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
         p.eat_general_semi();
 
         return Ok(ExprStmt {
+            node_id: Default::default(),
             span: p.span(start),
             expr,
         }
@@ -785,6 +812,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
         };
         p.eat_general_semi();
         return Ok(ImportDecl {
+            node_id: Default::default(),
             span: p.span(start),
             src,
             specifiers: Vec::new(),
@@ -858,6 +886,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
                 expect!(p, &P::Token::COMMA);
             }
             specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
+                node_id: Default::default(),
                 span: local.span,
                 local,
             }));
@@ -871,6 +900,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
             expect!(p, &P::Token::AS);
             let local = parse_imported_binding(p)?;
             specifiers.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
+                node_id: Default::default(),
                 span: p.span(import_spec_start),
                 local,
             }));
@@ -913,6 +943,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
     p.expect_general_semi()?;
 
     Ok(ImportDecl {
+        node_id: Default::default(),
         span: p.span(start),
         specifiers,
         src,
