@@ -4,7 +4,7 @@ use swc_common::{
     Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
+use swc_ecma_utils::{prop_name_from_ident, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
@@ -505,11 +505,7 @@ where
                     }
 
                     *prop = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(IdentName {
-                            // clear mark
-                            span: i.span,
-                            sym: i.sym.clone(),
-                        }),
+                        key: prop_name_from_ident(i.clone()),
                         value: renamed.into(),
                     })
                 }

@@ -3761,6 +3761,24 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
     }
 }
 
+/// Creates a PropName for a shorthand property, handling the special case of
+/// `__proto__`. When the property name is `__proto__`, it must be converted to
+/// a computed property to preserve JavaScript semantics.
+pub fn prop_name_from_ident(ident: Ident) -> PropName {
+    if ident.sym == "__proto__" {
+        PropName::Computed(ComputedPropName {
+            span: ident.span,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span: ident.span,
+                value: ident.sym.clone().into(),
+                raw: None,
+            }))),
+        })
+    } else {
+        ident.into()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use swc_common::{input::StringInput, BytePos};

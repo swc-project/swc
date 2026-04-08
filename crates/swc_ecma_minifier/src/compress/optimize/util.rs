@@ -9,7 +9,9 @@ use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
-use swc_ecma_utils::{collect_decls, contains_this_expr, ExprCtx, ExprExt, Remapper};
+use swc_ecma_utils::{
+    collect_decls, contains_this_expr, prop_name_from_ident, ExprCtx, ExprExt, Remapper,
+};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
@@ -821,22 +823,4 @@ pub fn get_ids_of_pat(pat: &Pat) -> Vec<Id> {
     let mut idents = vec![];
     append(pat, &mut idents);
     idents
-}
-
-/// Creates a PropName for a shorthand property, handling the special case of
-/// `__proto__`. When the property name is `__proto__`, it must be converted to
-/// a computed property to preserve JavaScript semantics.
-fn prop_name_from_ident(ident: Ident) -> PropName {
-    if ident.sym == "__proto__" {
-        PropName::Computed(ComputedPropName {
-            span: ident.span,
-            expr: Box::new(Expr::Lit(Lit::Str(Str {
-                span: ident.span,
-                value: ident.sym.clone().into(),
-                raw: None,
-            }))),
-        })
-    } else {
-        ident.into()
-    }
 }

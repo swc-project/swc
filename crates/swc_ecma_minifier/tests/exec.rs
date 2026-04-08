@@ -5485,6 +5485,129 @@ fn terser_reduce_vars_issue_3110_3() {
 }
 
 #[test]
+fn terser_reduce_vars_shorthand_proto_null() {
+    let src = r#"(function () {
+    var __proto__ = null;
+    var o = { __proto__ };
+    console.log(
+        Object.getPrototypeOf(o) === Object.prototype,
+        Object.prototype.hasOwnProperty.call(o, "__proto__"),
+        o.__proto__ === null
+    );
+})();"#;
+    let config = r#"{
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_reduce_vars_shorthand_proto_object() {
+    let src = r#"(function () {
+    var __proto__ = { marker: 1 };
+    var o = { __proto__ };
+    console.log(
+        Object.getPrototypeOf(o) === Object.prototype,
+        Object.prototype.hasOwnProperty.call(o, "__proto__"),
+        o.__proto__ === __proto__,
+        o.__proto__.marker
+    );
+})();"#;
+    let config = r#"{
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_reduce_vars_shorthand_member_not_reexecuted_in_loop() {
+    let src = r#"(function () {
+    var calls = 0;
+    var source = {
+        get value() {
+            calls++;
+            return { n: calls };
+        },
+    };
+    var value = source.value;
+    for (var i = 0; i < 3; i++) {
+        console.log(({ value }).value.n);
+    }
+    console.log(calls);
+})();"#;
+    let config = r#"{
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_reduce_vars_shorthand_method_this_not_collapsed() {
+    let src = r#"(function () {
+    var fn = function () {
+        return this.x;
+    };
+    console.log(({ fn, x: "PASS" }).fn());
+})();"#;
+    let config = r#"{
+    "collapse_vars": true,
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unsafe": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_reduce_vars_shorthand_multi_use_function_identity() {
+    let src = r#"(function () {
+    function foo() {
+        return "PASS";
+    }
+    var o = { foo };
+    console.log(o.foo === foo, o.foo());
+})();"#;
+    let config = r#"{
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn terser_reduce_vars_defun_redefine() {
     let src = r###"function f() {
     function g() {
