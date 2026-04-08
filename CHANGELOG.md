@@ -7,11 +7,20 @@
 
 - **(es/transforms)** Rewrite class references in non-static members ([#11772](https://github.com/swc-project/swc/issues/11772)) ([fff1426](https://github.com/swc-project/swc/commit/fff1426c86cd47d0d879c5e7c4f029c4adb132e7))
 
+
+- **(es/typescript)** Handle TypeScript expressions in enum transformation ([#11769](https://github.com/swc-project/swc/issues/11769)) ([85aa4a8](https://github.com/swc-project/swc/commit/85aa4a8b95f08d97df47d11f5c2fd11f7db97381))
+
 ### Features
 
 
 
 - **(swc_config)** Add Hash/Eq for options and CachedRegex ([#11775](https://github.com/swc-project/swc/issues/11775)) ([86a4c38](https://github.com/swc-project/swc/commit/86a4c383b8da40a53bad1b1b5098227d3087927c))
+
+### Refactor
+
+
+
+- **(es/minifier)** Inline into shorthand prop early ([#11766](https://github.com/swc-project/swc/issues/11766)) ([450bdfa](https://github.com/swc-project/swc/commit/450bdfa14f61ca008f5399d7292d5d9bc5e07380))
 
 ## [1.15.24] - 2026-04-04
 

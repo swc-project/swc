@@ -32,13 +32,13 @@ swc_config = { version = "4.0.1", path = "../swc_config" }
 swc_ecma_ast = { version = "23.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "29.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "29.1.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "23.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 swc_ecma_parser           = { version = "38.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base  = { version = "41.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base  = { version = "41.0.1", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.2.5", path = "../swc_malloc" }
 testing                   = { version = "22.0.0", path = "../testing" }
 

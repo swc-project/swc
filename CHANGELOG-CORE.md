@@ -5,6 +5,20 @@
 
 
 
+- **(es/typescript)** Handle TypeScript expressions in enum transformation ([#11769](https://github.com/swc-project/swc/issues/11769)) ([85aa4a8](https://github.com/swc-project/swc/commit/85aa4a8b95f08d97df47d11f5c2fd11f7db97381))
+
+### Refactor
+
+
+
+- **(es/minifier)** Inline into shorthand prop early ([#11766](https://github.com/swc-project/swc/issues/11766)) ([450bdfa](https://github.com/swc-project/swc/commit/450bdfa14f61ca008f5399d7292d5d9bc5e07380))
+
+## [swc_core@v63.0.0] - 2026-04-08
+
+### Bug Fixes
+
+
+
 - **(es/transforms)** Rewrite class references in non-static members ([#11772](https://github.com/swc-project/swc/issues/11772)) ([fff1426](https://github.com/swc-project/swc/commit/fff1426c86cd47d0d879c5e7c4f029c4adb132e7))
 
 ### Features

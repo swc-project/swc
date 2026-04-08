@@ -40,20 +40,20 @@ typescript = ["swc_ecma_transforms_typescript"]
 par-core                         = { workspace = true }
 swc_common                       = { version = "21.0.0", path = "../swc_common" }
 swc_ecma_ast                     = { version = "23.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transforms_base         = { version = "41.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base         = { version = "41.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { version = "47.0.0", path = "../swc_ecma_transforms_compat", optional = true, default-features = false }
 swc_ecma_transforms_module       = { version = "45.0.0", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_optimization = { version = "43.0.0", path = "../swc_ecma_transforms_optimization", optional = true }
 swc_ecma_transforms_proposal     = { version = "41.0.1", path = "../swc_ecma_transforms_proposal", optional = true }
 swc_ecma_transforms_react        = { version = "45.0.0", path = "../swc_ecma_transforms_react", optional = true }
-swc_ecma_transforms_typescript   = { version = "45.0.0", path = "../swc_ecma_transforms_typescript", optional = true }
-swc_ecma_utils                   = { version = "29.0.0", path = "../swc_ecma_utils" }
+swc_ecma_transforms_typescript   = { version = "45.0.1", path = "../swc_ecma_transforms_typescript", optional = true }
+swc_ecma_utils                   = { version = "29.1.0", path = "../swc_ecma_utils" }
 
 
 [dev-dependencies]
 par-core = { workspace = true, features = ["chili"] }
 swc_ecma_parser = { version = "38.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "41.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "41.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 swc_ecma_transforms_testing = { version = "45.0.0", path = "../swc_ecma_transforms_testing" }

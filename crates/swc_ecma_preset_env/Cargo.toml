@@ -44,7 +44,7 @@ swc_ecma_transforms = { version = "51.0.0", path = "../swc_ecma_transforms", fea
   "compat",
   "proposal",
 ] }
-swc_ecma_utils = { version = "29.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "29.1.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "23.0.0", path = "../swc_ecma_visit" }
 
 [build-dependencies]
