@@ -1,9 +1,13 @@
 #![cfg_attr(not(feature = "extra-serde"), allow(unused))]
 
-use std::sync::Arc;
+use std::{
+    hash::{Hash, Hasher},
+    ops::{Deref, DerefMut},
+    sync::Arc,
+};
 
 use parking_lot::RwLock;
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHasher};
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
 use swc_common::Mark;
@@ -36,7 +40,7 @@ pub struct ExtraOptions {
     pub mangle_name_cache: Option<Arc<dyn MangleCache>>,
 }
 
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "extra-serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "extra-serde", serde(rename_all = "camelCase"))]
 #[cfg_attr(feature = "extra-serde", serde(deny_unknown_fields))]
@@ -53,14 +57,14 @@ pub struct MinifyOptions {
     pub enclose: bool,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct TopLevelOptions {
     pub functions: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct MangleOptions {
@@ -98,7 +102,7 @@ pub struct MangleOptions {
     pub disable_char_freq: bool,
 }
 
-#[derive(Debug, Clone, Default, Serialize, Deserialize, Merge)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, Merge, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 pub struct ManglePropertiesOptions {
     #[serde(default, alias = "reserved")]
@@ -109,7 +113,7 @@ pub struct ManglePropertiesOptions {
     pub regex: Option<CachedRegex>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Hash)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum PureGetterOption {
@@ -125,7 +129,7 @@ impl Default for PureGetterOption {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
@@ -156,8 +160,61 @@ impl Default for CompressExperimentalOptions {
     }
 }
 
+/// Please do not rely on Hash for GlobalDefs.
+/// This implementation uses XOR to combine per-pair hashes, which may lead to
+/// hash collisions in some cases.
+#[derive(Debug, Default, Clone, PartialEq, Eq)]
+pub struct GlobalDefs(pub FxHashMap<Box<Expr>, Box<Expr>>);
+
+impl From<FxHashMap<Box<Expr>, Box<Expr>>> for GlobalDefs {
+    fn from(value: FxHashMap<Box<Expr>, Box<Expr>>) -> Self {
+        GlobalDefs(value)
+    }
+}
+
+impl FromIterator<(Box<Expr>, Box<Expr>)> for GlobalDefs {
+    fn from_iter<T: IntoIterator<Item = (Box<Expr>, Box<Expr>)>>(iter: T) -> Self {
+        GlobalDefs(iter.into_iter().collect())
+    }
+}
+
+impl Deref for GlobalDefs {
+    type Target = FxHashMap<Box<Expr>, Box<Expr>>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl DerefMut for GlobalDefs {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+impl Hash for GlobalDefs {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        // Use iteration order-independent hash combination.
+        // Method: Mix all key-value pair hashes with XOR, and include the length for
+        // distinction.
+        let mut hash = 0u64;
+        for (k, v) in &self.0 {
+            // let mut pair_hasher = std::collections::hash_map::DefaultHasher::new();
+            let mut pair_hasher = FxHasher::default();
+            k.hash(&mut pair_hasher);
+            v.hash(&mut pair_hasher);
+            // XOR ensures order independence: a ^ b == b ^ a
+            hash ^= pair_hasher.finish();
+        }
+        // Mix length to prevent conflicts like `[("a",1),("b",2)]` and
+        // `[("a",1),("b",2),("a",1),("b",2)]`
+        self.0.len().hash(state);
+        hash.hash(state);
+    }
+}
+
 /// https://terser.org/docs/api-reference.html#compress-options
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "extra-serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "extra-serde", serde(rename_all = "camelCase"))]
 #[cfg_attr(feature = "extra-serde", serde(deny_unknown_fields))]
@@ -225,7 +282,7 @@ pub struct CompressOptions {
     /// to remove spans.
     #[cfg_attr(feature = "extra-serde", serde(skip))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "global_defs"))]
-    pub global_defs: FxHashMap<Box<Expr>, Box<Expr>>,
+    pub global_defs: GlobalDefs,
 
     #[cfg_attr(feature = "extra-serde", serde(default))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "hoist_funs"))]
