@@ -35,9 +35,12 @@ pub struct Config {
     #[serde(default)]
     pub ts_enum_is_mutable: bool,
 
-    /// Internal-only hint from the caller that this strip pass is processing
-    /// Flow syntax. Flow-only post-processing must stay disabled for TS/JS to
-    /// avoid extra overhead on the common path.
+    /// Indicates that the input AST was parsed from Flow syntax.
+    ///
+    /// Set this when reusing the strip pass with
+    /// `swc_ecma_parser::Syntax::Flow(...)` so Flow-only post-processing runs
+    /// after type stripping. Leave this disabled for TypeScript and plain
+    /// JavaScript inputs to avoid extra overhead on the common path.
     #[serde(skip)]
     pub flow_syntax: bool,
 }
