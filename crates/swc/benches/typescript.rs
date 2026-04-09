@@ -15,8 +15,6 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, resolver, typescript};
 
 const BENCH_FILE_NAME: &str = "typescript/src/compiler/parser.bench.ts";
-const FULL_BENCH_INNER_ITERATIONS: usize = 5;
-
 static SOURCE: Lazy<BytesStr> =
     Lazy::new(|| include_str!("assets/visitor-expanded-parser.ts").into());
 
@@ -63,9 +61,9 @@ fn as_es(c: &swc::Compiler) -> Program {
 }
 
 fn base_tr_group(c: &mut Criterion) {
-    c.bench_function("es/full/base/fixer", base_tr_fixer);
+    c.bench_function("es/large/base/fixer", base_tr_fixer);
     // c.bench_function(
-    //     "es/full/base/resolver_and_hygiene",
+    //     "es/large/base/resolver_and_hygiene",
     //     base_tr_resolver_and_hygiene,
     // );
 }
@@ -134,7 +132,7 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
 fn codegen_group(c: &mut Criterion) {
     macro_rules! codegen {
         ($name:ident, $target:expr) => {
-            c.bench_function(&format!("es/full/codegen/{}", stringify!($name)), |b| {
+            c.bench_function(&format!("es/large/codegen/{}", stringify!($name)), |b| {
                 bench_codegen(b, $target);
             });
         };
@@ -154,21 +152,19 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
     let c = mk();
 
     b.iter(|| {
-        for _ in 0..FULL_BENCH_INNER_ITERATIONS {
-            GLOBALS.set(&Default::default(), || {
-                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+        GLOBALS.set(&Default::default(), || {
+            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-                let fm = new_bench_source_file(&c);
-                let _ = c.process_js_file(fm, &handler, opts).unwrap();
-            })
-        }
+            let fm = new_bench_source_file(&c);
+            let _ = c.process_js_file(fm, &handler, opts).unwrap();
+        })
     });
 }
 
 fn full_group(c: &mut Criterion) {
     macro_rules! compat {
         ($name:ident, $target:expr) => {
-            c.bench_function(&format!("es/full/all/{}", stringify!($name)), |b| {
+            c.bench_function(&format!("es/large/all/{}", stringify!($name)), |b| {
                 bench_full(
                     b,
                     &Options {
@@ -200,7 +196,7 @@ fn full_group(c: &mut Criterion) {
 }
 
 fn parser_group(c: &mut Criterion) {
-    c.bench_function("es/full/parser", parser);
+    c.bench_function("es/large/parser", parser);
 }
 
 fn parser(b: &mut Bencher) {
