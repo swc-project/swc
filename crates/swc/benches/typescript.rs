@@ -1,11 +1,10 @@
 extern crate swc_malloc;
 
-use std::{
-    io::{self, stderr},
-    sync::Arc,
-};
+use std::{io::stderr, sync::Arc};
 
+use bytes_str::BytesStr;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use once_cell::sync::Lazy;
 use swc::config::{Config, IsModule, JscConfig, Options};
 use swc_common::{
     errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap, GLOBALS,
@@ -15,7 +14,11 @@ use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, resolver, typescript};
 
-static SOURCE: &str = include_str!("assets/Observable.ts");
+const BENCH_FILE_NAME: &str = "typescript/src/compiler/parser.bench.ts";
+const FULL_BENCH_INNER_ITERATIONS: usize = 5;
+
+static SOURCE: Lazy<BytesStr> =
+    Lazy::new(|| include_str!("assets/visitor-expanded-parser.ts").into());
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
@@ -23,12 +26,16 @@ fn mk() -> swc::Compiler {
     swc::Compiler::new(cm)
 }
 
+fn new_bench_source_file(c: &swc::Compiler) -> Arc<SourceFile> {
+    c.cm.new_source_file(
+        FileName::Real(BENCH_FILE_NAME.into()).into(),
+        SOURCE.clone(),
+    )
+}
+
 fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
-    let fm = c.cm.new_source_file(
-        FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
-        SOURCE.to_string(),
-    );
-    let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
+    let fm = new_bench_source_file(c);
+    let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
     let comments = c.comments().clone();
     (
@@ -147,14 +154,11 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
     let c = mk();
 
     b.iter(|| {
-        for _ in 0..100 {
+        for _ in 0..FULL_BENCH_INNER_ITERATIONS {
             GLOBALS.set(&Default::default(), || {
                 let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-                let fm = c.cm.new_source_file(
-                    FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
-                    SOURCE.to_string(),
-                );
+                let fm = new_bench_source_file(&c);
                 let _ = c.process_js_file(fm, &handler, opts).unwrap();
             })
         }
