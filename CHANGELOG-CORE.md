@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Documentation
+
+
+
+- Document Flow strip support ([#11778](https://github.com/swc-project/swc/issues/11778)) ([8f176cc](https://github.com/swc-project/swc/commit/8f176cc907093bc80c6792744ea215b69ff62efb))
+
+### Features
+
+
+
+- **(swc_common)** Add SourceMapper.map_raw_pos ([#11777](https://github.com/swc-project/swc/issues/11777)) ([7d2e94c](https://github.com/swc-project/swc/commit/7d2e94ce379ba8fc738a5697299cdb9a3c748e8a))
+
+## [swc_core@v63.1.0] - 2026-04-08
+
 ### Bug Fixes
 
 
@@ -2560,15 +2574,6 @@
 - **(es/minifier)** Remove needless clones ([#10661](https://github.com/swc-project/swc/issues/10661)) ([5f4f7dd](https://github.com/swc-project/swc/commit/5f4f7dd0f164a30ff6340dd0114fe0759e64d83f))
 
 ## [swc_core@v29.0.2] - 2025-06-21
-
-### Bug Fixes
-
-
-
-- **(es/parser)** Parse jsx entity ([#10652](https://github.com/swc-project/swc/issues/10652)) ([bfd3bc5](https://github.com/swc-project/swc/commit/bfd3bc5456a33e3d66008ea198d9c5f38660af39))
-
-
-- **(es/parser)** Consider reseved ident in jsx name ([#10647](https://github.com/swc-project/swc/issues/10647)) ([9262a59](https://github.com/swc-project/swc/commit/9262a591fd8f35200948fa298aa0f9cc4d0a06e7))
 
 ### Performance
 

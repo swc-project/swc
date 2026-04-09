@@ -52,7 +52,7 @@ ryu-js = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "21.0.0", path = "../swc_common" }
+swc_common = { version = "21.0.1", path = "../swc_common" }
 swc_config = { version = "4.0.1", path = "../swc_config", features = [
   "sourcemap",
   "file_pattern",
@@ -61,9 +61,9 @@ swc_config = { version = "4.0.1", path = "../swc_config", features = [
 swc_ecma_ast = { version = "23.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_codegen = { version = "26.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "26.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_hooks = { version = "0.7.0", path = "../swc_ecma_hooks" }
-swc_ecma_parser = { version = "38.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "38.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "41.0.1", path = "../swc_ecma_transforms_base" }

@@ -10,8 +10,17 @@
 
 - **(es/typescript)** Handle TypeScript expressions in enum transformation ([#11769](https://github.com/swc-project/swc/issues/11769)) ([85aa4a8](https://github.com/swc-project/swc/commit/85aa4a8b95f08d97df47d11f5c2fd11f7db97381))
 
+### Documentation
+
+
+
+- Document Flow strip support ([#11778](https://github.com/swc-project/swc/issues/11778)) ([8f176cc](https://github.com/swc-project/swc/commit/8f176cc907093bc80c6792744ea215b69ff62efb))
+
 ### Features
 
+
+
+- **(swc_common)** Add SourceMapper.map_raw_pos ([#11777](https://github.com/swc-project/swc/issues/11777)) ([7d2e94c](https://github.com/swc-project/swc/commit/7d2e94ce379ba8fc738a5697299cdb9a3c748e8a))
 
 
 - **(swc_config)** Add Hash/Eq for options and CachedRegex ([#11775](https://github.com/swc-project/swc/issues/11775)) ([86a4c38](https://github.com/swc-project/swc/commit/86a4c383b8da40a53bad1b1b5098227d3087927c))
@@ -2097,15 +2106,6 @@
 - **(wasm)** Fix wasm builds ([eee0578](https://github.com/swc-project/swc/commit/eee05787231c07b41430d5bfed73f3c39011c491))
 
 ## [1.12.5] - 2025-06-21
-
-### Bug Fixes
-
-
-
-- **(es/parser)** Parse jsx entity ([#10652](https://github.com/swc-project/swc/issues/10652)) ([bfd3bc5](https://github.com/swc-project/swc/commit/bfd3bc5456a33e3d66008ea198d9c5f38660af39))
-
-
-- **(es/parser)** Consider reseved ident in jsx name ([#10647](https://github.com/swc-project/swc/issues/10647)) ([9262a59](https://github.com/swc-project/swc/commit/9262a591fd8f35200948fa298aa0f9cc4d0a06e7))
 
 ### Performance
 

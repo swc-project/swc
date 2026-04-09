@@ -5737,7 +5737,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "21.0.0"
+version = "21.0.1"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -5826,7 +5826,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "63.1.0"
+version = "63.1.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6090,7 +6090,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "26.0.0"
+version = "26.0.1"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -6432,7 +6432,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "38.0.0"
+version = "38.0.1"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6825,7 +6825,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "45.0.1"
+version = "45.0.2"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",

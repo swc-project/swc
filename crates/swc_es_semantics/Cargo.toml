@@ -26,6 +26,6 @@ serde       = { workspace = true, features = ["derive"] }
 serde_json   = { workspace = true }
 walkdir      = { workspace = true }
 
-swc_common   = { version = "21.0.0", path = "../swc_common" }
+swc_common   = { version = "21.0.1", path = "../swc_common" }
 swc_es_parser = { version = "0.3.0", path = "../swc_es_parser" }
 testing      = { version = "22.0.0", path = "../testing" }
