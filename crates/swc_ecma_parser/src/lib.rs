@@ -86,6 +86,38 @@
 //! }
 //! ```
 //!
+//! # Example (flow parser)
+//!
+//! ```
+//! # #[cfg(feature = "flow")] {
+//! use swc_common::{sync::Lrc, FileName, SourceMap};
+//! use swc_ecma_ast::EsVersion;
+//! use swc_ecma_parser::{parse_file_as_program, FlowSyntax, Syntax};
+//!
+//! let cm: Lrc<SourceMap> = Default::default();
+//! let fm = cm.new_source_file(
+//!     FileName::Custom("test.js".into()).into(),
+//!     "// @flow\nconst value: number = 1;",
+//! );
+//! let mut recovered_errors = Vec::new();
+//!
+//! let program = parse_file_as_program(
+//!     &fm,
+//!     Syntax::Flow(FlowSyntax {
+//!         require_directive: true,
+//!         ..Default::default()
+//!     }),
+//!     EsVersion::latest(),
+//!     None,
+//!     &mut recovered_errors,
+//! )
+//! .expect("flow should parse");
+//!
+//! assert!(recovered_errors.is_empty());
+//! let _ = program;
+//! # }
+//! ```
+//!
 //! ## Cargo features
 //!
 //! ### `typescript`

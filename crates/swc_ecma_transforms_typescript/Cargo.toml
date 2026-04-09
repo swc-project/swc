@@ -3,7 +3,7 @@ authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "rust port of babel and closure compiler."
 documentation = "https://rustdoc.swc.rs/swc_ecma_transforms_typescript/"
 edition       = { workspace = true }
-include       = ["Cargo.toml", "src/**/*.rs"]
+include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_typescript"
 repository    = { workspace = true }
@@ -36,7 +36,8 @@ swc_ecma_visit            = { version = "23.0.0", path = "../swc_ecma_visit" }
 codspeed-criterion-compat = { workspace = true }
 
 swc_ecma_codegen             = { version = "26.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser              = { version = "38.0.0", path = "../swc_ecma_parser" }
+serde_json                   = { workspace = true }
+swc_ecma_parser              = { version = "38.0.0", path = "../swc_ecma_parser", features = ["flow"] }
 swc_ecma_transforms_compat   = { version = "47.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_proposal = { version = "41.0.1", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing  = { version = "45.0.0", path = "../swc_ecma_transforms_testing" }
