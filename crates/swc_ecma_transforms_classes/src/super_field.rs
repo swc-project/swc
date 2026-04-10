@@ -162,6 +162,147 @@ impl VisitMut for SuperFieldAccessFolder<'_> {
     }
 }
 
+/// Rewrites `super` for moved static decorator members without crossing into
+/// nested home-object scopes.
+pub fn rewrite_super_in_moved_static_member(function: &mut Function, class_name: &Ident) {
+    let no_super_class = None;
+    let mut folder = MovedStaticSuperFieldAccessFolder {
+        folder: SuperFieldAccessFolder {
+            class_name,
+            constructor_this_mark: None,
+            is_static: true,
+            folding_constructor: false,
+            in_injected_define_property_call: false,
+            in_nested_scope: false,
+            this_alias_mark: None,
+            constant_super: false,
+            super_class: &no_super_class,
+            in_pat: false,
+        },
+    };
+
+    function.params.visit_mut_with(&mut folder);
+    function.body.visit_mut_with(&mut folder);
+}
+
+struct MovedStaticSuperFieldAccessFolder<'a> {
+    folder: SuperFieldAccessFolder<'a>,
+}
+
+impl VisitMut for MovedStaticSuperFieldAccessFolder<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_class(&mut self, _: &mut Class) {
+        // `super` inside a nested class belongs to that class.
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::This(ThisExpr { span }) if self.folder.in_nested_scope => {
+                *n = quote_ident!(
+                    SyntaxContext::empty().apply_mark(
+                        *self
+                            .folder
+                            .this_alias_mark
+                            .get_or_insert_with(|| Mark::fresh(Mark::root()))
+                    ),
+                    *span,
+                    "_this"
+                )
+                .into();
+            }
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(expr),
+                ..
+            }) if expr.is_ident_ref_to("_define_property") => {
+                let old = self.folder.in_injected_define_property_call;
+                self.folder.in_injected_define_property_call = true;
+                n.visit_mut_children_with(self);
+                self.folder.in_injected_define_property_call = old;
+            }
+            Expr::SuperProp(SuperPropExpr {
+                obj: Super { span: super_token },
+                prop,
+                ..
+            }) => {
+                let super_token = *super_token;
+                prop.visit_mut_children_with(self);
+
+                let prop = prop.take();
+                *n = if self.folder.in_pat {
+                    self.folder.super_to_update_call(super_token, prop).into()
+                } else {
+                    *self.folder.super_to_get_call(super_token, prop)
+                };
+            }
+            Expr::Update(UpdateExpr { arg, .. }) if arg.is_super_prop() => {
+                if let Expr::SuperProp(SuperPropExpr {
+                    obj: Super {
+                        span: super_token, ..
+                    },
+                    prop,
+                    ..
+                }) = &**arg
+                {
+                    *arg = self
+                        .folder
+                        .super_to_update_call(*super_token, prop.clone())
+                        .into();
+                }
+            }
+            Expr::Assign(AssignExpr {
+                ref left,
+                op: op!("="),
+                right,
+                ..
+            }) if is_assign_to_super_prop(left) => {
+                right.visit_mut_with(self);
+                self.folder.visit_mut_super_member_set(n)
+            }
+            Expr::Assign(AssignExpr { left, right, .. }) if is_assign_to_super_prop(left) => {
+                right.visit_mut_with(self);
+                self.folder.visit_mut_super_member_update(n);
+            }
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(callee_expr),
+                args,
+                ..
+            }) if callee_expr.is_super_prop() => {
+                args.visit_mut_children_with(self);
+                self.folder.visit_mut_super_member_call(n);
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_function(&mut self, _: &mut Function) {
+        // Nested regular functions have their own `super` binding rules and
+        // should not be rewritten against the moved static member.
+    }
+
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        n.key.visit_mut_with(self);
+    }
+
+    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
+        n.key.visit_mut_with(self);
+    }
+
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        let in_pat = self.folder.in_pat;
+        self.folder.in_pat = true;
+        n.visit_mut_children_with(self);
+        self.folder.in_pat = in_pat;
+    }
+
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        n.key.visit_mut_with(self);
+        n.param.visit_mut_with(self);
+    }
+}
+
 impl SuperFieldAccessFolder<'_> {
     /// # In
     /// ```js
