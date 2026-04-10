@@ -1,11 +1,10 @@
 extern crate swc_malloc;
 
-use std::{
-    io::{self, stderr},
-    sync::Arc,
-};
+use std::{io::stderr, sync::Arc};
 
+use bytes_str::BytesStr;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use once_cell::sync::Lazy;
 use swc::config::{Config, IsModule, JscConfig, Options};
 use swc_common::{
     errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap, GLOBALS,
@@ -15,7 +14,9 @@ use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, resolver, typescript};
 
-static SOURCE: &str = include_str!("assets/Observable.ts");
+const BENCH_FILE_NAME: &str = "typescript/src/compiler/parser.bench.ts";
+static SOURCE: Lazy<BytesStr> =
+    Lazy::new(|| include_str!("assets/visitor-expanded-parser.ts").into());
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
@@ -23,12 +24,16 @@ fn mk() -> swc::Compiler {
     swc::Compiler::new(cm)
 }
 
+fn new_bench_source_file(c: &swc::Compiler) -> Arc<SourceFile> {
+    c.cm.new_source_file(
+        FileName::Real(BENCH_FILE_NAME.into()).into(),
+        SOURCE.clone(),
+    )
+}
+
 fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
-    let fm = c.cm.new_source_file(
-        FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
-        SOURCE.to_string(),
-    );
-    let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
+    let fm = new_bench_source_file(c);
+    let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
     let comments = c.comments().clone();
     (
@@ -56,9 +61,9 @@ fn as_es(c: &swc::Compiler) -> Program {
 }
 
 fn base_tr_group(c: &mut Criterion) {
-    c.bench_function("es/full/base/fixer", base_tr_fixer);
+    c.bench_function("es/large/base/fixer", base_tr_fixer);
     // c.bench_function(
-    //     "es/full/base/resolver_and_hygiene",
+    //     "es/large/base/resolver_and_hygiene",
     //     base_tr_resolver_and_hygiene,
     // );
 }
@@ -127,7 +132,7 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
 fn codegen_group(c: &mut Criterion) {
     macro_rules! codegen {
         ($name:ident, $target:expr) => {
-            c.bench_function(&format!("es/full/codegen/{}", stringify!($name)), |b| {
+            c.bench_function(&format!("es/large/codegen/{}", stringify!($name)), |b| {
                 bench_codegen(b, $target);
             });
         };
@@ -147,24 +152,19 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
     let c = mk();
 
     b.iter(|| {
-        for _ in 0..100 {
-            GLOBALS.set(&Default::default(), || {
-                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+        GLOBALS.set(&Default::default(), || {
+            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-                let fm = c.cm.new_source_file(
-                    FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
-                    SOURCE.to_string(),
-                );
-                let _ = c.process_js_file(fm, &handler, opts).unwrap();
-            })
-        }
+            let fm = new_bench_source_file(&c);
+            let _ = c.process_js_file(fm, &handler, opts).unwrap();
+        })
     });
 }
 
 fn full_group(c: &mut Criterion) {
     macro_rules! compat {
         ($name:ident, $target:expr) => {
-            c.bench_function(&format!("es/full/all/{}", stringify!($name)), |b| {
+            c.bench_function(&format!("es/large/all/{}", stringify!($name)), |b| {
                 bench_full(
                     b,
                     &Options {
@@ -196,7 +196,7 @@ fn full_group(c: &mut Criterion) {
 }
 
 fn parser_group(c: &mut Criterion) {
-    c.bench_function("es/full/parser", parser);
+    c.bench_function("es/large/parser", parser);
 }
 
 fn parser(b: &mut Bencher) {
