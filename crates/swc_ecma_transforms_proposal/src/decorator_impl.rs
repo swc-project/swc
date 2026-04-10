@@ -5,7 +5,7 @@ use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
-use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
+use swc_ecma_transforms_classes::super_field::rewrite_super_in_moved_static_member;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor_with_span,
     for_each_binding_ident, is_maybe_branch_directive, private_ident, prop_name_to_expr_value,
@@ -163,17 +163,35 @@ impl Visit for CurrentClassNameFinder {
 }
 
 #[derive(Default)]
-struct SuperFinder {
+struct MovedStaticSuperFinder {
     found: bool,
 }
 
-impl Visit for SuperFinder {
+impl Visit for MovedStaticSuperFinder {
     noop_visit_type!();
 
     fn visit_class(&mut self, _: &Class) {
         // `super` inside a nested class belongs to that class and should not
         // affect the decision to rewrite the enclosing moved static
         // member.
+    }
+
+    fn visit_function(&mut self, _: &Function) {
+        // Regular functions do not share the moved static member's `super`
+        // binding and should not trigger the rewrite.
+    }
+
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        n.key.visit_with(self);
+    }
+
+    fn visit_method_prop(&mut self, n: &MethodProp) {
+        n.key.visit_with(self);
+    }
+
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
+        n.key.visit_with(self);
+        n.param.visit_with(self);
     }
 
     fn visit_super(&mut self, _: &Super) {
@@ -547,7 +565,7 @@ impl DecoratorPass {
     }
 
     fn expr_uses_super(&self, expr: &Expr) -> bool {
-        let mut v = SuperFinder::default();
+        let mut v = MovedStaticSuperFinder::default();
         expr.visit_with(&mut v);
         v.found
     }
@@ -570,7 +588,7 @@ impl DecoratorPass {
     }
 
     fn stmts_use_super(&self, stmts: &[Stmt]) -> bool {
-        let mut v = SuperFinder::default();
+        let mut v = MovedStaticSuperFinder::default();
         stmts.visit_with(&mut v);
         v.found
     }
@@ -593,8 +611,9 @@ impl DecoratorPass {
     }
 
     fn function_uses_super(&self, function: &Function) -> bool {
-        let mut v = SuperFinder::default();
-        function.visit_with(&mut v);
+        let mut v = MovedStaticSuperFinder::default();
+        function.params.visit_with(&mut v);
+        function.body.visit_with(&mut v);
         v.found
     }
 
@@ -626,21 +645,7 @@ impl DecoratorPass {
     }
 
     fn rewrite_super_for_moved_static_member(&self, function: &mut Function, class_name: &Ident) {
-        let no_super_class = None;
-        let mut folder = SuperFieldAccessFolder {
-            class_name,
-            constructor_this_mark: None,
-            is_static: true,
-            folding_constructor: false,
-            in_nested_scope: false,
-            in_injected_define_property_call: false,
-            this_alias_mark: None,
-            constant_super: false,
-            super_class: &no_super_class,
-            in_pat: false,
-        };
-
-        function.visit_mut_with(&mut folder);
+        rewrite_super_in_moved_static_member(function, class_name);
     }
 
     fn current_class_ref_for_super(&self) -> Option<Ident> {
