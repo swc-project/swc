@@ -31,6 +31,7 @@ fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
         // Declaration for imported function from swc host.
         // Refer swc_plugin_runner for the actual implementation.
         #[cfg(target_arch = "wasm32")] // Allow testing
+        #[link(wasm_import_module = "env")]
         extern "C" {
             fn __set_transform_result(bytes_ptr: u32, bytes_ptr_len: u32);
             fn __set_transform_plugin_core_pkg_diagnostics(bytes_ptr: u32, bytes_ptr_len: u32);

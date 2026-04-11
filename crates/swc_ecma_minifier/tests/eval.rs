@@ -229,11 +229,11 @@ impl VisitMut for PartialInliner {
                                     raw: Atom::new(s.value.to_string_lossy()),
                                     cooked: Some(s.value.clone()),
                                 };
-                                tt.tpl = Box::new(Tpl {
+                                *tt.tpl = Tpl {
                                     span: el.span,
                                     exprs: Default::default(),
                                     quasis: vec![el],
-                                });
+                                };
                             }
                             _ => {
                                 unreachable!()

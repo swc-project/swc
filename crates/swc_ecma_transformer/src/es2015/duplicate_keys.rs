@@ -174,27 +174,24 @@ impl PropFolder {
         let span = name.span();
 
         match name {
-            PropName::Ident(ident) => {
-                if !props.insert(ident.sym.clone()) {
-                    *name = PropName::Computed(ComputedPropName {
+            PropName::Ident(ident) if !props.insert(ident.sym.clone()) => {
+                *name = PropName::Computed(ComputedPropName {
+                    span,
+                    expr: Lit::Str(Str {
                         span,
-                        expr: Lit::Str(Str {
-                            span,
-                            raw: None,
-                            value: ident.sym.clone().into(),
-                        })
-                        .into(),
+                        raw: None,
+                        value: ident.sym.clone().into(),
                     })
-                }
+                    .into(),
+                })
             }
-            PropName::Str(s) => {
-                if !props.insert(atom_from_wtf8(&s.value)) {
-                    *name = PropName::Computed(ComputedPropName {
-                        span: s.span,
-                        expr: s.clone().into(),
-                    })
-                }
+            PropName::Str(s) if !props.insert(atom_from_wtf8(&s.value)) => {
+                *name = PropName::Computed(ComputedPropName {
+                    span: s.span,
+                    expr: s.clone().into(),
+                })
             }
+            PropName::Ident(_) | PropName::Str(_) => {}
             PropName::Computed(ComputedPropName { expr, .. }) => {
                 // Computed property might collide
                 if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {

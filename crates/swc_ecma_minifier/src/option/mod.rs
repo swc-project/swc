@@ -116,17 +116,13 @@ pub struct ManglePropertiesOptions {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Hash)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
+#[derive(Default)]
 pub enum PureGetterOption {
     Bool(bool),
     #[serde(rename = "strict")]
+    #[default]
     Strict,
     Str(Vec<Atom>),
-}
-
-impl Default for PureGetterOption {
-    fn default() -> Self {
-        Self::Strict
-    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]

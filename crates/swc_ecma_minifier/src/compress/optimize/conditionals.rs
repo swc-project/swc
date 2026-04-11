@@ -683,33 +683,31 @@ impl Optimizer<'_> {
                     && alt.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
                     && cons.args.as_ref().map(|v| v.len()).unwrap_or(0)
                         == alt.args.as_ref().map(|v| v.len()).unwrap_or(0)
-                    && (cons.args.is_some()
-                        && cons
-                            .args
-                            .as_ref()
-                            .unwrap()
-                            .iter()
-                            .all(|arg| arg.spread.is_none()))
-                    && (alt.args.is_some()
-                        && alt
-                            .args
-                            .as_ref()
-                            .unwrap()
-                            .iter()
-                            .all(|arg| arg.spread.is_none()))
+                    && cons
+                        .args
+                        .as_ref()
+                        .is_some_and(|args| args.iter().all(|arg| arg.spread.is_none()))
+                    && alt
+                        .args
+                        .as_ref()
+                        .is_some_and(|args| args.iter().all(|arg| arg.spread.is_none()))
                 {
                     let mut args = Vec::new();
 
-                    if cons.args.as_ref().map(|v| v.len()).unwrap_or(0) == 1 {
-                        args = vec![ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(Expr::Cond(CondExpr {
-                                span: DUMMY_SP,
-                                test: test.take(),
-                                cons: cons.args.as_mut().unwrap()[0].expr.take(),
-                                alt: alt.args.as_mut().unwrap()[0].expr.take(),
-                            })),
-                        }];
+                    if let (Some(cons_args), Some(alt_args)) =
+                        (cons.args.as_mut(), alt.args.as_mut())
+                    {
+                        if cons_args.len() == 1 {
+                            args = vec![ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(Expr::Cond(CondExpr {
+                                    span: DUMMY_SP,
+                                    test: test.take(),
+                                    cons: cons_args[0].expr.take(),
+                                    alt: alt_args[0].expr.take(),
+                                })),
+                            }];
+                        }
                     }
 
                     report_change!(

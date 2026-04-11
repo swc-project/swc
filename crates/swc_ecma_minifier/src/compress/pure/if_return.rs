@@ -153,14 +153,12 @@ impl Pure<'_> {
             match &mut **alt_of_alt {
                 Stmt::Block(..) => {}
                 Stmt::Expr(..) => {
-                    *alt_of_alt = Box::new(
-                        BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![*alt_of_alt.take()],
-                            ..Default::default()
-                        }
-                        .into(),
-                    );
+                    **alt_of_alt = BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![*alt_of_alt.take()],
+                        ..Default::default()
+                    }
+                    .into();
                 }
                 _ => {
                     return;

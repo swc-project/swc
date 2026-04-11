@@ -481,7 +481,7 @@ impl Optimizer<'_> {
                 let new = self.ignore_return_value(&mut arg.expr);
 
                 if let Some(new) = new {
-                    arg.expr = Box::new(new);
+                    *arg.expr = new;
                 } else {
                     // Use `0` if it's removed.
                     arg.expr = Number {

@@ -37,15 +37,13 @@ impl VisitMut for DroppedCommentsPreserver {
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         module.visit_mut_children_with(self);
-        self.known_spans
-            .sort_by(|span_a, span_b| span_a.lo.cmp(&span_b.lo));
+        self.known_spans.sort_by_key(|span_a| span_a.lo);
         self.shift_comments_to_known_spans();
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
         script.visit_mut_children_with(self);
-        self.known_spans
-            .sort_by(|span_a, span_b| span_a.lo.cmp(&span_b.lo));
+        self.known_spans.sort_by_key(|span_a| span_a.lo);
         self.shift_comments_to_known_spans();
     }
 
@@ -82,7 +80,7 @@ impl DroppedCommentsPreserver {
             .chain(trailing_comments.drain())
             .collect();
 
-        existing_comments.sort_by(|(bp_a, _), (bp_b, _)| bp_a.cmp(bp_b));
+        existing_comments.sort_by_key(|(bp_a, _)| *bp_a);
 
         existing_comments
     }
@@ -97,7 +95,7 @@ impl DroppedCommentsPreserver {
     fn shift_leading_comments(&self, comments: &SingleThreadedComments) -> CommentEntries {
         let mut existing_comments = self.collect_existing_comments(comments);
 
-        existing_comments.sort_by(|(bp_a, _), (bp_b, _)| bp_a.cmp(bp_b));
+        existing_comments.sort_by_key(|(bp_a, _)| *bp_a);
 
         for span in self.known_spans.iter() {
             let cut_point = existing_comments.partition_point(|(bp, _)| *bp <= span.lo);

@@ -473,7 +473,7 @@ impl StaticAliasState {
         }
         if let Some((obj, prop)) = extract_static_method(callee, unresolved_ctxt) {
             if let Some(alias) = self.static_method_aliases.get(&(obj, prop)) {
-                *callee = Box::new(alias.clone().into());
+                **callee = alias.clone().into();
                 self.replacements_made = true;
                 return true;
             }
@@ -495,7 +495,7 @@ impl StaticAliasState {
         if let Some(ident) = callee.as_ident() {
             if ident.ctxt == unresolved_ctxt {
                 if let Some(alias) = self.global_object_aliases.get(&ident.sym) {
-                    *callee = Box::new(alias.clone().into());
+                    **callee = alias.clone().into();
                     self.replacements_made = true;
                     return true;
                 }

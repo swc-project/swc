@@ -17,20 +17,16 @@ where
     S: SourceMapperExt,
 {
     pub fn emit_class_trailing(&mut self, node: &Class) -> Result {
-        if node.super_class.is_some() {
+        if let Some(super_class) = &node.super_class {
             space!(self);
             keyword!(self, "extends");
 
-            {
-                let starts_with_alpha_num =
-                    node.super_class.as_ref().unwrap().starts_with_alpha_num();
-
-                if starts_with_alpha_num {
-                    space!(self);
-                } else {
-                    formatting_space!(self)
-                }
+            if super_class.starts_with_alpha_num() {
+                space!(self);
+            } else {
+                formatting_space!(self)
             }
+
             emit!(self, node.super_class);
             emit!(self, node.super_type_params);
         }
@@ -94,20 +90,16 @@ impl MacroNode for ClassExpr {
 #[node_impl]
 impl MacroNode for Class {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        if self.super_class.is_some() {
+        if let Some(super_class) = &self.super_class {
             space!(emitter);
             keyword!(emitter, "extends");
 
-            {
-                let starts_with_alpha_num =
-                    self.super_class.as_ref().unwrap().starts_with_alpha_num();
-
-                if starts_with_alpha_num {
-                    space!(emitter);
-                } else {
-                    formatting_space!(emitter)
-                }
+            if super_class.starts_with_alpha_num() {
+                space!(emitter);
+            } else {
+                formatting_space!(emitter)
             }
+
             emit!(self.super_class);
             emit!(self.super_type_params);
         }

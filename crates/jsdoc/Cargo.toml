@@ -13,12 +13,17 @@ version       = "21.0.0"
 bench = false
 
 [features]
+__rkyv = []
 encoding-impl = [
   "cbor4ii",
   "swc_atoms/encoding-impl",
   "swc_common/encoding-impl",
 ]
+rkyv-impl = []
 serde-impl = ["serde"]
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
 cbor4ii = { workspace = true, features = ["use_std"], optional = true }

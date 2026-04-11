@@ -125,7 +125,7 @@ impl VisitMut for Compiler {
                 if let Some(legacy_media_feature) = self.get_legacy_media_feature(media_feature) {
                     match legacy_media_feature {
                         (legacy_media_feature, None) => {
-                            *media_feature = Box::new(legacy_media_feature);
+                            **media_feature = legacy_media_feature;
                         }
                         (left, Some(right)) => {
                             *n = MediaInParens::MediaCondition(MediaCondition {

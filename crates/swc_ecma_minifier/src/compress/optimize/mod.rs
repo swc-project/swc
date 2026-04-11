@@ -739,7 +739,7 @@ impl Optimizer<'_> {
 
                 match new_r {
                     Some(r) => {
-                        *right = Box::new(r);
+                        **right = r;
                     }
                     None => return self.ignore_return_value(left),
                 }
@@ -1165,7 +1165,7 @@ impl Optimizer<'_> {
             {
                 let processed_arg = self.ignore_return_value(arg)?;
 
-                *arg = Box::new(processed_arg);
+                **arg = processed_arg;
 
                 log_abort!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
@@ -1535,11 +1535,11 @@ impl VisitMut for Optimizer<'_> {
                         }
                         .into(),
                     );
-                    n.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    *n.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
                         stmts,
                         ..Default::default()
-                    }));
+                    });
                 }
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
@@ -2917,11 +2917,11 @@ impl VisitMut for Optimizer<'_> {
                 _ => {
                     let arg = self.ignore_return_value(&mut n.arg);
 
-                    n.arg = Box::new(arg.unwrap_or_else(|| {
+                    *n.arg = arg.unwrap_or_else(|| {
                         report_change!("Ignoring arg of `void`");
 
                         make_number(DUMMY_SP, 0.0)
-                    }));
+                    });
                 }
             }
         }

@@ -8,17 +8,12 @@ use crate::{
     rule::{visitor_rule, Rule},
 };
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum YodaConfigMode {
     Always,
+    #[default]
     Never,
-}
-
-impl Default for YodaConfigMode {
-    fn default() -> Self {
-        Self::Never
-    }
 }
 
 #[derive(Debug, Clone, Default, Copy, Serialize, Deserialize)]

@@ -1210,18 +1210,13 @@ impl Config {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(untagged)]
 pub enum FileMatcher {
+    #[default]
     None,
     Pattern(FilePattern),
     Multi(Vec<FileMatcher>),
-}
-
-impl Default for FileMatcher {
-    fn default() -> Self {
-        Self::None
-    }
 }
 
 impl FileMatcher {
@@ -1466,11 +1461,12 @@ pub struct JscExperimental {
     pub disable_all_lints: BoolConfig<true>,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
 pub enum ErrorFormat {
     #[serde(rename = "json")]
     Json,
     #[serde(rename = "normal")]
+    #[default]
     Normal,
 }
 
@@ -1497,12 +1493,6 @@ impl ErrorFormat {
                 serde_json::to_string(&map).unwrap()
             }
         }
-    }
-}
-
-impl Default for ErrorFormat {
-    fn default() -> Self {
-        Self::Normal
     }
 }
 

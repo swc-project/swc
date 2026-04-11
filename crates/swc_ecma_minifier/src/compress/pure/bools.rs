@@ -710,19 +710,20 @@ impl Pure<'_> {
     pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Bin(e @ BinExpr { op: op!("<="), .. })
-            | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
-                if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right, true) {
-                    self.changed = true;
-                    report_change!("comparisons: Swapping operands of {}", e.op);
+            | Expr::Bin(e @ BinExpr { op: op!("<"), .. })
+                if self.options.comparisons
+                    && self.can_swap_bin_operands(&e.left, &e.right, true) =>
+            {
+                self.changed = true;
+                report_change!("comparisons: Swapping operands of {}", e.op);
 
-                    e.op = if e.op == op!("<=") {
-                        op!(">=")
-                    } else {
-                        op!(">")
-                    };
+                e.op = if e.op == op!("<=") {
+                    op!(">=")
+                } else {
+                    op!(">")
+                };
 
-                    swap(&mut e.left, &mut e.right);
-                }
+                swap(&mut e.left, &mut e.right);
             }
 
             Expr::Bin(bin) => {

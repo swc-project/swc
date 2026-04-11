@@ -48,7 +48,7 @@ fn transform_internal<C>(
     loose: bool,
     #[cfg_attr(not(feature = "es3"), allow(unused_variables))] dynamic_import: bool,
     debug: bool,
-    caniuse: impl (Fn(Feature) -> bool),
+    caniuse: impl Fn(Feature) -> bool,
 ) -> impl Pass
 where
     C: Comments + Clone,

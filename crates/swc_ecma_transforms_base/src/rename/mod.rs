@@ -32,7 +32,7 @@ pub trait Renamer: Send + Sync {
     /// It should be true if you expect lots of collisions
     const MANGLE: bool;
 
-    fn get_cached(&self) -> Option<Cow<FxHashMap<Id, Self::Target>>> {
+    fn get_cached(&self) -> Option<Cow<'_, FxHashMap<Id, Self::Target>>> {
         None
     }
 

@@ -1,5 +1,4 @@
 #![deny(clippy::all)]
-#![deny(clippy::all)]
 #![deny(unused)]
 #![allow(clippy::result_unit_err)]
 

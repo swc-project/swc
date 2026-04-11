@@ -497,6 +497,7 @@ pub struct MultiSpan {
     span_labels: Vec<PrimarySpanLabel>,
 }
 
+#[cfg_attr(target_arch = "wasm32", link(wasm_import_module = "env"))]
 extern "C" {
     fn __span_dummy_with_cmt_proxy() -> u32;
 }

@@ -1743,13 +1743,11 @@ impl VisitMut for Hoister<'_, '_> {
                     self.resolver.in_type = old_in_type;
                 }
 
-                Decl::TsEnum(e) => {
-                    if !self.in_block {
-                        let old_in_type = self.resolver.in_type;
-                        self.resolver.in_type = false;
-                        self.resolver.modify(&mut e.id, DeclKind::Lexical);
-                        self.resolver.in_type = old_in_type;
-                    }
+                Decl::TsEnum(e) if !self.in_block => {
+                    let old_in_type = self.resolver.in_type;
+                    self.resolver.in_type = false;
+                    self.resolver.modify(&mut e.id, DeclKind::Lexical);
+                    self.resolver.in_type = old_in_type;
                 }
 
                 Decl::TsModule(v)
@@ -1760,15 +1758,13 @@ impl VisitMut for Hoister<'_, '_> {
                             id: TsModuleName::Ident(_),
                             ..
                         },
-                    ) =>
+                    ) && !self.in_block =>
                 {
-                    if !self.in_block {
-                        let old_in_type = self.resolver.in_type;
-                        self.resolver.in_type = false;
-                        let id = v.id.as_mut_ident().unwrap();
-                        self.resolver.modify(id, DeclKind::Lexical);
-                        self.resolver.in_type = old_in_type;
-                    }
+                    let old_in_type = self.resolver.in_type;
+                    self.resolver.in_type = false;
+                    let id = v.id.as_mut_ident().unwrap();
+                    self.resolver.modify(id, DeclKind::Lexical);
+                    self.resolver.in_type = old_in_type;
                 }
                 _ => {}
             }

@@ -332,16 +332,11 @@ struct Scope<'a> {
     ast_path: Vec<Id>,
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
 enum ScopeKind {
+    #[default]
     Fn,
     ArrowFn,
-}
-
-impl Default for ScopeKind {
-    fn default() -> Self {
-        Self::Fn
-    }
 }
 
 impl Analyzer<'_> {
@@ -815,17 +810,15 @@ impl VisitMut for TreeShaker {
         n.visit_mut_children_with(self);
 
         match n {
-            Decl::Fn(f) => {
-                if self.can_drop_binding(f.ident.to_id(), true) {
-                    debug!("Dropping function `{}` as it's not used", f.ident);
-                    self.changed = true;
+            Decl::Fn(f) if self.can_drop_binding(f.ident.to_id(), true) => {
+                debug!("Dropping function `{}` as it's not used", f.ident);
+                self.changed = true;
 
-                    self.data.drop_ast_node(&*f);
+                self.data.drop_ast_node(&*f);
 
-                    n.take();
-                }
+                n.take();
             }
-            Decl::Class(c) => {
+            Decl::Class(c)
                 if self.can_drop_binding(c.ident.to_id(), false)
                     && c.class
                         .super_class
@@ -861,14 +854,13 @@ impl VisitMut for TreeShaker {
                         | ClassMember::PrivateMethod(_) => true,
                         #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
-                    })
-                {
-                    debug!("Dropping class `{}` as it's not used", c.ident);
-                    self.changed = true;
+                    }) =>
+            {
+                debug!("Dropping class `{}` as it's not used", c.ident);
+                self.changed = true;
 
-                    self.data.drop_ast_node(&*c);
-                    n.take();
-                }
+                self.data.drop_ast_node(&*c);
+                n.take();
             }
             _ => {}
         }
@@ -916,28 +908,27 @@ impl VisitMut for TreeShaker {
                             body: Some(..),
                             ..
                         }
-                    ) =>
+                    ) && f.params.is_empty()
+                        && f.body.as_ref().is_some_and(|body| body.stmts.len() == 1) =>
                     {
-                        if f.params.is_empty() && f.body.as_ref().unwrap().stmts.len() == 1 {
-                            if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) =
-                                &mut f.body.as_mut().unwrap().stmts[0]
-                            {
-                                if let Expr::Object(ObjectLit { props, .. }) = &**arg {
-                                    if props.iter().all(|p| match p {
-                                        PropOrSpread::Spread(_) => false,
-                                        PropOrSpread::Prop(p) => match &**p {
-                                            Prop::Shorthand(_) => true,
-                                            Prop::KeyValue(p) => p.value.is_ident(),
-                                            _ => false,
-                                        },
-                                        #[cfg(swc_ast_unknown)]
-                                        _ => panic!("unable to access unknown nodes"),
-                                    }) {
-                                        self.changed = true;
-                                        debug!("Dropping a wrapped esm");
-                                        *n = *arg.take();
-                                        return;
-                                    }
+                        if let Some(Stmt::Return(ReturnStmt { arg: Some(arg), .. })) =
+                            f.body.as_mut().and_then(|body| body.stmts.first_mut())
+                        {
+                            if let Expr::Object(ObjectLit { props, .. }) = &**arg {
+                                if props.iter().all(|p| match p {
+                                    PropOrSpread::Spread(_) => false,
+                                    PropOrSpread::Prop(p) => match &**p {
+                                        Prop::Shorthand(_) => true,
+                                        Prop::KeyValue(p) => p.value.is_ident(),
+                                        _ => false,
+                                    },
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
+                                }) {
+                                    self.changed = true;
+                                    debug!("Dropping a wrapped esm");
+                                    *n = *arg.take();
+                                    return;
                                 }
                             }
                         }

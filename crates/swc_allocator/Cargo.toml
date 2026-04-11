@@ -17,10 +17,10 @@ rustdoc-args = ["--cfg", "docsrs"]
 hashbrown = ["dep:hashbrown", "hashbrown/allocator-api2"]
 nightly = [
   "skip-warning",
-  "allocator-api2/nightly",
-  "bumpalo/allocator_api",
-  "hashbrown/nightly",
 ]
+# The latest pinned nightly rejects the bumpalo/hashbrown/allocator-api2
+# nightly-only allocator paths. Stable allocator-api2 support is sufficient
+# for our usage here.
 # This two features are actually useless
 rkyv  = []
 serde = []

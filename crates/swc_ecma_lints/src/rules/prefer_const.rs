@@ -190,7 +190,7 @@ impl PreferConst {
     fn emit_ordered(&self) {
         let mut vars = self.vars_meta.iter().collect::<Vec<_>>();
 
-        vars.sort_by(|(_, a), (_, b)| a.order.cmp(&b.order));
+        vars.sort_by_key(|(_, a)| a.order);
 
         vars.into_iter().for_each(|(id, var_meta)| {
             let postinitialized = if self.ignore_read_before_assign {

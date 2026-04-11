@@ -139,10 +139,10 @@ impl FastDts {
         let mut has_export = false;
         for item in items.iter_mut() {
             match item {
-                ModuleItem::Stmt(stmt) => {
-                    if stmt.as_decl().map_or(true, |decl| !decl.is_ts_module()) {
-                        has_non_exported_stmt = true;
-                    }
+                ModuleItem::Stmt(stmt)
+                    if stmt.as_decl().map_or(true, |decl| !decl.is_ts_module()) =>
+                {
+                    has_non_exported_stmt = true;
                 }
                 ModuleItem::ModuleDecl(
                     ModuleDecl::ExportDefaultDecl(_)

@@ -299,12 +299,11 @@ impl VisitMut for Fixer<'_> {
 
             // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
             // But it should be `(1 + x) * Nan`
-            Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
+            Expr::Bin(BinExpr { op: op_of_lhs, .. })
                 if op_of_lhs.precedence() < expr.op.precedence()
-                    || (op_of_lhs.precedence() == expr.op.precedence() && expr.op == op!("**"))
-                {
-                    self.wrap(&mut expr.left);
-                }
+                    || (op_of_lhs.precedence() == expr.op.precedence() && expr.op == op!("**")) =>
+            {
+                self.wrap(&mut expr.left);
             }
 
             Expr::Unary(UnaryExpr {
@@ -541,14 +540,12 @@ impl VisitMut for Fixer<'_> {
         node.visit_mut_children_with(self);
 
         if will_eat_else_token(&node.cons) {
-            node.cons = Box::new(
-                BlockStmt {
-                    span: node.cons.span(),
-                    stmts: vec![*node.cons.take()],
-                    ..Default::default()
-                }
-                .into(),
-            );
+            *node.cons = BlockStmt {
+                span: node.cons.span(),
+                stmts: vec![*node.cons.take()],
+                ..Default::default()
+            }
+            .into();
         }
     }
 
@@ -965,10 +962,10 @@ impl Fixer<'_> {
                     | Expr::Arrow(..)
                     | Expr::Yield(..) => self.wrap(&mut expr.test),
 
-                    Expr::Object(..) | Expr::Fn(..) | Expr::Class(..) => {
-                        if self.ctx == Context::Default {
-                            self.wrap(&mut expr.test)
-                        }
+                    Expr::Object(..) | Expr::Fn(..) | Expr::Class(..)
+                        if self.ctx == Context::Default =>
+                    {
+                        self.wrap(&mut expr.test)
                     }
                     _ => {}
                 };

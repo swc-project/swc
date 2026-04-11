@@ -371,18 +371,16 @@ impl BlockScoping {
                     );
                 }
 
-                *body = Box::new(
-                    BlockStmt {
-                        span: DUMMY_SP,
-                        stmts,
-                        ..Default::default()
-                    }
-                    .into(),
-                );
+                **body = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                    ..Default::default()
+                }
+                .into();
                 return;
             }
 
-            *body = Box::new(call.take().into_stmt());
+            **body = call.take().into_stmt();
         }
     }
 
@@ -403,14 +401,12 @@ impl BlockScoping {
     /// which fixes https://github.com/swc-project/swc/issues/6573
     fn blockify_for_stmt_body(&self, body: &mut Box<Stmt>) -> bool {
         if !body.is_block() {
-            *body = Box::new(
-                BlockStmt {
-                    span: Default::default(),
-                    stmts: vec![*body.take()],
-                    ..Default::default()
-                }
-                .into(),
-            );
+            **body = BlockStmt {
+                span: Default::default(),
+                stmts: vec![*body.take()],
+                ..Default::default()
+            }
+            .into();
             true
         } else {
             false
@@ -423,7 +419,7 @@ impl BlockScoping {
                 .as_mut_block()
                 .and_then(|block| (block.stmts.len() == 1).then(|| block.stmts[0].take()));
             if let Some(stmt) = stmt {
-                *body = Box::new(stmt)
+                **body = stmt
             }
         }
     }

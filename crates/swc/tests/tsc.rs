@@ -146,25 +146,21 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                 "alwaysstrict" => {}
                 "allowsyntheticdefaultimports" => {}
                 "esmoduleinterop" => {}
-                "emitdecoratormetadata" => {
-                    if meta_data_value.trim() == "true" {
-                        decorator_metadata = true;
-                    }
+                "emitdecoratormetadata" if meta_data_value.trim() == "true" => {
+                    decorator_metadata = true;
                 }
-                "experimentaldecorators" => {
-                    if meta_data_value.trim() == "true" {
-                        decorators = true;
-                    }
+                "experimentaldecorators" if meta_data_value.trim() == "true" => {
+                    decorators = true;
                 }
+                "emitdecoratormetadata" | "experimentaldecorators" => {}
                 "skipdefaultlibcheck" => {}
                 "preserveconstenums" => {}
                 "skiplibcheck" => {}
                 "exactoptionalpropertytypes" => {}
-                "usedefineforclassfields" => {
-                    if meta_data_value.trim() == "true" {
-                        use_define_for_class_fields = true;
-                    }
+                "usedefineforclassfields" if meta_data_value.trim() == "true" => {
+                    use_define_for_class_fields = true;
                 }
+                "usedefineforclassfields" => {}
                 "useunknownincatchvariables" => {}
                 "nouncheckedindexedaccess" => {}
                 "nopropertyaccessfromindexsignature" => {}
@@ -173,11 +169,10 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
 
                     sub_filename = Cow::from(meta_data_value.trim());
                 }
-                "verbatimmodulesyntax" => {
-                    if meta_data_value.trim() == "true" {
-                        verbatim_module_syntax = true;
-                    }
+                "verbatimmodulesyntax" if meta_data_value.trim() == "true" => {
+                    verbatim_module_syntax = true;
                 }
+                "verbatimmodulesyntax" => {}
                 _ => {}
             }
         } else {

@@ -126,11 +126,7 @@ fn uni(lexer: &mut Lexer<'_>) -> bool {
 
 impl<'a> Lexer<'a> {
     pub(super) fn skip_space_and_comments(&mut self) {
-        loop {
-            let Some(byte) = self.input.cur() else {
-                break;
-            };
-
+        while let Some(byte) = self.input.cur() {
             let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).add(byte as usize) };
             if !handler(self) {
                 break;

@@ -567,6 +567,7 @@ impl Lexer<'_> {
         }
     }
 
+    #[allow(clippy::while_let_loop)]
     fn scan_identifier_parts_into(&mut self, v: &mut String) -> bool {
         let start = self.cur_pos();
         while let Some(ch) = self.input().cur() {

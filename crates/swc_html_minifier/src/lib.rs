@@ -586,28 +586,22 @@ impl<C: MinifyCss> Minifier<'_, C> {
             Namespace::HTML | Namespace::SVG => {
                 match &*element.tag_name {
                     "html" => match &*attribute.name {
-                        "xmlns" => {
+                        "xmlns"
                             if &*attribute_value.trim().to_ascii_lowercase()
-                                == "http://www.w3.org/1999/xhtml"
-                            {
-                                return true;
-                            }
+                                == "http://www.w3.org/1999/xhtml" =>
+                        {
+                            return true;
                         }
-                        "xmlns:xlink" => {
+                        "xmlns:xlink"
                             if &*attribute_value.trim().to_ascii_lowercase()
-                                == "http://www.w3.org/1999/xlink"
-                            {
-                                return true;
-                            }
+                                == "http://www.w3.org/1999/xlink" =>
+                        {
+                            return true;
                         }
                         _ => {}
                     },
                     "script" => match &*attribute.name {
-                        "type" => {
-                            if self.is_type_text_javascript(attribute_value) {
-                                return true;
-                            }
-                        }
+                        "type" if self.is_type_text_javascript(attribute_value) => return true,
                         "language" => match &*attribute_value.trim().to_ascii_lowercase() {
                             "javascript" | "javascript1.2" | "javascript1.3" | "javascript1.4"
                             | "javascript1.5" | "javascript1.6" | "javascript1.7" => return true,
@@ -615,19 +609,18 @@ impl<C: MinifyCss> Minifier<'_, C> {
                         },
                         _ => {}
                     },
-                    "link" => {
-                        if attribute.name == "type" && self.is_type_text_css(attribute_value) {
-                            return true;
-                        }
+                    "link"
+                        if attribute.name == "type" && self.is_type_text_css(attribute_value) =>
+                    {
+                        return true;
                     }
 
-                    "svg" => {
+                    "svg"
                         if attribute.name == "xmlns"
                             && &*attribute_value.trim().to_ascii_lowercase()
-                                == "http://www.w3.org/2000/svg"
-                        {
-                            return true;
-                        }
+                                == "http://www.w3.org/2000/svg" =>
+                    {
+                        return true;
                     }
                     _ => {}
                 }
@@ -2568,7 +2561,7 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
         let mut remove_list = Vec::new();
 
         for (i, i1) in n.attributes.iter().enumerate() {
-            if i1.value.is_some() {
+            if let Some(value) = i1.value.as_ref() {
                 if self.options.remove_redundant_attributes != RemoveRedundantAttributes::None
                     && self.is_default_attribute_value(n, i1)
                 {
@@ -2577,17 +2570,14 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
                     continue;
                 }
 
-                if self.options.remove_empty_attributes {
-                    let value = i1.value.as_ref().unwrap();
-
-                    if (matches!(&*i1.name, "id") && value.is_empty())
+                if self.options.remove_empty_attributes
+                    && ((matches!(&*i1.name, "id") && value.is_empty())
                         || (matches!(&*i1.name, "class" | "style") && value.is_empty())
-                        || self.is_event_handler_attribute(i1) && value.is_empty()
-                    {
-                        remove_list.push(i);
+                        || self.is_event_handler_attribute(i1) && value.is_empty())
+                {
+                    remove_list.push(i);
 
-                        continue;
-                    }
+                    continue;
                 }
             }
 
@@ -2708,9 +2698,10 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
                     let mut type_attribute_value = None;
 
                     for attribute in &current_element.attributes {
-                        if attribute.name == "type" && attribute.value.is_some() {
-                            type_attribute_value = Some(attribute.value.as_ref().unwrap());
-
+                        if attribute.name == "type" {
+                            if let Some(value) = attribute.value.as_ref() {
+                                type_attribute_value = Some(value);
+                            }
                             break;
                         }
                     }

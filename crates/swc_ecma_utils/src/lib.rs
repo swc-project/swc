@@ -874,14 +874,13 @@ pub fn class_has_side_effect(expr_ctx: ExprCtx, c: &Class) -> bool {
                     }
                 }
             }
-            ClassMember::StaticBlock(s) => {
+            ClassMember::StaticBlock(s)
                 if s.body
                     .stmts
                     .iter()
-                    .any(|stmt| stmt.may_have_side_effects(expr_ctx))
-                {
-                    return true;
-                }
+                    .any(|stmt| stmt.may_have_side_effects(expr_ctx)) =>
+            {
+                return true;
             }
             _ => {}
         }

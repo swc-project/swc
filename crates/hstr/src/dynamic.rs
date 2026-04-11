@@ -163,7 +163,10 @@ pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
     if len <= MAX_INLINE_LEN {
         // INLINE_TAG ensures this is never zero
         let tag = INLINE_TAG | ((len as u8) << LEN_OFFSET);
-        let mut unsafe_data = TaggedValue::new_tag(NonZeroU8::new(tag).unwrap());
+        let mut unsafe_data = TaggedValue::new_tag(match NonZeroU8::new(tag) {
+            Some(tag) => tag,
+            None => unreachable!(),
+        });
         // This odd pattern is needed because we cannot create slices from ranges or
         // ranges at all in constant context.  So we write our own copying loop.
         unsafe {

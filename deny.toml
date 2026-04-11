@@ -47,6 +47,17 @@ ignore = [
   "RUSTSEC-2026-0006", # wasmtime f64.copysign segfault (transitive dep via swc_plugin_runner)
   "RUSTSEC-2026-0020", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
   "RUSTSEC-2026-0021", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0085", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0086", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0087", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0088", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0089", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0091", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0092", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0093", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0094", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0095", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
+  "RUSTSEC-2026-0096", # wasmtime 38 has no patched release in this major line (transitive dep via swc_plugin_runner)
 ]
 # Threshold for security vulnerabilities, any vulnerability with a CVSS score
 # lower than the range specified will be ignored. Note that ignored advisories

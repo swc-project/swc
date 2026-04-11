@@ -14,6 +14,7 @@ use swc_trace_macro::swc_trace;
 use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]
+#[link(wasm_import_module = "env")]
 extern "C" {
     fn __copy_comment_to_host_env(bytes_ptr: u32, bytes_ptr_len: u32);
     fn __add_leading_comment_proxy(byte_pos: u32);

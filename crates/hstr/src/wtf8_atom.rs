@@ -181,37 +181,41 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
                         let d3 = iter.next();
                         let d4 = iter.next();
 
-                        if d1.is_some() && d2.is_some() && d3.is_some() && d4.is_some() {
-                            let hex = format!(
-                                "{}{}{}{}",
-                                d1.unwrap(),
-                                d2.unwrap(),
-                                d3.unwrap(),
-                                d4.unwrap()
-                            );
-                            if let Ok(code_point) = u16::from_str_radix(&hex, 16) {
-                                result.push(unsafe {
-                                    CodePoint::from_u32_unchecked(code_point as u32)
-                                });
-                                continue;
+                        match (d1, d2, d3, d4) {
+                            (Some(d1), Some(d2), Some(d3), Some(d4)) => {
+                                let hex = format!("{d1}{d2}{d3}{d4}");
+                                if let Ok(code_point) = u16::from_str_radix(&hex, 16) {
+                                    result.push(unsafe {
+                                        CodePoint::from_u32_unchecked(code_point as u32)
+                                    });
+                                    continue;
+                                }
+
+                                result.push_char('\\');
+                                result.push_char('u');
+                                result.push_char(d1);
+                                result.push_char(d2);
+                                result.push_char(d3);
+                                result.push_char(d4);
+                            }
+                            (d1, d2, d3, d4) => {
+                                result.push_char('\\');
+                                result.push_char('u');
+
+                                macro_rules! push_if_some {
+                                    ($expr:expr) => {
+                                        if let Some(c) = $expr {
+                                            result.push_char(c);
+                                        }
+                                    };
+                                }
+
+                                push_if_some!(d1);
+                                push_if_some!(d2);
+                                push_if_some!(d3);
+                                push_if_some!(d4);
                             }
                         }
-
-                        result.push_char('\\');
-                        result.push_char('u');
-
-                        macro_rules! push_if_some {
-                            ($expr:expr) => {
-                                if let Some(c) = $expr {
-                                    result.push_char(c);
-                                }
-                            };
-                        }
-
-                        push_if_some!(d1);
-                        push_if_some!(d2);
-                        push_if_some!(d3);
-                        push_if_some!(d4);
                     } else if iter.peek() == Some(&'\\') {
                         // Found '\\' - this is an escaped backslash
                         // '\\u' should become literal '\u' text

@@ -289,7 +289,7 @@ impl<'a> Scope<'a> {
     }
 
     /// True if the returned scope is self
-    fn scope_for(&self, id: &Id) -> (&Scope, bool) {
+    fn scope_for(&self, id: &Id) -> (&Scope<'_>, bool) {
         if self.constants.contains_key(id) {
             return (self, true);
         }

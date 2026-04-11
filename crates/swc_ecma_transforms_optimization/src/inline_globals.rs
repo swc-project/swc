@@ -119,25 +119,23 @@ impl VisitMut for InlineGlobals {
                     obj: first_obj,
                     prop: inner_prop,
                     ..
-                }) if inner_prop.is_ident_with("env") => {
-                    if first_obj.is_ident_ref_to("process") {
-                        match prop {
-                            MemberProp::Computed(ComputedPropName { expr: c, .. }) => {
-                                if let Expr::Lit(Lit::Str(Str { value: sym, .. })) = &**c {
-                                    if let Some(env) = self.envs.get(sym) {
-                                        *expr = env.clone();
-                                    }
-                                }
-                            }
-
-                            MemberProp::Ident(IdentName { sym, .. }) => {
-                                let sym_wtf8: Wtf8Atom = sym.clone().into();
-                                if let Some(env) = self.envs.get(&sym_wtf8) {
+                }) if inner_prop.is_ident_with("env") && first_obj.is_ident_ref_to("process") => {
+                    match prop {
+                        MemberProp::Computed(ComputedPropName { expr: c, .. }) => {
+                            if let Expr::Lit(Lit::Str(Str { value: sym, .. })) = &**c {
+                                if let Some(env) = self.envs.get(sym) {
                                     *expr = env.clone();
                                 }
                             }
-                            _ => {}
                         }
+
+                        MemberProp::Ident(IdentName { sym, .. }) => {
+                            let sym_wtf8: Wtf8Atom = sym.clone().into();
+                            if let Some(env) = self.envs.get(&sym_wtf8) {
+                                *expr = env.clone();
+                            }
+                        }
+                        _ => {}
                     }
                 }
                 _ => (),

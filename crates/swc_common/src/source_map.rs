@@ -1139,11 +1139,7 @@ impl SourceMap {
                     match c {
                         '<' => bracket_counter += 1,
                         '>' => bracket_counter -= 1,
-                        '(' => {
-                            if bracket_counter == 0 {
-                                break;
-                            }
-                        }
+                        '(' if bracket_counter == 0 => break,
                         _ => {}
                     }
                     offset += c.len_utf8();
