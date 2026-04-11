@@ -112,10 +112,8 @@ impl StyledBuffer {
     }
 
     pub fn puts(&mut self, line: usize, col: usize, string: &str, style: Style) {
-        let mut n = col;
-        for c in string.chars() {
+        for (n, c) in (col..).zip(string.chars()) {
             self.putc(line, n, c, style);
-            n += 1;
         }
     }
 

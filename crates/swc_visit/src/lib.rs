@@ -307,13 +307,13 @@ where
         Self { path }
     }
 
-    pub fn with_guard(&mut self, kind: K) -> AstKindPathGuard<K> {
+    pub fn with_guard(&mut self, kind: K) -> AstKindPathGuard<'_, K> {
         self.path.push(kind);
 
         AstKindPathGuard { path: self }
     }
 
-    pub fn with_index_guard(&mut self, index: usize) -> AstKindPathIndexGuard<K> {
+    pub fn with_index_guard(&mut self, index: usize) -> AstKindPathIndexGuard<'_, K> {
         self.path.last_mut().unwrap().set_index(index);
 
         AstKindPathIndexGuard { path: self }
@@ -456,14 +456,14 @@ where
         &self.kinds
     }
 
-    pub fn with_guard(&mut self, node: N) -> AstNodePathGuard<N> {
+    pub fn with_guard(&mut self, node: N) -> AstNodePathGuard<'_, N> {
         self.kinds.path.push(node.kind());
         self.path.push(node);
 
         AstNodePathGuard { path: self }
     }
 
-    pub fn with_index_guard(&mut self, index: usize) -> AstNodePathIndexGuard<N> {
+    pub fn with_index_guard(&mut self, index: usize) -> AstNodePathIndexGuard<'_, N> {
         self.kinds.path.last_mut().unwrap().set_index(index);
         self.path.last_mut().unwrap().set_index(index);
 

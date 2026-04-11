@@ -396,10 +396,8 @@ impl<'a> Analyzer<'a> {
                     }
                 }
             }
-            Decl::Fn(function_decl) => {
-                if allow_fn_hoist {
-                    self.declare_symbol(fn_scope, &function_decl.ident.sym, SymbolKind::Function);
-                }
+            Decl::Fn(function_decl) if allow_fn_hoist => {
+                self.declare_symbol(fn_scope, &function_decl.ident.sym, SymbolKind::Function);
             }
             _ => {}
         }

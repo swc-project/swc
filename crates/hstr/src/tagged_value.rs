@@ -142,7 +142,6 @@ impl TaggedValue {
         if cfg!(target_endian = "little") {
             data = data.offset(1);
         }
-        let len = std::mem::size_of::<TaggedValue>() - 1;
-        slice::from_raw_parts_mut(data, len)
+        &mut *data.cast::<[u8; MAX_INLINE_LEN]>()
     }
 }
