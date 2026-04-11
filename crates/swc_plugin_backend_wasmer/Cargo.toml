@@ -39,4 +39,4 @@ swc_common = { version = "21.0.1", path = "../swc_common", features = [
 swc_plugin_runner = { version = "27.0.0", path = "../swc_plugin_runner" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-compiler-cranelift = { version = "6.1.0-rc.2", default-features = false }
+wasmer-compiler-cranelift = { version = "6.1.0-rc.3", default-features = false }
