@@ -1713,15 +1713,13 @@ impl Pure<'_> {
                 callee: Callee::Expr(callee),
                 args,
                 ..
-            }) => {
-                if callee.is_pure_callee(self.expr_ctx) {
-                    self.changed = true;
-                    report_change!("Dropping pure call as callee is pure");
-                    *e = self
-                        .make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr))
-                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                    return;
-                }
+            }) if callee.is_pure_callee(self.expr_ctx) => {
+                self.changed = true;
+                report_change!("Dropping pure call as callee is pure");
+                *e = self
+                    .make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr))
+                    .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
             }
 
             Expr::TaggedTpl(TaggedTpl {
@@ -1729,15 +1727,13 @@ impl Pure<'_> {
                 tag: callee,
                 tpl,
                 ..
-            }) => {
-                if callee.is_pure_callee(self.expr_ctx) {
-                    self.changed = true;
-                    report_change!("Dropping pure tag tpl as callee is pure");
-                    *e = self
-                        .make_ignored_expr(*span, tpl.exprs.take().into_iter())
-                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                    return;
-                }
+            }) if callee.is_pure_callee(self.expr_ctx) => {
+                self.changed = true;
+                report_change!("Dropping pure tag tpl as callee is pure");
+                *e = self
+                    .make_ignored_expr(*span, tpl.exprs.take().into_iter())
+                    .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
             }
             _ => (),
         }
@@ -1907,38 +1903,38 @@ impl Pure<'_> {
                     obj,
                     prop: MemberProp::Ident(prop),
                     ..
-                }) => {
-                    if obj.is_ident_ref_to("arguments") {
-                        if &*prop.sym == "callee" {
-                            return;
-                        }
-                        e.take();
+                }) if obj.is_ident_ref_to("arguments") => {
+                    if &*prop.sym == "callee" {
                         return;
                     }
+                    e.take();
+                    return;
                 }
+                Expr::Member(MemberExpr {
+                    prop: MemberProp::Ident(..),
+                    ..
+                }) => {}
 
                 _ => {}
             }
         }
 
         match e {
-            Expr::Lit(Lit::Num(n)) => {
-                if n.value == 0.0 && opts.contains(DropOpts::DROP_NUMBER) {
-                    report_change!("Dropping a zero number");
-                    *e = Invalid { span: DUMMY_SP }.into();
-                    return;
-                }
+            Expr::Lit(Lit::Num(n)) if n.value == 0.0 && opts.contains(DropOpts::DROP_NUMBER) => {
+                report_change!("Dropping a zero number");
+                *e = Invalid { span: DUMMY_SP }.into();
+                return;
             }
+            Expr::Lit(Lit::Num(..)) => {}
 
-            Expr::Ident(i) => {
-                if i.ctxt.outer() != self.marks.unresolved_mark {
-                    report_change!("Dropping an identifier as it's declared");
+            Expr::Ident(i) if i.ctxt.outer() != self.marks.unresolved_mark => {
+                report_change!("Dropping an identifier as it's declared");
 
-                    self.changed = true;
-                    *e = Invalid { span: DUMMY_SP }.into();
-                    return;
-                }
+                self.changed = true;
+                *e = Invalid { span: DUMMY_SP }.into();
+                return;
             }
+            Expr::Ident(..) => {}
 
             Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..))
             | Expr::This(..) => {
@@ -2055,28 +2051,24 @@ impl Pure<'_> {
                             break;
                         }
                         PropOrSpread::Prop(p) => match &mut **p {
-                            Prop::KeyValue(kv) => {
+                            Prop::KeyValue(kv)
                                 if !kv.key.is_computed()
-                                    && !kv.value.may_have_side_effects(self.expr_ctx)
-                                {
-                                    **p = Prop::Shorthand(Ident::dummy());
-                                    self.changed = true;
-                                    report_change!(
-                                        "Dropping a key-value pair in an object literal"
-                                    );
-                                }
+                                    && !kv.value.may_have_side_effects(self.expr_ctx) =>
+                            {
+                                **p = Prop::Shorthand(Ident::dummy());
+                                self.changed = true;
+                                report_change!("Dropping a key-value pair in an object literal");
                             }
 
-                            Prop::Shorthand(i) => {
-                                if i.ctxt.outer() != self.marks.unresolved_mark {
-                                    *i = Ident::dummy();
-                                    self.changed = true;
-                                    report_change!(
-                                        "Dropping a shorthand property in an object literal"
-                                    );
-                                }
+                            Prop::Shorthand(i) if i.ctxt.outer() != self.marks.unresolved_mark => {
+                                *i = Ident::dummy();
+                                self.changed = true;
+                                report_change!(
+                                    "Dropping a shorthand property in an object literal"
+                                );
                             }
 
+                            Prop::KeyValue(..) | Prop::Shorthand(..) | Prop::Assign(..) => {}
                             _ => {}
                         },
                         #[cfg(swc_ast_unknown)]
@@ -2106,19 +2098,19 @@ impl Pure<'_> {
         }
 
         match e {
-            Expr::Lit(Lit::Str(s)) => {
+            Expr::Lit(Lit::Str(s))
                 if (self.options.directives
                     && !matches!(s.value.as_str(), Some(s) if s == "use strict" || s == "use asm"))
                     || opts.contains(DropOpts::DROP_STR_LIT)
                     || (s.value.starts_with("@swc/helpers")
-                        || s.value.starts_with("@babel/helpers"))
-                {
-                    self.changed = true;
-                    *e = Invalid { span: DUMMY_SP }.into();
+                        || s.value.starts_with("@babel/helpers")) =>
+            {
+                self.changed = true;
+                *e = Invalid { span: DUMMY_SP }.into();
 
-                    return;
-                }
+                return;
             }
+            Expr::Lit(Lit::Str(..)) => {}
 
             Expr::Seq(seq) => {
                 self.drop_useless_ident_ref_in_seq(seq);
@@ -2246,17 +2238,16 @@ impl Pure<'_> {
                     return;
                 }
 
-                Expr::Object(obj) => {
-                    if obj.props.iter().all(|prop| !prop.is_spread()) {
-                        let exprs = collect_exprs_from_object(obj);
-                        *e = self
-                            .make_ignored_expr(obj.span, exprs.into_iter())
-                            .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                        report_change!("Ignored an object literal");
-                        self.changed = true;
-                        return;
-                    }
+                Expr::Object(obj) if obj.props.iter().all(|prop| !prop.is_spread()) => {
+                    let exprs = collect_exprs_from_object(obj);
+                    *e = self
+                        .make_ignored_expr(obj.span, exprs.into_iter())
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                    report_change!("Ignored an object literal");
+                    self.changed = true;
+                    return;
                 }
+                Expr::Object(..) => {}
 
                 Expr::Array(arr) => {
                     if arr.elems.iter().any(|e| match e {
@@ -2336,9 +2327,7 @@ impl Pure<'_> {
                     prop: MemberProp::Computed(prop),
                     ..
                 }) => match obj.as_mut() {
-                    Expr::Object(object) => {
-                        // Accessing getters and setters may cause side effect
-                        // More precision is possible if comparing the lit prop names
+                    Expr::Object(object)
                         if object.props.iter().all(|p| match p {
                             PropOrSpread::Spread(..) => false,
                             PropOrSpread::Prop(p) => match &**p {
@@ -2347,15 +2336,18 @@ impl Pure<'_> {
                             },
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
-                        }) {
-                            let mut exprs = collect_exprs_from_object(object);
-                            exprs.push(prop.expr.take());
-                            *e = self
-                                .make_ignored_expr(*span, exprs.into_iter())
-                                .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                            return;
-                        }
+                        }) =>
+                    {
+                        // Accessing getters and setters may cause side effect
+                        // More precision is possible if comparing the lit prop names
+                        let mut exprs = collect_exprs_from_object(object);
+                        exprs.push(prop.expr.take());
+                        *e = self
+                            .make_ignored_expr(*span, exprs.into_iter())
+                            .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                        return;
                     }
+                    Expr::Object(..) => {}
                     Expr::Array(..) => {
                         self.ignore_return_value(obj, opts);
                         *e = self

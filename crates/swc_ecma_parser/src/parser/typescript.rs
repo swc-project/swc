@@ -4884,6 +4884,7 @@ impl<I: Tokens> Parser<I> {
     /// tsParseExpressionStatement.
     ///
     /// `tsParseDeclaration`
+    #[allow(clippy::collapsible_match)]
     fn parse_ts_decl(
         &mut self,
         start: BytePos,

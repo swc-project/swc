@@ -131,6 +131,14 @@ pub(crate) fn build_import_object(
         }
     }
 
+    // Guest proxies drop host-returned buffers through an imported `env::__free`.
+    // Route that import back to the instance's exported allocator shim.
+    let free_bytes = runtime::Func::from_fn(move |caller, [ptr, size]| {
+        [caller
+            .free(ptr as u32, size as u32)
+            .expect("should be able to free plugin memory") as i32]
+    });
+
     // core_diagnostics
     define!(fn set_plugin_core_pkg_diagnostics(env diagnostics_env, bytes_ptr, bytes_ptr_len));
 
@@ -187,6 +195,7 @@ pub(crate) fn build_import_object(
     define!(fn span_to_source_proxy(env source_map_host_env, span_lo, span_hi, allocated_ret_ptr) -> i32);
 
     [
+        ("__free", free_bytes),
         (
             "__set_transform_plugin_core_pkg_diagnostics",
             set_plugin_core_pkg_diagnostics,

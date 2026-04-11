@@ -242,13 +242,12 @@ impl VisitMut for SimplifyExpr {
 
                 debug_assert_valid(expr);
             }
-            Expr::Member(_) => {
-                if !self.is_modifying {
-                    optimize_member_expr(self.expr_ctx, expr, self.in_callee, &mut self.changed);
+            Expr::Member(_) if !self.is_modifying => {
+                optimize_member_expr(self.expr_ctx, expr, self.in_callee, &mut self.changed);
 
-                    debug_assert_valid(expr);
-                }
+                debug_assert_valid(expr);
             }
+            Expr::Member(_) => {}
 
             Expr::Cond(CondExpr {
                 span,
@@ -1241,7 +1240,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                         *changed = true;
                         *left = left_lhs.take();
-                        *right = Box::new(value_expr);
+                        **right = value_expr;
                     }
                 }
             }

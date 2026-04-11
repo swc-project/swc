@@ -23,6 +23,7 @@ use swc_trace_macro::swc_trace;
 use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]
+#[link(wasm_import_module = "env")]
 extern "C" {
     fn __lookup_char_pos_source_map_proxy(
         byte_pos: u32,

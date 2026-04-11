@@ -186,7 +186,7 @@ impl Pure<'_> {
 
                         // Append the rest of quasis and exprs to new_tpl
                         new_tpl.quasis.extend(quasis_taken.into_iter().skip(1));
-                        new_tpl.exprs.extend(tpl.exprs.into_iter());
+                        new_tpl.exprs.extend(tpl.exprs);
                     }
                 }
                 _ => {
@@ -215,11 +215,10 @@ impl Pure<'_> {
                         '\\' => {
                             if let Some(next_ch) = iter.next() {
                                 match next_ch {
-                                    c @ '\n' | c @ '\r' => {
-                                        if c == '\r' && iter.peek() == Some(&'\n') {
-                                            iter.next();
-                                        }
+                                    '\r' if iter.peek() == Some(&'\n') => {
+                                        iter.next();
                                     }
+                                    '\n' | '\r' => {}
                                     'n' | 'r' => {
                                         template_longer_count -= 1;
                                     }
@@ -612,7 +611,7 @@ impl Pure<'_> {
     }
 }
 
-pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<str> {
+pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<'_, str> {
     let mut result = String::default();
 
     let iter = value.code_points();

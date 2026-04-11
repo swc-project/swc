@@ -21,18 +21,13 @@ const MISSING_RADIX_MESSAGE: &str = "Missing radix parameter";
 const INVALID_RADIX_MESSAGE: &str = "Invalid radix parameter, must be an integer between 2 and 36";
 const ADD_10_RADIX_MESSAGE: &str = "Add radix parameter `10` for parsing decimal numbers";
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 enum RadixMode {
+    #[default]
     Always,
     #[serde(alias = "asNeeded")]
     AsNeeded,
-}
-
-impl Default for RadixMode {
-    fn default() -> Self {
-        Self::Always
-    }
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -235,10 +230,8 @@ impl Radix {
 
     fn extract_obj_and_prop(&mut self, callee_expr: &Expr) -> (Option<Atom>, Option<Atom>) {
         match callee_expr {
-            Expr::Ident(ident) => {
-                if self.is_satisfying_indent(ident) {
-                    return (None, Some(ident.sym.clone()));
-                }
+            Expr::Ident(ident) if self.is_satisfying_indent(ident) => {
+                return (None, Some(ident.sym.clone()));
             }
             Expr::Member(member_expr) => {
                 return self.extract_obj_and_prop_member_case(member_expr);

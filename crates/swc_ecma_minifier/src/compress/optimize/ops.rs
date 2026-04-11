@@ -21,10 +21,8 @@ impl Optimizer<'_> {
                     if let Some(t) = self.typeofs.get(&id.to_id()) {
                         match &**t {
                             "object" | "function" => {
-                                e.left = Box::new(make_bool(
-                                    e.span,
-                                    e.op == op!("===") || e.op == op!("=="),
-                                ));
+                                *e.left =
+                                    make_bool(e.span, e.op == op!("===") || e.op == op!("=="));
                                 e.right.take();
 
                                 self.changed = true;

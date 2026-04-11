@@ -119,6 +119,7 @@ pub struct MutableMarkContext(pub u32, pub u32, pub u32);
 // List of proxy calls injected by the host in the plugin's runtime context.
 // When related calls being executed inside of the plugin, it'll call these
 // proxies instead which'll call actual host fn.
+#[cfg_attr(target_arch = "wasm32", link(wasm_import_module = "env"))]
 extern "C" {
     // Instead of trying to copy-serialize `Mark`, this fn directly consume
     // inner raw value as well as fn and let each context constructs struct

@@ -18,7 +18,7 @@ pub(super) struct DeclHoisterConfig {
     pub _top_level: bool,
 }
 
-pub(super) fn decl_hoister(config: DeclHoisterConfig, data: &ProgramData) -> Hoister {
+pub(super) fn decl_hoister(config: DeclHoisterConfig, data: &ProgramData) -> Hoister<'_> {
     Hoister {
         config,
         changed: false,

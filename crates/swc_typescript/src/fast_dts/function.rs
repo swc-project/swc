@@ -183,12 +183,12 @@ impl FastDts {
                     .into(),
                 );
             }
-            type_ann.type_ann = Box::new(TsType::TsUnionOrIntersectionType(
+            *type_ann.type_ann = TsType::TsUnionOrIntersectionType(
                 TsUnionOrIntersectionType::TsUnionType(TsUnionType {
                     span: DUMMY_SP,
                     types: vec![ty, ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword)],
                 }),
-            ))
+            )
         }
 
         false

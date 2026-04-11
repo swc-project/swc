@@ -204,7 +204,7 @@ impl<C: Comments> Refresh<C> {
                         }
                         .into()
                     }
-                    *first_arg = Box::new(make_assign_stmt(reg_ident, first));
+                    **first_arg = make_assign_stmt(reg_ident, first);
 
                     Persist::Hoc(hoc)
                 } else {
@@ -220,10 +220,10 @@ impl<C: Comments> Refresh<C> {
                         callee: call.callee.clone(),
                         rest_arg: call.args[1..].to_owned(),
                     });
-                    *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first));
+                    **first_arg = make_assign_stmt(reg_ident.clone(), first);
                     res
                 } else {
-                    *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first));
+                    **first_arg = make_assign_stmt(reg_ident.clone(), first);
                     None
                 };
                 reg.push((reg_ident, reg_str));

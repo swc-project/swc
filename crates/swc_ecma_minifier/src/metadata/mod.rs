@@ -56,17 +56,14 @@ struct InfoMarker<'a> {
 impl InfoMarker<'_> {
     fn is_pure_callee(&self, callee: &Expr) -> bool {
         match callee {
-            Expr::Ident(callee) => {
-                if self.pure_callee.contains(&callee.to_id()) {
-                    return true;
-                }
+            Expr::Ident(callee) if self.pure_callee.contains(&callee.to_id()) => {
+                return true;
             }
 
-            Expr::Seq(callee) => {
-                if has_pure(self.comments, callee.span) {
-                    return true;
-                }
+            Expr::Seq(callee) if has_pure(self.comments, callee.span) => {
+                return true;
             }
+            Expr::Ident(..) | Expr::Seq(..) => {}
             _ => (),
         }
 

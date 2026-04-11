@@ -515,7 +515,7 @@ fn fixture(input: PathBuf) {
 
         let output = print(
             cm.clone(),
-            &[output_program.clone()],
+            std::slice::from_ref(&output_program),
             Some(&comments),
             false,
             false,

@@ -531,11 +531,11 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                     _ => resolution_value.value,
                 };
 
-                n.value = Box::new(MediaFeatureValue::Number(Number {
+                *n.value = MediaFeatureValue::Number(Number {
                     span: resolution_value.span,
                     value: left,
                     raw: None,
-                }));
+                });
             }
         }
     }
@@ -2731,12 +2731,12 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Webkit, "-webkit-clip-path", None);
             }
 
-            "position" if n.value.len() == 1 => {
-                if should_prefix("-webkit-sticky", &self.env, false)
-                    && (self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none())
-                {
-                    replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
-                }
+            "position"
+                if n.value.len() == 1
+                    && should_prefix("-webkit-sticky", &self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none()) =>
+            {
+                replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
             }
 
             "user-select" => {
@@ -3202,35 +3202,35 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Webkit, "-webkit-text-orientation", None);
             }
 
-            "unicode-bidi" => {
-                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    if should_prefix("-moz-isolate", &self.env, false) {
-                        replace_ident(&mut moz_value, "isolate", "-moz-isolate");
-                    }
+            "unicode-bidi"
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() =>
+            {
+                if should_prefix("-moz-isolate", &self.env, false) {
+                    replace_ident(&mut moz_value, "isolate", "-moz-isolate");
+                }
 
-                    if should_prefix("-moz-isolate-override", &self.env, false) {
-                        replace_ident(&mut moz_value, "isolate-override", "-moz-isolate-override");
-                    }
+                if should_prefix("-moz-isolate-override", &self.env, false) {
+                    replace_ident(&mut moz_value, "isolate-override", "-moz-isolate-override");
+                }
 
-                    if should_prefix("-moz-plaintext", &self.env, false) {
-                        replace_ident(&mut moz_value, "plaintext", "-moz-plaintext");
-                    }
+                if should_prefix("-moz-plaintext", &self.env, false) {
+                    replace_ident(&mut moz_value, "plaintext", "-moz-plaintext");
+                }
 
-                    if should_prefix("-webkit-isolate", &self.env, false) {
-                        replace_ident(&mut webkit_value, "isolate", "-webkit-isolate");
-                    }
+                if should_prefix("-webkit-isolate", &self.env, false) {
+                    replace_ident(&mut webkit_value, "isolate", "-webkit-isolate");
+                }
 
-                    if should_prefix("-webpack-isolate-override", &self.env, false) {
-                        replace_ident(
-                            &mut webkit_value,
-                            "isolate-override",
-                            "-webpack-isolate-override",
-                        );
-                    }
+                if should_prefix("-webpack-isolate-override", &self.env, false) {
+                    replace_ident(
+                        &mut webkit_value,
+                        "isolate-override",
+                        "-webpack-isolate-override",
+                    );
+                }
 
-                    if should_prefix("-webpack-plaintext", &self.env, false) {
-                        replace_ident(&mut webkit_value, "plaintext", "-webpack-plaintext");
-                    }
+                if should_prefix("-webpack-plaintext", &self.env, false) {
+                    replace_ident(&mut webkit_value, "plaintext", "-webpack-plaintext");
                 }
             }
 

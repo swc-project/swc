@@ -325,26 +325,27 @@ impl VisitMut for Pure<'_> {
 
         // Expression simplifier
         match e {
-            Expr::Member(..) => {
+            Expr::Member(..)
                 if !self.ctx.intersects(
                     Ctx::IN_DELETE
                         .union(Ctx::IS_UPDATE_ARG)
                         .union(Ctx::IS_LHS_OF_ASSIGN)
                         .union(Ctx::IN_OPT_CHAIN),
-                ) {
-                    let mut changed = false;
-                    simplify::expr::optimize_member_expr(
-                        self.expr_ctx,
-                        e,
-                        self.ctx.contains(Ctx::IS_CALLEE),
-                        &mut changed,
-                    );
+                ) =>
+            {
+                let mut changed = false;
+                simplify::expr::optimize_member_expr(
+                    self.expr_ctx,
+                    e,
+                    self.ctx.contains(Ctx::IS_CALLEE),
+                    &mut changed,
+                );
 
-                    if changed {
-                        report_change!("expression simplifier simplified a member expression");
-                    }
+                if changed {
+                    report_change!("expression simplifier simplified a member expression");
                 }
             }
+            Expr::Member(..) => {}
 
             Expr::Unary(..) => {
                 let mut changed = false;
@@ -370,11 +371,10 @@ impl VisitMut for Pure<'_> {
         }
 
         match e {
-            Expr::Seq(seq) => {
-                if seq.exprs.len() == 1 {
-                    *e = *seq.exprs.pop().unwrap();
-                }
+            Expr::Seq(seq) if seq.exprs.len() == 1 => {
+                *e = *seq.exprs.pop().unwrap();
             }
+            Expr::Seq(..) => {}
             Expr::Invalid(..) | Expr::Lit(..) => return,
 
             _ => {}
@@ -1004,14 +1004,13 @@ impl VisitMut for Pure<'_> {
                 }
             }
 
-            Stmt::Block(bs) => {
-                if bs.stmts.is_empty() {
-                    *s = Stmt::dummy();
-                    self.changed = true;
-                    report_change!("Dropping an empty block statement");
-                    return;
-                }
+            Stmt::Block(bs) if bs.stmts.is_empty() => {
+                *s = Stmt::dummy();
+                self.changed = true;
+                report_change!("Dropping an empty block statement");
+                return;
             }
+            Stmt::Block(..) => {}
             _ => {}
         }
 

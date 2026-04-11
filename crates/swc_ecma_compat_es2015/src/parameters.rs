@@ -779,7 +779,7 @@ impl VisitMut for Params {
 
         debug_assert!(params.len() == 1);
 
-        f.param = Box::new(params.pop().unwrap().pat);
+        *f.param = params.pop().unwrap().pat;
         f.body = Some(body);
     }
 

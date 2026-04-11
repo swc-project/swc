@@ -1208,7 +1208,7 @@ impl Optimizer<'_> {
                     let new = self.ignore_return_value(&mut arg.expr);
 
                     if let Some(new) = new {
-                        arg.expr = Box::new(new);
+                        *arg.expr = new;
                     } else {
                         e.args.remove(i);
                     }

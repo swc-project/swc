@@ -181,7 +181,7 @@ impl MacroNode for Bool {
     }
 }
 
-pub fn replace_close_inline_script(raw: &str) -> CowStr {
+pub fn replace_close_inline_script(raw: &str) -> CowStr<'_> {
     let chars = raw.as_bytes();
     let pattern_len = 8; // </script>
 
@@ -242,8 +242,13 @@ where
         srcmap!(self, num, true);
 
         if self.cfg.minify {
-            if num.value.is_infinite() && num.raw.is_some() {
-                self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
+            if let Some(raw) = &num.raw {
+                if num.value.is_infinite() {
+                    self.wr.write_str_lit(DUMMY_SP, raw)?;
+                } else {
+                    value = minify_number(num.value, &mut detect_dot);
+                    self.wr.write_str_lit(DUMMY_SP, &value)?;
+                }
             } else {
                 value = minify_number(num.value, &mut detect_dot);
                 self.wr.write_str_lit(DUMMY_SP, &value)?;
@@ -255,8 +260,8 @@ where
                         let slice = &raw.as_bytes()[..2];
                         slice == b"0b" || slice == b"0o" || slice == b"0B" || slice == b"0O"
                     } {
-                        if num.value.is_infinite() && num.raw.is_some() {
-                            self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
+                        if num.value.is_infinite() {
+                            self.wr.write_str_lit(DUMMY_SP, raw)?;
                         } else {
                             value = num.value.print();
                             self.wr.write_str_lit(DUMMY_SP, &value)?;
@@ -329,7 +334,7 @@ where
 ///
 /// # Returns
 /// A string with non-ASCII characters encoded as Unicode escapes
-pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr {
+pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr<'_> {
     if !ascii_only || pattern.is_ascii() {
         return CowStr::Borrowed(pattern);
     }
@@ -398,7 +403,7 @@ const SURROGATE_START: CodePoint = cp!(0xd800);
 const SURROGATE_END: CodePoint = cp!(0xdfff);
 
 /// Returns `(quote_char, value)`
-pub fn get_quoted_utf16(v: &Wtf8, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr) {
+pub fn get_quoted_utf16(v: &Wtf8, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr<'_>) {
     // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
     // allocation
     if v.is_ascii() {

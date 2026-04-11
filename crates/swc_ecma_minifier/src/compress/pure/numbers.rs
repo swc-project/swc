@@ -78,29 +78,28 @@ impl Pure<'_> {
                     .into();
                 }
 
-                Expr::Lit(Lit::Num(Number { span, value, .. })) => {
-                    if value.is_sign_negative() {
-                        self.changed = true;
-                        report_change!("numbers: Lifting `-` in a literal");
+                Expr::Lit(Lit::Num(Number { span, value, .. })) if value.is_sign_negative() => {
+                    self.changed = true;
+                    report_change!("numbers: Lifting `-` in a literal");
 
-                        *e = UnaryExpr {
+                    *e = UnaryExpr {
+                        span: arg.span,
+                        op: op!(unary, "-"),
+                        arg: BinExpr {
                             span: arg.span,
-                            op: op!(unary, "-"),
-                            arg: BinExpr {
-                                span: arg.span,
-                                op: arg.op,
-                                left: arg.left.take(),
-                                right: Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: *span,
-                                    value: -*value,
-                                    raw: None,
-                                }))),
-                            }
-                            .into(),
+                            op: arg.op,
+                            left: arg.left.take(),
+                            right: Box::new(Expr::Lit(Lit::Num(Number {
+                                span: *span,
+                                value: -*value,
+                                raw: None,
+                            }))),
                         }
-                        .into();
+                        .into(),
                     }
+                    .into();
                 }
+                Expr::Lit(Lit::Num(..)) => {}
 
                 _ => {}
             }
@@ -109,23 +108,23 @@ impl Pure<'_> {
 
     pub(super) fn optimize_to_number(&mut self, e: &mut Expr) {
         match e {
-            Expr::Bin(bin) => {
+            Expr::Bin(bin)
                 if bin.op == op!("*")
-                    && matches!(&*bin.left, Expr::Lit(Lit::Num(Number { value: 1.0, .. })))
-                {
-                    report_change!("numbers: Turn '1 *' into '+'");
-                    self.changed = true;
+                    && matches!(&*bin.left, Expr::Lit(Lit::Num(Number { value: 1.0, .. }))) =>
+            {
+                report_change!("numbers: Turn '1 *' into '+'");
+                self.changed = true;
 
-                    let value = bin.right.take();
-                    let span = bin.span;
+                let value = bin.right.take();
+                let span = bin.span;
 
-                    *e = Expr::Unary(UnaryExpr {
-                        span,
-                        op: op!(unary, "+"),
-                        arg: value,
-                    })
-                }
+                *e = Expr::Unary(UnaryExpr {
+                    span,
+                    op: op!(unary, "+"),
+                    arg: value,
+                })
             }
+            Expr::Bin(..) => {}
             Expr::Assign(a @ AssignExpr { op: op!("="), .. }) => {
                 if let (
                     AssignTarget::Simple(SimpleAssignTarget::Ident(l_id)),
@@ -142,11 +141,11 @@ impl Pure<'_> {
                             self.changed = true;
 
                             a.op = op!("*=");
-                            a.right = Box::new(Expr::Lit(Lit::Num(Number {
+                            *a.right = Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
                                 value: 1.0,
                                 raw: None,
-                            })))
+                            }))
                         }
                     }
                 }

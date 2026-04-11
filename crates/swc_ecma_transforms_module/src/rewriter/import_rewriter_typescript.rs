@@ -38,7 +38,7 @@ impl VisitMut for Rewriter {
                 }
             } else {
                 let importee = expr.take();
-                *expr = Box::new(Expr::Call(CallExpr {
+                **expr = Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(ts_rewrite_relative_import_extension),
                     args: vec![ExprOrSpread {
@@ -46,7 +46,7 @@ impl VisitMut for Rewriter {
                         expr: importee,
                     }],
                     ..Default::default()
-                }));
+                });
             }
         }
     }

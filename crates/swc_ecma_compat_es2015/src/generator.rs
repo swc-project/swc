@@ -3065,19 +3065,12 @@ impl Generator {
 
         #[allow(clippy::manual_unwrap_or_default)]
         let stmts = if let Some(mut stmts) = self.stmts.take() {
-            if self.with_block_stack.is_some() {
+            if let Some(with_block_stack) = self.with_block_stack.as_ref() {
                 // The previous label was nested inside one or more `with`
                 // blocks, so we surround the statements in
                 // generated `with` blocks to create the same environment.
 
-                for (_i, with_block) in self
-                    .with_block_stack
-                    .as_ref()
-                    .unwrap()
-                    .iter()
-                    .enumerate()
-                    .rev()
-                {
+                for (_i, with_block) in with_block_stack.iter().enumerate().rev() {
                     let b = with_block.borrow();
                     let with_block = match &*b {
                         CodeBlock::With(v) => v,
@@ -3224,10 +3217,12 @@ impl Generator {
 
     /// Updates literal expressions for labels with actual label numbers.
     fn update_label_expression(&mut self) {
-        if self.label_exprs.is_some() && self.label_numbers.is_some() {
-            for (label_number, labels) in self.label_numbers.as_ref().unwrap().iter().enumerate() {
+        if let (Some(label_exprs), Some(label_numbers)) =
+            (&mut self.label_exprs, &self.label_numbers)
+        {
+            for (label_number, labels) in label_numbers.iter().enumerate() {
                 for &label in labels {
-                    let exprs = self.label_exprs.as_mut().unwrap().get_mut(label);
+                    let exprs = label_exprs.get_mut(label);
                     if let Some(exprs) = exprs {
                         for expr in exprs {
                             expr.value = label_number as _;
@@ -3679,7 +3674,7 @@ impl Generator {
                 }
 
                 let this_arg = self.create_temp_variable();
-                *obj = Box::new(obj.take().make_assign_to(op!("="), this_arg.clone().into()));
+                **obj = obj.take().make_assign_to(op!("="), this_arg.clone().into());
 
                 (callee, this_arg.into())
             }

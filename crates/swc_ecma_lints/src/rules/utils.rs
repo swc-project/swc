@@ -3,18 +3,13 @@ use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::{Expr, Lit, MemberExpr, MemberProp, Number, Regex, Str, TaggedTpl, Tpl};
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum QuotesType {
     Single,
+    #[default]
     Double,
     Backtick,
-}
-
-impl Default for QuotesType {
-    fn default() -> Self {
-        Self::Double
-    }
 }
 
 impl QuotesType {

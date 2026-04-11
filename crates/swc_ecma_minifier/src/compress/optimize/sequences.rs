@@ -2022,14 +2022,14 @@ impl Optimizer<'_> {
                                     // https://github.com/swc-project/swc/issues/6914
                                     let mut new_b = shorthand.clone().into();
                                     if self.merge_sequential_expr(a, &mut new_b)? {
-                                        *prop = Box::new(Prop::KeyValue(KeyValueProp {
+                                        **prop = Prop::KeyValue(KeyValueProp {
                                             key: Ident::new_no_ctxt(
                                                 shorthand.sym.clone(),
                                                 shorthand.span,
                                             )
                                             .into(),
                                             value: new_b.clone().into(),
-                                        }));
+                                        });
                                     }
 
                                     if !self.is_skippable_for_seq(Some(a), &new_b) {

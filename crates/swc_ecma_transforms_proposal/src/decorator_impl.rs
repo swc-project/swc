@@ -1858,135 +1858,125 @@ impl DecoratorPass {
                 let mut should_move = false;
 
                 match m {
-                    ClassMember::ClassProp(p) => {
-                        if p.is_static {
-                            p.value = self.maybe_wrap_static_initializer_with_closure(
-                                p.value.take(),
+                    ClassMember::ClassProp(p) if p.is_static => {
+                        p.value = self.maybe_wrap_static_initializer_with_closure(
+                            p.value.take(),
+                            &new_class_name,
+                            &instance_private_names,
+                            &mut static_closure_assignments,
+                        );
+                        should_move = true;
+                        p.is_static = false;
+                    }
+                    ClassMember::PrivateProp(p) if p.is_static => {
+                        p.value = self.maybe_wrap_static_initializer_with_closure(
+                            p.value.take(),
+                            &new_class_name,
+                            &instance_private_names,
+                            &mut static_closure_assignments,
+                        );
+                        should_move = true;
+                        p.is_static = false;
+                    }
+                    ClassMember::PrivateMethod(p) if p.is_static => {
+                        let needs_rewrite = self.function_needs_moved_static_rewrite(
+                            &p.function,
+                            &instance_private_names,
+                        );
+
+                        if needs_rewrite {
+                            let mut delegated = (*p.function).clone();
+                            self.rewrite_super_for_moved_static_member(
+                                &mut delegated,
                                 &new_class_name,
-                                &instance_private_names,
+                            );
+
+                            let delegate = self.memoize_static_closure(
+                                &p.key.name,
+                                Box::new(Expr::Fn(FnExpr {
+                                    ident: None,
+                                    function: Box::new(delegated),
+                                })),
                                 &mut static_closure_assignments,
                             );
-                            should_move = true;
-                            p.is_static = false;
-                        }
-                    }
-                    ClassMember::PrivateProp(p) => {
-                        if p.is_static {
-                            p.value = self.maybe_wrap_static_initializer_with_closure(
-                                p.value.take(),
-                                &new_class_name,
-                                &instance_private_names,
-                                &mut static_closure_assignments,
-                            );
-                            should_move = true;
-                            p.is_static = false;
-                        }
-                    }
-                    ClassMember::PrivateMethod(p) => {
-                        if p.is_static {
-                            let needs_rewrite = self.function_needs_moved_static_rewrite(
-                                &p.function,
-                                &instance_private_names,
-                            );
 
-                            if needs_rewrite {
-                                let mut delegated = (*p.function).clone();
-                                self.rewrite_super_for_moved_static_member(
-                                    &mut delegated,
-                                    &new_class_name,
-                                );
-
-                                let delegate = self.memoize_static_closure(
-                                    &p.key.name,
-                                    Box::new(Expr::Fn(FnExpr {
-                                        ident: None,
-                                        function: Box::new(delegated),
-                                    })),
-                                    &mut static_closure_assignments,
-                                );
-
-                                let mut params = Vec::with_capacity(p.function.params.len());
-                                let mut has_rest = false;
-                                let mut rest_arg = None;
-                                for (idx, param) in p.function.params.iter().enumerate() {
-                                    if matches!(param.pat, Pat::Rest(..)) {
-                                        has_rest = true;
-                                        let arg = private_ident!("arg");
-                                        rest_arg = Some(arg.clone());
-                                        params.push(Param {
-                                            span: DUMMY_SP,
-                                            decorators: Default::default(),
-                                            pat: Pat::Rest(RestPat {
-                                                span: DUMMY_SP,
-                                                dot3_token: DUMMY_SP,
-                                                arg: Box::new(Pat::Ident(arg.into())),
-                                                type_ann: None,
-                                            }),
-                                        });
-                                    } else {
-                                        params.push(Param {
-                                            span: DUMMY_SP,
-                                            decorators: Default::default(),
-                                            pat: Pat::Ident(
-                                                private_ident!(format!("_{idx}")).into(),
-                                            ),
-                                        });
-                                    }
-                                }
-
-                                let forwarded_args = if has_rest {
-                                    Expr::Ident(rest_arg.expect("rest argument should exist"))
-                                } else {
-                                    Expr::Ident(Ident::new(
-                                        "arguments".into(),
-                                        DUMMY_SP,
-                                        SyntaxContext::empty(),
-                                    ))
-                                };
-
-                                p.function.params = params;
-                                p.function.body = Some(BlockStmt {
-                                    span: DUMMY_SP,
-                                    stmts: vec![Stmt::Return(ReturnStmt {
+                            let mut params = Vec::with_capacity(p.function.params.len());
+                            let mut has_rest = false;
+                            let mut rest_arg = None;
+                            for (idx, param) in p.function.params.iter().enumerate() {
+                                if matches!(param.pat, Pat::Rest(..)) {
+                                    has_rest = true;
+                                    let arg = private_ident!("arg");
+                                    rest_arg = Some(arg.clone());
+                                    params.push(Param {
                                         span: DUMMY_SP,
-                                        arg: Some(
-                                            CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: MemberExpr {
-                                                    span: DUMMY_SP,
-                                                    obj: delegate.into(),
-                                                    prop: MemberProp::Ident(quote_ident!("apply")),
-                                                }
-                                                .as_callee(),
-                                                args: vec![
-                                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                                    forwarded_args.as_arg(),
-                                                ],
-                                                ..Default::default()
-                                            }
-                                            .into(),
-                                        ),
-                                    })],
-                                    ..Default::default()
-                                });
+                                        decorators: Default::default(),
+                                        pat: Pat::Rest(RestPat {
+                                            span: DUMMY_SP,
+                                            dot3_token: DUMMY_SP,
+                                            arg: Box::new(Pat::Ident(arg.into())),
+                                            type_ann: None,
+                                        }),
+                                    });
+                                } else {
+                                    params.push(Param {
+                                        span: DUMMY_SP,
+                                        decorators: Default::default(),
+                                        pat: Pat::Ident(private_ident!(format!("_{idx}")).into()),
+                                    });
+                                }
                             }
 
-                            should_move = true;
-                            p.is_static = false;
+                            let forwarded_args = if has_rest {
+                                Expr::Ident(rest_arg.expect("rest argument should exist"))
+                            } else {
+                                Expr::Ident(Ident::new(
+                                    "arguments".into(),
+                                    DUMMY_SP,
+                                    SyntaxContext::empty(),
+                                ))
+                            };
+
+                            p.function.params = params;
+                            p.function.body = Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Stmt::Return(ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(
+                                        CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: delegate.into(),
+                                                prop: MemberProp::Ident(quote_ident!("apply")),
+                                            }
+                                            .as_callee(),
+                                            args: vec![
+                                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                                forwarded_args.as_arg(),
+                                            ],
+                                            ..Default::default()
+                                        }
+                                        .into(),
+                                    ),
+                                })],
+                                ..Default::default()
+                            });
                         }
+
+                        should_move = true;
+                        p.is_static = false;
                     }
 
-                    ClassMember::AutoAccessor(p) => {
-                        if p.is_static {
-                            p.value = self.maybe_wrap_static_initializer_with_closure(
-                                p.value.take(),
-                                &new_class_name,
-                                &instance_private_names,
-                                &mut static_closure_assignments,
-                            );
-                            should_move = true;
-                            p.is_static = false;
-                        }
+                    ClassMember::AutoAccessor(p) if p.is_static => {
+                        p.value = self.maybe_wrap_static_initializer_with_closure(
+                            p.value.take(),
+                            &new_class_name,
+                            &instance_private_names,
+                            &mut static_closure_assignments,
+                        );
+                        should_move = true;
+                        p.is_static = false;
                     }
                     _ => (),
                 }

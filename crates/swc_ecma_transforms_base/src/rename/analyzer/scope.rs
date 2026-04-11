@@ -14,16 +14,11 @@ use tracing::debug;
 use super::reverse_map::ReverseMap;
 use crate::rename::{RenamedVariable, Renamer};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub(crate) enum ScopeKind {
+    #[default]
     Fn,
     Block,
-}
-
-impl Default for ScopeKind {
-    fn default() -> Self {
-        Self::Fn
-    }
 }
 
 #[derive(Debug, Default)]

@@ -1311,13 +1311,11 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
     if p.syntax().typescript() {
         if let Expr::Ident(ref i) = *expr {
             match &*i.sym {
-                "public" | "static" | "abstract" => {
-                    if p.input_mut().eat(&P::Token::INTERFACE) {
-                        p.emit_err(i.span, SyntaxError::TS2427);
-                        return parse_ts_interface_decl(p, start)
-                            .map(Decl::from)
-                            .map(Stmt::from);
-                    }
+                "public" | "static" | "abstract" if p.input_mut().eat(&P::Token::INTERFACE) => {
+                    p.emit_err(i.span, SyntaxError::TS2427);
+                    return parse_ts_interface_decl(p, start)
+                        .map(Decl::from)
+                        .map(Stmt::from);
                 }
                 _ => {}
             }

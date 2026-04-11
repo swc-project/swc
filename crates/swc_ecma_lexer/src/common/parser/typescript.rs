@@ -2789,34 +2789,31 @@ fn parse_ts_decl<'a, P: Parser<'a>>(
     }
 
     match &*value {
-        "abstract" => {
-            if next || (p.input().is(&P::Token::CLASS) && !p.input().had_line_break_before_cur()) {
-                if next {
-                    p.bump();
-                }
-                return Ok(Some(parse_class_decl(p, start, start, decorators, true)?));
+        "abstract"
+            if next
+                || (p.input().is(&P::Token::CLASS) && !p.input().had_line_break_before_cur()) =>
+        {
+            if next {
+                p.bump();
             }
+            return Ok(Some(parse_class_decl(p, start, start, decorators, true)?));
         }
 
-        "enum" => {
-            if next || p.is_ident_ref() {
-                if next {
-                    p.bump();
-                }
-                return parse_ts_enum_decl(p, start, /* is_const */ false)
-                    .map(From::from)
-                    .map(Some);
+        "enum" if next || p.is_ident_ref() => {
+            if next {
+                p.bump();
             }
+            return parse_ts_enum_decl(p, start, /* is_const */ false)
+                .map(From::from)
+                .map(Some);
         }
 
-        "interface" => {
-            if next || (p.is_ident_ref()) {
-                if next {
-                    p.bump();
-                }
-
-                return parse_ts_interface_decl(p, start).map(From::from).map(Some);
+        "interface" if next || p.is_ident_ref() => {
+            if next {
+                p.bump();
             }
+
+            return parse_ts_interface_decl(p, start).map(From::from).map(Some);
         }
 
         "module" if !p.input().had_line_break_before_cur() => {
@@ -2841,24 +2838,20 @@ fn parse_ts_decl<'a, P: Parser<'a>>(
             }
         }
 
-        "namespace" => {
-            if next || p.is_ident_ref() {
-                if next {
-                    p.bump();
-                }
-                return parse_ts_module_or_ns_decl(p, start, true)
-                    .map(From::from)
-                    .map(Some);
+        "namespace" if next || p.is_ident_ref() => {
+            if next {
+                p.bump();
             }
+            return parse_ts_module_or_ns_decl(p, start, true)
+                .map(From::from)
+                .map(Some);
         }
 
-        "type" => {
-            if next || (!p.input().had_line_break_before_cur() && p.is_ident_ref()) {
-                if next {
-                    p.bump();
-                }
-                return parse_ts_type_alias_decl(p, start).map(From::from).map(Some);
+        "type" if next || (!p.input().had_line_break_before_cur() && p.is_ident_ref()) => {
+            if next {
+                p.bump();
             }
+            return parse_ts_type_alias_decl(p, start).map(From::from).map(Some);
         }
 
         _ => {}

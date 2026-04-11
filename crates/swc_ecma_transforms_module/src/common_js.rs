@@ -243,7 +243,7 @@ impl VisitMut for Cjs {
                             "require"
                         );
 
-                        *obj = Box::new(require.into());
+                        **obj = require.into();
                     }
                     "filename" => {
                         *n = quote_ident!(

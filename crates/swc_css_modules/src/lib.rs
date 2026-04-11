@@ -380,41 +380,37 @@ where
 
                                 match &**value {
                                     // iteration-count
-                                    "infinite" => {
-                                        if !iteration_count_visited {
-                                            iteration_count_visited = true;
-                                            continue;
-                                        }
+                                    "infinite" if !iteration_count_visited => {
+                                        iteration_count_visited = true;
+                                        continue;
                                     }
                                     // fill-mode
                                     // NOTE: `animation: none:` will be trapped here
-                                    "none" | "forwards" | "backwards" | "both" => {
-                                        if !fill_mode_visited {
-                                            fill_mode_visited = true;
-                                            continue;
-                                        }
+                                    "none" | "forwards" | "backwards" | "both"
+                                        if !fill_mode_visited =>
+                                    {
+                                        fill_mode_visited = true;
+                                        continue;
                                     }
                                     // direction
-                                    "normal" | "reverse" | "alternate" | "alternate-reverse" => {
-                                        if !direction_visited {
-                                            direction_visited = true;
-                                            continue;
-                                        }
+                                    "normal" | "reverse" | "alternate" | "alternate-reverse"
+                                        if !direction_visited =>
+                                    {
+                                        direction_visited = true;
+                                        continue;
                                     }
                                     // easing-function
                                     "linear" | "ease" | "ease-in" | "ease-out" | "ease-in-out"
-                                    | "step-start" | "step-end" => {
-                                        if !easing_function_visited {
-                                            easing_function_visited = true;
-                                            continue;
-                                        }
+                                    | "step-start" | "step-end"
+                                        if !easing_function_visited =>
+                                    {
+                                        easing_function_visited = true;
+                                        continue;
                                     }
                                     // play-state
-                                    "running" | "paused" => {
-                                        if !play_state_visited {
-                                            play_state_visited = true;
-                                            continue;
-                                        }
+                                    "running" | "paused" if !play_state_visited => {
+                                        play_state_visited = true;
+                                        continue;
                                     }
                                     _ => {}
                                 }
@@ -502,16 +498,16 @@ where
             if let ComplexSelectorChildren::CompoundSelector(selector) = &mut n {
                 for sel in selector.subclass_selectors.iter_mut() {
                     match sel {
-                        SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
-                            if !self.data.is_global_mode {
-                                process_local(
-                                    &mut self.config,
-                                    &mut self.result,
-                                    &mut self.data.orig_to_renamed,
-                                    &mut self.data.renamed_to_orig,
-                                    sel,
-                                );
-                            }
+                        SubclassSelector::Class(..) | SubclassSelector::Id(..)
+                            if !self.data.is_global_mode =>
+                        {
+                            process_local(
+                                &mut self.config,
+                                &mut self.result,
+                                &mut self.data.orig_to_renamed,
+                                &mut self.data.renamed_to_orig,
+                                sel,
+                            );
                         }
 
                         _ => {}

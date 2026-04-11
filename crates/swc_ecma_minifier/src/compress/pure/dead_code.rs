@@ -76,12 +76,10 @@ impl Pure<'_> {
             match &*ls.body {
                 Stmt::Break(BreakStmt {
                     label: Some(label), ..
-                }) => {
-                    if label.sym == ls.label.sym {
-                        self.changed = true;
-                        report_change!("Dropping instant break `{}`", label);
-                        *s = Stmt::dummy();
-                    }
+                }) if label.sym == ls.label.sym => {
+                    self.changed = true;
+                    report_change!("Dropping instant break `{}`", label);
+                    *s = Stmt::dummy();
                 }
 
                 Stmt::Break(BreakStmt { label: None, .. }) => {
@@ -152,15 +150,13 @@ impl Pure<'_> {
                             let mut cons = bs.take();
                             cons.stmts.remove(0);
 
-                            ls.body = Box::new(
-                                IfStmt {
-                                    span: ls.span,
-                                    test,
-                                    cons: Box::new(Stmt::Block(cons)),
-                                    alt: None,
-                                }
-                                .into(),
-                            );
+                            *ls.body = IfStmt {
+                                span: ls.span,
+                                test,
+                                cons: Box::new(Stmt::Block(cons)),
+                                alt: None,
+                            }
+                            .into();
                             return None;
                         }
                     }
@@ -190,15 +186,13 @@ impl Pure<'_> {
                             let mut new_cons = bs.take();
                             new_cons.stmts[0] = cons;
 
-                            ls.body = Box::new(
-                                IfStmt {
-                                    span: ls.span,
-                                    test,
-                                    cons: Box::new(Stmt::Block(new_cons)),
-                                    alt: None,
-                                }
-                                .into(),
-                            );
+                            *ls.body = IfStmt {
+                                span: ls.span,
+                                test,
+                                cons: Box::new(Stmt::Block(new_cons)),
+                                alt: None,
+                            }
+                            .into();
                             return None;
                         }
                     }

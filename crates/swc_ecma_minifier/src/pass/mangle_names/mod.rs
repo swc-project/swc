@@ -70,7 +70,7 @@ impl<'a> Renamer for ManglingRenamer<'a> {
         self.chars.encode(n, true)
     }
 
-    fn get_cached(&self) -> Option<Cow<RenameMap>> {
+    fn get_cached(&self) -> Option<Cow<'_, RenameMap>> {
         self.cache.as_ref().map(Cow::Borrowed)
     }
 

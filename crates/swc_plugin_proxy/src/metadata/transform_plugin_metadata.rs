@@ -31,6 +31,7 @@ pub struct TransformPluginProgramMetadata {
 }
 
 #[cfg(target_arch = "wasm32")] // Allow testing
+#[link(wasm_import_module = "env")]
 extern "C" {
     fn __copy_context_key_to_host_env(bytes_ptr: u32, bytes_ptr_len: u32);
     fn __get_transform_plugin_config(allocated_ret_ptr: u32) -> u32;
