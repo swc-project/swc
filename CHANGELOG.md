@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.15.26] - 2026-04-14
 
 ### Bug Fixes
 
@@ -2092,12 +2092,6 @@
 
 ### Performance
 
-
-
-- **(es/lexer)** Introduce `byte_search` to reduce comparison operations ([#10668](https://github.com/swc-project/swc/issues/10668)) ([3806ffd](https://github.com/swc-project/swc/commit/3806ffd04872a556b4a906348ade955814da044d))
-
-
-- **(es/lexer)** Compare `\n` first ([#10669](https://github.com/swc-project/swc/issues/10669)) ([9c41e2f](https://github.com/swc-project/swc/commit/9c41e2f71016699917c8109c2bd4660cfa7fb4f3))
 
 
 - **(es/lexer)** Optimize lexing of numbers with separators ([#10665](https://github.com/swc-project/swc/issues/10665)) ([cac651b](https://github.com/swc-project/swc/commit/cac651b85d5e0bee9e4d1b1ba4d9df69621a5361))
