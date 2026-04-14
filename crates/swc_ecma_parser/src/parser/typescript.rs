@@ -3201,7 +3201,10 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        let ty = self.parse_ts_type()?;
+        // Allow nested anonymous function types (e.g. `() => A` as a
+        // parameter) by clearing the DisallowFlowAnonFnType context.
+        let ty =
+            self.do_outside_of_context(Context::DisallowFlowAnonFnType, Self::parse_ts_type)?;
         if matches!(
             self.input().cur(),
             Token::Colon | Token::QuestionMark | Token::Eq
@@ -3242,7 +3245,10 @@ impl<I: Tokens> Parser<I> {
             } else {
                 None
             };
-            let ty = self.parse_ts_type()?;
+            // Allow nested anonymous function types (e.g. `() => A` as a
+            // parameter) by clearing the DisallowFlowAnonFnType context.
+            let ty =
+                self.do_outside_of_context(Context::DisallowFlowAnonFnType, Self::parse_ts_type)?;
 
             // Named parameters are handled by the regular signature parser.
             if matches!(
@@ -3437,6 +3443,21 @@ impl<I: Tokens> Parser<I> {
                 .map(TsType::from)
                 .map(Box::new);
         }
+
+        // In Flow, callable types can mix unnamed function-type parameters
+        // with named parameters, e.g. `(() => A, b: B) => C`.
+        // `try_parse_flow_anon_fn_type` only handles all-anonymous params and
+        // `is_ts_start_of_fn_type` does not recognize `(` as a valid parameter
+        // start. Fall back to a speculative parse via the regular function type
+        // parser whose binding-list handler supports mixed params.
+        if self.is_flow_syntax() && self.input().is(Token::LParen) {
+            if let Some(fn_type) =
+                self.try_parse_ts(|p| Ok(Some(p.parse_ts_fn_or_constructor_type(true)?)))
+            {
+                return Ok(Box::new(TsType::from(fn_type)));
+            }
+        }
+
         if (self.input().is(Token::Abstract) && peek!(self).is_some_and(|cur| cur == Token::New))
             || self.input().is(Token::New)
         {
