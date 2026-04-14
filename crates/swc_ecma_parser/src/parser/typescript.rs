@@ -2367,6 +2367,27 @@ impl<I: Tokens> Parser<I> {
                 return Ok(true);
             }
         }
+
+        if self.is_flow_syntax()
+            && self
+                .try_parse_ts(|p| p.try_parse_flow_anon_signature_param(0))
+                .is_some()
+        {
+            if self.input().is(Token::Comma) {
+                return Ok(true);
+            }
+
+            if self.input_mut().eat(Token::RParen) && self.input().cur() == Token::Arrow {
+                if self.ctx().contains(Context::DisallowFlowAnonFnType) {
+                    // In arrow return type context, `(T) => U` should bind to
+                    // the outer arrow unless the function type is parenthesized.
+                    return Ok(false);
+                }
+
+                return Ok(true);
+            }
+        }
+
         Ok(false)
     }
 
