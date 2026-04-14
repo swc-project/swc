@@ -2094,9 +2094,6 @@
 
 
 
-- **(es/lexer)** Optimize number literal parsing with fast path ([#10655](https://github.com/swc-project/swc/issues/10655)) ([15d0828](https://github.com/swc-project/swc/commit/15d0828f2d9a741b053f26e88bd52b5c2c7c78f4))
-
-
 - **(es/lexer)** Reduce allocations while lexing numbers ([#10667](https://github.com/swc-project/swc/issues/10667)) ([115d228](https://github.com/swc-project/swc/commit/115d228d90566fb09bf456be9fc203ff1fb7cb34))
 
 
