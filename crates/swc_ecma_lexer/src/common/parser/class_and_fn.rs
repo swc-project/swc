@@ -1047,7 +1047,10 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 let start = p.cur_pos();
                 let type_ann = parse_ts_type_ann(p, true, start)?;
 
-                p.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
+                // Flow allows return type annotations on constructors.
+                if !p.syntax().flow() {
+                    p.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
+                }
             }
 
             let body: Option<_> =
