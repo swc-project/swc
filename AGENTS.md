@@ -37,6 +37,7 @@
 
 -   Run `git commit` only after `git add`.
 -   Once changes are staged, commit without unnecessary delay so staged history is preserved.
+-   When creating or updating a pull request, follow the repository pull request template.
 -   After addressing pull request review comments and pushing updates, resolve the corresponding review threads.
 
 ## Testing
