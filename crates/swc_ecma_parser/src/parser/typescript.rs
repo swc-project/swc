@@ -2480,6 +2480,40 @@ impl<I: Tokens> Parser<I> {
         }))
     }
 
+    /// Flow supports unnamed object indexers like `[keyof T]: V`.
+    fn try_parse_flow_anon_index_signature(
+        &mut self,
+        index_signature_start: BytePos,
+        readonly: bool,
+        is_static: bool,
+    ) -> PResult<Option<TsIndexSignature>> {
+        if !self.input().syntax().flow()
+            || !self.ctx().contains(Context::InType)
+            || self.input().cur() != Token::LBracket
+        {
+            return Ok(None);
+        }
+
+        expect!(self, Token::LBracket);
+
+        let key_start = self.cur_pos();
+        let key_type = self.parse_ts_type()?;
+        expect!(self, Token::RBracket);
+
+        let params = vec![self.make_flow_anon_fn_param(key_start, 0, None, key_type)];
+        let type_ann = Some(self.parse_ts_type_or_type_predicate_ann(Token::Colon)?);
+
+        self.parse_ts_type_member_semicolon()?;
+
+        Ok(Some(TsIndexSignature {
+            span: self.span(index_signature_start),
+            readonly,
+            is_static,
+            params,
+            type_ann,
+        }))
+    }
+
     /// `tsIsExternalModuleReference`
     fn is_ts_external_module_ref(&mut self) -> bool {
         debug_assert!(self.input().syntax().typescript());
@@ -3817,6 +3851,11 @@ impl<I: Tokens> Parser<I> {
 
         let idx = self.try_parse_ts_index_signature(start, readonly, false)?;
         if let Some(idx) = idx {
+            return Ok(idx.into());
+        }
+
+        let flow_anon_idx = self.try_parse_flow_anon_index_signature(start, readonly, false)?;
+        if let Some(idx) = flow_anon_idx {
             return Ok(idx.into());
         }
 
