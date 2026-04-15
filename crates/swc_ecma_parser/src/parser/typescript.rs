@@ -2494,6 +2494,13 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
+        // Flow internal slots use a double-bracket form like `[[foo]]`.
+        // Those members are parsed by the regular property/method path, so the
+        // anonymous indexer fast-path must not consume them.
+        if peek!(self).is_some_and(|peek| peek == Token::LBracket) {
+            return Ok(None);
+        }
+
         expect!(self, Token::LBracket);
 
         let key_start = self.cur_pos();
