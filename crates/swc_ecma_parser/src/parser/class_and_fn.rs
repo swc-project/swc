@@ -1215,7 +1215,10 @@ impl<I: Tokens> Parser<I> {
                             let start = self.cur_pos();
                             let type_ann = self.parse_ts_type_ann(true, start)?;
 
-                            self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
+                            // Flow allows return type annotations on constructors.
+                            if !self.syntax().flow() {
+                                self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
+                            }
                         }
 
                         let body = self.parse_fn_block_body(
