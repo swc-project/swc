@@ -2165,70 +2165,8 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
 }
 
 fn transform_jsx_attr_str(v: &Wtf8) -> Wtf8Buf {
-    // Fast path: check if transformation is needed
-    let needs_transform = v.code_points().any(|cp| {
-        if let Some(c) = cp.to_char() {
-            matches!(
-                c,
-                '\u{0008}' | '\u{000c}' | '\n' | '\r' | '\t' | '\u{000b}' | '\0'
-            )
-        } else {
-            false
-        }
-    });
-
-    if !needs_transform {
-        return v.to_owned();
-    }
-
-    let single_quote = false;
-    let mut buf = Wtf8Buf::with_capacity(v.len());
-    let mut iter = v.code_points().peekable();
-
-    while let Some(code_point) = iter.next() {
-        if let Some(c) = code_point.to_char() {
-            match c {
-                '\u{0008}' => buf.push_str("\\b"),
-                '\u{000c}' => buf.push_str("\\f"),
-                ' ' => buf.push_char(' '),
-
-                '\n' | '\r' | '\t' => {
-                    buf.push_char(' ');
-
-                    while let Some(next) = iter.peek() {
-                        if next.to_char() == Some(' ') {
-                            iter.next();
-                        } else {
-                            break;
-                        }
-                    }
-                }
-                '\u{000b}' => buf.push_str("\\v"),
-                '\0' => buf.push_str("\\x00"),
-
-                '\'' if single_quote => buf.push_str("\\'"),
-                '"' if !single_quote => buf.push_char('"'),
-
-                '\x01'..='\x0f' | '\x10'..='\x1f' => {
-                    buf.push_char(c);
-                }
-
-                '\x20'..='\x7e' => {
-                    //
-                    buf.push_char(c);
-                }
-                '\u{7f}'..='\u{ff}' => {
-                    buf.push_char(c);
-                }
-
-                _ => {
-                    buf.push_char(c);
-                }
-            }
-        } else {
-            buf.push(code_point);
-        }
-    }
-
-    buf
+    // JSX text whitespace rules do not apply to quoted attribute literals.
+    // The parser already decoded entities and preserved line terminators, so
+    // codegen should receive the original attribute contents unchanged.
+    v.to_owned()
 }

@@ -1155,6 +1155,22 @@ fn jsx_text() {
 }
 
 #[test]
+fn jsx_attr_str_preserves_line_terminators() {
+    let cases = [
+        ("bruh\nbruh", "bruh\nbruh"),
+        ("bruh\rbruh", "bruh\rbruh"),
+        ("bruh\r\nbruh", "bruh\r\nbruh"),
+    ];
+
+    for (input, expected) in cases {
+        assert_eq!(
+            transform_jsx_attr_str(Wtf8::from_str(input)),
+            Wtf8Buf::from_str(expected)
+        );
+    }
+}
+
+#[test]
 fn jsx_text_with_raw_entity_whitespace_matrix() {
     fn convert(value: &str, raw: &str) -> String {
         let value: Atom = value.into();
