@@ -1,0 +1,14 @@
+{
+  "mappings": "AAMAA,QAAQC,GAAG,CAAC",
+  "names": [
+    "console",
+    "log"
+  ],
+  "sources": [
+    "$DIR/tests/minify/extract-comments/regex/input.js"
+  ],
+  "sourcesContent": [
+    "/**\n * @extract keep me\n */\n/**\n * @license stay dropped\n */\nconsole.log(\"regex\");\n"
+  ],
+  "version": 3
+}

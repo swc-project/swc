@@ -53,7 +53,7 @@
         "build:wasm": "npm-run-all \"pack -- build ../../bindings/binding_minifier_wasm --scope swc {1} -t {2}\" --",
         "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_minifier_node --output-dir . --release",
         "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_minifier_node --output-dir .",
-        "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' echo 'no test'",
+        "test": "node --test tests/*.test.cjs",
         "version": "napi version --npm-dir scripts/npm"
     },
     "funding": {

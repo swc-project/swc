@@ -906,9 +906,13 @@ impl Compiler {
                 .clone()
                 .into_inner()
                 .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
-            swc_compiler_base::minify_file_comments(
+            let extracted_comments = swc_compiler_base::minify_file_comments(
                 &comments,
                 preserve_comments,
+                opts.extract_comments
+                    .clone()
+                    .into_inner()
+                    .unwrap_or(BoolOr::Bool(false)),
                 opts.format.preserve_annotations,
             );
 
@@ -948,6 +952,9 @@ impl Compiler {
             );
 
             ret.map(|mut output| {
+                if !extracted_comments.is_empty() {
+                    output.extracted_comments = Some(extracted_comments);
+                }
                 output.diagnostics = handler.take_diagnostics();
 
                 output
@@ -1068,6 +1075,7 @@ impl Compiler {
                 swc_compiler_base::minify_file_comments(
                     comments,
                     config.preserve_comments,
+                    BoolOr::Bool(false),
                     config.output.preserve_annotations.into_bool(),
                 );
             }

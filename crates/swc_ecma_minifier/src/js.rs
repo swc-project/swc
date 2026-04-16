@@ -51,6 +51,9 @@ pub struct JsMinifyOptions {
     #[serde(default)]
     pub source_map_ignore_list: Option<FilePattern>,
 
+    #[serde(default, alias = "extract_comments")]
+    pub extract_comments: BoolOrDataConfig<JsMinifyCommentOption>,
+
     #[serde(default)]
     pub output_path: Option<String>,
 

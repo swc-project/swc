@@ -18,6 +18,7 @@ export interface TransformOutput {
   code: string
   map?: string
   output?: string
+  extractedComments?: Array<string>
   diagnostics: Array<string>
 }
 
@@ -26,4 +27,3 @@ export interface TransformOutput {
   code: string
   map?: string
 }
-

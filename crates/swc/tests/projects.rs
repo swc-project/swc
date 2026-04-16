@@ -1318,6 +1318,17 @@ fn minify(input_js: PathBuf) {
             .compare_to_file(input_dir.join("output.map"))
             .unwrap();
 
+        let extracted_comments_path = input_dir.join("extracted-comments.json");
+        let extracted_comments = output.extracted_comments.unwrap_or_default();
+
+        if extracted_comments_path.exists() || !extracted_comments.is_empty() {
+            let extracted_comments = serde_json::to_string_pretty(&extracted_comments).unwrap();
+
+            NormalizedOutput::from(extracted_comments)
+                .compare_to_file(extracted_comments_path)
+                .unwrap();
+        }
+
         Ok(())
     })
     .unwrap()
