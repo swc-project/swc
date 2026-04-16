@@ -28,9 +28,11 @@ plugin = [
 anyhow             = { workspace = true }
 clap               = { version = "3.2.25", features = ["derive", "wrap_help"] }
 glob               = { workspace = true }
+notify             = { workspace = true }
 par-core           = { workspace = true, features = ["chili"] }
 par-iter           = { workspace = true }
 path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
+pathdiff           = { workspace = true }
 relative-path      = { workspace = true }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
 tracing            = { workspace = true }
