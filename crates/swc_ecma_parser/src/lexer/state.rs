@@ -388,26 +388,17 @@ impl crate::input::Tokens for Lexer<'_> {
 
 impl Lexer<'_> {
     #[inline]
-    fn jsx_text_allows_raw_gt(
-        &self,
-        start: BytePos,
-        pos: BytePos,
-        next_raw_byte: Option<u8>,
-    ) -> bool {
-        if pos <= start {
-            return next_raw_byte == Some(b'=');
-        }
-
+    fn jsx_text_allows_raw_gt(&self, start: BytePos, pos: BytePos) -> bool {
         let prefix = unsafe {
             // Safety: `start..pos` is within the current token and `pos` comes from a
             // JSX-safe search boundary.
             self.input_slice_str(start, pos)
         };
 
-        // Preserve the long-standing JSX error for raw `>` text, but allow common
-        // prose such as `hello -> there` or `>= 26` from real-world Flow
-        // sources.
-        prefix.as_bytes().last().copied() == Some(b'-') || next_raw_byte == Some(b'=')
+        // Only allow raw `>` when it is already part of in-text arrow prose like `->`.
+        // A leading raw `>` immediately after the opening tag must keep producing the
+        // legacy JSX error from `tests/jsx/errors/issue-10635/index.js`.
+        prefix.as_bytes().last().copied() == Some(b'-')
     }
 
     fn read_next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
@@ -467,9 +458,7 @@ impl Lexer<'_> {
                         match matched_byte {
                             b'>' => {
                                 let pos = start + BytePos(pos_offset as u32);
-                                let next_raw_byte =
-                                    self.input().as_str().as_bytes().get(pos_offset + 1).copied();
-                                if !self.jsx_text_allows_raw_gt(start, pos, next_raw_byte) {
+                                if !self.jsx_text_allows_raw_gt(start, pos) {
                                     self.emit_error_span(
                                         Span::new_with_checked(pos, pos),
                                         SyntaxError::UnexpectedTokenWithSuggestions {
@@ -490,7 +479,7 @@ impl Lexer<'_> {
                                 true
                             },
                             // Encountered `&`, go to the slow path
-                            b'&' => return self.scan_jsx_token_with_jsx_entity(start),
+                            b'&' => return self.scan_jsx_token_with_jsx_entity(),
                             _ => false,
                         }
                     },
@@ -524,7 +513,7 @@ impl Lexer<'_> {
     #[cold]
     /// Slow path: we encountered `&` in the jsx child, so we need to scan and
     /// resolve the jsx entity, which requires a dedicated string allocation.
-    fn scan_jsx_token_with_jsx_entity(&mut self, start: BytePos) -> LexResult<Token> {
+    fn scan_jsx_token_with_jsx_entity(&mut self) -> LexResult<Token> {
         let mut value = String::new();
         let mut chunk_start = self.input.cur_pos();
 
@@ -532,8 +521,7 @@ impl Lexer<'_> {
             match ch {
                 '>' => {
                     let error_pos = self.input().cur_pos();
-                    let next_raw_byte = self.input().as_str().as_bytes().get(1).copied();
-                    if !self.jsx_text_allows_raw_gt(start, error_pos, next_raw_byte) {
+                    if !self.jsx_text_allows_raw_gt(chunk_start, error_pos) {
                         self.emit_error(
                             error_pos,
                             SyntaxError::UnexpectedTokenWithSuggestions {
