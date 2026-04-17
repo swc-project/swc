@@ -1596,6 +1596,16 @@ impl<I: Tokens> Parser<I> {
         Ok(pat)
     }
 
+    fn flow_match_expect_case_separator(&mut self) -> PResult<()> {
+        if self.input_mut().eat(Token::Colon) || self.input_mut().eat(Token::Arrow) {
+            return Ok(());
+        }
+
+        let cur = format!("{:?}", self.input().cur());
+        let span = self.input().cur_span();
+        syntax_error!(self, span, SyntaxError::Expected(": or =>".into(), cur))
+    }
+
     fn flow_match_parse_subject_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
         self.bump();
         let args = self.parse_args(false)?;
@@ -1715,7 +1725,7 @@ impl<I: Tokens> Parser<I> {
             } else {
                 None
             };
-            expect!(self, Token::Colon);
+            self.flow_match_expect_case_separator()?;
 
             let body = self.allow_in_expr(Self::parse_assignment_expr)?;
             let lowered = self.flow_match_lower_pattern(span, temp_expr.clone(), &pattern);
@@ -1769,7 +1779,7 @@ impl<I: Tokens> Parser<I> {
             } else {
                 None
             };
-            expect!(self, Token::Colon);
+            self.flow_match_expect_case_separator()?;
 
             let body = if self.input().is(Token::LBrace) {
                 self.parse_block(false)?

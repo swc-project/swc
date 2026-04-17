@@ -1,5 +1,7 @@
 #![cfg(feature = "flow")]
 
+mod flow_strip;
+
 use std::{
     collections::{BTreeMap, BTreeSet},
     fs,
@@ -7,14 +9,8 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc::{
-    config::{Config, IsModule, JscConfig, Options, TransformConfig},
-    Compiler,
-};
-use swc_common::FileName;
-use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{parse_file_as_program, EsSyntax, FlowSyntax, Syntax};
-use swc_ecma_transforms::react::{Options as ReactOptions, Runtime as ReactRuntime};
+use swc::Compiler;
+use swc_ecma_parser::FlowSyntax;
 use testing::Tester;
 
 #[derive(Debug, Default, Deserialize)]
@@ -154,71 +150,15 @@ fn flow_strip_hermes() {
                 let js_path = corpus_root().join(rel);
                 let options = read_options_for(&js_path);
                 let flow_syntax = build_flow_syntax(rel, &options);
-
-                let fm = cm
-                    .load_file(&js_path)
-                    .unwrap_or_else(|err| panic!("failed to load {}: {err}", js_path.display()));
-
-                let output = match compiler.process_js_file(
-                    fm,
+                let result = flow_strip::compile_and_reparse_flow_file(
+                    &compiler,
+                    cm.clone(),
                     &handler,
-                    &Options {
-                        swcrc: false,
-                        config: Config {
-                            is_module: Some(IsModule::Unknown),
-                            jsc: JscConfig {
-                                syntax: Some(Syntax::Flow(flow_syntax)),
-                                transform: Some(TransformConfig {
-                                    react: ReactOptions {
-                                        runtime: Some(ReactRuntime::Preserve),
-                                        throw_if_namespace: Some(false),
-                                        ..Default::default()
-                                    },
-                                    ..Default::default()
-                                })
-                                .into(),
-                                external_helpers: true.into(),
-                                ..Default::default()
-                            },
-                            ..Default::default()
-                        },
-                        ..Default::default()
-                    },
-                ) {
-                    Ok(v) => v,
-                    Err(err) => panic!("failed to compile {rel}: {err:?}"),
-                };
-
-                if handler.has_errors() {
-                    return Err(());
-                }
-
-                assert!(
-                    !output.code.contains("__flow_"),
-                    "flow synthetic symbols leaked in emitted output for {rel}",
+                    &js_path,
+                    rel,
+                    flow_syntax,
                 );
-
-                let output_fm = cm.new_source_file(FileName::Anon.into(), output.code);
-                let mut recovered_errors = Vec::new();
-                let reparse_result = parse_file_as_program(
-                    &output_fm,
-                    Syntax::Es(EsSyntax {
-                        jsx: flow_syntax.jsx,
-                        decorators: true,
-                        decorators_before_export: true,
-                        export_default_from: true,
-                        import_attributes: true,
-                        allow_super_outside_method: true,
-                        auto_accessors: true,
-                        explicit_resource_management: true,
-                        ..Default::default()
-                    }),
-                    EsVersion::latest(),
-                    None,
-                    &mut recovered_errors,
-                );
-
-                let reparse_ok = reparse_result.is_ok() && recovered_errors.is_empty();
+                let reparse_ok = result.is_ok();
                 if strip_known_fail.contains(rel) {
                     if reparse_ok {
                         stale_strip_known_fail.push(rel.clone());
@@ -226,18 +166,7 @@ fn flow_strip_hermes() {
                     continue;
                 }
 
-                if let Err(err) = reparse_result {
-                    err.into_diagnostic(&handler).emit();
-                    for recovered in recovered_errors {
-                        recovered.into_diagnostic(&handler).emit();
-                    }
-                    return Err(());
-                }
-
-                if !recovered_errors.is_empty() {
-                    for recovered in recovered_errors {
-                        recovered.into_diagnostic(&handler).emit();
-                    }
+                if result.is_err() {
                     return Err(());
                 }
             }

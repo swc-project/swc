@@ -1,0 +1,25 @@
+{
+  "corpus": "corpus",
+  "counts": {
+    "bytes": 978696,
+    "files": 278
+  },
+  "flowconfig": "source.flowconfig",
+  "generated_at_utc": "2026-04-16T21:02:46.193955+00:00",
+  "manifest": "manifest.txt",
+  "name": "react-native-web",
+  "parser": {
+    "components": false,
+    "decorators": false,
+    "enums": false,
+    "jsx": true,
+    "pattern_matching": false,
+    "require_directive": false
+  },
+  "source": {
+    "branch": "master",
+    "commit": "a9de220ba9e65bdea540fb5322ffb1da2b0bf442",
+    "flowconfig_path": "configs/.flowconfig",
+    "repo": "necolas/react-native-web"
+  }
+}

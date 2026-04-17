@@ -832,18 +832,23 @@ impl<I: Tokens> Parser<I> {
                 && type_ann.is_some()
                 && value.is_none()
                 && p.input().cur().is_word();
+            let had_explicit_separator =
+                p.input().is(Token::Semi) || (p.syntax().flow() && p.input().is(Token::Comma));
             let ate_semi =
                 p.eat_general_semi() || (p.syntax().flow() && p.input_mut().eat(Token::Comma));
             if !ate_semi && !implicit_flow_separator {
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
             }
             if p.syntax().flow()
-                && ate_semi
+                && !had_explicit_separator
                 && type_ann.is_some()
                 && value.is_none()
                 && p.input().had_line_break_before_cur()
                 && p.input().is(Token::LBracket)
             {
+                // `foo: T` followed by a computed key on the next line is only
+                // ambiguous when the separator came from ASI. An explicit `;`
+                // or Flow `,` should keep the next computed field valid.
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
             }
 

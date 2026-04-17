@@ -558,6 +558,13 @@ impl VisitMut for Transform {
         node.is_abstract = false;
         node.is_optional = false;
         node.visit_mut_children_with(self);
+        self.normalize_flow_static_constructor_key(
+            &mut node.key,
+            node.is_static,
+            node.function.is_async,
+            node.function.is_generator,
+            matches!(node.kind, MethodKind::Getter | MethodKind::Setter),
+        );
     }
 
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp) {
@@ -673,6 +680,47 @@ enum FoldedDecl {
 }
 
 impl Transform {
+    fn normalize_flow_static_constructor_key(
+        &self,
+        key: &mut PropName,
+        is_static: bool,
+        is_async: bool,
+        is_generator: bool,
+        is_accessor: bool,
+    ) {
+        if !self.flow_syntax
+            || !is_static
+            || !(is_async || is_generator || is_accessor)
+            || !Self::is_constructor_key(key)
+        {
+            return;
+        }
+
+        let span = key.span();
+        *key = PropName::Computed(ComputedPropName {
+            span,
+            expr: Box::new(
+                Lit::Str(Str {
+                    span,
+                    value: "constructor".into(),
+                    raw: None,
+                })
+                .into(),
+            ),
+        });
+    }
+
+    fn is_constructor_key(key: &PropName) -> bool {
+        match key {
+            PropName::Ident(ident) => ident.sym == "constructor",
+            PropName::Str(string) => string
+                .value
+                .as_str()
+                .is_some_and(|value| value == "constructor"),
+            _ => false,
+        }
+    }
+
     fn strip_module_items_with_semantic(&self, items: &mut Vec<ModuleItem>) {
         items.retain_mut(|module_item| match module_item {
             ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
@@ -1079,21 +1127,24 @@ impl Transform {
 
                 let mut value = self.semantic.enum_record.get(&key).unwrap().clone();
 
-                if let TsEnumRecordValue::Opaque(expr) = &mut value {
-                    let e = m.init.unwrap();
-                    // [TODO]: We have computed twice for TsEnumRecordValue::Opaque case.
-                    // Try to avoid this if it causes performance issue.
-                    let TsEnumRecordValue::Opaque(mut e) = enum_computer.compute(e) else {
-                        unreachable!();
-                    };
-                    e.visit_mut_with(&mut RefRewriter {
-                        query: EnumMemberRefQuery {
-                            enum_id: &id.to_id(),
-                            member_names: &member_names,
-                            unresolved_ctxt: self.unresolved_ctxt,
-                        },
-                    });
-                    *expr = e;
+                if matches!(value, TsEnumRecordValue::Opaque(..)) {
+                    if let Some(init) = m.init {
+                        // Recompute from the original initializer so enum member
+                        // references can be rewritten to runtime property
+                        // accesses. Implicit Flow enum members do not have an
+                        // initializer, so keep the semantic value as-is.
+                        let mut recomputed = enum_computer.compute(init);
+                        if let TsEnumRecordValue::Opaque(expr) = &mut recomputed {
+                            expr.visit_mut_with(&mut RefRewriter {
+                                query: EnumMemberRefQuery {
+                                    enum_id: &id.to_id(),
+                                    member_names: &member_names,
+                                    unresolved_ctxt: self.unresolved_ctxt,
+                                },
+                            });
+                        }
+                        value = recomputed;
+                    }
                 }
 
                 EnumMemberItem { span, name, value }
