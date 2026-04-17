@@ -46,6 +46,7 @@ swc_ecma_visit = { version = "23.0.0", path = "../swc_ecma_visit" }
 [dev-dependencies]
 indexmap   = { workspace = true, features = ["serde"] }
 serde_json = { workspace = true }
+tempfile   = { workspace = true }
 
 swc_ecma_loader = { version = "21.0.0", path = "../swc_ecma_loader", features = [
   "node",

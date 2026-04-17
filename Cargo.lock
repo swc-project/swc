@@ -5572,6 +5572,7 @@ dependencies = [
  "par-core",
  "par-iter",
  "parking_lot",
+ "path-clean 1.0.1",
  "regex",
  "rustc-hash 2.1.1",
  "serde",
@@ -6718,6 +6719,7 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "tempfile",
  "testing",
  "tracing",
 ]
