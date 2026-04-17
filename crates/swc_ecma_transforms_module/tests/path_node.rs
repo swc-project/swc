@@ -1,4 +1,5 @@
 use std::{
+    fs::{create_dir_all, write},
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -13,6 +14,7 @@ use swc_ecma_transforms_module::{
     rewriter::import_rewriter,
 };
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
+use tempfile::tempdir;
 use testing::run_test2;
 
 type TestProvider = NodeImportResolver<NodeModulesResolver>;
@@ -95,24 +97,83 @@ fn paths_resolver(
     rules: Vec<(String, Vec<String>)>,
     resolve_fully: bool,
 ) -> JscPathsProvider {
+    paths_resolver_with_options(base_dir, rules, resolve_fully, false)
+}
+
+fn paths_resolver_with_options(
+    base_dir: &Path,
+    rules: Vec<(String, Vec<String>)>,
+    resolve_fully: bool,
+    preserve_symlinks: bool,
+) -> JscPathsProvider {
     let base_dir = base_dir
         .to_path_buf()
         .canonicalize()
         .expect("failed to canonicalize");
     dbg!(&base_dir);
 
-    NodeImportResolver::with_config(
-        TsConfigResolver::new(
-            NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
-            base_dir.clone(),
-            rules,
-        ),
-        swc_ecma_transforms_module::path::Config {
-            base_dir: Some(base_dir),
-            resolve_fully,
-            file_extension: swc_ecma_transforms_module::util::Config::default_js_ext(),
-        },
-    )
+    let resolver = TsConfigResolver::new(
+        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
+        base_dir.clone(),
+        rules,
+    );
+    let config = swc_ecma_transforms_module::path::Config {
+        base_dir: Some(base_dir),
+        resolve_fully,
+        file_extension: swc_ecma_transforms_module::util::Config::default_js_ext(),
+    };
+
+    if preserve_symlinks {
+        NodeImportResolver::with_config_preserving_symlinks(resolver, config)
+    } else {
+        NodeImportResolver::with_config(resolver, config)
+    }
+}
+
+#[test]
+fn symlink_paths_are_preserved_only_when_opted_in() {
+    let sandbox = tempdir().unwrap();
+    let root = sandbox.path();
+
+    create_dir_all(root.join("src")).unwrap();
+    create_dir_all(root.join("shared")).unwrap();
+    create_dir_all(root.join("server")).unwrap();
+
+    write(root.join("src/index.ts"), "import \"../server/source\";\n").unwrap();
+    write(root.join("shared/source.ts"), "export const value = 1;\n").unwrap();
+    create_symlink(
+        &root.join("shared/source.ts"),
+        &root.join("server/source.ts"),
+    );
+
+    let base = FileName::Real(root.join("src/index.ts").canonicalize().unwrap());
+
+    // Keep the original extensionless specifier so the assertion focuses on
+    // symlink preservation instead of extension rewriting.
+    let default_resolver = paths_resolver_with_options(root, Vec::new(), false, false);
+    let preserve_symlinks_resolver = paths_resolver_with_options(root, Vec::new(), false, true);
+
+    let default_resolved = default_resolver
+        .resolve_import(&base, "../server/source")
+        .unwrap();
+    let preserve_symlinks_resolved = preserve_symlinks_resolver
+        .resolve_import(&base, "../server/source")
+        .unwrap();
+
+    assert_eq!(&*default_resolved, "../shared/source");
+    assert_eq!(&*preserve_symlinks_resolved, "../server/source");
+}
+
+fn create_symlink(a: &Path, b: &Path) {
+    #[cfg(unix)]
+    {
+        std::os::unix::fs::symlink(a, b).unwrap();
+    }
+
+    #[cfg(windows)]
+    {
+        std::os::windows::fs::symlink_file(a, b).unwrap();
+    }
 }
 
 #[derive(Deserialize)]
