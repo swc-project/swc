@@ -1,0 +1,14 @@
+{
+  "mappings": "AAGAA,QAAQC,GAAG,CAAC",
+  "names": [
+    "console",
+    "log"
+  ],
+  "sources": [
+    "$DIR/tests/minify/extract-comments/default-remove-comments/input.js"
+  ],
+  "sourcesContent": [
+    "/*!\n * @license MIT\n */\nconsole.log(\"default\");\n"
+  ],
+  "version": 3
+}

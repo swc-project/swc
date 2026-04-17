@@ -1,0 +1,14 @@
+{
+  "mappings": "AAGAA,QAAQC,GAAG,CAAC",
+  "names": [
+    "console",
+    "log"
+  ],
+  "sources": [
+    "$DIR/tests/minify/extract-comments/extract-true/input.js"
+  ],
+  "sourcesContent": [
+    "/*!\n * @license MIT\n */\nconsole.log(\"extract-true\");\n"
+  ],
+  "version": 3
+}

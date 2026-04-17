@@ -1,0 +1,7 @@
+{
+  "compress": false,
+  "mangle": false,
+  "extractComments": {
+    "regex": "@extract"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "mappings": "AASAA,QAAQC,GAAG,CAAC",
+  "names": [
+    "console",
+    "log"
+  ],
+  "sources": [
+    "$DIR/tests/minify/extract-comments/dedupe-order/input.js"
+  ],
+  "sourcesContent": [
+    "/*!\n * First\n */\n/*!\n * Second\n */\n/*!\n * First\n */\nconsole.log(\"dedupe-order\");\n/*!\n * Third\n */\n"
+  ],
+  "version": 3
+}

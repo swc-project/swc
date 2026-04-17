@@ -1,0 +1,8 @@
+{
+  "compress": false,
+  "mangle": false,
+  "format": {
+    "comments": "some"
+  },
+  "extractComments": true
+}

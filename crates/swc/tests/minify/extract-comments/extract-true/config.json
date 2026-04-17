@@ -1,0 +1,5 @@
+{
+  "compress": false,
+  "mangle": false,
+  "extractComments": true
+}

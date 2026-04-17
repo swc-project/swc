@@ -7,7 +7,7 @@ use anyhow::{Context, Error};
 use base64::prelude::{Engine, BASE64_STANDARD};
 use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 #[allow(unused)]
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
@@ -45,6 +45,9 @@ pub struct TransformOutput {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
 
+    #[serde(rename = "extractedComments", skip_serializing_if = "Option::is_none")]
+    pub extracted_comments: Option<Vec<String>>,
+
     pub diagnostics: std::vec::Vec<String>,
 }
 
@@ -58,6 +61,9 @@ pub struct TransformOutput {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
+
+    #[serde(rename = "extractedComments", skip_serializing_if = "Option::is_none")]
+    pub extracted_comments: Option<Vec<String>>,
 
     pub diagnostics: std::vec::Vec<String>,
 }
@@ -326,6 +332,7 @@ where
         output: output
             .map(|v| serde_json::to_string(&v).context("failed to serilaize output"))
             .transpose()?,
+        extracted_comments: None,
         diagnostics: Default::default(),
     })
 }
@@ -425,55 +432,102 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 pub fn minify_file_comments(
     comments: &SingleThreadedComments,
     preserve_comments: BoolOr<JsMinifyCommentOption>,
+    extract_comments: BoolOr<JsMinifyCommentOption>,
     preserve_annotations: bool,
-) {
+) -> Vec<String> {
+    let (mut leading, mut trailing) = comments.borrow_all_mut();
+    let mut entries = leading
+        .drain()
+        .map(|(pos, bucket)| (pos, false, bucket))
+        .chain(trailing.drain().map(|(pos, bucket)| (pos, true, bucket)))
+        .collect::<Vec<_>>();
+    let mut extracted = Vec::new();
+    let mut seen = FxHashSet::default();
+
+    entries.sort_by_key(|(pos, is_trailing, _)| (*pos, *is_trailing));
+
+    for (pos, is_trailing, bucket) in entries {
+        let mut preserved = Vec::with_capacity(bucket.len());
+
+        for comment in bucket {
+            if should_extract_comment(&extract_comments, &comment) {
+                let rendered = render_comment(&comment);
+
+                if seen.insert(rendered.clone()) {
+                    extracted.push(rendered);
+                }
+            }
+
+            if should_preserve_comment(&preserve_comments, preserve_annotations, &comment) {
+                preserved.push(comment);
+            }
+        }
+
+        if preserved.is_empty() {
+            continue;
+        }
+
+        if is_trailing {
+            trailing.insert(pos, preserved);
+        } else {
+            leading.insert(pos, preserved);
+        }
+    }
+
+    extracted
+}
+
+fn should_preserve_comment(
+    preserve_comments: &BoolOr<JsMinifyCommentOption>,
+    preserve_annotations: bool,
+    comment: &Comment,
+) -> bool {
     match preserve_comments {
-        BoolOr::Bool(true) | BoolOr::Data(JsMinifyCommentOption::PreserveAllComments) => {}
-
+        BoolOr::Bool(true) | BoolOr::Data(JsMinifyCommentOption::PreserveAllComments) => true,
         BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments) => {
-            let preserve_excl = |_: &BytePos, vc: &mut std::vec::Vec<Comment>| -> bool {
-                // Preserve license comments.
-                //
-                // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L175-L181
-                vc.retain(|c: &Comment| {
-                    c.text.contains("@lic")
-                        || c.text.contains("@preserve")
-                        || c.text.contains("@copyright")
-                        || c.text.contains("@cc_on")
-                        || (preserve_annotations
-                            && (c.text.contains("__PURE__")
-                                || c.text.contains("__INLINE__")
-                                || c.text.contains("__NOINLINE__")
-                                || c.text.contains("@vite-ignore")))
-                        || (c.kind == CommentKind::Block && c.text.starts_with('!'))
-                });
-                !vc.is_empty()
-            };
-            let (mut l, mut t) = comments.borrow_all_mut();
-
-            l.retain(preserve_excl);
-            t.retain(preserve_excl);
+            is_legal_comment(comment)
+                || (preserve_annotations
+                    && (comment.text.contains("__PURE__")
+                        || comment.text.contains("__INLINE__")
+                        || comment.text.contains("__NOINLINE__")
+                        || comment.text.contains("@vite-ignore")))
         }
-
         BoolOr::Data(JsMinifyCommentOption::PreserveRegexComments { regex }) => {
-            let preserve_excl = |_: &BytePos, vc: &mut std::vec::Vec<Comment>| -> bool {
-                // Preserve comments that match the regex
-                //
-                // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L286
-                vc.retain(|c: &Comment| regex.find(&c.text).is_some());
-                !vc.is_empty()
-            };
-            let (mut l, mut t) = comments.borrow_all_mut();
-
-            l.retain(preserve_excl);
-            t.retain(preserve_excl);
+            regex.find(&comment.text).is_some()
         }
+        BoolOr::Bool(false) => false,
+    }
+}
 
-        BoolOr::Bool(false) => {
-            let (mut l, mut t) = comments.borrow_all_mut();
-            l.clear();
-            t.clear();
+fn should_extract_comment(
+    extract_comments: &BoolOr<JsMinifyCommentOption>,
+    comment: &Comment,
+) -> bool {
+    match extract_comments {
+        BoolOr::Bool(true) | BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments) => {
+            is_legal_comment(comment)
         }
+        BoolOr::Data(JsMinifyCommentOption::PreserveAllComments) => true,
+        BoolOr::Data(JsMinifyCommentOption::PreserveRegexComments { regex }) => {
+            regex.find(&comment.text).is_some()
+        }
+        BoolOr::Bool(false) => false,
+    }
+}
+
+fn is_legal_comment(comment: &Comment) -> bool {
+    // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L175-L181
+    comment.text.contains("@lic")
+        || comment.text.contains("@preserve")
+        || comment.text.contains("@copyright")
+        || comment.text.contains("@cc_on")
+        || (comment.kind == CommentKind::Block && comment.text.starts_with('!'))
+}
+
+fn render_comment(comment: &Comment) -> String {
+    match comment.kind {
+        CommentKind::Block => format!("/*{}*/", comment.text),
+        CommentKind::Line => format!("//{}", comment.text),
     }
 }
 
