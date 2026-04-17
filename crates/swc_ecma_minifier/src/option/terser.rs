@@ -1,5 +1,7 @@
 //! Compatibility for terser config.
 
+use std::fmt;
+
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -440,29 +442,38 @@ impl From<TerserTopLevelOptions> for TopLevelOptions {
     }
 }
 
-impl From<TerserEcmaVersion> for EsVersion {
-    fn from(v: TerserEcmaVersion) -> Self {
-        match v {
-            TerserEcmaVersion::Num(v) => match v {
-                3 => EsVersion::Es3,
-                5 => EsVersion::Es5,
-                6 | 2015 => EsVersion::Es2015,
-                2016 => EsVersion::Es2016,
-                2017 => EsVersion::Es2017,
-                2018 => EsVersion::Es2018,
-                2019 => EsVersion::Es2019,
-                2020 => EsVersion::Es2020,
-                2021 => EsVersion::Es2021,
-                2022 => EsVersion::Es2022,
-                _ => {
-                    panic!("`{v}` is not a valid ecmascript version")
-                }
-            },
-            TerserEcmaVersion::Str(v) => {
-                TerserEcmaVersion::Num(v.parse().expect("failed to parse version of ecmascript"))
-                    .into()
-            }
+impl fmt::Display for TerserEcmaVersion {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            TerserEcmaVersion::Num(value) => value.fmt(f),
+            TerserEcmaVersion::Str(value) => value.fmt(f),
         }
+    }
+}
+
+impl From<TerserEcmaVersion> for EsVersion {
+    fn from(value: TerserEcmaVersion) -> Self {
+        let raw = value.to_string();
+        let normalized = match value {
+            TerserEcmaVersion::Num(value) => normalize_terser_ecma_num(value),
+            TerserEcmaVersion::Str(value) => match value.parse::<usize>() {
+                Ok(value) => normalize_terser_ecma_num(value),
+                Err(..) => Some(value),
+            },
+        }
+        .unwrap_or_else(|| panic!("`{raw}` is not a valid ecmascript version"));
+
+        serde_json::from_value(Value::String(normalized))
+            .unwrap_or_else(|_| panic!("`{raw}` is not a valid ecmascript version"))
+    }
+}
+
+fn normalize_terser_ecma_num(value: usize) -> Option<String> {
+    match value {
+        3 | 5 => Some(format!("es{value}")),
+        6 => Some(String::from("es2015")),
+        2015.. => Some(format!("es{value}")),
+        _ => None,
     }
 }
 
@@ -544,5 +555,52 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             }
             .into()
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_ecma_ast::EsVersion;
+
+    use super::TerserEcmaVersion;
+
+    #[test]
+    fn parses_numeric_terser_versions() {
+        assert_eq!(
+            EsVersion::from(TerserEcmaVersion::Num(2023)),
+            EsVersion::Es2023
+        );
+        assert_eq!(
+            EsVersion::from(TerserEcmaVersion::Num(2024)),
+            EsVersion::Es2024
+        );
+    }
+
+    #[test]
+    fn parses_string_terser_versions() {
+        assert_eq!(
+            EsVersion::from(TerserEcmaVersion::Str(String::from("2023"))),
+            EsVersion::Es2023
+        );
+        assert_eq!(
+            EsVersion::from(TerserEcmaVersion::Str(String::from("es2023"))),
+            EsVersion::Es2023
+        );
+        assert_eq!(
+            EsVersion::from(TerserEcmaVersion::Str(String::from("esnext"))),
+            EsVersion::EsNext
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "`2025` is not a valid ecmascript version")]
+    fn rejects_invalid_numeric_version() {
+        let _: EsVersion = TerserEcmaVersion::Num(2025).into();
+    }
+
+    #[test]
+    #[should_panic(expected = "`foo` is not a valid ecmascript version")]
+    fn rejects_invalid_string_version() {
+        let _: EsVersion = TerserEcmaVersion::Str(String::from("foo")).into();
     }
 }
