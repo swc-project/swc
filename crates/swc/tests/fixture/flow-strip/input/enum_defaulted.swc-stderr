@@ -1,0 +1,6 @@
+  x Expression expected
+   ,-[$DIR/tests/fixture/flow-strip/input/enum_defaulted.js:1:1]
+ 1 | enum Status {
+   : ^^^^
+ 2 |   Idle,
+   `----

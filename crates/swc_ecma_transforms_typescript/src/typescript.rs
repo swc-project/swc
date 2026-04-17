@@ -42,7 +42,12 @@ pub(crate) struct TypeScript {
 impl Pass for TypeScript {
     fn process(&mut self, n: &mut Program) {
         let was_module = n.as_module().and_then(|m| self.get_last_module_span(m));
-        let semantic = analyze_program(n, self.unresolved_mark, mem::take(&mut self.id_usage));
+        let semantic = analyze_program(
+            n,
+            self.unresolved_mark,
+            mem::take(&mut self.id_usage),
+            self.config.flow_syntax,
+        );
 
         n.mutate(transform(
             self.unresolved_mark,

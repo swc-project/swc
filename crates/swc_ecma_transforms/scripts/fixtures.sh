@@ -17,4 +17,4 @@ mkdir -p /tmp/.swc/fixtures
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-(cd /tmp/.swc && python3 $SCRIPT_DIR/fixtures.py)
+(cd /tmp/.swc && node "$SCRIPT_DIR/fixtures.js")

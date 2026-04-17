@@ -47,6 +47,7 @@ pub(crate) fn analyze_program(
     program: &Program,
     unresolved_mark: Mark,
     seed_usage: FxHashSet<Id>,
+    flow_syntax: bool,
 ) -> SemanticInfo {
     let mut analyzer = SemanticAnalyzer {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
@@ -58,6 +59,7 @@ pub(crate) fn analyze_program(
         namespace_block_stack: Default::default(),
         namespace_id: None,
         skip_transform_info: false,
+        flow_syntax,
     };
 
     program.visit_with(&mut analyzer);
@@ -72,6 +74,7 @@ struct SemanticAnalyzer {
     namespace_block_stack: Vec<NamespaceBlock>,
     namespace_id: Option<Id>,
     skip_transform_info: bool,
+    flow_syntax: bool,
 }
 
 #[derive(Default)]
@@ -255,6 +258,7 @@ impl SemanticAnalyzer {
         default_init: &TsEnumRecordValue,
         record: &TsEnumRecord,
         unresolved_ctxt: SyntaxContext,
+        flow_syntax: bool,
     ) -> TsEnumRecordValue {
         member
             .init
@@ -267,7 +271,17 @@ impl SemanticAnalyzer {
                 .compute(expr)
             })
             .filter(TsEnumRecordValue::has_value)
-            .unwrap_or_else(|| default_init.clone())
+            .unwrap_or_else(|| {
+                if flow_syntax && matches!(default_init, TsEnumRecordValue::Void) {
+                    // Flow defaulted enums without an initializer use the member
+                    // name as the runtime string value. The AST does not retain
+                    // the explicit `of string` kind, so `Void` acts as the
+                    // sentinel for Flow's default string mode here.
+                    TsEnumRecordValue::String(enum_member_id_atom(&member.id))
+                } else {
+                    default_init.clone()
+                }
+            })
     }
 }
 
@@ -540,7 +554,11 @@ impl Visit for SemanticAnalyzer {
             self.info.const_enum.insert(id.to_id());
         }
 
-        let mut default_init = 0.0.into();
+        let mut default_init = if self.flow_syntax {
+            TsEnumRecordValue::Void
+        } else {
+            0.0.into()
+        };
 
         for member in members {
             let value = Self::transform_ts_enum_member(
@@ -549,6 +567,7 @@ impl Visit for SemanticAnalyzer {
                 &default_init,
                 &self.info.enum_record,
                 self.unresolved_ctxt,
+                self.flow_syntax,
             );
 
             default_init = value.inc();
@@ -575,7 +594,8 @@ impl Visit for SemanticAnalyzer {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::SyntaxContext;
+    use swc_common::{SyntaxContext, DUMMY_SP};
+    use swc_ecma_ast::{Ident, TsEnumMember, TsEnumMemberId};
 
     use super::*;
 
@@ -618,5 +638,47 @@ mod tests {
         parent.analyze_import_chain();
 
         assert!(parent.usage.contains(&id("a")));
+    }
+
+    fn enum_member(sym: &str) -> TsEnumMember {
+        TsEnumMember {
+            span: DUMMY_SP,
+            id: TsEnumMemberId::Ident(Ident::new_no_ctxt(sym.into(), DUMMY_SP)),
+            init: None,
+        }
+    }
+
+    #[test]
+    fn flow_defaulted_enum_member_uses_member_name_as_runtime_value() {
+        let value = SemanticAnalyzer::transform_ts_enum_member(
+            enum_member("A"),
+            &id("E"),
+            &TsEnumRecordValue::Void,
+            &Default::default(),
+            SyntaxContext::empty(),
+            true,
+        );
+
+        let TsEnumRecordValue::String(value) = value else {
+            panic!("expected defaulted Flow enum member to become a string literal");
+        };
+        assert_eq!(&*value, "A");
+    }
+
+    #[test]
+    fn typescript_defaulted_enum_member_still_uses_numeric_sequence() {
+        let value = SemanticAnalyzer::transform_ts_enum_member(
+            enum_member("A"),
+            &id("E"),
+            &TsEnumRecordValue::Number(2.0.into()),
+            &Default::default(),
+            SyntaxContext::empty(),
+            false,
+        );
+
+        let TsEnumRecordValue::Number(value) = value else {
+            panic!("expected defaulted TypeScript enum member to stay numeric");
+        };
+        assert_eq!(*value, 2.0);
     }
 }

@@ -1,0 +1,332 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 14,
+    "end": 101
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 14,
+        "end": 41
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": true,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 28,
+            "end": 40
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 28,
+              "end": 32
+            },
+            "ctxt": 0,
+            "value": "mode",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 32,
+                "end": 40
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 34,
+                  "end": 40
+                },
+                "kind": "number"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 43,
+        "end": 101
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 50,
+          "end": 101
+        },
+        "ctxt": 0,
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 56,
+              "end": 100
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 56,
+                "end": 61
+              },
+              "ctxt": 0,
+              "value": "value",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "CallExpression",
+              "span": {
+                "start": 64,
+                "end": 69
+              },
+              "ctxt": 0,
+              "callee": {
+                "type": "FunctionExpression",
+                "identifier": null,
+                "params": [],
+                "decorators": [],
+                "span": {
+                  "start": 64,
+                  "end": 69
+                },
+                "ctxt": 0,
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 64,
+                    "end": 69
+                  },
+                  "ctxt": 0,
+                  "stmts": [
+                    {
+                      "type": "VariableDeclaration",
+                      "span": {
+                        "start": 64,
+                        "end": 69
+                      },
+                      "ctxt": 0,
+                      "kind": "const",
+                      "declare": false,
+                      "declarations": [
+                        {
+                          "type": "VariableDeclarator",
+                          "span": {
+                            "start": 64,
+                            "end": 69
+                          },
+                          "id": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 64,
+                              "end": 69
+                            },
+                            "ctxt": 0,
+                            "value": "__match_subject_64",
+                            "optional": false,
+                            "typeAnnotation": null
+                          },
+                          "init": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 71,
+                              "end": 75
+                            },
+                            "ctxt": 0,
+                            "value": "mode",
+                            "optional": false
+                          },
+                          "definite": false
+                        }
+                      ]
+                    },
+                    {
+                      "type": "IfStatement",
+                      "span": {
+                        "start": 64,
+                        "end": 69
+                      },
+                      "test": {
+                        "type": "BinaryExpression",
+                        "span": {
+                          "start": 64,
+                          "end": 69
+                        },
+                        "operator": "===",
+                        "left": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 64,
+                            "end": 69
+                          },
+                          "ctxt": 0,
+                          "value": "__match_subject_64",
+                          "optional": false
+                        },
+                        "right": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 81,
+                            "end": 82
+                          },
+                          "value": 0.0,
+                          "raw": "0"
+                        }
+                      },
+                      "consequent": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 64,
+                          "end": 69
+                        },
+                        "ctxt": 0,
+                        "stmts": [
+                          {
+                            "type": "ReturnStatement",
+                            "span": {
+                              "start": 64,
+                              "end": 69
+                            },
+                            "argument": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 86,
+                                "end": 87
+                              },
+                              "value": 1.0,
+                              "raw": "1"
+                            }
+                          }
+                        ]
+                      },
+                      "alternate": null
+                    },
+                    {
+                      "type": "IfStatement",
+                      "span": {
+                        "start": 64,
+                        "end": 69
+                      },
+                      "test": {
+                        "type": "BinaryExpression",
+                        "span": {
+                          "start": 64,
+                          "end": 69
+                        },
+                        "operator": "===",
+                        "left": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 64,
+                            "end": 69
+                          },
+                          "ctxt": 0,
+                          "value": "__match_subject_64",
+                          "optional": false
+                        },
+                        "right": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 91,
+                            "end": 92
+                          },
+                          "value": 1.0,
+                          "raw": "1"
+                        }
+                      },
+                      "consequent": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 64,
+                          "end": 69
+                        },
+                        "ctxt": 0,
+                        "stmts": [
+                          {
+                            "type": "ReturnStatement",
+                            "span": {
+                              "start": 64,
+                              "end": 69
+                            },
+                            "argument": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 96,
+                                "end": 97
+                              },
+                              "value": 2.0,
+                              "raw": "2"
+                            }
+                          }
+                        ]
+                      },
+                      "alternate": null
+                    },
+                    {
+                      "type": "ThrowStatement",
+                      "span": {
+                        "start": 64,
+                        "end": 69
+                      },
+                      "argument": {
+                        "type": "NewExpression",
+                        "span": {
+                          "start": 64,
+                          "end": 69
+                        },
+                        "ctxt": 0,
+                        "callee": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 64,
+                            "end": 69
+                          },
+                          "ctxt": 0,
+                          "value": "Error",
+                          "optional": false
+                        },
+                        "arguments": [
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 64,
+                                "end": 69
+                              },
+                              "value": "Non-exhaustive match",
+                              "raw": null
+                            }
+                          }
+                        ],
+                        "typeArguments": null
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": null,
+                "returnType": null
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -2328,7 +2328,12 @@ impl<I: Tokens> Parser<I> {
     fn is_ts_unambiguously_start_of_fn_type(&mut self) -> PResult<bool> {
         debug_assert!(self.input().syntax().typescript());
 
+        let disallow_flow_anon_fn_type =
+            self.is_flow_syntax() && self.ctx().contains(Context::DisallowFlowAnonFnType);
+
         self.assert_and_bump(Token::LParen);
+        let starts_with_parenthesized_object_or_array =
+            matches!(self.input().cur(), Token::LBrace | Token::LBracket);
 
         let cur = self.input().cur();
         if cur == Token::RParen || cur == Token::DotDotDot {
@@ -2355,10 +2360,13 @@ impl<I: Tokens> Parser<I> {
                 // ( xxx ,
                 // ( xxx ?
                 // ( xxx =
+                if disallow_flow_anon_fn_type && starts_with_parenthesized_object_or_array {
+                    return Ok(false);
+                }
                 return Ok(true);
             }
             if self.input_mut().eat(Token::RParen) && self.input().cur() == Token::Arrow {
-                if self.is_flow_syntax() && self.ctx().contains(Context::DisallowFlowAnonFnType) {
+                if disallow_flow_anon_fn_type {
                     // In arrow return type context, `(T) => U` should bind to
                     // the outer arrow unless the function type is parenthesized.
                     return Ok(false);
@@ -2374,11 +2382,14 @@ impl<I: Tokens> Parser<I> {
                 .is_some()
         {
             if self.input().is(Token::Comma) {
+                if disallow_flow_anon_fn_type && starts_with_parenthesized_object_or_array {
+                    return Ok(false);
+                }
                 return Ok(true);
             }
 
             if self.input_mut().eat(Token::RParen) && self.input().cur() == Token::Arrow {
-                if self.ctx().contains(Context::DisallowFlowAnonFnType) {
+                if disallow_flow_anon_fn_type {
                     // In arrow return type context, `(T) => U` should bind to
                     // the outer arrow unless the function type is parenthesized.
                     return Ok(false);
