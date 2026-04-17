@@ -5805,7 +5805,6 @@ dependencies = [
  "par-iter",
  "path-absolutize",
  "pathdiff",
- "relative-path",
  "serde_json",
  "swc_core",
  "tracing",
