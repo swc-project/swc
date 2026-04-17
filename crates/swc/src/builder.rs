@@ -1,4 +1,6 @@
-use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap};
+use swc_common::{
+    comments::Comments, errors::HANDLER, sync::Lrc, util::take::Take, Mark, SourceMap,
+};
 use swc_ecma_ast::{Pass, Program};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_transforms::{hygiene::hygiene_with_config, resolver};
@@ -16,28 +18,42 @@ pub struct MinifierPass<'a> {
 impl Pass for MinifierPass<'_> {
     fn process(&mut self, n: &mut Program) {
         if let Some(options) = &self.options {
+            let compress = match options
+                .compress
+                .clone()
+                .unwrap_as_option(|default| match default {
+                    Some(true) => Some(Default::default()),
+                    _ => None,
+                })
+                .map(|mut v| {
+                    if v.const_to_let.is_none() {
+                        v.const_to_let = Some(true);
+                    }
+                    if v.toplevel.is_none() && n.is_module() {
+                        v.toplevel = Some(TerserTopLevelOptions::Bool(true));
+                    }
+
+                    if n.is_script() {
+                        v.module = false;
+                    }
+
+                    v.into_config(self.cm.clone())
+                })
+                .transpose()
+            {
+                Ok(compress) => compress,
+                Err(err) => {
+                    if HANDLER.is_set() {
+                        HANDLER.with(|handler| {
+                            handler.struct_err(&err.to_string()).emit();
+                        });
+                    }
+                    return;
+                }
+            };
+
             let opts = MinifyOptions {
-                compress: options
-                    .compress
-                    .clone()
-                    .unwrap_as_option(|default| match default {
-                        Some(true) => Some(Default::default()),
-                        _ => None,
-                    })
-                    .map(|mut v| {
-                        if v.const_to_let.is_none() {
-                            v.const_to_let = Some(true);
-                        }
-                        if v.toplevel.is_none() && n.is_module() {
-                            v.toplevel = Some(TerserTopLevelOptions::Bool(true));
-                        }
-
-                        if n.is_script() {
-                            v.module = false;
-                        }
-
-                        v.into_config(self.cm.clone())
-                    }),
+                compress,
                 mangle: options
                     .mangle
                     .clone()

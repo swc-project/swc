@@ -19,3 +19,13 @@ console.log("minifier");`,
     assert.equal(result.code, 'console.log("minifier");');
     assert.deepEqual(result.extractedComments, ["/*!\n * @license MIT\n */"]);
 });
+
+test("minifySync accepts ecma 2023", () => {
+    const result = minifier.minifySync("const foo = 1; console.log(foo);", {
+        ecma: 2023,
+        compress: false,
+        mangle: false,
+    });
+
+    assert.equal(result.code, "const foo=1;console.log(foo);");
+});

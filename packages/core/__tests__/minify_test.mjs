@@ -327,3 +327,13 @@ it("should accept non-strict code", async () => {
 
     expect(code).toMatchInlineSnapshot(`"a=1,delete a,console.log(a);"`);
 });
+
+it("should accept ecma 2023", () => {
+    const { code } = swc.minifySync("const foo = 1; console.log(foo);", {
+        ecma: 2023,
+        compress: false,
+        mangle: false,
+    });
+
+    expect(code).toEqual("const foo=1;console.log(foo);");
+});

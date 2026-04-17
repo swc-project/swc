@@ -775,7 +775,7 @@ impl Compiler {
         self.run(|| {
             let _timer = timer!("Compiler::minify");
 
-            let target = opts.ecma.clone().into();
+            let target = opts.ecma.parse_es_version()?;
 
             let (source_map, orig, source_map_url) = opts
                 .source_map
@@ -801,7 +801,8 @@ impl Compiler {
                         Some(true) | None => Some(Default::default()),
                         _ => None,
                     })
-                    .map(|v| v.into_config(self.cm.clone())),
+                    .map(|v| v.into_config(self.cm.clone()))
+                    .transpose()?,
                 mangle: opts
                     .mangle
                     .clone()

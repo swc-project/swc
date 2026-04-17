@@ -51,7 +51,7 @@ fn do_work(
     let fm = cm.new_source_file(FileName::Anon.into(), input);
 
     try_with(cm.clone(), false, |handler| {
-        let target = options.ecma.clone().into();
+        let target = options.ecma.parse_es_version()?;
 
         let (source_map, orig) = options
             .source_map
@@ -78,7 +78,8 @@ fn do_work(
                     Some(true) | None => Some(Default::default()),
                     _ => None,
                 })
-                .map(|v| v.into_config(cm.clone())),
+                .map(|v| v.into_config(cm.clone()))
+                .transpose()?,
             mangle: options
                 .mangle
                 .clone()

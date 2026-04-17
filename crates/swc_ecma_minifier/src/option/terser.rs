@@ -1,5 +1,7 @@
 //! Compatibility for terser config.
 
+use std::{error::Error as StdError, fmt};
+
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -265,8 +267,11 @@ pub struct TerserCompressorOptions {
 impl_default!(TerserCompressorOptions);
 
 impl TerserCompressorOptions {
-    pub fn into_config(self, cm: Lrc<SourceMap>) -> CompressOptions {
-        CompressOptions {
+    pub fn into_config(
+        self,
+        cm: Lrc<SourceMap>,
+    ) -> Result<CompressOptions, InvalidTerserEcmaVersion> {
+        Ok(CompressOptions {
             arguments: self.arguments,
             arrows: self.arrows.unwrap_or(self.defaults),
             bools: self.booleans.unwrap_or(self.defaults),
@@ -279,7 +284,7 @@ impl TerserCompressorOptions {
             directives: self.directives.unwrap_or(self.defaults),
             drop_console: self.drop_console,
             drop_debugger: self.drop_debugger.unwrap_or(self.defaults),
-            ecma: self.ecma.into(),
+            ecma: self.ecma.parse_es_version()?,
             evaluate: self.evaluate.unwrap_or(self.defaults),
             expr: self.expression,
             global_defs: self
@@ -424,7 +429,7 @@ impl TerserCompressorOptions {
                     )
                 })
                 .unwrap_or(CompressExperimentalOptions::from_defaults(self.defaults)),
-        }
+        })
     }
 }
 
@@ -440,29 +445,60 @@ impl From<TerserTopLevelOptions> for TopLevelOptions {
     }
 }
 
-impl From<TerserEcmaVersion> for EsVersion {
-    fn from(v: TerserEcmaVersion) -> Self {
-        match v {
-            TerserEcmaVersion::Num(v) => match v {
-                3 => EsVersion::Es3,
-                5 => EsVersion::Es5,
-                6 | 2015 => EsVersion::Es2015,
-                2016 => EsVersion::Es2016,
-                2017 => EsVersion::Es2017,
-                2018 => EsVersion::Es2018,
-                2019 => EsVersion::Es2019,
-                2020 => EsVersion::Es2020,
-                2021 => EsVersion::Es2021,
-                2022 => EsVersion::Es2022,
-                _ => {
-                    panic!("`{v}` is not a valid ecmascript version")
-                }
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct InvalidTerserEcmaVersion {
+    value: String,
+}
+
+impl fmt::Display for InvalidTerserEcmaVersion {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "`{}` is not a valid ecmascript version", self.value)
+    }
+}
+
+impl StdError for InvalidTerserEcmaVersion {}
+
+impl TerserEcmaVersion {
+    /// Parse a terser-compatible ECMAScript version into SWC's [`EsVersion`].
+    pub fn parse_es_version(&self) -> Result<EsVersion, InvalidTerserEcmaVersion> {
+        let raw = self.to_string();
+        let normalized = match self {
+            TerserEcmaVersion::Num(value) => normalize_terser_ecma_num(*value),
+            TerserEcmaVersion::Str(value) => match value.parse::<usize>() {
+                Ok(value) => normalize_terser_ecma_num(value),
+                Err(..) => Some(value.clone()),
             },
-            TerserEcmaVersion::Str(v) => {
-                TerserEcmaVersion::Num(v.parse().expect("failed to parse version of ecmascript"))
-                    .into()
-            }
         }
+        .ok_or_else(|| InvalidTerserEcmaVersion { value: raw.clone() })?;
+
+        serde_json::from_value(Value::String(normalized))
+            .map_err(|_| InvalidTerserEcmaVersion { value: raw })
+    }
+}
+
+impl fmt::Display for TerserEcmaVersion {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            TerserEcmaVersion::Num(value) => value.fmt(f),
+            TerserEcmaVersion::Str(value) => value.fmt(f),
+        }
+    }
+}
+
+impl TryFrom<TerserEcmaVersion> for EsVersion {
+    type Error = InvalidTerserEcmaVersion;
+
+    fn try_from(value: TerserEcmaVersion) -> Result<Self, Self::Error> {
+        value.parse_es_version()
+    }
+}
+
+fn normalize_terser_ecma_num(value: usize) -> Option<String> {
+    match value {
+        3 | 5 => Some(format!("es{value}")),
+        6 => Some(String::from("es2015")),
+        2015.. => Some(format!("es{value}")),
+        _ => None,
     }
 }
 
@@ -544,5 +580,64 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             }
             .into()
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_ecma_ast::EsVersion;
+
+    use super::TerserEcmaVersion;
+
+    #[test]
+    fn parses_numeric_terser_versions() {
+        assert_eq!(
+            TerserEcmaVersion::Num(2023).parse_es_version().unwrap(),
+            EsVersion::Es2023
+        );
+        assert_eq!(
+            TerserEcmaVersion::Num(2024).parse_es_version().unwrap(),
+            EsVersion::Es2024
+        );
+    }
+
+    #[test]
+    fn parses_string_terser_versions() {
+        assert_eq!(
+            TerserEcmaVersion::Str(String::from("2023"))
+                .parse_es_version()
+                .unwrap(),
+            EsVersion::Es2023
+        );
+        assert_eq!(
+            TerserEcmaVersion::Str(String::from("es2023"))
+                .parse_es_version()
+                .unwrap(),
+            EsVersion::Es2023
+        );
+        assert_eq!(
+            TerserEcmaVersion::Str(String::from("esnext"))
+                .parse_es_version()
+                .unwrap(),
+            EsVersion::EsNext
+        );
+    }
+
+    #[test]
+    fn rejects_invalid_versions_without_panicking() {
+        assert_eq!(
+            TerserEcmaVersion::Num(2025)
+                .parse_es_version()
+                .unwrap_err()
+                .to_string(),
+            "`2025` is not a valid ecmascript version"
+        );
+        assert_eq!(
+            TerserEcmaVersion::Str(String::from("foo"))
+                .parse_es_version()
+                .unwrap_err()
+                .to_string(),
+            "`foo` is not a valid ecmascript version"
+        );
     }
 }
