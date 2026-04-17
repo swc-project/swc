@@ -133,11 +133,7 @@ fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOption
     c.pristine_globals = Some(true);
     c.passes = opts.passes;
 
-    (
-        c.module,
-        c.into_config(cm)
-            .expect("failed to parse ecmascript version of compressor config"),
-    )
+    (c.module, c.into_config(cm))
 }
 
 fn run(

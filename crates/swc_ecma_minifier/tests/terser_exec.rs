@@ -169,7 +169,7 @@ fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> Result<(bool, Compres
     c.const_to_let = Some(false);
     c.passes = opts.passes;
 
-    Ok((c.module, c.into_config(cm)?))
+    Ok((c.module, c.into_config(cm)))
 }
 
 fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Option<Program> {
