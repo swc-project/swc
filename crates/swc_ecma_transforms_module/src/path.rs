@@ -94,6 +94,7 @@ where
 {
     resolver: R,
     config: Config,
+    preserve_symlinks: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -118,6 +119,16 @@ where
     R: Resolve,
 {
     pub fn with_config(resolver: R, config: Config) -> Self {
+        Self::with_config_inner(resolver, config, false)
+    }
+
+    /// Creates a resolver that preserves symlink paths when rewriting module
+    /// specifiers.
+    pub fn with_config_preserving_symlinks(resolver: R, config: Config) -> Self {
+        Self::with_config_inner(resolver, config, true)
+    }
+
+    fn with_config_inner(resolver: R, config: Config, preserve_symlinks: bool) -> Self {
         #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
         if let Some(base_dir) = &config.base_dir {
             assert!(
@@ -134,7 +145,11 @@ where
             );
         }
 
-        Self { resolver, config }
+        Self {
+            resolver,
+            config,
+            preserve_symlinks,
+        }
     }
 }
 
@@ -260,12 +275,14 @@ where
             }
         };
 
-        // Bazel uses symlink
-        //
-        // https://github.com/swc-project/swc/issues/8265
-        if let FileName::Real(resolved) = &target.filename {
-            if let Ok(orig) = canonicalize(resolved) {
-                target.filename = FileName::Real(orig);
+        if !self.preserve_symlinks {
+            // Bazel uses symlink
+            //
+            // https://github.com/swc-project/swc/issues/8265
+            if let FileName::Real(resolved) = &target.filename {
+                if let Ok(orig) = canonicalize(resolved) {
+                    target.filename = FileName::Real(orig);
+                }
             }
         }
 
