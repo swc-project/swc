@@ -1,0 +1,180 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 167
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 1,
+          "end": 13
+        },
+        "value": "use client",
+        "raw": "\"use client\""
+      }
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 16,
+        "end": 167
+      },
+      "decl": {
+        "type": "FunctionExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 40,
+            "end": 45
+          },
+          "ctxt": 0,
+          "value": "Hello",
+          "optional": false
+        },
+        "params": [
+          {
+            "type": "Parameter",
+            "span": {
+              "start": 46,
+              "end": 48
+            },
+            "decorators": [],
+            "pat": {
+              "type": "ObjectPattern",
+              "span": {
+                "start": 46,
+                "end": 48
+              },
+              "properties": [],
+              "optional": false,
+              "typeAnnotation": null
+            }
+          }
+        ],
+        "decorators": [],
+        "span": {
+          "start": 31,
+          "end": 167
+        },
+        "ctxt": 0,
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 50,
+            "end": 167
+          },
+          "ctxt": 0,
+          "stmts": [
+            {
+              "type": "ReturnStatement",
+              "span": {
+                "start": 56,
+                "end": 165
+              },
+              "argument": {
+                "type": "ParenthesisExpression",
+                "span": {
+                  "start": 63,
+                  "end": 164
+                },
+                "expression": {
+                  "type": "JSXElement",
+                  "span": {
+                    "start": 73,
+                    "end": 158
+                  },
+                  "opening": {
+                    "type": "JSXOpeningElement",
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 74,
+                        "end": 77
+                      },
+                      "ctxt": 0,
+                      "value": "div",
+                      "optional": false
+                    },
+                    "span": {
+                      "start": 73,
+                      "end": 125
+                    },
+                    "attributes": [
+                      {
+                        "type": "JSXAttribute",
+                        "span": {
+                          "start": 90,
+                          "end": 115
+                        },
+                        "name": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 90,
+                            "end": 103
+                          },
+                          "value": "data-anything"
+                        },
+                        "value": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 104,
+                            "end": 115
+                          },
+                          "value": "bruh\nbruh",
+                          "raw": "\"bruh\nbruh\""
+                        }
+                      }
+                    ],
+                    "selfClosing": false,
+                    "typeArguments": null
+                  },
+                  "children": [
+                    {
+                      "type": "JSXText",
+                      "span": {
+                        "start": 125,
+                        "end": 152
+                      },
+                      "value": "\n            hello\n        ",
+                      "raw": "\n            hello\n        "
+                    }
+                  ],
+                  "closing": {
+                    "type": "JSXClosingElement",
+                    "span": {
+                      "start": 152,
+                      "end": 158
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 154,
+                        "end": 157
+                      },
+                      "ctxt": 0,
+                      "value": "div",
+                      "optional": false
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    }
+  ],
+  "interpreter": null
+}
