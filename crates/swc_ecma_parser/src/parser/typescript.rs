@@ -50,6 +50,18 @@ enum FlowEnumMemberKind {
     Invalid,
 }
 
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum TsInstantiationFastPath {
+    Candidate,
+    NonCandidate,
+    Unknown,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum TsInstantiationVirtualFollow {
+    Token(Token),
+}
+
 /// Mark as declare
 fn make_decl_declare(mut decl: Decl) -> Decl {
     match decl {
@@ -119,6 +131,149 @@ enum FlowComponentParam {
 }
 
 impl<I: Tokens> Parser<I> {
+    fn ts_is_invalid_instantiation_expr_follower(token: Token) -> bool {
+        matches!(
+            token,
+            Token::Lt
+                | Token::Gt
+                | Token::Eq
+                | Token::RShift
+                | Token::GtEq
+                | Token::Plus
+                | Token::Minus
+                | Token::LParen
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::TemplateHead
+                | Token::BackQuote
+        )
+    }
+
+    fn ts_classify_instantiation_fast_path(
+        &mut self,
+        follow: Option<TsInstantiationVirtualFollow>,
+    ) -> TsInstantiationFastPath {
+        if let Some(TsInstantiationVirtualFollow::Token(token)) = follow {
+            return if Self::ts_is_invalid_instantiation_expr_follower(token) {
+                TsInstantiationFastPath::NonCandidate
+            } else {
+                TsInstantiationFastPath::Unknown
+            };
+        }
+
+        let cur = self.input().cur();
+        if Self::ts_is_invalid_instantiation_expr_follower(cur) {
+            return TsInstantiationFastPath::NonCandidate;
+        }
+
+        if self.input().had_line_break_before_cur() || cur.is_bin_op() || !self.is_start_of_expr() {
+            TsInstantiationFastPath::Candidate
+        } else {
+            TsInstantiationFastPath::NonCandidate
+        }
+    }
+
+    fn ts_scan_instantiation_type_args_fast_path(&mut self) -> TsInstantiationFastPath {
+        debug_assert!(self.input().syntax().typescript());
+        debug_assert!(self.input().is(Token::Lt));
+
+        self.assert_and_bump(Token::Lt);
+
+        let mut depth = 1usize;
+
+        loop {
+            let virtual_follow = match self.input().cur() {
+                Token::Lt => {
+                    depth += 1;
+                    self.bump();
+                    None
+                }
+                // `<<` may be nested generic openers or a shift operator. Let the full
+                // speculative parser disambiguate that case.
+                Token::LShift => return TsInstantiationFastPath::Unknown,
+                Token::Gt => {
+                    depth -= 1;
+                    self.bump();
+                    if depth == 0 {
+                        return self.ts_classify_instantiation_fast_path(None);
+                    }
+                    None
+                }
+                Token::RShift => match depth {
+                    0 => return TsInstantiationFastPath::Unknown,
+                    1 => Some(TsInstantiationVirtualFollow::Token(Token::Gt)),
+                    _ => {
+                        depth -= 2;
+                        self.bump();
+                        if depth == 0 {
+                            return self.ts_classify_instantiation_fast_path(None);
+                        }
+                        None
+                    }
+                },
+                Token::GtEq => match depth {
+                    0 => return TsInstantiationFastPath::Unknown,
+                    1 => Some(TsInstantiationVirtualFollow::Token(Token::Eq)),
+                    _ => return TsInstantiationFastPath::Unknown,
+                },
+                Token::RShiftEq => match depth {
+                    0 => return TsInstantiationFastPath::Unknown,
+                    1 => Some(TsInstantiationVirtualFollow::Token(Token::GtEq)),
+                    2 => Some(TsInstantiationVirtualFollow::Token(Token::Eq)),
+                    _ => return TsInstantiationFastPath::Unknown,
+                },
+                Token::ZeroFillRShift => match depth {
+                    0 => return TsInstantiationFastPath::Unknown,
+                    1 => Some(TsInstantiationVirtualFollow::Token(Token::RShift)),
+                    2 => Some(TsInstantiationVirtualFollow::Token(Token::Gt)),
+                    _ => {
+                        depth -= 3;
+                        self.bump();
+                        if depth == 0 {
+                            return self.ts_classify_instantiation_fast_path(None);
+                        }
+                        None
+                    }
+                },
+                Token::ZeroFillRShiftEq => match depth {
+                    0 => return TsInstantiationFastPath::Unknown,
+                    1 => Some(TsInstantiationVirtualFollow::Token(Token::RShiftEq)),
+                    2 => Some(TsInstantiationVirtualFollow::Token(Token::GtEq)),
+                    3 => Some(TsInstantiationVirtualFollow::Token(Token::Eq)),
+                    _ => return TsInstantiationFastPath::Unknown,
+                },
+                Token::Eof => return TsInstantiationFastPath::NonCandidate,
+                _ => {
+                    self.bump();
+                    None
+                }
+            };
+
+            if let Some(virtual_follow) = virtual_follow {
+                return self.ts_classify_instantiation_fast_path(Some(virtual_follow));
+            }
+        }
+    }
+
+    fn ts_try_fast_path_instantiation_type_args(&mut self) -> TsInstantiationFastPath {
+        debug_assert!(self.input().syntax().typescript());
+        debug_assert!(self.input().is(Token::Lt));
+
+        self.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+            let checkpoint = p.checkpoint_save();
+            let prev_ignore_error = p.input().get_ctx().contains(Context::IgnoreError);
+            p.set_ctx(p.ctx() | Context::IgnoreError);
+
+            let result = p.ts_scan_instantiation_type_args_fast_path();
+
+            p.checkpoint_load(checkpoint);
+            let mut ctx = p.ctx();
+            ctx.set(Context::IgnoreError, prev_ignore_error);
+            p.input_mut().set_ctx(ctx);
+
+            result
+        })
+    }
+
     fn make_flow_any_keyword_type(&mut self, start: BytePos) -> Box<TsType> {
         Box::new(TsType::TsKeywordType(TsKeywordType {
             span: self.span(start),
@@ -1700,6 +1855,14 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, try_parse_ts_type_args);
         debug_assert!(self.input().syntax().typescript());
 
+        if !self.input().syntax().jsx()
+            && self.input().is(Token::Lt)
+            && self.ts_try_fast_path_instantiation_type_args()
+                == TsInstantiationFastPath::NonCandidate
+        {
+            return None;
+        }
+
         self.try_parse_ts(|p| {
             let type_args = p.parse_ts_type_args()?;
             p.assert_and_bump(Token::Gt);
@@ -1734,6 +1897,47 @@ impl<I: Tokens> Parser<I> {
                 Ok(None)
             }
         })
+    }
+
+    fn parse_ts_generic_async_arrow_fn_head(
+        &mut self,
+    ) -> PResult<Option<(Box<TsTypeParamDecl>, Vec<Pat>, Option<Box<TsTypeAnn>>)>> {
+        debug_assert!(self.input().syntax().typescript());
+
+        let cur = self.input().cur();
+        if cur != Token::Lt && cur != Token::JSXTagStart {
+            return Ok(None);
+        }
+
+        let type_params = self.parse_ts_type_params(false, false)?;
+
+        // In TSX mode, type parameters that could be mistaken for JSX
+        // (single param without constraint and no trailing comma) are not
+        // allowed.
+        if self.input().syntax().jsx() && type_params.params.len() == 1 {
+            let single_param = &type_params.params[0];
+            let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
+            let dominated_by_jsx = single_param.constraint.is_none()
+                && single_param.default.is_none()
+                && !has_trailing_comma;
+
+            if dominated_by_jsx {
+                return Ok(None);
+            }
+        }
+
+        // Don't use overloaded parseFunctionParams which would look for "<" again.
+        expect!(self, Token::LParen);
+        let params: Vec<Pat> = self
+            .parse_formal_params()?
+            .into_iter()
+            .map(|p| p.pat)
+            .collect();
+        expect!(self, Token::RParen);
+        let return_type = self.try_parse_ts_type_or_type_predicate_ann()?;
+        expect!(self, Token::Arrow);
+
+        Ok(Some((type_params, params, return_type)))
     }
 
     /// `tsTryParseType`
@@ -5138,47 +5342,11 @@ impl<I: Tokens> Parser<I> {
             return Ok(Default::default());
         }
 
-        let cur = self.input().cur();
-        let res = if cur == Token::Lt || cur == Token::JSXTagStart {
-            self.try_parse_ts(|p| {
-                let type_params = p.parse_ts_type_params(false, false)?;
-
-                // In TSX mode, type parameters that could be mistaken for JSX
-                // (single param without constraint and no trailing comma) are not
-                // allowed.
-                if p.input().syntax().jsx() && type_params.params.len() == 1 {
-                    let single_param = &type_params.params[0];
-                    let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
-                    let dominated_by_jsx = single_param.constraint.is_none()
-                        && single_param.default.is_none()
-                        && !has_trailing_comma;
-
-                    if dominated_by_jsx {
-                        return Ok(None);
-                    }
-                }
-
-                // Don't use overloaded parseFunctionParams which would look for "<" again.
-                expect!(p, Token::LParen);
-                let params: Vec<Pat> = p
-                    .parse_formal_params()?
-                    .into_iter()
-                    .map(|p| p.pat)
-                    .collect();
-                expect!(p, Token::RParen);
-                let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
-                expect!(p, Token::Arrow);
-
-                Ok(Some((type_params, params, return_type)))
-            })
-        } else {
-            None
-        };
-
-        let (type_params, params, return_type) = match res {
-            Some(v) => v,
-            None => return Ok(None),
-        };
+        let (type_params, params, return_type) =
+            match self.parse_ts_generic_async_arrow_fn_head()? {
+                Some(v) => v,
+                None => return Ok(None),
+            };
 
         self.do_inside_of_context(Context::InAsync, |p| {
             p.do_outside_of_context(Context::InGenerator, |p| {

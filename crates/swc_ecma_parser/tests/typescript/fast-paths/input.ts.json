@@ -1,0 +1,337 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 65
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 12
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1,
+          "end": 11
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 6
+          },
+          "ctxt": 0,
+          "value": "async",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 6,
+            "end": 9
+          },
+          "params": [
+            {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 7,
+                "end": 8
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 7,
+                  "end": 8
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 13,
+        "end": 26
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 13,
+          "end": 25
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 13,
+            "end": 20
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 13,
+              "end": 16
+            },
+            "ctxt": 0,
+            "value": "foo",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 17,
+              "end": 20
+            },
+            "value": "bar"
+          }
+        },
+        "arguments": [],
+        "typeArguments": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 20,
+            "end": 23
+          },
+          "params": [
+            {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 21,
+                "end": 22
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 21,
+                  "end": 22
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 27,
+        "end": 41
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 27,
+          "end": 40
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 27,
+            "end": 35
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 27,
+              "end": 30
+            },
+            "ctxt": 0,
+            "value": "foo",
+            "optional": false
+          },
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 30,
+              "end": 35
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 31,
+                "end": 34
+              },
+              "ctxt": 0,
+              "value": "bar",
+              "optional": false
+            }
+          }
+        },
+        "arguments": [],
+        "typeArguments": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 35,
+            "end": 38
+          },
+          "params": [
+            {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 36,
+                "end": 37
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 36,
+                  "end": 37
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 42,
+        "end": 53
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 42,
+          "end": 52
+        },
+        "optional": true,
+        "base": {
+          "type": "CallExpression",
+          "span": {
+            "start": 42,
+            "end": 52
+          },
+          "ctxt": 0,
+          "callee": {
+            "type": "TsInstantiation",
+            "span": {
+              "start": 42,
+              "end": 48
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 42,
+                "end": 45
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            },
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 45,
+                "end": 48
+              },
+              "params": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 46,
+                    "end": 47
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 46,
+                      "end": 47
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 54,
+        "end": 65
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 54,
+          "end": 64
+        },
+        "operator": ">",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 54,
+            "end": 59
+          },
+          "operator": "<",
+          "left": {
+            "type": "Identifier",
+            "span": {
+              "start": 54,
+              "end": 57
+            },
+            "ctxt": 0,
+            "value": "foo",
+            "optional": false
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 58,
+              "end": 59
+            },
+            "ctxt": 0,
+            "value": "T",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "UnaryExpression",
+          "span": {
+            "start": 61,
+            "end": 64
+          },
+          "operator": "+",
+          "argument": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 63,
+              "end": 64
+            },
+            "value": 1.0,
+            "raw": "1"
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -71,6 +71,8 @@ fn shifted(file: PathBuf) {
 #[testing::fixture("tests/typescript/**/*.cts")]
 #[testing::fixture("tests/typescript/**/*.tsx")]
 fn spec(file: PathBuf) {
+    // Keep the glob broad so parser fast-path regressions can land as focused
+    // fixtures.
     let output = file.parent().unwrap().join(format!(
         "{}.json",
         file.file_name().unwrap().to_string_lossy()

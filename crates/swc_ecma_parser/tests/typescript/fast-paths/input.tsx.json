@@ -1,0 +1,223 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 99
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 39
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 7,
+            "end": 38
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 12
+            },
+            "ctxt": 0,
+            "value": "comma",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 15,
+              "end": 38
+            },
+            "ctxt": 0,
+            "params": [],
+            "body": {
+              "type": "JSXElement",
+              "span": {
+                "start": 31,
+                "end": 38
+              },
+              "opening": {
+                "type": "JSXOpeningElement",
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 32,
+                    "end": 35
+                  },
+                  "ctxt": 0,
+                  "value": "div",
+                  "optional": false
+                },
+                "span": {
+                  "start": 31,
+                  "end": 38
+                },
+                "attributes": [],
+                "selfClosing": true,
+                "typeArguments": null
+              },
+              "children": [],
+              "closing": null
+            },
+            "async": true,
+            "generator": false,
+            "typeParameters": {
+              "type": "TsTypeParameterDeclaration",
+              "span": {
+                "start": 21,
+                "end": 25
+              },
+              "parameters": [
+                {
+                  "type": "TsTypeParameter",
+                  "span": {
+                    "start": 22,
+                    "end": 23
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 22,
+                      "end": 23
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "in": false,
+                  "out": false,
+                  "const": false,
+                  "constraint": null,
+                  "default": null
+                }
+              ]
+            },
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 40,
+        "end": 99
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 46,
+            "end": 98
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 46,
+              "end": 57
+            },
+            "ctxt": 0,
+            "value": "constrained",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 60,
+              "end": 98
+            },
+            "ctxt": 0,
+            "params": [],
+            "body": {
+              "type": "JSXElement",
+              "span": {
+                "start": 91,
+                "end": 98
+              },
+              "opening": {
+                "type": "JSXOpeningElement",
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 92,
+                    "end": 95
+                  },
+                  "ctxt": 0,
+                  "value": "div",
+                  "optional": false
+                },
+                "span": {
+                  "start": 91,
+                  "end": 98
+                },
+                "attributes": [],
+                "selfClosing": true,
+                "typeArguments": null
+              },
+              "children": [],
+              "closing": null
+            },
+            "async": true,
+            "generator": false,
+            "typeParameters": {
+              "type": "TsTypeParameterDeclaration",
+              "span": {
+                "start": 66,
+                "end": 85
+              },
+              "parameters": [
+                {
+                  "type": "TsTypeParameter",
+                  "span": {
+                    "start": 67,
+                    "end": 84
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 67,
+                      "end": 68
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "in": false,
+                  "out": false,
+                  "const": false,
+                  "constraint": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 77,
+                      "end": 84
+                    },
+                    "kind": "unknown"
+                  },
+                  "default": null
+                }
+              ]
+            },
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
