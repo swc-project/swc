@@ -406,6 +406,7 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Build TypeScript
+        working-directory: ./packages/${{ inputs.package }}
         run: yarn build:ts
       - name: Test bindings
         run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}'
