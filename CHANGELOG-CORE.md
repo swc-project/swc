@@ -7,6 +7,9 @@
 
 - **(deploy)** Fix musl binding test workflow ([#11804](https://github.com/swc-project/swc/issues/11804)) ([c30a522](https://github.com/swc-project/swc/commit/c30a5226920311a26f2b9692d057a50b18266d30))
 
+
+- **(deploy)** Build package ts before Linux GNU binding tests ([#11806](https://github.com/swc-project/swc/issues/11806)) ([a3d3ef3](https://github.com/swc-project/swc/commit/a3d3ef3924a80e19101a9735bf357ac14cd68fbc))
+
 ## [swc_core@v64.0.0] - 2026-04-17
 
 ### Bug Fixes
@@ -2553,12 +2556,6 @@
 
 
 - **(es/parser)** Rescan `>=` for JSX closing tag ([#10693](https://github.com/swc-project/swc/issues/10693)) ([fe82c4c](https://github.com/swc-project/swc/commit/fe82c4cf83b4cea05403b87bc665f9d0a84928e1))
-
-### Miscellaneous Tasks
-
-
-
-- **(ecosystem-ci)** Exclude `react-leaflet` ([cfbb1f9](https://github.com/swc-project/swc/commit/cfbb1f9505b430b2e93062611734d2f0a196b008))
 
 ### Testing
 
