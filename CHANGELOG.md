@@ -2098,12 +2098,6 @@
 
 ## [1.12.6] - 2025-06-24
 
-### Bug Fixes
-
-
-
-- **(es/parser)** Throw error if JSX does not end with `>` ([#10687](https://github.com/swc-project/swc/issues/10687)) ([cb3d6db](https://github.com/swc-project/swc/commit/cb3d6dbfd4dd9d82bea0222934daf902f57e1034))
-
 ### Miscellaneous Tasks
 
 
