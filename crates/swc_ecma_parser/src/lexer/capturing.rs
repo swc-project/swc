@@ -145,16 +145,8 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.token_flags()
     }
 
-    fn clone_token_value(&self) -> Option<super::TokenValue> {
-        self.inner.clone_token_value()
-    }
-
-    fn take_token_value(&mut self) -> Option<super::TokenValue> {
-        self.inner.take_token_value()
-    }
-
-    fn get_token_value(&self) -> Option<&super::TokenValue> {
-        self.inner.get_token_value()
+    fn token_value(&self, start: swc_common::BytePos) -> Option<&super::TokenValue> {
+        self.inner.token_value(start)
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
@@ -171,10 +163,6 @@ impl<I: Tokens> Tokens for Capturing<I> {
             self.capture(next);
         }
         next
-    }
-
-    fn set_token_value(&mut self, token_value: Option<super::TokenValue>) {
-        self.inner.set_token_value(token_value);
     }
 
     fn scan_jsx_token(&mut self) -> TokenAndSpan {

@@ -4,7 +4,7 @@ use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
+    lexer::{kind::Kind, LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
     Context,
 };
@@ -57,10 +57,7 @@ pub trait Tokens: Clone {
     fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags));
     fn token_flags(&self) -> TokenFlags;
 
-    fn clone_token_value(&self) -> Option<TokenValue>;
-    fn take_token_value(&mut self) -> Option<TokenValue>;
-    fn get_token_value(&self) -> Option<&TokenValue>;
-    fn set_token_value(&mut self, token_value: Option<TokenValue>);
+    fn token_value(&self, start: BytePos) -> Option<&TokenValue>;
 
     /// Returns the first token in the file.
     ///
@@ -96,70 +93,70 @@ pub struct Buffer<I> {
 
 impl<I: Tokens> Buffer<I> {
     pub fn expect_word_token_value(&mut self) -> Atom {
-        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Word(word)) = self.get_token_value() else {
             unreachable!()
         };
-        word
+        word.clone()
     }
 
     pub fn expect_word_token_value_ref(&self) -> &Atom {
-        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.get_token_value() else {
-            unreachable!("token_value: {:?}", self.iter.get_token_value())
+        let Some(crate::lexer::TokenValue::Word(word)) = self.get_token_value() else {
+            unreachable!("token_value: {:?}", self.get_token_value())
         };
         word
     }
 
     pub fn expect_number_token_value(&mut self) -> f64 {
-        let Some(crate::lexer::TokenValue::Num(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Num(value)) = self.get_token_value() else {
             unreachable!()
         };
-        value
+        *value
     }
 
     pub fn expect_string_token_value(&mut self) -> Wtf8Atom {
-        let Some(crate::lexer::TokenValue::Str(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Str(value)) = self.get_token_value() else {
             unreachable!()
         };
-        value
+        value.clone()
     }
 
     pub fn expect_jsx_text_token_value(&mut self) -> Atom {
-        let Some(crate::lexer::TokenValue::JsxText(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::JsxText(value)) = self.get_token_value() else {
             unreachable!()
         };
-        value
+        value.clone()
     }
 
     pub fn expect_bigint_token_value(&mut self) -> Box<num_bigint::BigInt> {
-        let Some(crate::lexer::TokenValue::BigInt(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::BigInt(value)) = self.get_token_value() else {
             unreachable!()
         };
-        value
+        value.clone()
     }
 
     pub fn expect_regex_token_value(&mut self) -> BytePos {
-        let Some(crate::lexer::TokenValue::Regex(exp_end)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Regex(exp_end)) = self.get_token_value() else {
             unreachable!()
         };
-        exp_end
+        *exp_end
     }
 
     pub fn expect_template_token_value(&mut self) -> LexResult<Wtf8Atom> {
-        let Some(crate::lexer::TokenValue::Template(cooked)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Template(cooked)) = self.get_token_value() else {
             unreachable!()
         };
-        cooked
+        cooked.clone()
     }
 
     pub fn expect_error_token_value(&mut self) -> Error {
-        let Some(crate::lexer::TokenValue::Error(error)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Error(error)) = self.get_token_value() else {
             unreachable!()
         };
-        error
+        error.clone()
     }
 
     pub fn get_token_value(&self) -> Option<&TokenValue> {
-        self.iter.get_token_value()
+        self.iter.token_value(self.cur.span.lo)
     }
 
     pub fn scan_jsx_token(&mut self) {
@@ -270,20 +267,17 @@ impl<I: Tokens> Buffer<I> {
         &mut self.iter
     }
 
-    pub fn peek(&mut self) -> Option<Token> {
+    pub fn peek(&mut self) -> Option<Kind> {
         debug_assert!(
             self.cur.token != Token::Eof,
             "parser should not call peek() without knowing current token"
         );
 
         if self.next.is_none() {
-            let old = self.iter.take_token_value();
             let next_token = self.iter.next_token();
             self.next = Some(NextTokenAndSpan {
                 token_and_span: next_token,
-                value: self.iter.take_token_value(),
             });
-            self.iter.set_token_value(old);
         }
 
         self.next.as_ref().map(|ts| ts.token_and_span.token)
@@ -305,10 +299,7 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn bump(&mut self) {
         let next = match self.next.take() {
-            Some(next) => {
-                self.iter.set_token_value(next.value);
-                next.token_and_span
-            }
+            Some(next) => next.token_and_span,
             None => self.iter.next_token(),
         };
         self.prev_span = self.cur.span;

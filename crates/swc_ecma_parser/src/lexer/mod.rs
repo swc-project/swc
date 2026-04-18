@@ -26,7 +26,9 @@ use crate::{
         comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBuffer},
         jsx::xhtml,
         number::{parse_integer, LazyInteger},
+        payload_store::PayloadStore,
         search::SafeByteMatchTable,
+        source::Source,
         state::State,
     },
     safe_byte_match_table,
@@ -39,8 +41,11 @@ pub(crate) mod capturing;
 mod char_ext;
 mod comments_buffer;
 mod jsx;
+pub(crate) mod kind;
 mod number;
+mod payload_store;
 pub(crate) mod search;
+mod source;
 mod state;
 mod table;
 pub(crate) mod token;
@@ -210,13 +215,14 @@ pub struct Lexer<'a> {
     comments_buffer: Option<CommentsBuffer>,
 
     pub ctx: Context,
-    input: StringInput<'a>,
+    input: Source<'a>,
     start_pos: BytePos,
 
     state: State,
     token_flags: TokenFlags,
     pub(crate) syntax: SyntaxFlags,
     pub(crate) target: EsVersion,
+    payload_store: PayloadStore,
 
     errors: Vec<Error>,
     module_errors: Vec<Error>,
@@ -226,12 +232,12 @@ pub struct Lexer<'a> {
 
 impl<'a> Lexer<'a> {
     #[inline(always)]
-    fn input(&self) -> &StringInput<'a> {
+    fn input(&self) -> &Source<'a> {
         &self.input
     }
 
     #[inline(always)]
-    fn input_mut(&mut self) -> &mut StringInput<'a> {
+    fn input_mut(&mut self) -> &mut Source<'a> {
         &mut self.input
     }
 
@@ -276,6 +282,11 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
+    pub(crate) fn set_token_value(&mut self, token_value: Option<TokenValue>) {
+        self.state.token_value = token_value;
+    }
+
+    #[inline(always)]
     fn atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, str>>) -> swc_atoms::Atom {
         self.atoms.atom(s)
     }
@@ -313,11 +324,12 @@ impl<'a> Lexer<'a> {
             comments,
             comments_buffer: comments.is_some().then(CommentsBuffer::new),
             ctx: Default::default(),
-            input,
+            input: Source::new(input),
             start_pos,
             state: State::new(start_pos),
             syntax,
             target,
+            payload_store: Default::default(),
             errors: Default::default(),
             module_errors: Default::default(),
             atoms: Default::default(),

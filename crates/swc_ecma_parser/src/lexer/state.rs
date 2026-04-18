@@ -12,6 +12,7 @@ use crate::{
     lexer::{
         char_ext::CharExt,
         comments_buffer::{BufferedCommentKind, CommentsBufferCheckpoint},
+        payload_store::PayloadStoreCheckpoint,
         search::SafeByteMatchTable,
         token::{Token, TokenAndSpan, TokenValue},
         LexResult,
@@ -46,9 +47,10 @@ pub struct State {
 
 pub struct LexerCheckpoint {
     comments_buffer: CommentsBufferCheckpoint,
+    payload_store: PayloadStoreCheckpoint,
     state: State,
     ctx: Context,
-    input_last_pos: BytePos,
+    input_checkpoint: BytePos,
 }
 
 impl crate::input::Tokens for Lexer<'_> {
@@ -58,7 +60,8 @@ impl crate::input::Tokens for Lexer<'_> {
         LexerCheckpoint {
             state: self.state.clone(),
             ctx: self.ctx,
-            input_last_pos: self.input.last_pos(),
+            input_checkpoint: self.input.checkpoint_save(),
+            payload_store: self.payload_store.checkpoint_save(),
             comments_buffer: self
                 .comments_buffer
                 .as_ref()
@@ -70,7 +73,8 @@ impl crate::input::Tokens for Lexer<'_> {
     fn checkpoint_load(&mut self, checkpoint: LexerCheckpoint) {
         self.state = checkpoint.state;
         self.ctx = checkpoint.ctx;
-        unsafe { self.input.reset_to(checkpoint.input_last_pos) };
+        self.payload_store.checkpoint_load(checkpoint.payload_store);
+        unsafe { self.input.checkpoint_load(checkpoint.input_checkpoint) };
         if let Some(comments_buffer) = self.comments_buffer.as_mut() {
             comments_buffer.checkpoint_load(checkpoint.comments_buffer);
         }
@@ -161,20 +165,8 @@ impl crate::input::Tokens for Lexer<'_> {
         self.token_flags
     }
 
-    fn clone_token_value(&self) -> Option<TokenValue> {
-        self.state.token_value.clone()
-    }
-
-    fn get_token_value(&self) -> Option<&TokenValue> {
-        self.state.token_value.as_ref()
-    }
-
-    fn set_token_value(&mut self, token_value: Option<TokenValue>) {
-        self.state.token_value = token_value;
-    }
-
-    fn take_token_value(&mut self) -> Option<TokenValue> {
-        self.state.token_value.take()
+    fn token_value(&self, start: BytePos) -> Option<&TokenValue> {
+        self.payload_store.get(start)
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
@@ -286,9 +278,9 @@ impl crate::input::Tokens for Lexer<'_> {
                 };
                 value.reserve(prefix.len() + v.len());
                 value.push_str(prefix);
-            } else if let Some(TokenValue::Word(prefix)) = self.state.token_value.take() {
+            } else if let Some(TokenValue::Word(prefix)) = self.payload_store.get(start) {
                 value.reserve(prefix.len() + v.len());
-                value.push_str(&prefix);
+                value.push_str(prefix);
             } else {
                 let prefix = unsafe {
                     // Safety: start and end are valid position because we got them from
@@ -307,15 +299,16 @@ impl crate::input::Tokens for Lexer<'_> {
                 self.input_slice_str(start, prefix_end)
             };
             self.atom(prefix)
-        } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
-            value
+        } else if let Some(TokenValue::Word(value)) = self.payload_store.get(start) {
+            value.clone()
         } else {
             unreachable!(
                 "`token_value` should be a word, but got: {:?}",
-                self.state.token_value
+                self.payload_store.get(start)
             )
         };
         self.state.set_token_value(TokenValue::Word(v));
+        self.store_token_value_for_span(start);
         TokenAndSpan {
             token: Token::JSXName,
             had_line_break: self.state.had_line_break,
@@ -349,9 +342,12 @@ impl crate::input::Tokens for Lexer<'_> {
                     }
                 };
                 debug_assert!(self
-                    .get_token_value()
+                    .state
+                    .token_value
+                    .as_ref()
                     .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
                 debug_assert!(token == Token::Str);
+                self.store_token_value_for_span(start);
                 TokenAndSpan {
                     token,
                     had_line_break: self.state.had_line_break,
@@ -367,6 +363,7 @@ impl crate::input::Tokens for Lexer<'_> {
         start: BytePos,
         start_with_back_tick: bool,
     ) -> TokenAndSpan {
+        self.payload_store.clear_at_or_after(start);
         unsafe { self.input.reset_to(start) };
         let res = self.scan_template_token(start, start_with_back_tick);
         let token = match res.map_err(|e| {
@@ -387,6 +384,14 @@ impl crate::input::Tokens for Lexer<'_> {
 }
 
 impl Lexer<'_> {
+    #[inline(always)]
+    fn store_token_value_for_span(&mut self, start: BytePos) {
+        self.payload_store.clear_at_or_after(start);
+        if let Some(token_value) = self.state.token_value.take() {
+            self.payload_store.insert(start, token_value);
+        }
+    }
+
     #[inline]
     fn jsx_text_allows_raw_gt(&self, start: BytePos, pos: BytePos) -> bool {
         let prefix = unsafe {
@@ -416,6 +421,7 @@ impl Lexer<'_> {
 
     #[inline(always)]
     fn finish_next_token(&mut self, span: Span, token: Token) -> TokenAndSpan {
+        self.store_token_value_for_span(span.lo);
         if token == Token::Eof {
             self.consume_pending_comments();
         } else if let Some(comments) = self.comments_buffer.as_mut() {

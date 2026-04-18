@@ -882,10 +882,9 @@ impl TokenAndSpan {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct NextTokenAndSpan {
     pub token_and_span: TokenAndSpan,
-    pub value: Option<TokenValue>,
 }
 
 impl NextTokenAndSpan {

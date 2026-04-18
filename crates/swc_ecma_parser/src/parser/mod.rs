@@ -6,13 +6,11 @@ use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
-#[cfg(feature = "typescript")]
-use crate::lexer::TokenAndSpan;
 use crate::{
     error::SyntaxError,
-    input::Buffer,
     lexer::Token,
     parser::{
+        cursor::Cursor,
         input::Tokens,
         state::{State, WithState},
         util::ExprExt,
@@ -30,6 +28,7 @@ use crate::error::Error;
 #[macro_use]
 mod macros;
 mod class_and_fn;
+mod cursor;
 mod expr;
 mod ident;
 pub mod input;
@@ -53,10 +52,7 @@ pub type PResult<T> = Result<T, crate::error::Error>;
 
 #[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
-    lexer: I::Checkpoint,
-    buffer_prev_span: Span,
-    buffer_cur: TokenAndSpan,
-    buffer_next: Option<crate::lexer::NextTokenAndSpan>,
+    cursor: cursor::CursorCheckpoint<I>,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -65,7 +61,7 @@ pub struct ParserCheckpoint<I: Tokens> {
 #[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
     state: State,
-    input: self::input::Buffer<I>,
+    input: Cursor<I>,
     found_module_item: bool,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
@@ -73,12 +69,12 @@ pub struct Parser<I: self::input::Tokens> {
 
 impl<I: Tokens> Parser<I> {
     #[inline(always)]
-    pub fn input(&self) -> &Buffer<I> {
+    pub fn input(&self) -> &Cursor<I> {
         &self.input
     }
 
     #[inline(always)]
-    pub fn input_mut(&mut self) -> &mut Buffer<I> {
+    pub fn input_mut(&mut self) -> &mut Cursor<I> {
         &mut self.input
     }
 
@@ -95,10 +91,7 @@ impl<I: Tokens> Parser<I> {
     #[cfg(all(feature = "typescript", feature = "flow"))]
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
-            lexer: self.input.iter.checkpoint_save(),
-            buffer_cur: self.input.cur,
-            buffer_next: self.input.next.clone(),
-            buffer_prev_span: self.input.prev_span,
+            cursor: self.input.checkpoint_save(),
             allow_super_call: self.allow_super_call,
         }
     }
@@ -106,28 +99,19 @@ impl<I: Tokens> Parser<I> {
     #[cfg(all(feature = "typescript", not(feature = "flow")))]
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
-            lexer: self.input.iter.checkpoint_save(),
-            buffer_cur: self.input.cur,
-            buffer_next: self.input.next.clone(),
-            buffer_prev_span: self.input.prev_span,
+            cursor: self.input.checkpoint_save(),
         }
     }
 
     #[cfg(all(feature = "typescript", feature = "flow"))]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
-        self.input.iter.checkpoint_load(checkpoint.lexer);
-        self.input.cur = checkpoint.buffer_cur;
-        self.input.next = checkpoint.buffer_next;
-        self.input.prev_span = checkpoint.buffer_prev_span;
+        self.input.checkpoint_load(checkpoint.cursor);
         self.allow_super_call = checkpoint.allow_super_call;
     }
 
     #[cfg(all(feature = "typescript", not(feature = "flow")))]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
-        self.input.iter.checkpoint_load(checkpoint.lexer);
-        self.input.cur = checkpoint.buffer_cur;
-        self.input.next = checkpoint.buffer_next;
-        self.input.prev_span = checkpoint.buffer_prev_span;
+        self.input.checkpoint_load(checkpoint.cursor);
     }
 
     #[cfg(feature = "flow")]
@@ -187,7 +171,7 @@ impl<I: Tokens> Parser<I> {
         let start_pos = input.start_pos();
         let mut p = Parser {
             state: Default::default(),
-            input: crate::parser::input::Buffer::new(input),
+            input: Cursor::new(input),
             found_module_item: false,
             #[cfg(feature = "flow")]
             allow_super_call: false,
