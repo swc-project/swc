@@ -145,6 +145,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.token_flags()
     }
 
+    fn set_current_token_type(&mut self, token: Token) {
+        self.inner.set_current_token_type(token);
+    }
+
     fn clone_token_value(&self) -> Option<super::TokenValue> {
         self.inner.clone_token_value()
     }

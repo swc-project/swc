@@ -161,6 +161,11 @@ impl crate::input::Tokens for Lexer<'_> {
         self.token_flags
     }
 
+    #[inline]
+    fn set_current_token_type(&mut self, token: Token) {
+        self.state.set_token_type(token);
+    }
+
     fn clone_token_value(&self) -> Option<TokenValue> {
         self.state.token_value.clone()
     }

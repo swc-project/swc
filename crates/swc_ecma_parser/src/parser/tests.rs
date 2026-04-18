@@ -2,6 +2,7 @@ use std::hint::black_box;
 
 use swc_atoms::atom;
 use swc_common::{comments::SingleThreadedComments, BytePos, FileName, SourceMap, DUMMY_SP};
+use swc_ecma_ast::EsVersion;
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
@@ -9,6 +10,74 @@ use crate::{parse_file_as_expr, EsSyntax, TsSyntax};
 
 fn program(src: &'static str) -> Program {
     test_parser(src, Default::default(), |p| p.parse_program())
+}
+
+#[test]
+fn peek_preserves_current_token_value() {
+    crate::with_test_sess("foo + bar", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+            EsVersion::Es2019,
+            input,
+            None,
+        );
+        let mut buffer = crate::parser::input::Buffer::new(lexer);
+        buffer.first_bump();
+
+        assert_eq!(buffer.cur(), Token::Ident);
+        assert_eq!(buffer.peek(), Some(Token::Plus));
+        assert_eq!(buffer.expect_word_token_value(), atom!("foo"));
+
+        buffer.bump();
+        assert_eq!(buffer.cur(), Token::Plus);
+
+        buffer.bump();
+        assert_eq!(buffer.cur(), Token::Ident);
+        assert_eq!(buffer.expect_word_token_value(), atom!("bar"));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
+fn buffer_checkpoint_restores_cur_and_peek_values() {
+    crate::with_test_sess("foo + bar", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+            EsVersion::Es2019,
+            input,
+            None,
+        );
+        let mut buffer = crate::parser::input::Buffer::new(lexer);
+        buffer.first_bump();
+        assert_eq!(buffer.peek(), Some(Token::Plus));
+
+        let checkpoint = buffer.checkpoint_save();
+
+        assert_eq!(buffer.expect_word_token_value(), atom!("foo"));
+        buffer.bump();
+        assert_eq!(buffer.cur(), Token::Plus);
+        buffer.bump();
+        assert_eq!(buffer.expect_word_token_value(), atom!("bar"));
+
+        buffer.checkpoint_load(checkpoint);
+        assert_eq!(buffer.cur(), Token::Ident);
+        let Some(crate::lexer::TokenValue::Word(value)) = buffer.get_token_value() else {
+            panic!("expected restored word token value");
+        };
+        assert_eq!(value, &atom!("foo"));
+        assert_eq!(buffer.peek(), Some(Token::Plus));
+
+        Ok(())
+    })
+    .unwrap();
 }
 
 /// Assert that Parser.parse_program returns [Program::Module].

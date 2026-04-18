@@ -7,7 +7,7 @@ use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned}
 use swc_ecma_ast::*;
 
 #[cfg(feature = "typescript")]
-use crate::lexer::TokenAndSpan;
+use crate::input::BufferCheckpoint;
 use crate::{
     error::SyntaxError,
     input::Buffer,
@@ -53,10 +53,7 @@ pub type PResult<T> = Result<T, crate::error::Error>;
 
 #[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
-    lexer: I::Checkpoint,
-    buffer_prev_span: Span,
-    buffer_cur: TokenAndSpan,
-    buffer_next: Option<crate::lexer::NextTokenAndSpan>,
+    buffer: BufferCheckpoint<I>,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -95,10 +92,7 @@ impl<I: Tokens> Parser<I> {
     #[cfg(all(feature = "typescript", feature = "flow"))]
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
-            lexer: self.input.iter.checkpoint_save(),
-            buffer_cur: self.input.cur,
-            buffer_next: self.input.next.clone(),
-            buffer_prev_span: self.input.prev_span,
+            buffer: self.input.checkpoint_save(),
             allow_super_call: self.allow_super_call,
         }
     }
@@ -106,28 +100,19 @@ impl<I: Tokens> Parser<I> {
     #[cfg(all(feature = "typescript", not(feature = "flow")))]
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
-            lexer: self.input.iter.checkpoint_save(),
-            buffer_cur: self.input.cur,
-            buffer_next: self.input.next.clone(),
-            buffer_prev_span: self.input.prev_span,
+            buffer: self.input.checkpoint_save(),
         }
     }
 
     #[cfg(all(feature = "typescript", feature = "flow"))]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
-        self.input.iter.checkpoint_load(checkpoint.lexer);
-        self.input.cur = checkpoint.buffer_cur;
-        self.input.next = checkpoint.buffer_next;
-        self.input.prev_span = checkpoint.buffer_prev_span;
+        self.input.checkpoint_load(checkpoint.buffer);
         self.allow_super_call = checkpoint.allow_super_call;
     }
 
     #[cfg(all(feature = "typescript", not(feature = "flow")))]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
-        self.input.iter.checkpoint_load(checkpoint.lexer);
-        self.input.cur = checkpoint.buffer_cur;
-        self.input.next = checkpoint.buffer_next;
-        self.input.prev_span = checkpoint.buffer_prev_span;
+        self.input.checkpoint_load(checkpoint.buffer);
     }
 
     #[cfg(feature = "flow")]
