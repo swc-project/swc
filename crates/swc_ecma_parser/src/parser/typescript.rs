@@ -5242,7 +5242,7 @@ impl<I: Tokens> Parser<I> {
                 ))
     }
 
-    fn can_start_ts_type_args_fast(&mut self) -> bool {
+    pub(super) fn can_start_ts_type_args_fast(&mut self) -> bool {
         self.input().is(Token::Lt)
             && self.token_look_ahead(|p| {
                 p.bump();

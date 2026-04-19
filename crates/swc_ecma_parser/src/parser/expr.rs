@@ -441,7 +441,7 @@ impl<I: Tokens> Parser<I> {
 
         let type_args = if self.input().syntax().typescript() && {
             let cur = self.input().cur();
-            cur == Token::Lt || cur == Token::LShift
+            cur == Token::LShift || (cur == Token::Lt && self.can_start_ts_type_args_fast())
         } {
             self.try_parse_ts(|p| {
                 let type_args = p.parse_ts_type_args()?;
@@ -1132,7 +1132,7 @@ impl<I: Tokens> Parser<I> {
                 return Ok((expr, true));
             }
 
-            if self.input().is(Token::Lt) {
+            if self.input().is(Token::Lt) && self.can_start_ts_type_args_fast() {
                 // tsTryParseAndCatch is expensive, so avoid if not necessary.
                 // There are number of things we are going to "maybe" parse, like type arguments
                 // on tagged template expressions. If any of them fail, walk it back and
@@ -1637,7 +1637,7 @@ impl<I: Tokens> Parser<I> {
 
             let type_args = if self.input().syntax().typescript() && {
                 let cur = self.input().cur();
-                cur == Token::Lt || cur == Token::LShift
+                cur == Token::LShift || (cur == Token::Lt && self.can_start_ts_type_args_fast())
             } {
                 self.try_parse_ts(|p| {
                     let args = p.do_outside_of_context(

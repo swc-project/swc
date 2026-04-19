@@ -1919,6 +1919,68 @@ fn issue_337() {
 }
 
 #[test]
+fn ts_call_expr_with_literal_type_arg_still_parses() {
+    let actual = test_parser("foo<1>()", Syntax::Typescript(Default::default()), |p| {
+        p.parse_stmt().map(|stmt| match stmt {
+            Stmt::Expr(expr) => *expr.expr,
+            _ => unreachable!(),
+        })
+    });
+
+    let Expr::Call(CallExpr { type_args, .. }) = actual else {
+        panic!("expected call expression");
+    };
+
+    assert!(matches!(
+        type_args.as_deref(),
+        Some(TsTypeParamInstantiation { params, .. })
+            if matches!(params.as_slice(), [ty] if matches!(&**ty, TsType::TsLitType(..)))
+    ));
+}
+
+#[test]
+fn ts_new_expr_with_literal_type_arg_still_parses() {
+    let actual = test_parser(
+        "new Foo<1>()",
+        Syntax::Typescript(Default::default()),
+        |p| {
+            p.parse_stmt().map(|stmt| match stmt {
+                Stmt::Expr(expr) => *expr.expr,
+                _ => unreachable!(),
+            })
+        },
+    );
+
+    let Expr::New(NewExpr { type_args, .. }) = actual else {
+        panic!("expected new expression");
+    };
+
+    assert!(matches!(
+        type_args.as_deref(),
+        Some(TsTypeParamInstantiation { params, .. })
+            if matches!(params.as_slice(), [ty] if matches!(&**ty, TsType::TsLitType(..)))
+    ));
+}
+
+#[test]
+fn ts_binary_lt_expression_still_parses_without_type_args() {
+    assert_eq_ignore_span!(
+        test_parser("foo < bar", Syntax::Typescript(Default::default()), |p| {
+            p.parse_stmt().map(|stmt| match stmt {
+                Stmt::Expr(expr) => expr.expr,
+                _ => unreachable!(),
+            })
+        }),
+        Box::new(Expr::Bin(BinExpr {
+            span: DUMMY_SP,
+            op: BinaryOp::Lt,
+            left: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("foo"), DUMMY_SP))),
+            right: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("bar"), DUMMY_SP))),
+        }))
+    );
+}
+
+#[test]
 fn issue_350() {
     assert_eq_ignore_span!(
         expr(
