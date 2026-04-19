@@ -6,7 +6,7 @@ use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{LexResult, Token, TokenAndSpan, TokenFlags, TokenValue},
+    lexer::{FastToken, LexResult, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
     Context,
 };
@@ -116,8 +116,8 @@ impl StoredTokenValue {
 }
 
 #[derive(Clone)]
-pub struct BufferedNextToken {
-    pub token_and_span: TokenAndSpan,
+pub(crate) struct BufferedNextToken {
+    token_and_span: FastToken,
     value: Option<StoredTokenValue>,
 }
 
@@ -125,13 +125,13 @@ impl BufferedNextToken {
     #[inline(always)]
     fn new(token_and_span: TokenAndSpan, value: Option<TokenValue>) -> Self {
         Self {
-            token_and_span,
+            token_and_span: token_and_span.into(),
             value: value.map(StoredTokenValue::new),
         }
     }
 
     #[inline(always)]
-    fn into_parts(self) -> (TokenAndSpan, Option<StoredTokenValue>) {
+    fn into_parts(self) -> (FastToken, Option<StoredTokenValue>) {
         (self.token_and_span, self.value)
     }
 
@@ -157,7 +157,7 @@ pub struct Buffer<I> {
     pub iter: I,
     /// Span of the previous token.
     pub prev_span: Span,
-    pub cur: TokenAndSpan,
+    pub(crate) cur: FastToken,
     cur_value: Option<StoredTokenValue>,
     /// Peeked token
     next: Option<BufferedNextToken>,
@@ -171,7 +171,7 @@ pub struct Buffer<I> {
 pub struct BufferCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
     prev_span: Span,
-    cur: TokenAndSpan,
+    cur: FastToken,
     cur_value: Option<StoredTokenValue>,
     next: Option<BufferedNextToken>,
 }
@@ -317,7 +317,7 @@ impl<I: Tokens> Buffer<I> {
         let prev_span = Span::new_with_checked(start_pos, start_pos);
         Buffer {
             iter: lexer,
-            cur: TokenAndSpan::new(Token::Eof, prev_span, false),
+            cur: FastToken::new(Token::Eof, prev_span, false),
             cur_value: None,
             prev_span,
             next: None,
@@ -325,28 +325,32 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline(always)]
-    pub fn set_cur(&mut self, token: TokenAndSpan) {
+    pub(crate) fn set_cur(&mut self, token: FastToken) {
         self.cur = token;
     }
 
     #[inline(always)]
-    pub fn set_cur_with_value(&mut self, token: TokenAndSpan, value: Option<TokenValue>) {
-        self.cur = token;
+    pub(crate) fn set_cur_with_value(
+        &mut self,
+        token: impl Into<FastToken>,
+        value: Option<TokenValue>,
+    ) {
+        self.cur = token.into();
         self.cur_value = value.map(StoredTokenValue::new);
     }
 
     #[inline(always)]
-    pub fn next(&self) -> Option<&BufferedNextToken> {
+    pub(crate) fn next(&self) -> Option<&BufferedNextToken> {
         self.next.as_ref()
     }
 
     #[inline(always)]
-    pub fn set_next(&mut self, token: Option<BufferedNextToken>) {
+    pub(crate) fn set_next(&mut self, token: Option<BufferedNextToken>) {
         self.next = token;
     }
 
     #[inline(always)]
-    pub fn next_mut(&mut self) -> &mut Option<BufferedNextToken> {
+    pub(crate) fn next_mut(&mut self) -> &mut Option<BufferedNextToken> {
         &mut self.next
     }
 
@@ -356,7 +360,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline(always)]
-    pub fn get_cur(&self) -> &TokenAndSpan {
+    pub(crate) fn get_cur(&self) -> &FastToken {
         &self.cur
     }
 
@@ -396,7 +400,7 @@ impl<I: Tokens> Buffer<I> {
         debug_assert!(self.next().is_none());
         debug_assert!(self.cur() != Token::Eof);
         let span = self.prev_span();
-        let token = TokenAndSpan::new(token, span, false);
+        let token = FastToken::new(token, span, false);
         self.set_cur_with_value(token, None);
     }
 
@@ -413,7 +417,7 @@ impl<I: Tokens> Buffer<I> {
             None => {
                 let token = self.iter.next_token();
                 let value = self.iter.take_token_value().map(StoredTokenValue::new);
-                (token, value)
+                (token.into(), value)
             }
         };
         self.prev_span = self.cur.span;
@@ -477,7 +481,7 @@ impl<I: Tokens> Buffer<I> {
             "parser should only call cut_lshift when encountering LShift token"
         );
         let span = self.cur_span().with_lo(self.cur_span().lo + BytePos(1));
-        let token = TokenAndSpan::new(Token::Lt, span, false);
+        let token = FastToken::new(Token::Lt, span, false);
         self.set_cur(token);
     }
 
@@ -538,7 +542,7 @@ impl<I: Tokens> Buffer<I> {
             return;
         };
         let span = span.with_hi(next.span().hi);
-        let token = TokenAndSpan::new(token, span, cur.had_line_break);
+        let token = FastToken::new(token, span, cur.had_line_break);
         self.set_cur(token);
     }
 

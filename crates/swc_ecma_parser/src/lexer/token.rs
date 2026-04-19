@@ -882,6 +882,50 @@ impl TokenAndSpan {
     }
 }
 
+/// Small parser-facing token header used on the fast path.
+///
+/// This keeps only structural data in the hot path while payload stays in a
+/// side channel owned by the parser buffer.
+#[derive(Clone, Copy, Debug)]
+pub(crate) struct FastToken {
+    pub token: Token,
+    pub had_line_break: bool,
+    pub span: Span,
+}
+
+impl FastToken {
+    #[inline(always)]
+    pub(crate) fn new(token: Token, span: Span, had_line_break: bool) -> Self {
+        Self {
+            token,
+            had_line_break,
+            span,
+        }
+    }
+}
+
+impl From<TokenAndSpan> for FastToken {
+    #[inline(always)]
+    fn from(value: TokenAndSpan) -> Self {
+        Self {
+            token: value.token,
+            had_line_break: value.had_line_break,
+            span: value.span,
+        }
+    }
+}
+
+impl From<FastToken> for TokenAndSpan {
+    #[inline(always)]
+    fn from(value: FastToken) -> Self {
+        Self {
+            token: value.token,
+            had_line_break: value.had_line_break,
+            span: value.span,
+        }
+    }
+}
+
 /// Compatibility token wrapper kept for the unstable public token API.
 ///
 /// The parser hot path uses a cheaper internal lookahead representation, but we
