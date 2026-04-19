@@ -3419,17 +3419,21 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         expect!(self, Token::Infer);
         let type_param_name = self.parse_ident_name()?;
-        let constraint = self.try_parse_ts(|p| {
-            expect!(p, Token::Extends);
-            let constraint = p.parse_ts_non_conditional_type();
-            if p.ctx().contains(Context::DisallowConditionalTypes)
-                || !p.input().is(Token::QuestionMark)
-            {
-                constraint.map(Some)
-            } else {
-                Ok(None)
-            }
-        });
+        let constraint = if self.input().is(Token::Extends) {
+            self.try_parse_ts(|p| {
+                expect!(p, Token::Extends);
+                let constraint = p.parse_ts_non_conditional_type();
+                if p.ctx().contains(Context::DisallowConditionalTypes)
+                    || !p.input().is(Token::QuestionMark)
+                {
+                    constraint.map(Some)
+                } else {
+                    Ok(None)
+                }
+            })
+        } else {
+            None
+        };
         let type_param = TsTypeParam {
             span: type_param_name.span(),
             name: type_param_name.into(),
@@ -3451,7 +3455,7 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().syntax().typescript());
 
-        if self.is_flow_syntax() {
+        if self.is_flow_syntax() && self.input().is(Token::LParen) {
             if let Some(fn_type) = self.try_parse_ts(Self::try_parse_flow_anon_fn_type) {
                 return Ok(Box::new(TsType::TsFnOrConstructorType(
                     TsFnOrConstructorType::TsFnType(fn_type),
@@ -4278,22 +4282,24 @@ impl<I: Tokens> Parser<I> {
                 return self.parse_ts_type_lit().map(TsType::from).map(Box::new);
             }
 
-            if let Some(render_ty) = self.try_parse_ts(|p| {
-                if !(p.input().cur().is_word()
-                    && p.input().cur().take_word(&p.input) == atom!("renders"))
-                {
-                    return Ok(None);
-                }
-                p.bump();
+            if self.is_flow_contextual_word("renders")
+                && peek!(self)
+                    .is_some_and(|peek| matches!(peek, Token::QuestionMark | Token::Asterisk))
+            {
+                if let Some(render_ty) = self.try_parse_ts(|p| {
+                    p.bump();
 
-                if !(p.input_mut().eat(Token::QuestionMark) || p.input_mut().eat(Token::Asterisk)) {
-                    return Ok(None);
-                }
+                    if !(p.input_mut().eat(Token::QuestionMark)
+                        || p.input_mut().eat(Token::Asterisk))
+                    {
+                        return Ok(None);
+                    }
 
-                let type_ann = p.parse_ts_non_array_type()?;
-                Ok(Some(type_ann))
-            }) {
-                return Ok(render_ty);
+                    let type_ann = p.parse_ts_non_array_type()?;
+                    Ok(Some(type_ann))
+                }) {
+                    return Ok(render_ty);
+                }
             }
 
             if self.input().syntax().flow_components() {
@@ -5268,5 +5274,53 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+
+    #[test]
+    fn infer_type_without_extends_has_no_constraint() {
+        let actual = test_parser(
+            "type T<X> = X extends infer U ? U : never;",
+            Syntax::Typescript(Default::default()),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsConditionalType(conditional) = &*alias.type_ann else {
+            panic!("expected conditional type");
+        };
+        let TsType::TsInferType(infer) = &*conditional.extends_type else {
+            panic!("expected infer type in extends clause");
+        };
+
+        assert!(infer.type_param.constraint.is_none());
+    }
+
+    #[test]
+    fn infer_type_with_extends_keeps_constraint() {
+        let actual = test_parser(
+            "type T<X> = X extends infer U extends string ? U : never;",
+            Syntax::Typescript(Default::default()),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsConditionalType(conditional) = &*alias.type_ann else {
+            panic!("expected conditional type");
+        };
+        let TsType::TsInferType(infer) = &*conditional.extends_type else {
+            panic!("expected infer type in extends clause");
+        };
+
+        assert!(matches!(
+            infer.type_param.constraint.as_deref(),
+            Some(TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsStringKeyword,
+                ..
+            }))
+        ));
     }
 }
