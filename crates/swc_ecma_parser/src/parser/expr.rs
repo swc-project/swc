@@ -2838,6 +2838,10 @@ impl<I: Tokens> Parser<I> {
         if can_be_arrow
             && self.input().syntax().typescript()
             && peek!(self).is_some_and(|peek| peek == Token::Lt)
+            && self.token_look_ahead(|p| {
+                p.bump();
+                p.can_start_ts_generic_async_arrow_type_params()
+            })
         {
             // try parsing `async<T>() => {}`
             if let Some(res) = self.try_parse_ts(|p| {

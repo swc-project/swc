@@ -1635,6 +1635,57 @@ fn async_arrow() {
 }
 
 #[test]
+fn ts_async_generic_arrow_still_parses() {
+    let actual = test_parser(
+        "async <T>() => foo",
+        Syntax::Typescript(Default::default()),
+        |p| {
+            p.parse_stmt().map(|stmt| match stmt {
+                Stmt::Expr(expr) => *expr.expr,
+                _ => unreachable!(),
+            })
+        },
+    );
+
+    let Expr::Arrow(ArrowExpr {
+        is_async,
+        type_params,
+        ..
+    }) = actual
+    else {
+        panic!("expected async arrow expression");
+    };
+
+    assert!(is_async);
+    assert!(matches!(
+        type_params.as_deref(),
+        Some(TsTypeParamDecl { params, .. }) if params.len() == 1
+    ));
+}
+
+#[test]
+fn ts_async_lt_expression_still_parses_without_generic_arrow() {
+    assert_eq_ignore_span!(
+        test_parser("async < 1", Syntax::Typescript(Default::default()), |p| {
+            p.parse_stmt().map(|stmt| match stmt {
+                Stmt::Expr(expr) => expr.expr,
+                _ => unreachable!(),
+            })
+        }),
+        Box::new(Expr::Bin(BinExpr {
+            span: DUMMY_SP,
+            op: BinaryOp::Lt,
+            left: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("async"), DUMMY_SP))),
+            right: Box::new(Expr::Lit(Lit::Num(Number {
+                span: DUMMY_SP,
+                value: 1.0,
+                raw: Some(atom!("1")),
+            }))),
+        }))
+    );
+}
+
+#[test]
 fn object_rest_pat() {
     assert_eq_ignore_span!(
         expr("({ ...a34 }) => {}"),

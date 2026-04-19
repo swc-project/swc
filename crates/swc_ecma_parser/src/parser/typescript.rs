@@ -5166,7 +5166,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn can_start_ts_generic_async_arrow_type_params(&mut self) -> bool {
+    pub(super) fn can_start_ts_generic_async_arrow_type_params(&mut self) -> bool {
         matches!(self.input().cur(), Token::Lt | Token::JSXTagStart)
             && self.token_look_ahead(|p| {
                 p.bump();
