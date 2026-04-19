@@ -1709,6 +1709,10 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, try_parse_ts_type_args);
         debug_assert!(self.input().syntax().typescript());
 
+        if !self.can_start_ts_type_args_fast() {
+            return None;
+        }
+
         self.try_parse_ts(|p| {
             let type_args = p.parse_ts_type_args()?;
             p.assert_and_bump(Token::Gt);
@@ -5170,6 +5174,82 @@ impl<I: Tokens> Parser<I> {
             })
     }
 
+    fn can_start_ts_type_fast(&mut self) -> bool {
+        let cur = self.input().cur();
+
+        if cur == Token::Lt {
+            return true;
+        }
+
+        if cur == Token::Abstract {
+            return peek!(self).is_some_and(|peek| peek == Token::New);
+        }
+
+        if cur == Token::New {
+            return true;
+        }
+
+        if self.input().syntax().flow() {
+            if cur == Token::Interface {
+                return peek!(self).is_some_and(|peek| peek == Token::LBrace);
+            }
+
+            if self.input().syntax().flow_components()
+                && (self.is_flow_contextual_word("component")
+                    || self.is_flow_contextual_word("hook"))
+            {
+                return true;
+            }
+
+            if self.is_flow_contextual_word("renders")
+                && peek!(self)
+                    .is_some_and(|peek| matches!(peek, Token::QuestionMark | Token::Asterisk))
+            {
+                return true;
+            }
+        }
+
+        cur.is_known_ident()
+            || matches!(
+                cur,
+                Token::Ident
+                    | Token::Void
+                    | Token::Yield
+                    | Token::Null
+                    | Token::Await
+                    | Token::Break
+                    | Token::Switch
+                    | Token::BigInt
+                    | Token::Str
+                    | Token::Num
+                    | Token::True
+                    | Token::False
+                    | Token::BackQuote
+                    | Token::NoSubstitutionTemplateLiteral
+                    | Token::TemplateHead
+                    | Token::Minus
+                    | Token::Import
+                    | Token::This
+                    | Token::TypeOf
+                    | Token::LBrace
+                    | Token::LBracket
+                    | Token::LParen
+            )
+            || (self.input().syntax().flow()
+                && matches!(
+                    cur,
+                    Token::QuestionMark | Token::Asterisk | Token::In | Token::Out
+                ))
+    }
+
+    fn can_start_ts_type_args_fast(&mut self) -> bool {
+        self.input().is(Token::Lt)
+            && self.token_look_ahead(|p| {
+                p.bump();
+                p.can_start_ts_type_fast()
+            })
+    }
+
     fn can_probe_ts_decl_from_word(&mut self, value: &Atom) -> bool {
         if !self.can_start_ts_decl_from_word(value) {
             return false;
@@ -5935,6 +6015,56 @@ mod tests {
                 let mut parser = Parser::new_from(lexer);
 
                 assert!(parser.can_start_ts_generic_async_arrow_type_params());
+                assert_eq!(parser.input().cur(), Token::Lt);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_type_args_guard_filters_non_type_starts() {
+        for src in ["<>()", "<,>()", "<)>()"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_start_ts_type_args_fast());
+                assert_eq!(parser.input().cur(), Token::Lt);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_type_args_guard_keeps_valid_type_starts() {
+        for src in [
+            "<T>()",
+            "<number>()",
+            "<1>()",
+            "<\"x\">()",
+            "<{ foo: string }>()",
+            "<[T]>()",
+            "<new () => Date>()",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.can_start_ts_type_args_fast());
                 assert_eq!(parser.input().cur(), Token::Lt);
 
                 Ok(())
