@@ -3975,32 +3975,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.can_start_flow_mapped_member() {
-            if let Some(mapped_member) = self.try_parse_ts(|p| {
-                let start = p.cur_pos();
-                expect!(p, Token::LBracket);
-                let _ = p.parse_ts_mapped_type_param()?;
-                expect!(p, Token::RBracket);
-
-                let optional = p.input_mut().eat(Token::QuestionMark);
-                let type_ann = Some(p.parse_ts_type_or_type_predicate_ann(Token::Colon)?);
-                p.parse_ts_type_member_semicolon()?;
-
-                Ok(Some(TsTypeElement::TsPropertySignature(
-                    TsPropertySignature {
-                        span: p.span(start),
-                        computed: false,
-                        readonly,
-                        key: Box::new(Expr::Ident(Ident::new_no_ctxt(
-                            atom!("__flow_mapped"),
-                            p.span(start),
-                        ))),
-                        optional,
-                        type_ann,
-                    },
-                )))
-            }) {
-                return Ok(mapped_member);
-            }
+            return self.parse_flow_mapped_type_member(readonly);
         }
 
         if self.input().syntax().flow() && self.input_mut().eat(Token::DotDotDot) {
@@ -4143,6 +4118,29 @@ impl<I: Tokens> Parser<I> {
             span: self.span(start),
             key,
             computed,
+            type_ann,
+        }))
+    }
+
+    fn parse_flow_mapped_type_member(&mut self, readonly: bool) -> PResult<TsTypeElement> {
+        let start = self.cur_pos();
+        expect!(self, Token::LBracket);
+        let _ = self.parse_ts_mapped_type_param()?;
+        expect!(self, Token::RBracket);
+
+        let optional = self.input_mut().eat(Token::QuestionMark);
+        let type_ann = Some(self.parse_ts_type_or_type_predicate_ann(Token::Colon)?);
+        self.parse_ts_type_member_semicolon()?;
+
+        Ok(TsTypeElement::TsPropertySignature(TsPropertySignature {
+            span: self.span(start),
+            computed: false,
+            readonly,
+            key: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                atom!("__flow_mapped"),
+                self.span(start),
+            ))),
+            optional,
             type_ann,
         }))
     }
@@ -6697,6 +6695,35 @@ mod tests {
         assert!(matches!(
             &type_lit.members[1],
             TsTypeElement::TsIndexSignature(TsIndexSignature { .. })
+        ));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_object_type_still_parses_optional_mapped_members() {
+        let actual = test_parser(
+            "type T = { [K in keyof O]?: V };",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &*alias.type_ann else {
+            panic!("expected object type literal");
+        };
+
+        assert!(matches!(
+            &type_lit.members[0],
+            TsTypeElement::TsPropertySignature(TsPropertySignature {
+                key,
+                optional: true,
+                ..
+            }) if matches!(&**key, Expr::Ident(Ident { sym, .. }) if sym == "__flow_mapped")
         ));
     }
 
