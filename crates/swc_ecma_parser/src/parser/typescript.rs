@@ -4053,7 +4053,20 @@ impl<I: Tokens> Parser<I> {
 
     fn can_start_flow_accessor_sig(&mut self) -> bool {
         matches!(self.input().cur(), Token::Get | Token::Set)
-            && peek!(self).is_some_and(Self::can_start_ts_property_name_token)
+            && self.token_look_ahead(|p| {
+                p.bump();
+
+                if !Self::can_start_ts_property_name_token(p.input().cur()) {
+                    return false;
+                }
+
+                if p.input().is(Token::LBracket) {
+                    return true;
+                }
+
+                p.bump();
+                p.input().is(Token::LParen)
+            })
     }
 
     fn can_start_ts_property_name_token(token: Token) -> bool {
@@ -5960,6 +5973,31 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_accessor_keyword_guard_filters_non_accessor_shapes() {
+        for src in ["get foo: string", "set foo: string"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_start_flow_accessor_sig());
+                assert!(matches!(parser.input().cur(), Token::Get | Token::Set));
+
+                Ok(())
+            })
+            .unwrap();
+        }
     }
 
     #[cfg(feature = "flow")]
