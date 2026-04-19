@@ -3550,17 +3550,23 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::Infer);
         let type_param_name = self.parse_ident_name()?;
         let constraint = if self.input().is(Token::Extends) {
-            self.try_parse_ts(|p| {
-                expect!(p, Token::Extends);
-                let constraint = p.parse_ts_non_conditional_type();
-                if p.ctx().contains(Context::DisallowConditionalTypes)
-                    || !p.input().is(Token::QuestionMark)
-                {
-                    constraint.map(Some)
-                } else {
-                    Ok(None)
-                }
-            })
+            if self.ctx().contains(Context::DisallowConditionalTypes) {
+                // Callers that already disallow conditional types never need the
+                // speculative `infer U extends T ? ...` probe. Parse the constraint
+                // directly and leave `?` to the enclosing type parser.
+                self.bump();
+                Some(self.parse_ts_non_conditional_type()?)
+            } else {
+                self.try_parse_ts(|p| {
+                    expect!(p, Token::Extends);
+                    let constraint = p.parse_ts_non_conditional_type();
+                    if p.input().is(Token::QuestionMark) {
+                        Ok(None)
+                    } else {
+                        constraint.map(Some)
+                    }
+                })
+            }
         } else {
             None
         };
@@ -5336,7 +5342,7 @@ mod tests {
 
     #[cfg(feature = "flow")]
     use crate::syntax::FlowSyntax;
-    use crate::{lexer::Token, test_parser, Parser, Syntax};
+    use crate::{lexer::Token, parser::Context, test_parser, Parser, Syntax};
 
     #[test]
     fn issue_708_1() {
@@ -5486,6 +5492,39 @@ mod tests {
                 ..
             }))
         ));
+    }
+
+    #[test]
+    fn infer_type_in_disallow_conditional_context_keeps_constraint_and_question_mark() {
+        crate::with_test_sess("infer U extends string ? never : never", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Typescript(Default::default()),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            let infer = parser
+                .in_type(|p| {
+                    p.do_inside_of_context(Context::DisallowConditionalTypes, |p| {
+                        p.parse_ts_infer_type()
+                    })
+                })
+                .unwrap();
+
+            assert!(matches!(
+                infer.type_param.constraint.as_deref(),
+                Some(TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsStringKeyword,
+                    ..
+                }))
+            ));
+            assert_eq!(parser.input().cur(), Token::QuestionMark);
+
+            Ok(())
+        })
+        .unwrap();
     }
 
     #[test]
