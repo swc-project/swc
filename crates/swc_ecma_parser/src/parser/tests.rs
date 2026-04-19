@@ -505,6 +505,39 @@ fn ts_look_ahead_restores_cursor_and_ignore_error_context() {
 
 #[cfg(feature = "typescript")]
 #[test]
+fn ts_modifier_fast_lookahead_preserves_semantics_without_bumping() {
+    for (src, expected_next, expected) in [
+        ("readonly foo", Token::Ident, true),
+        ("readonly\nfoo", Token::Ident, true),
+        ("readonly [foo]", Token::LBracket, true),
+        ("readonly\n[foo]", Token::LBracket, false),
+        ("readonly", Token::Eof, false),
+    ] {
+        crate::with_test_sess(src, |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Typescript(TsSyntax::default()),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert_eq!(parser.input().cur(), Token::Readonly);
+
+            let result = parser.ts_next_token_can_follow_modifier_fast();
+
+            assert_eq!(result, expected, "source: {src}");
+            assert_eq!(parser.input().cur(), Token::Readonly);
+            assert_eq!(parser.input_mut().peek(), Some(expected_next));
+
+            Ok(())
+        })
+        .unwrap();
+    }
+}
+
+#[cfg(feature = "typescript")]
+#[test]
 fn parser_checkpoint_shares_state_storage_until_mutation() {
     crate::with_test_sess("foo", |_, input| {
         let lexer = crate::lexer::Lexer::new(

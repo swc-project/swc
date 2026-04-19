@@ -697,29 +697,6 @@ impl<I: Tokens> Parser<I> {
         Ok(buf)
     }
 
-    /// `tsTryParse`
-    pub(super) fn try_parse_ts_bool<F>(&mut self, op: F) -> PResult<bool>
-    where
-        F: FnOnce(&mut Self) -> PResult<Option<bool>>,
-    {
-        if !self.input().syntax().typescript() {
-            return Ok(false);
-        }
-
-        let checkpoint = self.start_speculative_parse();
-        let res = op(self);
-        match res {
-            Ok(Some(res)) if res => {
-                self.commit_speculative_parse(checkpoint);
-                Ok(res)
-            }
-            _ => {
-                self.rollback_speculative_parse(checkpoint);
-                Ok(false)
-            }
-        }
-    }
-
     /// `tsParseDelimitedList`
     fn parse_ts_delimited_list_inner<T, F>(
         &mut self,
@@ -793,19 +770,16 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsNextTokenCanFollowModifier`
-    pub(super) fn ts_next_token_can_follow_modifier(&mut self) -> bool {
+    pub(super) fn ts_next_token_can_follow_modifier_fast(&mut self) -> bool {
         debug_assert!(self.input().syntax().typescript());
-        // Note: TypeScript's implementation is much more complicated because
-        // more things are considered modifiers there.
-        // This implementation only handles modifiers not handled by @babel/parser
-        // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
-        // hasLineBreakUpNext() method...
-        self.bump();
 
-        let cur = self.input().cur();
-        !self.input().had_line_break_before_cur()
+        let Some(next) = self.input_mut().peek() else {
+            return false;
+        };
+
+        (!self.input_mut().has_linebreak_between_cur_and_peeked()
             && matches!(
-                cur,
+                next,
                 Token::LBracket
                     | Token::LBrace
                     | Token::Asterisk
@@ -814,8 +788,8 @@ impl<I: Tokens> Parser<I> {
                     | Token::Str
                     | Token::Num
                     | Token::BigInt
-            )
-            || cur.is_word()
+            ))
+            || next.is_word()
     }
 
     /// `tsTryParse`
@@ -1010,7 +984,8 @@ impl<I: Tokens> Parser<I> {
             {
                 return Ok(None);
             }
-            if self.try_parse_ts_bool(|p| Ok(Some(p.ts_next_token_can_follow_modifier())))? {
+            if self.ts_next_token_can_follow_modifier_fast() {
+                self.bump();
                 return Ok(Some(allowed_modifiers[pos]));
             }
         }
