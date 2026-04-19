@@ -55,8 +55,9 @@
 #![allow(clippy::vec_box)]
 #![allow(clippy::mutable_key_type)]
 
-pub use self::typescript::*;
+pub use self::{flow::flow_pragma_strip, typescript::*};
 mod config;
+pub mod flow;
 mod macros;
 mod retain;
 mod semantic;
