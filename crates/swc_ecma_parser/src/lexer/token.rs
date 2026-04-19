@@ -34,7 +34,7 @@ pub enum TokenValue {
 /// regex metadata, and bigint literals out of the parser/lexer checkpoint hot
 /// path.
 #[derive(Clone, Debug)]
-pub(crate) struct SharedTokenValue(Rc<TokenValue>);
+pub struct SharedTokenValue(Rc<TokenValue>);
 
 impl SharedTokenValue {
     #[inline(always)]

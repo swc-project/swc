@@ -211,11 +211,21 @@ impl crate::input::Tokens for Lexer<'_> {
             .map(|value| value.as_ref().clone())
     }
 
+    #[inline]
+    fn take_token_value_shared(&mut self) -> Option<SharedTokenValue> {
+        self.state.token_value.take()
+    }
+
     fn get_token_value(&self) -> Option<&TokenValue> {
         self.state
             .token_value
             .as_ref()
             .map(SharedTokenValue::as_ref)
+    }
+
+    #[inline]
+    fn set_token_value_shared(&mut self, token_value: Option<SharedTokenValue>) {
+        self.state.token_value = token_value;
     }
 
     fn set_token_value(&mut self, token_value: Option<TokenValue>) {

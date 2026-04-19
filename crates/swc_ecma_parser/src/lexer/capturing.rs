@@ -153,6 +153,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.clone_token_value()
     }
 
+    fn take_token_value_shared(&mut self) -> Option<super::SharedTokenValue> {
+        self.inner.take_token_value_shared()
+    }
+
     fn take_token_value(&mut self) -> Option<super::TokenValue> {
         self.inner.take_token_value()
     }
@@ -179,6 +183,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn set_token_value(&mut self, token_value: Option<super::TokenValue>) {
         self.inner.set_token_value(token_value);
+    }
+
+    fn set_token_value_shared(&mut self, token_value: Option<super::SharedTokenValue>) {
+        self.inner.set_token_value_shared(token_value);
     }
 
     fn scan_jsx_token(&mut self) -> TokenAndSpan {

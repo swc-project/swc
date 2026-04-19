@@ -59,8 +59,14 @@ pub trait Tokens: Clone {
     fn set_current_token_type(&mut self, token: Token);
 
     fn clone_token_value(&self) -> Option<TokenValue>;
+    fn take_token_value_shared(&mut self) -> Option<SharedTokenValue> {
+        self.take_token_value().map(SharedTokenValue::new)
+    }
     fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
+    fn set_token_value_shared(&mut self, token_value: Option<SharedTokenValue>) {
+        self.set_token_value(token_value.map(SharedTokenValue::into_owned));
+    }
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
 
     /// Returns the first token in the file.
@@ -92,10 +98,10 @@ pub(crate) struct BufferedNextToken {
 
 impl BufferedNextToken {
     #[inline(always)]
-    fn new(token_and_span: TokenAndSpan, value: Option<TokenValue>) -> Self {
+    fn new(token_and_span: TokenAndSpan, value: Option<SharedTokenValue>) -> Self {
         Self {
             token_and_span: token_and_span.into(),
-            value: value.map(SharedTokenValue::new),
+            value,
         }
     }
 
@@ -217,21 +223,26 @@ impl<I: Tokens> Buffer<I> {
         self.cur_value.take().map(SharedTokenValue::into_owned)
     }
 
+    #[inline(always)]
+    fn take_cur_shared_value(&mut self) -> Option<SharedTokenValue> {
+        self.cur_value.take()
+    }
+
     pub fn scan_jsx_token(&mut self) {
         let prev = self.cur;
         let t = self.iter.scan_jsx_token();
-        let value = self.iter.take_token_value();
+        let value = self.iter.take_token_value_shared();
         self.prev_span = prev.span;
-        self.set_cur_with_value(t, value);
+        self.set_cur_with_shared_value(t, value);
     }
 
     #[allow(unused)]
     fn scan_jsx_open_el_terminal_token(&mut self) {
         let prev = self.cur;
         let t = self.iter.scan_jsx_open_el_terminal_token();
-        let value = self.iter.take_token_value();
+        let value = self.iter.take_token_value_shared();
         self.prev_span = prev.span;
-        self.set_cur_with_value(t, value);
+        self.set_cur_with_shared_value(t, value);
     }
 
     pub fn rescan_jsx_open_el_terminal_token(&mut self) {
@@ -241,15 +252,15 @@ impl<I: Tokens> Buffer<I> {
         // rescan `>=`, `>>`, `>>=`, `>>>`, `>>>=` into `>`
         let start = self.cur.span.lo;
         let t = self.iter.rescan_jsx_open_el_terminal_token(start);
-        let value = self.iter.take_token_value();
-        self.set_cur_with_value(t, value);
+        let value = self.iter.take_token_value_shared();
+        self.set_cur_with_shared_value(t, value);
     }
 
     pub fn rescan_jsx_token(&mut self) {
         let start = self.cur.span.lo;
         let t = self.iter.rescan_jsx_token(start);
-        let value = self.iter.take_token_value();
-        self.set_cur_with_value(t, value);
+        let value = self.iter.take_token_value_shared();
+        self.set_cur_with_shared_value(t, value);
     }
 
     pub fn scan_jsx_identifier(&mut self) {
@@ -258,25 +269,25 @@ impl<I: Tokens> Buffer<I> {
         }
         let start = self.cur.span.lo;
         self.iter.set_current_token_type(self.cur.token);
-        let current_value = self.take_cur_value();
-        self.iter.set_token_value(current_value);
+        let current_value = self.take_cur_shared_value();
+        self.iter.set_token_value_shared(current_value);
         let cur = self.iter.scan_jsx_identifier(start);
-        let value = self.iter.take_token_value();
+        let value = self.iter.take_token_value_shared();
         debug_assert!(cur.token == Token::JSXName);
-        self.set_cur_with_value(cur, value);
+        self.set_cur_with_shared_value(cur, value);
     }
 
     pub fn scan_jsx_attribute_value(&mut self) {
         let cur = self.iter.scan_jsx_attribute_value();
-        let value = self.iter.take_token_value();
-        self.set_cur_with_value(cur, value);
+        let value = self.iter.take_token_value_shared();
+        self.set_cur_with_shared_value(cur, value);
     }
 
     pub fn rescan_template_token(&mut self, start_with_back_tick: bool) {
         let start = self.cur_pos();
         let cur = self.iter.rescan_template_token(start, start_with_back_tick);
-        let value = self.iter.take_token_value();
-        self.set_cur_with_value(cur, value);
+        let value = self.iter.take_token_value_shared();
+        self.set_cur_with_shared_value(cur, value);
     }
 }
 
@@ -306,6 +317,16 @@ impl<I: Tokens> Buffer<I> {
     ) {
         self.cur = token.into();
         self.cur_value = value.map(SharedTokenValue::new);
+    }
+
+    #[inline(always)]
+    pub(crate) fn set_cur_with_shared_value(
+        &mut self,
+        token: impl Into<FastToken>,
+        value: Option<SharedTokenValue>,
+    ) {
+        self.cur = token.into();
+        self.cur_value = value;
     }
 
     #[inline(always)]
@@ -358,7 +379,7 @@ impl<I: Tokens> Buffer<I> {
             let next_token = self.iter.next_token();
             self.next = Some(BufferedNextToken::new(
                 next_token,
-                self.iter.take_token_value(),
+                self.iter.take_token_value_shared(),
             ));
         }
 
@@ -375,9 +396,9 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn first_bump(&mut self) {
         let first_token = self.iter.first_token();
-        let first_value = self.iter.take_token_value();
+        let first_value = self.iter.take_token_value_shared();
         self.prev_span = self.cur.span;
-        self.set_cur_with_value(first_token, first_value);
+        self.set_cur_with_shared_value(first_token, first_value);
     }
 
     pub fn bump(&mut self) {
@@ -385,7 +406,7 @@ impl<I: Tokens> Buffer<I> {
             Some(next) => next.into_parts(),
             None => {
                 let token = self.iter.next_token();
-                let value = self.iter.take_token_value().map(SharedTokenValue::new);
+                let value = self.iter.take_token_value_shared();
                 (token.into(), value)
             }
         };

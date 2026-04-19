@@ -6,7 +6,205 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
-use crate::{parse_file_as_expr, parse_file_as_module, EsSyntax, TsSyntax};
+use crate::{
+    lexer::{SharedTokenValue, TokenAndSpan, TokenFlags, TokenValue},
+    parse_file_as_expr, parse_file_as_module, Context, EsSyntax, SyntaxFlags, TsSyntax,
+};
+
+#[derive(Clone)]
+struct SharedOnlyTokens {
+    ctx: Context,
+    tokens: Vec<(TokenAndSpan, Option<SharedTokenValue>)>,
+    idx: usize,
+    token_value: Option<SharedTokenValue>,
+    token_flags: TokenFlags,
+    current_token_type: Option<Token>,
+}
+
+impl SharedOnlyTokens {
+    fn new(tokens: Vec<(TokenAndSpan, Option<TokenValue>)>) -> Self {
+        Self {
+            ctx: Context::empty(),
+            tokens: tokens
+                .into_iter()
+                .map(|(token, value)| (token, value.map(SharedTokenValue::new)))
+                .collect(),
+            idx: 0,
+            token_value: None,
+            token_flags: TokenFlags::default(),
+            current_token_type: None,
+        }
+    }
+
+    fn next_entry(&mut self) -> TokenAndSpan {
+        let Some((token, value)) = self.tokens.get(self.idx).cloned() else {
+            return TokenAndSpan {
+                token: Token::Eof,
+                had_line_break: false,
+                span: DUMMY_SP,
+            };
+        };
+        self.idx += 1;
+        self.token_value = value;
+        token
+    }
+}
+
+impl crate::input::Tokens for SharedOnlyTokens {
+    type Checkpoint = (
+        usize,
+        Option<SharedTokenValue>,
+        Context,
+        TokenFlags,
+        Option<Token>,
+    );
+
+    fn set_ctx(&mut self, ctx: Context) {
+        self.ctx = ctx;
+    }
+
+    fn ctx(&self) -> Context {
+        self.ctx
+    }
+
+    fn ctx_mut(&mut self) -> &mut Context {
+        &mut self.ctx
+    }
+
+    fn syntax(&self) -> SyntaxFlags {
+        Syntax::Es(EsSyntax::default()).into_flags()
+    }
+
+    fn target(&self) -> EsVersion {
+        EsVersion::Es2022
+    }
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        (
+            self.idx,
+            self.token_value.clone(),
+            self.ctx,
+            self.token_flags,
+            self.current_token_type,
+        )
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        self.idx = checkpoint.0;
+        self.token_value = checkpoint.1;
+        self.ctx = checkpoint.2;
+        self.token_flags = checkpoint.3;
+        self.current_token_type = checkpoint.4;
+    }
+
+    fn read_string(&self, _: swc_common::Span) -> &str {
+        ""
+    }
+
+    fn set_expr_allowed(&mut self, _: bool) {}
+
+    fn set_next_regexp(&mut self, _: Option<BytePos>) {}
+
+    fn add_error(&mut self, _: crate::error::Error) {
+        panic!("shared-only token stream should not add parser errors")
+    }
+
+    fn add_module_mode_error(&mut self, _: crate::error::Error) {
+        panic!("shared-only token stream should not add module mode errors")
+    }
+
+    fn end_pos(&self) -> BytePos {
+        DUMMY_SP.hi
+    }
+
+    fn take_errors(&mut self) -> Vec<crate::error::Error> {
+        Vec::new()
+    }
+
+    fn take_script_module_errors(&mut self) -> Vec<crate::error::Error> {
+        Vec::new()
+    }
+
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {
+        f(&mut self.token_flags);
+    }
+
+    fn token_flags(&self) -> TokenFlags {
+        self.token_flags
+    }
+
+    fn set_current_token_type(&mut self, token: Token) {
+        self.current_token_type = Some(token);
+    }
+
+    fn clone_token_value(&self) -> Option<TokenValue> {
+        self.token_value
+            .as_ref()
+            .map(|value| value.as_ref().clone())
+    }
+
+    fn take_token_value_shared(&mut self) -> Option<SharedTokenValue> {
+        self.token_value.take()
+    }
+
+    fn take_token_value(&mut self) -> Option<TokenValue> {
+        panic!("buffer should use shared token payload handoff")
+    }
+
+    fn get_token_value(&self) -> Option<&TokenValue> {
+        self.token_value.as_ref().map(SharedTokenValue::as_ref)
+    }
+
+    fn set_token_value_shared(&mut self, token_value: Option<SharedTokenValue>) {
+        self.token_value = token_value;
+    }
+
+    fn set_token_value(&mut self, _: Option<TokenValue>) {
+        panic!("buffer should use shared token payload handoff")
+    }
+
+    fn first_token(&mut self) -> TokenAndSpan {
+        self.next_entry()
+    }
+
+    fn next_token(&mut self) -> TokenAndSpan {
+        self.next_entry()
+    }
+
+    fn scan_jsx_token(&mut self) -> TokenAndSpan {
+        panic!("shared-only token stream does not implement JSX token scans")
+    }
+
+    fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan {
+        panic!("shared-only token stream does not implement JSX terminal scans")
+    }
+
+    fn rescan_jsx_open_el_terminal_token(&mut self, _: BytePos) -> TokenAndSpan {
+        panic!("shared-only token stream does not implement JSX terminal rescans")
+    }
+
+    fn rescan_jsx_token(&mut self, _: BytePos) -> TokenAndSpan {
+        panic!("shared-only token stream does not implement JSX rescans")
+    }
+
+    fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
+        assert_eq!(self.current_token_type, Some(Token::Ident));
+
+        TokenAndSpan {
+            token: Token::JSXName,
+            had_line_break: false,
+            span: swc_common::Span::new_with_checked(start, start + BytePos(3)),
+        }
+    }
+
+    fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
+        panic!("shared-only token stream does not implement JSX attribute scans")
+    }
+
+    fn rescan_template_token(&mut self, _: BytePos, _: bool) -> TokenAndSpan {
+        panic!("shared-only token stream does not implement template rescans")
+    }
+}
 
 fn program(src: &'static str) -> Program {
     test_parser(src, Default::default(), |p| p.parse_program())
@@ -41,6 +239,57 @@ fn peek_preserves_current_token_value() {
         Ok(())
     })
     .unwrap();
+}
+
+#[test]
+fn buffer_uses_shared_payload_handoff_for_first_bump_and_peek() {
+    let tokens = vec![
+        (
+            TokenAndSpan {
+                token: Token::Ident,
+                had_line_break: false,
+                span: swc_common::Span::new_with_checked(BytePos(0), BytePos(3)),
+            },
+            Some(TokenValue::Word(atom!("foo"))),
+        ),
+        (
+            TokenAndSpan {
+                token: Token::Ident,
+                had_line_break: true,
+                span: swc_common::Span::new_with_checked(BytePos(4), BytePos(7)),
+            },
+            Some(TokenValue::Word(atom!("bar"))),
+        ),
+    ];
+
+    let mut buffer = crate::parser::input::Buffer::new(SharedOnlyTokens::new(tokens));
+    buffer.first_bump();
+
+    assert_eq!(buffer.cur(), Token::Ident);
+    assert_eq!(buffer.expect_word_token_value_ref(), &atom!("foo"));
+    assert_eq!(buffer.peek(), Some(Token::Ident));
+}
+
+#[test]
+fn buffer_uses_shared_payload_handoff_for_jsx_identifier_rescan() {
+    let tokens = vec![(
+        TokenAndSpan {
+            token: Token::Ident,
+            had_line_break: false,
+            span: swc_common::Span::new_with_checked(BytePos(0), BytePos(3)),
+        },
+        Some(TokenValue::Word(atom!("foo"))),
+    )];
+
+    let mut buffer = crate::parser::input::Buffer::new(SharedOnlyTokens::new(tokens));
+    buffer.first_bump();
+    buffer.scan_jsx_identifier();
+
+    assert_eq!(buffer.cur(), Token::JSXName);
+    let Some(TokenValue::Word(value)) = buffer.get_token_value() else {
+        panic!("expected jsx name token value");
+    };
+    assert_eq!(value, &atom!("foo"));
 }
 
 #[test]
