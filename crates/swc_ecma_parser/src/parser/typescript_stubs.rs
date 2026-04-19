@@ -163,6 +163,10 @@ impl<I: Tokens> Parser<I> {
         None
     }
 
+    pub(crate) fn can_start_ts_decl_from_word(&self, _value: &swc_atoms::Atom) -> bool {
+        false
+    }
+
     pub(crate) fn try_parse_ts_generic_async_arrow_fn(
         &mut self,
         _start: BytePos,

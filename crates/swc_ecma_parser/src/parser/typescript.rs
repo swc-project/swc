@@ -4900,6 +4900,9 @@ impl<I: Tokens> Parser<I> {
 
                 if p.input().cur().is_word() {
                     let value = p.input().cur().take_word(&p.input);
+                    if !p.can_start_ts_decl_from_word(&value) {
+                        return Ok(None);
+                    }
                     return p
                         .parse_ts_decl(start, decorators, value, /* next */ true)
                         .map(|v| v.map(make_decl_declare));
@@ -4908,6 +4911,9 @@ impl<I: Tokens> Parser<I> {
                 return Ok(None);
             } else if p.input().cur().is_word() {
                 let value = p.input().cur().take_word(&p.input);
+                if !p.can_start_ts_decl_from_word(&value) {
+                    return Ok(None);
+                }
                 return p
                     .parse_ts_decl(start, decorators, value, /* next */ true)
                     .map(|v| v.map(make_decl_declare));
@@ -4930,6 +4936,10 @@ impl<I: Tokens> Parser<I> {
             return None;
         }
 
+        if !self.can_start_ts_decl_from_word(&value) {
+            return None;
+        }
+
         self.try_parse_ts(|p| {
             let start = p.cur_pos();
             let opt = p.parse_ts_decl(start, decorators, value, true)?;
@@ -4941,6 +4951,22 @@ impl<I: Tokens> Parser<I> {
     /// tsParseExpressionStatement.
     ///
     /// `tsParseDeclaration`
+    ///
+    /// This lets callers avoid opening a speculative parser checkpoint when the
+    /// current word token cannot begin any TS/Flow declaration form handled by
+    /// `parse_ts_decl`.
+    pub(crate) fn can_start_ts_decl_from_word(&self, value: &Atom) -> bool {
+        match &**value {
+            "abstract" | "interface" | "module" | "namespace" | "type" => true,
+            "enum" => self.input().syntax().typescript_allows_enum(),
+            "component" | "hook" => {
+                self.input().syntax().flow() && self.input().syntax().flow_components()
+            }
+            "opaque" => self.input().syntax().flow(),
+            _ => false,
+        }
+    }
+
     #[allow(clippy::collapsible_match)]
     fn parse_ts_decl(
         &mut self,
@@ -5188,14 +5214,12 @@ impl<I: Tokens> Parser<I> {
 mod tests {
     use swc_atoms::atom;
     use swc_common::DUMMY_SP;
-    #[cfg(feature = "flow")]
-    use swc_ecma_ast::EsVersion;
-    use swc_ecma_ast::*;
+    use swc_ecma_ast::{EsVersion, *};
     use swc_ecma_visit::assert_eq_ignore_span;
 
     #[cfg(feature = "flow")]
-    use crate::{lexer::Token, syntax::FlowSyntax, Parser};
-    use crate::{test_parser, Syntax};
+    use crate::{lexer::Token, syntax::FlowSyntax};
+    use crate::{test_parser, Parser, Syntax};
 
     #[test]
     fn issue_708_1() {
@@ -5345,6 +5369,73 @@ mod tests {
                 ..
             }))
         ));
+    }
+
+    #[test]
+    fn ts_decl_keyword_guard_filters_non_declarations() {
+        crate::with_test_sess("", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Typescript(Default::default()),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let parser = Parser::new_from(lexer);
+
+            assert!(parser.can_start_ts_decl_from_word(&atom!("abstract")));
+            assert!(parser.can_start_ts_decl_from_word(&atom!("type")));
+            assert!(parser.can_start_ts_decl_from_word(&atom!("interface")));
+            assert!(!parser.can_start_ts_decl_from_word(&atom!("async")));
+            assert!(!parser.can_start_ts_decl_from_word(&atom!("function")));
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_decl_keyword_guard_allows_flow_only_declarations() {
+        crate::with_test_sess("", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let parser = Parser::new_from(lexer);
+
+            assert!(parser.can_start_ts_decl_from_word(&atom!("opaque")));
+            assert!(parser.can_start_ts_decl_from_word(&atom!("component")));
+            assert!(parser.can_start_ts_decl_from_word(&atom!("hook")));
+            assert!(!parser.can_start_ts_decl_from_word(&atom!("async")));
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[test]
+    fn export_async_function_skips_ts_decl_probe() {
+        let actual = test_parser(
+            "export async function foo() {}",
+            Syntax::Typescript(Default::default()),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = &actual.body[0] else {
+            panic!("expected export declaration");
+        };
+        let Decl::Fn(fn_decl) = &export_decl.decl else {
+            panic!("expected function declaration");
+        };
+
+        assert_eq!(fn_decl.ident.sym, atom!("foo"));
+        assert!(fn_decl.function.is_async);
     }
 
     #[cfg(feature = "flow")]

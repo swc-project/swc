@@ -417,13 +417,14 @@ impl<I: Tokens> Parser<I> {
             let cur = self.input().cur();
             if cur.is_word() {
                 let sym = cur.take_word(&self.input);
-                // TODO: remove clone
-                if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
-                    return Ok(ExportDecl {
-                        span: self.span(start),
-                        decl,
+                if self.can_start_ts_decl_from_word(&sym) {
+                    if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
+                        return Ok(ExportDecl {
+                            span: self.span(start),
+                            decl,
+                        }
+                        .into());
                     }
-                    .into());
                 }
             }
 
