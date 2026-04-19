@@ -2418,7 +2418,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if !(self.input().cur() == Token::LBracket
-            && self.ts_look_ahead(Self::is_ts_unambiguously_index_signature))
+            && self.token_look_ahead(Self::is_ts_unambiguously_index_signature))
         {
             return Ok(None);
         }
@@ -3748,7 +3748,7 @@ impl<I: Tokens> Parser<I> {
                 .map(into_type_elem);
         }
         if self.input().is(Token::New)
-            && self.ts_look_ahead(Self::is_ts_start_of_construct_signature)
+            && self.token_look_ahead(Self::is_ts_start_of_construct_signature)
         {
             return self
                 .parse_ts_signature_member(SignatureParsingMode::TSConstructSignatureDeclaration)
@@ -4533,7 +4533,7 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::TypeOf {
             return self.parse_ts_type_query().map(TsType::from).map(Box::new);
         } else if cur == Token::LBrace {
-            return if self.ts_look_ahead(Self::is_ts_start_of_mapped_type) {
+            return if self.token_look_ahead(Self::is_ts_start_of_mapped_type) {
                 self.parse_ts_mapped_type().map(TsType::from).map(Box::new)
             } else {
                 self.parse_ts_type_lit().map(TsType::from).map(Box::new)

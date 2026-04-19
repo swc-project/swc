@@ -163,6 +163,15 @@ impl<I: Tokens> Parser<I> {
         self.checkpoint_load(checkpoint.parser);
     }
 
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    fn token_look_ahead<T>(&mut self, op: impl FnOnce(&mut Self) -> T) -> T {
+        let checkpoint = self.input.checkpoint_save();
+        let ret = op(self);
+        self.input.checkpoint_load(checkpoint);
+        ret
+    }
+
     #[cfg(feature = "flow")]
     #[inline(always)]
     pub fn allow_super_call(&self) -> bool {

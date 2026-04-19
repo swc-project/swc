@@ -538,6 +538,38 @@ fn ts_modifier_fast_lookahead_preserves_semantics_without_bumping() {
 
 #[cfg(feature = "typescript")]
 #[test]
+fn token_look_ahead_restores_cursor_and_lexer_context() {
+    crate::with_test_sess("in foo", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Typescript(TsSyntax::default()),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        parser.state_mut().labels.push(atom!("outer"));
+        let original_ctx = parser.ctx();
+        let original_token = parser.input().cur();
+
+        let saw_ident = parser.token_look_ahead(|p| {
+            p.bump();
+            p.set_ctx(p.ctx() | Context::IgnoreError);
+            p.input().cur() == Token::Ident
+        });
+
+        assert!(saw_ident);
+        assert_eq!(parser.input().cur(), original_token);
+        assert_eq!(parser.ctx().bits(), original_ctx.bits());
+        assert_eq!(&parser.state().labels[..], &[atom!("outer")]);
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[cfg(feature = "typescript")]
+#[test]
 fn parser_checkpoint_shares_state_storage_until_mutation() {
     crate::with_test_sess("foo", |_, input| {
         let lexer = crate::lexer::Lexer::new(
