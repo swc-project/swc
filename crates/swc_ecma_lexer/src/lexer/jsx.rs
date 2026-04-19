@@ -48,10 +48,10 @@ impl Lexer<'_> {
                     };
                     let value = if value.is_empty() {
                         // Fast path: We don't need to allocate extra buffer for value
-                        self.atoms.atom(s)
+                        self.atoms.wtf8_atom(s)
                     } else {
                         value.push_str(s);
-                        self.atoms.atom(value)
+                        self.atoms.wtf8_atom(value)
                     };
 
                     let raw = {

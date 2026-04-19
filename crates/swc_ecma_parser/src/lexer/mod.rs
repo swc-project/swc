@@ -7,7 +7,7 @@ use rustc_hash::FxHashMap;
 use smartstring::{LazyCompact, SmartString};
 use swc_atoms::{
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
-    Atom, AtomStoreCell,
+    Atom, AtomStoreCell, Wtf8Atom,
 };
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
@@ -1362,7 +1362,7 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn read_jsx_entity(&mut self) -> LexResult<(String, String)> {
+    fn read_jsx_entity(&mut self) -> LexResult<(Wtf8Atom, String)> {
         debug_assert!(self.syntax().jsx());
 
         fn parse_from_code(s: &str, radix: u32) -> LexResult<u32> {
@@ -1384,21 +1384,6 @@ impl<'a> Lexer<'a> {
 
             Ok(num)
         }
-        fn parse_utf16_surrogates(utf16_data: &[u16]) -> String {
-            let mut result = String::new();
-            for maybe_char in char::decode_utf16(utf16_data.iter().copied()) {
-                match maybe_char {
-                    Ok(c) => result.push(c),
-                    Err(e) => {
-                        // Handle the error (e.g., an unpaired surrogate),
-                        // perhaps push a replacement character (U+FFFD)
-                        eprintln!("Error decoding UTF-16: {e:?}");
-                        result.push(std::char::REPLACEMENT_CHARACTER);
-                    }
-                }
-            }
-            result
-        }
 
         fn is_hex(s: &str) -> bool {
             s.chars().all(|c| c.is_ascii_hexdigit())
@@ -1414,10 +1399,10 @@ impl<'a> Lexer<'a> {
         self.bump(1); // `&`
 
         let start_pos = self.input().cur_pos();
-        let mut value = String::new();
+        let mut buf = Wtf8Buf::with_capacity(8);
         let mut raw = String::new();
-        const NO_PREV_RESULT: u16 = 0xdc00;
-        let mut prev_result: u16 = NO_PREV_RESULT;
+        const NO_PREV_RESULT: u32 = 0xdc00;
+        let mut prev_result: u32 = NO_PREV_RESULT;
         for _ in 0..20 {
             let c = match self.input().cur() {
                 Some(c) => c,
@@ -1432,13 +1417,13 @@ impl<'a> Lexer<'a> {
             if let Some(stripped) = s.strip_prefix('#') {
                 if stripped.starts_with('x') {
                     if is_hex(&s[2..]) {
-                        let result = parse_from_code(&s[2..], 16)?;
+                        let mut result = parse_from_code(&s[2..], 16)?;
                         if (0xd800..=0xdfff).contains(&result) {
                             if result < 0xdc00 {
                                 if prev_result != NO_PREV_RESULT {
                                     // If the previous result is a high surrogate
                                     // We can be sure `prev_result` is less than 0xdc00
-                                    value.push_str(format!("&#{prev_result:04X};",).as_str());
+                                    buf.push_str(format!("&#{prev_result:04X};",).as_str());
                                 }
                                 if self.input().cur() == Some(b'&')
                                     && self.input().peek() == Some(b'#')
@@ -1446,38 +1431,43 @@ impl<'a> Lexer<'a> {
                                     self.bump(1); // `&`
 
                                     // wait for the next surrogate
-                                    prev_result = result as u16;
+                                    prev_result = result;
                                     raw.push_str(format!("&{s};").as_str());
                                     s.clear();
                                     continue;
                                 } else {
-                                    prev_result = result as u16;
-                                    return Ok((
-                                        parse_utf16_surrogates(&[prev_result]),
-                                        format!("&{s};"),
-                                    ));
+                                    // Safety: result is a valid Unicode code point
+                                    buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
+                                    return Ok((Wtf8Atom::from(buf), format!("&{s};")));
                                 }
                             } else if prev_result != NO_PREV_RESULT {
-                                value.push_str(
-                                    parse_utf16_surrogates(&[prev_result, result as u16]).as_str(),
-                                );
+                                // Low surrogate pair
+                                // Decode to supplementary plane code point
+                                // (0x10000-0x10FFFF)
+                                result =
+                                    0x10000 + ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
+                                // Safety: result is a valid Unicode code point
+                                buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
                                 raw.push_str(format!("&{s};").as_str());
-                                return Ok((value, raw));
+                                return Ok((Wtf8Atom::from(buf), format!("&{s};")));
                             }
                         } else {
-                            let value = char::from_u32(result as u32).unwrap().to_string();
-                            return Ok((value, format!("&{s};")));
+                            // Safety: result is a valid Unicode code point
+                            buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
+                            return Ok((Wtf8Atom::from(buf), format!("&{s};")));
                         }
-
-                        return Ok((value, format!("&{s};")));
+                        // Safety: result is a valid Unicode code point
+                        buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
+                        return Ok((Wtf8Atom::from(buf), format!("&{s};")));
                     }
                 } else if is_dec(stripped) {
                     let result = parse_from_code(stripped, 10)?;
-                    let value = char::from_u32(result as u32).unwrap().to_string();
-                    return Ok((value, format!("&{s};")));
+                    // Safety: We already checked that result is a valid Unicode code point
+                    buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
+                    return Ok((Wtf8Atom::from(buf), format!("&{s};")));
                 }
             } else if let Some(entity) = xhtml(&s) {
-                return Ok((entity.to_string(), format!("&{s};")));
+                return Ok((Wtf8Atom::from(entity.to_string()), format!("&{s};")));
             }
         }
 
@@ -1485,8 +1475,9 @@ impl<'a> Lexer<'a> {
             // Safety: start_pos is a valid position because we got it from self.input
             self.input_mut().reset_to(start_pos);
         }
+        buf.push_char('&');
 
-        Ok(('&'.to_string(), "&".to_string()))
+        Ok((Wtf8Atom::from(buf), "&".to_string()))
     }
 
     fn read_jsx_new_line(&mut self, normalize_crlf: bool) -> LexResult<Either<&'static str, char>> {
@@ -1507,7 +1498,7 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.syntax().jsx());
         let start = self.input().cur_pos();
         self.bump(1); // `quote`
-        let mut out = String::new();
+        let mut buf: Wtf8Buf = Wtf8Buf::new();
         let mut chunk_start = self.input().cur_pos();
         loop {
             let ch = match self.input().cur_as_char() {
@@ -1524,8 +1515,8 @@ impl<'a> Lexer<'a> {
                     self.input_slice_str(chunk_start, cur_pos)
                 };
 
-                out.push_str(value);
-                out.push('\\');
+                buf.push_str(value);
+                buf.push_char('\\');
 
                 self.bump(1); // ch == '\\'
 
@@ -1544,11 +1535,11 @@ impl<'a> Lexer<'a> {
                     self.input_slice_str(chunk_start, cur_pos)
                 };
 
-                out.push_str(value);
+                buf.push_str(value);
 
                 let jsx_entity = self.read_jsx_entity()?;
 
-                out.push_str(&jsx_entity.0);
+                buf.push_wtf8(&jsx_entity.0);
 
                 chunk_start = self.input().cur_pos();
             } else if ch.is_line_terminator() {
@@ -1557,14 +1548,14 @@ impl<'a> Lexer<'a> {
                     self.input_slice_str(chunk_start, cur_pos)
                 };
 
-                out.push_str(value);
+                buf.push_str(value);
 
                 match self.read_jsx_new_line(false)? {
                     Either::Left(s) => {
-                        out.push_str(s);
+                        buf.push_str(s);
                     }
                     Either::Right(c) => {
-                        out.push(c);
+                        buf.push_char(c);
                     }
                 }
 
@@ -1577,12 +1568,11 @@ impl<'a> Lexer<'a> {
             // Safety: We already checked for the range
             self.input_slice_str(chunk_start, self.cur_pos())
         };
-        let value = if out.is_empty() {
-            // Fast path: We don't need to allocate
-            self.atom(s)
+        let value = if buf.is_empty() {
+            self.wtf8_atom(Wtf8::from_str(s))
         } else {
-            out.push_str(s);
-            self.atom(out)
+            buf.push_str(s);
+            self.wtf8_atom(&*buf)
         };
 
         // it might be at the end of the file when
@@ -1591,7 +1581,7 @@ impl<'a> Lexer<'a> {
             self.bump(1);
         }
 
-        Ok(Token::str(value.into(), self))
+        Ok(Token::str(value, self))
     }
 
     // Modified based on <https://github.com/oxc-project/oxc/blob/f0e1510b44efdb1b0d9a09f950181b0e4c435abe/crates/oxc_parser/src/lexer/unicode.rs#L237>
