@@ -570,6 +570,39 @@ fn token_look_ahead_restores_cursor_and_lexer_context() {
 
 #[cfg(feature = "typescript")]
 #[test]
+fn parser_look_ahead_restores_parser_state_without_changing_context() {
+    crate::with_test_sess("foo", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Typescript(TsSyntax::default()),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        parser.state_mut().labels.push(atom!("outer"));
+        let original_ctx = parser.ctx();
+        let original_token = parser.input().cur();
+
+        let saw_eof = parser.parser_look_ahead(|p| {
+            p.bump();
+            p.set_ctx(p.ctx() | Context::IgnoreError);
+            p.state_mut().labels.push(atom!("inner"));
+            p.input().cur() == Token::Eof
+        });
+
+        assert!(saw_eof);
+        assert_eq!(parser.input().cur(), original_token);
+        assert_eq!(parser.ctx().bits(), original_ctx.bits());
+        assert_eq!(&parser.state().labels[..], &[atom!("outer")]);
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[cfg(feature = "typescript")]
+#[test]
 fn parser_checkpoint_shares_state_storage_until_mutation() {
     crate::with_test_sess("foo", |_, input| {
         let lexer = crate::lexer::Lexer::new(

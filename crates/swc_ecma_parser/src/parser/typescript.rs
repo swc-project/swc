@@ -843,15 +843,6 @@ impl<I: Tokens> Parser<I> {
         self.expect_general_semi()
     }
 
-    /// `tsIsStartOfConstructSignature`
-    fn is_ts_start_of_construct_signature(&mut self) -> bool {
-        debug_assert!(self.input().syntax().typescript());
-
-        self.bump();
-        let cur = self.input().cur();
-        matches!(cur, Token::LParen | Token::Lt)
-    }
-
     /// `tsParseDelimitedList`
     fn parse_ts_delimited_list<T, F>(
         &mut self,
@@ -3748,7 +3739,7 @@ impl<I: Tokens> Parser<I> {
                 .map(into_type_elem);
         }
         if self.input().is(Token::New)
-            && self.token_look_ahead(Self::is_ts_start_of_construct_signature)
+            && peek!(self).is_some_and(|peek| matches!(peek, Token::LParen | Token::Lt))
         {
             return self
                 .parse_ts_signature_member(SignatureParsingMode::TSConstructSignatureDeclaration)
@@ -4474,7 +4465,7 @@ impl<I: Tokens> Parser<I> {
             // (`?() =>`, `?(x: T) =>`, `?(...A) =>`) so non-function grouped
             // types keep their original precedence (`?(T)[]` etc.).
             let is_nullable_fn_type = self.input().is(Token::LParen)
-                && self.ts_look_ahead(|p| {
+                && self.parser_look_ahead(|p| {
                     p.try_parse_ts(|p| {
                         let ty = p.parse_ts_non_conditional_type()?;
 
