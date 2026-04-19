@@ -404,6 +404,23 @@ impl<I: Tokens> Parser<I> {
         )
     }
 
+    fn can_start_flow_renders_type(&mut self) -> bool {
+        self.is_flow_contextual_word("renders")
+            && peek!(self).is_some_and(|peek| matches!(peek, Token::QuestionMark | Token::Asterisk))
+    }
+
+    fn parse_flow_renders_type(&mut self) -> PResult<Box<TsType>> {
+        debug_assert!(self.input().syntax().flow());
+        debug_assert!(self.can_start_flow_renders_type());
+
+        self.bump();
+        if !(self.input_mut().eat(Token::QuestionMark) || self.input_mut().eat(Token::Asterisk)) {
+            unexpected!(self, "? or *")
+        }
+
+        self.parse_ts_non_array_type()
+    }
+
     fn parse_flow_component_params(
         &mut self,
         require_type_ann: bool,
@@ -4505,24 +4522,8 @@ impl<I: Tokens> Parser<I> {
                 return self.parse_ts_type_lit().map(TsType::from).map(Box::new);
             }
 
-            if self.is_flow_contextual_word("renders")
-                && peek!(self)
-                    .is_some_and(|peek| matches!(peek, Token::QuestionMark | Token::Asterisk))
-            {
-                if let Some(render_ty) = self.try_parse_ts(|p| {
-                    p.bump();
-
-                    if !(p.input_mut().eat(Token::QuestionMark)
-                        || p.input_mut().eat(Token::Asterisk))
-                    {
-                        return Ok(None);
-                    }
-
-                    let type_ann = p.parse_ts_non_array_type()?;
-                    Ok(Some(type_ann))
-                }) {
-                    return Ok(render_ty);
-                }
+            if self.can_start_flow_renders_type() {
+                return self.parse_flow_renders_type();
             }
 
             if self.input().syntax().flow_components() {
@@ -6221,6 +6222,89 @@ mod tests {
             })
             .unwrap();
         }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_renders_type_guard_filters_non_special_forms() {
+        for src in ["renders Foo", "renders", "foo?"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.in_type(|p| p.can_start_flow_renders_type()));
+                assert!(parser.take_errors().is_empty());
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_renders_type_still_parses_underlying_type() {
+        crate::with_test_sess("renders? Foo", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            let ty = parser.in_type(|p| p.parse_ts_type()).unwrap();
+
+            assert!(matches!(
+                &*ty,
+                TsType::TsTypeRef(TsTypeRef {
+                    type_name: TsEntityName::Ident(ident),
+                    ..
+                }) if ident.sym == atom!("Foo")
+            ));
+            assert!(parser.take_errors().is_empty());
+
+            Ok(())
+        })
+        .unwrap();
+
+        crate::with_test_sess("renders* string", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            let ty = parser.in_type(|p| p.parse_ts_type()).unwrap();
+
+            assert!(matches!(
+                &*ty,
+                TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsStringKeyword,
+                    ..
+                })
+            ));
+            assert!(parser.take_errors().is_empty());
+
+            Ok(())
+        })
+        .unwrap();
     }
 
     #[cfg(feature = "flow")]
