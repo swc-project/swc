@@ -398,7 +398,7 @@ fn try_parse_ts_rolls_back_parser_state_and_module_marker() {
         });
 
         assert!(result.is_none());
-        assert_eq!(parser.state().labels, vec![atom!("outer")]);
+        assert_eq!(&parser.state().labels[..], &[atom!("outer")]);
         assert_eq!(parser.state().potential_arrow_start, Some(BytePos(10)));
         assert_eq!(parser.state().trailing_commas.len(), 1);
         assert_eq!(
@@ -463,7 +463,7 @@ fn try_parse_ts_commits_parser_state_on_success() {
         });
 
         assert!(result.is_some());
-        assert_eq!(parser.state().labels, vec![atom!("inner")]);
+        assert_eq!(&parser.state().labels[..], &[atom!("inner")]);
         assert_eq!(parser.state().potential_arrow_start, Some(BytePos(30)));
         assert_eq!(
             parser.state().trailing_commas.get(&BytePos(30)),
@@ -497,6 +497,69 @@ fn ts_look_ahead_restores_cursor_and_ignore_error_context() {
         assert!(saw_eof);
         assert_eq!(parser.input().cur(), Token::Ident);
         assert!(!parser.ctx().contains(Context::IgnoreError));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[cfg(feature = "typescript")]
+#[test]
+fn parser_checkpoint_shares_state_storage_until_mutation() {
+    crate::with_test_sess("foo", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Typescript(TsSyntax::default()),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+        let original_trailing_comma = swc_common::Span::new_with_checked(BytePos(1), BytePos(2));
+
+        parser.state_mut().labels.push(atom!("outer"));
+        parser.state_mut().potential_arrow_start = Some(BytePos(10));
+        parser
+            .state_mut()
+            .trailing_commas
+            .insert(BytePos(10), original_trailing_comma);
+
+        assert_eq!(parser.state().labels_ref_count(), 1);
+        assert_eq!(parser.state().trailing_commas_ref_count(), 1);
+
+        let checkpoint = parser.checkpoint_save();
+
+        assert_eq!(parser.state().labels_ref_count(), 2);
+        assert_eq!(parser.state().trailing_commas_ref_count(), 2);
+        assert_eq!(checkpoint.state.labels_ref_count(), 2);
+        assert_eq!(checkpoint.state.trailing_commas_ref_count(), 2);
+
+        parser.state_mut().labels.push(atom!("inner"));
+        parser.state_mut().potential_arrow_start = Some(BytePos(20));
+        parser.state_mut().trailing_commas.insert(
+            BytePos(20),
+            swc_common::Span::new_with_checked(BytePos(3), BytePos(4)),
+        );
+
+        assert_eq!(parser.state().labels_ref_count(), 1);
+        assert_eq!(parser.state().trailing_commas_ref_count(), 1);
+        assert_eq!(checkpoint.state.labels_ref_count(), 1);
+        assert_eq!(checkpoint.state.trailing_commas_ref_count(), 1);
+        assert_eq!(
+            &parser.state().labels[..],
+            &[atom!("outer"), atom!("inner")]
+        );
+        assert_eq!(&checkpoint.state.labels[..], &[atom!("outer")]);
+
+        parser.checkpoint_load(checkpoint);
+
+        assert_eq!(&parser.state().labels[..], &[atom!("outer")]);
+        assert_eq!(parser.state().potential_arrow_start, Some(BytePos(10)));
+        assert_eq!(
+            parser.state().trailing_commas.get(&BytePos(10)),
+            Some(&original_trailing_comma)
+        );
+        assert_eq!(parser.state().labels_ref_count(), 1);
+        assert_eq!(parser.state().trailing_commas_ref_count(), 1);
 
         Ok(())
     })
