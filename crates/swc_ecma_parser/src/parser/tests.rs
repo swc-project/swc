@@ -374,6 +374,32 @@ fn capturing_uses_fast_token_frame_handoff() {
     assert_eq!(captured[1].token, Token::Ident);
 }
 
+#[cfg(feature = "unstable")]
+#[test]
+fn capturing_legacy_first_token_restores_payload() {
+    crate::with_test_sess("identifier", |_, input| {
+        let mut lexer = crate::lexer::capturing::Capturing::new(crate::lexer::Lexer::new(
+            Syntax::Es(EsSyntax::default()),
+            EsVersion::Es2022,
+            input,
+            None,
+        ));
+
+        let first = crate::input::Tokens::first_token(&mut lexer);
+        assert_eq!(first.token, Token::Ident);
+
+        let Some(TokenValue::Word(value)) = crate::input::Tokens::get_token_value(&lexer) else {
+            panic!("expected identifier payload on capturing legacy path");
+        };
+        assert_eq!(value, &atom!("identifier"));
+        assert_eq!(lexer.tokens().len(), 1);
+        assert_eq!(lexer.tokens()[0].token, Token::Ident);
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 #[test]
 fn buffer_checkpoint_restores_cur_and_peek_values() {
     crate::with_test_sess("foo + bar", |_, input| {

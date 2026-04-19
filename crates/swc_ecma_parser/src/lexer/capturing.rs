@@ -68,6 +68,33 @@ impl<I> Capturing<I> {
 
         v.push(ts);
     }
+
+    fn legacy_token_and_span(&mut self, frame: FastTokenAndValue) -> TokenAndSpan
+    where
+        I: Tokens,
+    {
+        let token = frame.token;
+        self.inner.set_token_value_shared(frame.value);
+        token.into()
+    }
+
+    fn capture_fast_frame(&mut self, frame: FastTokenAndValue) -> FastTokenAndValue {
+        if frame.token.token != Token::Eof {
+            self.capture(frame.token.into());
+        }
+        frame
+    }
+
+    fn capture_legacy_token_and_span(&mut self, frame: FastTokenAndValue) -> TokenAndSpan
+    where
+        I: Tokens,
+    {
+        let token = self.legacy_token_and_span(frame);
+        if token.token != Token::Eof {
+            self.capture(token);
+        }
+        token
+    }
 }
 
 #[allow(private_interfaces)]
@@ -167,35 +194,23 @@ impl<I: Tokens> Tokens for Capturing<I> {
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
-        let next = self.inner.first_token();
-        if next.token != Token::Eof {
-            self.capture(next);
-        }
-        next
+        let next = self.inner.first_token_fast();
+        self.capture_legacy_token_and_span(next)
     }
 
     fn first_token_fast(&mut self) -> FastTokenAndValue {
         let next = self.inner.first_token_fast();
-        if next.token.token != Token::Eof {
-            self.capture(next.token.into());
-        }
-        next
+        self.capture_fast_frame(next)
     }
 
     fn next_token(&mut self) -> TokenAndSpan {
-        let next = self.inner.next_token();
-        if next.token != Token::Eof {
-            self.capture(next);
-        }
-        next
+        let next = self.inner.next_token_fast();
+        self.capture_legacy_token_and_span(next)
     }
 
     fn next_token_fast(&mut self) -> FastTokenAndValue {
         let next = self.inner.next_token_fast();
-        if next.token.token != Token::Eof {
-            self.capture(next.token.into());
-        }
-        next
+        self.capture_fast_frame(next)
     }
 
     fn set_token_value(&mut self, token_value: Option<super::TokenValue>) {
@@ -207,7 +222,8 @@ impl<I: Tokens> Tokens for Capturing<I> {
     }
 
     fn scan_jsx_token(&mut self) -> TokenAndSpan {
-        self.inner.scan_jsx_token()
+        let next = self.inner.scan_jsx_token_fast();
+        self.legacy_token_and_span(next)
     }
 
     fn scan_jsx_token_fast(&mut self) -> FastTokenAndValue {
@@ -215,7 +231,8 @@ impl<I: Tokens> Tokens for Capturing<I> {
     }
 
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan {
-        self.inner.scan_jsx_open_el_terminal_token()
+        let next = self.inner.scan_jsx_open_el_terminal_token_fast();
+        self.legacy_token_and_span(next)
     }
 
     fn scan_jsx_open_el_terminal_token_fast(&mut self) -> FastTokenAndValue {
@@ -223,54 +240,46 @@ impl<I: Tokens> Tokens for Capturing<I> {
     }
 
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: swc_common::BytePos) -> TokenAndSpan {
-        let ts = self.inner.rescan_jsx_open_el_terminal_token(reset);
-        self.capture(ts);
-        ts
+        let next = self.inner.rescan_jsx_open_el_terminal_token_fast(reset);
+        self.capture_legacy_token_and_span(next)
     }
 
     fn rescan_jsx_open_el_terminal_token_fast(
         &mut self,
         reset: swc_common::BytePos,
     ) -> FastTokenAndValue {
-        let ts = self.inner.rescan_jsx_open_el_terminal_token_fast(reset);
-        self.capture(ts.token.into());
-        ts
+        let next = self.inner.rescan_jsx_open_el_terminal_token_fast(reset);
+        self.capture_fast_frame(next)
     }
 
     fn rescan_jsx_token(&mut self, reset: swc_common::BytePos) -> TokenAndSpan {
-        let ts = self.inner.rescan_jsx_token(reset);
-        self.capture(ts);
-        ts
+        let next = self.inner.rescan_jsx_token_fast(reset);
+        self.capture_legacy_token_and_span(next)
     }
 
     fn rescan_jsx_token_fast(&mut self, reset: swc_common::BytePos) -> FastTokenAndValue {
-        let ts = self.inner.rescan_jsx_token_fast(reset);
-        self.capture(ts.token.into());
-        ts
+        let next = self.inner.rescan_jsx_token_fast(reset);
+        self.capture_fast_frame(next)
     }
 
     fn scan_jsx_identifier(&mut self, start: swc_common::BytePos) -> TokenAndSpan {
-        let ts = self.inner.scan_jsx_identifier(start);
-        self.capture(ts);
-        ts
+        let next = self.inner.scan_jsx_identifier_fast(start);
+        self.capture_legacy_token_and_span(next)
     }
 
     fn scan_jsx_identifier_fast(&mut self, start: swc_common::BytePos) -> FastTokenAndValue {
-        let ts = self.inner.scan_jsx_identifier_fast(start);
-        self.capture(ts.token.into());
-        ts
+        let next = self.inner.scan_jsx_identifier_fast(start);
+        self.capture_fast_frame(next)
     }
 
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
-        let ts = self.inner.scan_jsx_attribute_value();
-        self.capture(ts);
-        ts
+        let next = self.inner.scan_jsx_attribute_value_fast();
+        self.capture_legacy_token_and_span(next)
     }
 
     fn scan_jsx_attribute_value_fast(&mut self) -> FastTokenAndValue {
-        let ts = self.inner.scan_jsx_attribute_value_fast();
-        self.capture(ts.token.into());
-        ts
+        let next = self.inner.scan_jsx_attribute_value_fast();
+        self.capture_fast_frame(next)
     }
 
     fn rescan_template_token(
@@ -278,11 +287,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
         start: swc_common::BytePos,
         start_with_back_tick: bool,
     ) -> TokenAndSpan {
-        let ts = self
+        let next = self
             .inner
-            .rescan_template_token(start, start_with_back_tick);
-        self.capture(ts);
-        ts
+            .rescan_template_token_fast(start, start_with_back_tick);
+        self.capture_legacy_token_and_span(next)
     }
 
     fn rescan_template_token_fast(
@@ -290,10 +298,9 @@ impl<I: Tokens> Tokens for Capturing<I> {
         start: swc_common::BytePos,
         start_with_back_tick: bool,
     ) -> FastTokenAndValue {
-        let ts = self
+        let next = self
             .inner
             .rescan_template_token_fast(start, start_with_back_tick);
-        self.capture(ts.token.into());
-        ts
+        self.capture_fast_frame(next)
     }
 }
