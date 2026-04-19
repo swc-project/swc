@@ -95,10 +95,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_assignment_expr_base);
         let start = self.input().cur_span();
 
-        if self.input().syntax().typescript()
-            && (self.input().cur() == Token::Lt || self.input().cur() == Token::JSXTagStart)
-            && (peek!(self).is_some_and(|peek| peek.is_word() || peek == Token::JSXName))
-        {
+        if self.input().syntax().typescript() && self.can_start_ts_expr_type_params_fast() {
             let res = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
                 p.try_parse_ts(|p| {
                     let type_parameters = p.parse_ts_type_params(false, true)?;

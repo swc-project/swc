@@ -5250,6 +5250,31 @@ impl<I: Tokens> Parser<I> {
             })
     }
 
+    pub(super) fn can_start_ts_expr_type_params_fast(&mut self) -> bool {
+        matches!(self.input().cur(), Token::Lt | Token::JSXTagStart)
+            && self.token_look_ahead(|p| {
+                p.bump();
+
+                let cur = p.input().cur();
+                if !(cur.is_word() || cur == Token::JSXName) {
+                    return false;
+                }
+
+                if !p.input().syntax().jsx() || p.input().syntax().flow() {
+                    return true;
+                }
+
+                // In TSX mode, a bare `<T>`/`<div>` start is dominated by JSX and
+                // cannot be the start of an unambiguous generic arrow head.
+                if matches!(cur, Token::Const | Token::In | Token::Out) {
+                    return true;
+                }
+
+                p.bump();
+                matches!(p.input().cur(), Token::Comma | Token::Extends | Token::Eq)
+            })
+    }
+
     fn can_probe_ts_decl_from_word(&mut self, value: &Atom) -> bool {
         if !self.can_start_ts_decl_from_word(value) {
             return false;
@@ -5532,7 +5557,7 @@ mod tests {
 
     #[cfg(feature = "flow")]
     use crate::syntax::FlowSyntax;
-    use crate::{lexer::Token, parser::Context, test_parser, Parser, Syntax};
+    use crate::{lexer::Token, parser::Context, test_parser, Parser, Syntax, TsSyntax};
 
     #[test]
     fn issue_708_1() {
@@ -6016,6 +6041,60 @@ mod tests {
 
                 assert!(parser.can_start_ts_generic_async_arrow_type_params());
                 assert_eq!(parser.input().cur(), Token::Lt);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_expr_type_param_guard_filters_jsx_dominated_starts() {
+        for src in ["<div />", "<T>", "<A.B>"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(TsSyntax {
+                        tsx: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                let cur = parser.input().cur();
+
+                assert!(!parser.can_start_ts_expr_type_params_fast());
+                assert_eq!(parser.input().cur(), cur);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_expr_type_param_guard_keeps_unambiguous_tsx_starts() {
+        for src in [
+            "<T,>() => {}",
+            "<T extends unknown>() => {}",
+            "<T = unknown>() => {}",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(TsSyntax {
+                        tsx: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                let cur = parser.input().cur();
+
+                assert!(parser.can_start_ts_expr_type_params_fast());
+                assert_eq!(parser.input().cur(), cur);
 
                 Ok(())
             })
