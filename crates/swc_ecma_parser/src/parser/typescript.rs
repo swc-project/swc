@@ -5105,6 +5105,15 @@ impl<I: Tokens> Parser<I> {
             "abstract" => peek!(self).is_some_and(|peek| peek == Token::Class),
             "interface" | "namespace" | "type" => peek!(self).is_some_and(|peek| peek.is_word()),
             "enum" => peek!(self).is_some_and(|peek| peek.is_word()),
+            "module" => peek!(self).is_some_and(|peek| {
+                peek == Token::Str
+                    || peek == Token::Eof
+                    || peek == Token::Error
+                    || peek.is_word()
+                    || (self.input().syntax().flow()
+                        && self.ctx().contains(Context::InDeclare)
+                        && peek == Token::Dot)
+            }),
             "opaque" => {
                 !self.input_mut().has_linebreak_between_cur_and_peeked()
                     && peek!(self).is_some_and(|peek| peek == Token::Type)
@@ -5608,6 +5617,44 @@ mod tests {
         .unwrap();
     }
 
+    #[test]
+    fn ts_module_decl_probe_guard_filters_non_module_follow_ups() {
+        crate::with_test_sess("module + 1", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Typescript(Default::default()),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_probe_ts_decl_from_word(&atom!("module")));
+            assert!(parser.input().cur().is_word());
+            assert_eq!(
+                parser.input().cur().take_word(&parser.input),
+                atom!("module")
+            );
+
+            Ok(())
+        })
+        .unwrap();
+
+        crate::with_test_sess("module \"foo\" {}", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Typescript(Default::default()),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(parser.can_probe_ts_decl_from_word(&atom!("module")));
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
     #[cfg(feature = "flow")]
     #[test]
     fn flow_decl_keyword_guard_allows_flow_only_declarations() {
@@ -5675,6 +5722,27 @@ mod tests {
             let mut parser = Parser::new_from(lexer);
 
             assert!(parser.can_probe_ts_decl_from_word(&atom!("hook")));
+
+            Ok(())
+        })
+        .unwrap();
+
+        crate::with_test_sess("module.exports: T", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            parser.set_ctx(parser.ctx() | Context::InDeclare);
+
+            assert!(parser.can_probe_ts_decl_from_word(&atom!("module")));
 
             Ok(())
         })
