@@ -5162,6 +5162,14 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn can_start_ts_generic_async_arrow_type_params(&mut self) -> bool {
+        matches!(self.input().cur(), Token::Lt | Token::JSXTagStart)
+            && self.token_look_ahead(|p| {
+                p.bump();
+                p.input().cur().is_word()
+            })
+    }
+
     fn can_probe_ts_decl_from_word(&mut self, value: &Atom) -> bool {
         if !self.can_start_ts_decl_from_word(value) {
             return false;
@@ -5369,8 +5377,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(Default::default());
         }
 
-        let cur = self.input().cur();
-        let res = if cur == Token::Lt || cur == Token::JSXTagStart {
+        let res = if self.can_start_ts_generic_async_arrow_type_params() {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params(false, false)?;
 
@@ -5892,6 +5899,48 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+
+    #[test]
+    fn ts_generic_async_arrow_type_param_guard_filters_non_word_starts() {
+        for src in ["<1>() => {}", "<>() => {}", "<\"x\">() => {}"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_start_ts_generic_async_arrow_type_params());
+                assert_eq!(parser.input().cur(), Token::Lt);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_generic_async_arrow_type_param_guard_keeps_word_starts() {
+        for src in ["<T>() => {}", "<const T>() => {}", "<in T>() => {}"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.can_start_ts_generic_async_arrow_type_params());
+                assert_eq!(parser.input().cur(), Token::Lt);
+
+                Ok(())
+            })
+            .unwrap();
+        }
     }
 
     #[cfg(feature = "flow")]
