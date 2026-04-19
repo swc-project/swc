@@ -186,6 +186,7 @@ use swc_common::{comments::Comments, SourceFile};
 use swc_ecma_ast::*;
 
 mod context;
+mod dispatch;
 pub mod error;
 mod fast;
 mod legacy;
@@ -224,10 +225,13 @@ pub fn with_file_parser<T>(
     recovered_errors: &mut Vec<Error>,
     op: impl for<'aa> FnOnce(&mut Parser<self::Lexer>) -> PResult<T>,
 ) -> PResult<T> {
-    if syntax.flow() {
-        legacy::with_file_parser(fm, syntax, target, comments, recovered_errors, op)
-    } else {
-        fast::with_file_parser(fm, syntax, target, comments, recovered_errors, op)
+    match dispatch::parser_core_for(syntax) {
+        dispatch::ParserCore::Legacy => {
+            legacy::with_file_parser(fm, syntax, target, comments, recovered_errors, op)
+        }
+        dispatch::ParserCore::Fast => {
+            fast::with_file_parser(fm, syntax, target, comments, recovered_errors, op)
+        }
     }
 }
 
