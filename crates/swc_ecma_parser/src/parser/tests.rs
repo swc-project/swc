@@ -6,7 +6,7 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
-use crate::{parse_file_as_expr, EsSyntax, TsSyntax};
+use crate::{parse_file_as_expr, parse_file_as_module, EsSyntax, TsSyntax};
 
 fn program(src: &'static str) -> Program {
     test_parser(src, Default::default(), |p| p.parse_program())
@@ -107,6 +107,68 @@ fn buffer_checkpoint_shares_token_payload_storage() {
 
         Ok(())
     })
+    .unwrap();
+}
+
+#[test]
+fn parse_file_as_module_collects_comments_in_fast_path() {
+    let cm = SourceMap::default();
+    let fm = cm.new_source_file(
+        FileName::Anon.into(),
+        "// leading\nexport const answer = 42;\n".to_string(),
+    );
+    let comments = SingleThreadedComments::default();
+    let mut errors = Vec::new();
+
+    let module = parse_file_as_module(
+        &fm,
+        Syntax::Es(EsSyntax::default()),
+        EsVersion::Es2022,
+        Some(&comments),
+        &mut errors,
+    )
+    .expect("module should parse");
+
+    assert_eq!(module.body.len(), 1);
+    assert!(errors.is_empty());
+
+    let (leading, trailing) = comments.take_all();
+    let leading = leading.borrow();
+    assert!(leading
+        .values()
+        .flatten()
+        .any(|comment| comment.text.trim() == "leading"));
+    assert!(trailing.borrow().is_empty());
+}
+
+#[cfg(feature = "unstable")]
+#[test]
+fn capturing_tracks_tokens_through_jsx_relex() {
+    crate::with_test_sess(
+        "export const view = <Foo bar=\"baz\">{value as string}</Foo>;",
+        |_, input| {
+            let lexer = crate::lexer::capturing::Capturing::new(crate::lexer::Lexer::new(
+                Syntax::Typescript(TsSyntax {
+                    tsx: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            ));
+            let mut parser = Parser::new_from(lexer);
+
+            parser.parse_module().expect("module should parse");
+            let tokens = parser.input_mut().iter_mut().take();
+
+            assert!(parser.take_errors().is_empty());
+            assert!(tokens.iter().any(|token| token.token == Token::JSXTagStart));
+            assert!(tokens.iter().any(|token| token.token == Token::JSXTagEnd));
+            assert!(tokens.iter().any(|token| token.token == Token::JSXName));
+
+            Ok(())
+        },
+    )
     .unwrap();
 }
 

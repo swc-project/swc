@@ -221,6 +221,23 @@ fn comment_4() {
 }
 
 #[test]
+fn parse_then_emit_typescript_smoke() {
+    let out = parse_then_emit(
+        "export const answer: number = 42;",
+        Config {
+            target: EsVersion::latest(),
+            ..Default::default()
+        },
+        Syntax::Typescript(Default::default()),
+    );
+
+    assert_eq!(
+        DebugUsingDisplay(out.trim()),
+        DebugUsingDisplay("export const answer: number = 42;"),
+    );
+}
+
+#[test]
 fn comment_5() {
     test_from_to(
         "// foo

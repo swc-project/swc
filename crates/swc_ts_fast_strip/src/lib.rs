@@ -1700,3 +1700,65 @@ impl U8Helper for u8 {
 fn span(lo: BytePos, hi: BytePos) -> Span {
     Span::new(lo, hi)
 }
+
+#[cfg(test)]
+mod tests {
+    use std::io::sink;
+
+    use swc_common::{
+        errors::{Handler, HANDLER},
+        sync::Lrc,
+        SourceMap,
+    };
+
+    use super::{operate, ErrorCode, Mode, Options};
+
+    #[test]
+    fn strip_only_smoke_uses_parser_capture_path() {
+        let cm: Lrc<SourceMap> = Default::default();
+        let handler = Handler::with_emitter_writer(Box::new(sink()), Some(cm.clone()));
+
+        let output = HANDLER
+            .set(&handler, || {
+                operate(
+                    &cm,
+                    &handler,
+                    "export const answer: number = 42;\n".into(),
+                    Options {
+                        module: Some(true),
+                        mode: Mode::StripOnly,
+                        ..Default::default()
+                    },
+                )
+            })
+            .expect("strip-only transform should succeed");
+
+        assert!(output.code.contains("export const answer"));
+        assert!(output.code.contains("= 42;"));
+        assert!(!output.code.contains(": number"));
+    }
+
+    #[test]
+    fn deprecated_module_diagnostic_uses_captured_tokens() {
+        let cm: Lrc<SourceMap> = Default::default();
+        let handler = Handler::with_emitter_writer(Box::new(sink()), Some(cm.clone()));
+
+        let err = HANDLER
+            .set(&handler, || {
+                operate(
+                    &cm,
+                    &handler,
+                    "module Foo {}".into(),
+                    Options {
+                        module: Some(true),
+                        mode: Mode::StripOnly,
+                        deprecated_ts_module_as_error: Some(true),
+                        ..Default::default()
+                    },
+                )
+            })
+            .expect_err("module keyword should be rejected");
+
+        assert!(matches!(err.code, ErrorCode::UnsupportedSyntax));
+    }
+}

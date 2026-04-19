@@ -6,7 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax, TsSyntax};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -206,5 +206,24 @@ pub(crate) fn test_transform<F, P>(
         }
 
         Err(())
+    });
+}
+
+#[test]
+fn tester_with_parser_supports_typescript_tsx_smoke() {
+    Tester::run(|tester| {
+        let module = tester.with_parser(
+            "input.tsx",
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+            "export const view = <div>{value as string}</div>;",
+            |parser| parser.parse_module(),
+        )?;
+
+        assert_eq!(module.body.len(), 1);
+
+        Ok(())
     });
 }
