@@ -1,0 +1,9 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "flow",
+      "requireDirective": true
+    }
+  },
+  "isModule": "unknown"
+}

@@ -1,0 +1,1 @@
+/** @flow strict */ global.ErrorUtils = {};

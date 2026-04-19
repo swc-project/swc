@@ -8,7 +8,7 @@ use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
-use crate::{semantic::analyze_program, transform::transform};
+use crate::{retain::IsConcrete, semantic::analyze_program, transform::transform};
 
 macro_rules! static_str {
     ($s:expr) => {
@@ -74,10 +74,17 @@ impl TypeScript {
             return None;
         }
 
+        // Flow strips type-only syntax without preserving module context: if the
+        // only module declarations are type-only (e.g. `export type`), the result
+        // should be a plain script. TypeScript keeps the placeholder to match
+        // `tsc`, which emits `export {}` so downstream module transforms still
+        // treat the file as a module.
+        let keep_type_only = !self.config.flow_syntax;
+
         n.body
             .iter()
             .rev()
-            .find(|m| m.is_es_module_decl())
+            .find(|m| m.is_es_module_decl() && (keep_type_only || m.is_concrete()))
             .map(Spanned::span)
     }
 
