@@ -4032,6 +4032,10 @@ impl<I: Tokens> Parser<I> {
             return self.parse_flow_getter_sig_member(readonly);
         }
 
+        if self.can_direct_parse_flow_setter_sig() {
+            return self.parse_flow_setter_sig_member(readonly);
+        }
+
         if self.can_start_flow_accessor_sig() {
             if let Some(v) = self.try_parse_ts(|p| {
                 let start = p.input().cur_pos();
@@ -4119,6 +4123,36 @@ impl<I: Tokens> Parser<I> {
             key,
             computed,
             type_ann,
+        }))
+    }
+
+    fn parse_flow_setter_sig_member(&mut self, readonly: bool) -> PResult<TsTypeElement> {
+        let start = self.input().cur_pos();
+
+        if readonly {
+            syntax_error!(self, SyntaxError::GetterSetterCannotBeReadonly)
+        }
+
+        expect!(self, Token::Set);
+        let (computed, key) = self.parse_ts_property_name()?;
+        expect!(self, Token::LParen);
+        let params = self.parse_ts_binding_list_for_signature()?;
+        if params.is_empty() {
+            syntax_error!(self, SyntaxError::SetterParamRequired)
+        }
+        let param = params.into_iter().next().unwrap();
+
+        if self.input().syntax().flow() && self.input().is(Token::Colon) {
+            let _ = self.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+        }
+
+        self.parse_ts_type_member_semicolon()?;
+
+        Ok(TsTypeElement::TsSetterSignature(TsSetterSignature {
+            span: self.span(start),
+            key,
+            computed,
+            param,
         }))
     }
 
@@ -4222,6 +4256,10 @@ impl<I: Tokens> Parser<I> {
 
                 p.can_follow_flow_type_member_after_params()
             })
+    }
+
+    fn can_direct_parse_flow_setter_sig(&mut self) -> bool {
+        self.input().is(Token::Set) && self.can_start_flow_accessor_sig()
     }
 
     fn can_follow_flow_type_member_after_params(&mut self) -> bool {
@@ -6868,6 +6906,59 @@ mod tests {
                 let mut parser = Parser::new_from(lexer);
 
                 assert!(!parser.can_direct_parse_flow_getter_sig());
+                assert!(matches!(parser.input().cur(), Token::Get | Token::Set));
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_direct_setter_guard_keeps_setter_keywords() {
+        for src in [
+            "set foo(value: string): void",
+            "set [foo](value: string): void",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.can_direct_parse_flow_setter_sig());
+                assert_eq!(parser.input().cur(), Token::Set);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_direct_setter_guard_filters_non_setter_keywords() {
+        for src in ["get foo(): string", "set foo: string"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_direct_parse_flow_setter_sig());
                 assert!(matches!(parser.input().cur(), Token::Get | Token::Set));
 
                 Ok(())
