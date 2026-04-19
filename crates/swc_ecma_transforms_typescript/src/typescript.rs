@@ -79,13 +79,82 @@ impl TypeScript {
         // should be a plain script. TypeScript keeps the placeholder to match
         // `tsc`, which emits `export {}` so downstream module transforms still
         // treat the file as a module.
-        let keep_type_only = !self.config.flow_syntax;
-
         n.body
             .iter()
             .rev()
-            .find(|m| m.is_es_module_decl() && (keep_type_only || m.is_concrete()))
+            .find(|m| {
+                m.is_es_module_decl()
+                    && if self.config.flow_syntax {
+                        Self::flow_module_item_has_runtime_semantics(m)
+                    } else {
+                        m.is_concrete()
+                    }
+            })
             .map(Spanned::span)
+    }
+
+    fn flow_module_item_has_runtime_semantics(item: &ModuleItem) -> bool {
+        let Some(module_decl) = item.as_module_decl() else {
+            return false;
+        };
+
+        match module_decl {
+            ModuleDecl::Import(import_decl) => {
+                !import_decl.type_only
+                    && (import_decl.specifiers.is_empty()
+                        || import_decl
+                            .specifiers
+                            .iter()
+                            .any(|specifier| match specifier {
+                                ImportSpecifier::Named(named) => !named.is_type_only,
+                                ImportSpecifier::Default(..) | ImportSpecifier::Namespace(..) => {
+                                    true
+                                }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
+                            }))
+            }
+            ModuleDecl::ExportDecl(export_decl) => !Self::decl_is_declare(&export_decl.decl),
+            ModuleDecl::ExportNamed(named_export) => {
+                !named_export.type_only
+                    && (named_export.specifiers.is_empty()
+                        || named_export
+                            .specifiers
+                            .iter()
+                            .any(|specifier| match specifier {
+                                ExportSpecifier::Named(named) => !named.is_type_only,
+                                ExportSpecifier::Default(..) | ExportSpecifier::Namespace(..) => {
+                                    true
+                                }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
+                            }))
+            }
+            ModuleDecl::ExportDefaultDecl(export_default_decl) => {
+                export_default_decl.decl.is_concrete()
+            }
+            ModuleDecl::ExportDefaultExpr(..) => true,
+            ModuleDecl::ExportAll(export_all) => !export_all.type_only,
+            ModuleDecl::TsImportEquals(ts_import_equals) => !ts_import_equals.is_type_only,
+            ModuleDecl::TsExportAssignment(..) => true,
+            ModuleDecl::TsNamespaceExport(..) => false,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        }
+    }
+
+    fn decl_is_declare(decl: &Decl) -> bool {
+        match decl {
+            Decl::Class(class_decl) => class_decl.declare,
+            Decl::Fn(function_decl) => function_decl.declare,
+            Decl::Var(var_decl) => var_decl.declare,
+            Decl::Using(..) => false,
+            Decl::TsInterface(..) | Decl::TsTypeAlias(..) => true,
+            Decl::TsEnum(ts_enum_decl) => ts_enum_decl.declare,
+            Decl::TsModule(ts_module_decl) => ts_module_decl.declare || ts_module_decl.global,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        }
     }
 
     fn restore_esm_ctx(n: &mut Module, span: Span) {
