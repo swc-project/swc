@@ -385,6 +385,41 @@ fn lexer_checkpoint_shares_token_payload_storage() {
 }
 
 #[test]
+fn jsx_identifier_rescan_reuses_existing_payload_handle() {
+    crate::with_test_sess("foo", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut buffer = crate::parser::input::Buffer::new(lexer);
+        buffer.first_bump();
+
+        let before = buffer
+            .clone_cur_value_handle()
+            .expect("identifier payload should exist");
+        buffer.scan_jsx_identifier();
+        let after = buffer
+            .clone_cur_value_handle()
+            .expect("jsx name payload should exist");
+
+        assert_eq!(buffer.cur(), Token::JSXName);
+        assert!(before.ptr_eq(&after));
+        let Some(TokenValue::Word(value)) = buffer.get_token_value() else {
+            panic!("expected jsx name token value");
+        };
+        assert_eq!(value, &atom!("foo"));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
 fn parse_file_as_module_collects_comments_in_fast_path() {
     let cm = SourceMap::default();
     let fm = cm.new_source_file(

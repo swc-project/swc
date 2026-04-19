@@ -60,6 +60,12 @@ impl SharedTokenValue {
     pub(crate) fn strong_count(&self) -> usize {
         Rc::strong_count(&self.0)
     }
+
+    #[cfg(test)]
+    #[inline(always)]
+    pub(crate) fn ptr_eq(&self, other: &Self) -> bool {
+        Rc::ptr_eq(&self.0, &other.0)
+    }
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]

@@ -374,18 +374,20 @@ impl crate::input::Tokens for Lexer<'_> {
                 self.input_slice_str(start, prefix_end)
             };
             self.atom(prefix)
-        } else if let Some(TokenValue::Word(value)) = self
-            .state
-            .token_value
-            .take()
-            .map(SharedTokenValue::into_owned)
-        {
-            value
         } else {
-            unreachable!(
-                "`token_value` should be a word, but got: {:?}",
-                self.state.token_value
-            )
+            debug_assert!(matches!(
+                self.state
+                    .token_value
+                    .as_ref()
+                    .map(SharedTokenValue::as_ref),
+                Some(TokenValue::Word(_))
+            ));
+
+            return TokenAndSpan {
+                token: Token::JSXName,
+                had_line_break: self.state.had_line_break,
+                span: self.span(start),
+            };
         };
         self.state.set_token_value(TokenValue::Word(v));
         TokenAndSpan {

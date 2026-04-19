@@ -609,6 +609,11 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[cfg(test)]
+    pub(crate) fn clone_cur_value_handle(&self) -> Option<SharedTokenValue> {
+        self.cur_value.clone()
+    }
+
+    #[cfg(test)]
     pub fn next_value_ref_count(&self) -> Option<usize> {
         self.next
             .as_ref()
