@@ -1,12 +1,10 @@
-use std::rc::Rc;
-
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{FastToken, LexResult, Token, TokenAndSpan, TokenFlags, TokenValue},
+    lexer::{FastToken, LexResult, SharedTokenValue, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
     Context,
 };
@@ -86,39 +84,10 @@ pub trait Tokens: Clone {
         -> TokenAndSpan;
 }
 
-#[derive(Clone, Debug)]
-struct StoredTokenValue(Rc<TokenValue>);
-
-impl StoredTokenValue {
-    #[inline(always)]
-    fn new(value: TokenValue) -> Self {
-        Self(Rc::new(value))
-    }
-
-    #[inline(always)]
-    fn as_ref(&self) -> &TokenValue {
-        self.0.as_ref()
-    }
-
-    #[inline(always)]
-    fn into_owned(self) -> TokenValue {
-        match Rc::try_unwrap(self.0) {
-            Ok(value) => value,
-            Err(value) => value.as_ref().clone(),
-        }
-    }
-
-    #[cfg(test)]
-    #[inline(always)]
-    fn strong_count(&self) -> usize {
-        Rc::strong_count(&self.0)
-    }
-}
-
 #[derive(Clone)]
 pub(crate) struct BufferedNextToken {
     token_and_span: FastToken,
-    value: Option<StoredTokenValue>,
+    value: Option<SharedTokenValue>,
 }
 
 impl BufferedNextToken {
@@ -126,12 +95,12 @@ impl BufferedNextToken {
     fn new(token_and_span: TokenAndSpan, value: Option<TokenValue>) -> Self {
         Self {
             token_and_span: token_and_span.into(),
-            value: value.map(StoredTokenValue::new),
+            value: value.map(SharedTokenValue::new),
         }
     }
 
     #[inline(always)]
-    fn into_parts(self) -> (FastToken, Option<StoredTokenValue>) {
+    fn into_parts(self) -> (FastToken, Option<SharedTokenValue>) {
         (self.token_and_span, self.value)
     }
 
@@ -158,7 +127,7 @@ pub struct Buffer<I> {
     /// Span of the previous token.
     pub prev_span: Span,
     pub(crate) cur: FastToken,
-    cur_value: Option<StoredTokenValue>,
+    cur_value: Option<SharedTokenValue>,
     /// Peeked token
     next: Option<BufferedNextToken>,
 }
@@ -172,7 +141,7 @@ pub struct BufferCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
     prev_span: Span,
     cur: FastToken,
-    cur_value: Option<StoredTokenValue>,
+    cur_value: Option<SharedTokenValue>,
     next: Option<BufferedNextToken>,
 }
 
@@ -241,11 +210,11 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn get_token_value(&self) -> Option<&TokenValue> {
-        self.cur_value.as_ref().map(StoredTokenValue::as_ref)
+        self.cur_value.as_ref().map(SharedTokenValue::as_ref)
     }
 
     fn take_cur_value(&mut self) -> Option<TokenValue> {
-        self.cur_value.take().map(StoredTokenValue::into_owned)
+        self.cur_value.take().map(SharedTokenValue::into_owned)
     }
 
     pub fn scan_jsx_token(&mut self) {
@@ -336,7 +305,7 @@ impl<I: Tokens> Buffer<I> {
         value: Option<TokenValue>,
     ) {
         self.cur = token.into();
-        self.cur_value = value.map(StoredTokenValue::new);
+        self.cur_value = value.map(SharedTokenValue::new);
     }
 
     #[inline(always)]
@@ -416,7 +385,7 @@ impl<I: Tokens> Buffer<I> {
             Some(next) => next.into_parts(),
             None => {
                 let token = self.iter.next_token();
-                let value = self.iter.take_token_value().map(StoredTokenValue::new);
+                let value = self.iter.take_token_value().map(SharedTokenValue::new);
                 (token.into(), value)
             }
         };
@@ -615,7 +584,7 @@ impl<I: Tokens> Buffer<I> {
 
     #[cfg(test)]
     pub fn cur_value_ref_count(&self) -> Option<usize> {
-        self.cur_value.as_ref().map(StoredTokenValue::strong_count)
+        self.cur_value.as_ref().map(SharedTokenValue::strong_count)
     }
 
     #[cfg(test)]
@@ -623,7 +592,7 @@ impl<I: Tokens> Buffer<I> {
         self.next
             .as_ref()
             .and_then(|token| token.value.as_ref())
-            .map(StoredTokenValue::strong_count)
+            .map(SharedTokenValue::strong_count)
     }
 
     #[inline]

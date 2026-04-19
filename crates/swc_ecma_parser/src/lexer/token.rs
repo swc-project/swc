@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{fmt::Display, rc::Rc};
 
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{BytePos, Span};
@@ -25,6 +25,41 @@ pub enum TokenValue {
     Num(f64),
     BigInt(Box<num_bigint::BigInt>),
     Error(crate::error::Error),
+}
+
+/// Shared storage for token payloads that survive parser lookahead and lexer
+/// checkpoints.
+///
+/// Cloning this handle is cheap and keeps large payloads like template text,
+/// regex metadata, and bigint literals out of the parser/lexer checkpoint hot
+/// path.
+#[derive(Clone, Debug)]
+pub(crate) struct SharedTokenValue(Rc<TokenValue>);
+
+impl SharedTokenValue {
+    #[inline(always)]
+    pub(crate) fn new(value: TokenValue) -> Self {
+        Self(Rc::new(value))
+    }
+
+    #[inline(always)]
+    pub(crate) fn as_ref(&self) -> &TokenValue {
+        self.0.as_ref()
+    }
+
+    #[inline(always)]
+    pub(crate) fn into_owned(self) -> TokenValue {
+        match Rc::try_unwrap(self.0) {
+            Ok(value) => value,
+            Err(value) => value.as_ref().clone(),
+        }
+    }
+
+    #[cfg(test)]
+    #[inline(always)]
+    pub(crate) fn strong_count(&self) -> usize {
+        Rc::strong_count(&self.0)
+    }
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]

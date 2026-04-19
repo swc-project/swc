@@ -111,6 +111,31 @@ fn buffer_checkpoint_shares_token_payload_storage() {
 }
 
 #[test]
+fn lexer_checkpoint_shares_token_payload_storage() {
+    crate::with_test_sess("identifier", |_, input| {
+        let mut lexer = crate::lexer::Lexer::new(
+            Syntax::Es(EsSyntax::default()),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+
+        let first = crate::input::Tokens::first_token(&mut lexer);
+        assert_eq!(first.token, Token::Ident);
+        assert_eq!(lexer.token_value_ref_count(), Some(1));
+
+        let checkpoint = crate::input::Tokens::checkpoint_save(&lexer);
+        assert_eq!(lexer.token_value_ref_count(), Some(2));
+
+        drop(checkpoint);
+        assert_eq!(lexer.token_value_ref_count(), Some(1));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
 fn parse_file_as_module_collects_comments_in_fast_path() {
     let cm = SourceMap::default();
     let fm = cm.new_source_file(

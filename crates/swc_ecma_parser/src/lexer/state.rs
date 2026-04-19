@@ -14,7 +14,7 @@ use crate::{
         comments_buffer::{BufferedCommentKind, CommentsBufferCheckpoint},
         search::SafeByteMatchTable,
         source::FastSourceCheckpoint,
-        token::{Token, TokenAndSpan, TokenValue},
+        token::{SharedTokenValue, Token, TokenAndSpan, TokenValue},
         LexResult,
     },
     safe_byte_match_table,
@@ -41,7 +41,7 @@ pub struct State {
     pub next_regexp: Option<BytePos>,
     pub prev_hi: BytePos,
 
-    pub(super) token_value: Option<TokenValue>,
+    pub(super) token_value: Option<SharedTokenValue>,
     token_type: Option<Token>,
 }
 
@@ -205,19 +205,28 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn clone_token_value(&self) -> Option<TokenValue> {
-        self.state.token_value.clone()
+        self.state
+            .token_value
+            .as_ref()
+            .map(|value| value.as_ref().clone())
     }
 
     fn get_token_value(&self) -> Option<&TokenValue> {
-        self.state.token_value.as_ref()
+        self.state
+            .token_value
+            .as_ref()
+            .map(SharedTokenValue::as_ref)
     }
 
     fn set_token_value(&mut self, token_value: Option<TokenValue>) {
-        self.state.token_value = token_value;
+        self.state.token_value = token_value.map(SharedTokenValue::new);
     }
 
     fn take_token_value(&mut self) -> Option<TokenValue> {
-        self.state.token_value.take()
+        self.state
+            .token_value
+            .take()
+            .map(SharedTokenValue::into_owned)
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
@@ -329,7 +338,12 @@ impl crate::input::Tokens for Lexer<'_> {
                 };
                 value.reserve(prefix.len() + v.len());
                 value.push_str(prefix);
-            } else if let Some(TokenValue::Word(prefix)) = self.state.token_value.take() {
+            } else if let Some(TokenValue::Word(prefix)) = self
+                .state
+                .token_value
+                .take()
+                .map(SharedTokenValue::into_owned)
+            {
                 value.reserve(prefix.len() + v.len());
                 value.push_str(&prefix);
             } else {
@@ -350,7 +364,12 @@ impl crate::input::Tokens for Lexer<'_> {
                 self.input_slice_str(start, prefix_end)
             };
             self.atom(prefix)
-        } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
+        } else if let Some(TokenValue::Word(value)) = self
+            .state
+            .token_value
+            .take()
+            .map(SharedTokenValue::into_owned)
+        {
             value
         } else {
             unreachable!(
@@ -719,7 +738,17 @@ impl State {
     }
 
     pub(crate) fn set_token_value(&mut self, token_value: TokenValue) {
-        self.token_value = Some(token_value);
+        self.token_value = Some(SharedTokenValue::new(token_value));
+    }
+}
+
+#[cfg(test)]
+impl Lexer<'_> {
+    pub(crate) fn token_value_ref_count(&self) -> Option<usize> {
+        self.state
+            .token_value
+            .as_ref()
+            .map(SharedTokenValue::strong_count)
     }
 }
 
