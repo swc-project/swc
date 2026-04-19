@@ -6,6 +6,8 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
+#[cfg(feature = "flow")]
+use crate::FlowSyntax;
 use crate::{
     lexer::{FastToken, FastTokenAndValue, SharedTokenValue, TokenAndSpan, TokenFlags, TokenValue},
     parse_file_as_expr, parse_file_as_module, Context, EsSyntax, SyntaxFlags, TsSyntax,
@@ -562,6 +564,62 @@ fn token_look_ahead_restores_cursor_and_lexer_context() {
         assert_eq!(parser.input().cur(), original_token);
         assert_eq!(parser.ctx().bits(), original_ctx.bits());
         assert_eq!(&parser.state().labels[..], &[atom!("outer")]);
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[cfg(all(feature = "typescript", feature = "flow"))]
+#[test]
+fn flow_tuple_optional_element_error_uses_token_look_ahead() {
+    crate::with_test_sess("[foo?]", |handler, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let tuple = parser
+            .parse_ts_type()
+            .map_err(|err| err.into_diagnostic(handler).emit())?;
+        let errors = parser.take_errors();
+
+        assert!(matches!(&*tuple, TsType::TsTupleType(..)));
+        assert_eq!(errors.len(), 1);
+        assert_eq!(errors[0].kind(), &SyntaxError::TS1003);
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[cfg(all(feature = "typescript", feature = "flow"))]
+#[test]
+fn flow_optional_indexed_access_uses_token_look_ahead() {
+    crate::with_test_sess("T?.[K]", |handler, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let ty = parser
+            .parse_ts_type()
+            .map_err(|err| err.into_diagnostic(handler).emit())?;
+
+        assert!(matches!(&*ty, TsType::TsIndexedAccessType(..)));
+        assert!(parser.take_errors().is_empty());
 
         Ok(())
     })

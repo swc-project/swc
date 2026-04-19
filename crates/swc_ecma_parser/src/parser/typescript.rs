@@ -2798,20 +2798,11 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
 
         if self.input().syntax().flow()
-            && self
-                .try_parse_ts(|p| {
-                    if !p.is_ident_ref() {
-                        return Ok(None);
-                    }
-
-                    let _ = p.parse_ident_name()?;
-                    if !p.input_mut().eat(Token::QuestionMark) || p.input().is(Token::Colon) {
-                        return Ok(None);
-                    }
-
-                    Ok(Some(()))
-                })
-                .is_some()
+            && self.is_ident_ref()
+            && self.token_look_ahead(|p| {
+                p.bump();
+                p.input_mut().eat(Token::QuestionMark) && !p.input().is(Token::Colon)
+            })
         {
             self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
         }
@@ -3501,16 +3492,11 @@ impl<I: Tokens> Parser<I> {
                 && self.input().is(Token::QuestionMark)
                 && peek!(self).is_some_and(|peek| peek == Token::Dot)
             {
-                self.try_parse_ts(|p| {
-                    if !p.input_mut().eat(Token::QuestionMark)
-                        || !p.input_mut().eat(Token::Dot)
-                        || !p.input_mut().eat(Token::LBracket)
-                    {
-                        return Ok(None);
-                    }
-                    Ok(Some(()))
+                self.token_look_ahead(|p| {
+                    p.input_mut().eat(Token::QuestionMark)
+                        && p.input_mut().eat(Token::Dot)
+                        && p.input_mut().eat(Token::LBracket)
                 })
-                .is_some()
             } else {
                 false
             };
