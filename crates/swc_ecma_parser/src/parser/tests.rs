@@ -304,6 +304,39 @@ fn buffer_uses_shared_payload_handoff_for_jsx_identifier_rescan() {
     assert_eq!(value, &atom!("foo"));
 }
 
+#[test]
+fn lexer_token_and_span_path_restores_jsx_identifier_payload() {
+    crate::with_test_sess("foo", |_, input| {
+        let mut lexer = crate::lexer::Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+
+        let first = crate::input::Tokens::first_token(&mut lexer);
+        assert_eq!(first.token, Token::Ident);
+
+        let value = crate::input::Tokens::take_token_value_shared(&mut lexer)
+            .expect("identifier payload should exist");
+        crate::input::Tokens::set_current_token_type(&mut lexer, first.token);
+        crate::input::Tokens::set_token_value_shared(&mut lexer, Some(value));
+
+        let jsx_name = crate::input::Tokens::scan_jsx_identifier(&mut lexer, first.span.lo);
+        assert_eq!(jsx_name.token, Token::JSXName);
+        let Some(TokenValue::Word(value)) = crate::input::Tokens::get_token_value(&lexer) else {
+            panic!("expected jsx name token value on legacy path");
+        };
+        assert_eq!(value, &atom!("foo"));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 #[cfg(feature = "unstable")]
 #[test]
 fn capturing_uses_fast_token_frame_handoff() {

@@ -241,98 +241,148 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
-        let mut start = self.cur_pos();
-        let token = match self.read_shebang() {
-            Ok(Some(shebang)) => {
-                self.state.set_token_value(TokenValue::Word(shebang));
-                Ok(Token::Shebang)
-            }
-            // Fallback to other tokens
-            Ok(None) => {
-                self.state.had_line_break = true;
-                self.skip_space();
-                start = self.input.cur_pos();
-                self.read_token()
-            }
-            Err(error) => Err(error),
-        };
-
-        let token = match token {
-            Ok(token) => token,
-            Err(error) => {
-                self.state.set_token_value(TokenValue::Error(error));
-                Token::Error
-            }
-        };
-        self.finish_next_token(self.span(start), token)
+        let frame = self.first_token_frame();
+        self.legacy_token_and_span(frame)
     }
 
     fn first_token_fast(&mut self) -> FastTokenAndValue {
-        let mut start = self.cur_pos();
-        let token = match self.read_shebang() {
-            Ok(Some(shebang)) => {
-                self.state.set_token_value(TokenValue::Word(shebang));
-                Ok(Token::Shebang)
-            }
-            // Fallback to other tokens
-            Ok(None) => {
-                self.state.had_line_break = true;
-                self.skip_space();
-                start = self.input.cur_pos();
-                self.read_token()
-            }
-            Err(error) => Err(error),
-        };
-
-        let token = match token {
-            Ok(token) => token,
-            Err(error) => {
-                self.state.set_token_value(TokenValue::Error(error));
-                Token::Error
-            }
-        };
-        self.finish_next_fast_frame(self.span(start), token)
+        self.first_token_frame()
     }
 
     fn next_token(&mut self) -> TokenAndSpan {
-        let mut start = self.cur_pos();
-        let token = match self.read_next_token(&mut start) {
-            Ok(res) => res,
-            Err(error) => {
-                self.state.set_token_value(TokenValue::Error(error));
-                Token::Error
-            }
-        };
-        self.finish_next_token(self.span(start), token)
+        let frame = self.next_token_frame();
+        self.legacy_token_and_span(frame)
     }
 
     fn next_token_fast(&mut self) -> FastTokenAndValue {
-        let mut start = self.cur_pos();
-        let token = match self.read_next_token(&mut start) {
-            Ok(res) => res,
-            Err(error) => {
-                self.state.set_token_value(TokenValue::Error(error));
-                Token::Error
-            }
-        };
-        self.finish_next_fast_frame(self.span(start), token)
+        self.next_token_frame()
     }
 
     fn rescan_jsx_token(&mut self, reset: BytePos) -> TokenAndSpan {
         unsafe {
             self.input.reset_to(reset);
         }
-        Tokens::scan_jsx_token(self)
+        let frame = self.scan_jsx_token_frame();
+        self.legacy_token_and_span(frame)
     }
 
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan {
         unsafe {
             self.input.reset_to(reset);
         }
-        Tokens::scan_jsx_open_el_terminal_token(self)
+        let frame = self.scan_jsx_open_el_terminal_token_frame();
+        self.legacy_token_and_span(frame)
     }
 
     fn scan_jsx_token(&mut self) -> TokenAndSpan {
+        let frame = self.scan_jsx_token_frame();
+        self.legacy_token_and_span(frame)
+    }
+
+    fn scan_jsx_token_fast(&mut self) -> FastTokenAndValue {
+        self.scan_jsx_token_frame()
+    }
+
+    fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan {
+        let frame = self.scan_jsx_open_el_terminal_token_frame();
+        self.legacy_token_and_span(frame)
+    }
+
+    fn scan_jsx_open_el_terminal_token_fast(&mut self) -> FastTokenAndValue {
+        self.scan_jsx_open_el_terminal_token_frame()
+    }
+
+    fn rescan_jsx_token_fast(&mut self, reset: BytePos) -> FastTokenAndValue {
+        unsafe {
+            self.input.reset_to(reset);
+        }
+        self.scan_jsx_token_frame()
+    }
+
+    fn rescan_jsx_open_el_terminal_token_fast(&mut self, reset: BytePos) -> FastTokenAndValue {
+        unsafe {
+            self.input.reset_to(reset);
+        }
+        self.scan_jsx_open_el_terminal_token_frame()
+    }
+
+    fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
+        let frame = self.scan_jsx_identifier_frame(start);
+        self.legacy_token_and_span(frame)
+    }
+
+    fn scan_jsx_identifier_fast(&mut self, start: BytePos) -> FastTokenAndValue {
+        self.scan_jsx_identifier_frame(start)
+    }
+
+    fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
+        let frame = self.scan_jsx_attribute_value_frame();
+        self.legacy_token_and_span(frame)
+    }
+
+    fn scan_jsx_attribute_value_fast(&mut self) -> FastTokenAndValue {
+        self.scan_jsx_attribute_value_frame()
+    }
+
+    fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> TokenAndSpan {
+        let frame = self.rescan_template_token_frame(start, start_with_back_tick);
+        self.legacy_token_and_span(frame)
+    }
+
+    fn rescan_template_token_fast(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> FastTokenAndValue {
+        self.rescan_template_token_frame(start, start_with_back_tick)
+    }
+}
+
+impl Lexer<'_> {
+    fn first_token_frame(&mut self) -> FastTokenAndValue {
+        let mut start = self.cur_pos();
+        let token = match self.read_shebang() {
+            Ok(Some(shebang)) => {
+                self.state.set_token_value(TokenValue::Word(shebang));
+                Ok(Token::Shebang)
+            }
+            // Fallback to other tokens
+            Ok(None) => {
+                self.state.had_line_break = true;
+                self.skip_space();
+                start = self.input.cur_pos();
+                self.read_token()
+            }
+            Err(error) => Err(error),
+        };
+
+        let token = match token {
+            Ok(token) => token,
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Token::Error
+            }
+        };
+        self.finish_next_fast_frame(self.span(start), token)
+    }
+
+    fn next_token_frame(&mut self) -> FastTokenAndValue {
+        let mut start = self.cur_pos();
+        let token = match self.read_next_token(&mut start) {
+            Ok(res) => res,
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Token::Error
+            }
+        };
+        self.finish_next_fast_frame(self.span(start), token)
+    }
+
+    fn scan_jsx_token_frame(&mut self) -> FastTokenAndValue {
         let start = self.cur_pos();
         let res = match self.scan_jsx_token() {
             Ok(res) => Ok(res),
@@ -345,43 +395,10 @@ impl crate::input::Tokens for Lexer<'_> {
             Ok(t) => t,
             Err(e) => e,
         };
-        self.finish_next_token(self.span(start), token)
-    }
-
-    fn scan_jsx_token_fast(&mut self) -> FastTokenAndValue {
-        let start = self.cur_pos();
-        let res = match Lexer::scan_jsx_token(self) {
-            Ok(res) => Ok(res),
-            Err(error) => {
-                self.state.set_token_value(TokenValue::Error(error));
-                Err(Token::Error)
-            }
-        };
-        let token = match res {
-            Ok(t) => t,
-            Err(e) => e,
-        };
         self.finish_next_fast_frame(self.span(start), token)
     }
 
-    fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan {
-        self.skip_space();
-        let start = self.input.cur_pos();
-        let res = match self.scan_jsx_attrs_terminal_token() {
-            Ok(res) => Ok(res),
-            Err(error) => {
-                self.state.set_token_value(TokenValue::Error(error));
-                Err(Token::Error)
-            }
-        };
-        let token = match res {
-            Ok(t) => t,
-            Err(e) => e,
-        };
-        self.finish_next_token(self.span(start), token)
-    }
-
-    fn scan_jsx_open_el_terminal_token_fast(&mut self) -> FastTokenAndValue {
+    fn scan_jsx_open_el_terminal_token_frame(&mut self) -> FastTokenAndValue {
         self.skip_space();
         let start = self.input.cur_pos();
         let res = match self.scan_jsx_attrs_terminal_token() {
@@ -398,21 +415,7 @@ impl crate::input::Tokens for Lexer<'_> {
         self.finish_next_fast_frame(self.span(start), token)
     }
 
-    fn rescan_jsx_token_fast(&mut self, reset: BytePos) -> FastTokenAndValue {
-        unsafe {
-            self.input.reset_to(reset);
-        }
-        self.scan_jsx_token_fast()
-    }
-
-    fn rescan_jsx_open_el_terminal_token_fast(&mut self, reset: BytePos) -> FastTokenAndValue {
-        unsafe {
-            self.input.reset_to(reset);
-        }
-        self.scan_jsx_open_el_terminal_token_fast()
-    }
-
-    fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
+    fn scan_jsx_identifier_frame(&mut self, start: BytePos) -> FastTokenAndValue {
         let token = self.state.token_type.unwrap();
         debug_assert!(token.is_word());
         let prefix_end = self.cur_pos();
@@ -470,66 +473,6 @@ impl crate::input::Tokens for Lexer<'_> {
                 Some(TokenValue::Word(_))
             ));
 
-            return TokenAndSpan {
-                token: Token::JSXName,
-                had_line_break: self.state.had_line_break,
-                span: self.span(start),
-            };
-        };
-        self.state.set_token_value(TokenValue::Word(v));
-        TokenAndSpan {
-            token: Token::JSXName,
-            had_line_break: self.state.had_line_break,
-            span: self.span(start),
-        }
-    }
-
-    fn scan_jsx_identifier_fast(&mut self, start: BytePos) -> FastTokenAndValue {
-        let token = self.state.token_type.unwrap();
-        debug_assert!(token.is_word());
-        let prefix_end = self.cur_pos();
-        let mut v = String::with_capacity(16);
-        while let Some(ch) = self.input().cur() {
-            if ch == b'-' {
-                v.push('-');
-                self.bump(1); // `-`
-            } else if !self.scan_identifier_parts_into(&mut v) {
-                break;
-            }
-        }
-        let v = if !v.is_empty() {
-            let mut value = String::new();
-            if token.is_known_ident() || token.is_keyword() {
-                let prefix = unsafe { self.input_slice_str(start, prefix_end) };
-                value.reserve(prefix.len() + v.len());
-                value.push_str(prefix);
-            } else if let Some(TokenValue::Word(prefix)) = self
-                .state
-                .token_value
-                .take()
-                .map(SharedTokenValue::into_owned)
-            {
-                value.reserve(prefix.len() + v.len());
-                value.push_str(&prefix);
-            } else {
-                let prefix = unsafe { self.input_slice_str(start, prefix_end) };
-                value.reserve(prefix.len() + v.len());
-                value.push_str(prefix);
-            }
-            value.push_str(&v);
-            self.atom(value)
-        } else if token.is_known_ident() || token.is_keyword() {
-            let prefix = unsafe { self.input_slice_str(start, prefix_end) };
-            self.atom(prefix)
-        } else {
-            debug_assert!(matches!(
-                self.state
-                    .token_value
-                    .as_ref()
-                    .map(SharedTokenValue::as_ref),
-                Some(TokenValue::Word(_))
-            ));
-
             return FastTokenAndValue::new(
                 FastToken::new(Token::JSXName, self.span(start), self.state.had_line_break),
                 self.state.token_value.take(),
@@ -539,46 +482,7 @@ impl crate::input::Tokens for Lexer<'_> {
         self.finish_next_fast_frame(self.span(start), Token::JSXName)
     }
 
-    fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
-        let Some(cur) = self.cur() else {
-            let start = self.cur_pos();
-            return TokenAndSpan {
-                token: Token::Eof,
-                had_line_break: self.state.had_line_break,
-                span: self.span(start),
-            };
-        };
-        let start = self.cur_pos();
-
-        match cur {
-            b'\'' | b'"' => {
-                let token = self.read_jsx_str(cur as char);
-                let token = match token {
-                    Ok(token) => token,
-                    Err(e) => {
-                        self.state.set_token_value(TokenValue::Error(e));
-                        return TokenAndSpan {
-                            token: Token::Error,
-                            had_line_break: self.state.had_line_break,
-                            span: self.span(start),
-                        };
-                    }
-                };
-                debug_assert!(self
-                    .get_token_value()
-                    .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
-                debug_assert!(token == Token::Str);
-                TokenAndSpan {
-                    token,
-                    had_line_break: self.state.had_line_break,
-                    span: self.span(start),
-                }
-            }
-            _ => self.next_token(),
-        }
-    }
-
-    fn scan_jsx_attribute_value_fast(&mut self) -> FastTokenAndValue {
+    fn scan_jsx_attribute_value_frame(&mut self) -> FastTokenAndValue {
         let Some(cur) = self.cur() else {
             let start = self.cur_pos();
             return FastTokenAndValue::new(
@@ -604,34 +508,11 @@ impl crate::input::Tokens for Lexer<'_> {
                 debug_assert!(token == Token::Str);
                 self.finish_next_fast_frame(self.span(start), token)
             }
-            _ => self.next_token_fast(),
+            _ => self.next_token_frame(),
         }
     }
 
-    fn rescan_template_token(
-        &mut self,
-        start: BytePos,
-        start_with_back_tick: bool,
-    ) -> TokenAndSpan {
-        unsafe { self.input.reset_to(start) };
-        let res = self.scan_template_token(start, start_with_back_tick);
-        let token = match res.map_err(|e| {
-            self.state.set_token_value(TokenValue::Error(e));
-            Token::Error
-        }) {
-            Ok(t) => t,
-            Err(e) => e,
-        };
-        let span = if start_with_back_tick {
-            self.span(start)
-        } else {
-            // `+ BytePos(1)` is used to skip `{`
-            self.span(start + BytePos(1))
-        };
-        self.finish_next_token(span, token)
-    }
-
-    fn rescan_template_token_fast(
+    fn rescan_template_token_frame(
         &mut self,
         start: BytePos,
         start_with_back_tick: bool,
@@ -652,9 +533,7 @@ impl crate::input::Tokens for Lexer<'_> {
         };
         self.finish_next_fast_frame(span, token)
     }
-}
 
-impl Lexer<'_> {
     #[inline]
     fn jsx_text_allows_raw_gt(&self, start: BytePos, pos: BytePos) -> bool {
         let prefix = unsafe {
@@ -683,11 +562,6 @@ impl Lexer<'_> {
     }
 
     #[inline(always)]
-    fn finish_next_token(&mut self, span: Span, token: Token) -> TokenAndSpan {
-        self.finish_next_fast_token(span, token).into()
-    }
-
-    #[inline(always)]
     fn finish_next_fast_token(&mut self, span: Span, token: Token) -> FastToken {
         if token == Token::Eof {
             self.consume_pending_comments();
@@ -706,6 +580,13 @@ impl Lexer<'_> {
             self.finish_next_fast_token(span, token),
             self.state.token_value.take(),
         )
+    }
+
+    #[inline(always)]
+    fn legacy_token_and_span(&mut self, frame: FastTokenAndValue) -> TokenAndSpan {
+        let (token, value) = frame.into_parts();
+        self.state.token_value = value;
+        token.into()
     }
 
     fn scan_jsx_token(&mut self) -> Result<Token, Error> {
