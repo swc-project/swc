@@ -218,7 +218,7 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::DotDotDot) {
             let dot3_token = self.input().prev_span();
 
-            if allow_rest_type {
+            if allow_rest_type && self.can_start_flow_component_rest_type() {
                 if let Some(type_ann) = self.try_parse_ts(|p| {
                     let ty = p.in_type(Self::parse_ts_type)?;
                     if p.input().is(Token::Comma) || p.input().is(Token::RParen) {
@@ -350,6 +350,58 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(FlowComponentParam::Prop { key, value })
+    }
+
+    fn can_start_flow_component_rest_type(&mut self) -> bool {
+        let cur = self.input().cur();
+
+        if cur == Token::Interface {
+            return peek!(self).is_some_and(|peek| peek == Token::LBrace);
+        }
+
+        if cur.is_word() {
+            return !peek!(self).is_some_and(|peek| {
+                matches!(peek, Token::Colon | Token::QuestionMark | Token::Eq)
+            });
+        }
+
+        matches!(
+            cur,
+            Token::LParen
+                | Token::LBrace
+                | Token::LBracket
+                | Token::QuestionMark
+                | Token::Asterisk
+                | Token::Minus
+                | Token::Str
+                | Token::Num
+                | Token::BigInt
+                | Token::True
+                | Token::False
+                | Token::BackQuote
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::TemplateHead
+                | Token::Import
+                | Token::This
+                | Token::TypeOf
+                | Token::Void
+                | Token::Null
+                | Token::Any
+                | Token::Boolean
+                | Token::Bigint
+                | Token::Never
+                | Token::Number
+                | Token::Object
+                | Token::String
+                | Token::Symbol
+                | Token::Unknown
+                | Token::Undefined
+                | Token::Intrinsic
+                | Token::Readonly
+                | Token::Keyof
+                | Token::Unique
+                | Token::Infer
+        )
     }
 
     fn parse_flow_component_params(
@@ -5482,6 +5534,99 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_component_rest_type_guard_filters_named_rest_params() {
+        for src in ["rest: Rest", "rest?: Rest", "rest = value"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_start_flow_component_rest_type());
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_component_rest_type_guard_keeps_type_forms() {
+        for src in ["Rest", "Rest<T>", "{ foo: string }", "?number"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.can_start_flow_component_rest_type());
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_component_rest_type_and_named_rest_param_still_parse() {
+        let component_type = test_parser(
+            "type Comp = component(...Rest);",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &component_type.body[0] else {
+            panic!("expected type alias");
+        };
+        assert!(matches!(
+            &*alias.type_ann,
+            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(TsFnType { params, .. }))
+                if matches!(params.first(), Some(TsFnParam::Object(ObjectPat { props, .. }))
+                    if matches!(props.first(), Some(ObjectPatProp::Rest(RestPat { type_ann: Some(_), .. }))))
+        ));
+
+        let declare_component = test_parser(
+            "declare component Comp(...rest: Rest);",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(fn_decl))) = &declare_component.body[0] else {
+            panic!("expected function declaration");
+        };
+        assert!(matches!(
+            fn_decl.function.params.first(),
+            Some(Param { pat: Pat::Object(ObjectPat { props, .. }), .. })
+                if matches!(props.first(), Some(ObjectPatProp::Rest(RestPat { arg, type_ann: Some(_), .. }))
+                    if matches!(arg.as_ref(), Pat::Ident(BindingIdent {
+                        id: Ident { sym, .. },
+                        ..
+                    }) if sym == "rest"))
+        ));
     }
 
     #[cfg(feature = "flow")]
