@@ -182,11 +182,12 @@ pub mod unstable {
 }
 
 use error::Error;
-use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
+use swc_common::{comments::Comments, SourceFile};
 use swc_ecma_ast::*;
 
 mod context;
 pub mod error;
+mod fast;
 mod legacy;
 pub mod lexer;
 mod parser;
@@ -223,13 +224,11 @@ pub fn with_file_parser<T>(
     recovered_errors: &mut Vec<Error>,
     op: impl for<'aa> FnOnce(&mut Parser<self::Lexer>) -> PResult<T>,
 ) -> PResult<T> {
-    let lexer = self::Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
-    let mut p = Parser::new_from(lexer);
-    let ret = op(&mut p);
-
-    recovered_errors.append(&mut p.take_errors());
-
-    ret
+    if syntax.flow() {
+        legacy::with_file_parser(fm, syntax, target, comments, recovered_errors, op)
+    } else {
+        fast::with_file_parser(fm, syntax, target, comments, recovered_errors, op)
+    }
 }
 
 macro_rules! expose {

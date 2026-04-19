@@ -13,6 +13,7 @@ use crate::{
         char_ext::CharExt,
         comments_buffer::{BufferedCommentKind, CommentsBufferCheckpoint},
         search::SafeByteMatchTable,
+        source::FastSourceCheckpoint,
         token::{Token, TokenAndSpan, TokenValue},
         LexResult,
     },
@@ -48,7 +49,7 @@ pub struct LexerCheckpoint {
     comments_buffer: CommentsBufferCheckpoint,
     state: State,
     ctx: Context,
-    input_last_pos: BytePos,
+    source: FastSourceCheckpoint,
 }
 
 impl crate::input::Tokens for Lexer<'_> {
@@ -58,7 +59,7 @@ impl crate::input::Tokens for Lexer<'_> {
         LexerCheckpoint {
             state: self.state.clone(),
             ctx: self.ctx,
-            input_last_pos: self.input.last_pos(),
+            source: self.input.checkpoint_save(),
             comments_buffer: self
                 .comments_buffer
                 .as_ref()
@@ -70,7 +71,7 @@ impl crate::input::Tokens for Lexer<'_> {
     fn checkpoint_load(&mut self, checkpoint: LexerCheckpoint) {
         self.state = checkpoint.state;
         self.ctx = checkpoint.ctx;
-        unsafe { self.input.reset_to(checkpoint.input_last_pos) };
+        self.input.checkpoint_load(checkpoint.source);
         if let Some(comments_buffer) = self.comments_buffer.as_mut() {
             comments_buffer.checkpoint_load(checkpoint.comments_buffer);
         }

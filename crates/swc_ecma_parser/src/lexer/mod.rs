@@ -27,6 +27,7 @@ use crate::{
         jsx::xhtml,
         number::{parse_integer, LazyInteger},
         search::SafeByteMatchTable,
+        source::FastSource,
         state::State,
     },
     safe_byte_match_table,
@@ -41,6 +42,7 @@ mod comments_buffer;
 mod jsx;
 mod number;
 pub(crate) mod search;
+mod source;
 mod state;
 mod table;
 pub(crate) mod token;
@@ -210,7 +212,7 @@ pub struct Lexer<'a> {
     comments_buffer: Option<CommentsBuffer>,
 
     pub ctx: Context,
-    input: StringInput<'a>,
+    input: FastSource<'a>,
     start_pos: BytePos,
 
     state: State,
@@ -226,12 +228,12 @@ pub struct Lexer<'a> {
 
 impl<'a> Lexer<'a> {
     #[inline(always)]
-    fn input(&self) -> &StringInput<'a> {
+    fn input(&self) -> &FastSource<'a> {
         &self.input
     }
 
     #[inline(always)]
-    fn input_mut(&mut self) -> &mut StringInput<'a> {
+    fn input_mut(&mut self) -> &mut FastSource<'a> {
         &mut self.input
     }
 
@@ -293,6 +295,7 @@ impl<'a> Lexer<'a> {
         input: StringInput<'a>,
         comments: Option<&'a dyn Comments>,
     ) -> Self {
+        let input = FastSource::new(input);
         let start_pos = input.last_pos();
         #[cfg(feature = "flow")]
         let mut syntax = syntax.into_flags();
