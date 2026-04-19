@@ -2603,14 +2603,37 @@ impl<I: Tokens> Parser<I> {
                     self.emit_err(rest_span, SyntaxError::TS1014);
                 }
 
-                if let Some(param) =
-                    self.try_parse_ts(|p| p.try_parse_flow_anon_signature_param(list.len()))
-                {
-                    if matches!(param, TsFnParam::Rest(..)) {
-                        rest_span = param.span();
-                    }
-                    list.push(param);
+                let can_try_flow_anon_param = if self.input().is(Token::DotDotDot) {
+                    self.token_look_ahead(|p| {
+                        p.bump();
+                        p.flow_starts_like_anon_signature_param_type()
+                    })
                 } else {
+                    self.flow_starts_like_anon_signature_param_type()
+                };
+
+                if can_try_flow_anon_param {
+                    if let Some(param) =
+                        self.try_parse_ts(|p| p.try_parse_flow_anon_signature_param(list.len()))
+                    {
+                        if matches!(param, TsFnParam::Rest(..)) {
+                            rest_span = param.span();
+                        }
+                        list.push(param);
+                        if !self.input().is(Token::RParen) {
+                            expect!(self, Token::Comma);
+                            if !rest_span.is_dummy() && self.input().is(Token::RParen) {
+                                self.emit_err(
+                                    self.input().prev_span(),
+                                    SyntaxError::CommaAfterRestElement,
+                                );
+                            }
+                        }
+                        continue;
+                    }
+                }
+
+                {
                     let pat_start = self.cur_pos();
                     let pat = if self.input_mut().eat(Token::DotDotDot) {
                         let dot3_token = self.span(pat_start);
@@ -5322,5 +5345,59 @@ mod tests {
                 ..
             }))
         ));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_fn_type_named_param_skips_anon_signature_probe() {
+        let actual = test_parser(
+            "type T = (foo: string) => void;",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(fn_type)) =
+            &*alias.type_ann
+        else {
+            panic!("expected function type");
+        };
+
+        assert!(matches!(
+            &fn_type.params[0],
+            TsFnParam::Ident(BindingIdent {
+                id: Ident { sym, .. },
+                ..
+            }) if sym == "foo"
+        ));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_fn_type_anon_rest_param_still_parses() {
+        let actual = test_parser(
+            "type T = (...string) => void;",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(fn_type)) =
+            &*alias.type_ann
+        else {
+            panic!("expected function type");
+        };
+
+        assert!(matches!(&fn_type.params[0], TsFnParam::Rest(..)));
     }
 }
