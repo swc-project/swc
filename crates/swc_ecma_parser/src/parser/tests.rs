@@ -1737,6 +1737,35 @@ fn ts_async_lt_expression_still_parses_without_generic_arrow() {
 }
 
 #[test]
+fn ts_typed_arrow_still_parses() {
+    let actual = test_parser(
+        "(foo): number => foo",
+        Syntax::Typescript(Default::default()),
+        |p| {
+            p.parse_stmt().map(|stmt| match stmt {
+                Stmt::Expr(expr) => *expr.expr,
+                _ => unreachable!(),
+            })
+        },
+    );
+
+    let Expr::Arrow(ArrowExpr {
+        params,
+        return_type,
+        ..
+    }) = actual
+    else {
+        panic!("expected arrow expression");
+    };
+
+    assert_eq!(params.len(), 1);
+    assert!(matches!(
+        return_type.as_deref(),
+        Some(TsTypeAnn { type_ann, .. }) if matches!(&**type_ann, TsType::TsKeywordType(..))
+    ));
+}
+
+#[test]
 fn object_rest_pat() {
     assert_eq_ignore_span!(
         expr("({ ...a34 }) => {}"),

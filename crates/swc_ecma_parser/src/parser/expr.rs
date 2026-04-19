@@ -2370,7 +2370,7 @@ impl<I: Tokens> Parser<I> {
         // This is slow path. We handle arrow in conditional expression.
         if self.syntax().typescript()
             && self.ctx().contains(Context::InCondExpr)
-            && self.input().is(Token::Colon)
+            && self.can_start_ts_type_or_type_predicate_ann_fast(Token::Colon)
         {
             // TODO: Remove clone
             let items_ref = &paren_items;
@@ -2419,7 +2419,7 @@ impl<I: Tokens> Parser<I> {
 
         let return_type = if !self.ctx().contains(Context::WillExpectColonForCond)
             && self.input().syntax().typescript()
-            && self.input().is(Token::Colon)
+            && self.can_start_ts_type_or_type_predicate_ann_fast(Token::Colon)
         {
             self.try_parse_ts(|p| {
                 let return_type = if p.input().syntax().flow() {

@@ -5275,6 +5275,33 @@ impl<I: Tokens> Parser<I> {
             })
     }
 
+    pub(super) fn can_start_ts_type_or_type_predicate_ann_fast(
+        &mut self,
+        return_token: Token,
+    ) -> bool {
+        self.input().is(return_token)
+            && self.token_look_ahead(|p| {
+                p.bump();
+
+                if p.input().syntax().flow() && p.input().is(Token::Percent) {
+                    return true;
+                }
+
+                if p.input().is(Token::Asserts) {
+                    let ctx = p.ctx();
+                    return peek!(p).is_some_and(|peek| {
+                        if peek.is_word() {
+                            !peek.is_reserved(ctx)
+                        } else {
+                            false
+                        }
+                    });
+                }
+
+                p.can_start_ts_type_fast()
+            })
+    }
+
     fn can_probe_ts_decl_from_word(&mut self, value: &Atom) -> bool {
         if !self.can_start_ts_decl_from_word(value) {
             return false;
@@ -6094,6 +6121,50 @@ mod tests {
                 let cur = parser.input().cur();
 
                 assert!(parser.can_start_ts_expr_type_params_fast());
+                assert_eq!(parser.input().cur(), cur);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_type_or_type_predicate_ann_guard_filters_non_type_starts() {
+        for src in [": )", ": =>"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                let cur = parser.input().cur();
+
+                assert!(!parser.can_start_ts_type_or_type_predicate_ann_fast(Token::Colon));
+                assert_eq!(parser.input().cur(), cur);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_type_or_type_predicate_ann_guard_keeps_valid_starts() {
+        for src in [": number", ": foo is Bar", ": asserts foo"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                let cur = parser.input().cur();
+
+                assert!(parser.can_start_ts_type_or_type_predicate_ann_fast(Token::Colon));
                 assert_eq!(parser.input().cur(), cur);
 
                 Ok(())
