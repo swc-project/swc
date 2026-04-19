@@ -5148,6 +5148,20 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    fn can_probe_flow_named_decl_after_keyword(&mut self) -> bool {
+        self.token_look_ahead(|p| {
+            if !p.input().cur().is_word() {
+                return false;
+            }
+
+            p.bump();
+            matches!(
+                p.input().cur(),
+                Token::LParen | Token::Lt | Token::Eof | Token::Error
+            )
+        })
+    }
+
     fn can_probe_ts_decl_from_word(&mut self, value: &Atom) -> bool {
         if !self.can_start_ts_decl_from_word(value) {
             return false;
@@ -5170,8 +5184,11 @@ impl<I: Tokens> Parser<I> {
                 !self.input_mut().has_linebreak_between_cur_and_peeked()
                     && peek!(self).is_some_and(|peek| peek == Token::Type)
             }
-            "component" => peek!(self).is_some_and(|peek| peek.is_word()),
-            "hook" => peek!(self).is_some_and(|peek| peek.is_word() || peek == Token::Function),
+            "component" => self.can_probe_flow_named_decl_after_keyword(),
+            "hook" => {
+                peek!(self).is_some_and(|peek| peek == Token::Function)
+                    || self.can_probe_flow_named_decl_after_keyword()
+            }
             _ => true,
         }
     }
@@ -5760,7 +5777,83 @@ mod tests {
         })
         .unwrap();
 
+        crate::with_test_sess("component Comp + 1", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_probe_ts_decl_from_word(&atom!("component")));
+
+            Ok(())
+        })
+        .unwrap();
+
+        crate::with_test_sess("hook useFoo + 1", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_probe_ts_decl_from_word(&atom!("hook")));
+
+            Ok(())
+        })
+        .unwrap();
+
         crate::with_test_sess("hook function useFoo() {}", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(parser.can_probe_ts_decl_from_word(&atom!("hook")));
+
+            Ok(())
+        })
+        .unwrap();
+
+        crate::with_test_sess("component Comp<T>() renders Foo {}", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(parser.can_probe_ts_decl_from_word(&atom!("component")));
+
+            Ok(())
+        })
+        .unwrap();
+
+        crate::with_test_sess("hook useFoo<T>(arg: T): T {}", |_, input| {
             let lexer = crate::lexer::Lexer::new(
                 Syntax::Flow(FlowSyntax {
                     all: true,
