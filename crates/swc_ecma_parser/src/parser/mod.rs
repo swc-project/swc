@@ -54,6 +54,8 @@ pub type PResult<T> = Result<T, crate::error::Error>;
 #[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
     buffer: BufferCheckpoint<I>,
+    state: State,
+    found_module_item: bool,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -99,6 +101,8 @@ impl<I: Tokens> Parser<I> {
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
             buffer: self.input.checkpoint_save(),
+            state: self.state.clone(),
+            found_module_item: self.found_module_item,
             allow_super_call: self.allow_super_call,
         }
     }
@@ -107,18 +111,24 @@ impl<I: Tokens> Parser<I> {
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
             buffer: self.input.checkpoint_save(),
+            state: self.state.clone(),
+            found_module_item: self.found_module_item,
         }
     }
 
     #[cfg(all(feature = "typescript", feature = "flow"))]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.checkpoint_load(checkpoint.buffer);
+        self.state = checkpoint.state;
+        self.found_module_item = checkpoint.found_module_item;
         self.allow_super_call = checkpoint.allow_super_call;
     }
 
     #[cfg(all(feature = "typescript", not(feature = "flow")))]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.checkpoint_load(checkpoint.buffer);
+        self.state = checkpoint.state;
+        self.found_module_item = checkpoint.found_module_item;
     }
 
     #[cfg(feature = "typescript")]
