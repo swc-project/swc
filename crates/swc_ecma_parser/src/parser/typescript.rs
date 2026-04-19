@@ -3047,6 +3047,10 @@ impl<I: Tokens> Parser<I> {
             })
     }
 
+    fn can_start_flow_parenthesized_fn_type(&mut self) -> bool {
+        self.is_flow_syntax() && self.input().is(Token::LParen) && self.is_ts_start_of_fn_type()
+    }
+
     /// `tsParseParenthesizedType`
     fn parse_ts_parenthesized_type(&mut self) -> PResult<TsParenthesizedType> {
         debug_assert!(self.input().syntax().typescript());
@@ -3511,12 +3515,17 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().syntax().typescript());
 
-        if self.is_flow_syntax() && self.input().is(Token::LParen) {
+        if self.can_start_flow_parenthesized_fn_type() {
             if let Some(fn_type) = self.try_parse_ts(Self::try_parse_flow_anon_fn_type) {
                 return Ok(Box::new(TsType::TsFnOrConstructorType(
                     TsFnOrConstructorType::TsFnType(fn_type),
                 )));
             }
+
+            return self
+                .parse_ts_fn_or_constructor_type(true)
+                .map(TsType::from)
+                .map(Box::new);
         }
 
         if self.is_ts_start_of_fn_type() {
@@ -4528,10 +4537,7 @@ impl<I: Tokens> Parser<I> {
             // Only use the non-conditional parser for actual function forms
             // (`?() =>`, `?(x: T) =>`, `?(...A) =>`) so non-function grouped
             // types keep their original precedence (`?(T)[]` etc.).
-            let is_nullable_fn_type = self.input().is(Token::LParen)
-                && self
-                    .ts_look_ahead(Self::is_ts_unambiguously_start_of_fn_type)
-                    .unwrap_or_default();
+            let is_nullable_fn_type = self.can_start_flow_parenthesized_fn_type();
 
             let inner_type = if is_nullable_fn_type {
                 self.parse_ts_non_conditional_type()?
@@ -5604,6 +5610,81 @@ mod tests {
             TsTypeElement::TsPropertySignature(TsPropertySignature { key, .. })
                 if matches!(&**key, Expr::Ident(Ident { sym, .. }) if sym == "get")
         ));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_parenthesized_fn_type_guard_filters_grouped_types() {
+        crate::with_test_sess("(string)", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            let can_start = parser.in_type(|p| p.can_start_flow_parenthesized_fn_type());
+
+            assert!(!can_start);
+            assert_eq!(parser.input().cur(), Token::LParen);
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_parenthesized_fn_type_guard_keeps_function_types() {
+        for src in [
+            "(?Foo) => Bar",
+            "(foo: string) => void",
+            "(...string) => void",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                let can_start = parser.in_type(|p| p.can_start_flow_parenthesized_fn_type());
+
+                assert!(can_start);
+                assert_eq!(parser.input().cur(), Token::LParen);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_parenthesized_grouped_type_still_parses_as_grouped_type() {
+        let actual = test_parser(
+            "type T = (string);",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+
+        assert!(matches!(&*alias.type_ann, TsType::TsParenthesizedType(..)));
     }
 
     #[cfg(feature = "flow")]
