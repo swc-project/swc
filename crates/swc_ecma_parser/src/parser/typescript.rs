@@ -3032,6 +3032,21 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn can_start_flow_mapped_member(&mut self) -> bool {
+        self.input().syntax().flow()
+            && self.input().is(Token::LBracket)
+            && self.token_look_ahead(|p| {
+                p.bump();
+
+                if !p.input().cur().is_word() {
+                    return false;
+                }
+
+                p.bump();
+                p.input().is(Token::In)
+            })
+    }
+
     /// `tsParseParenthesizedType`
     fn parse_ts_parenthesized_type(&mut self) -> PResult<TsParenthesizedType> {
         debug_assert!(self.input().syntax().typescript());
@@ -3796,7 +3811,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if self.input().syntax().flow() && self.input().is(Token::LBracket) {
+        if self.can_start_flow_mapped_member() {
             if let Some(mapped_member) = self.try_parse_ts(|p| {
                 let start = p.cur_pos();
                 expect!(p, Token::LBracket);
@@ -5432,6 +5447,81 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_mapped_member_guard_filters_index_signatures() {
+        crate::with_test_sess("[key: string]: number", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_start_flow_mapped_member());
+            assert_eq!(parser.input().cur(), Token::LBracket);
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_mapped_member_guard_keeps_mapped_members() {
+        crate::with_test_sess("[K in keyof O]: V", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(parser.can_start_flow_mapped_member());
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_object_type_still_parses_mapped_and_index_members() {
+        let actual = test_parser(
+            "type T = { [K in keyof O]: V, [key: string]: number };",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &*alias.type_ann else {
+            panic!("expected object type literal");
+        };
+
+        assert!(matches!(
+            &type_lit.members[0],
+            TsTypeElement::TsPropertySignature(TsPropertySignature { key, .. })
+                if matches!(&**key, Expr::Ident(Ident { sym, .. }) if sym == "__flow_mapped")
+        ));
+        assert!(matches!(
+            &type_lit.members[1],
+            TsTypeElement::TsIndexSignature(TsIndexSignature { .. })
+        ));
     }
 
     #[cfg(feature = "flow")]
