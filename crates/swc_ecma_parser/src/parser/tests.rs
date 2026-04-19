@@ -1065,6 +1065,32 @@ fn parse_program_module_02() {
 }
 
 #[test]
+fn parse_module_export_type_alias_still_parses() {
+    let m = test_parser(
+        "export type Foo = string;",
+        Syntax::Typescript(Default::default()),
+        |p| p.parse_module(),
+    );
+
+    let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) = &m.body[0] else {
+        panic!("expected ExportDecl");
+    };
+
+    assert!(matches!(
+        decl,
+        Decl::TsTypeAlias(alias)
+            if alias.id.sym == atom!("Foo")
+                && matches!(
+                    &*alias.type_ann,
+                    TsType::TsKeywordType(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsStringKeyword,
+                        ..
+                    })
+                )
+    ));
+}
+
+#[test]
 fn parse_program_module_error_01() {
     assert_module_error(
         "

@@ -155,12 +155,12 @@ impl<I: Tokens> Parser<I> {
         Ok(None)
     }
 
-    pub(crate) fn try_parse_ts_export_decl(
+    pub(crate) fn parse_ts_export_decl_if_possible(
         &mut self,
         _decorators: Vec<Decorator>,
         _value: swc_atoms::Atom,
-    ) -> Option<Decl> {
-        None
+    ) -> PResult<Option<Decl>> {
+        Ok(None)
     }
 
     pub(crate) fn can_start_ts_decl_from_word(&self, _value: &swc_atoms::Atom) -> bool {

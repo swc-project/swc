@@ -5255,27 +5255,28 @@ impl<I: Tokens> Parser<I> {
     ///
     /// Note: this won't be called unless the keyword is allowed in
     /// `shouldParseExportDeclaration`.
-    pub(crate) fn try_parse_ts_export_decl(
+    ///
+    /// Callers only reach this after `can_probe_ts_decl_from_word` succeeds, so
+    /// `export <keyword>` can parse directly without opening a speculative
+    /// checkpoint.
+    pub(crate) fn parse_ts_export_decl_if_possible(
         &mut self,
         decorators: Vec<Decorator>,
         value: Atom,
-    ) -> Option<Decl> {
+    ) -> PResult<Option<Decl>> {
         if !cfg!(feature = "typescript") {
-            return None;
+            return Ok(None);
         }
 
         if !self.can_probe_ts_decl_from_word(&value) {
-            return None;
+            return Ok(None);
         }
 
-        self.try_parse_ts(|p| {
-            let start = p.cur_pos();
-            let opt = p.parse_ts_decl(start, decorators, value, true)?;
-            Ok(opt)
-        })
+        let start = self.cur_pos();
+        self.parse_ts_decl(start, decorators, value, true)
     }
 
-    /// Common to tsTryParseDeclare, tsTryParseExportDeclaration, and
+    /// Common to tsTryParseDeclare, export declaration probing, and
     /// tsParseExpressionStatement.
     ///
     /// `tsParseDeclaration`

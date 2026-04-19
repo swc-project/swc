@@ -418,7 +418,9 @@ impl<I: Tokens> Parser<I> {
             if cur.is_word() {
                 let sym = cur.take_word(&self.input);
                 if self.can_start_ts_decl_from_word(&sym) {
-                    if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
+                    if let Some(decl) =
+                        self.parse_ts_export_decl_if_possible(decorators.clone(), sym)?
+                    {
                         return Ok(ExportDecl {
                             span: self.span(start),
                             decl,
@@ -538,7 +540,7 @@ impl<I: Tokens> Parser<I> {
                     let sym = self.input().cur().take_word(&self.input);
                     if sym == atom!("component") || sym == atom!("hook") {
                         if let Some(decl) =
-                            self.try_parse_ts_export_decl(decorators.clone(), sym.clone())
+                            self.parse_ts_export_decl_if_possible(decorators.clone(), sym.clone())?
                         {
                             return match decl {
                                 Decl::Fn(fn_decl) => Ok(ExportDefaultDecl {
