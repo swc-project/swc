@@ -3854,58 +3854,63 @@ impl<I: Tokens> Parser<I> {
             return Ok(idx.into());
         }
 
-        if let Some(v) = self.try_parse_ts(|p| {
-            let start = p.input().cur_pos();
+        // Plain Flow object members dominate this path, so only open the
+        // speculative accessor parse when the current token can actually begin
+        // a getter/setter signature.
+        if self.can_start_flow_accessor_sig() {
+            if let Some(v) = self.try_parse_ts(|p| {
+                let start = p.input().cur_pos();
 
-            if readonly {
-                syntax_error!(p, SyntaxError::GetterSetterCannotBeReadonly)
-            }
-
-            let is_get = if p.input_mut().eat(Token::Get) {
-                true
-            } else {
-                expect!(p, Token::Set);
-                false
-            };
-
-            let (computed, key) = p.parse_ts_property_name()?;
-
-            if is_get {
-                expect!(p, Token::LParen);
-                expect!(p, Token::RParen);
-                let type_ann = p.try_parse_ts_type_ann()?;
-
-                p.parse_ts_type_member_semicolon()?;
-
-                Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
-                    span: p.span(start),
-                    key,
-                    computed,
-                    type_ann,
-                })))
-            } else {
-                expect!(p, Token::LParen);
-                let params = p.parse_ts_binding_list_for_signature()?;
-                if params.is_empty() {
-                    syntax_error!(p, SyntaxError::SetterParamRequired)
-                }
-                let param = params.into_iter().next().unwrap();
-
-                if p.input().syntax().flow() && p.input().is(Token::Colon) {
-                    let _ = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                if readonly {
+                    syntax_error!(p, SyntaxError::GetterSetterCannotBeReadonly)
                 }
 
-                p.parse_ts_type_member_semicolon()?;
+                let is_get = if p.input_mut().eat(Token::Get) {
+                    true
+                } else {
+                    expect!(p, Token::Set);
+                    false
+                };
 
-                Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
-                    span: p.span(start),
-                    key,
-                    computed,
-                    param,
-                })))
+                let (computed, key) = p.parse_ts_property_name()?;
+
+                if is_get {
+                    expect!(p, Token::LParen);
+                    expect!(p, Token::RParen);
+                    let type_ann = p.try_parse_ts_type_ann()?;
+
+                    p.parse_ts_type_member_semicolon()?;
+
+                    Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
+                        span: p.span(start),
+                        key,
+                        computed,
+                        type_ann,
+                    })))
+                } else {
+                    expect!(p, Token::LParen);
+                    let params = p.parse_ts_binding_list_for_signature()?;
+                    if params.is_empty() {
+                        syntax_error!(p, SyntaxError::SetterParamRequired)
+                    }
+                    let param = params.into_iter().next().unwrap();
+
+                    if p.input().syntax().flow() && p.input().is(Token::Colon) {
+                        let _ = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                    }
+
+                    p.parse_ts_type_member_semicolon()?;
+
+                    Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
+                        span: p.span(start),
+                        key,
+                        computed,
+                        param,
+                    })))
+                }
+            }) {
+                return Ok(v);
             }
-        }) {
-            return Ok(v);
         }
 
         self.parse_ts_property_or_method_signature(start, readonly)
@@ -3918,6 +3923,10 @@ impl<I: Tokens> Parser<I> {
                     e.into()
                 }
             })
+    }
+
+    fn can_start_flow_accessor_sig(&self) -> bool {
+        matches!(self.input().cur(), Token::Get | Token::Set)
     }
 
     /// `tsParseObjectTypeMembers`
@@ -5417,6 +5426,88 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_accessor_keyword_guard_filters_plain_members() {
+        crate::with_test_sess("foo", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_start_flow_accessor_sig());
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_accessor_keyword_guard_keeps_accessor_keywords() {
+        for src in ["get", "set"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let parser = Parser::new_from(lexer);
+
+                assert!(parser.can_start_flow_accessor_sig());
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_object_type_still_parses_plain_and_accessor_members() {
+        let actual = test_parser(
+            "type T = { foo: string, get bar(): string, get: string };",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &*alias.type_ann else {
+            panic!("expected object type literal");
+        };
+
+        assert!(matches!(
+            &type_lit.members[0],
+            TsTypeElement::TsPropertySignature(TsPropertySignature { key, .. })
+                if matches!(&**key, Expr::Ident(Ident { sym, .. }) if sym == "foo")
+        ));
+        assert!(matches!(
+            &type_lit.members[1],
+            TsTypeElement::TsGetterSignature(TsGetterSignature { key, .. })
+                if matches!(&**key, Expr::Ident(Ident { sym, .. }) if sym == "bar")
+        ));
+        assert!(matches!(
+            &type_lit.members[2],
+            TsTypeElement::TsPropertySignature(TsPropertySignature { key, .. })
+                if matches!(&**key, Expr::Ident(Ident { sym, .. }) if sym == "get")
+        ));
     }
 
     #[test]
