@@ -114,7 +114,8 @@ fn strip_flow_pragma(kind: CommentKind, text: &str) -> Option<String> {
 fn line_has_pragma(line: &str) -> bool {
     let line = line.trim();
     let line = line.trim_start_matches('*').trim_start();
-    starts_with_pragma(line, "@flow") || starts_with_pragma(line, "@noflow")
+
+    is_valid_flow_pragma(line)
 }
 
 /// Walks the body of a block comment, dropping any line that is just a Flow
@@ -138,11 +139,16 @@ fn strip_pragma_lines(text: &str) -> Option<String> {
     }
 }
 
-fn starts_with_pragma(line: &str, pragma: &str) -> bool {
-    match line.strip_prefix(pragma) {
-        Some(rest) => rest.is_empty() || rest.starts_with(|c: char| c.is_whitespace()),
-        None => false,
+fn is_valid_flow_pragma(line: &str) -> bool {
+    if line == "@noflow" {
+        return true;
     }
+
+    let Some(rest) = line.strip_prefix("@flow") else {
+        return false;
+    };
+
+    matches!(rest.trim(), "" | "strict" | "strict-local" | "weak")
 }
 
 /// Returns true when the remaining block comment body has no non-whitespace
@@ -171,6 +177,9 @@ mod tests {
         assert!(!line_has_pragma(" Copyright 2024"));
         assert!(!line_has_pragma(" see @flowtype documentation"));
         assert!(!line_has_pragma(" @flowtype something"));
+        assert!(!line_has_pragma(" @flow migration notes"));
+        assert!(!line_has_pragma(" @flow strictly"));
+        assert!(!line_has_pragma(" @flow strict local"));
         assert!(!line_has_pragma(" @license MIT"));
     }
 

@@ -23,6 +23,14 @@ fn transform(source: &str) -> String {
         )
         .map_err(|err| err.into_diagnostic(handler).emit())?;
 
+        if !recovered_errors.is_empty() {
+            for err in recovered_errors {
+                err.into_diagnostic(handler).emit();
+            }
+
+            return Err(());
+        }
+
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -128,6 +136,15 @@ fn preserves_lookalike_comment() {
     assert!(
         output.contains("see @flowtype documentation"),
         "expected @flowtype lookalike comment to be preserved, got: {output}"
+    );
+}
+
+#[test]
+fn preserves_non_directive_flow_text() {
+    let output = transform("// @flow migration notes\nconst value = 1;\n");
+    assert!(
+        output.contains("@flow migration notes"),
+        "expected non-directive @flow text to be preserved, got: {output}"
     );
 }
 

@@ -57,7 +57,7 @@
 
 pub use self::{flow::flow_pragma_strip, typescript::*};
 mod config;
-pub mod flow;
+mod flow;
 mod macros;
 mod retain;
 mod semantic;
