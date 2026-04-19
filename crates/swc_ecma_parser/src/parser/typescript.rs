@@ -2786,6 +2786,10 @@ impl<I: Tokens> Parser<I> {
             return Default::default();
         }
 
+        if !self.can_start_ts_tuple_element_name() {
+            return None;
+        }
+
         self.try_parse_ts(|p| {
             let start = p.cur_pos();
 
@@ -2817,6 +2821,20 @@ impl<I: Tokens> Parser<I> {
             } else {
                 ident.into()
             }))
+        })
+    }
+
+    fn can_start_ts_tuple_element_name(&mut self) -> bool {
+        self.token_look_ahead(|p| {
+            p.input_mut().eat(Token::DotDotDot);
+
+            if !p.input().cur().is_word() {
+                return false;
+            }
+
+            p.bump();
+            p.input_mut().eat(Token::QuestionMark);
+            p.input().is(Token::Colon)
         })
     }
 
@@ -5215,8 +5233,8 @@ mod tests {
     use swc_ecma_visit::assert_eq_ignore_span;
 
     #[cfg(feature = "flow")]
-    use crate::{lexer::Token, syntax::FlowSyntax};
-    use crate::{test_parser, Parser, Syntax};
+    use crate::syntax::FlowSyntax;
+    use crate::{lexer::Token, test_parser, Parser, Syntax};
 
     #[test]
     fn issue_708_1() {
@@ -5547,6 +5565,79 @@ mod tests {
         };
 
         assert!(matches!(&*union.types[0], TsType::TsArrayType(..)));
+    }
+
+    #[test]
+    fn ts_tuple_element_name_guard_filters_unlabeled_elements() {
+        crate::with_test_sess("string", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Typescript(Default::default()),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_start_ts_tuple_element_name());
+            assert_eq!(parser.input().cur(), Token::String);
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[test]
+    fn ts_tuple_element_name_guard_keeps_labeled_elements() {
+        for src in ["foo: string", "foo?: string", "...rest: string"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.can_start_ts_tuple_element_name());
+                assert!(parser.try_parse_ts_tuple_element_name().is_some());
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_tuple_type_still_parses_labeled_and_unlabeled_elements() {
+        let actual = test_parser(
+            "type T = [string, foo: number, ...rest: boolean[]];",
+            Syntax::Typescript(Default::default()),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsTupleType(tuple) = &*alias.type_ann else {
+            panic!("expected tuple type");
+        };
+
+        assert!(tuple.elem_types[0].label.is_none());
+        assert!(matches!(
+            tuple.elem_types[1].label.as_ref(),
+            Some(Pat::Ident(BindingIdent {
+                id: Ident { sym, optional, .. },
+                ..
+            })) if sym == "foo" && !optional
+        ));
+        assert!(matches!(
+            tuple.elem_types[2].label.as_ref(),
+            Some(Pat::Rest(RestPat { arg, .. }))
+                if matches!(arg.as_ref(), Pat::Ident(BindingIdent {
+                    id: Ident { sym, .. },
+                    ..
+                }) if sym == "rest")
+        ));
     }
 
     #[test]
