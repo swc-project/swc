@@ -337,6 +337,89 @@ fn lexer_token_and_span_path_restores_jsx_identifier_payload() {
     .unwrap();
 }
 
+#[cfg(feature = "typescript")]
+#[test]
+fn try_parse_ts_rolls_back_cursor_and_ignore_error_context() {
+    crate::with_test_sess("foo", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Typescript(TsSyntax::default()),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        assert!(!parser.ctx().contains(Context::IgnoreError));
+
+        let result = parser.try_parse_ts(|p| {
+            assert!(p.ctx().contains(Context::IgnoreError));
+            p.bump();
+            Ok(None::<()>)
+        });
+
+        assert!(result.is_none());
+        assert_eq!(parser.input().cur(), Token::Ident);
+        assert!(!parser.ctx().contains(Context::IgnoreError));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[cfg(feature = "typescript")]
+#[test]
+fn try_parse_ts_commits_success_without_leaking_ignore_error_context() {
+    crate::with_test_sess("foo", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Typescript(TsSyntax::default()),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let result = parser.try_parse_ts(|p| {
+            assert!(p.ctx().contains(Context::IgnoreError));
+            p.bump();
+            Ok(Some(()))
+        });
+
+        assert!(result.is_some());
+        assert_eq!(parser.input().cur(), Token::Eof);
+        assert!(!parser.ctx().contains(Context::IgnoreError));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[cfg(feature = "typescript")]
+#[test]
+fn ts_look_ahead_restores_cursor_and_ignore_error_context() {
+    crate::with_test_sess("foo", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Typescript(TsSyntax::default()),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let saw_eof = parser.ts_look_ahead(|p| {
+            assert!(p.ctx().contains(Context::IgnoreError));
+            p.bump();
+            p.input().cur() == Token::Eof
+        });
+
+        assert!(saw_eof);
+        assert_eq!(parser.input().cur(), Token::Ident);
+        assert!(!parser.ctx().contains(Context::IgnoreError));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 #[cfg(feature = "unstable")]
 #[test]
 fn capturing_uses_fast_token_frame_handoff() {

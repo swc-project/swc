@@ -706,19 +706,15 @@ impl<I: Tokens> Parser<I> {
             return Ok(false);
         }
 
-        let prev_ignore_error = self.input().get_ctx().contains(Context::IgnoreError);
-        let checkpoint = self.checkpoint_save();
-        self.set_ctx(self.ctx() | Context::IgnoreError);
+        let checkpoint = self.start_speculative_parse();
         let res = op(self);
         match res {
             Ok(Some(res)) if res => {
-                let mut ctx = self.ctx();
-                ctx.set(Context::IgnoreError, prev_ignore_error);
-                self.input_mut().set_ctx(ctx);
+                self.commit_speculative_parse(checkpoint);
                 Ok(res)
             }
             _ => {
-                self.checkpoint_load(checkpoint);
+                self.rollback_speculative_parse(checkpoint);
                 Ok(false)
             }
         }
@@ -834,26 +830,22 @@ impl<I: Tokens> Parser<I> {
 
         trace_cur!(self, try_parse_ts);
 
-        let prev_ignore_error = self.input().get_ctx().contains(Context::IgnoreError);
-        let checkpoint = self.checkpoint_save();
-        self.set_ctx(self.ctx() | Context::IgnoreError);
+        let checkpoint = self.start_speculative_parse();
         let res = op(self);
         match res {
             Ok(Some(res)) => {
                 trace_cur!(self, try_parse_ts__success_value);
-                let mut ctx = self.ctx();
-                ctx.set(Context::IgnoreError, prev_ignore_error);
-                self.input_mut().set_ctx(ctx);
+                self.commit_speculative_parse(checkpoint);
                 Some(res)
             }
             Ok(None) => {
                 trace_cur!(self, try_parse_ts__success_no_value);
-                self.checkpoint_load(checkpoint);
+                self.rollback_speculative_parse(checkpoint);
                 None
             }
             Err(..) => {
                 trace_cur!(self, try_parse_ts__fail);
-                self.checkpoint_load(checkpoint);
+                self.rollback_speculative_parse(checkpoint);
                 None
             }
         }
@@ -1101,10 +1093,9 @@ impl<I: Tokens> Parser<I> {
         F: FnOnce(&mut Self) -> T,
     {
         debug_assert!(self.input().syntax().typescript());
-        let checkpoint = self.checkpoint_save();
-        self.set_ctx(self.ctx() | Context::IgnoreError);
+        let checkpoint = self.start_speculative_parse();
         let ret = op(self);
-        self.checkpoint_load(checkpoint);
+        self.rollback_speculative_parse(checkpoint);
         ret
     }
 

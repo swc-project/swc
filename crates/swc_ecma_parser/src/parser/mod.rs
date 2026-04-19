@@ -58,6 +58,12 @@ pub struct ParserCheckpoint<I: Tokens> {
     allow_super_call: bool,
 }
 
+#[cfg(feature = "typescript")]
+struct SpeculativeCheckpoint<I: Tokens> {
+    parser: ParserCheckpoint<I>,
+    prev_ignore_error: bool,
+}
+
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
@@ -113,6 +119,38 @@ impl<I: Tokens> Parser<I> {
     #[cfg(all(feature = "typescript", not(feature = "flow")))]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.checkpoint_load(checkpoint.buffer);
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    fn start_speculative_parse(&mut self) -> SpeculativeCheckpoint<I> {
+        let mut ctx = self.ctx();
+        let prev_ignore_error = ctx.contains(Context::IgnoreError);
+        let parser = self.checkpoint_save();
+        if !prev_ignore_error {
+            ctx.insert(Context::IgnoreError);
+            self.set_ctx(ctx);
+        }
+        SpeculativeCheckpoint {
+            parser,
+            prev_ignore_error,
+        }
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    fn commit_speculative_parse(&mut self, checkpoint: SpeculativeCheckpoint<I>) {
+        if !checkpoint.prev_ignore_error {
+            let mut ctx = self.ctx();
+            ctx.remove(Context::IgnoreError);
+            self.set_ctx(ctx);
+        }
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    fn rollback_speculative_parse(&mut self, checkpoint: SpeculativeCheckpoint<I>) {
+        self.checkpoint_load(checkpoint.parser);
     }
 
     #[cfg(feature = "flow")]
