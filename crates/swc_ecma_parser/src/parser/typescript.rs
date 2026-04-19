@@ -4496,21 +4496,9 @@ impl<I: Tokens> Parser<I> {
             // (`?() =>`, `?(x: T) =>`, `?(...A) =>`) so non-function grouped
             // types keep their original precedence (`?(T)[]` etc.).
             let is_nullable_fn_type = self.input().is(Token::LParen)
-                && self.parser_look_ahead(|p| {
-                    p.try_parse_ts(|p| {
-                        let ty = p.parse_ts_non_conditional_type()?;
-
-                        if matches!(
-                            &*ty,
-                            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(..))
-                        ) {
-                            Ok(Some(()))
-                        } else {
-                            Ok(None)
-                        }
-                    })
-                    .is_some()
-                });
+                && self
+                    .ts_look_ahead(Self::is_ts_unambiguously_start_of_fn_type)
+                    .unwrap_or_default();
 
             let inner_type = if is_nullable_fn_type {
                 self.parse_ts_non_conditional_type()?
@@ -5508,6 +5496,57 @@ mod tests {
             TsTypeElement::TsPropertySignature(TsPropertySignature { key, .. })
                 if matches!(&**key, Expr::Ident(Ident { sym, .. }) if sym == "get")
         ));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_nullable_fn_type_stays_function_type() {
+        let actual = test_parser(
+            "type Empty = ?() => void;",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(union)) =
+            &*alias.type_ann
+        else {
+            panic!("expected nullable union type");
+        };
+
+        assert!(matches!(
+            &*union.types[0],
+            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(..))
+        ));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_nullable_grouped_array_keeps_grouped_precedence() {
+        let actual = test_parser(
+            "type GroupedArray = ?(string)[];",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(union)) =
+            &*alias.type_ann
+        else {
+            panic!("expected nullable union type");
+        };
+
+        assert!(matches!(&*union.types[0], TsType::TsArrayType(..)));
     }
 
     #[test]
