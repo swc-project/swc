@@ -3967,8 +3967,17 @@ impl<I: Tokens> Parser<I> {
             })
     }
 
-    fn can_start_flow_accessor_sig(&self) -> bool {
+    fn can_start_flow_accessor_sig(&mut self) -> bool {
         matches!(self.input().cur(), Token::Get | Token::Set)
+            && peek!(self).is_some_and(Self::can_start_ts_property_name_token)
+    }
+
+    fn can_start_ts_property_name_token(token: Token) -> bool {
+        token.is_word()
+            || matches!(
+                token,
+                Token::LBracket | Token::Num | Token::Str | Token::Hash | Token::At
+            )
     }
 
     /// `tsParseObjectTypeMembers`
@@ -5543,7 +5552,7 @@ mod tests {
                 input,
                 None,
             );
-            let parser = Parser::new_from(lexer);
+            let mut parser = Parser::new_from(lexer);
 
             assert!(!parser.can_start_flow_accessor_sig());
 
@@ -5554,8 +5563,31 @@ mod tests {
 
     #[cfg(feature = "flow")]
     #[test]
+    fn flow_accessor_keyword_guard_filters_plain_get_property() {
+        crate::with_test_sess("get: string", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_start_flow_accessor_sig());
+            assert_eq!(parser.input().cur(), Token::Get);
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
     fn flow_accessor_keyword_guard_keeps_accessor_keywords() {
-        for src in ["get", "set"] {
+        for src in ["get foo(): string", "set foo(value: string): void"] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Flow(FlowSyntax {
@@ -5566,9 +5598,10 @@ mod tests {
                     input,
                     None,
                 );
-                let parser = Parser::new_from(lexer);
+                let mut parser = Parser::new_from(lexer);
 
                 assert!(parser.can_start_flow_accessor_sig());
+                assert!(matches!(parser.input().cur(), Token::Get | Token::Set));
 
                 Ok(())
             })
