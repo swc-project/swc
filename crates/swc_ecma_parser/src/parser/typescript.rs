@@ -2842,37 +2842,43 @@ impl<I: Tokens> Parser<I> {
             return None;
         }
 
-        self.try_parse_ts(|p| {
-            let start = p.cur_pos();
+        // The token lookahead above has already proven the `...foo?:` / `foo:` shape,
+        // so we can parse the label directly without opening a speculative checkpoint.
+        let start = self.cur_pos();
 
-            let rest = if p.input_mut().eat(Token::DotDotDot) {
-                Some(p.input().prev_span())
-            } else {
-                None
-            };
+        let rest = if self.input_mut().eat(Token::DotDotDot) {
+            Some(self.input().prev_span())
+        } else {
+            None
+        };
 
-            let mut ident = p.parse_ident_name().map(Ident::from)?;
-            if p.input_mut().eat(Token::QuestionMark) {
-                ident.optional = true;
-                ident.span = ident.span.with_hi(p.input().prev_span().hi);
+        let mut ident = match self.parse_ident_name().map(Ident::from) {
+            Ok(ident) => ident,
+            Err(err) => {
+                self.emit_error(err);
+                return None;
             }
+        };
+        if self.input_mut().eat(Token::QuestionMark) {
+            ident.optional = true;
+            ident.span = ident.span.with_hi(self.input().prev_span().hi);
+        }
 
-            if p.input().syntax().flow() && rest.is_some() && ident.optional {
-                p.emit_err(ident.span, SyntaxError::TS1003);
+        if self.input().syntax().flow() && rest.is_some() && ident.optional {
+            self.emit_err(ident.span, SyntaxError::TS1003);
+        }
+        self.assert_and_bump(Token::Colon);
+
+        Some(if let Some(dot3_token) = rest {
+            RestPat {
+                span: self.span(start),
+                dot3_token,
+                arg: ident.into(),
+                type_ann: None,
             }
-            expect!(p, Token::Colon);
-
-            Ok(Some(if let Some(dot3_token) = rest {
-                RestPat {
-                    span: p.span(start),
-                    dot3_token,
-                    arg: ident.into(),
-                    type_ann: None,
-                }
-                .into()
-            } else {
-                ident.into()
-            }))
+            .into()
+        } else {
+            ident.into()
         })
     }
 
@@ -6065,6 +6071,32 @@ mod tests {
             })
             .unwrap();
         }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_tuple_rest_label_direct_parse_keeps_error_and_cursor() {
+        crate::with_test_sess("...foo?: string", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            let label = parser.try_parse_ts_tuple_element_name();
+
+            assert!(matches!(label, Some(Pat::Rest(RestPat { .. }))));
+            assert_eq!(parser.input().cur(), Token::String);
+            assert_eq!(parser.take_errors().len(), 1);
+
+            Ok(())
+        })
+        .unwrap();
     }
 
     #[test]
