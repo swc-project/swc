@@ -5029,7 +5029,7 @@ impl<I: Tokens> Parser<I> {
 
                 if p.input().cur().is_word() {
                     let value = p.input().cur().take_word(&p.input);
-                    if !p.can_start_ts_decl_from_word(&value) {
+                    if !p.can_probe_ts_decl_from_word(&value) {
                         return Ok(None);
                     }
                     return p
@@ -5040,7 +5040,7 @@ impl<I: Tokens> Parser<I> {
                 return Ok(None);
             } else if p.input().cur().is_word() {
                 let value = p.input().cur().take_word(&p.input);
-                if !p.can_start_ts_decl_from_word(&value) {
+                if !p.can_probe_ts_decl_from_word(&value) {
                     return Ok(None);
                 }
                 return p
@@ -5065,7 +5065,7 @@ impl<I: Tokens> Parser<I> {
             return None;
         }
 
-        if !self.can_start_ts_decl_from_word(&value) {
+        if !self.can_probe_ts_decl_from_word(&value) {
             return None;
         }
 
@@ -5093,6 +5093,25 @@ impl<I: Tokens> Parser<I> {
             }
             "opaque" => self.input().syntax().flow(),
             _ => false,
+        }
+    }
+
+    fn can_probe_ts_decl_from_word(&mut self, value: &Atom) -> bool {
+        if !self.can_start_ts_decl_from_word(value) {
+            return false;
+        }
+
+        match &**value {
+            "abstract" => peek!(self).is_some_and(|peek| peek == Token::Class),
+            "interface" | "namespace" | "type" => peek!(self).is_some_and(|peek| peek.is_word()),
+            "enum" => peek!(self).is_some_and(|peek| peek.is_word()),
+            "opaque" => {
+                !self.input_mut().has_linebreak_between_cur_and_peeked()
+                    && peek!(self).is_some_and(|peek| peek == Token::Type)
+            }
+            "component" => peek!(self).is_some_and(|peek| peek.is_word()),
+            "hook" => peek!(self).is_some_and(|peek| peek.is_word() || peek == Token::Function),
+            _ => true,
         }
     }
 
@@ -5555,6 +5574,40 @@ mod tests {
         .unwrap();
     }
 
+    #[test]
+    fn ts_decl_probe_guard_checks_following_token_shape() {
+        crate::with_test_sess("abstract foo", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Typescript(Default::default()),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_probe_ts_decl_from_word(&atom!("abstract")));
+            assert_eq!(parser.input().cur(), Token::Abstract);
+
+            Ok(())
+        })
+        .unwrap();
+
+        crate::with_test_sess("abstract class Foo {}", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Typescript(Default::default()),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(parser.can_probe_ts_decl_from_word(&atom!("abstract")));
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
     #[cfg(feature = "flow")]
     #[test]
     fn flow_decl_keyword_guard_allows_flow_only_declarations() {
@@ -5575,6 +5628,53 @@ mod tests {
             assert!(parser.can_start_ts_decl_from_word(&atom!("component")));
             assert!(parser.can_start_ts_decl_from_word(&atom!("hook")));
             assert!(!parser.can_start_ts_decl_from_word(&atom!("async")));
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_decl_probe_guard_filters_invalid_follow_ups() {
+        crate::with_test_sess("opaque\n type T = U;", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_probe_ts_decl_from_word(&atom!("opaque")));
+            assert!(parser.input().cur().is_word());
+            assert_eq!(
+                parser.input().cur().take_word(&parser.input),
+                atom!("opaque")
+            );
+
+            Ok(())
+        })
+        .unwrap();
+
+        crate::with_test_sess("hook function useFoo() {}", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(parser.can_probe_ts_decl_from_word(&atom!("hook")));
 
             Ok(())
         })
