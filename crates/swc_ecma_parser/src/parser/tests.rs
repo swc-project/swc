@@ -80,6 +80,36 @@ fn buffer_checkpoint_restores_cur_and_peek_values() {
     .unwrap();
 }
 
+#[test]
+fn buffer_checkpoint_shares_token_payload_storage() {
+    crate::with_test_sess("foo + bar", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+            EsVersion::Es2019,
+            input,
+            None,
+        );
+        let mut buffer = crate::parser::input::Buffer::new(lexer);
+        buffer.first_bump();
+        assert_eq!(buffer.peek(), Some(Token::Plus));
+        assert_eq!(buffer.cur_value_ref_count(), Some(1));
+        assert_eq!(buffer.next_value_ref_count(), None);
+
+        let checkpoint = buffer.checkpoint_save();
+        assert_eq!(buffer.cur_value_ref_count(), Some(2));
+        assert_eq!(buffer.next_value_ref_count(), None);
+
+        drop(checkpoint);
+        assert_eq!(buffer.cur_value_ref_count(), Some(1));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 /// Assert that Parser.parse_program returns [Program::Module].
 fn module(src: &'static str) -> Module {
     program(src).expect_module()
@@ -539,6 +569,25 @@ fn parse_program_take_script_module_errors() {
 
         Ok(program)
     });
+}
+
+#[test]
+fn parse_module_merges_deferred_errors_in_source_order() {
+    test_parser(
+        r#"077; export const a = 1; with (foo) {}"#,
+        Default::default(),
+        |p| {
+            let module = p.parse_module()?;
+
+            let errors = p.take_errors();
+            assert_eq!(errors.len(), 2);
+            assert_eq!(errors[0].kind(), &SyntaxError::LegacyOctal);
+            assert_eq!(errors[1].kind(), &SyntaxError::WithInStrict);
+            assert!(errors[0].span().lo < errors[1].span().lo);
+
+            Ok(module)
+        },
+    );
 }
 
 fn syntax() -> Syntax {

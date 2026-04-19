@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use swc_atoms::{wtf8::CodePoint, Atom};
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::EsVersion;
 
 use super::{Context, Input, Lexer};
@@ -50,6 +50,43 @@ pub struct LexerCheckpoint {
     state: State,
     ctx: Context,
     source: FastSourceCheckpoint,
+}
+
+fn merge_errors_in_source_order(errors: &mut Vec<Error>, mut deferred: Vec<Error>) {
+    if deferred.is_empty() {
+        return;
+    }
+
+    if errors.is_empty() {
+        *errors = deferred;
+        return;
+    }
+
+    let mut left = take(errors).into_iter().peekable();
+    let mut right = deferred.drain(..).peekable();
+    let mut merged = Vec::with_capacity(left.len() + right.len());
+
+    loop {
+        match (left.peek(), right.peek()) {
+            (Some(lhs), Some(rhs)) if lhs.span().lo <= rhs.span().lo => {
+                merged.push(left.next().unwrap());
+            }
+            (Some(_), Some(_)) => {
+                merged.push(right.next().unwrap());
+            }
+            (Some(_), None) => {
+                merged.extend(left);
+                break;
+            }
+            (None, Some(_)) => {
+                merged.extend(right);
+                break;
+            }
+            (None, None) => break,
+        }
+    }
+
+    *errors = merged;
 }
 
 impl crate::input::Tokens for Lexer<'_> {
@@ -137,7 +174,7 @@ impl crate::input::Tokens for Lexer<'_> {
     fn take_errors(&mut self) -> Vec<Error> {
         let mut errors = take(&mut self.errors);
         if self.ctx.contains(Context::Module) && !self.module_errors.is_empty() {
-            errors.append(&mut self.module_errors);
+            merge_errors_in_source_order(&mut errors, take(&mut self.module_errors));
         }
         errors
     }

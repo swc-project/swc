@@ -882,12 +882,18 @@ impl TokenAndSpan {
     }
 }
 
+/// Compatibility token wrapper kept for the unstable public token API.
+///
+/// The parser hot path uses a cheaper internal lookahead representation, but we
+/// preserve this shape so external users of `unstable` keep the same contract.
+#[allow(dead_code)]
 #[derive(Clone)]
 pub struct NextTokenAndSpan {
     pub token_and_span: TokenAndSpan,
     pub value: Option<TokenValue>,
 }
 
+#[allow(dead_code)]
 impl NextTokenAndSpan {
     #[inline(always)]
     pub fn token(&self) -> Token {

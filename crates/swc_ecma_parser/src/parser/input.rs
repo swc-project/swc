@@ -1,10 +1,12 @@
+use std::rc::Rc;
+
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
+    lexer::{LexResult, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
     Context,
 };
@@ -84,6 +86,71 @@ pub trait Tokens: Clone {
         -> TokenAndSpan;
 }
 
+#[derive(Clone, Debug)]
+struct StoredTokenValue(Rc<TokenValue>);
+
+impl StoredTokenValue {
+    #[inline(always)]
+    fn new(value: TokenValue) -> Self {
+        Self(Rc::new(value))
+    }
+
+    #[inline(always)]
+    fn as_ref(&self) -> &TokenValue {
+        self.0.as_ref()
+    }
+
+    #[inline(always)]
+    fn into_owned(self) -> TokenValue {
+        match Rc::try_unwrap(self.0) {
+            Ok(value) => value,
+            Err(value) => value.as_ref().clone(),
+        }
+    }
+
+    #[cfg(test)]
+    #[inline(always)]
+    fn strong_count(&self) -> usize {
+        Rc::strong_count(&self.0)
+    }
+}
+
+#[derive(Clone)]
+pub struct BufferedNextToken {
+    pub token_and_span: TokenAndSpan,
+    value: Option<StoredTokenValue>,
+}
+
+impl BufferedNextToken {
+    #[inline(always)]
+    fn new(token_and_span: TokenAndSpan, value: Option<TokenValue>) -> Self {
+        Self {
+            token_and_span,
+            value: value.map(StoredTokenValue::new),
+        }
+    }
+
+    #[inline(always)]
+    fn into_parts(self) -> (TokenAndSpan, Option<StoredTokenValue>) {
+        (self.token_and_span, self.value)
+    }
+
+    #[inline(always)]
+    pub fn token(&self) -> Token {
+        self.token_and_span.token
+    }
+
+    #[inline(always)]
+    pub fn span(&self) -> Span {
+        self.token_and_span.span
+    }
+
+    #[inline(always)]
+    pub fn had_line_break(&self) -> bool {
+        self.token_and_span.had_line_break
+    }
+}
+
 /// This struct is responsible for managing current token and peeked token.
 #[derive(Clone)]
 pub struct Buffer<I> {
@@ -91,9 +158,9 @@ pub struct Buffer<I> {
     /// Span of the previous token.
     pub prev_span: Span,
     pub cur: TokenAndSpan,
-    pub cur_value: Option<TokenValue>,
+    cur_value: Option<StoredTokenValue>,
     /// Peeked token
-    pub next: Option<NextTokenAndSpan>,
+    next: Option<BufferedNextToken>,
 }
 
 /// Snapshot of the parser-visible token window and the underlying lexer cursor.
@@ -105,76 +172,80 @@ pub struct BufferCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
     prev_span: Span,
     cur: TokenAndSpan,
-    cur_value: Option<TokenValue>,
-    next: Option<NextTokenAndSpan>,
+    cur_value: Option<StoredTokenValue>,
+    next: Option<BufferedNextToken>,
 }
 
 impl<I: Tokens> Buffer<I> {
     pub fn expect_word_token_value(&mut self) -> Atom {
-        let Some(crate::lexer::TokenValue::Word(word)) = self.cur_value.take() else {
+        let Some(crate::lexer::TokenValue::Word(word)) = self.take_cur_value() else {
             unreachable!()
         };
         word
     }
 
     pub fn expect_word_token_value_ref(&self) -> &Atom {
-        let Some(crate::lexer::TokenValue::Word(word)) = self.cur_value.as_ref() else {
+        let Some(crate::lexer::TokenValue::Word(word)) = self.get_token_value() else {
             unreachable!("token_value: {:?}", self.cur_value)
         };
         word
     }
 
     pub fn expect_number_token_value(&mut self) -> f64 {
-        let Some(crate::lexer::TokenValue::Num(value)) = self.cur_value.take() else {
+        let Some(crate::lexer::TokenValue::Num(value)) = self.take_cur_value() else {
             unreachable!()
         };
         value
     }
 
     pub fn expect_string_token_value(&mut self) -> Wtf8Atom {
-        let Some(crate::lexer::TokenValue::Str(value)) = self.cur_value.take() else {
+        let Some(crate::lexer::TokenValue::Str(value)) = self.take_cur_value() else {
             unreachable!()
         };
         value
     }
 
     pub fn expect_jsx_text_token_value(&mut self) -> Atom {
-        let Some(crate::lexer::TokenValue::JsxText(value)) = self.cur_value.take() else {
+        let Some(crate::lexer::TokenValue::JsxText(value)) = self.take_cur_value() else {
             unreachable!()
         };
         value
     }
 
     pub fn expect_bigint_token_value(&mut self) -> Box<num_bigint::BigInt> {
-        let Some(crate::lexer::TokenValue::BigInt(value)) = self.cur_value.take() else {
+        let Some(crate::lexer::TokenValue::BigInt(value)) = self.take_cur_value() else {
             unreachable!()
         };
         value
     }
 
     pub fn expect_regex_token_value(&mut self) -> BytePos {
-        let Some(crate::lexer::TokenValue::Regex(exp_end)) = self.cur_value.take() else {
+        let Some(crate::lexer::TokenValue::Regex(exp_end)) = self.take_cur_value() else {
             unreachable!()
         };
         exp_end
     }
 
     pub fn expect_template_token_value(&mut self) -> LexResult<Wtf8Atom> {
-        let Some(crate::lexer::TokenValue::Template(cooked)) = self.cur_value.take() else {
+        let Some(crate::lexer::TokenValue::Template(cooked)) = self.take_cur_value() else {
             unreachable!()
         };
         cooked
     }
 
     pub fn expect_error_token_value(&mut self) -> Error {
-        let Some(crate::lexer::TokenValue::Error(error)) = self.cur_value.take() else {
+        let Some(crate::lexer::TokenValue::Error(error)) = self.take_cur_value() else {
             unreachable!()
         };
         error
     }
 
     pub fn get_token_value(&self) -> Option<&TokenValue> {
-        self.cur_value.as_ref()
+        self.cur_value.as_ref().map(StoredTokenValue::as_ref)
+    }
+
+    fn take_cur_value(&mut self) -> Option<TokenValue> {
+        self.cur_value.take().map(StoredTokenValue::into_owned)
     }
 
     pub fn scan_jsx_token(&mut self) {
@@ -218,7 +289,8 @@ impl<I: Tokens> Buffer<I> {
         }
         let start = self.cur.span.lo;
         self.iter.set_current_token_type(self.cur.token);
-        self.iter.set_token_value(self.cur_value.take());
+        let current_value = self.take_cur_value();
+        self.iter.set_token_value(current_value);
         let cur = self.iter.scan_jsx_identifier(start);
         let value = self.iter.take_token_value();
         debug_assert!(cur.token == Token::JSXName);
@@ -260,21 +332,21 @@ impl<I: Tokens> Buffer<I> {
     #[inline(always)]
     pub fn set_cur_with_value(&mut self, token: TokenAndSpan, value: Option<TokenValue>) {
         self.cur = token;
-        self.cur_value = value;
+        self.cur_value = value.map(StoredTokenValue::new);
     }
 
     #[inline(always)]
-    pub fn next(&self) -> Option<&NextTokenAndSpan> {
+    pub fn next(&self) -> Option<&BufferedNextToken> {
         self.next.as_ref()
     }
 
     #[inline(always)]
-    pub fn set_next(&mut self, token: Option<NextTokenAndSpan>) {
+    pub fn set_next(&mut self, token: Option<BufferedNextToken>) {
         self.next = token;
     }
 
     #[inline(always)]
-    pub fn next_mut(&mut self) -> &mut Option<NextTokenAndSpan> {
+    pub fn next_mut(&mut self) -> &mut Option<BufferedNextToken> {
         &mut self.next
     }
 
@@ -311,10 +383,10 @@ impl<I: Tokens> Buffer<I> {
 
         if self.next.is_none() {
             let next_token = self.iter.next_token();
-            self.next = Some(NextTokenAndSpan {
-                token_and_span: next_token,
-                value: self.iter.take_token_value(),
-            });
+            self.next = Some(BufferedNextToken::new(
+                next_token,
+                self.iter.take_token_value(),
+            ));
         }
 
         self.next.as_ref().map(|ts| ts.token_and_span.token)
@@ -337,15 +409,16 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn bump(&mut self) {
         let (next, next_value) = match self.next.take() {
-            Some(next) => (next.token_and_span, next.value),
+            Some(next) => next.into_parts(),
             None => {
                 let token = self.iter.next_token();
-                let value = self.iter.take_token_value();
+                let value = self.iter.take_token_value().map(StoredTokenValue::new);
                 (token, value)
             }
         };
         self.prev_span = self.cur.span;
-        self.set_cur_with_value(next, next_value);
+        self.cur = next;
+        self.cur_value = next_value;
     }
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
@@ -534,6 +607,19 @@ impl<I: Tokens> Buffer<I> {
         self.cur = checkpoint.cur;
         self.cur_value = checkpoint.cur_value;
         self.next = checkpoint.next;
+    }
+
+    #[cfg(test)]
+    pub fn cur_value_ref_count(&self) -> Option<usize> {
+        self.cur_value.as_ref().map(StoredTokenValue::strong_count)
+    }
+
+    #[cfg(test)]
+    pub fn next_value_ref_count(&self) -> Option<usize> {
+        self.next
+            .as_ref()
+            .and_then(|token| token.value.as_ref())
+            .map(StoredTokenValue::strong_count)
     }
 
     #[inline]
