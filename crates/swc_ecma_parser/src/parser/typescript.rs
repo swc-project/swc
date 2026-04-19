@@ -3101,7 +3101,30 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 p.bump();
-                p.input().is(Token::In)
+                if !p.input().is(Token::In) {
+                    return false;
+                }
+
+                let mut depth = 1usize;
+                loop {
+                    match p.input().cur() {
+                        Token::LBracket => depth += 1,
+                        Token::RBracket => {
+                            depth = depth.saturating_sub(1);
+                            if depth == 0 {
+                                p.bump();
+                                return matches!(
+                                    p.input().cur(),
+                                    Token::QuestionMark | Token::Colon
+                                );
+                            }
+                        }
+                        Token::Eof => return false,
+                        _ => {}
+                    }
+
+                    p.bump();
+                }
             })
     }
 
@@ -4061,7 +4084,23 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if p.input().is(Token::LBracket) {
-                    return true;
+                    let mut depth = 0usize;
+                    loop {
+                        match p.input().cur() {
+                            Token::LBracket => depth += 1,
+                            Token::RBracket => {
+                                depth = depth.saturating_sub(1);
+                                if depth == 0 {
+                                    p.bump();
+                                    return p.input().is(Token::LParen);
+                                }
+                            }
+                            Token::Eof => return false,
+                            _ => {}
+                        }
+
+                        p.bump();
+                    }
                 }
 
                 p.bump();
@@ -5881,23 +5920,51 @@ mod tests {
     #[cfg(feature = "flow")]
     #[test]
     fn flow_mapped_member_guard_keeps_mapped_members() {
-        crate::with_test_sess("[K in keyof O]: V", |_, input| {
-            let lexer = crate::lexer::Lexer::new(
-                Syntax::Flow(FlowSyntax {
-                    all: true,
-                    ..Default::default()
-                }),
-                EsVersion::Es2022,
-                input,
-                None,
-            );
-            let mut parser = Parser::new_from(lexer);
+        for src in ["[K in keyof O]: V", "[K in keyof O]?: V"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
 
-            assert!(parser.can_start_flow_mapped_member());
+                assert!(parser.can_start_flow_mapped_member());
+                assert_eq!(parser.input().cur(), Token::LBracket);
 
-            Ok(())
-        })
-        .unwrap();
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_mapped_member_guard_filters_non_property_shapes() {
+        for src in ["[K in keyof O]()", "[K in keyof O]"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_start_flow_mapped_member());
+                assert_eq!(parser.input().cur(), Token::LBracket);
+
+                Ok(())
+            })
+            .unwrap();
+        }
     }
 
     #[cfg(feature = "flow")]
@@ -6004,6 +6071,56 @@ mod tests {
     #[test]
     fn flow_accessor_keyword_guard_keeps_accessor_keywords() {
         for src in ["get foo(): string", "set foo(value: string): void"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.can_start_flow_accessor_sig());
+                assert!(matches!(parser.input().cur(), Token::Get | Token::Set));
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_accessor_keyword_guard_filters_computed_non_accessor_shapes() {
+        for src in ["get [foo]: string", "set [foo]: string"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_start_flow_accessor_sig());
+                assert!(matches!(parser.input().cur(), Token::Get | Token::Set));
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_accessor_keyword_guard_keeps_computed_accessors() {
+        for src in ["get [foo](): string", "set [foo](value: string): void"] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Flow(FlowSyntax {
