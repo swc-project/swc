@@ -4,13 +4,17 @@ use swc_ecma_ast::EsVersion;
 
 use crate::{
     error::Error,
-    lexer::{FastToken, LexResult, SharedTokenValue, Token, TokenAndSpan, TokenFlags, TokenValue},
+    lexer::{
+        FastToken, FastTokenAndValue, LexResult, SharedTokenValue, Token, TokenAndSpan, TokenFlags,
+        TokenValue,
+    },
     syntax::SyntaxFlags,
     Context,
 };
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
+#[allow(private_interfaces)]
 pub trait Tokens: Clone {
     type Checkpoint;
 
@@ -88,6 +92,74 @@ pub trait Tokens: Clone {
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan;
     fn rescan_template_token(&mut self, start: BytePos, start_with_back_tick: bool)
         -> TokenAndSpan;
+
+    #[inline(always)]
+    fn first_token_fast(&mut self) -> FastTokenAndValue {
+        FastTokenAndValue::new(self.first_token().into(), self.take_token_value_shared())
+    }
+
+    #[inline(always)]
+    fn next_token_fast(&mut self) -> FastTokenAndValue {
+        FastTokenAndValue::new(self.next_token().into(), self.take_token_value_shared())
+    }
+
+    #[inline(always)]
+    fn scan_jsx_token_fast(&mut self) -> FastTokenAndValue {
+        FastTokenAndValue::new(self.scan_jsx_token().into(), self.take_token_value_shared())
+    }
+
+    #[inline(always)]
+    fn scan_jsx_open_el_terminal_token_fast(&mut self) -> FastTokenAndValue {
+        FastTokenAndValue::new(
+            self.scan_jsx_open_el_terminal_token().into(),
+            self.take_token_value_shared(),
+        )
+    }
+
+    #[inline(always)]
+    fn rescan_jsx_open_el_terminal_token_fast(&mut self, reset: BytePos) -> FastTokenAndValue {
+        FastTokenAndValue::new(
+            self.rescan_jsx_open_el_terminal_token(reset).into(),
+            self.take_token_value_shared(),
+        )
+    }
+
+    #[inline(always)]
+    fn rescan_jsx_token_fast(&mut self, reset: BytePos) -> FastTokenAndValue {
+        FastTokenAndValue::new(
+            self.rescan_jsx_token(reset).into(),
+            self.take_token_value_shared(),
+        )
+    }
+
+    #[inline(always)]
+    fn scan_jsx_identifier_fast(&mut self, start: BytePos) -> FastTokenAndValue {
+        FastTokenAndValue::new(
+            self.scan_jsx_identifier(start).into(),
+            self.take_token_value_shared(),
+        )
+    }
+
+    #[inline(always)]
+    fn scan_jsx_attribute_value_fast(&mut self) -> FastTokenAndValue {
+        FastTokenAndValue::new(
+            self.scan_jsx_attribute_value().into(),
+            self.take_token_value_shared(),
+        )
+    }
+
+    #[inline(always)]
+    fn rescan_template_token_fast(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> FastTokenAndValue {
+        FastTokenAndValue::new(
+            self.rescan_template_token(start, start_with_back_tick)
+                .into(),
+            self.take_token_value_shared(),
+        )
+    }
 }
 
 #[derive(Clone)]
@@ -98,9 +170,10 @@ pub(crate) struct BufferedNextToken {
 
 impl BufferedNextToken {
     #[inline(always)]
-    fn new(token_and_span: TokenAndSpan, value: Option<SharedTokenValue>) -> Self {
+    fn from_fast(frame: FastTokenAndValue) -> Self {
+        let (token_and_span, value) = frame.into_parts();
         Self {
-            token_and_span: token_and_span.into(),
+            token_and_span,
             value,
         }
     }
@@ -230,8 +303,7 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn scan_jsx_token(&mut self) {
         let prev = self.cur;
-        let t = self.iter.scan_jsx_token();
-        let value = self.iter.take_token_value_shared();
+        let (t, value) = self.iter.scan_jsx_token_fast().into_parts();
         self.prev_span = prev.span;
         self.set_cur_with_shared_value(t, value);
     }
@@ -239,8 +311,10 @@ impl<I: Tokens> Buffer<I> {
     #[allow(unused)]
     fn scan_jsx_open_el_terminal_token(&mut self) {
         let prev = self.cur;
-        let t = self.iter.scan_jsx_open_el_terminal_token();
-        let value = self.iter.take_token_value_shared();
+        let (t, value) = self
+            .iter
+            .scan_jsx_open_el_terminal_token_fast()
+            .into_parts();
         self.prev_span = prev.span;
         self.set_cur_with_shared_value(t, value);
     }
@@ -251,15 +325,16 @@ impl<I: Tokens> Buffer<I> {
         }
         // rescan `>=`, `>>`, `>>=`, `>>>`, `>>>=` into `>`
         let start = self.cur.span.lo;
-        let t = self.iter.rescan_jsx_open_el_terminal_token(start);
-        let value = self.iter.take_token_value_shared();
+        let (t, value) = self
+            .iter
+            .rescan_jsx_open_el_terminal_token_fast(start)
+            .into_parts();
         self.set_cur_with_shared_value(t, value);
     }
 
     pub fn rescan_jsx_token(&mut self) {
         let start = self.cur.span.lo;
-        let t = self.iter.rescan_jsx_token(start);
-        let value = self.iter.take_token_value_shared();
+        let (t, value) = self.iter.rescan_jsx_token_fast(start).into_parts();
         self.set_cur_with_shared_value(t, value);
     }
 
@@ -271,22 +346,22 @@ impl<I: Tokens> Buffer<I> {
         self.iter.set_current_token_type(self.cur.token);
         let current_value = self.take_cur_shared_value();
         self.iter.set_token_value_shared(current_value);
-        let cur = self.iter.scan_jsx_identifier(start);
-        let value = self.iter.take_token_value_shared();
+        let (cur, value) = self.iter.scan_jsx_identifier_fast(start).into_parts();
         debug_assert!(cur.token == Token::JSXName);
         self.set_cur_with_shared_value(cur, value);
     }
 
     pub fn scan_jsx_attribute_value(&mut self) {
-        let cur = self.iter.scan_jsx_attribute_value();
-        let value = self.iter.take_token_value_shared();
+        let (cur, value) = self.iter.scan_jsx_attribute_value_fast().into_parts();
         self.set_cur_with_shared_value(cur, value);
     }
 
     pub fn rescan_template_token(&mut self, start_with_back_tick: bool) {
         let start = self.cur_pos();
-        let cur = self.iter.rescan_template_token(start, start_with_back_tick);
-        let value = self.iter.take_token_value_shared();
+        let (cur, value) = self
+            .iter
+            .rescan_template_token_fast(start, start_with_back_tick)
+            .into_parts();
         self.set_cur_with_shared_value(cur, value);
     }
 }
@@ -376,11 +451,7 @@ impl<I: Tokens> Buffer<I> {
         );
 
         if self.next.is_none() {
-            let next_token = self.iter.next_token();
-            self.next = Some(BufferedNextToken::new(
-                next_token,
-                self.iter.take_token_value_shared(),
-            ));
+            self.next = Some(BufferedNextToken::from_fast(self.iter.next_token_fast()));
         }
 
         self.next.as_ref().map(|ts| ts.token_and_span.token)
@@ -395,8 +466,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn first_bump(&mut self) {
-        let first_token = self.iter.first_token();
-        let first_value = self.iter.take_token_value_shared();
+        let (first_token, first_value) = self.iter.first_token_fast().into_parts();
         self.prev_span = self.cur.span;
         self.set_cur_with_shared_value(first_token, first_value);
     }
@@ -404,11 +474,7 @@ impl<I: Tokens> Buffer<I> {
     pub fn bump(&mut self) {
         let (next, next_value) = match self.next.take() {
             Some(next) => next.into_parts(),
-            None => {
-                let token = self.iter.next_token();
-                let value = self.iter.take_token_value_shared();
-                (token.into(), value)
-            }
+            None => self.iter.next_token_fast().into_parts(),
         };
         self.prev_span = self.cur.span;
         self.cur = next;

@@ -7,7 +7,7 @@ use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
 use crate::{
-    lexer::{SharedTokenValue, TokenAndSpan, TokenFlags, TokenValue},
+    lexer::{FastToken, FastTokenAndValue, SharedTokenValue, TokenAndSpan, TokenFlags, TokenValue},
     parse_file_as_expr, parse_file_as_module, Context, EsSyntax, SyntaxFlags, TsSyntax,
 };
 
@@ -36,17 +36,14 @@ impl SharedOnlyTokens {
         }
     }
 
-    fn next_entry(&mut self) -> TokenAndSpan {
+    fn next_entry(&mut self) -> FastTokenAndValue {
         let Some((token, value)) = self.tokens.get(self.idx).cloned() else {
-            return TokenAndSpan {
-                token: Token::Eof,
-                had_line_break: false,
-                span: DUMMY_SP,
-            };
+            return FastTokenAndValue::new(FastToken::new(Token::Eof, DUMMY_SP, false), None);
         };
         self.idx += 1;
-        self.token_value = value;
-        token
+        let fast = FastToken::from(token);
+        self.token_value = value.clone();
+        FastTokenAndValue::new(fast, value)
     }
 }
 
@@ -164,10 +161,18 @@ impl crate::input::Tokens for SharedOnlyTokens {
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
+        panic!("buffer should use fast token frame handoff")
+    }
+
+    fn first_token_fast(&mut self) -> FastTokenAndValue {
         self.next_entry()
     }
 
     fn next_token(&mut self) -> TokenAndSpan {
+        panic!("buffer should use fast token frame handoff")
+    }
+
+    fn next_token_fast(&mut self) -> FastTokenAndValue {
         self.next_entry()
     }
 
@@ -188,13 +193,20 @@ impl crate::input::Tokens for SharedOnlyTokens {
     }
 
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
-        assert_eq!(self.current_token_type, Some(Token::Ident));
+        let _ = start;
+        panic!("buffer should use fast jsx identifier rescans")
+    }
 
-        TokenAndSpan {
-            token: Token::JSXName,
-            had_line_break: false,
-            span: swc_common::Span::new_with_checked(start, start + BytePos(3)),
-        }
+    fn scan_jsx_identifier_fast(&mut self, start: BytePos) -> FastTokenAndValue {
+        assert_eq!(self.current_token_type, Some(Token::Ident));
+        FastTokenAndValue::new(
+            FastToken::new(
+                Token::JSXName,
+                swc_common::Span::new_with_checked(start, start + BytePos(3)),
+                false,
+            ),
+            self.token_value.take(),
+        )
     }
 
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
@@ -290,6 +302,43 @@ fn buffer_uses_shared_payload_handoff_for_jsx_identifier_rescan() {
         panic!("expected jsx name token value");
     };
     assert_eq!(value, &atom!("foo"));
+}
+
+#[cfg(feature = "unstable")]
+#[test]
+fn capturing_uses_fast_token_frame_handoff() {
+    let tokens = vec![
+        (
+            TokenAndSpan {
+                token: Token::Ident,
+                had_line_break: false,
+                span: swc_common::Span::new_with_checked(BytePos(0), BytePos(3)),
+            },
+            Some(TokenValue::Word(atom!("foo"))),
+        ),
+        (
+            TokenAndSpan {
+                token: Token::Ident,
+                had_line_break: true,
+                span: swc_common::Span::new_with_checked(BytePos(4), BytePos(7)),
+            },
+            Some(TokenValue::Word(atom!("bar"))),
+        ),
+    ];
+
+    let mut buffer = crate::parser::input::Buffer::new(crate::lexer::capturing::Capturing::new(
+        SharedOnlyTokens::new(tokens),
+    ));
+    buffer.first_bump();
+
+    assert_eq!(buffer.cur(), Token::Ident);
+    assert_eq!(buffer.peek(), Some(Token::Ident));
+    assert_eq!(buffer.expect_word_token_value_ref(), &atom!("foo"));
+
+    let captured = buffer.iter().tokens();
+    assert_eq!(captured.len(), 2);
+    assert_eq!(captured[0].token, Token::Ident);
+    assert_eq!(captured[1].token, Token::Ident);
 }
 
 #[test]

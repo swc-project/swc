@@ -945,6 +945,29 @@ impl FastToken {
     }
 }
 
+/// Internal token frame used between lexer and parser on the fast path.
+///
+/// This keeps the parser-facing token header together with the optional shared
+/// payload handle so the parser does not need to round-trip through
+/// `TokenAndSpan` just to populate its buffer.
+#[derive(Clone, Debug)]
+pub(crate) struct FastTokenAndValue {
+    pub token: FastToken,
+    pub value: Option<SharedTokenValue>,
+}
+
+impl FastTokenAndValue {
+    #[inline(always)]
+    pub(crate) fn new(token: FastToken, value: Option<SharedTokenValue>) -> Self {
+        Self { token, value }
+    }
+
+    #[inline(always)]
+    pub(crate) fn into_parts(self) -> (FastToken, Option<SharedTokenValue>) {
+        (self.token, self.value)
+    }
+}
+
 impl From<TokenAndSpan> for FastToken {
     #[inline(always)]
     fn from(value: TokenAndSpan) -> Self {
