@@ -6050,7 +6050,7 @@ mod tests {
 
     #[test]
     fn ts_expr_type_param_guard_filters_jsx_dominated_starts() {
-        for src in ["<div />", "<T>", "<A.B>"] {
+        for src in ["<div />", "<T>", "<A.B>", "<></>"] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Typescript(TsSyntax {

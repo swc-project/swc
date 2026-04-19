@@ -1386,6 +1386,25 @@ fn issue_10598_plain_jsx_still_parses() {
     assert!(matches!(actual, Expr::JSXElement(..)));
 }
 
+#[test]
+fn issue_10598_plain_jsx_fragment_still_parses() {
+    let actual = test_parser(
+        "<>foo</>;",
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| {
+            p.parse_stmt().map(|stmt| match stmt {
+                Stmt::Expr(expr) => *expr.expr,
+                _ => unreachable!(),
+            })
+        },
+    );
+
+    assert!(matches!(actual, Expr::JSXFragment(..)));
+}
+
 /// Verify that `<T>() => {}` is still valid in non-TSX TypeScript mode
 #[test]
 fn issue_10598_valid_non_tsx() {
