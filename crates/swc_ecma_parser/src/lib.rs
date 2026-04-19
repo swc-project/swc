@@ -182,7 +182,10 @@ pub mod unstable {
 }
 
 use error::Error;
-use swc_common::{comments::Comments, SourceFile};
+use swc_common::{
+    comments::{Comments, SingleThreadedComments},
+    EqIgnoreSpan, SourceFile,
+};
 use swc_ecma_ast::*;
 
 mod context;
@@ -192,6 +195,7 @@ mod fast;
 mod legacy;
 pub mod lexer;
 mod parser;
+mod shadow;
 mod syntax;
 
 pub use context::Context;
@@ -235,38 +239,267 @@ pub fn with_file_parser<T>(
     }
 }
 
-macro_rules! expose {
-    (
-        $name:ident,
-        $T:ty,
-        $($t:tt)*
-    ) => {
-        /// Note: This is recommended way to parse a file.
-        ///
-        /// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
-        /// instantiation of generics occur in `swc_ecma_parser` crate.
-        pub fn $name(
-            fm: &SourceFile,
-            syntax: Syntax,
-            target: EsVersion,
-            comments: Option<&dyn Comments>,
-            recovered_errors: &mut Vec<Error>,
-        ) -> PResult<$T> {
-            with_file_parser(fm, syntax, target, comments, recovered_errors, $($t)*)
-        }
-    };
+type ParserFn<T> = for<'aa> fn(&mut Parser<Lexer<'aa>>) -> PResult<T>;
+
+struct ParseArtifacts<T> {
+    result: PResult<T>,
+    recovered_errors: Vec<Error>,
+    script_module_errors: Vec<Error>,
 }
 
-expose!(parse_file_as_expr, Box<Expr>, |p| {
+fn parse_with_core<T>(
+    core: dispatch::ParserCore,
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    op: ParserFn<T>,
+) -> ParseArtifacts<T> {
+    match core {
+        dispatch::ParserCore::Legacy => {
+            let lexer = legacy::LegacyLexer::new(
+                syntax,
+                target,
+                swc_common::input::SourceFileInput::from(fm),
+                comments,
+            );
+            let mut parser = legacy::LegacyParserCore::new_from(lexer);
+            let result = op(&mut parser);
+            ParseArtifacts {
+                result,
+                recovered_errors: parser.take_errors(),
+                script_module_errors: parser.take_script_module_errors(),
+            }
+        }
+        dispatch::ParserCore::Fast => {
+            let lexer = fast::FastLexer::new(
+                syntax,
+                target,
+                swc_common::input::SourceFileInput::from(fm),
+                comments,
+            );
+            let mut parser = fast::FastParserCore::new_from(lexer);
+            let result = op(&mut parser);
+            ParseArtifacts {
+                result,
+                recovered_errors: parser.take_errors(),
+                script_module_errors: parser.take_script_module_errors(),
+            }
+        }
+    }
+}
+
+fn maybe_parse_with_shadow<T>(
+    name: &'static str,
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+    op: ParserFn<T>,
+) -> PResult<T>
+where
+    T: PartialEq + EqIgnoreSpan + std::fmt::Debug,
+{
+    let primary_core = dispatch::parser_core_for(syntax);
+    let Some(shadow_core) = shadow::shadow_core_for(primary_core, syntax) else {
+        let mut parsed = parse_with_core(primary_core, fm, syntax, target, comments, op);
+        recovered_errors.append(&mut parsed.recovered_errors);
+        return parsed.result;
+    };
+
+    let mut primary = parse_with_core(primary_core, fm, syntax, target, comments, op);
+
+    // Shadow runs should not mutate caller-provided comment buffers.
+    let shadow_comments_storage = comments.map(|_| SingleThreadedComments::default());
+    let shadow_comments = shadow_comments_storage
+        .as_ref()
+        .map(|comments| comments as &dyn Comments);
+    let shadow_parse = parse_with_core(shadow_core, fm, syntax, target, shadow_comments, op);
+
+    log_shadow_mismatch(name, primary_core, shadow_core, &primary, &shadow_parse);
+    shadow::note_shadow_run();
+
+    recovered_errors.append(&mut primary.recovered_errors);
+    primary.result
+}
+
+fn log_shadow_mismatch<T>(
+    name: &'static str,
+    primary_core: dispatch::ParserCore,
+    shadow_core: dispatch::ParserCore,
+    primary: &ParseArtifacts<T>,
+    shadow: &ParseArtifacts<T>,
+) where
+    T: PartialEq + EqIgnoreSpan + std::fmt::Debug,
+{
+    let result_equal = primary.result == shadow.result;
+    let recovered_errors_equal = primary.recovered_errors == shadow.recovered_errors;
+    let script_module_errors_equal = primary.script_module_errors == shadow.script_module_errors;
+
+    if result_equal && recovered_errors_equal && script_module_errors_equal {
+        return;
+    }
+
+    let ast_equal_ignore_span = match (&primary.result, &shadow.result) {
+        (Ok(primary), Ok(shadow)) => primary.eq_ignore_span(shadow),
+        _ => false,
+    };
+
+    tracing::warn!(
+        parse = name,
+        ?primary_core,
+        ?shadow_core,
+        result_equal,
+        recovered_errors_equal,
+        script_module_errors_equal,
+        ast_equal_ignore_span,
+        "Parser shadow mismatch",
+    );
+    tracing::debug!(
+        parse = name,
+        primary_result = ?primary.result,
+        shadow_result = ?shadow.result,
+        primary_recovered_errors = ?primary.recovered_errors,
+        shadow_recovered_errors = ?shadow.recovered_errors,
+        primary_script_module_errors = ?primary.script_module_errors,
+        shadow_script_module_errors = ?shadow.script_module_errors,
+        "Parser shadow mismatch details",
+    );
+}
+
+fn parse_expr_for_file(p: &mut Parser<Lexer<'_>>) -> PResult<Box<Expr>> {
     // This allow to parse `import.meta`
     let ctx = p.ctx();
     p.set_ctx(ctx.union(Context::CanBeModule));
     p.parse_expr()
-});
-expose!(parse_file_as_module, Module, |p| { p.parse_module() });
-expose!(parse_file_as_script, Script, |p| { p.parse_script() });
-expose!(parse_file_as_commonjs, Script, |p| { p.parse_commonjs() });
-expose!(parse_file_as_program, Program, |p| { p.parse_program() });
+}
+
+fn parse_module_for_file(p: &mut Parser<Lexer<'_>>) -> PResult<Module> {
+    p.parse_module()
+}
+
+fn parse_script_for_file(p: &mut Parser<Lexer<'_>>) -> PResult<Script> {
+    p.parse_script()
+}
+
+fn parse_commonjs_for_file(p: &mut Parser<Lexer<'_>>) -> PResult<Script> {
+    p.parse_commonjs()
+}
+
+fn parse_program_for_file(p: &mut Parser<Lexer<'_>>) -> PResult<Program> {
+    p.parse_program()
+}
+
+/// Note: This is recommended way to parse a file.
+///
+/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+/// instantiation of generics occur in `swc_ecma_parser` crate.
+pub fn parse_file_as_expr(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+) -> PResult<Box<Expr>> {
+    maybe_parse_with_shadow(
+        "parse_file_as_expr",
+        fm,
+        syntax,
+        target,
+        comments,
+        recovered_errors,
+        parse_expr_for_file,
+    )
+}
+
+/// Note: This is recommended way to parse a file.
+///
+/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+/// instantiation of generics occur in `swc_ecma_parser` crate.
+pub fn parse_file_as_module(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+) -> PResult<Module> {
+    maybe_parse_with_shadow(
+        "parse_file_as_module",
+        fm,
+        syntax,
+        target,
+        comments,
+        recovered_errors,
+        parse_module_for_file,
+    )
+}
+
+/// Note: This is recommended way to parse a file.
+///
+/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+/// instantiation of generics occur in `swc_ecma_parser` crate.
+pub fn parse_file_as_script(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+) -> PResult<Script> {
+    maybe_parse_with_shadow(
+        "parse_file_as_script",
+        fm,
+        syntax,
+        target,
+        comments,
+        recovered_errors,
+        parse_script_for_file,
+    )
+}
+
+/// Note: This is recommended way to parse a file.
+///
+/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+/// instantiation of generics occur in `swc_ecma_parser` crate.
+pub fn parse_file_as_commonjs(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+) -> PResult<Script> {
+    maybe_parse_with_shadow(
+        "parse_file_as_commonjs",
+        fm,
+        syntax,
+        target,
+        comments,
+        recovered_errors,
+        parse_commonjs_for_file,
+    )
+}
+
+/// Note: This is recommended way to parse a file.
+///
+/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+/// instantiation of generics occur in `swc_ecma_parser` crate.
+pub fn parse_file_as_program(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+) -> PResult<Program> {
+    maybe_parse_with_shadow(
+        "parse_file_as_program",
+        fm,
+        syntax,
+        target,
+        comments,
+        recovered_errors,
+        parse_program_for_file,
+    )
+}
 
 #[inline(always)]
 #[cfg(any(
