@@ -757,6 +757,42 @@ fn jsx_identifier_rescan_reuses_existing_payload_handle() {
 }
 
 #[test]
+fn jsx_identifier_rescan_keeps_shared_prefix_handle_when_extending_name() {
+    crate::with_test_sess("foo-bar", |_, input| {
+        let lexer = crate::lexer::Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+        let mut buffer = crate::parser::input::Buffer::new(lexer);
+        buffer.first_bump();
+
+        let prefix = buffer
+            .clone_cur_value_handle()
+            .expect("identifier payload should exist");
+        buffer.scan_jsx_identifier();
+
+        assert_eq!(prefix.strong_count(), 1);
+        let TokenValue::Word(prefix_value) = prefix.as_ref() else {
+            panic!("expected shared prefix payload to remain accessible");
+        };
+        assert_eq!(prefix_value, &atom!("foo"));
+        assert_eq!(buffer.cur(), Token::JSXName);
+        let Some(TokenValue::Word(value)) = buffer.get_token_value() else {
+            panic!("expected jsx name token value");
+        };
+        assert_eq!(value, &atom!("foo-bar"));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
 fn parse_file_as_module_collects_comments_in_fast_path() {
     let cm = SourceMap::default();
     let fm = cm.new_source_file(

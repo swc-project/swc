@@ -438,14 +438,9 @@ impl Lexer<'_> {
                 };
                 value.reserve(prefix.len() + v.len());
                 value.push_str(prefix);
-            } else if let Some(TokenValue::Word(prefix)) = self
-                .state
-                .token_value
-                .take()
-                .map(SharedTokenValue::into_owned)
-            {
+            } else if let Some(prefix) = self.state.word_token_value() {
                 value.reserve(prefix.len() + v.len());
-                value.push_str(&prefix);
+                value.push_str(prefix);
             } else {
                 let prefix = unsafe {
                     // Safety: start and end are valid position because we got them from
@@ -835,6 +830,14 @@ impl State {
 
     pub(crate) fn set_token_value(&mut self, token_value: TokenValue) {
         self.token_value = Some(SharedTokenValue::new(token_value));
+    }
+
+    #[inline(always)]
+    pub(crate) fn word_token_value(&self) -> Option<&Atom> {
+        match self.token_value.as_ref().map(SharedTokenValue::as_ref) {
+            Some(TokenValue::Word(value)) => Some(value),
+            _ => None,
+        }
     }
 }
 
