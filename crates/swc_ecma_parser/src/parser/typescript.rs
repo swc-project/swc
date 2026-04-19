@@ -219,6 +219,24 @@ impl<I: Tokens> Parser<I> {
             let dot3_token = self.input().prev_span();
 
             if allow_rest_type && self.can_start_flow_component_rest_type() {
+                if self.can_direct_parse_flow_component_rest_type() {
+                    let type_ann = self.in_type(Self::parse_ts_type)?;
+                    let type_ann_span = type_ann.span();
+                    return Ok(FlowComponentParam::Rest {
+                        rest: RestPat {
+                            span: self.span(start),
+                            dot3_token,
+                            arg: Box::new(
+                                self.make_flow_component_rest_fallback_binding(self.span(start)),
+                            ),
+                            type_ann: Some(Box::new(TsTypeAnn {
+                                span: type_ann_span,
+                                type_ann,
+                            })),
+                        },
+                    });
+                }
+
                 if let Some(type_ann) = self.try_parse_ts(|p| {
                     let ty = p.in_type(Self::parse_ts_type)?;
                     if p.input().is(Token::Comma) || p.input().is(Token::RParen) {
@@ -407,6 +425,14 @@ impl<I: Tokens> Parser<I> {
     fn can_start_flow_renders_type(&mut self) -> bool {
         self.is_flow_contextual_word("renders")
             && peek!(self).is_some_and(|peek| matches!(peek, Token::QuestionMark | Token::Asterisk))
+    }
+
+    fn can_direct_parse_flow_component_rest_type(&mut self) -> bool {
+        match self.input().cur() {
+            Token::Interface => peek!(self).is_some_and(|peek| peek == Token::LBrace),
+            Token::LBrace | Token::LBracket | Token::LParen => false,
+            cur => !cur.is_word() && self.can_start_flow_component_rest_type(),
+        }
     }
 
     fn parse_flow_renders_type(&mut self) -> PResult<Box<TsType>> {
@@ -5584,6 +5610,8 @@ mod tests {
     use swc_ecma_visit::assert_eq_ignore_span;
 
     #[cfg(feature = "flow")]
+    use super::FlowComponentParam;
+    #[cfg(feature = "flow")]
     use crate::syntax::FlowSyntax;
     use crate::{lexer::Token, parser::Context, test_parser, Parser, Syntax, TsSyntax};
 
@@ -6353,6 +6381,95 @@ mod tests {
             })
             .unwrap();
         }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_component_rest_type_direct_parse_guard_only_accepts_unambiguous_type_starts() {
+        for src in ["string", "number", "typeof Foo", "interface {}"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        components: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.in_type(|p| p.can_direct_parse_flow_component_rest_type()));
+
+                Ok(())
+            })
+            .unwrap();
+        }
+
+        for src in ["Rest", "{ foo: string }", "[string]"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        components: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.in_type(|p| p.can_direct_parse_flow_component_rest_type()));
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_component_rest_type_still_parses_keyword_types_without_checkpoint() {
+        crate::with_test_sess("(...string)", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            let params = parser
+                .parse_flow_component_params(false, false, true)
+                .unwrap();
+
+            assert!(matches!(
+                params.as_slice(),
+                [FlowComponentParam::Rest {
+                    rest: RestPat {
+                        type_ann: Some(type_ann),
+                        ..
+                    },
+                    ..
+                }] if matches!(
+                    &*type_ann.type_ann,
+                    TsType::TsKeywordType(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsStringKeyword,
+                        ..
+                    })
+                )
+            ));
+            assert!(parser.take_errors().is_empty());
+
+            Ok(())
+        })
+        .unwrap();
     }
 
     #[cfg(feature = "flow")]
