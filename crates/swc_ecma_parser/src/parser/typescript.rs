@@ -4050,9 +4050,13 @@ impl<I: Tokens> Parser<I> {
             return Ok(idx.into());
         }
 
-        // Plain Flow object members dominate this path, so only open the
-        // speculative accessor parse when the current token can actually begin
-        // a getter/setter signature.
+        // Plain Flow object members dominate this path. Fully disambiguated
+        // getter signatures can parse directly, while the remaining accessor
+        // shapes still use the speculative path for recovery.
+        if self.can_direct_parse_flow_getter_sig() {
+            return self.parse_flow_getter_sig_member(readonly);
+        }
+
         if self.can_start_flow_accessor_sig() {
             if let Some(v) = self.try_parse_ts(|p| {
                 let start = p.input().cur_pos();
@@ -4121,6 +4125,28 @@ impl<I: Tokens> Parser<I> {
             })
     }
 
+    fn parse_flow_getter_sig_member(&mut self, readonly: bool) -> PResult<TsTypeElement> {
+        let start = self.input().cur_pos();
+
+        if readonly {
+            syntax_error!(self, SyntaxError::GetterSetterCannotBeReadonly)
+        }
+
+        expect!(self, Token::Get);
+        let (computed, key) = self.parse_ts_property_name()?;
+        expect!(self, Token::LParen);
+        expect!(self, Token::RParen);
+        let type_ann = self.try_parse_ts_type_ann()?;
+        self.parse_ts_type_member_semicolon()?;
+
+        Ok(TsTypeElement::TsGetterSignature(TsGetterSignature {
+            span: self.span(start),
+            key,
+            computed,
+            type_ann,
+        }))
+    }
+
     fn can_start_flow_accessor_sig(&mut self) -> bool {
         matches!(self.input().cur(), Token::Get | Token::Set)
             && self.token_look_ahead(|p| {
@@ -4153,6 +4179,60 @@ impl<I: Tokens> Parser<I> {
                 p.bump();
                 p.input().is(Token::LParen)
             })
+    }
+
+    fn can_direct_parse_flow_getter_sig(&mut self) -> bool {
+        self.input().is(Token::Get)
+            && self.token_look_ahead(|p| {
+                p.bump();
+
+                if !Self::can_start_ts_property_name_token(p.input().cur()) {
+                    return false;
+                }
+
+                if p.input().is(Token::LBracket) {
+                    let mut depth = 0usize;
+                    loop {
+                        match p.input().cur() {
+                            Token::LBracket => depth += 1,
+                            Token::RBracket => {
+                                depth = depth.saturating_sub(1);
+                                if depth == 0 {
+                                    p.bump();
+                                    break;
+                                }
+                            }
+                            Token::Eof => return false,
+                            _ => {}
+                        }
+
+                        p.bump();
+                    }
+                } else {
+                    p.bump();
+                }
+
+                if !p.input().is(Token::LParen) {
+                    return false;
+                }
+                p.bump();
+
+                if !p.input().is(Token::RParen) {
+                    return false;
+                }
+                p.bump();
+
+                p.can_follow_flow_type_member_after_params()
+            })
+    }
+
+    fn can_follow_flow_type_member_after_params(&mut self) -> bool {
+        self.input().is(Token::Colon)
+            || self.input().is(Token::Comma)
+            || self.input().is(Token::Semi)
+            || self.input().is(Token::RBrace)
+            || (self.input().is(Token::Pipe)
+                && peek!(self).is_some_and(|peek| peek == Token::RBrace))
     }
 
     fn can_start_ts_property_name_token(token: Token) -> bool {
@@ -6717,6 +6797,60 @@ mod tests {
 
     #[cfg(feature = "flow")]
     #[test]
+    fn flow_direct_getter_guard_keeps_empty_param_getters() {
+        for src in ["get foo(): string", "get [foo](): string"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.can_direct_parse_flow_getter_sig());
+                assert_eq!(parser.input().cur(), Token::Get);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_direct_getter_guard_filters_non_direct_accessor_shapes() {
+        for src in [
+            "set foo(value: string): void",
+            "get foo(value: string): string",
+            "get foo() => string",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_direct_parse_flow_getter_sig());
+                assert!(matches!(parser.input().cur(), Token::Get | Token::Set));
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
     fn flow_accessor_keyword_guard_filters_computed_non_accessor_shapes() {
         for src in ["get [foo]: string", "set [foo]: string"] {
             crate::with_test_sess(src, |_, input| {
@@ -6798,6 +6932,35 @@ mod tests {
             &type_lit.members[2],
             TsTypeElement::TsPropertySignature(TsPropertySignature { key, .. })
                 if matches!(&**key, Expr::Ident(Ident { sym, .. }) if sym == "get")
+        ));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_object_type_still_parses_computed_getter_and_setter_members() {
+        let actual = test_parser(
+            "type T = { get [bar](): string, set [baz](value: string): void };",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsTypeLit(type_lit) = &*alias.type_ann else {
+            panic!("expected object type literal");
+        };
+
+        assert!(matches!(
+            &type_lit.members[0],
+            TsTypeElement::TsGetterSignature(TsGetterSignature { computed: true, .. })
+        ));
+        assert!(matches!(
+            &type_lit.members[1],
+            TsTypeElement::TsSetterSignature(TsSetterSignature { computed: true, .. })
         ));
     }
 
