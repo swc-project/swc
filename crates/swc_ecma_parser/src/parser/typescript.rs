@@ -2334,9 +2334,16 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.is_flow_syntax()
-            && self
-                .try_parse_ts(|p| p.try_parse_flow_anon_signature_param(0))
-                .is_some()
+            // The outer `ts_look_ahead` already provides rollback and
+            // `IgnoreError`, so this nested probe only needs a parser-state
+            // checkpoint while checking Flow's anonymous-signature parameter
+            // form.
+            && self.parser_look_ahead(|p| {
+                p.try_parse_flow_anon_signature_param(0)
+                    .ok()
+                    .flatten()
+                    .is_some()
+            })
         {
             if self.input().is(Token::Comma) {
                 if disallow_flow_anon_fn_type && starts_with_parenthesized_object_or_array {
@@ -5152,9 +5159,13 @@ impl<I: Tokens> Parser<I> {
 mod tests {
     use swc_atoms::atom;
     use swc_common::DUMMY_SP;
+    #[cfg(feature = "flow")]
+    use swc_ecma_ast::EsVersion;
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
 
+    #[cfg(feature = "flow")]
+    use crate::{lexer::Token, syntax::FlowSyntax, Parser};
     use crate::{test_parser, Syntax};
 
     #[test]
@@ -5229,5 +5240,33 @@ mod tests {
         };
 
         assert_eq_ignore_span!(actual, expected);
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_anon_signature_param_probe_uses_parser_look_ahead() {
+        crate::with_test_sess("(?Foo) => Bar", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            let is_fn_type = parser
+                .ts_look_ahead(|p| p.is_ts_unambiguously_start_of_fn_type())
+                .unwrap();
+
+            assert!(is_fn_type);
+            assert_eq!(parser.input().cur(), Token::LParen);
+            assert!(parser.take_errors().is_empty());
+
+            Ok(())
+        })
+        .unwrap();
     }
 }
