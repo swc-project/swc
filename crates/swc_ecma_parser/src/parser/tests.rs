@@ -1387,6 +1387,40 @@ fn issue_10598_plain_jsx_still_parses() {
 }
 
 #[test]
+fn issue_10598_jsx_opening_type_args_still_parse() {
+    let actual = test_parser(
+        "<Foo<string> bar=\"baz\" />;",
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| {
+            p.parse_stmt().map(|stmt| match stmt {
+                Stmt::Expr(expr) => *expr.expr,
+                _ => unreachable!(),
+            })
+        },
+    );
+
+    let Expr::JSXElement(element) = actual else {
+        panic!("expected jsx element");
+    };
+
+    assert!(matches!(
+        element.opening.type_args.as_deref(),
+        Some(TsTypeParamInstantiation { params, .. })
+            if matches!(params.as_slice(), [ty]
+                if matches!(
+                    &**ty,
+                    TsType::TsKeywordType(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsStringKeyword,
+                        ..
+                    })
+                ))
+    ));
+}
+
+#[test]
 fn issue_10598_plain_jsx_fragment_still_parses() {
     let actual = test_parser(
         "<>foo</>;",

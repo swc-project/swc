@@ -391,12 +391,13 @@ impl<I: Tokens> Parser<I> {
                 let name = p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
                     p.parse_jsx_element_name()
                 })?;
-                let type_args = if p.input().syntax().typescript() && p.input().is(Token::Lt) {
-                    p.try_parse_ts(|p| {
-                        let ret = p.parse_ts_type_args()?;
-                        p.assert_and_bump(Token::Gt);
-                        Ok(Some(ret))
-                    })
+                let type_args = if p.input().syntax().typescript()
+                    && p.input().is(Token::Lt)
+                    && p.can_start_ts_type_args_fast()
+                {
+                    let ret = p.parse_ts_type_args()?;
+                    p.assert_and_bump(Token::Gt);
+                    Some(ret)
                 } else {
                     None
                 };
