@@ -5522,6 +5522,27 @@ impl<I: Tokens> Parser<I> {
                 ))
     }
 
+    fn is_invalid_simple_type_continuation(token: Token) -> bool {
+        matches!(
+            token,
+            Token::Plus
+                | Token::Minus
+                | Token::Asterisk
+                | Token::Slash
+                | Token::Percent
+                | Token::Eq
+                | Token::Colon
+                | Token::QuestionMark
+                | Token::Arrow
+                | Token::LParen
+                | Token::Bang
+                | Token::Caret
+                | Token::LogicalOr
+                | Token::LogicalAnd
+                | Token::NullishCoalescing
+        )
+    }
+
     pub(super) fn can_start_ts_type_args_fast(&mut self) -> bool {
         self.input().is(Token::Lt)
             && self.token_look_ahead(|p| {
@@ -5561,21 +5582,7 @@ impl<I: Tokens> Parser<I> {
                     return true;
                 }
 
-                !peek!(p).is_some_and(|next| {
-                    matches!(
-                        next,
-                        Token::Plus
-                            | Token::Minus
-                            | Token::Asterisk
-                            | Token::Slash
-                            | Token::Percent
-                            | Token::Eq
-                            | Token::Colon
-                            | Token::QuestionMark
-                            | Token::Arrow
-                            | Token::LParen
-                    )
-                })
+                !peek!(p).is_some_and(Self::is_invalid_simple_type_continuation)
             })
     }
 
@@ -5662,18 +5669,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 !peek!(p).is_some_and(|next| {
-                    matches!(
-                        next,
-                        Token::Plus
-                            | Token::Minus
-                            | Token::Asterisk
-                            | Token::Slash
-                            | Token::Percent
-                            | Token::Eq
-                            | Token::Colon
-                            | Token::QuestionMark
-                            | Token::LParen
-                    )
+                    Self::is_invalid_simple_type_continuation(next) && next != Token::Arrow
                 })
             })
     }
@@ -6607,7 +6603,18 @@ mod tests {
 
     #[test]
     fn ts_type_or_type_predicate_ann_guard_filters_non_type_starts() {
-        for src in [": )", ": =>", ": number + 1", ": foo: bar", ": foo(bar)"] {
+        for src in [
+            ": )",
+            ": =>",
+            ": number + 1",
+            ": foo: bar",
+            ": foo(bar)",
+            ": foo!",
+            ": foo ^ bar",
+            ": foo && bar",
+            ": foo || bar",
+            ": foo ?? bar",
+        ] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Typescript(Default::default()),
@@ -6686,6 +6693,11 @@ mod tests {
             "<T = U>()",
             "<T: U>()",
             "<T =>()",
+            "<T!>()",
+            "<T ^ U>()",
+            "<T && U>()",
+            "<T || U>()",
+            "<T ?? U>()",
             "<1 + 2>()",
             "<\"x\" + 1>()",
             "<true ? T : U>()",
