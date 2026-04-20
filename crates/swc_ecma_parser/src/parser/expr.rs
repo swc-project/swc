@@ -100,15 +100,11 @@ impl<I: Tokens> Parser<I> {
                 p.try_parse_ts(|p| {
                     let type_parameters = p.parse_ts_type_params(false, true)?;
 
-                    if p.input().syntax().flow() && !p.input().is(Token::LParen) {
+                    if !p.input().is(Token::LParen) {
                         return Ok(None);
                     }
 
-                    let mut arrow = if p.input().syntax().flow() {
-                        p.parse_paren_expr_or_arrow_fn(true, None)?
-                    } else {
-                        p.parse_assignment_expr_base()?
-                    };
+                    let mut arrow = p.parse_paren_expr_or_arrow_fn(true, None)?;
                     match *arrow {
                         Expr::Arrow(ArrowExpr {
                             ref mut span,

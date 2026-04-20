@@ -1849,6 +1849,15 @@ fn ts_async_generic_arrow_still_parses() {
 }
 
 #[test]
+fn ts_generic_arrow_probe_still_allows_type_assertion_paren_expr() {
+    let actual = test_parser("<T>(foo)", Syntax::Typescript(Default::default()), |p| {
+        p.parse_expr()
+    });
+
+    assert!(matches!(*actual, Expr::TsTypeAssertion(..)));
+}
+
+#[test]
 fn ts_async_generic_arrow_with_const_modifier_still_parses_in_tsx() {
     let actual = test_parser(
         "async <const T,>() => foo",
