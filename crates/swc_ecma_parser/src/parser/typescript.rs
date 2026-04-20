@@ -431,7 +431,10 @@ impl<I: Tokens> Parser<I> {
         match self.input().cur() {
             Token::Interface => peek!(self).is_some_and(|peek| peek == Token::LBrace),
             cur if cur.is_word() => {
-                peek!(self).is_some_and(|peek| matches!(peek, Token::Lt | Token::LShift))
+                // `Foo.Bar` and `Foo<T>` cannot be fallback bindings, so they
+                // are safe to parse directly as types.
+                peek!(self)
+                    .is_some_and(|peek| matches!(peek, Token::Lt | Token::LShift | Token::Dot))
             }
             // Component rest fallback bindings can only start with identifiers,
             // object patterns, or array patterns, so a parenthesized type is
@@ -3408,7 +3411,9 @@ impl<I: Tokens> Parser<I> {
             return peek!(self).is_some_and(|peek| peek == Token::LBrace);
         }
 
-        cur.is_word() && peek!(self).is_some_and(|peek| peek == Token::Lt || peek == Token::LShift)
+        cur.is_word()
+            && peek!(self)
+                .is_some_and(|peek| matches!(peek, Token::Lt | Token::LShift | Token::Dot))
     }
 
     fn can_direct_parse_flow_anon_signature_param_type(&mut self) -> bool {
@@ -3417,7 +3422,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input().cur().is_word() {
-            return peek!(self).is_some_and(|peek| matches!(peek, Token::Lt | Token::LShift));
+            return peek!(self)
+                .is_some_and(|peek| matches!(peek, Token::Lt | Token::LShift | Token::Dot));
         }
 
         matches!(
@@ -6863,6 +6869,7 @@ mod tests {
             "string",
             "number",
             "(string)",
+            "Foo.Bar",
             "typeof Foo",
             "interface {}",
             "Rest<T>",
@@ -7025,6 +7032,50 @@ mod tests {
                     },
                     ..
                 }] if matches!(&*type_ann.type_ann, TsType::TsParenthesizedType(..))
+            ));
+            assert!(parser.take_errors().is_empty());
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_component_rest_type_still_parses_qualified_types_without_checkpoint() {
+        crate::with_test_sess("(...Foo.Bar)", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            let params = parser
+                .parse_flow_component_params(false, false, true)
+                .unwrap();
+
+            assert!(matches!(
+                params.as_slice(),
+                [FlowComponentParam::Rest {
+                    rest: RestPat {
+                        type_ann: Some(type_ann),
+                        ..
+                    },
+                    ..
+                }] if matches!(
+                    &*type_ann.type_ann,
+                    TsType::TsTypeRef(TsTypeRef {
+                        type_name: TsEntityName::TsQualifiedName(qualified),
+                        ..
+                    }) if matches!(qualified.left, TsEntityName::Ident(Ident { ref sym, .. }) if sym == "Foo")
+                        && qualified.right.sym == atom!("Bar")
+                )
             ));
             assert!(parser.take_errors().is_empty());
 
@@ -7688,6 +7739,7 @@ mod tests {
             "string",
             "(string)",
             "...string",
+            "Foo.Bar",
             "typeof Foo",
             "?Foo",
             "Foo<T>",
@@ -8028,6 +8080,43 @@ mod tests {
                 type_ann: Some(type_ann),
                 ..
             }) if matches!(&*type_ann.type_ann, TsType::TsParenthesizedType(..))
+        ));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_fn_type_anon_qualified_param_still_parses() {
+        let actual = test_parser(
+            "type T = (Foo.Bar) => void;",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(fn_type)) =
+            &*alias.type_ann
+        else {
+            panic!("expected function type");
+        };
+
+        assert!(matches!(
+            &fn_type.params[0],
+            TsFnParam::Ident(BindingIdent {
+                type_ann: Some(type_ann),
+                ..
+            }) if matches!(
+                &*type_ann.type_ann,
+                TsType::TsTypeRef(TsTypeRef {
+                    type_name: TsEntityName::TsQualifiedName(qualified),
+                    ..
+                }) if matches!(qualified.left, TsEntityName::Ident(Ident { ref sym, .. }) if sym == "Foo")
+                    && qualified.right.sym == atom!("Bar")
+            )
         ));
     }
 }
