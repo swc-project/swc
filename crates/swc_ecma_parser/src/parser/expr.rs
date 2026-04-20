@@ -1102,14 +1102,16 @@ impl<I: Tokens> Parser<I> {
 
                 let result = self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
                     p.try_parse_ts(|p| {
-                        if !no_call && p.at_possible_async(&callee) {
+                        if !no_call
+                            && p.at_possible_async(&callee)
+                            && p.can_start_ts_generic_async_arrow_type_params()
+                        {
                             // Almost certainly this is a generic async function `async <T>() =>
                             // ... But it might be a call with a
                             // type argument `async<T>();`
-                            let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
-                            if let Some(async_arrow_fn) = async_arrow_fn {
-                                return Ok(Some((async_arrow_fn.into(), true)));
-                            }
+                            let async_arrow_fn =
+                                p.parse_ts_generic_async_arrow_fn_after_guard(start)?;
+                            return Ok(Some((async_arrow_fn.into(), true)));
                         }
 
                         let type_args = p.parse_ts_type_args()?;
@@ -2809,7 +2811,8 @@ impl<I: Tokens> Parser<I> {
             if let Some(res) = self.try_parse_ts(|p| {
                 let start = p.cur_pos();
                 p.assert_and_bump(Token::Async);
-                p.try_parse_ts_generic_async_arrow_fn(start)
+                p.parse_ts_generic_async_arrow_fn_after_guard(start)
+                    .map(Some)
             }) {
                 return Some(Ok(res.into()));
             }

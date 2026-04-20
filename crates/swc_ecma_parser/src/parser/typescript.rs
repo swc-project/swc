@@ -5898,19 +5898,10 @@ impl<I: Tokens> Parser<I> {
         Ok(None)
     }
 
-    /// `tsTryParseGenericAsyncArrowFunction`
-    pub(crate) fn try_parse_ts_generic_async_arrow_fn(
+    pub(super) fn parse_ts_generic_async_arrow_fn_after_guard(
         &mut self,
         start: BytePos,
-    ) -> PResult<Option<ArrowExpr>> {
-        if !cfg!(feature = "typescript") {
-            return Ok(Default::default());
-        }
-
-        if !self.can_start_ts_generic_async_arrow_type_params() {
-            return Ok(None);
-        }
-
+    ) -> PResult<ArrowExpr> {
         let type_params = self.parse_ts_type_params(false, false)?;
 
         // Callers already wrap this path in a speculative checkpoint, and the
@@ -5937,7 +5928,7 @@ impl<I: Tokens> Parser<I> {
                     true,
                     params.is_simple_parameter_list(),
                 )?;
-                Ok(Some(ArrowExpr {
+                Ok(ArrowExpr {
                     span: p.span(start),
                     body,
                     is_async,
@@ -5946,7 +5937,7 @@ impl<I: Tokens> Parser<I> {
                     params,
                     return_type,
                     ..Default::default()
-                }))
+                })
             })
         })
     }
