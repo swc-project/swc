@@ -5377,6 +5377,21 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn can_probe_ts_named_decl_after_keyword(&mut self, allowed_follow: &[Token]) -> bool {
+        self.token_look_ahead(|p| {
+            p.bump();
+
+            if !p.input().cur().is_word() {
+                return false;
+            }
+
+            p.bump();
+            p.input().is(Token::Eof)
+                || p.input().is(Token::Error)
+                || allowed_follow.contains(&p.input().cur())
+        })
+    }
+
     fn can_probe_flow_hook_decl_after_keyword(&mut self) -> bool {
         self.token_look_ahead(|p| {
             if p.input().cur() == Token::Function {
@@ -5552,17 +5567,24 @@ impl<I: Tokens> Parser<I> {
 
         match &**value {
             "abstract" => peek!(self).is_some_and(|peek| peek == Token::Class),
-            "interface" | "namespace" | "type" => peek!(self).is_some_and(|peek| peek.is_word()),
-            "enum" => peek!(self).is_some_and(|peek| peek.is_word()),
-            "module" => peek!(self).is_some_and(|peek| {
-                peek == Token::Str
-                    || peek == Token::Eof
-                    || peek == Token::Error
-                    || peek.is_word()
-                    || (self.input().syntax().flow()
-                        && self.ctx().contains(Context::InDeclare)
-                        && peek == Token::Dot)
-            }),
+            "interface" => self.can_probe_ts_named_decl_after_keyword(&[
+                Token::Lt,
+                Token::Extends,
+                Token::LBrace,
+            ]),
+            "namespace" => self.can_probe_ts_named_decl_after_keyword(&[Token::Dot, Token::LBrace]),
+            "type" => self.can_probe_ts_named_decl_after_keyword(&[Token::Lt, Token::Eq]),
+            "enum" => self.can_probe_ts_named_decl_after_keyword(&[Token::LBrace]),
+            "module" => {
+                peek!(self).is_some_and(|peek| {
+                    peek == Token::Str
+                        || peek == Token::Eof
+                        || peek == Token::Error
+                        || (self.input().syntax().flow()
+                            && self.ctx().contains(Context::InDeclare)
+                            && peek == Token::Dot)
+                }) || self.can_probe_ts_named_decl_after_keyword(&[Token::Dot, Token::LBrace])
+            }
             "opaque" => {
                 !self.input_mut().has_linebreak_between_cur_and_peeked()
                     && peek!(self).is_some_and(|peek| peek == Token::Type)
@@ -6094,6 +6116,59 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+
+    #[test]
+    fn ts_named_decl_probe_guards_filter_non_declaration_shapes() {
+        for (src, keyword) in [
+            ("type Foo + 1", atom!("type")),
+            ("interface Foo + 1", atom!("interface")),
+            ("enum Foo + 1", atom!("enum")),
+            ("namespace Foo + 1", atom!("namespace")),
+            ("module Foo + 1", atom!("module")),
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_probe_ts_decl_from_word(&keyword));
+                assert!(parser.input().cur().is_word());
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_named_decl_probe_guards_keep_valid_declaration_shapes() {
+        for (src, keyword) in [
+            ("type Foo = Bar", atom!("type")),
+            ("interface Foo {}", atom!("interface")),
+            ("enum Foo {}", atom!("enum")),
+            ("namespace Foo {}", atom!("namespace")),
+            ("module Foo {}", atom!("module")),
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.can_probe_ts_decl_from_word(&keyword));
+
+                Ok(())
+            })
+            .unwrap();
+        }
     }
 
     #[cfg(feature = "flow")]
