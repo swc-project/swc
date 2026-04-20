@@ -16,6 +16,16 @@ pub(crate) enum AssignTargetOrSpread {
     Pat(Pat),
 }
 
+fn paren_items_are_simple_params(items: &[AssignTargetOrSpread]) -> bool {
+    items.iter().all(|item| match item {
+        AssignTargetOrSpread::Pat(Pat::Ident(..)) => true,
+        AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { spread: None, expr }) => {
+            matches!(expr.as_ref(), Expr::Ident(..))
+        }
+        _ => false,
+    })
+}
+
 impl<I: Tokens> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
@@ -2336,9 +2346,8 @@ impl<I: Tokens> Parser<I> {
             && self.ctx().contains(Context::InCondExpr)
             && self.can_start_ts_type_or_type_predicate_ann_fast(Token::Colon)
         {
-            // TODO: Remove clone
-            let items_ref = &paren_items;
-            if let Some(expr) = self.try_parse_ts(|p| {
+            let is_simple_parameter_list = paren_items_are_simple_params(&paren_items);
+            if let Some((return_type, body)) = self.try_parse_ts(|p| {
                 let return_type = if p.input().syntax().flow() {
                     p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
                         p.parse_ts_type_or_type_predicate_ann(Token::Colon)
@@ -2349,14 +2358,11 @@ impl<I: Tokens> Parser<I> {
 
                 expect!(p, Token::Arrow);
 
-                let params: Vec<Pat> =
-                    p.parse_paren_items_as_params(items_ref.clone(), trailing_comma)?;
-
                 let body: Box<BlockStmtOrExpr> = p.parse_fn_block_or_expr_body(
                     async_span.is_some(),
                     false,
                     true,
-                    params.is_simple_parameter_list(),
+                    is_simple_parameter_list,
                 )?;
 
                 if will_expect_colon_for_cond && !p.input().is(Token::Colon) {
@@ -2364,20 +2370,19 @@ impl<I: Tokens> Parser<I> {
                     unexpected!(p, "fail")
                 }
 
-                Ok(Some(
-                    ArrowExpr {
-                        span: p.span(expr_start),
-                        is_async: async_span.is_some(),
-                        is_generator: false,
-                        params,
-                        body,
-                        return_type: Some(return_type),
-                        ..Default::default()
-                    }
-                    .into(),
-                ))
+                Ok(Some((return_type, body)))
             }) {
-                return Ok(expr);
+                let params = self.parse_paren_items_as_params(paren_items, trailing_comma)?;
+
+                return Ok(Box::new(Expr::Arrow(ArrowExpr {
+                    span: self.span(expr_start),
+                    is_async: async_span.is_some(),
+                    is_generator: false,
+                    params,
+                    body,
+                    return_type: Some(return_type),
+                    ..Default::default()
+                })));
             }
         }
 

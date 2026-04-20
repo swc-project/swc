@@ -1989,6 +1989,35 @@ fn ts_typed_arrow_still_parses() {
 }
 
 #[test]
+fn ts_typed_arrow_in_conditional_still_parses() {
+    let actual = test_parser(
+        "true ? (foo): number => foo : bar",
+        Syntax::Typescript(Default::default()),
+        |p| p.parse_expr(),
+    );
+
+    let Expr::Cond(CondExpr { cons, alt, .. }) = *actual else {
+        panic!("expected conditional expression");
+    };
+
+    let Expr::Arrow(ArrowExpr {
+        params,
+        return_type,
+        ..
+    }) = *cons
+    else {
+        panic!("expected arrow consequent");
+    };
+
+    assert_eq!(params.len(), 1);
+    assert!(matches!(
+        return_type.as_deref(),
+        Some(TsTypeAnn { type_ann, .. }) if matches!(&**type_ann, TsType::TsKeywordType(..))
+    ));
+    assert!(matches!(*alt, Expr::Ident(..)));
+}
+
+#[test]
 fn object_rest_pat() {
     assert_eq_ignore_span!(
         expr("({ ...a34 }) => {}"),
