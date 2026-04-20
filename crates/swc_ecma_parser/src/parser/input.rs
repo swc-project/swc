@@ -6,7 +6,7 @@ use crate::{
     error::Error,
     lexer::{
         FastToken, FastTokenAndValue, LexResult, SharedTokenValue, Token, TokenAndSpan, TokenFlags,
-        TokenValue,
+        TokenValue, TokenValueCell,
     },
     syntax::SyntaxFlags,
     Context,
@@ -63,11 +63,22 @@ pub trait Tokens: Clone {
     fn set_current_token_type(&mut self, token: Token);
 
     fn clone_token_value(&self) -> Option<TokenValue>;
+    fn take_token_value_cell(&mut self) -> Option<TokenValueCell> {
+        self.take_token_value_shared()
+            .map(TokenValueCell::new_shared)
+    }
     fn take_token_value_shared(&mut self) -> Option<SharedTokenValue> {
         self.take_token_value().map(SharedTokenValue::new)
     }
     fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
+    fn set_token_value_cell(&mut self, token_value: Option<TokenValueCell>) {
+        match token_value {
+            Some(TokenValueCell::Owned(value)) => self.set_token_value(Some(value)),
+            Some(TokenValueCell::Shared(value)) => self.set_token_value_shared(Some(value)),
+            None => self.set_token_value(None),
+        }
+    }
     fn set_token_value_shared(&mut self, token_value: Option<SharedTokenValue>) {
         self.set_token_value(token_value.map(SharedTokenValue::into_owned));
     }
@@ -95,24 +106,24 @@ pub trait Tokens: Clone {
 
     #[inline(always)]
     fn first_token_fast(&mut self) -> FastTokenAndValue {
-        FastTokenAndValue::new(self.first_token().into(), self.take_token_value_shared())
+        FastTokenAndValue::new(self.first_token().into(), self.take_token_value_cell())
     }
 
     #[inline(always)]
     fn next_token_fast(&mut self) -> FastTokenAndValue {
-        FastTokenAndValue::new(self.next_token().into(), self.take_token_value_shared())
+        FastTokenAndValue::new(self.next_token().into(), self.take_token_value_cell())
     }
 
     #[inline(always)]
     fn scan_jsx_token_fast(&mut self) -> FastTokenAndValue {
-        FastTokenAndValue::new(self.scan_jsx_token().into(), self.take_token_value_shared())
+        FastTokenAndValue::new(self.scan_jsx_token().into(), self.take_token_value_cell())
     }
 
     #[inline(always)]
     fn scan_jsx_open_el_terminal_token_fast(&mut self) -> FastTokenAndValue {
         FastTokenAndValue::new(
             self.scan_jsx_open_el_terminal_token().into(),
-            self.take_token_value_shared(),
+            self.take_token_value_cell(),
         )
     }
 
@@ -120,7 +131,7 @@ pub trait Tokens: Clone {
     fn rescan_jsx_open_el_terminal_token_fast(&mut self, reset: BytePos) -> FastTokenAndValue {
         FastTokenAndValue::new(
             self.rescan_jsx_open_el_terminal_token(reset).into(),
-            self.take_token_value_shared(),
+            self.take_token_value_cell(),
         )
     }
 
@@ -128,7 +139,7 @@ pub trait Tokens: Clone {
     fn rescan_jsx_token_fast(&mut self, reset: BytePos) -> FastTokenAndValue {
         FastTokenAndValue::new(
             self.rescan_jsx_token(reset).into(),
-            self.take_token_value_shared(),
+            self.take_token_value_cell(),
         )
     }
 
@@ -136,7 +147,7 @@ pub trait Tokens: Clone {
     fn scan_jsx_identifier_fast(&mut self, start: BytePos) -> FastTokenAndValue {
         FastTokenAndValue::new(
             self.scan_jsx_identifier(start).into(),
-            self.take_token_value_shared(),
+            self.take_token_value_cell(),
         )
     }
 
@@ -144,7 +155,7 @@ pub trait Tokens: Clone {
     fn scan_jsx_attribute_value_fast(&mut self) -> FastTokenAndValue {
         FastTokenAndValue::new(
             self.scan_jsx_attribute_value().into(),
-            self.take_token_value_shared(),
+            self.take_token_value_cell(),
         )
     }
 
@@ -157,7 +168,7 @@ pub trait Tokens: Clone {
         FastTokenAndValue::new(
             self.rescan_template_token(start, start_with_back_tick)
                 .into(),
-            self.take_token_value_shared(),
+            self.take_token_value_cell(),
         )
     }
 }
@@ -165,7 +176,7 @@ pub trait Tokens: Clone {
 #[derive(Clone)]
 pub(crate) struct BufferedNextToken {
     token_and_span: FastToken,
-    value: Option<SharedTokenValue>,
+    value: Option<TokenValueCell>,
 }
 
 impl BufferedNextToken {
@@ -179,8 +190,17 @@ impl BufferedNextToken {
     }
 
     #[inline(always)]
-    fn into_parts(self) -> (FastToken, Option<SharedTokenValue>) {
+    fn into_parts(self) -> (FastToken, Option<TokenValueCell>) {
         (self.token_and_span, self.value)
+    }
+
+    #[cfg(feature = "typescript")]
+    #[inline(always)]
+    fn checkpoint_clone(&self) -> Self {
+        Self {
+            token_and_span: self.token_and_span,
+            value: self.value.as_ref().map(TokenValueCell::checkpoint_clone),
+        }
     }
 
     #[inline(always)]
@@ -206,7 +226,7 @@ pub struct Buffer<I> {
     /// Span of the previous token.
     pub prev_span: Span,
     pub(crate) cur: FastToken,
-    cur_value: Option<SharedTokenValue>,
+    cur_value: Option<TokenValueCell>,
     /// Peeked token
     next: Option<BufferedNextToken>,
 }
@@ -220,7 +240,7 @@ pub struct BufferCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
     prev_span: Span,
     cur: FastToken,
-    cur_value: Option<SharedTokenValue>,
+    cur_value: Option<TokenValueCell>,
     next: Option<BufferedNextToken>,
 }
 
@@ -289,23 +309,23 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn get_token_value(&self) -> Option<&TokenValue> {
-        self.cur_value.as_ref().map(SharedTokenValue::as_ref)
+        self.cur_value.as_ref().map(TokenValueCell::as_ref)
     }
 
     fn take_cur_value(&mut self) -> Option<TokenValue> {
-        self.cur_value.take().map(SharedTokenValue::into_owned)
+        self.cur_value.take().map(TokenValueCell::into_owned)
     }
 
     #[inline(always)]
     fn take_cur_shared_value(&mut self) -> Option<SharedTokenValue> {
-        self.cur_value.take()
+        self.cur_value.take().map(TokenValueCell::into_shared)
     }
 
     pub fn scan_jsx_token(&mut self) {
         let prev = self.cur;
         let (t, value) = self.iter.scan_jsx_token_fast().into_parts();
         self.prev_span = prev.span;
-        self.set_cur_with_shared_value(t, value);
+        self.set_cur_with_token_value_cell(t, value);
     }
 
     #[allow(unused)]
@@ -316,7 +336,7 @@ impl<I: Tokens> Buffer<I> {
             .scan_jsx_open_el_terminal_token_fast()
             .into_parts();
         self.prev_span = prev.span;
-        self.set_cur_with_shared_value(t, value);
+        self.set_cur_with_token_value_cell(t, value);
     }
 
     pub fn rescan_jsx_open_el_terminal_token(&mut self) {
@@ -329,13 +349,13 @@ impl<I: Tokens> Buffer<I> {
             .iter
             .rescan_jsx_open_el_terminal_token_fast(start)
             .into_parts();
-        self.set_cur_with_shared_value(t, value);
+        self.set_cur_with_token_value_cell(t, value);
     }
 
     pub fn rescan_jsx_token(&mut self) {
         let start = self.cur.span.lo;
         let (t, value) = self.iter.rescan_jsx_token_fast(start).into_parts();
-        self.set_cur_with_shared_value(t, value);
+        self.set_cur_with_token_value_cell(t, value);
     }
 
     pub fn scan_jsx_identifier(&mut self) {
@@ -348,12 +368,12 @@ impl<I: Tokens> Buffer<I> {
         self.iter.set_token_value_shared(current_value);
         let (cur, value) = self.iter.scan_jsx_identifier_fast(start).into_parts();
         debug_assert!(cur.token == Token::JSXName);
-        self.set_cur_with_shared_value(cur, value);
+        self.set_cur_with_token_value_cell(cur, value);
     }
 
     pub fn scan_jsx_attribute_value(&mut self) {
         let (cur, value) = self.iter.scan_jsx_attribute_value_fast().into_parts();
-        self.set_cur_with_shared_value(cur, value);
+        self.set_cur_with_token_value_cell(cur, value);
     }
 
     pub fn rescan_template_token(&mut self, start_with_back_tick: bool) {
@@ -362,7 +382,7 @@ impl<I: Tokens> Buffer<I> {
             .iter
             .rescan_template_token_fast(start, start_with_back_tick)
             .into_parts();
-        self.set_cur_with_shared_value(cur, value);
+        self.set_cur_with_token_value_cell(cur, value);
     }
 }
 
@@ -391,14 +411,14 @@ impl<I: Tokens> Buffer<I> {
         value: Option<TokenValue>,
     ) {
         self.cur = token.into();
-        self.cur_value = value.map(SharedTokenValue::new);
+        self.cur_value = value.map(TokenValueCell::new_owned);
     }
 
     #[inline(always)]
-    pub(crate) fn set_cur_with_shared_value(
+    pub(crate) fn set_cur_with_token_value_cell(
         &mut self,
         token: impl Into<FastToken>,
-        value: Option<SharedTokenValue>,
+        value: Option<TokenValueCell>,
     ) {
         self.cur = token.into();
         self.cur_value = value;
@@ -468,7 +488,7 @@ impl<I: Tokens> Buffer<I> {
     pub fn first_bump(&mut self) {
         let (first_token, first_value) = self.iter.first_token_fast().into_parts();
         self.prev_span = self.cur.span;
-        self.set_cur_with_shared_value(first_token, first_value);
+        self.set_cur_with_token_value_cell(first_token, first_value);
     }
 
     pub fn bump(&mut self) {
@@ -655,8 +675,11 @@ impl<I: Tokens> Buffer<I> {
             lexer: self.iter.checkpoint_save(),
             prev_span: self.prev_span,
             cur: self.cur,
-            cur_value: self.cur_value.clone(),
-            next: self.next.clone(),
+            cur_value: self
+                .cur_value
+                .as_ref()
+                .map(TokenValueCell::checkpoint_clone),
+            next: self.next.as_ref().map(BufferedNextToken::checkpoint_clone),
         }
     }
 
@@ -671,12 +694,17 @@ impl<I: Tokens> Buffer<I> {
 
     #[cfg(test)]
     pub fn cur_value_ref_count(&self) -> Option<usize> {
-        self.cur_value.as_ref().map(SharedTokenValue::strong_count)
+        self.cur_value
+            .as_ref()
+            .and_then(TokenValueCell::strong_count)
     }
 
     #[cfg(test)]
-    pub(crate) fn clone_cur_value_handle(&self) -> Option<SharedTokenValue> {
-        self.cur_value.clone()
+    pub(crate) fn clone_cur_value_handle(&mut self) -> Option<SharedTokenValue> {
+        let value = self.cur_value.take()?;
+        let shared = value.into_shared();
+        self.cur_value = Some(TokenValueCell::new_shared(shared.clone()));
+        Some(shared)
     }
 
     #[cfg(test)]
@@ -684,7 +712,7 @@ impl<I: Tokens> Buffer<I> {
         self.next
             .as_ref()
             .and_then(|token| token.value.as_ref())
-            .map(SharedTokenValue::strong_count)
+            .and_then(TokenValueCell::strong_count)
     }
 
     #[inline]

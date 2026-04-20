@@ -14,7 +14,10 @@ use crate::{
         comments_buffer::{BufferedCommentKind, CommentsBufferCheckpoint},
         search::SafeByteMatchTable,
         source::FastSourceCheckpoint,
-        token::{FastToken, FastTokenAndValue, SharedTokenValue, Token, TokenAndSpan, TokenValue},
+        token::{
+            FastToken, FastTokenAndValue, SharedTokenValue, Token, TokenAndSpan, TokenValue,
+            TokenValueCell,
+        },
         LexResult,
     },
     safe_byte_match_table,
@@ -41,7 +44,7 @@ pub struct State {
     pub next_regexp: Option<BytePos>,
     pub prev_hi: BytePos,
 
-    pub(super) token_value: Option<SharedTokenValue>,
+    pub(super) token_value: Option<TokenValueCell>,
     token_type: Option<Token>,
 }
 
@@ -95,7 +98,7 @@ impl crate::input::Tokens for Lexer<'_> {
 
     fn checkpoint_save(&self) -> LexerCheckpoint {
         LexerCheckpoint {
-            state: self.state.clone(),
+            state: self.state.checkpoint_clone(),
             ctx: self.ctx,
             source: self.input.checkpoint_save(),
             comments_buffer: self
@@ -213,31 +216,41 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     #[inline]
-    fn take_token_value_shared(&mut self) -> Option<SharedTokenValue> {
+    fn take_token_value_cell(&mut self) -> Option<TokenValueCell> {
         self.state.token_value.take()
     }
 
-    fn get_token_value(&self) -> Option<&TokenValue> {
+    #[inline]
+    fn take_token_value_shared(&mut self) -> Option<SharedTokenValue> {
         self.state
             .token_value
-            .as_ref()
-            .map(SharedTokenValue::as_ref)
+            .take()
+            .map(TokenValueCell::into_shared)
+    }
+
+    fn get_token_value(&self) -> Option<&TokenValue> {
+        self.state.token_value.as_ref().map(TokenValueCell::as_ref)
+    }
+
+    #[inline]
+    fn set_token_value_cell(&mut self, token_value: Option<TokenValueCell>) {
+        self.state.token_value = token_value;
     }
 
     #[inline]
     fn set_token_value_shared(&mut self, token_value: Option<SharedTokenValue>) {
-        self.state.token_value = token_value;
+        self.state.token_value = token_value.map(TokenValueCell::new_shared);
     }
 
     fn set_token_value(&mut self, token_value: Option<TokenValue>) {
-        self.state.token_value = token_value.map(SharedTokenValue::new);
+        self.state.token_value = token_value.map(TokenValueCell::new_owned);
     }
 
     fn take_token_value(&mut self) -> Option<TokenValue> {
         self.state
             .token_value
             .take()
-            .map(SharedTokenValue::into_owned)
+            .map(TokenValueCell::into_owned)
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
@@ -461,10 +474,7 @@ impl Lexer<'_> {
             self.atom(prefix)
         } else {
             debug_assert!(matches!(
-                self.state
-                    .token_value
-                    .as_ref()
-                    .map(SharedTokenValue::as_ref),
+                self.state.token_value.as_ref().map(TokenValueCell::as_ref),
                 Some(TokenValue::Word(_))
             ));
 
@@ -828,13 +838,27 @@ impl State {
         }
     }
 
+    #[inline(always)]
+    fn checkpoint_clone(&self) -> Self {
+        Self {
+            had_line_break: self.had_line_break,
+            next_regexp: self.next_regexp,
+            prev_hi: self.prev_hi,
+            token_value: self
+                .token_value
+                .as_ref()
+                .map(TokenValueCell::checkpoint_clone),
+            token_type: self.token_type,
+        }
+    }
+
     pub(crate) fn set_token_value(&mut self, token_value: TokenValue) {
-        self.token_value = Some(SharedTokenValue::new(token_value));
+        self.token_value = Some(TokenValueCell::new_owned(token_value));
     }
 
     #[inline(always)]
     pub(crate) fn word_token_value(&self) -> Option<&Atom> {
-        match self.token_value.as_ref().map(SharedTokenValue::as_ref) {
+        match self.token_value.as_ref().map(TokenValueCell::as_ref) {
             Some(TokenValue::Word(value)) => Some(value),
             _ => None,
         }
@@ -847,7 +871,7 @@ impl Lexer<'_> {
         self.state
             .token_value
             .as_ref()
-            .map(SharedTokenValue::strong_count)
+            .and_then(TokenValueCell::strong_count)
     }
 }
 

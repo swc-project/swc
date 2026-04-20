@@ -68,6 +68,75 @@ impl SharedTokenValue {
     }
 }
 
+/// Token payload storage optimized for the common linear parse path.
+///
+/// Most tokens do not survive speculative checkpoints, so we keep their
+/// payloads owned by default and only promote them to shared storage when a
+/// parser or lexer checkpoint needs a cheap clone.
+#[derive(Clone, Debug)]
+pub(crate) enum TokenValueCell {
+    Owned(TokenValue),
+    Shared(SharedTokenValue),
+}
+
+impl TokenValueCell {
+    #[inline(always)]
+    pub(crate) fn new_owned(value: TokenValue) -> Self {
+        Self::Owned(value)
+    }
+
+    #[inline(always)]
+    pub(crate) fn new_shared(value: SharedTokenValue) -> Self {
+        Self::Shared(value)
+    }
+
+    #[inline(always)]
+    pub(crate) fn as_ref(&self) -> &TokenValue {
+        match self {
+            Self::Owned(value) => value,
+            Self::Shared(value) => value.as_ref(),
+        }
+    }
+
+    #[inline(always)]
+    pub(crate) fn into_owned(self) -> TokenValue {
+        match self {
+            Self::Owned(value) => value,
+            Self::Shared(value) => value.into_owned(),
+        }
+    }
+
+    #[inline(always)]
+    pub(crate) fn into_shared(self) -> SharedTokenValue {
+        match self {
+            Self::Owned(value) => SharedTokenValue::new(value),
+            Self::Shared(value) => value,
+        }
+    }
+
+    #[inline(always)]
+    pub(crate) fn share(&self) -> SharedTokenValue {
+        match self {
+            Self::Owned(value) => SharedTokenValue::new(value.clone()),
+            Self::Shared(value) => value.clone(),
+        }
+    }
+
+    #[inline(always)]
+    pub(crate) fn checkpoint_clone(&self) -> Self {
+        Self::Shared(self.share())
+    }
+
+    #[cfg(test)]
+    #[inline(always)]
+    pub(crate) fn strong_count(&self) -> Option<usize> {
+        match self {
+            Self::Owned(_) => None,
+            Self::Shared(value) => Some(value.strong_count()),
+        }
+    }
+}
+
 #[derive(Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum Token {
@@ -953,17 +1022,17 @@ impl FastToken {
 #[derive(Clone, Debug)]
 pub(crate) struct FastTokenAndValue {
     pub token: FastToken,
-    pub value: Option<SharedTokenValue>,
+    pub value: Option<TokenValueCell>,
 }
 
 impl FastTokenAndValue {
     #[inline(always)]
-    pub(crate) fn new(token: FastToken, value: Option<SharedTokenValue>) -> Self {
+    pub(crate) fn new(token: FastToken, value: Option<TokenValueCell>) -> Self {
         Self { token, value }
     }
 
     #[inline(always)]
-    pub(crate) fn into_parts(self) -> (FastToken, Option<SharedTokenValue>) {
+    pub(crate) fn into_parts(self) -> (FastToken, Option<TokenValueCell>) {
         (self.token, self.value)
     }
 }

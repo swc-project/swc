@@ -50,7 +50,7 @@ mod whitespace;
 
 pub(crate) use state::TokenFlags;
 pub(crate) use token::{
-    FastToken, FastTokenAndValue, SharedTokenValue, Token, TokenAndSpan, TokenValue,
+    FastToken, FastTokenAndValue, SharedTokenValue, Token, TokenAndSpan, TokenValue, TokenValueCell,
 };
 
 // ===== Byte match tables for comment scanning =====

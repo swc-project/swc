@@ -9,16 +9,19 @@ use super::*;
 #[cfg(feature = "flow")]
 use crate::FlowSyntax;
 use crate::{
-    lexer::{FastToken, FastTokenAndValue, SharedTokenValue, TokenAndSpan, TokenFlags, TokenValue},
+    lexer::{
+        FastToken, FastTokenAndValue, SharedTokenValue, TokenAndSpan, TokenFlags, TokenValue,
+        TokenValueCell,
+    },
     parse_file_as_expr, parse_file_as_module, Context, EsSyntax, SyntaxFlags, TsSyntax,
 };
 
 #[derive(Clone)]
 struct SharedOnlyTokens {
     ctx: Context,
-    tokens: Vec<(TokenAndSpan, Option<SharedTokenValue>)>,
+    tokens: Vec<(TokenAndSpan, Option<TokenValueCell>)>,
     idx: usize,
-    token_value: Option<SharedTokenValue>,
+    token_value: Option<TokenValueCell>,
     token_flags: TokenFlags,
     current_token_type: Option<Token>,
 }
@@ -29,7 +32,12 @@ impl SharedOnlyTokens {
             ctx: Context::empty(),
             tokens: tokens
                 .into_iter()
-                .map(|(token, value)| (token, value.map(SharedTokenValue::new)))
+                .map(|(token, value)| {
+                    (
+                        token,
+                        value.map(|value| TokenValueCell::new_shared(SharedTokenValue::new(value))),
+                    )
+                })
                 .collect(),
             idx: 0,
             token_value: None,
@@ -52,7 +60,7 @@ impl SharedOnlyTokens {
 impl crate::input::Tokens for SharedOnlyTokens {
     type Checkpoint = (
         usize,
-        Option<SharedTokenValue>,
+        Option<TokenValueCell>,
         Context,
         TokenFlags,
         Option<Token>,
@@ -81,7 +89,9 @@ impl crate::input::Tokens for SharedOnlyTokens {
     fn checkpoint_save(&self) -> Self::Checkpoint {
         (
             self.idx,
-            self.token_value.clone(),
+            self.token_value
+                .as_ref()
+                .map(TokenValueCell::checkpoint_clone),
             self.ctx,
             self.token_flags,
             self.current_token_type,
@@ -142,24 +152,32 @@ impl crate::input::Tokens for SharedOnlyTokens {
             .map(|value| value.as_ref().clone())
     }
 
-    fn take_token_value_shared(&mut self) -> Option<SharedTokenValue> {
+    fn take_token_value_cell(&mut self) -> Option<TokenValueCell> {
         self.token_value.take()
     }
 
+    fn take_token_value_shared(&mut self) -> Option<SharedTokenValue> {
+        self.token_value.take().map(TokenValueCell::into_shared)
+    }
+
     fn take_token_value(&mut self) -> Option<TokenValue> {
-        panic!("buffer should use shared token payload handoff")
+        self.token_value.take().map(TokenValueCell::into_owned)
     }
 
     fn get_token_value(&self) -> Option<&TokenValue> {
-        self.token_value.as_ref().map(SharedTokenValue::as_ref)
+        self.token_value.as_ref().map(TokenValueCell::as_ref)
     }
 
-    fn set_token_value_shared(&mut self, token_value: Option<SharedTokenValue>) {
+    fn set_token_value_cell(&mut self, token_value: Option<TokenValueCell>) {
         self.token_value = token_value;
     }
 
-    fn set_token_value(&mut self, _: Option<TokenValue>) {
-        panic!("buffer should use shared token payload handoff")
+    fn set_token_value_shared(&mut self, token_value: Option<SharedTokenValue>) {
+        self.token_value = token_value.map(TokenValueCell::new_shared);
+    }
+
+    fn set_token_value(&mut self, token_value: Option<TokenValue>) {
+        self.token_value = token_value.map(TokenValueCell::new_owned);
     }
 
     fn first_token(&mut self) -> TokenAndSpan {
@@ -823,7 +841,7 @@ fn buffer_checkpoint_restores_cur_and_peek_values() {
 }
 
 #[test]
-fn buffer_checkpoint_shares_token_payload_storage() {
+fn buffer_checkpoint_keeps_hot_path_payload_owned() {
     crate::with_test_sess("foo + bar", |_, input| {
         let lexer = crate::lexer::Lexer::new(
             Syntax::Es(EsSyntax {
@@ -837,15 +855,15 @@ fn buffer_checkpoint_shares_token_payload_storage() {
         let mut buffer = crate::parser::input::Buffer::new(lexer);
         buffer.first_bump();
         assert_eq!(buffer.peek(), Some(Token::Plus));
-        assert_eq!(buffer.cur_value_ref_count(), Some(1));
+        assert_eq!(buffer.cur_value_ref_count(), None);
         assert_eq!(buffer.next_value_ref_count(), None);
 
         let checkpoint = buffer.checkpoint_save();
-        assert_eq!(buffer.cur_value_ref_count(), Some(2));
+        assert_eq!(buffer.cur_value_ref_count(), None);
         assert_eq!(buffer.next_value_ref_count(), None);
 
         drop(checkpoint);
-        assert_eq!(buffer.cur_value_ref_count(), Some(1));
+        assert_eq!(buffer.cur_value_ref_count(), None);
 
         Ok(())
     })
@@ -853,7 +871,7 @@ fn buffer_checkpoint_shares_token_payload_storage() {
 }
 
 #[test]
-fn lexer_checkpoint_shares_token_payload_storage() {
+fn lexer_checkpoint_keeps_hot_path_payload_owned() {
     crate::with_test_sess("identifier", |_, input| {
         let mut lexer = crate::lexer::Lexer::new(
             Syntax::Es(EsSyntax::default()),
@@ -864,13 +882,13 @@ fn lexer_checkpoint_shares_token_payload_storage() {
 
         let first = crate::input::Tokens::first_token(&mut lexer);
         assert_eq!(first.token, Token::Ident);
-        assert_eq!(lexer.token_value_ref_count(), Some(1));
+        assert_eq!(lexer.token_value_ref_count(), None);
 
         let checkpoint = crate::input::Tokens::checkpoint_save(&lexer);
-        assert_eq!(lexer.token_value_ref_count(), Some(2));
+        assert_eq!(lexer.token_value_ref_count(), None);
 
         drop(checkpoint);
-        assert_eq!(lexer.token_value_ref_count(), Some(1));
+        assert_eq!(lexer.token_value_ref_count(), None);
 
         Ok(())
     })

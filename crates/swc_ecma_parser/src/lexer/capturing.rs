@@ -5,7 +5,7 @@ use swc_common::Span;
 use crate::{
     error::Error,
     input::Tokens,
-    lexer::{token::TokenAndSpan, FastTokenAndValue, Token, TokenFlags},
+    lexer::{token::TokenAndSpan, FastTokenAndValue, Token, TokenFlags, TokenValueCell},
     syntax::SyntaxFlags,
     Context,
 };
@@ -74,7 +74,7 @@ impl<I> Capturing<I> {
         I: Tokens,
     {
         let token = frame.token;
-        self.inner.set_token_value_shared(frame.value);
+        self.inner.set_token_value_cell(frame.value);
         token.into()
     }
 
@@ -185,6 +185,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.take_token_value_shared()
     }
 
+    fn take_token_value_cell(&mut self) -> Option<TokenValueCell> {
+        self.inner.take_token_value_cell()
+    }
+
     fn take_token_value(&mut self) -> Option<super::TokenValue> {
         self.inner.take_token_value()
     }
@@ -215,6 +219,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn set_token_value(&mut self, token_value: Option<super::TokenValue>) {
         self.inner.set_token_value(token_value);
+    }
+
+    fn set_token_value_cell(&mut self, token_value: Option<TokenValueCell>) {
+        self.inner.set_token_value_cell(token_value);
     }
 
     fn set_token_value_shared(&mut self, token_value: Option<super::SharedTokenValue>) {
