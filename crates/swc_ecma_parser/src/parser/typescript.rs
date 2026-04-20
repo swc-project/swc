@@ -433,7 +433,10 @@ impl<I: Tokens> Parser<I> {
             cur if cur.is_word() => {
                 peek!(self).is_some_and(|peek| matches!(peek, Token::Lt | Token::LShift))
             }
-            Token::LBrace | Token::LBracket | Token::LParen => false,
+            // Component rest fallback bindings can only start with identifiers,
+            // object patterns, or array patterns, so a parenthesized type is
+            // unambiguous here and can parse directly without a checkpoint.
+            Token::LBrace | Token::LBracket => false,
             cur => !cur.is_word() && self.can_start_flow_component_rest_type(),
         }
     }
@@ -3419,7 +3422,8 @@ impl<I: Tokens> Parser<I> {
 
         matches!(
             self.input().cur(),
-            Token::QuestionMark
+            Token::LParen
+                | Token::QuestionMark
                 | Token::Asterisk
                 | Token::Minus
                 | Token::Str
@@ -6850,7 +6854,14 @@ mod tests {
     #[cfg(feature = "flow")]
     #[test]
     fn flow_component_rest_type_direct_parse_guard_only_accepts_unambiguous_type_starts() {
-        for src in ["string", "number", "typeof Foo", "interface {}", "Rest<T>"] {
+        for src in [
+            "string",
+            "number",
+            "(string)",
+            "typeof Foo",
+            "interface {}",
+            "Rest<T>",
+        ] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Flow(FlowSyntax {
@@ -6972,6 +6983,43 @@ mod tests {
                         ..
                     }) if sym == "Rest" && type_params.params.len() == 1
                 )
+            ));
+            assert!(parser.take_errors().is_empty());
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_component_rest_type_still_parses_parenthesized_types_without_checkpoint() {
+        crate::with_test_sess("(...(string))", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            let params = parser
+                .parse_flow_component_params(false, false, true)
+                .unwrap();
+
+            assert!(matches!(
+                params.as_slice(),
+                [FlowComponentParam::Rest {
+                    rest: RestPat {
+                        type_ann: Some(type_ann),
+                        ..
+                    },
+                    ..
+                }] if matches!(&*type_ann.type_ann, TsType::TsParenthesizedType(..))
             ));
             assert!(parser.take_errors().is_empty());
 
@@ -7633,6 +7681,7 @@ mod tests {
     fn flow_anon_signature_param_direct_guard_keeps_unambiguous_starts() {
         for src in [
             "string",
+            "(string)",
             "...string",
             "typeof Foo",
             "?Foo",
@@ -7944,6 +7993,36 @@ mod tests {
                     ..
                 }) if sym == "Foo" && type_params.params.len() == 1
             )
+        ));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_fn_type_anon_parenthesized_param_still_parses() {
+        let actual = test_parser(
+            "type T = ((string)) => void;",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(fn_type)) =
+            &*alias.type_ann
+        else {
+            panic!("expected function type");
+        };
+
+        assert!(matches!(
+            &fn_type.params[0],
+            TsFnParam::Ident(BindingIdent {
+                type_ann: Some(type_ann),
+                ..
+            }) if matches!(&*type_ann.type_ann, TsType::TsParenthesizedType(..))
         ));
     }
 }
