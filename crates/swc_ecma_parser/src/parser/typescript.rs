@@ -1067,6 +1067,20 @@ impl<I: Tokens> Parser<I> {
         ret
     }
 
+    /// Like `ts_look_ahead`, but for token-prefix probes that never emit
+    /// diagnostics and therefore do not need `IgnoreError`.
+    #[inline(always)]
+    fn ts_look_ahead_no_errors<T, F>(&mut self, op: F) -> T
+    where
+        F: FnOnce(&mut Self) -> T,
+    {
+        debug_assert!(self.input().syntax().typescript());
+        let checkpoint = self.checkpoint_save();
+        let ret = op(self);
+        self.checkpoint_load(checkpoint);
+        ret
+    }
+
     /// `tsParseTypeArguments`
     pub(crate) fn parse_ts_type_args(&mut self) -> PResult<Box<TsTypeParamInstantiation>> {
         trace_cur!(self, parse_ts_type_args);
@@ -2405,7 +2419,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if !(self.input().cur() == Token::LBracket
-            && self.ts_look_ahead(Self::is_ts_unambiguously_index_signature))
+            && self.ts_look_ahead_no_errors(Self::is_ts_unambiguously_index_signature))
         {
             return Ok(None);
         }
@@ -4518,7 +4532,7 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::TypeOf {
             return self.parse_ts_type_query().map(TsType::from).map(Box::new);
         } else if cur == Token::LBrace {
-            return if self.ts_look_ahead(Self::is_ts_start_of_mapped_type) {
+            return if self.ts_look_ahead_no_errors(Self::is_ts_start_of_mapped_type) {
                 self.parse_ts_mapped_type().map(TsType::from).map(Box::new)
             } else {
                 self.parse_ts_type_lit().map(TsType::from).map(Box::new)
