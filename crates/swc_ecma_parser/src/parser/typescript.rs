@@ -5552,7 +5552,9 @@ impl<I: Tokens> Parser<I> {
                             | Token::Slash
                             | Token::Percent
                             | Token::Eq
+                            | Token::Colon
                             | Token::QuestionMark
+                            | Token::Arrow
                             | Token::LParen
                     )
                 })
@@ -5650,6 +5652,7 @@ impl<I: Tokens> Parser<I> {
                             | Token::Slash
                             | Token::Percent
                             | Token::Eq
+                            | Token::Colon
                             | Token::QuestionMark
                             | Token::LParen
                     )
@@ -6586,7 +6589,7 @@ mod tests {
 
     #[test]
     fn ts_type_or_type_predicate_ann_guard_filters_non_type_starts() {
-        for src in [": )", ": =>", ": number + 1", ": foo(bar)"] {
+        for src in [": )", ": =>", ": number + 1", ": foo: bar", ": foo(bar)"] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Typescript(Default::default()),
@@ -6663,6 +6666,8 @@ mod tests {
         for src in [
             "<T + 1>()",
             "<T = U>()",
+            "<T: U>()",
+            "<T =>()",
             "<1 + 2>()",
             "<\"x\" + 1>()",
             "<true ? T : U>()",
