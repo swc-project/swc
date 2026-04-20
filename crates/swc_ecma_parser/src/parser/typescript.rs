@@ -5381,7 +5381,20 @@ impl<I: Tokens> Parser<I> {
         matches!(self.input().cur(), Token::Lt | Token::JSXTagStart)
             && self.token_look_ahead(|p| {
                 p.bump();
-                p.input().cur().is_word()
+
+                if matches!(p.input().cur(), Token::Const | Token::In | Token::Out) {
+                    p.bump();
+                }
+
+                if !(p.input().cur().is_word() || p.input().cur() == Token::JSXName) {
+                    return false;
+                }
+
+                p.bump();
+                matches!(
+                    p.input().cur(),
+                    Token::Gt | Token::RShift | Token::Comma | Token::Extends | Token::Eq
+                )
             })
     }
 
@@ -6259,8 +6272,39 @@ mod tests {
     }
 
     #[test]
+    fn ts_generic_async_arrow_type_param_guard_filters_non_type_param_shapes() {
+        for src in [
+            "<T + 1>() => {}",
+            "<const T + 1>() => {}",
+            "<in T + 1>() => {}",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_start_ts_generic_async_arrow_type_params());
+                assert_eq!(parser.input().cur(), Token::Lt);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
     fn ts_generic_async_arrow_type_param_guard_keeps_word_starts() {
-        for src in ["<T>() => {}", "<const T>() => {}", "<in T>() => {}"] {
+        for src in [
+            "<T>() => {}",
+            "<const T>() => {}",
+            "<in T>() => {}",
+            "<out T>() => {}",
+            "<T extends U>() => {}",
+        ] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Typescript(Default::default()),
