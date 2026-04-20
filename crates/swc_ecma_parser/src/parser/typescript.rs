@@ -3843,58 +3843,60 @@ impl<I: Tokens> Parser<I> {
             return Ok(idx.into());
         }
 
-        if let Some(v) = self.try_parse_ts(|p| {
-            let start = p.input().cur_pos();
+        if matches!(self.input().cur(), Token::Get | Token::Set) {
+            if let Some(v) = self.try_parse_ts(|p| {
+                let start = p.input().cur_pos();
 
-            if readonly {
-                syntax_error!(p, SyntaxError::GetterSetterCannotBeReadonly)
-            }
-
-            let is_get = if p.input_mut().eat(Token::Get) {
-                true
-            } else {
-                expect!(p, Token::Set);
-                false
-            };
-
-            let (computed, key) = p.parse_ts_property_name()?;
-
-            if is_get {
-                expect!(p, Token::LParen);
-                expect!(p, Token::RParen);
-                let type_ann = p.try_parse_ts_type_ann()?;
-
-                p.parse_ts_type_member_semicolon()?;
-
-                Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
-                    span: p.span(start),
-                    key,
-                    computed,
-                    type_ann,
-                })))
-            } else {
-                expect!(p, Token::LParen);
-                let params = p.parse_ts_binding_list_for_signature()?;
-                if params.is_empty() {
-                    syntax_error!(p, SyntaxError::SetterParamRequired)
-                }
-                let param = params.into_iter().next().unwrap();
-
-                if p.input().syntax().flow() && p.input().is(Token::Colon) {
-                    let _ = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                if readonly {
+                    syntax_error!(p, SyntaxError::GetterSetterCannotBeReadonly)
                 }
 
-                p.parse_ts_type_member_semicolon()?;
+                let is_get = if p.input_mut().eat(Token::Get) {
+                    true
+                } else {
+                    expect!(p, Token::Set);
+                    false
+                };
 
-                Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
-                    span: p.span(start),
-                    key,
-                    computed,
-                    param,
-                })))
+                let (computed, key) = p.parse_ts_property_name()?;
+
+                if is_get {
+                    expect!(p, Token::LParen);
+                    expect!(p, Token::RParen);
+                    let type_ann = p.try_parse_ts_type_ann()?;
+
+                    p.parse_ts_type_member_semicolon()?;
+
+                    Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
+                        span: p.span(start),
+                        key,
+                        computed,
+                        type_ann,
+                    })))
+                } else {
+                    expect!(p, Token::LParen);
+                    let params = p.parse_ts_binding_list_for_signature()?;
+                    if params.is_empty() {
+                        syntax_error!(p, SyntaxError::SetterParamRequired)
+                    }
+                    let param = params.into_iter().next().unwrap();
+
+                    if p.input().syntax().flow() && p.input().is(Token::Colon) {
+                        let _ = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                    }
+
+                    p.parse_ts_type_member_semicolon()?;
+
+                    Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
+                        span: p.span(start),
+                        key,
+                        computed,
+                        param,
+                    })))
+                }
+            }) {
+                return Ok(v);
             }
-        }) {
-            return Ok(v);
         }
 
         self.parse_ts_property_or_method_signature(start, readonly)
