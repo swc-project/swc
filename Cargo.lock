@@ -5607,6 +5607,7 @@ dependencies = [
  "swc_transform_common",
  "swc_typescript",
  "swc_visit",
+ "tempfile",
  "testing",
  "tokio",
  "tracing",

@@ -147,6 +147,7 @@ ansi_term                 = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
+tempfile                  = { workspace = true }
 walkdir                   = { workspace = true }
 
 swc_ecma_ast = { version = "23.0.0", path = "../swc_ecma_ast", features = [
