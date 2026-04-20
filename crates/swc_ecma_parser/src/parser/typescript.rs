@@ -5596,23 +5596,33 @@ impl<I: Tokens> Parser<I> {
             && self.token_look_ahead(|p| {
                 p.bump();
 
+                let has_modifier = matches!(p.input().cur(), Token::Const | Token::In | Token::Out);
+                if has_modifier {
+                    p.bump();
+                }
+
                 let cur = p.input().cur();
                 if !(cur.is_word() || cur == Token::JSXName) {
                     return false;
                 }
 
-                if !p.input().syntax().jsx() || p.input().syntax().flow() {
-                    return true;
-                }
-
-                // In TSX mode, a bare `<T>`/`<div>` start is dominated by JSX and
-                // cannot be the start of an unambiguous generic arrow head.
-                if matches!(cur, Token::Const | Token::In | Token::Out) {
+                if p.input().syntax().flow() {
                     return true;
                 }
 
                 p.bump();
-                matches!(p.input().cur(), Token::Comma | Token::Extends | Token::Eq)
+                let follow = p.input().cur();
+
+                if !p.input().syntax().jsx() {
+                    return matches!(
+                        follow,
+                        Token::Gt | Token::RShift | Token::Comma | Token::Extends | Token::Eq
+                    );
+                }
+
+                // In TSX mode, a bare `<T>`/`<div>` start is dominated by JSX and
+                // cannot be the start of an unambiguous generic arrow head.
+                matches!(follow, Token::Comma | Token::Extends | Token::Eq)
             })
     }
 
@@ -6583,6 +6593,7 @@ mod tests {
             "<T,>() => {}",
             "<T extends unknown>() => {}",
             "<T = unknown>() => {}",
+            "<const T,>() => {}",
         ] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
@@ -6590,6 +6601,59 @@ mod tests {
                         tsx: true,
                         ..Default::default()
                     }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                let cur = parser.input().cur();
+
+                assert!(parser.can_start_ts_expr_type_params_fast());
+                assert_eq!(parser.input().cur(), cur);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_expr_type_param_guard_filters_invalid_non_jsx_shapes() {
+        for src in [
+            "<T + 1>() => {}",
+            "<const T + 1>() => {}",
+            "<in T + 1>() => {}",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                let cur = parser.input().cur();
+
+                assert!(!parser.can_start_ts_expr_type_params_fast());
+                assert_eq!(parser.input().cur(), cur);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_expr_type_param_guard_keeps_valid_non_jsx_starts() {
+        for src in [
+            "<T>() => {}",
+            "<T extends U>() => {}",
+            "<T = U>() => {}",
+            "<const T>() => {}",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
                     EsVersion::Es2022,
                     input,
                     None,

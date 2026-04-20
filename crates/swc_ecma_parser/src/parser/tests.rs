@@ -1394,6 +1394,19 @@ fn issue_10598_valid_tsx_syntax_with_default() {
 }
 
 #[test]
+fn issue_10598_valid_tsx_syntax_with_const_modifier() {
+    let s = "const t = <const T,>() => { test; };";
+    test_parser(
+        s,
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
+}
+
+#[test]
 fn issue_10598_plain_jsx_still_parses() {
     let actual = test_parser(
         "<div />;",
