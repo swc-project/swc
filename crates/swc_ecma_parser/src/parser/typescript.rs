@@ -2712,9 +2712,13 @@ impl<I: Tokens> Parser<I> {
                 };
 
                 if can_try_flow_anon_param {
-                    if let Some(param) =
+                    let param = if self.can_direct_parse_flow_anon_signature_param() {
+                        self.try_parse_flow_anon_signature_param(list.len())?
+                    } else {
                         self.try_parse_ts(|p| p.try_parse_flow_anon_signature_param(list.len()))
-                    {
+                    };
+
+                    if let Some(param) = param {
                         if matches!(param, TsFnParam::Rest(..)) {
                             rest_span = param.span();
                         }
@@ -3399,6 +3403,58 @@ impl<I: Tokens> Parser<I> {
         }
 
         cur.is_word() && peek!(self).is_some_and(|peek| peek == Token::Lt || peek == Token::LShift)
+    }
+
+    fn can_direct_parse_flow_anon_signature_param_type(&mut self) -> bool {
+        matches!(
+            self.input().cur(),
+            Token::QuestionMark
+                | Token::Asterisk
+                | Token::Minus
+                | Token::Str
+                | Token::Num
+                | Token::BigInt
+                | Token::True
+                | Token::False
+                | Token::BackQuote
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::TemplateHead
+                | Token::Import
+                | Token::This
+                | Token::TypeOf
+                | Token::Void
+                | Token::Null
+                | Token::Any
+                | Token::Boolean
+                | Token::Bigint
+                | Token::Never
+                | Token::Number
+                | Token::Object
+                | Token::String
+                | Token::Symbol
+                | Token::Unknown
+                | Token::Undefined
+                | Token::Intrinsic
+                | Token::Readonly
+                | Token::Keyof
+                | Token::Unique
+                | Token::Infer
+        )
+    }
+
+    fn can_direct_parse_flow_anon_signature_param(&mut self) -> bool {
+        if !self.input().syntax().flow() || !self.ctx().contains(Context::InType) {
+            return false;
+        }
+
+        if self.input().is(Token::DotDotDot) {
+            return self.token_look_ahead(|p| {
+                p.bump();
+                p.can_direct_parse_flow_anon_signature_param_type()
+            });
+        }
+
+        self.can_direct_parse_flow_anon_signature_param_type()
     }
 
     fn can_start_flow_anon_fn_type(&mut self) -> bool {
@@ -7203,6 +7259,60 @@ mod tests {
 
     #[cfg(feature = "flow")]
     #[test]
+    fn flow_anon_signature_param_direct_guard_filters_ambiguous_starts() {
+        for src in ["{ foo: string }", "[string]", "Foo<T>"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                parser.set_ctx(parser.ctx() | Context::InType);
+                let cur = parser.input().cur();
+
+                assert!(!parser.can_direct_parse_flow_anon_signature_param());
+                assert_eq!(parser.input().cur(), cur);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_anon_signature_param_direct_guard_keeps_unambiguous_starts() {
+        for src in ["string", "...string", "typeof Foo", "?Foo"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                parser.set_ctx(parser.ctx() | Context::InType);
+                let cur = parser.input().cur();
+
+                assert!(parser.can_direct_parse_flow_anon_signature_param());
+                assert_eq!(parser.input().cur(), cur);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
     fn flow_nullable_fn_type_stays_function_type() {
         let actual = test_parser(
             "type Empty = ?() => void;",
@@ -7422,5 +7532,30 @@ mod tests {
         };
 
         assert!(matches!(&fn_type.params[0], TsFnParam::Rest(..)));
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_fn_type_anon_keyword_params_still_parse() {
+        let actual = test_parser(
+            "type T = (string, number) => void;",
+            Syntax::Flow(FlowSyntax {
+                all: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(alias))) = &actual.body[0] else {
+            panic!("expected type alias");
+        };
+        let TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(fn_type)) =
+            &*alias.type_ann
+        else {
+            panic!("expected function type");
+        };
+
+        assert!(matches!(&fn_type.params[0], TsFnParam::Ident(..)));
+        assert!(matches!(&fn_type.params[1], TsFnParam::Ident(..)));
     }
 }
