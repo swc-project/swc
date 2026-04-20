@@ -84,11 +84,7 @@ impl TypeScript {
             .rev()
             .find(|m| {
                 m.is_es_module_decl()
-                    && if self.config.flow_syntax {
-                        Self::flow_module_item_has_runtime_semantics(m)
-                    } else {
-                        m.is_concrete()
-                    }
+                    && (!self.config.flow_syntax || Self::flow_module_item_has_runtime_semantics(m))
             })
             .map(Spanned::span)
     }
