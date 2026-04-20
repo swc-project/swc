@@ -1,5 +1,5 @@
 ---
-swc: minor
+swc: major
 swc_core: minor
 ---
 
