@@ -5377,6 +5377,25 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn can_probe_flow_hook_decl_after_keyword(&mut self) -> bool {
+        self.token_look_ahead(|p| {
+            if p.input().cur() == Token::Function {
+                p.bump();
+                return p.input().cur().is_word();
+            }
+
+            if !p.input().cur().is_word() {
+                return false;
+            }
+
+            p.bump();
+            matches!(
+                p.input().cur(),
+                Token::LParen | Token::Lt | Token::Eof | Token::Error
+            )
+        })
+    }
+
     pub(super) fn can_start_ts_generic_async_arrow_type_params(&mut self) -> bool {
         matches!(self.input().cur(), Token::Lt | Token::JSXTagStart)
             && self.token_look_ahead(|p| {
@@ -5549,10 +5568,7 @@ impl<I: Tokens> Parser<I> {
                     && peek!(self).is_some_and(|peek| peek == Token::Type)
             }
             "component" => self.can_probe_flow_named_decl_after_keyword(),
-            "hook" => {
-                peek!(self).is_some_and(|peek| peek == Token::Function)
-                    || self.can_probe_flow_named_decl_after_keyword()
-            }
+            "hook" => self.can_probe_flow_hook_decl_after_keyword(),
             _ => true,
         }
     }
@@ -6185,6 +6201,25 @@ mod tests {
             let mut parser = Parser::new_from(lexer);
 
             assert!(parser.can_probe_ts_decl_from_word(&atom!("hook")));
+
+            Ok(())
+        })
+        .unwrap();
+
+        crate::with_test_sess("hook function + 1", |_, input| {
+            let lexer = crate::lexer::Lexer::new(
+                Syntax::Flow(FlowSyntax {
+                    all: true,
+                    components: true,
+                    ..Default::default()
+                }),
+                EsVersion::Es2022,
+                input,
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+
+            assert!(!parser.can_probe_ts_decl_from_word(&atom!("hook")));
 
             Ok(())
         })
