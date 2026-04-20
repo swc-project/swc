@@ -5540,6 +5540,11 @@ impl<I: Tokens> Parser<I> {
                 | Token::LogicalOr
                 | Token::LogicalAnd
                 | Token::NullishCoalescing
+                | Token::In
+                | Token::InstanceOf
+                | Token::As
+                | Token::Implements
+                | Token::Satisfies
         )
     }
 
@@ -6614,6 +6619,11 @@ mod tests {
             ": foo && bar",
             ": foo || bar",
             ": foo ?? bar",
+            ": foo as Bar",
+            ": foo satisfies Bar",
+            ": foo in bar",
+            ": foo instanceof Bar",
+            ": foo implements Bar",
         ] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
@@ -6698,6 +6708,11 @@ mod tests {
             "<T && U>()",
             "<T || U>()",
             "<T ?? U>()",
+            "<T as U>()",
+            "<T satisfies U>()",
+            "<T in U>()",
+            "<T instanceof U>()",
+            "<T implements U>()",
             "<1 + 2>()",
             "<\"x\" + 1>()",
             "<true ? T : U>()",
