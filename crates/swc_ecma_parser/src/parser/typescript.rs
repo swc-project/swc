@@ -5653,46 +5653,37 @@ impl<I: Tokens> Parser<I> {
             return Ok(Default::default());
         }
 
-        let res = if self.can_start_ts_generic_async_arrow_type_params() {
-            self.try_parse_ts(|p| {
-                let type_params = p.parse_ts_type_params(false, false)?;
+        if !self.can_start_ts_generic_async_arrow_type_params() {
+            return Ok(None);
+        }
 
-                // In TSX mode, type parameters that could be mistaken for JSX
-                // (single param without constraint and no trailing comma) are not
-                // allowed.
-                if p.input().syntax().jsx() && type_params.params.len() == 1 {
-                    let single_param = &type_params.params[0];
-                    let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
-                    let dominated_by_jsx = single_param.constraint.is_none()
-                        && single_param.default.is_none()
-                        && !has_trailing_comma;
+        let type_params = self.parse_ts_type_params(false, false)?;
 
-                    if dominated_by_jsx {
-                        return Ok(None);
-                    }
-                }
+        // Callers already wrap this path in a speculative checkpoint. Parse the
+        // async arrow head directly here so the hot path does not pay for a
+        // second nested checkpoint.
+        if self.input().syntax().jsx() && type_params.params.len() == 1 {
+            let single_param = &type_params.params[0];
+            let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
+            let dominated_by_jsx = single_param.constraint.is_none()
+                && single_param.default.is_none()
+                && !has_trailing_comma;
 
-                // Don't use overloaded parseFunctionParams which would look for "<" again.
-                expect!(p, Token::LParen);
-                let params: Vec<Pat> = p
-                    .parse_formal_params()?
-                    .into_iter()
-                    .map(|p| p.pat)
-                    .collect();
-                expect!(p, Token::RParen);
-                let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
-                expect!(p, Token::Arrow);
+            if dominated_by_jsx {
+                return Ok(None);
+            }
+        }
 
-                Ok(Some((type_params, params, return_type)))
-            })
-        } else {
-            None
-        };
-
-        let (type_params, params, return_type) = match res {
-            Some(v) => v,
-            None => return Ok(None),
-        };
+        // Don't use overloaded parseFunctionParams which would look for "<" again.
+        expect!(self, Token::LParen);
+        let params: Vec<Pat> = self
+            .parse_formal_params()?
+            .into_iter()
+            .map(|p| p.pat)
+            .collect();
+        expect!(self, Token::RParen);
+        let return_type = self.try_parse_ts_type_or_type_predicate_ann()?;
+        expect!(self, Token::Arrow);
 
         self.do_inside_of_context(Context::InAsync, |p| {
             p.do_outside_of_context(Context::InGenerator, |p| {

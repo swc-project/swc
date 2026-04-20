@@ -1775,6 +1775,32 @@ fn ts_async_generic_arrow_still_parses() {
 }
 
 #[test]
+fn ts_async_generic_call_still_parses_without_arrow() {
+    let actual = test_parser("async<T>()", Syntax::Typescript(Default::default()), |p| {
+        p.parse_stmt().map(|stmt| match stmt {
+            Stmt::Expr(expr) => *expr.expr,
+            _ => unreachable!(),
+        })
+    });
+
+    let Expr::Call(CallExpr {
+        callee, type_args, ..
+    }) = actual
+    else {
+        panic!("expected call expression");
+    };
+
+    assert!(matches!(
+        callee,
+        Callee::Expr(expr) if matches!(&*expr, Expr::Ident(Ident { sym, .. }) if sym == "async")
+    ));
+    assert!(matches!(
+        type_args.as_deref(),
+        Some(TsTypeParamInstantiation { params, .. }) if params.len() == 1
+    ));
+}
+
+#[test]
 fn ts_async_lt_expression_still_parses_without_generic_arrow() {
     assert_eq_ignore_span!(
         test_parser("async < 1", Syntax::Typescript(Default::default()), |p| {
