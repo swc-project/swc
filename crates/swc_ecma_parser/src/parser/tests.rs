@@ -1413,6 +1413,20 @@ fn issue_10598_plain_jsx_still_parses() {
 }
 
 #[test]
+fn issue_10598_plain_jsx_expr_still_parses() {
+    let actual = test_parser(
+        "<div />",
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_expr(),
+    );
+
+    assert!(matches!(*actual, Expr::JSXElement(..)));
+}
+
+#[test]
 fn issue_10598_jsx_opening_type_args_still_parse() {
     let actual = test_parser(
         "<Foo<string> bar=\"baz\" />;",
@@ -1463,6 +1477,27 @@ fn issue_10598_plain_jsx_fragment_still_parses() {
     );
 
     assert!(matches!(actual, Expr::JSXFragment(..)));
+}
+
+#[test]
+fn issue_10598_valid_tsx_syntax_expr_still_parses() {
+    let actual = test_parser(
+        "<T,>() => foo",
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_expr(),
+    );
+
+    let Expr::Arrow(ArrowExpr { type_params, .. }) = *actual else {
+        panic!("expected arrow expression");
+    };
+
+    assert!(matches!(
+        type_params.as_deref(),
+        Some(TsTypeParamDecl { params, .. }) if params.len() == 1
+    ));
 }
 
 /// Verify that `<T>() => {}` is still valid in non-TSX TypeScript mode

@@ -73,19 +73,6 @@ impl<I: Tokens> Parser<I> {
     )]
     pub(crate) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
-
-        if self.input().syntax().typescript()
-            && self.input().is(Token::JSXTagStart)
-            && self.can_start_ts_expr_type_params_fast()
-        {
-            // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
-            // syntax.
-            let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
-            if let Some(res) = res {
-                return Ok(res);
-            }
-        }
-
         self.parse_assignment_expr_base()
     }
 
