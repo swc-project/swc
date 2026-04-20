@@ -5588,11 +5588,13 @@ impl<I: Tokens> Parser<I> {
                 | Token::Asterisk
                 | Token::Slash
                 | Token::Percent
+                | Token::Exp
                 | Token::Eq
                 | Token::Colon
                 | Token::QuestionMark
                 | Token::Arrow
                 | Token::LParen
+                | Token::DotDotDot
                 | Token::Bang
                 | Token::Caret
                 | Token::LogicalOr
@@ -6766,8 +6768,10 @@ mod tests {
             ": )",
             ": =>",
             ": number + 1",
+            ": number ** 2",
             ": foo: bar",
             ": foo(bar)",
+            ": foo...bar",
             ": foo!",
             ": foo ^ bar",
             ": foo && bar",
@@ -6854,9 +6858,11 @@ mod tests {
     fn ts_type_args_guard_filters_invalid_simple_type_continuations() {
         for src in [
             "<T + 1>()",
+            "<T ** U>()",
             "<T = U>()",
             "<T: U>()",
             "<T =>()",
+            "<T ...U>()",
             "<T!>()",
             "<T ^ U>()",
             "<T && U>()",
