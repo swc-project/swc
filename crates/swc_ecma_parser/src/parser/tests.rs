@@ -1823,6 +1823,38 @@ fn ts_async_generic_arrow_still_parses() {
 }
 
 #[test]
+fn ts_async_generic_arrow_with_const_modifier_still_parses_in_tsx() {
+    let actual = test_parser(
+        "async <const T,>() => foo",
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| {
+            p.parse_stmt().map(|stmt| match stmt {
+                Stmt::Expr(expr) => *expr.expr,
+                _ => unreachable!(),
+            })
+        },
+    );
+
+    let Expr::Arrow(ArrowExpr {
+        is_async,
+        type_params,
+        ..
+    }) = actual
+    else {
+        panic!("expected async arrow expression");
+    };
+
+    assert!(is_async);
+    assert!(matches!(
+        type_params.as_deref(),
+        Some(TsTypeParamDecl { params, .. }) if params.len() == 1
+    ));
+}
+
+#[test]
 fn ts_async_generic_call_still_parses_without_arrow() {
     let actual = test_parser("async<T>()", Syntax::Typescript(Default::default()), |p| {
         p.parse_stmt().map(|stmt| match stmt {

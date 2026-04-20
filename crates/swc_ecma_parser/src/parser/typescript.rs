@@ -5438,7 +5438,8 @@ impl<I: Tokens> Parser<I> {
             && self.token_look_ahead(|p| {
                 p.bump();
 
-                if matches!(p.input().cur(), Token::Const | Token::In | Token::Out) {
+                let has_modifier = matches!(p.input().cur(), Token::Const | Token::In | Token::Out);
+                if has_modifier {
                     p.bump();
                 }
 
@@ -5447,8 +5448,14 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 p.bump();
+                let follow = p.input().cur();
+
+                if p.input().syntax().jsx() && !p.input().syntax().flow() {
+                    return matches!(follow, Token::Comma | Token::Extends | Token::Eq);
+                }
+
                 matches!(
-                    p.input().cur(),
+                    follow,
                     Token::Gt | Token::RShift | Token::Comma | Token::Extends | Token::Eq
                 )
             })
@@ -6547,6 +6554,59 @@ mod tests {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(parser.can_start_ts_generic_async_arrow_type_params());
+                assert_eq!(parser.input().cur(), Token::Lt);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_generic_async_arrow_type_param_guard_filters_jsx_dominated_starts() {
+        for src in ["<T>() => {}", "<const T>() => {}", "<in T>() => {}"] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(TsSyntax {
+                        tsx: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
+                assert!(!parser.can_start_ts_generic_async_arrow_type_params());
+                assert_eq!(parser.input().cur(), Token::Lt);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_generic_async_arrow_type_param_guard_keeps_unambiguous_tsx_starts() {
+        for src in [
+            "<T,>() => {}",
+            "<T extends U>() => {}",
+            "<T = U>() => {}",
+            "<const T,>() => {}",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(TsSyntax {
+                        tsx: true,
+                        ..Default::default()
+                    }),
                     EsVersion::Es2022,
                     input,
                     None,
