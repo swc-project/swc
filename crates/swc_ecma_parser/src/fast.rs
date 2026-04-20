@@ -3,6 +3,7 @@ use swc_ecma_ast::EsVersion;
 
 use crate::{error::Error, lexer::Lexer, parser::PResult, Parser, Syntax};
 
+/// Canonical parser runtime used by all public entrypoints.
 pub(crate) type FastLexer<'a> = Lexer<'a>;
 pub(crate) type FastParserCore<'a> = Parser<FastLexer<'a>>;
 

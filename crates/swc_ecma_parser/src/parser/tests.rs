@@ -2,7 +2,7 @@ use std::hint::black_box;
 
 use swc_atoms::atom;
 use swc_common::{comments::SingleThreadedComments, BytePos, FileName, SourceMap, DUMMY_SP};
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
@@ -977,6 +977,32 @@ fn parse_file_as_module_collects_comments_in_fast_path() {
         .flatten()
         .any(|comment| comment.text.trim() == "leading"));
     assert!(trailing.borrow().is_empty());
+}
+
+#[cfg(feature = "flow")]
+#[test]
+fn parse_file_as_program_still_parses_flow_without_legacy_dispatch() {
+    let cm = SourceMap::default();
+    let fm = cm.new_source_file(
+        FileName::Anon.into(),
+        "// @flow\nconst value: number = 1;\n".to_string(),
+    );
+    let mut errors = Vec::new();
+
+    let program = crate::parse_file_as_program(
+        &fm,
+        Syntax::Flow(FlowSyntax {
+            require_directive: true,
+            ..Default::default()
+        }),
+        EsVersion::Es2022,
+        None,
+        &mut errors,
+    )
+    .expect("flow program should parse");
+
+    assert!(errors.is_empty());
+    assert!(matches!(program, Program::Script(..)));
 }
 
 #[cfg(feature = "unstable")]

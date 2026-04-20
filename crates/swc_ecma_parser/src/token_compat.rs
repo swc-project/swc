@@ -1,3 +1,5 @@
+//! Compatibility token definitions re-exported for [swc_ecma_lexer].
+
 /// This module should only be used by [swc_ecma_lexer] for compatibility.
 pub mod token {
     use std::{
@@ -990,29 +992,4 @@ pub mod token {
             Ok(())
         }
     }
-}
-
-use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
-use swc_ecma_ast::EsVersion;
-
-use crate::{error::Error, lexer::Lexer, parser::PResult, Parser, Syntax};
-
-pub(crate) type LegacyLexer<'a> = Lexer<'a>;
-pub(crate) type LegacyParserCore<'a> = Parser<LegacyLexer<'a>>;
-
-pub(crate) fn with_file_parser<T>(
-    fm: &SourceFile,
-    syntax: Syntax,
-    target: EsVersion,
-    comments: Option<&dyn Comments>,
-    recovered_errors: &mut Vec<Error>,
-    op: impl for<'aa> FnOnce(&mut LegacyParserCore<'aa>) -> PResult<T>,
-) -> PResult<T> {
-    let lexer = LegacyLexer::new(syntax, target, SourceFileInput::from(fm), comments);
-    let mut parser = LegacyParserCore::new_from(lexer);
-    let ret = op(&mut parser);
-
-    recovered_errors.append(&mut parser.take_errors());
-
-    ret
 }

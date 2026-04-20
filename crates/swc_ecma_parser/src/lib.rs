@@ -182,30 +182,25 @@ pub mod unstable {
 }
 
 use error::Error;
-use swc_common::{
-    comments::{Comments, SingleThreadedComments},
-    EqIgnoreSpan, SourceFile,
-};
+use swc_common::{comments::Comments, SourceFile};
 use swc_ecma_ast::*;
 
 mod context;
-mod dispatch;
 pub mod error;
 mod fast;
-mod legacy;
 pub mod lexer;
 mod parser;
-mod shadow;
 mod syntax;
+mod token_compat;
 
 pub use context::Context;
-pub use legacy::token;
 pub use lexer::Lexer;
 pub use parser::*;
 pub use swc_common::input::{Input, StringInput};
 #[cfg(feature = "flow")]
 pub use syntax::FlowSyntax;
 pub use syntax::{EsSyntax, Syntax, SyntaxFlags, TsSyntax};
+pub use token_compat::token;
 
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
@@ -229,143 +224,20 @@ pub fn with_file_parser<T>(
     recovered_errors: &mut Vec<Error>,
     op: impl for<'aa> FnOnce(&mut Parser<self::Lexer>) -> PResult<T>,
 ) -> PResult<T> {
-    match dispatch::parser_core_for(syntax) {
-        dispatch::ParserCore::Legacy => {
-            legacy::with_file_parser(fm, syntax, target, comments, recovered_errors, op)
-        }
-        dispatch::ParserCore::Fast => {
-            fast::with_file_parser(fm, syntax, target, comments, recovered_errors, op)
-        }
-    }
+    fast::with_file_parser(fm, syntax, target, comments, recovered_errors, op)
 }
 
 type ParserFn<T> = for<'aa> fn(&mut Parser<Lexer<'aa>>) -> PResult<T>;
 
-struct ParseArtifacts<T> {
-    result: PResult<T>,
-    recovered_errors: Vec<Error>,
-    script_module_errors: Vec<Error>,
-}
-
-fn parse_with_core<T>(
-    core: dispatch::ParserCore,
-    fm: &SourceFile,
-    syntax: Syntax,
-    target: EsVersion,
-    comments: Option<&dyn Comments>,
-    op: ParserFn<T>,
-) -> ParseArtifacts<T> {
-    match core {
-        dispatch::ParserCore::Legacy => {
-            let lexer = legacy::LegacyLexer::new(
-                syntax,
-                target,
-                swc_common::input::SourceFileInput::from(fm),
-                comments,
-            );
-            let mut parser = legacy::LegacyParserCore::new_from(lexer);
-            let result = op(&mut parser);
-            ParseArtifacts {
-                result,
-                recovered_errors: parser.take_errors(),
-                script_module_errors: parser.take_script_module_errors(),
-            }
-        }
-        dispatch::ParserCore::Fast => {
-            let lexer = fast::FastLexer::new(
-                syntax,
-                target,
-                swc_common::input::SourceFileInput::from(fm),
-                comments,
-            );
-            let mut parser = fast::FastParserCore::new_from(lexer);
-            let result = op(&mut parser);
-            ParseArtifacts {
-                result,
-                recovered_errors: parser.take_errors(),
-                script_module_errors: parser.take_script_module_errors(),
-            }
-        }
-    }
-}
-
-fn maybe_parse_with_shadow<T>(
-    name: &'static str,
+fn parse_with_file_parser<T>(
     fm: &SourceFile,
     syntax: Syntax,
     target: EsVersion,
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
     op: ParserFn<T>,
-) -> PResult<T>
-where
-    T: PartialEq + EqIgnoreSpan + std::fmt::Debug,
-{
-    let primary_core = dispatch::parser_core_for(syntax);
-    let Some(shadow_core) = shadow::shadow_core_for(primary_core, syntax) else {
-        let mut parsed = parse_with_core(primary_core, fm, syntax, target, comments, op);
-        recovered_errors.append(&mut parsed.recovered_errors);
-        return parsed.result;
-    };
-
-    let mut primary = parse_with_core(primary_core, fm, syntax, target, comments, op);
-
-    // Shadow runs should not mutate caller-provided comment buffers.
-    let shadow_comments_storage = comments.map(|_| SingleThreadedComments::default());
-    let shadow_comments = shadow_comments_storage
-        .as_ref()
-        .map(|comments| comments as &dyn Comments);
-    let shadow_parse = parse_with_core(shadow_core, fm, syntax, target, shadow_comments, op);
-
-    log_shadow_mismatch(name, primary_core, shadow_core, &primary, &shadow_parse);
-    shadow::note_shadow_run();
-
-    recovered_errors.append(&mut primary.recovered_errors);
-    primary.result
-}
-
-fn log_shadow_mismatch<T>(
-    name: &'static str,
-    primary_core: dispatch::ParserCore,
-    shadow_core: dispatch::ParserCore,
-    primary: &ParseArtifacts<T>,
-    shadow: &ParseArtifacts<T>,
-) where
-    T: PartialEq + EqIgnoreSpan + std::fmt::Debug,
-{
-    let result_equal = primary.result == shadow.result;
-    let recovered_errors_equal = primary.recovered_errors == shadow.recovered_errors;
-    let script_module_errors_equal = primary.script_module_errors == shadow.script_module_errors;
-
-    if result_equal && recovered_errors_equal && script_module_errors_equal {
-        return;
-    }
-
-    let ast_equal_ignore_span = match (&primary.result, &shadow.result) {
-        (Ok(primary), Ok(shadow)) => primary.eq_ignore_span(shadow),
-        _ => false,
-    };
-
-    tracing::warn!(
-        parse = name,
-        ?primary_core,
-        ?shadow_core,
-        result_equal,
-        recovered_errors_equal,
-        script_module_errors_equal,
-        ast_equal_ignore_span,
-        "Parser shadow mismatch",
-    );
-    tracing::debug!(
-        parse = name,
-        primary_result = ?primary.result,
-        shadow_result = ?shadow.result,
-        primary_recovered_errors = ?primary.recovered_errors,
-        shadow_recovered_errors = ?shadow.recovered_errors,
-        primary_script_module_errors = ?primary.script_module_errors,
-        shadow_script_module_errors = ?shadow.script_module_errors,
-        "Parser shadow mismatch details",
-    );
+) -> PResult<T> {
+    with_file_parser(fm, syntax, target, comments, recovered_errors, op)
 }
 
 fn parse_expr_for_file(p: &mut Parser<Lexer<'_>>) -> PResult<Box<Expr>> {
@@ -402,8 +274,7 @@ pub fn parse_file_as_expr(
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
 ) -> PResult<Box<Expr>> {
-    maybe_parse_with_shadow(
-        "parse_file_as_expr",
+    parse_with_file_parser(
         fm,
         syntax,
         target,
@@ -424,8 +295,7 @@ pub fn parse_file_as_module(
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
 ) -> PResult<Module> {
-    maybe_parse_with_shadow(
-        "parse_file_as_module",
+    parse_with_file_parser(
         fm,
         syntax,
         target,
@@ -446,8 +316,7 @@ pub fn parse_file_as_script(
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
 ) -> PResult<Script> {
-    maybe_parse_with_shadow(
-        "parse_file_as_script",
+    parse_with_file_parser(
         fm,
         syntax,
         target,
@@ -468,8 +337,7 @@ pub fn parse_file_as_commonjs(
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
 ) -> PResult<Script> {
-    maybe_parse_with_shadow(
-        "parse_file_as_commonjs",
+    parse_with_file_parser(
         fm,
         syntax,
         target,
@@ -490,8 +358,7 @@ pub fn parse_file_as_program(
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
 ) -> PResult<Program> {
-    maybe_parse_with_shadow(
-        "parse_file_as_program",
+    parse_with_file_parser(
         fm,
         syntax,
         target,
