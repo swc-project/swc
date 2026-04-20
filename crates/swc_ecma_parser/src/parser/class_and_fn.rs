@@ -249,8 +249,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(());
         }
 
-        let is_checks = self.input().cur().is_word()
-            && self.input().cur().take_word(&self.input) == atom!("checks");
+        let is_checks = self.input().is_cur_word("checks");
         if !is_checks {
             unexpected!(self, "checks");
         }
@@ -1069,8 +1068,7 @@ impl<I: Tokens> Parser<I> {
         let mut flow_variance_readonly = false;
         let mut flow_proto_modifier = false;
         if self.input().syntax().flow()
-            && self.input().cur().is_word()
-            && self.input().cur().take_word(&self.input) == atom!("proto")
+            && self.input().is_cur_word("proto")
             && peek!(self)
                 .is_some_and(|peek| !matches!(peek, Token::Colon | Token::LParen | Token::Eq))
         {
@@ -1878,10 +1876,7 @@ impl<I: Tokens> Parser<I> {
                     Vec::with_capacity(4)
                 };
 
-            if p.input().syntax().flow()
-                && p.input().cur().is_word()
-                && p.input().cur().take_word(&p.input) == atom!("mixins")
-            {
+            if p.input().syntax().flow() && p.input().is_cur_word("mixins") {
                 p.bump();
                 let _ = p.parse_ts_heritage_clause()?;
             }

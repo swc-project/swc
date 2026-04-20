@@ -156,9 +156,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn is_flow_contextual_word(&mut self, word: &str) -> bool {
-        self.input().syntax().flow()
-            && self.input().cur().is_word()
-            && self.input().cur().take_word(&self.input) == word
+        self.input().syntax().flow() && self.input().is_cur_word(word)
     }
 
     fn make_flow_component_fallback_binding(&mut self, span: Span) -> Pat {
@@ -1568,8 +1566,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if p.input().syntax().flow() && p.input_mut().eat(Token::Percent) {
-                let is_checks = p.input().cur().is_word()
-                    && p.input().cur().take_word(&p.input) == atom!("checks");
+                let is_checks = p.input().is_cur_word("checks");
                 if !is_checks {
                     unexpected!(p, "checks");
                 }
@@ -1600,8 +1597,7 @@ impl<I: Tokens> Parser<I> {
                 })
             };
             let has_flow_implies = p.syntax().flow()
-                && p.input().cur().is_word()
-                && p.input().cur().take_word(&p.input) == atom!("implies")
+                && p.input().is_cur_word("implies")
                 && peek!(p).is_some_and(|peek| peek.is_word() || peek == Token::This);
 
             if has_type_pred_asserts {
@@ -1624,11 +1620,7 @@ impl<I: Tokens> Parser<I> {
                 p.bump();
             }
 
-            if has_type_pred_asserts
-                && p.syntax().flow()
-                && p.input().cur().is_word()
-                && p.input().cur().take_word(&p.input) == atom!("implies")
-            {
+            if has_type_pred_asserts && p.syntax().flow() && p.input().is_cur_word("implies") {
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1003);
             }
 
@@ -4329,9 +4321,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if let Some(render_ty) = self.try_parse_ts(|p| {
-                if !(p.input().cur().is_word()
-                    && p.input().cur().take_word(&p.input) == atom!("renders"))
-                {
+                if !p.input().is_cur_word("renders") {
                     return Ok(None);
                 }
                 p.bump();
@@ -5021,8 +5011,7 @@ impl<I: Tokens> Parser<I> {
                     && self.ctx().contains(Context::InDeclare)
                     && self.input_mut().eat(Token::Dot)
                 {
-                    let is_exports = self.input().cur().is_word()
-                        && self.input().cur().take_word(&self.input) == atom!("exports");
+                    let is_exports = self.input().is_cur_word("exports");
 
                     if !is_exports {
                         unexpected!(self, "exports")
