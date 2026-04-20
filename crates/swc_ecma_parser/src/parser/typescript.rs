@@ -955,15 +955,15 @@ impl<I: Tokens> Parser<I> {
                 return Ok(None);
             }
 
-            // This lookahead only needs one token, so a local checkpoint is
-            // cheaper than routing through the generic TS try-parse helper.
-            let checkpoint = self.checkpoint_save();
-            self.bump();
+            let _ = self.input_mut().peek();
+            let Some(next) = self.input().next() else {
+                return Ok(None);
+            };
 
-            let cur = self.input().cur();
-            let can_follow_modifier = !self.input().had_line_break_before_cur()
+            let next_token = next.token();
+            let can_follow_modifier = !next.had_line_break()
                 && matches!(
-                    cur,
+                    next_token,
                     Token::LBracket
                         | Token::LBrace
                         | Token::Asterisk
@@ -973,13 +973,12 @@ impl<I: Tokens> Parser<I> {
                         | Token::Num
                         | Token::BigInt
                 )
-                || cur.is_word();
+                || next_token.is_word();
 
             if can_follow_modifier {
+                self.bump();
                 return Ok(Some(allowed_modifiers[pos]));
             }
-
-            self.checkpoint_load(checkpoint);
         }
         Ok(None)
     }
