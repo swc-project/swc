@@ -5504,7 +5504,54 @@ impl<I: Tokens> Parser<I> {
         self.input().is(Token::Lt)
             && self.token_look_ahead(|p| {
                 p.bump();
-                p.can_start_ts_type_fast()
+
+                let cur = p.input().cur();
+                if !p.can_start_ts_type_fast() {
+                    return false;
+                }
+
+                let is_simple_type_start = matches!(
+                    cur,
+                    Token::Ident
+                        | Token::JSXName
+                        | Token::Num
+                        | Token::Str
+                        | Token::BigInt
+                        | Token::True
+                        | Token::False
+                        | Token::Null
+                        | Token::This
+                        | Token::Any
+                        | Token::Bigint
+                        | Token::Boolean
+                        | Token::Intrinsic
+                        | Token::Never
+                        | Token::Number
+                        | Token::Object
+                        | Token::String
+                        | Token::Symbol
+                        | Token::Undefined
+                        | Token::Unknown
+                        | Token::Void
+                );
+
+                if !is_simple_type_start {
+                    return true;
+                }
+
+                !peek!(p).is_some_and(|next| {
+                    matches!(
+                        next,
+                        Token::Plus
+                            | Token::Minus
+                            | Token::Asterisk
+                            | Token::Slash
+                            | Token::Percent
+                            | Token::Eq
+                            | Token::QuestionMark
+                            | Token::LParen
+                    )
+                })
             })
     }
 
@@ -6543,6 +6590,36 @@ mod tests {
                 );
                 let mut parser = Parser::new_from(lexer);
 
+                assert!(
+                    !parser.can_start_ts_type_args_fast(),
+                    "unexpectedly accepted {src}"
+                );
+                assert_eq!(parser.input().cur(), Token::Lt);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[test]
+    fn ts_type_args_guard_filters_invalid_simple_type_continuations() {
+        for src in [
+            "<T + 1>()",
+            "<T = U>()",
+            "<1 + 2>()",
+            "<\"x\" + 1>()",
+            "<true ? T : U>()",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+
                 assert!(!parser.can_start_ts_type_args_fast());
                 assert_eq!(parser.input().cur(), Token::Lt);
 
@@ -6559,6 +6636,9 @@ mod tests {
             "<number>()",
             "<1>()",
             "<\"x\">()",
+            "<T | U>()",
+            "<T & U>()",
+            "<T extends U ? X : Y>()",
             "<{ foo: string }>()",
             "<[T]>()",
             "<new () => Date>()",
@@ -6572,7 +6652,10 @@ mod tests {
                 );
                 let mut parser = Parser::new_from(lexer);
 
-                assert!(parser.can_start_ts_type_args_fast());
+                assert!(
+                    parser.can_start_ts_type_args_fast(),
+                    "unexpectedly rejected {src}"
+                );
                 assert_eq!(parser.input().cur(), Token::Lt);
 
                 Ok(())
