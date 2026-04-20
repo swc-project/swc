@@ -5603,7 +5603,53 @@ impl<I: Tokens> Parser<I> {
                     });
                 }
 
-                p.can_start_ts_type_fast()
+                let cur = p.input().cur();
+                if !p.can_start_ts_type_fast() {
+                    return false;
+                }
+
+                let is_simple_type_start = matches!(
+                    cur,
+                    Token::Ident
+                        | Token::JSXName
+                        | Token::Num
+                        | Token::Str
+                        | Token::BigInt
+                        | Token::True
+                        | Token::False
+                        | Token::Null
+                        | Token::This
+                        | Token::Any
+                        | Token::Bigint
+                        | Token::Boolean
+                        | Token::Intrinsic
+                        | Token::Never
+                        | Token::Number
+                        | Token::Object
+                        | Token::String
+                        | Token::Symbol
+                        | Token::Undefined
+                        | Token::Unknown
+                        | Token::Void
+                );
+
+                if !is_simple_type_start {
+                    return true;
+                }
+
+                !peek!(p).is_some_and(|next| {
+                    matches!(
+                        next,
+                        Token::Plus
+                            | Token::Minus
+                            | Token::Asterisk
+                            | Token::Slash
+                            | Token::Percent
+                            | Token::Eq
+                            | Token::QuestionMark
+                            | Token::LParen
+                    )
+                })
             })
     }
 
@@ -6536,7 +6582,7 @@ mod tests {
 
     #[test]
     fn ts_type_or_type_predicate_ann_guard_filters_non_type_starts() {
-        for src in [": )", ": =>"] {
+        for src in [": )", ": =>", ": number + 1", ": foo(bar)"] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Typescript(Default::default()),
@@ -6558,7 +6604,13 @@ mod tests {
 
     #[test]
     fn ts_type_or_type_predicate_ann_guard_keeps_valid_starts() {
-        for src in [": number", ": foo is Bar", ": asserts foo"] {
+        for src in [
+            ": number",
+            ": number[]",
+            ": foo.Bar",
+            ": foo is Bar",
+            ": asserts foo",
+        ] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Typescript(Default::default()),
