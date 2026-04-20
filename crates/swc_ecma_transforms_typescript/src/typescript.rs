@@ -41,7 +41,12 @@ pub(crate) struct TypeScript {
 
 impl Pass for TypeScript {
     fn process(&mut self, n: &mut Program) {
-        let was_module = n.as_module().and_then(|m| self.get_last_module_span(m));
+        let last_module_span = n
+            .as_module()
+            // Flow does not need to restore module context
+            .filter(|_| !self.config.flow_syntax)
+            .and_then(|m| self.get_last_module_span(m));
+
         let semantic = analyze_program(
             n,
             self.unresolved_mark,
@@ -61,7 +66,7 @@ impl Pass for TypeScript {
             self.config.flow_syntax,
         ));
 
-        if let Some(span) = was_module {
+        if let Some(span) = last_module_span {
             let module = n.as_mut_module().unwrap();
             Self::restore_esm_ctx(module, span);
         }
