@@ -3508,21 +3508,48 @@ impl<I: Tokens> Parser<I> {
             })
     }
 
-    fn can_direct_parse_flow_single_anon_fn_type(&mut self) -> bool {
+    fn can_direct_parse_flow_anon_fn_type(&mut self) -> bool {
         if !self.is_flow_syntax() || !self.input().is(Token::LParen) {
             return false;
         }
 
-        // Single-parameter Flow anonymous function types with an unambiguous
-        // type-only parameter shape can skip the outer speculative checkpoint.
+        // Flow anonymous function types whose parameters are all unambiguous
+        // type-only shapes can skip the outer speculative checkpoint.
         self.parser_look_ahead(|p| {
             p.bump();
 
-            let param = p.try_parse_flow_anon_signature_param(0);
-            matches!(param, Ok(Some(..))) && p.input().is(Token::RParen) && {
-                p.bump();
-                p.input().is(Token::Arrow)
+            if p.input().is(Token::RParen) {
+                return false;
             }
+
+            let mut index = 0usize;
+            loop {
+                if !p.can_direct_parse_flow_anon_signature_param() {
+                    return false;
+                }
+
+                let param = match p.try_parse_flow_anon_signature_param(index) {
+                    Ok(Some(param)) => param,
+                    _ => return false,
+                };
+                index += 1;
+
+                if p.input().is(Token::RParen) {
+                    break;
+                }
+
+                if !p.input().is(Token::Comma) || matches!(param, TsFnParam::Rest(..)) {
+                    return false;
+                }
+
+                p.bump();
+                if p.input().is(Token::RParen) {
+                    return false;
+                }
+            }
+
+            p.bump();
+            p.input().is(Token::Arrow)
         })
     }
 
@@ -3776,7 +3803,7 @@ impl<I: Tokens> Parser<I> {
 
         if self.can_start_flow_parenthesized_fn_type() {
             if self.can_start_flow_anon_fn_type() {
-                let fn_type = if self.can_direct_parse_flow_single_anon_fn_type() {
+                let fn_type = if self.can_direct_parse_flow_anon_fn_type() {
                     self.try_parse_flow_anon_fn_type()?
                 } else {
                     self.try_parse_ts(Self::try_parse_flow_anon_fn_type)
@@ -7930,9 +7957,10 @@ mod tests {
 
     #[cfg(feature = "flow")]
     #[test]
-    fn flow_single_anon_fn_type_direct_guard_keeps_unambiguous_single_params() {
+    fn flow_anon_fn_type_direct_guard_keeps_unambiguous_params() {
         for src in [
             "(string) => void",
+            "(string, number) => void",
             "(Foo<T>) => void",
             "(Foo.Bar) => void",
             "(Foo[Bar]) => void",
@@ -7952,7 +7980,7 @@ mod tests {
                 let mut parser = Parser::new_from(lexer);
                 parser.set_ctx(parser.ctx() | Context::InType);
 
-                assert!(parser.can_direct_parse_flow_single_anon_fn_type());
+                assert!(parser.can_direct_parse_flow_anon_fn_type());
                 assert_eq!(parser.input().cur(), Token::LParen);
 
                 Ok(())
@@ -7963,12 +7991,8 @@ mod tests {
 
     #[cfg(feature = "flow")]
     #[test]
-    fn flow_single_anon_fn_type_direct_guard_filters_multi_param_and_named_forms() {
-        for src in [
-            "(string, number) => void",
-            "(foo: string) => void",
-            "({ foo }: Bar) => void",
-        ] {
+    fn flow_anon_fn_type_direct_guard_filters_named_and_ambiguous_forms() {
+        for src in ["(foo: string) => void", "({ foo }: Bar) => void"] {
             crate::with_test_sess(src, |_, input| {
                 let lexer = crate::lexer::Lexer::new(
                     Syntax::Flow(FlowSyntax {
@@ -7982,7 +8006,7 @@ mod tests {
                 let mut parser = Parser::new_from(lexer);
                 parser.set_ctx(parser.ctx() | Context::InType);
 
-                assert!(!parser.can_direct_parse_flow_single_anon_fn_type());
+                assert!(!parser.can_direct_parse_flow_anon_fn_type());
                 assert_eq!(parser.input().cur(), Token::LParen);
 
                 Ok(())
