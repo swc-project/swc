@@ -759,10 +759,9 @@ impl<'a> Lexer<'a> {
                 } else {
                     // 0xE2 - could be LS/PS or some other Unicode character
                     // Check the next 2 bytes to see if it's really LS/PS
-                    let current_slice = self.input().as_str();
+                    let bytes = self.input().as_bytes();
                     let byte_pos = pos_offset;
-                    if byte_pos + 2 < current_slice.len() {
-                        let bytes = current_slice.as_bytes();
+                    if byte_pos + 2 < bytes.len() {
                         let next2 = [bytes[byte_pos + 1], bytes[byte_pos + 2]];
                         if next2 == LS_BYTES_2_AND_3 || next2 == PS_BYTES_2_AND_3 {
                             // It's a real line terminator
@@ -864,10 +863,9 @@ impl<'a> Lexer<'a> {
                 match matched_byte {
                     LS_OR_PS_FIRST => {
                         // 0xE2 - could be LS/PS or some other Unicode character
-                        let current_slice = self.input().as_str();
+                        let bytes = self.input().as_bytes();
                         let byte_pos = pos_offset;
-                        if byte_pos + 2 < current_slice.len() {
-                            let bytes = current_slice.as_bytes();
+                        if byte_pos + 2 < bytes.len() {
                             let next2 = [bytes[byte_pos + 1], bytes[byte_pos + 2]];
                             if next2 == LS_BYTES_2_AND_3 || next2 == PS_BYTES_2_AND_3 {
                                 self.state.had_line_break = true;
@@ -877,7 +875,7 @@ impl<'a> Lexer<'a> {
                         true
                     }
                     b'*' => {
-                        let bytes = self.input().as_str().as_bytes();
+                        let bytes = self.input().as_bytes();
                         if bytes.get(pos_offset + 1) == Some(&b'/') {
                             // Consume "*/"
                             pos_offset += 2;

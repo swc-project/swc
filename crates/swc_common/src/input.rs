@@ -8,8 +8,8 @@ pub type SourceFileInput<'a> = StringInput<'a>;
 #[derive(Clone)]
 pub struct StringInput<'a> {
     last_pos: BytePos,
-    /// Remaining input as str - we slice this as we consume bytes
-    remaining: &'a str,
+    /// Remaining input as bytes for hot-path ASCII access.
+    remaining: &'a [u8],
     orig: &'a str,
     /// Original start position.
     orig_start: BytePos,
@@ -31,7 +31,7 @@ impl<'a> StringInput<'a> {
         StringInput {
             last_pos: start,
             orig: src,
-            remaining: src,
+            remaining: src.as_bytes(),
             orig_start: start,
             orig_end: end,
         }
@@ -39,6 +39,13 @@ impl<'a> StringInput<'a> {
 
     #[inline(always)]
     pub fn as_str(&self) -> &str {
+        unsafe { str::from_utf8_unchecked(self.remaining) }
+    }
+
+    #[inline(always)]
+    /// Returns the remaining input as bytes without rebuilding a slice on each
+    /// hot-path access.
+    pub fn as_bytes(&self) -> &'a [u8] {
         self.remaining
     }
 
@@ -91,17 +98,17 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 impl<'a> Input<'a> for StringInput<'a> {
     #[inline]
     fn cur(&self) -> Option<u8> {
-        self.remaining.as_bytes().first().copied()
+        self.remaining.first().copied()
     }
 
     #[inline]
     fn peek(&self) -> Option<u8> {
-        self.remaining.as_bytes().get(1).copied()
+        self.remaining.get(1).copied()
     }
 
     #[inline]
     fn peek_ahead(&self) -> Option<u8> {
-        self.remaining.as_bytes().get(2).copied()
+        self.remaining.get(2).copied()
     }
 
     #[inline]
@@ -113,7 +120,7 @@ impl<'a> Input<'a> for StringInput<'a> {
 
     #[inline]
     fn cur_as_ascii(&self) -> Option<u8> {
-        let first_byte = *self.remaining.as_bytes().first()?;
+        let first_byte = *self.remaining.first()?;
         if first_byte <= 0x7f {
             Some(first_byte)
         } else {
@@ -123,7 +130,12 @@ impl<'a> Input<'a> for StringInput<'a> {
 
     #[inline]
     fn cur_as_char(&self) -> Option<char> {
-        self.remaining.chars().next()
+        let first_byte = *self.remaining.first()?;
+        if first_byte <= 0x7f {
+            Some(first_byte as char)
+        } else {
+            self.as_str().chars().next()
+        }
     }
 
     #[inline]
@@ -154,7 +166,7 @@ impl<'a> Input<'a> for StringInput<'a> {
 
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
-        self.remaining = unsafe { s.get_unchecked(end_idx..) };
+        self.remaining = unsafe { s.as_bytes().get_unchecked(end_idx..) };
         self.last_pos = end;
 
         ret
@@ -167,7 +179,7 @@ impl<'a> Input<'a> for StringInput<'a> {
     {
         let last = {
             let mut last = 0;
-            for c in self.remaining.chars() {
+            for c in self.as_str().chars() {
                 if pred(c) {
                     last += c.len_utf8();
                 } else {
@@ -178,7 +190,7 @@ impl<'a> Input<'a> for StringInput<'a> {
         };
 
         debug_assert!(last <= self.remaining.len());
-        let ret = unsafe { self.remaining.get_unchecked(..last) };
+        let ret = unsafe { str::from_utf8_unchecked(self.remaining.get_unchecked(..last)) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
         self.remaining = unsafe { self.remaining.get_unchecked(last..) };
@@ -197,22 +209,18 @@ impl<'a> Input<'a> for StringInput<'a> {
         let idx = (to - self.orig_start).0 as usize;
 
         debug_assert!(idx <= orig.len());
-        self.remaining = unsafe { orig.get_unchecked(idx..) };
+        self.remaining = unsafe { orig.as_bytes().get_unchecked(idx..) };
         self.last_pos = to;
     }
 
     #[inline]
     fn is_byte(&self, c: u8) -> bool {
-        self.remaining
-            .as_bytes()
-            .first()
-            .map(|b| *b == c)
-            .unwrap_or(false)
+        self.remaining.first().is_some_and(|b| *b == c)
     }
 
     #[inline]
     fn is_str(&self, s: &str) -> bool {
-        self.remaining.starts_with(s)
+        self.as_str().starts_with(s)
     }
 
     #[inline]
@@ -382,6 +390,26 @@ mod tests {
             }
             assert_eq!(i.last_pos, BytePos(6));
             assert_eq!(i.cur(), None);
+        });
+    }
+
+    #[test]
+    fn src_input_bytes_stay_in_sync() {
+        with_test_sess("a℘/z", |mut i| {
+            assert_eq!(i.as_bytes(), "a℘/z".as_bytes());
+            assert_eq!(i.cur_as_char(), Some('a'));
+
+            unsafe {
+                i.bump_bytes(1);
+            }
+            assert_eq!(i.as_bytes(), "℘/z".as_bytes());
+            assert_eq!(i.cur_as_char(), Some('℘'));
+
+            unsafe {
+                i.reset_to(BytePos(5));
+            }
+            assert_eq!(i.as_bytes(), "/z".as_bytes());
+            assert_eq!(i.cur_as_char(), Some('/'));
         });
     }
 
