@@ -3508,6 +3508,24 @@ impl<I: Tokens> Parser<I> {
             })
     }
 
+    fn can_direct_parse_flow_single_anon_fn_type(&mut self) -> bool {
+        if !self.is_flow_syntax() || !self.input().is(Token::LParen) {
+            return false;
+        }
+
+        // Single-parameter Flow anonymous function types with an unambiguous
+        // type-only parameter shape can skip the outer speculative checkpoint.
+        self.parser_look_ahead(|p| {
+            p.bump();
+
+            let param = p.try_parse_flow_anon_signature_param(0);
+            matches!(param, Ok(Some(..))) && p.input().is(Token::RParen) && {
+                p.bump();
+                p.input().is(Token::Arrow)
+            }
+        })
+    }
+
     fn try_parse_flow_anon_signature_param(&mut self, index: usize) -> PResult<Option<TsFnParam>> {
         if !self.input().syntax().flow() || !self.ctx().contains(Context::InType) {
             return Ok(None);
@@ -3758,7 +3776,13 @@ impl<I: Tokens> Parser<I> {
 
         if self.can_start_flow_parenthesized_fn_type() {
             if self.can_start_flow_anon_fn_type() {
-                if let Some(fn_type) = self.try_parse_ts(Self::try_parse_flow_anon_fn_type) {
+                let fn_type = if self.can_direct_parse_flow_single_anon_fn_type() {
+                    self.try_parse_flow_anon_fn_type()?
+                } else {
+                    self.try_parse_ts(Self::try_parse_flow_anon_fn_type)
+                };
+
+                if let Some(fn_type) = fn_type {
                     return Ok(Box::new(TsType::TsFnOrConstructorType(
                         TsFnOrConstructorType::TsFnType(fn_type),
                     )));
@@ -7896,6 +7920,69 @@ mod tests {
                 let can_start = parser.in_type(|p| p.can_start_flow_anon_fn_type());
 
                 assert!(can_start);
+                assert_eq!(parser.input().cur(), Token::LParen);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_single_anon_fn_type_direct_guard_keeps_unambiguous_single_params() {
+        for src in [
+            "(string) => void",
+            "(Foo<T>) => void",
+            "(Foo.Bar) => void",
+            "(Foo[Bar]) => void",
+            "((string)) => void",
+            "(...string) => void",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                parser.set_ctx(parser.ctx() | Context::InType);
+
+                assert!(parser.can_direct_parse_flow_single_anon_fn_type());
+                assert_eq!(parser.input().cur(), Token::LParen);
+
+                Ok(())
+            })
+            .unwrap();
+        }
+    }
+
+    #[cfg(feature = "flow")]
+    #[test]
+    fn flow_single_anon_fn_type_direct_guard_filters_multi_param_and_named_forms() {
+        for src in [
+            "(string, number) => void",
+            "(foo: string) => void",
+            "({ foo }: Bar) => void",
+        ] {
+            crate::with_test_sess(src, |_, input| {
+                let lexer = crate::lexer::Lexer::new(
+                    Syntax::Flow(FlowSyntax {
+                        all: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::Es2022,
+                    input,
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                parser.set_ctx(parser.ctx() | Context::InType);
+
+                assert!(!parser.can_direct_parse_flow_single_anon_fn_type());
                 assert_eq!(parser.input().cur(), Token::LParen);
 
                 Ok(())
