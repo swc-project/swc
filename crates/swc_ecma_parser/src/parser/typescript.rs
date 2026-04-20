@@ -695,33 +695,6 @@ impl<I: Tokens> Parser<I> {
         Ok(buf)
     }
 
-    /// `tsTryParse`
-    pub(super) fn try_parse_ts_bool<F>(&mut self, op: F) -> PResult<bool>
-    where
-        F: FnOnce(&mut Self) -> PResult<Option<bool>>,
-    {
-        if !self.input().syntax().typescript() {
-            return Ok(false);
-        }
-
-        let prev_ignore_error = self.input().get_ctx().contains(Context::IgnoreError);
-        let checkpoint = self.checkpoint_save();
-        self.set_ctx(self.ctx() | Context::IgnoreError);
-        let res = op(self);
-        match res {
-            Ok(Some(res)) if res => {
-                let mut ctx = self.ctx();
-                ctx.set(Context::IgnoreError, prev_ignore_error);
-                self.input_mut().set_ctx(ctx);
-                Ok(res)
-            }
-            _ => {
-                self.checkpoint_load(checkpoint);
-                Ok(false)
-            }
-        }
-    }
-
     /// `tsParseDelimitedList`
     fn parse_ts_delimited_list_inner<T, F>(
         &mut self,
@@ -794,32 +767,6 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    /// `tsNextTokenCanFollowModifier`
-    pub(super) fn ts_next_token_can_follow_modifier(&mut self) -> bool {
-        debug_assert!(self.input().syntax().typescript());
-        // Note: TypeScript's implementation is much more complicated because
-        // more things are considered modifiers there.
-        // This implementation only handles modifiers not handled by @babel/parser
-        // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
-        // hasLineBreakUpNext() method...
-        self.bump();
-
-        let cur = self.input().cur();
-        !self.input().had_line_break_before_cur()
-            && matches!(
-                cur,
-                Token::LBracket
-                    | Token::LBrace
-                    | Token::Asterisk
-                    | Token::DotDotDot
-                    | Token::Hash
-                    | Token::Str
-                    | Token::Num
-                    | Token::BigInt
-            )
-            || cur.is_word()
-    }
-
     /// `tsTryParse`
     pub(crate) fn try_parse_ts<T, F>(&mut self, op: F) -> Option<T>
     where
@@ -873,15 +820,6 @@ impl<I: Tokens> Parser<I> {
         }
 
         self.expect_general_semi()
-    }
-
-    /// `tsIsStartOfConstructSignature`
-    fn is_ts_start_of_construct_signature(&mut self) -> bool {
-        debug_assert!(self.input().syntax().typescript());
-
-        self.bump();
-        let cur = self.input().cur();
-        matches!(cur, Token::LParen | Token::Lt)
     }
 
     /// `tsParseDelimitedList`
@@ -1016,9 +954,32 @@ impl<I: Tokens> Parser<I> {
             {
                 return Ok(None);
             }
-            if self.try_parse_ts_bool(|p| Ok(Some(p.ts_next_token_can_follow_modifier())))? {
+
+            // This lookahead only needs one token, so a local checkpoint is
+            // cheaper than routing through the generic TS try-parse helper.
+            let checkpoint = self.checkpoint_save();
+            self.bump();
+
+            let cur = self.input().cur();
+            let can_follow_modifier = !self.input().had_line_break_before_cur()
+                && matches!(
+                    cur,
+                    Token::LBracket
+                        | Token::LBrace
+                        | Token::Asterisk
+                        | Token::DotDotDot
+                        | Token::Hash
+                        | Token::Str
+                        | Token::Num
+                        | Token::BigInt
+                )
+                || cur.is_word();
+
+            if can_follow_modifier {
                 return Ok(Some(allowed_modifiers[pos]));
             }
+
+            self.checkpoint_load(checkpoint);
         }
         Ok(None)
     }
@@ -3774,7 +3735,7 @@ impl<I: Tokens> Parser<I> {
                 .map(into_type_elem);
         }
         if self.input().is(Token::New)
-            && self.ts_look_ahead(Self::is_ts_start_of_construct_signature)
+            && peek!(self).is_some_and(|peek| matches!(peek, Token::LParen | Token::Lt))
         {
             return self
                 .parse_ts_signature_member(SignatureParsingMode::TSConstructSignatureDeclaration)
