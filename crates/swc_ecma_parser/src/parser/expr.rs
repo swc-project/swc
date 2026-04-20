@@ -90,31 +90,6 @@ impl<I: Tokens> Parser<I> {
                 p.try_parse_ts(|p| {
                     let type_parameters = p.parse_ts_type_params(false, true)?;
 
-                    // In TSX mode, type parameters that could be mistaken for JSX
-                    // (single param without constraint and no trailing comma) are not
-                    // allowed. e.g., `<T>() => {}` is invalid in TSX because `<T>`
-                    // looks like JSX.
-                    // Valid alternatives: `<T,>() => {}` or `<T extends unknown>() =>
-                    // {}`
-                    if p.input().syntax().jsx()
-                        && !p.input().syntax().flow()
-                        && type_parameters.params.len() == 1
-                    {
-                        let single_param = &type_parameters.params[0];
-                        // Check if there was a trailing comma by examining spans.
-                        // For `<T>`: decl.span.hi - param.span.hi = 1 (just `>`)
-                        // For `<T,>`: decl.span.hi - param.span.hi > 1 (`,` and `>`)
-                        let has_trailing_comma =
-                            type_parameters.span.hi.0 - single_param.span.hi.0 > 1;
-                        let dominated_by_jsx = single_param.constraint.is_none()
-                            && single_param.default.is_none()
-                            && !has_trailing_comma;
-
-                        if dominated_by_jsx {
-                            return Ok(None);
-                        }
-                    }
-
                     if p.input().syntax().flow() && !p.input().is(Token::LParen) {
                         return Ok(None);
                     }

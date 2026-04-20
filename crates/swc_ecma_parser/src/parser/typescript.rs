@@ -5913,20 +5913,8 @@ impl<I: Tokens> Parser<I> {
 
         let type_params = self.parse_ts_type_params(false, false)?;
 
-        // Callers already wrap this path in a speculative checkpoint. Parse the
-        // async arrow head directly here so the hot path does not pay for a
-        // second nested checkpoint.
-        if self.input().syntax().jsx() && type_params.params.len() == 1 {
-            let single_param = &type_params.params[0];
-            let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
-            let dominated_by_jsx = single_param.constraint.is_none()
-                && single_param.default.is_none()
-                && !has_trailing_comma;
-
-            if dominated_by_jsx {
-                return Ok(None);
-            }
-        }
+        // Callers already wrap this path in a speculative checkpoint, and the
+        // fast guard has already filtered JSX-dominated TSX starts.
 
         // Don't use overloaded parseFunctionParams which would look for "<" again.
         expect!(self, Token::LParen);
