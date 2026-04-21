@@ -10,13 +10,14 @@ use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{
-    collect_decls, contains_this_expr, prop_name_from_ident, ExprCtx, ExprExt, Remapper,
+    collect_decls, contains_this_expr, prop_name_from_ident, ExprCtx, ExprExt, IdentUsageFinder,
+    Remapper,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
-use crate::HEAVY_TASK_PARALLELS;
+use crate::{compress::util::contains_super, HEAVY_TASK_PARALLELS};
 
 impl<'b> Optimizer<'b> {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
@@ -164,14 +165,16 @@ impl Drop for WithCtx<'_, '_> {
     }
 }
 
-pub(crate) fn extract_class_side_effect(
+pub(crate) fn extract_class_side_effect<'a>(
     expr_ctx: ExprCtx,
-    c: &mut Class,
-) -> Option<Vec<&mut Box<Expr>>> {
+    ident: Option<&'a Ident>,
+    c: &'a mut Class,
+) -> Option<Vec<&'a mut Box<Expr>>> {
     let mut res = Vec::new();
+    let mut value = Vec::new();
     if let Some(e) = &mut c.super_class {
         if e.may_have_side_effects(expr_ctx) {
-            res.push(e);
+            value.push(e);
         }
     }
 
@@ -195,10 +198,17 @@ pub(crate) fn extract_class_side_effect(
 
                 if let Some(v) = &mut p.value {
                     if p.is_static && v.may_have_side_effects(expr_ctx) {
-                        if contains_this_expr(v) {
+                        if contains_this_expr(v) || contains_super(v) {
                             return None;
                         }
-                        res.push(v);
+
+                        if let Some(id) = ident {
+                            if IdentUsageFinder::find(id, v) {
+                                return None;
+                            }
+                        }
+
+                        value.push(v);
                     }
                 }
             }
@@ -208,16 +218,50 @@ pub(crate) fn extract_class_side_effect(
                 ..
             }) => {
                 if v.may_have_side_effects(expr_ctx) {
-                    if contains_this_expr(v) {
+                    if contains_this_expr(v) || contains_super(v) {
                         return None;
                     }
-                    res.push(v);
+
+                    if let Some(id) = ident {
+                        if IdentUsageFinder::find(id, v) {
+                            return None;
+                        }
+                    }
+
+                    value.push(v);
+                }
+            }
+            ClassMember::StaticBlock(s) => {
+                if s.body.stmts.len() > 1 {
+                    return None;
+                }
+
+                let first = if let Some(stmt) = s.body.stmts.get_mut(0) {
+                    &mut stmt.as_mut_expr()?.expr
+                } else {
+                    continue;
+                };
+
+                if first.may_have_side_effects(expr_ctx) {
+                    if contains_this_expr(first) || contains_super(first) {
+                        return None;
+                    }
+
+                    if let Some(id) = ident {
+                        if IdentUsageFinder::find(id, first) {
+                            return None;
+                        }
+                    }
+
+                    value.push(first);
                 }
             }
 
             _ => {}
         }
     }
+
+    res.append(&mut value);
 
     Some(res)
 }
