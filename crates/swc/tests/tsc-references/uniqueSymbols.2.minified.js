@@ -54,9 +54,4 @@ class C0 {
         this.a = s, this.b = N.s, this.c = N.s, this.d = s, this.e = N.s, this.f = N.s;
     }
 }
-o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), s, N.s, N.s, 2 * Math.random() && s, 2 * Math.random() && N.s, 2 * Math.random() && N.s, s, N.s;
-class C1 {
-    static{
-        N.s, N.s;
-    }
-}
+o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), s, N.s, N.s, 2 * Math.random() && s, 2 * Math.random() && N.s, 2 * Math.random() && N.s, s, N.s, N.s, N.s;

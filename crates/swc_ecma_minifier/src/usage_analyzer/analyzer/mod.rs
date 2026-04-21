@@ -607,7 +607,12 @@ where
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         self.declare_decl(&n.ident, Some(Value::Unknown), None, false);
 
+        let id = n.ident.to_id();
+        self.used_recursively
+            .insert(id.clone(), RecursiveUsage::FnOrClass);
         n.visit_children_with(self);
+
+        self.used_recursively.remove(&id);
     }
 
     #[cfg_attr(
@@ -615,10 +620,16 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_expr(&mut self, n: &ClassExpr) {
-        n.visit_children_with(self);
-
         if let Some(id) = &n.ident {
             self.declare_decl(id, Some(Value::Unknown), None, false);
+
+            let id = id.to_id();
+            self.used_recursively
+                .insert(id.clone(), RecursiveUsage::FnOrClass);
+            n.visit_children_with(self);
+            self.used_recursively.remove(&id);
+        } else {
+            n.visit_children_with(self);
         }
     }
 
