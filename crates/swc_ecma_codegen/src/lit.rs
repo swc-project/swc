@@ -559,19 +559,51 @@ pub fn get_quoted_utf16(v: &Wtf8, ascii_only: bool, target: EsVersion) -> (Ascii
     (quote_char, CowStr::Owned(buf))
 }
 
+fn should_use_hex_literal(int: u64) -> bool {
+    // Inclusive positive integer ranges where the hex literal form (`0x...`)
+    // is no longer than the plain decimal form.
+
+    if int < 1_000_000 {
+        return false;
+    }
+
+    if (1_000_000..=0xf_ffff).contains(&int) {
+        return true;
+    }
+
+    if (10_000_000..=0xff_ffff).contains(&int) {
+        return true;
+    }
+
+    if (100_000_000..=0xfff_ffff).contains(&int) {
+        return true;
+    }
+
+    if (1_000_000_000..=0xffff_ffff).contains(&int) {
+        return true;
+    }
+
+    if (10_000_000_000..=0xf_ffff_ffff).contains(&int) {
+        return true;
+    }
+
+    if int >= 100_000_000_000 {
+        return true;
+    }
+
+    false
+}
+
 pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
-    // ddddd -> 0xhhhh
-    // len(0xhhhh) == len(ddddd)
-    // 10000000 <= num <= 0xffffff
     'hex: {
         if num.fract() == 0.0 && num.abs() <= u64::MAX as f64 {
             let int = num.abs() as u64;
 
-            if int < 10000000 {
+            if !should_use_hex_literal(int) {
                 break 'hex;
             }
 
-            // use scientific notation
+            // Prefer scientific notation when it shortens the literal more.
             if int % 1000 == 0 {
                 break 'hex;
             }
