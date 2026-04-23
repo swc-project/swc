@@ -1,0 +1,20 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": false
+    },
+    "target": "es2024",
+    "loose": false,
+    "minify": {
+      "compress": false,
+      "mangle": false
+    },
+    "preserveAllComments": true
+  },
+  "module": {
+    "type": "es6"
+  },
+  "minify": true,
+  "isModule": true
+}
