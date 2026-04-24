@@ -140,11 +140,73 @@ it("should respect isModule = false", async () => {
     expect(out.code.trim()).toEqual(`var five = 005;`);
 });
 
+it("should strip Flow type-only exports without restoring empty exports in isModule = unknown", () => {
+    const out = swc.transformSync(
+        `/** @flow strict */
+global.ErrorUtils = {};
+export type ErrorUtilsT = typeof global.ErrorUtils;
+`,
+        {
+            isModule: "unknown",
+            jsc: {
+                parser: {
+                    syntax: "flow",
+                    requireDirective: true,
+                },
+            },
+        }
+    );
+
+    expect(out.code).toContain("global.ErrorUtils = {};");
+    expect(out.code).not.toMatch(/export\s*\{\s*\}/);
+});
+
+it("should strip Flow type-only exports in isModule = false transform mode", () => {
+    const out = swc.transformSync(
+        `/** @flow strict */
+global.ErrorUtils = {};
+export type ErrorUtilsT = typeof global.ErrorUtils;
+`,
+        {
+            isModule: false,
+            jsc: {
+                parser: {
+                    syntax: "flow",
+                    requireDirective: true,
+                },
+            },
+        }
+    );
+
+    expect(out.code).toContain("global.ErrorUtils = {};");
+    expect(out.code).not.toMatch(/export\s*\{\s*\}/);
+});
+
 it("should respect isModule = true", async () => {
     const f = () =>
         swc.transformSync(`const five = 005`, {
             isModule: true,
         });
+    expect(f).toThrowError(/Syntax Error/);
+});
+
+it("should reject runtime Flow exports in isModule = false transform mode", () => {
+    const f = () =>
+        swc.transformSync(
+            `/** @flow */
+export const x = 1;
+`,
+            {
+                isModule: false,
+                jsc: {
+                    parser: {
+                        syntax: "flow",
+                        requireDirective: true,
+                    },
+                },
+            }
+        );
+
     expect(f).toThrowError(/Syntax Error/);
 });
 

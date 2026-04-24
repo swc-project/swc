@@ -263,7 +263,7 @@ impl Options {
         &self,
         cm: &Arc<SourceMap>,
         base: &FileName,
-        parse: impl FnOnce(Syntax, EsVersion, IsModule) -> Result<Program, Error>,
+        parse: impl FnOnce(Syntax, EsVersion, IsModule) -> Result<(Program, bool), Error>,
         output_path: Option<&Path>,
         source_root: Option<String>,
         source_file_name: Option<String>,
@@ -334,7 +334,7 @@ impl Options {
 
         let syntax = syntax.unwrap_or_default();
 
-        let mut program = parse(syntax, es_version, is_module)?;
+        let (mut program, flow_strip_script_like_module) = parse(syntax, es_version, is_module)?;
 
         let mut transform = transform.into_inner().unwrap_or_default();
 
@@ -354,7 +354,7 @@ impl Options {
             syntax.typescript(),
         ));
 
-        let default_top_level = program.is_module();
+        let default_top_level = program.is_module() && !flow_strip_script_like_module;
 
         js_minify = js_minify.map(|mut c| {
             let compress = c
@@ -989,6 +989,7 @@ impl Options {
                 .into_bool(),
             emit_source_map_scopes: experimental.emit_source_map_scopes.into_bool(),
             codegen_inline_script,
+            flow_strip_script_like_module,
             emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
             unresolved_mark,
             #[cfg(feature = "module")]
@@ -1304,6 +1305,7 @@ pub struct BuiltInput<P: Pass> {
     pub emit_assert_for_import_attributes: bool,
     pub emit_source_map_scopes: bool,
     pub codegen_inline_script: bool,
+    pub flow_strip_script_like_module: bool,
 
     pub emit_isolated_dts: bool,
     pub unresolved_mark: Mark,
@@ -1341,6 +1343,7 @@ where
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
             emit_source_map_scopes: self.emit_source_map_scopes,
             codegen_inline_script: self.codegen_inline_script,
+            flow_strip_script_like_module: self.flow_strip_script_like_module,
             emit_isolated_dts: self.emit_isolated_dts,
             unresolved_mark: self.unresolved_mark,
             #[cfg(feature = "module")]
