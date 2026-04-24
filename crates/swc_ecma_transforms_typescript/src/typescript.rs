@@ -8,7 +8,7 @@ use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
-use crate::{retain::IsConcrete, semantic::analyze_program, transform::transform};
+use crate::{semantic::analyze_program, transform::transform};
 
 macro_rules! static_str {
     ($s:expr) => {
@@ -77,14 +77,7 @@ impl TypeScript {
         n.body
             .iter()
             .rev()
-            .find(|module_item| {
-                module_item.as_module_decl().is_some_and(|module_decl| {
-                    match self.config.flow_syntax {
-                        true => module_decl.is_runtime_esm_decl(),
-                        false => module_decl.is_es_module_decl(),
-                    }
-                })
-            })
+            .find(|m| m.is_es_module_decl())
             .map(Spanned::span)
     }
 
@@ -105,7 +98,6 @@ impl TypeScript {
 
 trait EsModuleDecl {
     fn is_es_module_decl(&self) -> bool;
-    fn is_runtime_esm_decl(&self) -> bool;
 }
 
 impl EsModuleDecl for ModuleDecl {
@@ -127,21 +119,12 @@ impl EsModuleDecl for ModuleDecl {
             _ => panic!("unable to access unknown nodes"),
         }
     }
-
-    fn is_runtime_esm_decl(&self) -> bool {
-        self.is_es_module_decl() && self.is_concrete()
-    }
 }
 
 impl EsModuleDecl for ModuleItem {
     fn is_es_module_decl(&self) -> bool {
         self.as_module_decl()
             .is_some_and(ModuleDecl::is_es_module_decl)
-    }
-
-    fn is_runtime_esm_decl(&self) -> bool {
-        self.as_module_decl()
-            .is_some_and(ModuleDecl::is_runtime_esm_decl)
     }
 }
 
