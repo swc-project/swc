@@ -15,7 +15,7 @@ class KeepSelfBlock {
 class KeepPrivateInBlock {
     static #value;
     static{
-        #value in getObject();
+        #value, getObject();
     }
 }
 class KeepPrivateAccessInBlock {
@@ -24,14 +24,4 @@ class KeepPrivateAccessInBlock {
         getObject().#value;
     }
 }
-class KeepMultiStatementBlock {
-    static{
-        first();
-        second();
-    }
-}
-class KeepNonExpressionBlock {
-    static{
-        if (flag) effect();
-    }
-}
+first(), second(), flag && effect();
