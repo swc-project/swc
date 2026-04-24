@@ -1178,7 +1178,11 @@ impl Optimizer<'_> {
             }) => {
                 report_change!("ignore_return_value: Reducing binary ({})", *op);
 
-                let left = self.ignore_return_value(left).map(Box::new);
+                let left = if let Expr::PrivateName(_) = &**left {
+                    None
+                } else {
+                    self.ignore_return_value(left).map(Box::new)
+                };
                 let right = self.ignore_return_value(right).map(Box::new);
 
                 let mut seq = SeqExpr {
