@@ -321,6 +321,7 @@ impl Swcify for Identifier {
                 sym: self.name,
                 optional: self.optional.unwrap_or(false),
                 ctxt: Default::default(),
+                node_id: Default::default(),
             },
             type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
         }

@@ -1,0 +1,7 @@
+scopes
+  scope#0 Program parent=- fn=0 symbols=[0]
+symbols
+  symbol#0 Value Let known scope=0 decls=[3]
+references
+  reference#0 Value Read known node=1 scope=0 fn=0 symbol=0
+  reference#1 Value Read missing node=2 scope=0 fn=0 symbol=-

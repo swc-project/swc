@@ -1,0 +1,11 @@
+scopes
+  scope#0 Program parent=- fn=0 symbols=[1]
+  scope#1 Block parent=0 fn=0 symbols=[]
+  scope#2 Catch parent=0 fn=0 symbols=[0]
+symbols
+  symbol#0 Value CatchParam error scope=2 decls=[2]
+  symbol#1 Value Var lifted scope=0 decls=[3]
+references
+  reference#0 Value Read error node=1 scope=1 fn=0 symbol=-
+  reference#1 Value Read error node=4 scope=2 fn=0 symbol=0
+  reference#2 Value Read lifted node=5 scope=0 fn=0 symbol=1

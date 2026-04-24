@@ -6,6 +6,7 @@ use std::thread;
 use pretty_assertions::assert_eq;
 use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::semantics::assign_node_ids;
 use swc_ecma_visit::VisitMutWith;
 #[cfg(debug_assertions)]
 use swc_ecma_visit::VisitWith;
@@ -87,6 +88,7 @@ impl Compressor<'_> {
         );
 
         if self.options.hoist_vars || self.options.hoist_fns {
+            assign_node_ids(n);
             let data = analyze(&*n, Some(self.marks), false);
 
             let mut v = decl_hoister(
@@ -179,6 +181,7 @@ impl Compressor<'_> {
         {
             let _timer = timer!("apply full optimizer");
 
+            assign_node_ids(n);
             let mut data = analyze(&*n, Some(self.marks), false);
 
             // TODO: reset_opt_flags

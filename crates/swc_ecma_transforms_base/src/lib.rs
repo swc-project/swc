@@ -18,5 +18,6 @@ pub mod quote;
 pub mod rename;
 mod resolver;
 pub mod scope;
+pub mod semantics;
 #[cfg(test)]
 mod tests;

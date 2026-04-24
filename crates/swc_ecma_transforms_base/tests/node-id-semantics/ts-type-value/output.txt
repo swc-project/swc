@@ -1,0 +1,15 @@
+scopes
+  scope#0 Program parent=- fn=0 symbols=[0,1,2,3]
+  scope#1 Block parent=0 fn=0 symbols=[4]
+  scope#2 Block parent=0 fn=0 symbols=[]
+symbols
+  symbol#0 Type Type Box scope=0 decls=[1]
+  symbol#1 Value Const Box scope=0 decls=[4]
+  symbol#2 Value Let value scope=0 decls=[5]
+  symbol#3 Type Type Shape scope=0 decls=[8]
+  symbol#4 Type Type T scope=1 decls=[2]
+references
+  reference#0 Type Read T node=3 scope=1 fn=0 symbol=4
+  reference#1 Type Read Box node=6 scope=0 fn=0 symbol=0
+  reference#2 Value Read Box node=7 scope=0 fn=0 symbol=1
+  reference#3 Type Read Box node=10 scope=2 fn=0 symbol=0
