@@ -41,6 +41,7 @@ pub use self::{
         ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportPhase, ImportSpecifier,
         ImportStarAsSpecifier, ModuleDecl, ModuleExportName, NamedExport,
     },
+    node_id::NodeId,
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::{
         ArrayPat, AssignPat, AssignPatProp, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, RestPat,
@@ -86,6 +87,7 @@ mod list;
 mod lit;
 mod module;
 mod module_decl;
+mod node_id;
 mod operators;
 mod pat;
 mod prop;
