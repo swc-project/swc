@@ -6384,6 +6384,7 @@ dependencies = [
  "serde_json",
  "swc_atoms",
  "swc_common",
+ "tempfile",
  "tracing",
 ]
 

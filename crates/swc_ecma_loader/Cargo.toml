@@ -21,6 +21,9 @@ default = []
 cache = ["lru", "parking_lot"]
 # Enable node js resolver
 node = ["normpath", "serde_json", "dashmap", "once_cell", "path-clean"]
+# Enable Yarn Plug'n'Play resolver. Requires `.pnp.data.json` (i.e.
+# `pnpEnableInlining: false` in `.yarnrc.yml`); we do not execute `.pnp.cjs`.
+pnp = ["serde_json"]
 # Enable support for `paths` of tsconfig.json
 tsc = ["dashmap", "once_cell"]
 
@@ -42,6 +45,7 @@ swc_common = { version = "21.0.1", path = "../swc_common" }
 
 [dev-dependencies]
 lazy_static = { workspace = true }
+tempfile    = { workspace = true }
 
 [target.'cfg(windows)'.dependencies]
 normpath = { version = "0.2", optional = true }
