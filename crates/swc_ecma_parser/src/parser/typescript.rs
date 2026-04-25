@@ -5146,7 +5146,10 @@ impl<I: Tokens> Parser<I> {
                 // In TSX mode, type parameters that could be mistaken for JSX
                 // (single param without constraint and no trailing comma) are not
                 // allowed.
-                if p.input().syntax().jsx() && type_params.params.len() == 1 {
+                if p.input().syntax().jsx()
+                    && !p.input().syntax().flow()
+                    && type_params.params.len() == 1
+                {
                     let single_param = &type_params.params[0];
                     let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
                     let dominated_by_jsx = single_param.constraint.is_none()
