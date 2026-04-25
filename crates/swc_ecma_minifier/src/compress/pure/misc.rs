@@ -15,7 +15,7 @@ use super::Pure;
 use crate::{
     compress::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-        util::is_pure_undefined,
+        util::{contains_super, is_pure_undefined},
     },
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
@@ -284,6 +284,43 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_spread_object(&mut self, e: &mut ObjectLit) {
+        fn is_proto_key(key: &PropName) -> bool {
+            match key {
+                PropName::Ident(i) => i.sym == "__proto__",
+                PropName::Str(s) => &*s.value == "__proto__",
+                _ => false,
+            }
+        }
+
+        fn should_skip_spread_source_prop(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
+            match p {
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::KeyValue(KeyValueProp { key, value, .. }) => {
+                        key.is_computed()
+                            || is_proto_key(key)
+                            || value.may_have_side_effects(expr_ctx)
+                    }
+                    Prop::Assign(AssignProp { value, .. }) => value.may_have_side_effects(expr_ctx),
+                    Prop::Method(method) => {
+                        method.key.is_computed() || contains_super(&method.function.body)
+                    }
+
+                    Prop::Getter(..) | Prop::Setter(..) => true,
+
+                    _ => false,
+                },
+
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => match &**expr {
+                    Expr::Object(ObjectLit { props, .. }) => props
+                        .iter()
+                        .any(|p| should_skip_spread_source_prop(p, expr_ctx)),
+                    _ => false,
+                },
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            }
+        }
+
         fn should_skip(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
             match p {
                 PropOrSpread::Prop(p) => match &**p {
@@ -299,9 +336,9 @@ impl Pure<'_> {
                 },
 
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => match &**expr {
-                    Expr::Object(ObjectLit { props, .. }) => {
-                        props.iter().any(|p| should_skip(p, expr_ctx))
-                    }
+                    Expr::Object(ObjectLit { props, .. }) => props
+                        .iter()
+                        .any(|p| should_skip_spread_source_prop(p, expr_ctx)),
                     _ => false,
                 },
                 #[cfg(swc_ast_unknown)]
