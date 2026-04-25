@@ -389,7 +389,10 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
                 // looks like JSX.
                 // Valid alternatives: `<T,>() => {}` or `<T extends unknown>() =>
                 // {}`
-                if p.input().syntax().jsx() && type_parameters.params.len() == 1 {
+                if p.input().syntax().jsx()
+                    && !p.input().syntax().flow()
+                    && type_parameters.params.len() == 1
+                {
                     let single_param = &type_parameters.params[0];
                     let has_trailing_comma = type_parameters.span.hi.0 - single_param.span.hi.0 > 1;
                     let dominated_by_jsx = single_param.constraint.is_none()
