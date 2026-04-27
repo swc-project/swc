@@ -1,0 +1,16 @@
+UnsupportedSyntax
+
+  x Type assertions that would change binary expression grouping are not supported in strip-only mode.
+   ,-[1:1]
+ 1 | 1 + 1 satisfies number / 2;
+   : ^^^^^^^^^^^^^^^^^^^^^^
+ 2 | a + b * c satisfies T / d;
+   `----
+UnsupportedSyntax
+
+  x Type assertions that would change binary expression grouping are not supported in strip-only mode.
+   ,-[2:1]
+ 1 | 1 + 1 satisfies number / 2;
+ 2 | a + b * c satisfies T / d;
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
