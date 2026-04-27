@@ -1,6 +1,6 @@
 {
     "name": "@swc/html",
-    "version": "1.15.31-nightly-20260427.1",
+    "version": "1.15.32-nightly-20260427.1",
     "description": "Super-fast HTML minifier",
     "homepage": "https://swc.rs",
     "main": "./index.js",
