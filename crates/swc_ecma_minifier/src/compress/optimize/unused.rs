@@ -946,6 +946,15 @@ impl Optimizer<'_> {
 
         let usage = self.data.vars.get(&name.to_id())?;
 
+        // Property pruning is only safe when every property read is reflected in
+        // accessed_props. Some reduced computed reads only leave the coarser
+        // HAS_PROPERTY_ACCESS marker, so keep the whole object in that case.
+        if usage.flags.contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
+            && usage.accessed_props.is_empty()
+        {
+            return None;
+        }
+
         if usage.flags.intersects(
             VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
                 .union(VarUsageInfoFlags::USED_AS_REF)
