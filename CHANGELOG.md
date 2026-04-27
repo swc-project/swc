@@ -2089,14 +2089,8 @@
 
 - **(es/minifier)** Drop pure tagged string call expr ([#10702](https://github.com/swc-project/swc/issues/10702)) ([85cd9a7](https://github.com/swc-project/swc/commit/85cd9a71d57d7c0e37b2158bfddfbdbe2b09622f))
 
-
-- **(es/parser)** Support keywords as JSX member expression properties ([#10701](https://github.com/swc-project/swc/issues/10701)) ([643253d](https://github.com/swc-project/swc/commit/643253d5e1df643fd79eb3f494b56f15bdcbdb47))
-
 ### Features
 
-
-
-- **(es/parser)** Enable import attributes unconditionally ([#10706](https://github.com/swc-project/swc/issues/10706)) ([5ecc3ca](https://github.com/swc-project/swc/commit/5ecc3ca4da6998c8dc9c94d8c25ab10a3b70b62b))
 
 
 - **(es/parser)** Expose Token API with unstable feature flag ([#10699](https://github.com/swc-project/swc/issues/10699)) ([750c7d4](https://github.com/swc-project/swc/commit/750c7d4c84d34091207932dde9e3e1aaac0cf391))
