@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [swc_core@v65.0.0] - 2026-04-27
 
 ### Bug Fixes
 
@@ -2540,9 +2540,6 @@
 
 ### Features
 
-
-
-- **(es/parser)** Add `override` and `out` keyword ([#10695](https://github.com/swc-project/swc/issues/10695)) ([636d7a3](https://github.com/swc-project/swc/commit/636d7a3830ca3de01ee2078385820e3a37d62343))
 
 
 - **(es/parser)** Enable import attributes unconditionally ([#10706](https://github.com/swc-project/swc/issues/10706)) ([5ecc3ca](https://github.com/swc-project/swc/commit/5ecc3ca4da6998c8dc9c94d8c25ab10a3b70b62b))
