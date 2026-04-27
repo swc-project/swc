@@ -12096,3 +12096,44 @@ console.log(getStatusMessage(999).message);
 "#;
     run_default_exec_test(src);
 }
+
+#[test]
+fn object_freeze_spread_computed_registration() {
+    let src = r#"
+const Inner = /*#__PURE__*/ Object.freeze({
+  FocalTweet: "FocalTweet"
+});
+const Outer = /*#__PURE__*/ Object.freeze({
+  ...Inner,
+  Tweet: "Tweet"
+});
+const handlers = {
+  [Outer.Tweet]: "tweetHandler",
+  [Outer.FocalTweet]: "focalTweetHandler"
+};
+
+console.log(Outer.FocalTweet);
+console.log(handlers.FocalTweet);
+console.log(Object.prototype.hasOwnProperty.call(handlers, "undefined"));
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true,
+        "passes": 3
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn object_spread_proto_key_is_not_flattened() {
+    let src = r#"
+const proto = { poisoned: true };
+const out = { ...{ __proto__: proto } };
+
+console.log(Object.getPrototypeOf(out) === Object.prototype);
+console.log(out.poisoned);
+"#;
+
+    run_default_exec_test(src);
+}

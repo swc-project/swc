@@ -284,7 +284,54 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_spread_object(&mut self, e: &mut ObjectLit) {
-        fn should_skip(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
+        fn is_proto_key(key: &PropName) -> bool {
+            match key {
+                PropName::Ident(i) => &*i.sym == "__proto__",
+                PropName::Str(s) => s.value.as_str() == Some("__proto__"),
+                _ => false,
+            }
+        }
+
+        fn can_flatten_spread_expr(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+            match expr {
+                Expr::Object(ObjectLit { props, .. }) => {
+                    props.iter().all(|p| can_flatten_spread_prop(p, expr_ctx))
+                }
+                Expr::Lit(Lit::Null(_)) => true,
+                _ => false,
+            }
+        }
+
+        fn can_flatten_spread_prop(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
+            match p {
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::KeyValue(KeyValueProp { key, value, .. }) => {
+                        !key.is_computed()
+                            && !is_proto_key(key)
+                            && !value.may_have_side_effects(expr_ctx)
+                    }
+                    Prop::Assign(AssignProp { key, value, .. }) => {
+                        key.sym != *"__proto__" && !value.may_have_side_effects(expr_ctx)
+                    }
+                    Prop::Shorthand(i) => i.sym != *"__proto__",
+
+                    // Moving methods between object literals can change their
+                    // [[HomeObject]], which matters for `super`.
+                    Prop::Method(..) | Prop::Getter(..) | Prop::Setter(..) => false,
+
+                    #[cfg(swc_ast_unknown)]
+                    _ => false,
+                },
+
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => {
+                    can_flatten_spread_expr(expr, expr_ctx)
+                }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            }
+        }
+
+        fn should_skip_target_prop(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
             match p {
                 PropOrSpread::Prop(p) => match &**p {
                     Prop::KeyValue(KeyValueProp { key, value, .. }) => {
@@ -299,9 +346,7 @@ impl Pure<'_> {
                 },
 
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => match &**expr {
-                    Expr::Object(ObjectLit { props, .. }) => {
-                        props.iter().any(|p| should_skip(p, expr_ctx))
-                    }
+                    Expr::Object(..) => !can_flatten_spread_expr(expr, expr_ctx),
                     _ => false,
                 },
                 #[cfg(swc_ast_unknown)]
@@ -309,10 +354,12 @@ impl Pure<'_> {
             }
         }
 
-        if e.props.iter().any(|p| should_skip(p, self.expr_ctx))
+        if e.props
+            .iter()
+            .any(|p| should_skip_target_prop(p, self.expr_ctx))
             || !e.props.iter().any(|p| match p {
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => {
-                    expr.is_object() || expr.is_null()
+                    can_flatten_spread_expr(expr, self.expr_ctx)
                 }
                 _ => false,
             })
@@ -325,7 +372,7 @@ impl Pure<'_> {
         for prop in e.props.take() {
             match prop {
                 PropOrSpread::Spread(SpreadElement { expr, .. })
-                    if expr.is_object() || expr.is_null() =>
+                    if can_flatten_spread_expr(&expr, self.expr_ctx) =>
                 {
                     match *expr {
                         Expr::Object(ObjectLit { props, .. }) => {
@@ -347,6 +394,8 @@ impl Pure<'_> {
         }
 
         e.props = new_props;
+        self.changed = true;
+        report_change!("evaluate: Folded object spread from a plain object literal");
     }
 
     /// `foo(...[1, 2])`` => `foo(1, 2)`
