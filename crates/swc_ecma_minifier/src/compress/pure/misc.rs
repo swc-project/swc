@@ -2493,6 +2493,13 @@ impl Pure<'_> {
                 self.changed = true;
                 *e = l.take();
             }
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) if matches!(&**arg, Expr::Lit(Lit::Num(..))) => {
+                report_change!("Removing rhs of ?? as lhs cannot be null nor undefined");
+                self.changed = true;
+                *e = l.take();
+            }
             _ => {}
         }
     }
