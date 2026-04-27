@@ -36,7 +36,7 @@ swc_config = { version = "4.0.1", path = "../swc_config", features = [
 swc_ecma_ast = { version = "23.0.0", path = "../swc_ecma_ast" }
 swc_ecma_loader = { version = "21.0.0", path = "../swc_ecma_loader", features = [
 ] }
-swc_ecma_parser = { version = "39.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "39.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "42.0.0", path = "../swc_ecma_transforms_base" }
@@ -54,5 +54,5 @@ swc_ecma_loader = { version = "21.0.0", path = "../swc_ecma_loader", features = 
 ] }
 swc_ecma_transforms_compat = { version = "48.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_testing = { version = "46.0.0", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript = { version = "46.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript = { version = "46.0.1", path = "../swc_ecma_transforms_typescript" }
 testing = { version = "22.0.0", path = "../testing/" }
