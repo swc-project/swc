@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.15.32] - 2026-04-27
 
 ### Bug Fixes
 
@@ -2082,18 +2082,6 @@
 - Make codspeed concurrent on main branch ([#10711](https://github.com/swc-project/swc/issues/10711)) ([4392ce3](https://github.com/swc-project/swc/commit/4392ce3414a77ca98c9923c093d60ca662615852))
 
 ## [1.12.7] - 2025-06-26
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Drop pure tagged string call expr ([#10702](https://github.com/swc-project/swc/issues/10702)) ([85cd9a7](https://github.com/swc-project/swc/commit/85cd9a71d57d7c0e37b2158bfddfbdbe2b09622f))
-
-### Features
-
-
-
-- **(es/parser)** Expose Token API with unstable feature flag ([#10699](https://github.com/swc-project/swc/issues/10699)) ([750c7d4](https://github.com/swc-project/swc/commit/750c7d4c84d34091207932dde9e3e1aaac0cf391))
 
 ### Performance
 
