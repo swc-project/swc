@@ -2,20 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 192
+    "end": 68
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 192
+        "end": 68
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 192
+          "end": 68
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -31,14 +31,14 @@
           },
           "span": {
             "start": 1,
-            "end": 163
+            "end": 39
           },
           "attributes": [
             {
               "type": "JSXAttribute",
               "span": {
                 "start": 4,
-                "end": 161
+                "end": 37
               },
               "name": {
                 "type": "Identifier",
@@ -52,10 +52,10 @@
                 "type": "StringLiteral",
                 "span": {
                   "start": 10,
-                  "end": 161
+                  "end": 37
                 },
-                "value": "🦀\uD83E💩\uD83E&\uDD80\uDD80&55358;&56704;𐀀\uDD80\uDC00𐐀💩𐐀",
-                "raw": "\"&#xD83E;&#xDD80;&#xD83E;&#x1f4a9;&#xD83E;&amp;&#xDD80;&#xDD80;&55358;&56704;&#xD800;&#xDC00;&#xDD80;&#xDC00;&#xD801;&#xDC00;&#x1f4a9;&#xD801;&#xDC00;\""
+                "value": "🦀💩",
+                "raw": "\"&#xD83E;&#xDD80;&#x1f4a9;\""
               }
             }
           ],
@@ -66,8 +66,8 @@
           {
             "type": "JSXText",
             "span": {
-              "start": 163,
-              "end": 188
+              "start": 39,
+              "end": 64
             },
             "value": "🦀💩",
             "raw": "&#xD83E;&#xDD80;&#x1f4a9;"
@@ -76,14 +76,14 @@
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 188,
-            "end": 192
+            "start": 64,
+            "end": 68
           },
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 190,
-              "end": 191
+              "start": 66,
+              "end": 67
             },
             "ctxt": 0,
             "value": "A",
