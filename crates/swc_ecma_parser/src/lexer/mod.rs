@@ -1452,10 +1452,15 @@ impl<'a> Lexer<'a> {
                                 return Ok((Wtf8Atom::from(buf), format!("&{s};")));
                             }
                         } else {
+                            if prev_result != NO_PREV_RESULT {
+                                buf.push(unsafe { CodePoint::from_u32_unchecked(prev_result) });
+                                raw.push_str(format!("&{s};").as_str());
+                            }
                             // Safety: result is a valid Unicode code point
                             buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
                             return Ok((Wtf8Atom::from(buf), format!("&{s};")));
                         }
+                        // Maybe prev_result here but ignore it follow babel behavior
                         // Safety: result is a valid Unicode code point
                         buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
                         return Ok((Wtf8Atom::from(buf), format!("&{s};")));
