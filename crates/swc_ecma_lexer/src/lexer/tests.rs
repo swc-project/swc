@@ -1033,7 +1033,7 @@ fn jsx_02() {
             Token::JSXTagEnd,
             Token::JSXText {
                 raw: atom!("foo"),
-                value: atom!("foo")
+                value: atom!("foo").into()
             },
             Token::JSXTagStart,
             tok!('/'),
@@ -1220,7 +1220,7 @@ fn issue_299_01() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1257,7 +1257,7 @@ fn issue_299_02() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1294,7 +1294,7 @@ fn jsx_string_1() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1331,7 +1331,7 @@ fn jsx_string_2() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1368,7 +1368,7 @@ fn jsx_string_3() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1405,7 +1405,7 @@ fn jsx_string_4() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1442,7 +1442,7 @@ fn jsx_string_5() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1479,7 +1479,7 @@ fn jsx_string_6() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1516,7 +1516,7 @@ fn jsx_string_7() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1553,7 +1553,7 @@ fn jsx_string_8() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1590,7 +1590,7 @@ fn jsx_string_9() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!("ABC"),
-                value: atom!("ABC")
+                value: atom!("ABC").into()
             },
             JSXTagStart,
             tok!('/'),
@@ -1647,7 +1647,7 @@ fn issue_481() {
             Token::JSXTagEnd,
             JSXText {
                 raw: atom!(" "),
-                value: atom!(" ")
+                value: atom!(" ").into()
             },
             LBrace,
             Word(Word::Ident("foo".into())),
@@ -2229,7 +2229,7 @@ fn issue_9106() {
             JSXTagEnd,
             JSXText {
                 raw: atom!("\n\r\nABC"),
-                value: atom!("\n\nABC"),
+                value: atom!("\n\nABC").into(),
             },
             JSXTagStart,
             tok!('/'),

@@ -1173,7 +1173,7 @@ fn jsx_attr_str_preserves_line_terminators() {
 #[test]
 fn jsx_text_with_raw_entity_whitespace_matrix() {
     fn convert(value: &str, raw: &str) -> String {
-        let value: Atom = value.into();
+        let value: Wtf8Atom = value.into();
         let raw: Atom = raw.into();
 
         jsx_text_to_str_with_raw(&value, &raw)

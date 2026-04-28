@@ -1459,16 +1459,18 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 /// preserve whitespace that was explicitly encoded as HTML entities like
 /// `&#32;`, `&#9;`, `&#10;`, `&#13;`.
 #[inline]
-fn jsx_text_to_str_with_raw(value: &Atom, raw: &Atom) -> Wtf8Atom {
+fn jsx_text_to_str_with_raw(value: &Wtf8Atom, raw: &Atom) -> Wtf8Atom {
     // Fast path: if no HTML entities (raw == value), use the simple algorithm
-    if value.as_str() == raw.as_str() {
-        return jsx_text_to_str_impl(value).into();
+    if let Some(value) = value.as_str() {
+        if value == raw.as_str() {
+            return jsx_text_to_str_impl(value).into();
+        }
+        // Build a mask of which byte positions in value came from HTML entities
+        let entity_mask = build_entity_mask(value, raw);
+
+        return jsx_text_to_str_with_entity_mask(value, &entity_mask).into();
     }
-
-    // Build a mask of which byte positions in value came from HTML entities
-    let entity_mask = build_entity_mask(value, raw);
-
-    jsx_text_to_str_with_entity_mask(value, &entity_mask).into()
+    value.clone()
 }
 
 /// Build a mask indicating which character positions in `value` came from HTML
