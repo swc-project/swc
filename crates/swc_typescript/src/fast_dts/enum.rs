@@ -56,6 +56,7 @@ impl FastDts {
                         let expr = if v.is_infinite() {
                             Expr::Ident(Ident {
                                 span: DUMMY_SP,
+                                node_id: Default::default(),
                                 sym: atom!("Infinity"),
                                 ctxt: SyntaxContext::empty(),
                                 optional: false,

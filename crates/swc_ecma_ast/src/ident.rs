@@ -12,7 +12,7 @@ use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 
-use crate::{typescript::TsTypeAnn, Expr};
+use crate::{typescript::TsTypeAnn, Expr, NodeId};
 
 /// Identifier used as a pattern.
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]
@@ -96,6 +96,7 @@ impl From<&'_ BindingIdent> for Ident {
     fn from(bi: &'_ BindingIdent) -> Self {
         Ident {
             span: bi.span,
+            node_id: bi.node_id,
             ctxt: bi.ctxt,
             sym: bi.sym.clone(),
             optional: bi.optional,
@@ -184,6 +185,13 @@ pub struct Ident {
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
 
+    /// Unique id of this identifier occurrence.
+    ///
+    /// This is invalid until a node-id assignment pass runs.
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
+    pub node_id: NodeId,
+
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub ctxt: SyntaxContext,
 
@@ -214,6 +222,7 @@ impl From<(Atom, Span)> for Ident {
     fn from((sym, span): (Atom, Span)) -> Self {
         Ident {
             span,
+            node_id: Default::default(),
             sym,
             ..Default::default()
         }
@@ -479,6 +488,7 @@ impl From<IdentName> for Ident {
     fn from(i: IdentName) -> Self {
         Ident {
             span: i.span,
+            node_id: Default::default(),
             sym: i.sym,
             ..Default::default()
         }
@@ -570,6 +580,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
 
         Ok(Self {
             span,
+            node_id: Default::default(),
             sym,
             optional,
             ctxt: Default::default(),
@@ -597,6 +608,7 @@ impl Ident {
     pub const fn new(sym: Atom, span: Span, ctxt: SyntaxContext) -> Self {
         Ident {
             span,
+            node_id: NodeId::invalid(),
             ctxt,
             sym,
             optional: false,

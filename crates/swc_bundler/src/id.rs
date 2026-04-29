@@ -6,7 +6,7 @@ use std::{
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
-use swc_ecma_ast::{Expr, Ident};
+use swc_ecma_ast::{Expr, Ident, NodeId};
 use swc_ecma_utils::ident::IdentLike;
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -91,6 +91,10 @@ impl IdentLike for Id {
 
     fn into_id(self) -> (Atom, SyntaxContext) {
         (self.0, self.1)
+    }
+
+    fn node_id(&self) -> NodeId {
+        NodeId::invalid()
     }
 }
 

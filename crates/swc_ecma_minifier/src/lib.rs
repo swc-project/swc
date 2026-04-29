@@ -42,6 +42,7 @@ use once_cell::sync::Lazy;
 use pass::mangle_names::mangle_names;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::semantics::assign_node_ids;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
@@ -104,6 +105,7 @@ pub fn optimize(
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
     marks.unresolved_mark = extra.unresolved_mark;
 
+    assign_node_ids(&mut n);
     debug_assert_valid(&n);
 
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {

@@ -8,7 +8,10 @@ use swc_ecma_visit::{
 };
 use tracing::{debug, span, Level};
 
-use crate::scope::{DeclKind, IdentType, ScopeKind};
+use crate::{
+    scope::{DeclKind, IdentType, ScopeKind},
+    semantics::assign_node_ids,
+};
 
 #[cfg(test)]
 mod tests;
@@ -149,6 +152,7 @@ pub fn resolver(
         in_ts_module: false,
         decl_kind: DeclKind::Lexical,
         strict_mode: false,
+        assign_node_ids: true,
         config: InnerConfig {
             handle_types: typescript,
             unresolved_mark,
@@ -206,6 +210,7 @@ struct Resolver<'a> {
     in_ts_module: bool,
     decl_kind: DeclKind,
     strict_mode: bool,
+    assign_node_ids: bool,
 
     config: InnerConfig,
 }
@@ -230,6 +235,7 @@ impl<'a> Resolver<'a> {
             config,
             decl_kind: DeclKind::Lexical,
             strict_mode: false,
+            assign_node_ids: true,
         }
     }
 
@@ -250,6 +256,7 @@ impl<'a> Resolver<'a> {
             in_ts_module: self.in_ts_module,
             decl_kind: self.decl_kind,
             strict_mode: self.strict_mode,
+            assign_node_ids: false,
         };
 
         op(&mut child);
@@ -376,6 +383,16 @@ impl<'a> Resolver<'a> {
         self.in_type = true;
         i.visit_mut_with(self);
         self.in_type = false;
+    }
+
+    fn assign_node_ids_once<N>(&mut self, node: &mut N)
+    where
+        N: VisitMutWith<crate::semantics::NodeIdAssigner>,
+    {
+        if self.assign_node_ids {
+            assign_node_ids(node);
+            self.assign_node_ids = false;
+        }
     }
 }
 
@@ -524,6 +541,11 @@ impl VisitMut for Resolver<'_> {
 
     // TODO: How should I handle this?
     typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
+
+    fn visit_mut_program(&mut self, program: &mut Program) {
+        self.assign_node_ids_once(program);
+        program.visit_mut_children_with(self);
+    }
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         self.with_child(ScopeKind::Fn, |child| {
@@ -1060,6 +1082,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
+        self.assign_node_ids_once(module);
         self.strict_mode = true;
         self.is_module = true;
         module.visit_mut_children_with(self)
@@ -1134,6 +1157,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
+        self.assign_node_ids_once(script);
         self.strict_mode = script
             .body
             .first()

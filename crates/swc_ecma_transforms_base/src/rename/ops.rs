@@ -11,6 +11,7 @@ use crate::{
     hygiene::Config,
     perf::{cpu_count, ParExplode, Parallel, ParallelExt},
     rename::RenamedVariable,
+    semantics::{Semantics, SymbolId},
 };
 
 pub(super) struct Operator<'a, V>
@@ -21,6 +22,14 @@ where
     pub config: Config,
 
     pub extra: Vec<ModuleItem>,
+}
+
+pub(super) struct SymbolOperator<'a, V>
+where
+    V: RenamedVariable,
+{
+    pub semantics: &'a Semantics,
+    pub rename: &'a FxHashMap<SymbolId, V>,
 }
 
 impl<V> Operator<'_, V>
@@ -604,6 +613,38 @@ where
         self.maybe_par(cpu_count() * 100, n, |v, n| {
             n.visit_mut_with(v);
         })
+    }
+}
+
+impl<V> VisitMut for SymbolOperator<'_, V>
+where
+    V: RenamedVariable,
+{
+    noop_visit_mut_type!();
+
+    /// Preserve key of properties.
+    fn visit_mut_assign_pat_prop(&mut self, p: &mut AssignPatProp) {
+        if let Some(value) = &mut p.value {
+            value.visit_mut_children_with(self);
+        }
+    }
+
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        let Some(symbol) = self.semantics.symbol_for_node_id(ident.node_id) else {
+            return;
+        };
+
+        let Some(new_id) = self.rename.get(&symbol) else {
+            return;
+        };
+
+        let new_sym = new_id.atom();
+        if ident.sym.eq(new_sym) {
+            return;
+        }
+
+        ident.ctxt = new_id.ctxt();
+        ident.sym = new_sym.clone();
     }
 }
 

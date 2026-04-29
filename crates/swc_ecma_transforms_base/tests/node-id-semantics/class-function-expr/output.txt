@@ -1,0 +1,13 @@
+scopes
+  scope#0 Program parent=- fn=0 symbols=[0,1]
+  scope#1 Function parent=0 fn=1 symbols=[2]
+  scope#2 Class parent=0 fn=0 symbols=[3]
+  scope#3 Function parent=2 fn=3 symbols=[]
+symbols
+  symbol#0 Value Const fn scope=0 decls=[1]
+  symbol#1 Value Const cls scope=0 decls=[4]
+  symbol#2 Value Function named scope=1 decls=[2]
+  symbol#3 Value Class NamedClass scope=2 decls=[5]
+references
+  reference#0 Value Read named node=3 scope=1 fn=1 symbol=2
+  reference#1 Value Read NamedClass node=6 scope=3 fn=3 symbol=3

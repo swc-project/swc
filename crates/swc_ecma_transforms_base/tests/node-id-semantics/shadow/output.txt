@@ -1,0 +1,17 @@
+scopes
+  scope#0 Program parent=- fn=0 symbols=[0,1]
+  scope#1 Block parent=0 fn=0 symbols=[2]
+  scope#2 Function parent=0 fn=2 symbols=[3,4,5]
+  scope#3 Function parent=2 fn=3 symbols=[]
+symbols
+  symbol#0 Value Let value scope=0 decls=[1]
+  symbol#1 Value Function outer scope=0 decls=[4]
+  symbol#2 Value Let value scope=1 decls=[2]
+  symbol#3 Value Param param scope=2 decls=[5]
+  symbol#4 Value Var value scope=2 decls=[6]
+  symbol#5 Value Function inner scope=2 decls=[8]
+references
+  reference#0 Value Read value node=3 scope=1 fn=0 symbol=2
+  reference#1 Value Read param node=7 scope=2 fn=2 symbol=3
+  reference#2 Value Read value node=9 scope=3 fn=3 symbol=4
+  reference#3 Value Read inner node=10 scope=2 fn=2 symbol=5

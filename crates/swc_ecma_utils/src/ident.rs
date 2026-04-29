@@ -1,9 +1,10 @@
 use swc_atoms::Atom;
 use swc_common::SyntaxContext;
-use swc_ecma_ast::{unsafe_id_from_ident, BindingIdent, Id, Ident, UnsafeId};
+use swc_ecma_ast::{unsafe_id_from_ident, BindingIdent, Id, Ident, NodeId, UnsafeId};
 
 pub trait IdentLike: Sized + Send + Sync + 'static {
     fn from_ident(i: &Ident) -> Self;
+    fn node_id(&self) -> NodeId;
     fn to_id(&self) -> Id;
     fn into_id(self) -> Id;
 }
@@ -11,6 +12,10 @@ pub trait IdentLike: Sized + Send + Sync + 'static {
 impl IdentLike for Atom {
     fn from_ident(i: &Ident) -> Self {
         i.sym.clone()
+    }
+
+    fn node_id(&self) -> NodeId {
+        NodeId::invalid()
     }
 
     fn to_id(&self) -> Id {
@@ -25,6 +30,10 @@ impl IdentLike for Atom {
 impl IdentLike for BindingIdent {
     fn from_ident(i: &Ident) -> Self {
         i.clone().into()
+    }
+
+    fn node_id(&self) -> NodeId {
+        self.id.node_id
     }
 
     fn to_id(&self) -> Id {
@@ -42,6 +51,10 @@ impl IdentLike for (Atom, SyntaxContext) {
         (i.sym.clone(), i.ctxt)
     }
 
+    fn node_id(&self) -> NodeId {
+        NodeId::invalid()
+    }
+
     #[inline]
     fn to_id(&self) -> Id {
         (self.0.clone(), self.1)
@@ -56,7 +69,12 @@ impl IdentLike for (Atom, SyntaxContext) {
 impl IdentLike for Ident {
     #[inline]
     fn from_ident(i: &Ident) -> Self {
-        Ident::new(i.sym.clone(), i.span, i.ctxt)
+        i.clone()
+    }
+
+    #[inline]
+    fn node_id(&self) -> NodeId {
+        self.node_id
     }
 
     #[inline]
@@ -73,6 +91,10 @@ impl IdentLike for Ident {
 impl IdentLike for UnsafeId {
     fn from_ident(i: &Ident) -> Self {
         unsafe { unsafe_id_from_ident(i) }
+    }
+
+    fn node_id(&self) -> NodeId {
+        NodeId::invalid()
     }
 
     fn to_id(&self) -> Id {

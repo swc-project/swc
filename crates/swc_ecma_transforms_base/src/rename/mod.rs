@@ -14,7 +14,10 @@ use self::renamer_concurrent::{Send, Sync};
 #[cfg(not(feature = "concurrent-renamer"))]
 use self::renamer_single::{Send, Sync};
 use self::{analyzer::Analyzer, ops::Operator};
-use crate::hygiene::Config;
+use crate::{
+    hygiene::Config,
+    semantics::{Semantics, SymbolId},
+};
 
 mod analyer_and_collector;
 mod analyzer;
@@ -53,6 +56,7 @@ pub trait Renamer: Send + Sync {
 }
 
 pub type RenameMap = FxHashMap<Id, Atom>;
+pub type SymbolRenameMap<V = Atom> = FxHashMap<SymbolId, V>;
 
 pub fn rename<V: RenamedVariable>(map: &FxHashMap<Id, V>) -> impl '_ + Pass + VisitMut {
     rename_with_config(map, Default::default())
@@ -66,6 +70,24 @@ pub fn rename_with_config<V: RenamedVariable>(
         rename: map,
         config,
         extra: Default::default(),
+    })
+}
+
+/// Renames identifiers using a node-id semantics side table.
+///
+/// `semantics` must be produced from the same AST version as the one being
+/// renamed. If a transform has created or reordered identifier occurrences,
+/// reassign node ids and rebuild semantics before calling this pass.
+pub fn rename_symbols<'a, V>(
+    semantics: &'a Semantics,
+    map: &'a SymbolRenameMap<V>,
+) -> impl 'a + Pass + VisitMut
+where
+    V: RenamedVariable,
+{
+    visit_mut_pass(ops::SymbolOperator {
+        semantics,
+        rename: map,
     })
 }
 

@@ -1,0 +1,13 @@
+scopes
+  scope#0 Program parent=- fn=0 symbols=[0,1,2,3]
+  scope#1 Function parent=0 fn=1 symbols=[]
+symbols
+  symbol#0 Value Import foo scope=0 decls=[1]
+  symbol#1 Value Import baz scope=0 decls=[2]
+  symbol#2 Value Const local scope=0 decls=[4]
+  symbol#3 Value Function used scope=0 decls=[9]
+references
+  reference#0 Value Read foo node=5 scope=0 fn=0 symbol=0
+  reference#1 Value Read baz node=6 scope=0 fn=0 symbol=1
+  reference#2 Value Read local node=7 scope=0 fn=0 symbol=2
+  reference#3 Value Read local node=10 scope=1 fn=1 symbol=2

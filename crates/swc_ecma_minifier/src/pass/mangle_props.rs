@@ -4,6 +4,7 @@ use once_cell::sync::Lazy;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::semantics::assign_node_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
@@ -123,6 +124,7 @@ pub(crate) fn mangle_properties(
         n: 0,
     };
 
+    assign_node_ids(m);
     let mut data = analyze(&*m, None, true);
 
     for prop in std::mem::take(data.property_atoms.as_mut().unwrap()) {

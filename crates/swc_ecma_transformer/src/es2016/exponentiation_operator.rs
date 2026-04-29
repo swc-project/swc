@@ -287,6 +287,7 @@ fn create_math_pow(left: Box<Expr>, right: Box<Expr>) -> Expr {
             span: DUMMY_SP,
             obj: Box::new(Expr::Ident(Ident {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 ctxt: SyntaxContext::empty(),
                 sym: "Math".into(),
                 optional: false,
