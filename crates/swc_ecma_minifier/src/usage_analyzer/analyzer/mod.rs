@@ -1464,54 +1464,69 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
 
         for decl in &n.decls {
-            if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                let mut v = None;
-                for id in collect_infects_from(
-                    init,
-                    AliasConfig {
-                        marks: self.marks,
-                        ignore_named_child_scope: true,
-                        ..Default::default()
-                    },
-                ) {
-                    if v.is_none() {
-                        v = Some(self.data.var_or_default(var.to_id()));
+            let Some(init) = decl.init.as_deref() else {
+                continue;
+            };
+
+            match &decl.name {
+                Pat::Ident(var) => {
+                    let mut v = None;
+                    for id in collect_infects_from(
+                        init,
+                        AliasConfig {
+                            marks: self.marks,
+                            ignore_named_child_scope: true,
+                            ..Default::default()
+                        },
+                    ) {
+                        if v.is_none() {
+                            v = Some(self.data.var_or_default(var.to_id()));
+                        }
+
+                        v.as_mut().unwrap().add_infects_to(id.clone());
                     }
 
-                    v.as_mut().unwrap().add_infects_to(id.clone());
+                    match init {
+                        Expr::Fn(n) => {
+                            let scope = self.data.scope(n.function.ctxt);
+                            let known = !scope.used_arguments()
+                                && !scope.used_eval()
+                                && !n.function.params.iter().any(|p| p.pat.is_rest());
+                            let data = self.data.var_or_default(var.id.to_id());
+
+                            if known {
+                                data.store_param_count(Self::param_count_to_value(
+                                    n.function.params.len(),
+                                ));
+                            } else {
+                                data.store_param_count(Value::Unknown);
+                            }
+                        }
+                        Expr::Arrow(n) => {
+                            let scope = self.data.scope(n.ctxt);
+                            let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
+                            let data = self.data.var_or_default(var.id.to_id());
+
+                            if known {
+                                data.store_param_count(Self::param_count_to_value(n.params.len()));
+                            } else {
+                                data.store_param_count(Value::Unknown)
+                            }
+                        }
+                        _ => self
+                            .data
+                            .var_or_default(var.id.to_id())
+                            .store_param_count(Value::Unknown),
+                    }
                 }
-
-                match init {
-                    Expr::Fn(n) => {
-                        let scope = self.data.scope(n.function.ctxt);
-                        let known = !scope.used_arguments()
-                            && !scope.used_eval()
-                            && !n.function.params.iter().any(|p| p.pat.is_rest());
-                        let data = self.data.var_or_default(var.id.to_id());
-
-                        if known {
-                            data.store_param_count(Self::param_count_to_value(
-                                n.function.params.len(),
-                            ));
-                        } else {
-                            data.store_param_count(Value::Unknown);
-                        }
+                _ => {
+                    // Destructuring pulls values from an external object or iterable, so the
+                    // callable arity of each binding is not known from this declaration.
+                    for id in find_pat_ids(&decl.name) {
+                        self.data
+                            .var_or_default(id)
+                            .store_param_count(Value::Unknown);
                     }
-                    Expr::Arrow(n) => {
-                        let scope = self.data.scope(n.ctxt);
-                        let known = !scope.used_eval() && !n.params.iter().any(|p| p.is_rest());
-                        let data = self.data.var_or_default(var.id.to_id());
-
-                        if known {
-                            data.store_param_count(Self::param_count_to_value(n.params.len()));
-                        } else {
-                            data.store_param_count(Value::Unknown)
-                        }
-                    }
-                    _ => self
-                        .data
-                        .var_or_default(var.id.to_id())
-                        .store_param_count(Value::Unknown),
                 }
             }
         }
