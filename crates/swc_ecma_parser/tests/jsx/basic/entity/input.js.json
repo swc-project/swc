@@ -2,20 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 68
+    "end": 132
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 68
+        "end": 132
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 68
+          "end": 132
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -31,14 +31,14 @@
           },
           "span": {
             "start": 1,
-            "end": 39
+            "end": 71
           },
           "attributes": [
             {
               "type": "JSXAttribute",
               "span": {
                 "start": 4,
-                "end": 37
+                "end": 69
               },
               "name": {
                 "type": "Identifier",
@@ -52,10 +52,10 @@
                 "type": "StringLiteral",
                 "span": {
                   "start": 10,
-                  "end": 37
+                  "end": 69
                 },
-                "value": "🦀💩",
-                "raw": "\"&#xD83E;&#xDD80;&#x1f4a9;\""
+                "value": "🦀🦀🦀💩",
+                "raw": "\"&#xD83E;&#xDD80;&#55358;&#56704;&#xD83E;&#56704;&#x1f4a9;\""
               }
             }
           ],
@@ -66,24 +66,24 @@
           {
             "type": "JSXText",
             "span": {
-              "start": 39,
-              "end": 64
+              "start": 71,
+              "end": 128
             },
-            "value": "🦀💩",
-            "raw": "&#xD83E;&#xDD80;&#x1f4a9;"
+            "value": "🦀🦀🦀💩",
+            "raw": "&#xD83E;&#xDD80;&#55358;&#56704;&#xD83E;&#56704;&#x1f4a9;"
           }
         ],
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 64,
-            "end": 68
+            "start": 128,
+            "end": 132
           },
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 66,
-              "end": 67
+              "start": 130,
+              "end": 131
             },
             "ctxt": 0,
             "value": "A",

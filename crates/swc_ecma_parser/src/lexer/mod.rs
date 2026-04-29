@@ -1415,62 +1415,60 @@ impl<'a> Lexer<'a> {
                 continue;
             }
             if let Some(stripped) = s.strip_prefix('#') {
+                let mut result = NO_PREV_RESULT;
                 if stripped.starts_with('x') {
                     if is_hex(&s[2..]) {
-                        let mut result = parse_from_code(&s[2..], 16)?;
-                        if (0xd800..=0xdfff).contains(&result) {
-                            if result < 0xdc00 {
-                                if prev_result != NO_PREV_RESULT {
-                                    // If the previous result is a high surrogate
-                                    // We can be sure `prev_result` is less than 0xdc00
-                                    buf.push_str(format!("&#{prev_result:04X};",).as_str());
-                                }
-                                if self.input().cur() == Some(b'&')
-                                    && self.input().peek() == Some(b'#')
-                                {
-                                    self.bump(1); // `&`
+                        result = parse_from_code(&s[2..], 16)?;
+                    } else {
+                        return Ok((Wtf8Atom::from(format!("&{s};")), format!("&{s};")));
+                    }
+                } else if is_dec(stripped) {
+                    result = parse_from_code(stripped, 10)?;
+                }
 
-                                    // wait for the next surrogate
-                                    prev_result = result;
-                                    raw.push_str(format!("&{s};").as_str());
-                                    s.clear();
-                                    continue;
-                                } else {
-                                    // Safety: result is a valid Unicode code point
-                                    buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
-                                    return Ok((Wtf8Atom::from(buf), format!("&{s};")));
-                                }
-                            } else if prev_result != NO_PREV_RESULT {
-                                // Low surrogate pair
-                                // Decode to supplementary plane code point
-                                // (0x10000-0x10FFFF)
-                                result =
-                                    0x10000 + ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
-                                // Safety: result is a valid Unicode code point
-                                buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
-                                raw.push_str(format!("&{s};").as_str());
-                                return Ok((Wtf8Atom::from(buf), format!("&{s};")));
-                            }
+                if (0xd800..=0xdfff).contains(&result) {
+                    if result < 0xdc00 {
+                        if prev_result != NO_PREV_RESULT {
+                            // If the previous result is a high surrogate
+                            // We can be sure `prev_result` is less than 0xdc00
+                            buf.push_str(format!("&#x{prev_result:04X};").as_str());
+                        }
+                        if self.input().cur() == Some(b'&') && self.input().peek() == Some(b'#') {
+                            self.bump(1); // `&`
+
+                            // wait for the next surrogate
+                            prev_result = result;
+                            raw.push_str(format!("&{s};").as_str());
+                            s.clear();
+                            continue;
                         } else {
-                            if prev_result != NO_PREV_RESULT {
-                                buf.push(unsafe { CodePoint::from_u32_unchecked(prev_result) });
-                                raw.push_str(format!("&{s};").as_str());
-                            }
                             // Safety: result is a valid Unicode code point
                             buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
                             return Ok((Wtf8Atom::from(buf), format!("&{s};")));
                         }
-                        // Maybe prev_result here but ignore it follow babel behavior
+                    } else if prev_result != NO_PREV_RESULT {
+                        // Low surrogate pair
+                        // Decode to supplementary plane code point
+                        // (0x10000-0x10FFFF)
+                        result = 0x10000 + ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
                         // Safety: result is a valid Unicode code point
                         buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
-                        return Ok((Wtf8Atom::from(buf), format!("&{s};")));
+                        raw.push_str(format!("&{s};").as_str());
+                        return Ok((Wtf8Atom::from(buf), raw));
                     }
-                } else if is_dec(stripped) {
-                    let result = parse_from_code(stripped, 10)?;
-                    // Safety: We already checked that result is a valid Unicode code point
+                } else {
+                    if prev_result != NO_PREV_RESULT {
+                        buf.push(unsafe { CodePoint::from_u32_unchecked(prev_result) });
+                        raw.push_str(format!("&{s};").as_str());
+                    }
+                    // Safety: result is a valid Unicode code point
                     buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
                     return Ok((Wtf8Atom::from(buf), format!("&{s};")));
                 }
+                // Maybe prev_result here but ignore it follow babel behavior
+                // Safety: result is a valid Unicode code point
+                buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
+                return Ok((Wtf8Atom::from(buf), format!("&{s};")));
             } else if let Some(entity) = xhtml(&s) {
                 return Ok((Wtf8Atom::from(entity.to_string()), format!("&{s};")));
             }
