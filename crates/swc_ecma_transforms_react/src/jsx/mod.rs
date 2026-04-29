@@ -245,6 +245,7 @@ where
             .throw_if_namespace
             .unwrap_or_else(default_throw_if_namespace),
         top_level_node: true,
+        ctx_stack: vec![JsxSelfCtx::default()],
     }
 }
 
@@ -295,6 +296,20 @@ where
     pragma_frag: Lrc<Box<Expr>>,
     development: bool,
     throw_if_namespace: bool,
+    ctx_stack: Vec<JsxSelfCtx>,
+}
+
+/// Context used for `__self` generation in development mode.
+///
+/// We intentionally mirror babel's behavior:
+/// - inside a derived class constructor, `this` is unavailable before `super()`
+/// - nested function declarations / function expressions reset constructor
+///   state
+/// - arrow expressions inherit constructor state from outer scope
+#[derive(Clone, Copy, Default)]
+struct JsxSelfCtx {
+    in_constructor: bool,
+    in_derived_class: bool,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
@@ -489,6 +504,112 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
+    #[inline]
+    fn current_ctx(&self) -> JsxSelfCtx {
+        *self
+            .ctx_stack
+            .last()
+            .expect("jsx self context stack should never be empty")
+    }
+
+    #[inline]
+    fn push_ctx(&mut self, ctx: JsxSelfCtx) {
+        self.ctx_stack.push(ctx);
+    }
+
+    #[inline]
+    fn pop_ctx(&mut self) {
+        if self.ctx_stack.len() > 1 {
+            self.ctx_stack.pop();
+        }
+    }
+
+    #[inline]
+    fn should_inject_self(&self) -> bool {
+        if !self.development {
+            return false;
+        }
+
+        let ctx = self.current_ctx();
+        !(ctx.in_constructor && ctx.in_derived_class)
+    }
+
+    fn source_object_expr(&self, span: Span) -> Option<Box<Expr>> {
+        if !self.development || span == DUMMY_SP {
+            return None;
+        }
+
+        let loc = self.cm.lookup_char_pos(span.lo);
+        let file_name = loc.file.name.to_string();
+
+        Some(Box::new(
+            ObjectLit {
+                span: DUMMY_SP,
+                props: vec![
+                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(quote_ident!("fileName")),
+                        value: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            raw: None,
+                            value: file_name.into(),
+                        }))),
+                    }))),
+                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(quote_ident!("lineNumber")),
+                        value: loc.line.into(),
+                    }))),
+                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(quote_ident!("columnNumber")),
+                        value: (loc.col.0 + 1).into(),
+                    }))),
+                ],
+            }
+            .into(),
+        ))
+    }
+
+    #[inline]
+    fn source_expr_arg(&self, span: Span) -> Option<ExprOrSpread> {
+        self.source_object_expr(span).map(|expr| expr.as_arg())
+    }
+
+    #[inline]
+    fn self_expr_arg(&self) -> Option<ExprOrSpread> {
+        if self.should_inject_self() {
+            Some(ThisExpr { span: DUMMY_SP }.as_arg())
+        } else {
+            None
+        }
+    }
+
+    fn append_dev_attrs(&self, attrs: &mut Vec<JSXAttrOrSpread>, opening_span: Span) {
+        if !self.development {
+            return;
+        }
+
+        if let Some(source) = self.source_object_expr(opening_span) {
+            attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
+                span: DUMMY_SP,
+                name: JSXAttrName::Ident(quote_ident!("__source")),
+                value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                    span: DUMMY_SP,
+                    expr: JSXExpr::Expr(source),
+                })),
+            }));
+        }
+
+        if self.should_inject_self() {
+            attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
+                span: DUMMY_SP,
+                name: JSXAttrName::Ident(quote_ident!("__self")),
+                value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                    span: DUMMY_SP,
+                    expr: JSXExpr::Expr(Box::new(ThisExpr { span: DUMMY_SP }.into())),
+                })),
+            }));
+        }
+    }
+
     /// Process JSX attribute value, handling JSXElements and JSXFragments
     fn process_attr_value(&mut self, value: Option<JSXAttrValue>) -> Box<Expr> {
         match value {
@@ -686,6 +807,7 @@ where
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
         let top_level_node = self.top_level_node;
         let mut span = el.span();
+        let opening_span = el.opening.span;
         let use_create_element = should_use_create_element(&el.opening.attrs);
         self.top_level_node = false;
 
@@ -850,6 +972,36 @@ where
                     .map(Some)
                     .collect::<Vec<_>>();
 
+                if self.development {
+                    if use_create_element {
+                        if let Some(source) = self.source_object_expr(opening_span) {
+                            props_obj
+                                .props
+                                .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("__source")),
+                                    value: source,
+                                }))));
+                        }
+
+                        if self.should_inject_self() {
+                            props_obj
+                                .props
+                                .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("__self")),
+                                    value: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                }))));
+                        }
+                    } else {
+                        if source_props.is_none() {
+                            source_props = self.source_expr_arg(opening_span);
+                        }
+
+                        if self_props.is_none() {
+                            self_props = self.self_expr_arg();
+                        }
+                    }
+                }
+
                 let use_jsxs = match children.len() {
                     0 => false,
                     1 if matches!(children.first(), Some(Some(child)) if child.spread.is_none()) => {
@@ -952,9 +1104,12 @@ where
                 // Build args Vec directly for better performance
                 let children_capacity = el.children.len();
                 let mut args = Vec::with_capacity(2 + children_capacity);
+                let mut attrs = el.opening.attrs;
+
+                self.append_dev_attrs(&mut attrs, opening_span);
 
                 args.push(name.as_arg());
-                args.push(self.fold_attrs_for_classic(el.opening.attrs).as_arg());
+                args.push(self.fold_attrs_for_classic(attrs).as_arg());
 
                 // Add children
                 for child in el.children {
@@ -1160,6 +1315,106 @@ impl<C> VisitMutHook<()> for Jsx<C>
 where
     C: Comments,
 {
+    fn enter_class(&mut self, n: &mut Class, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_derived_class = n.super_class.is_some();
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_class(&mut self, _n: &mut Class, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
+    fn enter_fn_decl(&mut self, _n: &mut FnDecl, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_constructor = false;
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_fn_decl(&mut self, _n: &mut FnDecl, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
+    fn enter_fn_expr(&mut self, _n: &mut FnExpr, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_constructor = false;
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_fn_expr(&mut self, _n: &mut FnExpr, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
+    fn enter_getter_prop(&mut self, _n: &mut GetterProp, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_constructor = false;
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_getter_prop(&mut self, _n: &mut GetterProp, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
+    fn enter_setter_prop(&mut self, _n: &mut SetterProp, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_constructor = false;
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_setter_prop(&mut self, _n: &mut SetterProp, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
+    fn enter_method_prop(&mut self, _n: &mut MethodProp, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_constructor = false;
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_method_prop(&mut self, _n: &mut MethodProp, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
+    fn enter_constructor(&mut self, _n: &mut Constructor, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_constructor = true;
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_constructor(&mut self, _n: &mut Constructor, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
+    fn enter_class_method(&mut self, _n: &mut ClassMethod, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_constructor = false;
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_class_method(&mut self, _n: &mut ClassMethod, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
+    fn enter_private_method(&mut self, _n: &mut PrivateMethod, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_constructor = false;
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_private_method(&mut self, _n: &mut PrivateMethod, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
+    fn enter_static_block(&mut self, _n: &mut StaticBlock, _ctx: &mut ()) {
+        let mut new_ctx = self.current_ctx();
+        new_ctx.in_constructor = false;
+        self.push_ctx(new_ctx);
+    }
+
+    fn exit_static_block(&mut self, _n: &mut StaticBlock, _ctx: &mut ()) {
+        self.pop_ctx();
+    }
+
     /// Called after visiting children of an expression.
     ///
     /// This is where we transform JSX syntax to JavaScript function calls.

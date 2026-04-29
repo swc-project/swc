@@ -92,29 +92,26 @@ where
     let refresh_options = options.refresh.take();
 
     let hook = CompositeHook {
-        first: jsx_src::hook(development, cm.clone()),
+        first: refresh::hook(
+            development,
+            refresh_options.clone(),
+            cm.clone(),
+            comments.clone(),
+            top_level_mark,
+        ),
         second: CompositeHook {
-            first: jsx_self::hook(development),
+            first: jsx::hook(
+                cm.clone(),
+                comments.clone(),
+                options,
+                top_level_mark,
+                unresolved_mark,
+            ),
             second: CompositeHook {
-                first: refresh::hook(
-                    development,
-                    refresh_options.clone(),
-                    cm.clone(),
-                    comments.clone(),
-                    top_level_mark,
-                ),
+                first: display_name::hook(),
                 second: CompositeHook {
-                    first: jsx::hook(
-                        cm.clone(),
-                        comments.clone(),
-                        options,
-                        top_level_mark,
-                        unresolved_mark,
-                    ),
-                    second: CompositeHook {
-                        first: display_name::hook(),
-                        second: pure_annotations::hook(comments.clone()),
-                    },
+                    first: pure_annotations::hook(comments.clone()),
+                    second: swc_ecma_hooks::NoopHook,
                 },
             },
         },
