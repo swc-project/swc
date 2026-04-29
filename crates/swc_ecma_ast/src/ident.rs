@@ -184,6 +184,7 @@ pub struct Ident {
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub ctxt: SyntaxContext,
 

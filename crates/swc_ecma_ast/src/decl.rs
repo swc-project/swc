@@ -153,6 +153,7 @@ impl Take for ClassDecl {
 pub struct VarDecl {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     pub kind: VarDeclKind,

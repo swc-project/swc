@@ -35,7 +35,7 @@ rkyv-impl = [
   "swc_atoms/rkyv-impl",
   "swc_common/rkyv-impl",
 ]
-serde-impl = ["serde"]
+serde-impl = ["serde", "dep:serde_json"]
 shrink-to-fit = [
   "dep:shrink-to-fit",
   "swc_atoms/shrink-to-fit",
@@ -54,6 +54,7 @@ rancor           = { workspace = true, optional = true }
 rkyv             = { workspace = true, optional = true }
 rustc-hash       = { workspace = true }
 serde            = { workspace = true, features = ["derive"], optional = true }
+serde_json       = { workspace = true, optional = true }
 shrink-to-fit    = { workspace = true, optional = true }
 unicode-id-start = { workspace = true }
 
@@ -66,3 +67,4 @@ cbor4ii = { workspace = true, features = ["use_std"], optional = true }
 
 [dev-dependencies]
 serde_json = { workspace = true }
+swc_ecma_parser = { version = "38.0.0", path = "../swc_ecma_parser", features = ["typescript"] }
