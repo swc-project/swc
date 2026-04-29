@@ -1415,7 +1415,7 @@ impl<'a> Lexer<'a> {
                 continue;
             }
             if let Some(stripped) = s.strip_prefix('#') {
-                let mut result = NO_PREV_RESULT;
+                let mut result: u32;
                 if stripped.starts_with('x') {
                     if is_hex(&s[2..]) {
                         result = parse_from_code(&s[2..], 16)?;
@@ -1424,6 +1424,8 @@ impl<'a> Lexer<'a> {
                     }
                 } else if is_dec(stripped) {
                     result = parse_from_code(stripped, 10)?;
+                } else {
+                    return Ok((Wtf8Atom::from(format!("&{s};")), format!("&{s};")));
                 }
 
                 if (0xd800..=0xdfff).contains(&result) {
