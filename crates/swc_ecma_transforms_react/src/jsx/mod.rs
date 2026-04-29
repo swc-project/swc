@@ -1465,12 +1465,12 @@ fn jsx_text_to_str_with_raw(value: &Wtf8Atom, raw: &Atom) -> Wtf8Atom {
         if value == raw.as_str() {
             return jsx_text_to_str_impl(value).into();
         }
-        // Build a mask of which byte positions in value came from HTML entities
-        let entity_mask = build_entity_mask(value, raw);
-
-        return jsx_text_to_str_with_entity_mask(value, &entity_mask).into();
     }
-    value.clone()
+    // Build a mask of which code point positions in value came from HTML
+    // entities.
+    let entity_mask = build_entity_mask(value, raw);
+
+    jsx_text_to_str_with_entity_mask(value, &entity_mask)
 }
 
 /// Build a mask indicating which character positions in `value` came from HTML
@@ -1478,45 +1478,76 @@ fn jsx_text_to_str_with_raw(value: &Wtf8Atom, raw: &Atom) -> Wtf8Atom {
 ///
 /// Returns a Vec<bool> where true means the character at that index was from an
 /// entity.
-fn build_entity_mask(value: &str, raw: &str) -> Vec<bool> {
-    let mut mask = vec![false; value.chars().count()];
+fn build_entity_mask(value: &Wtf8Atom, raw: &str) -> Vec<bool> {
+    let cp = value.as_wtf8().code_points();
+    let mut mask = vec![false; cp.count()];
     let mut value_char_idx = 0;
     let mut raw_chars = raw.chars().peekable();
 
     while let Some(raw_c) = raw_chars.next() {
         if raw_c == '&' {
-            // Possible HTML entity
-            let mut entity_chars: Vec<char> = vec!['&'];
-            let mut found_semicolon = false;
+            let mut entity = raw_chars.clone();
+            let mut s = String::new();
+            let mut consumed = 0;
+            let mut has_prev_result = false;
+            let mut entity_code_points = 0;
 
-            // Collect up to 10 characters to match entity pattern
-            for _ in 0..10 {
-                if let Some(&next_c) = raw_chars.peek() {
-                    entity_chars.push(next_c);
-                    raw_chars.next();
-                    if next_c == ';' {
-                        found_semicolon = true;
-                        break;
+            for _ in 0..20 {
+                let Some(c) = entity.next() else {
+                    break;
+                };
+                consumed += 1;
+
+                if c != ';' {
+                    s.push(c);
+                    continue;
+                }
+
+                if let Some(result) = parse_jsx_numeric_entity(&s) {
+                    if (0xd800..=0xdfff).contains(&result) {
+                        if result < 0xdc00 {
+                            if has_prev_result {
+                                entity_code_points += 1;
+                            }
+
+                            if entity.next() == Some('&') && entity.next() == Some('#') {
+                                consumed += 2;
+                                has_prev_result = true;
+                                s.clear();
+                                s.push('#');
+                                continue;
+                            }
+
+                            entity_code_points += 1;
+                            break;
+                        } else if has_prev_result {
+                            entity_code_points += 1;
+                            break;
+                        }
                     }
+
+                    if has_prev_result {
+                        entity_code_points += 1;
+                    }
+                    entity_code_points += 1;
+                    break;
+                } else if is_known_html_entity(&s) {
+                    entity_code_points += 1;
+                    break;
                 } else {
                     break;
                 }
             }
 
-            if found_semicolon && is_valid_entity(&entity_chars) {
-                // This was a valid entity - mark this position in value as from
-                // entity
-                if value_char_idx < mask.len() {
-                    mask[value_char_idx] = true;
-                }
-                value_char_idx += 1;
+            if entity_code_points != 0 {
+                raw_chars.by_ref().take(consumed).count();
+
+                let end = value_char_idx + entity_code_points;
+                let mask_end = mask.len().min(end);
+                mask[value_char_idx..mask_end].fill(true);
+                value_char_idx = end;
             } else {
-                // Not a valid entity, the '&' is literal
                 value_char_idx += 1;
-                // The other characters we consumed are also literal
-                for _ in 1..entity_chars.len() {
-                    value_char_idx += 1;
-                }
             }
         } else {
             // Regular character
@@ -1527,32 +1558,24 @@ fn build_entity_mask(value: &str, raw: &str) -> Vec<bool> {
     mask
 }
 
-/// Check if the collected characters form a valid HTML entity
-fn is_valid_entity(chars: &[char]) -> bool {
-    if chars.len() < 3 {
-        return false;
-    }
-    if chars[0] != '&' || chars[chars.len() - 1] != ';' {
-        return false;
-    }
-
-    let inner: String = chars[1..chars.len() - 1].iter().collect();
-
-    if let Some(stripped) = inner.strip_prefix('#') {
-        // Numeric entity
+fn parse_jsx_numeric_entity(s: &str) -> Option<u32> {
+    if let Some(stripped) = s.strip_prefix('#') {
         if let Some(hex) = stripped
             .strip_prefix('x')
             .or_else(|| stripped.strip_prefix('X'))
         {
-            // Hex: &#xHHHH;
-            !hex.is_empty() && hex.chars().all(|c| c.is_ascii_hexdigit())
+            if !hex.is_empty() && hex.chars().all(|c| c.is_ascii_hexdigit()) {
+                u32::from_str_radix(hex, 16).ok().filter(|&v| v <= 0x10ffff)
+            } else {
+                None
+            }
+        } else if !stripped.is_empty() && stripped.chars().all(|c| c.is_ascii_digit()) {
+            stripped.parse::<u32>().ok().filter(|&v| v <= 0x10ffff)
         } else {
-            // Decimal: &#DDDD;
-            !stripped.is_empty() && stripped.chars().all(|c| c.is_ascii_digit())
+            None
         }
     } else {
-        // Named entity - check against known entities
-        is_known_html_entity(&inner)
+        None
     }
 }
 
@@ -1819,12 +1842,12 @@ fn is_known_html_entity(name: &str) -> bool {
 }
 
 /// JSX text processing with entity mask - preserves whitespace from HTML
-/// entities
-fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
+/// entities.
+fn jsx_text_to_str_with_entity_mask(t: &Wtf8, entity_mask: &[bool]) -> Wtf8Atom {
     // Fast path: if no line terminators and no trimmable whitespace
     // (whitespace that's not from entities at the leading edge)
-    let chars: Vec<char> = t.chars().collect();
-    let has_line_terminator = chars.iter().any(|&c| is_line_terminator(c));
+    let chars: Vec<_> = wtf8_chars(t).collect();
+    let has_line_terminator = chars.iter().any(|(_, _, c)| is_line_terminator(*c));
 
     // For single-line text, we keep all whitespace (matching original behavior)
     // The original jsx_text_to_str_impl preserves leading/trailing whitespace on
@@ -1833,23 +1856,25 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
         return t.into();
     }
 
-    let mut acc: Option<String> = None;
-    let mut only_line: Option<String> = None;
+    let mut acc: Option<Wtf8Buf> = None;
+    let mut only_line: Option<(usize, usize)> = None;
     let mut line_start: Option<usize> = Some(0);
     let mut line_end: Option<usize> = None;
     // The first line preserves leading whitespace; subsequent lines trim it.
     let mut is_first_line = true;
 
-    for (char_idx, c) in chars.iter().enumerate() {
+    for (char_idx, (_, _, c)) in chars.iter().enumerate() {
         let is_from_entity = *entity_mask.get(char_idx).unwrap_or(&false);
 
         if is_line_terminator(*c) {
             // Process current line - trim both leading AND trailing (intermediate
             // line)
             if let (Some(start), Some(end)) = (line_start, line_end) {
-                let line_text =
+                let line_range =
                     extract_line_content(&chars, start, end, entity_mask, !is_first_line, true);
-                add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
+                if let Some((line_start, line_end)) = line_range {
+                    add_line_of_jsx_text_wtf8(line_start, line_end, t, &mut acc, &mut only_line);
+                }
             }
             is_first_line = false;
             line_start = None;
@@ -1866,7 +1891,7 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
     // Handle final line. Leading whitespace is preserved only if this is still
     // the first line (single-line input).
     if let Some(start) = line_start {
-        let line_text = extract_line_content(
+        let line_range = extract_line_content(
             &chars,
             start,
             chars.len(),
@@ -1874,16 +1899,39 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
             !is_first_line,
             false,
         );
-        add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
+        if let Some((line_start, line_end)) = line_range {
+            add_line_of_jsx_text_wtf8(line_start, line_end, t, &mut acc, &mut only_line);
+        }
     }
 
     if let Some(acc) = acc {
         acc.into()
-    } else if let Some(only_line) = only_line {
-        only_line.into()
+    } else if let Some((start, end)) = only_line {
+        t.slice(start, end).into()
     } else {
-        "".into()
+        Wtf8Atom::default()
     }
+}
+
+fn wtf8_chars(t: &Wtf8) -> impl Iterator<Item = (usize, usize, char)> + '_ {
+    let mut byte_pos = 0;
+
+    t.code_points().map(move |cp| {
+        let start = byte_pos;
+        let cp_value = cp.to_u32();
+        let cp_byte_len = if cp_value < 0x80 {
+            1
+        } else if cp_value < 0x800 {
+            2
+        } else if cp_value < 0x10000 {
+            3
+        } else {
+            4
+        };
+        byte_pos += cp_byte_len;
+
+        (start, byte_pos, cp.to_char_lossy())
+    })
 }
 
 /// Extract line content, optionally trimming non-entity whitespace from edges
@@ -1891,18 +1939,18 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
 /// - `trim_leading`: if true, trim leading non-entity whitespace
 /// - `trim_trailing`: if true, trim trailing non-entity whitespace
 fn extract_line_content(
-    chars: &[char],
+    chars: &[(usize, usize, char)],
     start: usize,
     end: usize,
     entity_mask: &[bool],
     trim_leading: bool,
     trim_trailing: bool,
-) -> String {
+) -> Option<(usize, usize)> {
     // Find first non-trimmable position (if trim_leading is true)
     let mut actual_start = start;
     if trim_leading {
         while actual_start < end {
-            let c = chars[actual_start];
+            let c = chars[actual_start].2;
             let is_from_entity = *entity_mask.get(actual_start).unwrap_or(&false);
             if !is_white_space_single_line(c) || is_from_entity {
                 break;
@@ -1915,7 +1963,7 @@ fn extract_line_content(
     let mut actual_end = end;
     if trim_trailing {
         while actual_end > actual_start {
-            let c = chars[actual_end - 1];
+            let c = chars[actual_end - 1].2;
             let is_from_entity = *entity_mask.get(actual_end - 1).unwrap_or(&false);
             if !is_white_space_single_line(c) || is_from_entity {
                 break;
@@ -1924,30 +1972,10 @@ fn extract_line_content(
         }
     }
 
-    chars[actual_start..actual_end].iter().collect()
-}
-
-/// Owned version of add_line_of_jsx_text for use with entity mask processing
-fn add_line_of_jsx_text_owned(
-    line: String,
-    acc: &mut Option<String>,
-    only_line: &mut Option<String>,
-) {
-    if line.is_empty() {
-        return;
-    }
-
-    if let Some(buffer) = acc.as_mut() {
-        buffer.push(' ');
-        buffer.push_str(&line);
-    } else if let Some(only_line_content) = only_line.take() {
-        let mut buffer = String::with_capacity(line.len() * 2);
-        buffer.push_str(&only_line_content);
-        buffer.push(' ');
-        buffer.push_str(&line);
-        *acc = Some(buffer);
+    if actual_start == actual_end {
+        None
     } else {
-        *only_line = Some(line);
+        Some((chars[actual_start].0, chars[actual_end - 1].1))
     }
 }
 
