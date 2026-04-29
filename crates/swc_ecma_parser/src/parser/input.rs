@@ -90,83 +90,99 @@ pub struct Buffer<I> {
     /// Span of the previous token.
     pub prev_span: Span,
     pub cur: TokenAndSpan,
+    pub cur_value: Option<TokenValue>,
     /// Peeked token
     pub next: Option<NextTokenAndSpan>,
 }
 
 impl<I: Tokens> Buffer<I> {
     pub fn expect_word_token_value(&mut self) -> Atom {
-        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Word(word)) = self.cur_value.take() else {
             unreachable!()
         };
         word
     }
 
     pub fn expect_word_token_value_ref(&self) -> &Atom {
-        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.get_token_value() else {
-            unreachable!("token_value: {:?}", self.iter.get_token_value())
+        let Some(crate::lexer::TokenValue::Word(word)) = self.cur_value.as_ref() else {
+            unreachable!("token_value: {:?}", self.cur_value)
         };
         word
     }
 
     pub fn expect_number_token_value(&mut self) -> f64 {
-        let Some(crate::lexer::TokenValue::Num(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Num(value)) = self.cur_value.take() else {
             unreachable!()
         };
         value
     }
 
     pub fn expect_string_token_value(&mut self) -> Wtf8Atom {
-        let Some(crate::lexer::TokenValue::Str(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Str(value)) = self.cur_value.take() else {
             unreachable!()
         };
         value
     }
 
     pub fn expect_jsx_text_token_value(&mut self) -> Atom {
-        let Some(crate::lexer::TokenValue::JsxText(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::JsxText(value)) = self.cur_value.take() else {
             unreachable!()
         };
         value
     }
 
     pub fn expect_bigint_token_value(&mut self) -> Box<num_bigint::BigInt> {
-        let Some(crate::lexer::TokenValue::BigInt(value)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::BigInt(value)) = self.cur_value.take() else {
             unreachable!()
         };
         value
     }
 
     pub fn expect_regex_token_value(&mut self) -> BytePos {
-        let Some(crate::lexer::TokenValue::Regex(exp_end)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Regex(exp_end)) = self.cur_value.take() else {
             unreachable!()
         };
         exp_end
     }
 
     pub fn expect_template_token_value(&mut self) -> LexResult<Wtf8Atom> {
-        let Some(crate::lexer::TokenValue::Template(cooked)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Template(cooked)) = self.cur_value.take() else {
             unreachable!()
         };
         cooked
     }
 
     pub fn expect_error_token_value(&mut self) -> Error {
-        let Some(crate::lexer::TokenValue::Error(error)) = self.iter.take_token_value() else {
+        let Some(crate::lexer::TokenValue::Error(error)) = self.cur_value.take() else {
             unreachable!()
         };
         error
     }
 
     pub fn get_token_value(&self) -> Option<&TokenValue> {
-        self.iter.get_token_value()
+        self.cur_value.as_ref()
+    }
+
+    #[inline(always)]
+    pub fn cur_word_as_str(&self) -> &str {
+        match self.get_token_value() {
+            Some(TokenValue::Word(word)) => word,
+            Some(value) => unreachable!("token_value: {:?}", value),
+            None => self.cur_string(),
+        }
+    }
+
+    #[inline(always)]
+    pub fn is_cur_word(&self, expected: &str) -> bool {
+        self.cur().is_word() && self.cur_word_as_str() == expected
     }
 
     pub fn scan_jsx_token(&mut self) {
         let prev = self.cur;
         let t = self.iter.scan_jsx_token();
         self.prev_span = prev.span;
-        self.set_cur(t);
+        let value = self.take_iter_token_value();
+        self.set_cur(t, value);
     }
 
     #[allow(unused)]
@@ -174,7 +190,8 @@ impl<I: Tokens> Buffer<I> {
         let prev = self.cur;
         let t = self.iter.scan_jsx_open_el_terminal_token();
         self.prev_span = prev.span;
-        self.set_cur(t);
+        let value = self.take_iter_token_value();
+        self.set_cur(t, value);
     }
 
     pub fn rescan_jsx_open_el_terminal_token(&mut self) {
@@ -184,13 +201,15 @@ impl<I: Tokens> Buffer<I> {
         // rescan `>=`, `>>`, `>>=`, `>>>`, `>>>=` into `>`
         let start = self.cur.span.lo;
         let t = self.iter.rescan_jsx_open_el_terminal_token(start);
-        self.set_cur(t);
+        let value = self.take_iter_token_value();
+        self.set_cur(t, value);
     }
 
     pub fn rescan_jsx_token(&mut self) {
         let start = self.cur.span.lo;
         let t = self.iter.rescan_jsx_token(start);
-        self.set_cur(t);
+        let value = self.take_iter_token_value();
+        self.set_cur(t, value);
     }
 
     pub fn scan_jsx_identifier(&mut self) {
@@ -198,18 +217,24 @@ impl<I: Tokens> Buffer<I> {
             return;
         }
         let start = self.cur.span.lo;
+        self.iter.set_token_value(self.cur_value.take());
         let cur = self.iter.scan_jsx_identifier(start);
+        let value = self.take_iter_token_value();
         debug_assert!(cur.token == Token::JSXName);
-        self.set_cur(cur);
+        self.set_cur(cur, value);
     }
 
     pub fn scan_jsx_attribute_value(&mut self) {
-        self.cur = self.iter.scan_jsx_attribute_value();
+        let token = self.iter.scan_jsx_attribute_value();
+        let value = self.take_iter_token_value();
+        self.set_cur(token, value);
     }
 
     pub fn rescan_template_token(&mut self, start_with_back_tick: bool) {
         let start = self.cur_pos();
-        self.cur = self.iter.rescan_template_token(start, start_with_back_tick);
+        let token = self.iter.rescan_template_token(start, start_with_back_tick);
+        let value = self.take_iter_token_value();
+        self.set_cur(token, value);
     }
 }
 
@@ -220,14 +245,21 @@ impl<I: Tokens> Buffer<I> {
         Buffer {
             iter: lexer,
             cur: TokenAndSpan::new(Token::Eof, prev_span, false),
+            cur_value: None,
             prev_span,
             next: None,
         }
     }
 
     #[inline(always)]
-    pub fn set_cur(&mut self, token: TokenAndSpan) {
-        self.cur = token
+    pub fn set_cur(&mut self, token: TokenAndSpan, value: Option<TokenValue>) {
+        self.cur = token;
+        self.cur_value = value;
+    }
+
+    #[inline(always)]
+    fn take_iter_token_value(&mut self) -> Option<TokenValue> {
+        self.iter.take_token_value()
     }
 
     #[inline(always)]
@@ -277,13 +309,11 @@ impl<I: Tokens> Buffer<I> {
         );
 
         if self.next.is_none() {
-            let old = self.iter.take_token_value();
             let next_token = self.iter.next_token();
             self.next = Some(NextTokenAndSpan {
                 token_and_span: next_token,
-                value: self.iter.take_token_value(),
+                value: self.take_iter_token_value(),
             });
-            self.iter.set_token_value(old);
         }
 
         self.next.as_ref().map(|ts| ts.token_and_span.token)
@@ -294,25 +324,27 @@ impl<I: Tokens> Buffer<I> {
         debug_assert!(self.cur() != Token::Eof);
         let span = self.prev_span();
         let token = TokenAndSpan::new(token, span, false);
-        self.set_cur(token);
+        self.set_cur(token, None);
     }
 
     pub fn first_bump(&mut self) {
         let first_token = self.iter.first_token();
         self.prev_span = self.cur.span;
-        self.set_cur(first_token);
+        let value = self.take_iter_token_value();
+        self.set_cur(first_token, value);
     }
 
     pub fn bump(&mut self) {
-        let next = match self.next.take() {
-            Some(next) => {
-                self.iter.set_token_value(next.value);
-                next.token_and_span
+        let (next, value) = match self.next.take() {
+            Some(next) => (next.token_and_span, next.value),
+            None => {
+                let next = self.iter.next_token();
+                let value = self.take_iter_token_value();
+                (next, value)
             }
-            None => self.iter.next_token(),
         };
         self.prev_span = self.cur.span;
-        self.set_cur(next);
+        self.set_cur(next, value);
     }
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
@@ -372,7 +404,7 @@ impl<I: Tokens> Buffer<I> {
         );
         let span = self.cur_span().with_lo(self.cur_span().lo + BytePos(1));
         let token = TokenAndSpan::new(Token::Lt, span, false);
-        self.set_cur(token);
+        self.set_cur(token, None);
     }
 
     pub fn merge_lt_gt(&mut self) {
@@ -433,7 +465,7 @@ impl<I: Tokens> Buffer<I> {
         };
         let span = span.with_hi(next.span().hi);
         let token = TokenAndSpan::new(token, span, cur.had_line_break);
-        self.set_cur(token);
+        self.set_cur(token, None);
     }
 
     #[inline(always)]

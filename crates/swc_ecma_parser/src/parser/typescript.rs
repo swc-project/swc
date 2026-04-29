@@ -156,9 +156,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn is_flow_contextual_word(&mut self, word: &str) -> bool {
-        self.input().syntax().flow()
-            && self.input().cur().is_word()
-            && self.input().cur().take_word(&self.input) == word
+        self.input().syntax().flow() && self.input().is_cur_word(word)
     }
 
     fn make_flow_component_fallback_binding(&mut self, span: Span) -> Pat {
@@ -697,33 +695,6 @@ impl<I: Tokens> Parser<I> {
         Ok(buf)
     }
 
-    /// `tsTryParse`
-    pub(super) fn try_parse_ts_bool<F>(&mut self, op: F) -> PResult<bool>
-    where
-        F: FnOnce(&mut Self) -> PResult<Option<bool>>,
-    {
-        if !self.input().syntax().typescript() {
-            return Ok(false);
-        }
-
-        let prev_ignore_error = self.input().get_ctx().contains(Context::IgnoreError);
-        let checkpoint = self.checkpoint_save();
-        self.set_ctx(self.ctx() | Context::IgnoreError);
-        let res = op(self);
-        match res {
-            Ok(Some(res)) if res => {
-                let mut ctx = self.ctx();
-                ctx.set(Context::IgnoreError, prev_ignore_error);
-                self.input_mut().set_ctx(ctx);
-                Ok(res)
-            }
-            _ => {
-                self.checkpoint_load(checkpoint);
-                Ok(false)
-            }
-        }
-    }
-
     /// `tsParseDelimitedList`
     fn parse_ts_delimited_list_inner<T, F>(
         &mut self,
@@ -796,32 +767,6 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    /// `tsNextTokenCanFollowModifier`
-    pub(super) fn ts_next_token_can_follow_modifier(&mut self) -> bool {
-        debug_assert!(self.input().syntax().typescript());
-        // Note: TypeScript's implementation is much more complicated because
-        // more things are considered modifiers there.
-        // This implementation only handles modifiers not handled by @babel/parser
-        // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
-        // hasLineBreakUpNext() method...
-        self.bump();
-
-        let cur = self.input().cur();
-        !self.input().had_line_break_before_cur()
-            && matches!(
-                cur,
-                Token::LBracket
-                    | Token::LBrace
-                    | Token::Asterisk
-                    | Token::DotDotDot
-                    | Token::Hash
-                    | Token::Str
-                    | Token::Num
-                    | Token::BigInt
-            )
-            || cur.is_word()
-    }
-
     /// `tsTryParse`
     pub(crate) fn try_parse_ts<T, F>(&mut self, op: F) -> Option<T>
     where
@@ -875,15 +820,6 @@ impl<I: Tokens> Parser<I> {
         }
 
         self.expect_general_semi()
-    }
-
-    /// `tsIsStartOfConstructSignature`
-    fn is_ts_start_of_construct_signature(&mut self) -> bool {
-        debug_assert!(self.input().syntax().typescript());
-
-        self.bump();
-        let cur = self.input().cur();
-        matches!(cur, Token::LParen | Token::Lt)
     }
 
     /// `tsParseDelimitedList`
@@ -1018,7 +954,29 @@ impl<I: Tokens> Parser<I> {
             {
                 return Ok(None);
             }
-            if self.try_parse_ts_bool(|p| Ok(Some(p.ts_next_token_can_follow_modifier())))? {
+
+            let _ = self.input_mut().peek();
+            let Some(next) = self.input().next() else {
+                return Ok(None);
+            };
+
+            let next_token = next.token();
+            let can_follow_modifier = !next.had_line_break()
+                && matches!(
+                    next_token,
+                    Token::LBracket
+                        | Token::LBrace
+                        | Token::Asterisk
+                        | Token::DotDotDot
+                        | Token::Hash
+                        | Token::Str
+                        | Token::Num
+                        | Token::BigInt
+                )
+                || next_token.is_word();
+
+            if can_follow_modifier {
+                self.bump();
                 return Ok(Some(allowed_modifiers[pos]));
             }
         }
@@ -1103,6 +1061,20 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
         let checkpoint = self.checkpoint_save();
         self.set_ctx(self.ctx() | Context::IgnoreError);
+        let ret = op(self);
+        self.checkpoint_load(checkpoint);
+        ret
+    }
+
+    /// Like `ts_look_ahead`, but for token-prefix probes that never emit
+    /// diagnostics and therefore do not need `IgnoreError`.
+    #[inline(always)]
+    fn ts_look_ahead_no_errors<T, F>(&mut self, op: F) -> T
+    where
+        F: FnOnce(&mut Self) -> T,
+    {
+        debug_assert!(self.input().syntax().typescript());
+        let checkpoint = self.checkpoint_save();
         let ret = op(self);
         self.checkpoint_load(checkpoint);
         ret
@@ -1568,8 +1540,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if p.input().syntax().flow() && p.input_mut().eat(Token::Percent) {
-                let is_checks = p.input().cur().is_word()
-                    && p.input().cur().take_word(&p.input) == atom!("checks");
+                let is_checks = p.input().is_cur_word("checks");
                 if !is_checks {
                     unexpected!(p, "checks");
                 }
@@ -1600,8 +1571,7 @@ impl<I: Tokens> Parser<I> {
                 })
             };
             let has_flow_implies = p.syntax().flow()
-                && p.input().cur().is_word()
-                && p.input().cur().take_word(&p.input) == atom!("implies")
+                && p.input().is_cur_word("implies")
                 && peek!(p).is_some_and(|peek| peek.is_word() || peek == Token::This);
 
             if has_type_pred_asserts {
@@ -1624,11 +1594,7 @@ impl<I: Tokens> Parser<I> {
                 p.bump();
             }
 
-            if has_type_pred_asserts
-                && p.syntax().flow()
-                && p.input().cur().is_word()
-                && p.input().cur().take_word(&p.input) == atom!("implies")
-            {
+            if has_type_pred_asserts && p.syntax().flow() && p.input().is_cur_word("implies") {
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1003);
             }
 
@@ -2452,7 +2418,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if !(self.input().cur() == Token::LBracket
-            && self.ts_look_ahead(Self::is_ts_unambiguously_index_signature))
+            && self.ts_look_ahead_no_errors(Self::is_ts_unambiguously_index_signature))
         {
             return Ok(None);
         }
@@ -3782,7 +3748,7 @@ impl<I: Tokens> Parser<I> {
                 .map(into_type_elem);
         }
         if self.input().is(Token::New)
-            && self.ts_look_ahead(Self::is_ts_start_of_construct_signature)
+            && peek!(self).is_some_and(|peek| matches!(peek, Token::LParen | Token::Lt))
         {
             return self
                 .parse_ts_signature_member(SignatureParsingMode::TSConstructSignatureDeclaration)
@@ -3877,58 +3843,60 @@ impl<I: Tokens> Parser<I> {
             return Ok(idx.into());
         }
 
-        if let Some(v) = self.try_parse_ts(|p| {
-            let start = p.input().cur_pos();
+        if matches!(self.input().cur(), Token::Get | Token::Set) {
+            if let Some(v) = self.try_parse_ts(|p| {
+                let start = p.input().cur_pos();
 
-            if readonly {
-                syntax_error!(p, SyntaxError::GetterSetterCannotBeReadonly)
-            }
-
-            let is_get = if p.input_mut().eat(Token::Get) {
-                true
-            } else {
-                expect!(p, Token::Set);
-                false
-            };
-
-            let (computed, key) = p.parse_ts_property_name()?;
-
-            if is_get {
-                expect!(p, Token::LParen);
-                expect!(p, Token::RParen);
-                let type_ann = p.try_parse_ts_type_ann()?;
-
-                p.parse_ts_type_member_semicolon()?;
-
-                Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
-                    span: p.span(start),
-                    key,
-                    computed,
-                    type_ann,
-                })))
-            } else {
-                expect!(p, Token::LParen);
-                let params = p.parse_ts_binding_list_for_signature()?;
-                if params.is_empty() {
-                    syntax_error!(p, SyntaxError::SetterParamRequired)
-                }
-                let param = params.into_iter().next().unwrap();
-
-                if p.input().syntax().flow() && p.input().is(Token::Colon) {
-                    let _ = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                if readonly {
+                    syntax_error!(p, SyntaxError::GetterSetterCannotBeReadonly)
                 }
 
-                p.parse_ts_type_member_semicolon()?;
+                let is_get = if p.input_mut().eat(Token::Get) {
+                    true
+                } else {
+                    expect!(p, Token::Set);
+                    false
+                };
 
-                Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
-                    span: p.span(start),
-                    key,
-                    computed,
-                    param,
-                })))
+                let (computed, key) = p.parse_ts_property_name()?;
+
+                if is_get {
+                    expect!(p, Token::LParen);
+                    expect!(p, Token::RParen);
+                    let type_ann = p.try_parse_ts_type_ann()?;
+
+                    p.parse_ts_type_member_semicolon()?;
+
+                    Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
+                        span: p.span(start),
+                        key,
+                        computed,
+                        type_ann,
+                    })))
+                } else {
+                    expect!(p, Token::LParen);
+                    let params = p.parse_ts_binding_list_for_signature()?;
+                    if params.is_empty() {
+                        syntax_error!(p, SyntaxError::SetterParamRequired)
+                    }
+                    let param = params.into_iter().next().unwrap();
+
+                    if p.input().syntax().flow() && p.input().is(Token::Colon) {
+                        let _ = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                    }
+
+                    p.parse_ts_type_member_semicolon()?;
+
+                    Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
+                        span: p.span(start),
+                        key,
+                        computed,
+                        param,
+                    })))
+                }
+            }) {
+                return Ok(v);
             }
-        }) {
-            return Ok(v);
         }
 
         self.parse_ts_property_or_method_signature(start, readonly)
@@ -4329,9 +4297,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if let Some(render_ty) = self.try_parse_ts(|p| {
-                if !(p.input().cur().is_word()
-                    && p.input().cur().take_word(&p.input) == atom!("renders"))
-                {
+                if !p.input().is_cur_word("renders") {
                     return Ok(None);
                 }
                 p.bump();
@@ -4567,7 +4533,7 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::TypeOf {
             return self.parse_ts_type_query().map(TsType::from).map(Box::new);
         } else if cur == Token::LBrace {
-            return if self.ts_look_ahead(Self::is_ts_start_of_mapped_type) {
+            return if self.ts_look_ahead_no_errors(Self::is_ts_start_of_mapped_type) {
                 self.parse_ts_mapped_type().map(TsType::from).map(Box::new)
             } else {
                 self.parse_ts_type_lit().map(TsType::from).map(Box::new)
@@ -5021,8 +4987,7 @@ impl<I: Tokens> Parser<I> {
                     && self.ctx().contains(Context::InDeclare)
                     && self.input_mut().eat(Token::Dot)
                 {
-                    let is_exports = self.input().cur().is_word()
-                        && self.input().cur().take_word(&self.input) == atom!("exports");
+                    let is_exports = self.input().is_cur_word("exports");
 
                     if !is_exports {
                         unexpected!(self, "exports")

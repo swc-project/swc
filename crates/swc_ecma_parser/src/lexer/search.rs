@@ -91,7 +91,7 @@ macro_rules! byte_search {
     ) => {{
         $table.use_table();
         let mut $pos = 0;
-        let bytes = $lexer.input().as_str().as_bytes();
+        let bytes = $lexer.input().as_bytes();
         let len = bytes.len();
         let bytes = bytes.as_ptr();
 

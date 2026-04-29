@@ -1045,9 +1045,7 @@ impl<I: Tokens> Parser<I> {
         if !self.input().syntax().flow_pattern_matching() {
             return false;
         }
-        if !(self.input().cur().is_word()
-            && self.input().cur().take_word(&self.input) == atom!("match"))
-        {
+        if !self.input().is_cur_word("match") {
             return false;
         }
 
@@ -1532,7 +1530,7 @@ impl<I: Tokens> Parser<I> {
                 .map(FlowMatchPattern::Binding);
         }
 
-        if self.input().cur().is_word() && self.input().cur().take_word(&self.input) == atom!("_") {
+        if self.input().is_cur_word("_") {
             self.bump();
             return Ok(FlowMatchPattern::Wildcard);
         }

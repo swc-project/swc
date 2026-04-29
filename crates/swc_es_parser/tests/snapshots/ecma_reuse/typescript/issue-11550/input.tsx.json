@@ -1,0 +1,31 @@
+{
+  "programs": [
+    "Program {\n    span: 1..168,\n    kind: Module,\n    body: [\n        _,\n        _,\n    ],\n}"
+  ],
+  "stmts": [
+    "Expr(\n    ExprStmt {\n        span: 1..22,\n        expr: _,\n    },\n)",
+    "Return(\n    ReturnStmt {\n        span: 56..167,\n        arg: Some(\n            _,\n        ),\n    },\n)",
+    "ModuleDecl(\n    _,\n)"
+  ],
+  "decls": [
+    "Fn(\n    FnDecl {\n        span: 31..168,\n        ident: Ident {\n            span: 40..45,\n            sym: \"Hello\",\n        },\n        declare: false,\n        params: [\n            _,\n        ],\n        body: [\n            _,\n        ],\n    },\n)"
+  ],
+  "pats": [
+    "Object(\n    ObjectPat {\n        span: 46..49,\n        props: [],\n    },\n)"
+  ],
+  "exprs": [
+    "Lit(\n    Str(\n        StrLit {\n            span: 1..13,\n            value: \"use client\",\n        },\n    ),\n)",
+    "JSXElement(\n    _,\n)",
+    "Paren(\n    ParenExpr {\n        span: 63..165,\n        expr: _,\n    },\n)"
+  ],
+  "module_decls": [
+    "ExportDefaultDecl(\n    ExportDefaultDecl {\n        span: 16..168,\n        decl: _,\n    },\n)"
+  ],
+  "functions": [],
+  "classes": [],
+  "class_members": [],
+  "jsx_elements": [
+    "JSXElement {\n    span: 73..164,\n    opening: JSXOpeningElement {\n        span: 73..164,\n        name: Ident(\n            Ident {\n                span: 74..94,\n                sym: \"div\",\n            },\n        ),\n        attrs: [\n            JSXAttr {\n                span: 90..95,\n                name: \"data\",\n                value: None,\n            },\n            JSXAttr {\n                span: 95..114,\n                name: \"anything\",\n                value: Some(\n                    _,\n                ),\n            },\n            JSXAttr {\n                span: 110..115,\n                name: \"bruh\",\n                value: None,\n            },\n            JSXAttr {\n                span: 114..125,\n                name: \"\",\n                value: None,\n            },\n        ],\n        self_closing: false,\n    },\n    children: [\n        Text(\n            \"hello\",\n        ),\n    ],\n    closing: Some(\n        Ident(\n            Ident {\n                span: 154..158,\n                sym: \"div\",\n            },\n        ),\n    ),\n}"
+  ],
+  "ts_types": []
+}
