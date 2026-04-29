@@ -935,6 +935,12 @@ impl Options {
                             ),
                             syntax.typescript() && jsx_enabled,
                         ),
+                        Optional::new(
+                            typescript::flow_pragma_strip::<Option<&dyn Comments>>(
+                                comments.map(|v| v as _),
+                            ),
+                            syntax.flow(),
+                        ),
                     )
                 }),
                 (
