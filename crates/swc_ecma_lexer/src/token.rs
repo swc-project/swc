@@ -539,7 +539,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn jsx_text(value: Atom, raw: Atom, _: &mut Self::Lexer) -> Self {
+    fn jsx_text(value: Wtf8Atom, raw: Atom, _: &mut Self::Lexer) -> Self {
         Self::JSXText { value, raw }
     }
 
@@ -549,7 +549,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn take_jsx_text(self, _: &mut Self::Buffer) -> (Atom, Atom) {
+    fn take_jsx_text(self, _: &mut Self::Buffer) -> (Wtf8Atom, Atom) {
         match self {
             Self::JSXText { value, raw } => (value, raw),
             _ => unreachable!(),

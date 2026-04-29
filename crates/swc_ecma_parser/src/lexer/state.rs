@@ -1,6 +1,9 @@
 use std::mem::take;
 
-use swc_atoms::{wtf8::CodePoint, Atom};
+use swc_atoms::{
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
+    Wtf8Atom,
+};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
@@ -490,7 +493,7 @@ impl Lexer<'_> {
                             self.input_slice_str(start, self.cur_pos())
                         };
 
-                        let value = self.atom(s);
+                        let value = self.wtf8_atom(Wtf8::from_str(s));
                         self.state.set_token_value(TokenValue::JsxText(value));
                         return Ok(Token::JSXText);
                     },
@@ -502,7 +505,7 @@ impl Lexer<'_> {
                     self.input_slice_str(start, self.cur_pos())
                 };
 
-                let value = self.atom(s);
+                let value = self.wtf8_atom(Wtf8::from_str(s));
                 self.state.set_token_value(TokenValue::JsxText(value));
                 Ok(Token::JSXText)
             }
@@ -514,7 +517,7 @@ impl Lexer<'_> {
     /// Slow path: we encountered `&` in the jsx child, so we need to scan and
     /// resolve the jsx entity, which requires a dedicated string allocation.
     fn scan_jsx_token_with_jsx_entity(&mut self) -> LexResult<Token> {
-        let mut value = String::new();
+        let mut buf = Wtf8Buf::new();
         let mut chunk_start = self.input.cur_pos();
 
         while let Some(ch) = self.input.cur_as_char() {
@@ -547,13 +550,12 @@ impl Lexer<'_> {
                         // Safety: We already checked for the range
                         self.input_slice_str(chunk_start, self.cur_pos())
                     };
-                    value.push_str(s);
+                    buf.push_str(s);
 
                     // Read the jsx entity and update the start of chunk
-                    if let Ok(jsx_entity) = self.read_jsx_entity() {
-                        value.push(jsx_entity.0);
-                        chunk_start = self.input.cur_pos();
-                    }
+                    let jsx_entity = self.read_jsx_entity()?;
+                    buf.push_wtf8(&jsx_entity.0);
+                    chunk_start = self.input.cur_pos();
                 }
                 '<' | '{' => break,
                 c => {
@@ -568,8 +570,8 @@ impl Lexer<'_> {
             self.input_slice_str(chunk_start, self.cur_pos())
         };
 
-        value.push_str(s);
-        let value = Atom::new(value);
+        buf.push_str(s);
+        let value = Wtf8Atom::new(buf);
         self.state.set_token_value(TokenValue::JsxText(value));
         Ok(Token::JSXText)
     }
