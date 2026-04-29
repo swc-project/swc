@@ -1365,21 +1365,11 @@ impl<'a> Lexer<'a> {
     fn read_jsx_entity(&mut self) -> LexResult<(Wtf8Atom, String)> {
         debug_assert!(self.syntax().jsx());
 
-        fn parse_from_code(s: &str, radix: u32) -> LexResult<u32> {
+        fn parse_from_code(s: &str, radix: u32, span: Span) -> LexResult<u32> {
             let num = match u32::from_str_radix(s, radix) {
                 Ok(num) if num <= 0x10ffff => num,
-                Ok(_) => {
-                    return Err(crate::error::Error::new(
-                        Span::default(),
-                        SyntaxError::InvalidJSXValue,
-                    ))
-                }
-                Err(_) => {
-                    return Err(crate::error::Error::new(
-                        Span::default(),
-                        SyntaxError::InvalidJSXValue,
-                    ))
-                }
+                Ok(_) => return Err(crate::error::Error::new(span, SyntaxError::InvalidJSXValue)),
+                Err(_) => return Err(crate::error::Error::new(span, SyntaxError::InvalidJSXValue)),
             };
 
             Ok(num)
@@ -1418,12 +1408,12 @@ impl<'a> Lexer<'a> {
                 let mut result: u32;
                 if stripped.starts_with('x') {
                     if is_hex(&s[2..]) {
-                        result = parse_from_code(&s[2..], 16)?;
+                        result = parse_from_code(&s[2..], 16, self.span(start_pos))?;
                     } else {
                         return Ok((Wtf8Atom::from(format!("&{s};")), format!("&{s};")));
                     }
                 } else if is_dec(stripped) {
-                    result = parse_from_code(stripped, 10)?;
+                    result = parse_from_code(stripped, 10, self.span(start_pos))?;
                 } else {
                     return Ok((Wtf8Atom::from(format!("&{s};")), format!("&{s};")));
                 }
