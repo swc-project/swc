@@ -1,7 +1,4 @@
-class C {
-    static foo = bar;
-}
-bar;
+bar, bar;
 class D {
     static #_ = this.FOO = {};
 }
