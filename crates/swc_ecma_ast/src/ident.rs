@@ -61,7 +61,15 @@ pub struct BindingIdent {
 impl Spanned for BindingIdent {
     fn span(&self) -> Span {
         match &self.type_ann {
-            Some(ann) => Span::new(self.id.span.lo(), ann.span().hi()),
+            Some(ann) => {
+                let lo = self.id.span.lo();
+                let hi = ann.span().hi();
+                if lo > hi {
+                    Span::new(hi, lo)
+                } else {
+                    Span::new(lo, hi)
+                }
+            }
             None => self.id.span,
         }
     }
