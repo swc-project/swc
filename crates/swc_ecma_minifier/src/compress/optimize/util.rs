@@ -1,6 +1,5 @@
 use std::{
     borrow::Borrow,
-    collections::HashSet,
     mem::{self, take},
     ops::{Deref, DerefMut},
 };
@@ -182,7 +181,7 @@ pub(crate) fn extract_class_side_effect<'a>(
 
     let mut visitor = ClassEffectVisitor {
         found: false,
-        private_ident: HashSet::new(),
+        private_ident: FxHashSet::default(),
     };
 
     for m in &mut c.body {
@@ -286,7 +285,7 @@ pub(crate) fn extract_class_side_effect<'a>(
 
 struct ClassEffectVisitor {
     found: bool,
-    private_ident: HashSet<Atom>,
+    private_ident: FxHashSet<Atom>,
 }
 
 impl Visit for ClassEffectVisitor {
@@ -346,7 +345,7 @@ impl Visit for ClassEffectVisitor {
     }
 
     fn visit_class(&mut self, n: &Class) {
-        let mut new_set = HashSet::new();
+        let mut new_set = FxHashSet::default();
 
         for m in &n.body {
             if let ClassMember::PrivateProp(PrivateProp { key, .. })
