@@ -5616,6 +5616,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc-ast-explorer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "clap 3.2.25",
+ "owo-colors",
+ "regex",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_parser",
+ "swc_error_reporters",
+]
+
+[[package]]
 name = "swc-releaser"
 version = "0.1.0"
 dependencies = [
