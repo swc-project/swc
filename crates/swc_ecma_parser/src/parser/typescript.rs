@@ -3948,6 +3948,19 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         expect!(self, Token::LBrace);
+        if self.input().syntax().flow()
+            && self.input().is(Token::LogicalOr)
+            && peek!(self).is_some_and(|peek| peek == Token::RBrace)
+        {
+            // The lexer tokenizes Flow's compact empty exact object delimiter
+            // pair `{||}` as a JavaScript logical-or token. Treat it as the
+            // opening and closing exact-object pipes only in object type
+            // parsing, so ordinary expression tokenization stays unchanged.
+            self.bump();
+            expect!(self, Token::RBrace);
+            return Ok(Vec::new());
+        }
+
         let exact = self.input().syntax().flow() && self.input_mut().eat(Token::Pipe);
         let parse_members = |p: &mut Self| -> PResult<Vec<TsTypeElement>> {
             if exact {
