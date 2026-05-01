@@ -214,10 +214,7 @@ impl Optimizer<'_> {
                             match &mut stmt.init {
                                 Some(VarDeclOrExpr::Expr(e)) => {
                                     if exprs.iter().all(|expr| {
-                                        matches!(
-                                            &**expr,
-                                            Expr::Assign(AssignExpr { op: op!("="), .. })
-                                        )
+                                        self.can_append_expr_after_for_init_literal(expr)
                                     }) {
                                         let ids_used_by_exprs =
                                             idents_used_by_ignoring_nested(&exprs);
@@ -361,6 +358,24 @@ impl Optimizer<'_> {
         }
 
         *stmts = new_stmts;
+    }
+
+    /// Returns true if a pending expression can be moved after a leading
+    /// `for` initializer of the form `id = literal`.
+    fn can_append_expr_after_for_init_literal(&self, expr: &Expr) -> bool {
+        let Expr::Assign(AssignExpr {
+            op: op!("="),
+            left,
+            right,
+            ..
+        }) = expr
+        else {
+            return false;
+        };
+
+        left.as_ident().is_some()
+            && !right.may_have_side_effects(self.ctx.expr_ctx)
+            && self.is_skippable_for_seq(None, expr)
     }
 
     /// Lift sequence expressions in an assign expression.
