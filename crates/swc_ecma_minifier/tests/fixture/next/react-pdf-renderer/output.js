@@ -5637,7 +5637,7 @@
                             demerits: m,
                             ratio: b
                         })), null === (g = v) || !(g.data.line >= w)););
-                        for(d = 0, p = // break point up to the next box or forced penalty.
+                        for(p = // break point up to the next box or forced penalty.
                         function(r) {
                             for(var n = {
                                 width: u.width,
@@ -5647,7 +5647,7 @@
                             else if ("box" === e[i].type || "penalty" === e[i].type && e[i].penalty === -t.infinity && i > r) break;
                             return n;
                         } // The main loop of the algorithm
-                        (l); d < D.length; d += 1)(h = D[d]).demerits < 1 / 0 && (y = new i.default.Node(c(l, h.demerits, h.ratio, h.active.data.line + 1, d, p, h.active)), null !== g ? a.insertBefore(g, y) : a.push(y));
+                        (l), d = 0; d < D.length; d += 1)(h = D[d]).demerits < 1 / 0 && (y = new i.default.Node(c(l, h.demerits, h.ratio, h.active.data.line + 1, d, p, h.active)), null !== g ? a.insertBefore(g, y) : a.push(y));
                     }
                 } // Add an active node for the start of the paragraph.
                 if (a.push(new i.default.Node(c(0, 0, 0, 0, 0, void 0, null))), e.forEach(function(e, r, n) {
@@ -8316,14 +8316,14 @@
                     1
                 ];
                 if (e = t.match(/^#([a-f0-9]{6})([a-f0-9]{2})?$/i)) {
-                    for(r = 0, i = e[2], e = e[1]; r < 3; r++){
+                    for(i = e[2], e = e[1], r = 0; r < 3; r++){
                         // https://jsperf.com/slice-vs-substr-vs-substring-methods-long-string/19
                         var u = 2 * r;
                         a[r] = parseInt(e.slice(u, u + 2), 16);
                     }
                     i && (a[3] = parseInt(i, 16) / 255);
                 } else if (e = t.match(/^#([a-f0-9]{3,4})$/i)) {
-                    for(r = 0, i = (e = e[1])[3]; r < 3; r++)a[r] = parseInt(e[r] + e[r], 16);
+                    for(i = (e = e[1])[3], r = 0; r < 3; r++)a[r] = parseInt(e[r] + e[r], 16);
                     i && (a[3] = parseInt(i + i, 16) / 255);
                 } else if (e = t.match(/^rgba?\(\s*([+-]?\d+)(?=[\s,])\s*(?:,\s*)?([+-]?\d+)(?=[\s,])\s*(?:,\s*)?([+-]?\d+)\s*(?:[,|\/]\s*([+-]?[\d\.]+)(%?)\s*)?\)$/)) {
                     for(r = 0; r < 3; r++)a[r] = parseInt(e[r + 1], 0);
@@ -19056,7 +19056,7 @@
                             flattenChunks: function(t) {
                                 var e, r, n, i, o, a;
                                 for(e = 0, n = 0, r = t.length; e < r; e++)n += t[e].length;
-                                for(e = 0, a = new Uint8Array(n), i = 0, r = t.length; e < r; e++)o = t[e], a.set(o, i), i += o.length;
+                                for(a = new Uint8Array(n), i = 0, e = 0, r = t.length; e < r; e++)o = t[e], a.set(o, i), i += o.length;
                                 return a;
                             }
                         }, i = {
@@ -20011,12 +20011,12 @@
                             var d, h, y, g, v, b, m, D, w, E = p.bits, _ = 0, x = 0, S = 0, A = 0, k = 0, T = 0, O = 0, C = 0, P = 0, F = 0, R = null, I = 0, j = new n.Buf16(16), B = new n.Buf16(16), M = null, N = 0;
                             for(_ = 0; _ <= 15; _++)j[_] = 0;
                             for(x = 0; x < l; x++)j[e[r + x]]++;
-                            for(A = 15, k = E; A >= 1 && 0 === j[A]; A--);
+                            for(k = E, A = 15; A >= 1 && 0 === j[A]; A--);
                             if (k > A && (k = A), 0 === A) return s[c++] = 20971520, s[c++] = 20971520, p.bits = 1, 0;
                             for(S = 1; S < A && 0 === j[S]; S++);
                             for(k < S && (k = S), C = 1, _ = 1; _ <= 15; _++)if (C <<= 1, (C -= j[_]) < 0) return -1;
                             if (C > 0 && (0 === t || 1 !== A)) return -1;
-                            for(_ = 1, B[1] = 0; _ < 15; _++)B[_ + 1] = B[_] + j[_];
+                            for(B[1] = 0, _ = 1; _ < 15; _++)B[_ + 1] = B[_] + j[_];
                             for(x = 0; x < l; x++)0 !== e[r + x] && (f[B[e[r + x]]++] = x);
                             if (0 === t ? (R = M = f, b = 19) : 1 === t ? (R = i, I -= 257, M = o, N -= 257, b = 256) : (R = a, M = u, b = -1), F = 0, x = 0, _ = S, v = c, T = k, O = 0, y = -1, g = (P = 1 << k) - 1, 1 === t && P > 852 || 2 === t && P > 592) return 1;
                             for(;;){
@@ -20225,7 +20225,7 @@
                         }
                         function P(t, e) {
                             var r, n, i, o = e.dyn_tree, a = e.stat_desc.static_tree, u = e.stat_desc.has_stree, l = e.stat_desc.elems, s = -1;
-                            for(r = 0, t.heap_len = 0, t.heap_max = 573; r < l; r++)0 !== o[2 * r] ? (t.heap[++t.heap_len] = s = r, t.depth[r] = 0) : o[2 * r + 1] = 0;
+                            for(t.heap_len = 0, t.heap_max = 573, r = 0; r < l; r++)0 !== o[2 * r] ? (t.heap[++t.heap_len] = s = r, t.depth[r] = 0) : o[2 * r + 1] = 0;
                             for(; t.heap_len < 2;)o[2 * (i = t.heap[++t.heap_len] = s < 2 ? ++s : 0)] = 1, t.depth[i] = 0, t.opt_len--, u && (t.static_len -= a[2 * i + 1]);
                             for(e.max_code = s, r = t.heap_len >> 1; r >= 1; r--)O(t, o, r);
                             i = l;
@@ -20265,9 +20265,9 @@
                         e._tr_init = function(t) {
                             I || (!function() {
                                 var t, e, r, a, u, f = Array(16);
-                                for(a = 0, r = 0; a < 28; a++)for(t = 0, g[a] = r; t < 1 << l[a]; t++)y[r++] = a;
-                                for(y[r - 1] = a, u = 0, a = 0; a < 16; a++)for(t = 0, v[a] = u; t < 1 << s[a]; t++)h[u++] = a;
-                                for(u >>= 7; a < 30; a++)for(t = 0, v[a] = u << 7; t < 1 << s[a] - 7; t++)h[256 + u++] = a;
+                                for(a = 0, r = 0; a < 28; a++)for(g[a] = r, t = 0; t < 1 << l[a]; t++)y[r++] = a;
+                                for(y[r - 1] = a, u = 0, a = 0; a < 16; a++)for(v[a] = u, t = 0; t < 1 << s[a]; t++)h[u++] = a;
+                                for(u >>= 7; a < 30; a++)for(v[a] = u << 7, t = 0; t < 1 << s[a] - 7; t++)h[256 + u++] = a;
                                 for(e = 0; e <= 15; e++)f[e] = 0;
                                 for(t = 0; t <= 143;)p[2 * t + 1] = 8, t++, f[8]++;
                                 for(; t <= 255;)p[2 * t + 1] = 9, t++, f[9]++;
@@ -26005,7 +26005,7 @@
                     if (tM(e7, n), 0 == (2 & e.mode)) e.memoizedState = null;
                     else switch(i){
                         case "forwards":
-                            for(i = null, r = e.child; null !== r;)null !== (t = r.alternate) && null === e9(t) && (i = r), r = r.sibling;
+                            for(r = e.child, i = null; null !== r;)null !== (t = r.alternate) && null === e9(t) && (i = r), r = r.sibling;
                             null === (r = i) ? (i = e.child, e.child = null) : (i = r.sibling, r.sibling = null), r6(e, !1, i, r, o, e.lastEffect);
                             break;
                         case "backwards":
@@ -28580,7 +28580,7 @@
                 var i, o;
                 /* clear code length count table */ for(i = 0; i < 16; ++i)t.table[i] = 0;
                 /* scan symbol lengths, and sum code length counts */ for(i = 0; i < n; ++i)t.table[e[r + i]]++;
-                /* compute offset table for distribution sort */ for(o = 0, t.table[0] = 0, i = 0; i < 16; ++i)h[i] = o, o += t.table[i];
+                /* compute offset table for distribution sort */ for(t.table[0] = 0, o = 0, i = 0; i < 16; ++i)h[i] = o, o += t.table[i];
                 /* create code->symbol translation table (symbols sorted by code) */ for(i = 0; i < n; ++i)e[r + i] && (t.trans[h[e[r + i]]++] = i);
             }
             /* read a num bit value from a stream and add base */ function g(t, e, r) {
@@ -28607,12 +28607,12 @@
                 }
             }
             /* build fixed length tree */ for(n = 0; n < 7; ++n)i.table[n] = 0;
-            for(n = 0, i.table[7] = 24, i.table[8] = 152, i.table[9] = 112; n < 24; ++n)i.trans[n] = 256 + n;
+            for(i.table[7] = 24, i.table[8] = 152, i.table[9] = 112, n = 0; n < 24; ++n)i.trans[n] = 256 + n;
             for(n = 0; n < 144; ++n)i.trans[24 + n] = n;
             for(n = 0; n < 8; ++n)i.trans[168 + n] = 280 + n;
             for(n = 0; n < 112; ++n)i.trans[176 + n] = 144 + n;
             /* build fixed distance tree */ for(n = 0; n < 5; ++n)o.table[n] = 0;
-            for(n = 0, o.table[5] = 32; n < 32; ++n)o.trans[n] = n;
+            for(o.table[5] = 32, n = 0; n < 32; ++n)o.trans[n] = n;
             /* build extra bits and base tables */ d(a, u, 4, 3), d(l, s, 2, 1), /* fix a special case */ a[28] = 0, u[28] = 258, t.exports = /* inflate stream from source to dest */ function(t, e) {
                 var n, a, u = new r(t, e);
                 do {
@@ -28636,7 +28636,7 @@
                             break;
                         case 2:
                             !/* decompress block with dynamic huffman trees */ /* given a data stream, decode dynamic trees from it */ function(t, e, r) {
-                                for(a = 0, /* get 5 bits HLIT (257-286) */ n = g(t, 5, 257), /* get 5 bits HDIST (1-32) */ i = g(t, 5, 1), /* get 4 bits HCLEN (4-19) */ o = g(t, 4, 4); a < 19; ++a)p[a] = 0;
+                                for(/* get 5 bits HLIT (257-286) */ n = g(t, 5, 257), /* get 5 bits HDIST (1-32) */ i = g(t, 5, 1), /* get 4 bits HCLEN (4-19) */ o = g(t, 4, 4), a = 0; a < 19; ++a)p[a] = 0;
                                 /* read code lengths for code length alphabet */ for(a = 0; a < o; ++a){
                                     /* get 3 bits code length (0-7) */ var n, i, o, a, u, l, s = g(t, 3, 0);
                                     p[c[a]] = s;

@@ -956,7 +956,7 @@ function(global, factory) {
                 }
                 return;
             }
-            for(i = 0, on = value ? onAdd : onRemove; i < n; ++i)this.each(on(typenames[i], value, options));
+            for(on = value ? onAdd : onRemove, i = 0; i < n; ++i)this.each(on(typenames[i], value, options));
             return this;
         },
         dispatch: function(type, params) {
@@ -1856,8 +1856,8 @@ function(global, factory) {
                 }), // Dispatch the start event.
                 // Note this must be done before the tween are initialized.
                 self1.state = 2, self1.on.call("start", node, node.__data__, self1.index, self1.group), 2 === self1.state) {
-                    for(i = 0, self1.state = 3, // Initialize the tween, deleting null tween.
-                    tween = Array(n = self1.tween.length), j = -1; i < n; ++i)(o = self1.tween[i].value.call(node, node.__data__, self1.index, self1.group)) && (tween[++j] = o);
+                    for(self1.state = 3, // Initialize the tween, deleting null tween.
+                    tween = Array(n = self1.tween.length), i = 0, j = -1; i < n; ++i)(o = self1.tween[i].value.call(node, node.__data__, self1.index, self1.group)) && (tween[++j] = o);
                     tween.length = j + 1;
                 } // interrupted
             }
@@ -6321,7 +6321,7 @@ function(global, factory) {
             b._
         ], c = b; (c = c.next) !== b;)a.push(c._);
         // Translate the circles to put the enclosing circle around the origin.
-        for(i = 0, c = enclose(a); i < n; ++i)a = circles[i], a.x -= c.x, a.y -= c.y;
+        for(c = enclose(a), i = 0; i < n; ++i)a = circles[i], a.x -= c.x, a.y -= c.y;
         return c.r;
     }
     function required(f) {
@@ -8854,7 +8854,7 @@ function(global, factory) {
         for(a[0] = 0, b[0] = 2, r[0] = x[0] + 2 * x[1], i = 1; i < n - 1; ++i)a[i] = 1, b[i] = 4, r[i] = 4 * x[i] + 2 * x[i + 1];
         for(a[n - 1] = 2, b[n - 1] = 7, r[n - 1] = 8 * x[n - 1] + x[n], i = 1; i < n; ++i)m = a[i] / b[i - 1], b[i] -= m, r[i] -= m * r[i - 1];
         for(a[n - 1] = r[n - 1] / b[n - 1], i = n - 2; i >= 0; --i)a[i] = (r[i] - a[i + 1]) / b[i];
-        for(i = 0, b[n - 1] = (x[n] + a[n - 1]) / 2; i < n - 1; ++i)b[i] = 2 * x[i + 1] - a[i + 1];
+        for(b[n - 1] = (x[n] + a[n - 1]) / 2, i = 0; i < n - 1; ++i)b[i] = 2 * x[i + 1] - a[i + 1];
         return [
             a,
             b
@@ -9597,7 +9597,7 @@ function(global, factory) {
     }, exports1.forceCollide = function(radius) {
         var nodes, radii, random, strength = 1, iterations = 1;
         function force() {
-            for(var i, tree, node, xi, yi, ri, ri2, n = nodes.length, k = 0; k < iterations; ++k)for(i = 0, tree = quadtree(nodes, x, y).visitAfter(prepare); i < n; ++i)ri2 = (ri = radii[(node = nodes[i]).index]) * ri, xi = node.x + node.vx, yi = node.y + node.vy, tree.visit(apply);
+            for(var i, tree, node, xi, yi, ri, ri2, n = nodes.length, k = 0; k < iterations; ++k)for(tree = quadtree(nodes, x, y).visitAfter(prepare), i = 0; i < n; ++i)ri2 = (ri = radii[(node = nodes[i]).index]) * ri, xi = node.x + node.vx, yi = node.y + node.vy, tree.visit(apply);
             function apply(quad, x0, y0, x1, y1) {
                 var data = quad.data, rj = quad.r, r = ri + rj;
                 if (data) {
@@ -9617,7 +9617,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, node, n = nodes.length;
-                for(i = 0, radii = Array(n); i < n; ++i)radii[(node = nodes[i]).index] = +radius(node, i, nodes);
+                for(radii = Array(n), i = 0; i < n; ++i)radii[(node = nodes[i]).index] = +radius(node, i, nodes);
             }
         }
         return "function" != typeof radius && (radius = constant$7(null == radius ? 1 : +radius)), force.initialize = function(_nodes, _random) {
@@ -9675,7 +9675,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, node, n = nodes.length;
-                for(i = 0, strengths = Array(n); i < n; ++i)strengths[(node = nodes[i]).index] = +strength(node, i, nodes);
+                for(strengths = Array(n), i = 0; i < n; ++i)strengths[(node = nodes[i]).index] = +strength(node, i, nodes);
             }
         }
         function accumulate(quad) {
@@ -9726,7 +9726,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, n = nodes.length;
-                for(i = 0, strengths = Array(n), radiuses = Array(n); i < n; ++i)radiuses[i] = +radius(nodes[i], i, nodes), strengths[i] = isNaN(radiuses[i]) ? 0 : +strength(nodes[i], i, nodes);
+                for(strengths = Array(n), radiuses = Array(n), i = 0; i < n; ++i)radiuses[i] = +radius(nodes[i], i, nodes), strengths[i] = isNaN(radiuses[i]) ? 0 : +strength(nodes[i], i, nodes);
             }
         }
         return "function" != typeof radius && (radius = constant$7(+radius)), null == x && (x = 0), null == y && (y = 0), force.initialize = function(_) {
@@ -9815,7 +9815,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, n = nodes.length;
-                for(i = 0, strengths = Array(n), xz = Array(n); i < n; ++i)strengths[i] = isNaN(xz[i] = +x(nodes[i], i, nodes)) ? 0 : +strength(nodes[i], i, nodes);
+                for(strengths = Array(n), xz = Array(n), i = 0; i < n; ++i)strengths[i] = isNaN(xz[i] = +x(nodes[i], i, nodes)) ? 0 : +strength(nodes[i], i, nodes);
             }
         }
         return "function" != typeof x && (x = constant$7(null == x ? 0 : +x)), force.initialize = function(_) {
@@ -9833,7 +9833,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, n = nodes.length;
-                for(i = 0, strengths = Array(n), yz = Array(n); i < n; ++i)strengths[i] = isNaN(yz[i] = +y(nodes[i], i, nodes)) ? 0 : +strength(nodes[i], i, nodes);
+                for(strengths = Array(n), yz = Array(n), i = 0; i < n; ++i)strengths[i] = isNaN(yz[i] = +y(nodes[i], i, nodes)) ? 0 : +strength(nodes[i], i, nodes);
             }
         }
         return "function" != typeof y && (y = constant$7(null == y ? 0 : +y)), force.initialize = function(_) {

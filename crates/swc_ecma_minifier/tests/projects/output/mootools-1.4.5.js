@@ -1569,7 +1569,7 @@ requires: Slick.Parser
                             for(i = 0; node = nodes[i++];)hasOthers && uniques[this.getUID(node)] || found.push(node);
                         } else {
                             var matchClass = RegExp("(^|\\s)" + Slick1.escapeRegExp(name) + "(\\s|$)");
-                            for(i = 0, nodes = context.getElementsByTagName("*"); node = nodes[i++];)if ((className = node.className) && matchClass.test(className)) {
+                            for(nodes = context.getElementsByTagName("*"), i = 0; node = nodes[i++];)if ((className = node.className) && matchClass.test(className)) {
                                 if (first) return node;
                                 hasOthers && uniques[this.getUID(node)] || found.push(node);
                             }

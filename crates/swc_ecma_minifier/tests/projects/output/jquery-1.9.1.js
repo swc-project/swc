@@ -2778,8 +2778,8 @@
         clone: function(elem, dataAndEvents, deepDataAndEvents) {
             var destElements, node, clone, i, srcElements, inPage = jQuery.contains(elem.ownerDocument, elem);
             if (jQuery.support.html5Clone || jQuery.isXMLDoc(elem) || !rnoshimcache.test("<" + elem.nodeName + ">") ? clone = elem.cloneNode(!0) : (fragmentDiv.innerHTML = elem.outerHTML, fragmentDiv.removeChild(clone = fragmentDiv.firstChild)), (!jQuery.support.noCloneEvent || !jQuery.support.noCloneChecked) && (1 === elem.nodeType || 11 === elem.nodeType) && !jQuery.isXMLDoc(elem)) // Fix all IE cloning issues
-            for(i = 0, // We eschew Sizzle here for performance reasons: http://jsperf.com/getall-vs-sizzle/2
-            destElements = getAll(clone), srcElements = getAll(elem); null != (node = srcElements[i]); ++i)// Ensure that the destination node is not null; Fixes #9587
+            for(// We eschew Sizzle here for performance reasons: http://jsperf.com/getall-vs-sizzle/2
+            destElements = getAll(clone), srcElements = getAll(elem), i = 0; null != (node = srcElements[i]); ++i)// Ensure that the destination node is not null; Fixes #9587
             destElements[i] && function(src, dest) {
                 var nodeName, e, data;
                 // We do not need to do anything for non-Elements
@@ -2797,7 +2797,7 @@
                 }
             }(node, destElements[i]);
             // Copy the events from the original to the clone
-            if (dataAndEvents) if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone); null != (node = srcElements[i]); i++)cloneCopyEvent(node, destElements[i]);
+            if (dataAndEvents) if (deepDataAndEvents) for(srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone), i = 0; null != (node = srcElements[i]); i++)cloneCopyEvent(node, destElements[i]);
             else cloneCopyEvent(elem, clone);
             // Return the cloned set
             return(// Preserve script evaluation history

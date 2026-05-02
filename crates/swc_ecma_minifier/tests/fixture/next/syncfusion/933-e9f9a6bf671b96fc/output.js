@@ -16834,7 +16834,7 @@
                     var allCells = this.getCorrespondingColumns(), minMaxIndex = this.getSelectedCellMinMaxIndex(allCells);
                     if (1 === this.curTable.rows.length) e.item.selection.restore(), (0, ej2_base /* detach */ .og)((0, ej2_base /* closest */ .oq)(selectedCell.parentElement, 'table'));
                     else for(maxI = minMaxIndex.endRow; maxI >= minMaxIndex.startRow; maxI--){
-                        for(j = 0, currentRow = this.curTable.rows[maxI]; j < allCells[maxI].length; j++){
+                        for(currentRow = this.curTable.rows[maxI], j = 0; j < allCells[maxI].length; j++){
                             if ((0 === j || allCells[maxI][j] !== allCells[maxI][j - 1]) && 1 < parseInt(allCells[maxI][j].getAttribute('rowspan'), 10)) {
                                 var rowSpanVal = parseInt(allCells[maxI][j].getAttribute('rowspan'), 10) - 1;
                                 //eslint-disable-next-line

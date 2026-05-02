@@ -6,8 +6,9 @@ jQuery.fn.offset = function(options) {
         top: 0,
         left: 0
     }, elem = this[0], doc = elem && elem.ownerDocument;
-    return doc ? (docElem = doc.documentElement, jQuery.contains(docElem, elem)) ? (void 0 !== elem.getBoundingClientRect && (box = elem.getBoundingClientRect()), win = getWindow(doc), {
+    if (doc) return(// Make sure it's not a disconnected DOM node
+    (docElem = doc.documentElement, jQuery.contains(docElem, elem)) ? (void 0 !== elem.getBoundingClientRect && (box = elem.getBoundingClientRect()), win = getWindow(doc), {
         top: box.top + (win.pageYOffset || docElem.scrollTop) - (docElem.clientTop || 0),
         left: box.left + (win.pageXOffset || docElem.scrollLeft) - (docElem.clientLeft || 0)
-    }) : box : void 0;
+    }) : box);
 };

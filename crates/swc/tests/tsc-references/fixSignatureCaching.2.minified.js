@@ -295,7 +295,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
     function containsIC(array, value) {
         var valueLC, i, len = array.length;
         if (!len || !value) return !1;
-        for(i = 0, valueLC = value.toLowerCase(); i < len; ++i)if (valueLC === array[i].toLowerCase()) return !0;
+        for(valueLC = value.toLowerCase(), i = 0; i < len; ++i)if (valueLC === array[i].toLowerCase()) return !0;
         return !1;
     }
     function convertPropsToRegExp(object) {
@@ -330,7 +330,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
     }, impl.getVersionStr = function(propertyName, userAgent) {
         var patterns, i, len, match, props = impl.mobileDetectRules.props;
         if (hasOwnProp.call(props, propertyName)) {
-            for(i = 0, len = (patterns = props[propertyName]).length; i < len; ++i)if (null !== (match = patterns[i].exec(userAgent))) return match[1];
+            for(len = (patterns = props[propertyName]).length, i = 0; i < len; ++i)if (null !== (match = patterns[i].exec(userAgent))) return match[1];
         }
         return null;
     }, impl.getVersion = function(propertyName, userAgent) {

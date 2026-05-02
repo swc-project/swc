@@ -7886,7 +7886,7 @@ function(global, factory) {
             if (levels.length > 1) {
                 _v1$4.setFromMatrixPosition(camera.matrixWorld), _v2$2.setFromMatrixPosition(this.matrixWorld);
                 var i, l, distance = _v1$4.distanceTo(_v2$2) / camera.zoom;
-                for(i = 1, levels[0].object.visible = !0, l = levels.length; i < l; i++)if (distance >= levels[i].distance) levels[i - 1].object.visible = !1, levels[i].object.visible = !0;
+                for(levels[0].object.visible = !0, i = 1, l = levels.length; i < l; i++)if (distance >= levels[i].distance) levels[i - 1].object.visible = !1, levels[i].object.visible = !0;
                 else break;
                 for(this._currentLevel = i - 1; i < l; i++)levels[i].object.visible = !1;
             }

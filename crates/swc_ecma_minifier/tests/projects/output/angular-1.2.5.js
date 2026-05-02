@@ -33,11 +33,11 @@
    */ function minErr(module) {
         return function() {
             var obj, message, i, code = arguments[0], template = arguments[1], templateArgs = arguments;
-            for(i = 2, message = (message = "[" + (module ? module + ":" : "") + code + "] " + template.replace(/\{\d+\}/g, function(match) {
+            for(message = (message = "[" + (module ? module + ":" : "") + code + "] " + template.replace(/\{\d+\}/g, function(match) {
                 var arg, index = +match.slice(1, -1);
                 if (index + 2 < templateArgs.length) return "function" == typeof (arg = templateArgs[index + 2]) ? arg.toString().replace(/ ?\{[\s\S]*$/, "") : void 0 === arg ? "undefined" : "string" != typeof arg ? toJson(arg) : arg;
                 return match;
-            })) + "\nhttp://errors.angularjs.org/1.2.5/" + (module ? module + "/" : "") + code; i < arguments.length; i++){
+            })) + "\nhttp://errors.angularjs.org/1.2.5/" + (module ? module + "/" : "") + code, i = 2; i < arguments.length; i++){
                 message = message + (2 == i ? "?" : "&") + "p" + (i - 2) + "=" + encodeURIComponent((obj = arguments[i], "function" == typeof obj ? obj.toString().replace(/ \{[\s\S]*$/, "") : void 0 === obj ? "undefined" : "string" != typeof obj ? JSON.stringify(obj) : obj));
             }
             return Error(message);
@@ -2415,7 +2415,7 @@
             /* global escape: false, unescape: false */ var cookieLength, cookieArray, cookie, i, index;
             if (name) void 0 === value ? rawDocument.cookie = escape(name) + "=;path=" + cookiePath + ";expires=Thu, 01 Jan 1970 00:00:00 GMT" : isString(value) && (cookieLength = (rawDocument.cookie = escape(name) + "=" + escape(value) + ";path=" + cookiePath).length + 1) > 4096 && $log.warn("Cookie '" + name + "' possibly not set or overflowed because it was too large (" + cookieLength + " > 4096 bytes)!");
             else {
-                if (rawDocument.cookie !== lastCookieString) for(i = 0, cookieArray = (lastCookieString = rawDocument.cookie).split("; "), lastCookies = {}; i < cookieArray.length; i++)(index = (cookie = cookieArray[i]).indexOf("=")) > 0 && void 0 === lastCookies[//ignore nameless cookies
+                if (rawDocument.cookie !== lastCookieString) for(cookieArray = (lastCookieString = rawDocument.cookie).split("; "), lastCookies = {}, i = 0; i < cookieArray.length; i++)(index = (cookie = cookieArray[i]).indexOf("=")) > 0 && void 0 === lastCookies[//ignore nameless cookies
                 name = unescape(cookie.substring(0, index))] && (lastCookies[name] = unescape(cookie.substring(index + 1)));
                 return lastCookies;
             }
@@ -7285,7 +7285,7 @@
                             event
                         ], arguments, 1);
                         do {
-                            for(i = 0, namedListeners = scope.$$listeners[name] || empty, event.currentScope = scope, length = namedListeners.length; i < length; i++){
+                            for(namedListeners = scope.$$listeners[name] || empty, event.currentScope = scope, i = 0, length = namedListeners.length; i < length; i++){
                                 // if listeners were deregistered, defragment the array
                                 if (!namedListeners[i]) {
                                     namedListeners.splice(i, 1), i--, length--;
@@ -7339,7 +7339,7 @@
                         ], arguments, 1);
                         //down while you can, then up and next sibling or up and next sibling until back at root
                         do {
-                            for(i = 0, event.currentScope = current = next, length = (listeners = current.$$listeners[name] || []).length; i < length; i++){
+                            for(event.currentScope = current = next, i = 0, length = (listeners = current.$$listeners[name] || []).length; i < length; i++){
                                 // if listeners were deregistered, defragment the array
                                 if (!listeners[i]) {
                                     listeners.splice(i, 1), i--, length--;
@@ -8877,7 +8877,7 @@
             var pow = Math.pow(10, fractionSize), fraction = ("" + (number = Math.round(number * pow) / pow)).split("."), whole = fraction[0];
             fraction = fraction[1] || "";
             var i, pos = 0, lgroup = pattern.lgSize, group = pattern.gSize;
-            if (whole.length >= lgroup + group) for(i = 0, pos = whole.length - lgroup; i < pos; i++)(pos - i) % group == 0 && 0 !== i && (formatedText += groupSep), formatedText += whole.charAt(i);
+            if (whole.length >= lgroup + group) for(pos = whole.length - lgroup, i = 0; i < pos; i++)(pos - i) % group == 0 && 0 !== i && (formatedText += groupSep), formatedText += whole.charAt(i);
             for(i = pos; i < whole.length; i++)(whole.length - i) % lgroup == 0 && 0 !== i && (formatedText += groupSep), formatedText += whole.charAt(i);
             // format fraction part.
             for(; fraction.length < fractionSize;)fraction += "0";
@@ -11289,8 +11289,8 @@
                             collectionKeys = [], collection)collection.hasOwnProperty(key) && "$" != key.charAt(0) && collectionKeys.push(key);
                             collectionKeys.sort();
                         }
-                        for(index = 0, arrayLength = collectionKeys.length, // locate existing items
-                        length = nextBlockOrder.length = collectionKeys.length; index < length; index++)if (key = collection === collectionKeys ? index : collectionKeys[index], value = collection[key], assertNotHasOwnProperty(trackById = trackByIdFn(key, value, index), "`track by` id"), lastBlockMap.hasOwnProperty(trackById)) block = lastBlockMap[trackById], delete lastBlockMap[trackById], nextBlockMap[trackById] = block, nextBlockOrder[index] = block;
+                        for(arrayLength = collectionKeys.length, // locate existing items
+                        length = nextBlockOrder.length = collectionKeys.length, index = 0; index < length; index++)if (key = collection === collectionKeys ? index : collectionKeys[index], value = collection[key], assertNotHasOwnProperty(trackById = trackByIdFn(key, value, index), "`track by` id"), lastBlockMap.hasOwnProperty(trackById)) block = lastBlockMap[trackById], delete lastBlockMap[trackById], nextBlockMap[trackById] = block, nextBlockOrder[index] = block;
                         else if (nextBlockMap.hasOwnProperty(trackById)) // This is a duplicate and we need to throw an error
                         throw(// restore lastBlockMap
                         forEach(nextBlockOrder, function(block) {

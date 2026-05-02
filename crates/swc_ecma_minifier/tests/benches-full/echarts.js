@@ -3364,7 +3364,7 @@
                         for(i = 0; i < length2; i++)tmp[i] = array[start2 + i];
                         var cursor1 = start1 + length1 - 1, cursor2 = length2 - 1, dest = start2 + length2 - 1, customCursor = 0, customDest = 0;
                         if (array[dest--] = array[cursor1--], 0 == --length1) {
-                            for(i = 0, customCursor = dest - (length2 - 1); i < length2; i++)array[customCursor + i] = tmp[i];
+                            for(customCursor = dest - (length2 - 1), i = 0; i < length2; i++)array[customCursor + i] = tmp[i];
                             return;
                         }
                         if (1 === length2) {
@@ -3417,7 +3417,7 @@
                             for(dest -= length1, cursor1 -= length1, customDest = dest + 1, customCursor = cursor1 + 1, i = length1 - 1; i >= 0; i--)array[customDest + i] = array[customCursor + i];
                             array[dest] = tmp[cursor2];
                         } else if (0 === length2) throw Error();
-                        else for(i = 0, customCursor = dest - (length2 - 1); i < length2; i++)array[customCursor + i] = tmp[i];
+                        else for(customCursor = dest - (length2 - 1), i = 0; i < length2; i++)array[customCursor + i] = tmp[i];
                     }(start1, length1, start2, length2));
                 }
                 return runStart = [], runLength = [], {

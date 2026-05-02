@@ -320,7 +320,7 @@
                 };
                 for(i = 0; i < list.length; i++)if ((score = scoreFunc.apply(this, [
                     list[i]
-                ])) > min) for(pos = 0, (hit = queue[minIdx]).score = score, hit.item = list[i], min = Number.MAX_VALUE; pos < top; pos++)queue[pos].score < min && (min = queue[pos].score, minIdx = pos);
+                ])) > min) for((hit = queue[minIdx]).score = score, hit.item = list[i], min = Number.MAX_VALUE, pos = 0; pos < top; pos++)queue[pos].score < min && (min = queue[pos].score, minIdx = pos);
                 return queue;
             }
             function grayAndHalfSampleFromCanvasData(canvasData, size, outArray) {
@@ -583,7 +583,7 @@
                                 theta: 0,
                                 rad: 0
                             };
-                            for(y = 0; y < height; y++)for(x = 0, ysq = y * y; x < width; x++)(val = data[y * width + x]) > 0 && (label = labelSum[val - 1], label.m00 += 1, label.m01 += y, label.m10 += x, label.m11 += x * y, label.m02 += ysq, label.m20 += x * x);
+                            for(y = 0; y < height; y++)for(ysq = y * y, x = 0; x < width; x++)(val = data[y * width + x]) > 0 && (label = labelSum[val - 1], label.m00 += 1, label.m01 += y, label.m10 += x, label.m11 += x * y, label.m02 += ysq, label.m20 += x * x);
                             for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, tmp = 0.5 * Math.atan(tmp = (label.m02 / label.m00 - y_ * y_ - (label.m20 / label.m00 - x_ * x_)) / (2 * mu11)) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
                                 Math.cos(tmp),
                                 Math.sin(tmp)
@@ -911,7 +911,7 @@
                                     for(k = 0; k < moments.length; k++)moments[k].m00 > minComponentWeight && eligibleMoments.push(moments[k]);
                                      // if at least 2 moments are found which have at least minComponentWeights covered
                                     if (eligibleMoments.length >= 2) {
-                                        for(k = 0, matchingMoments = /**
+                                        for(matchingMoments = /**
                      * Find similar moments (via cluster)
                      * @param {Object} moments
                      */ function(moments) {
@@ -923,7 +923,7 @@
                                                 for(var i = 0; i < points.length; i++)result.push(points[i].point);
                                             }
                                             return result;
-                                        }(eligibleMoments), avg = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
+                                        }(eligibleMoments), avg = 0, k = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
                                          // Only two of the moments are allowed not to fit into the equation
                                         matchingMoments.length > 1 && matchingMoments.length >= eligibleMoments.length / 4 * 3 && matchingMoments.length > moments.length / 4 && (avg /= matchingMoments.length, patch = {
                                             index: patchPos[1] * _numPatches.x + patchPos[0],
@@ -995,7 +995,7 @@
                                     x: currentIdx % _patchLabelGrid.size.x,
                                     y: currentIdx / _patchLabelGrid.size.x | 0
                                 };
-                                if (currentIdx < _patchLabelGrid.data.length) for(dir = 0, currentPatch = _imageToPatchGrid.data[currentIdx], _patchLabelGrid.data[currentIdx] = label; dir < _tracer__WEBPACK_IMPORTED_MODULE_7__./* default */ a.searchDirections.length; dir++){
+                                if (currentIdx < _patchLabelGrid.data.length) for(currentPatch = _imageToPatchGrid.data[currentIdx], _patchLabelGrid.data[currentIdx] = label, dir = 0; dir < _tracer__WEBPACK_IMPORTED_MODULE_7__./* default */ a.searchDirections.length; dir++){
                                     if (y = current.y + _tracer__WEBPACK_IMPORTED_MODULE_7__./* default */ a.searchDirections[dir][0], x = current.x + _tracer__WEBPACK_IMPORTED_MODULE_7__./* default */ a.searchDirections[dir][1], idx = y * _patchLabelGrid.size.x + x, 0 === _patchGrid.data[idx]) {
                                         _patchLabelGrid.data[idx] = Number.MAX_VALUE; // eslint-disable-next-line no-continue
                                         continue;
@@ -1060,7 +1060,7 @@
                                         -Math.sin(overAvg),
                                         Math.cos(overAvg)
                                     ]), i = 0; i < patches.length; i++){
-                                        for(j = 0, patch = patches[i]; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(patch.box[j], patch.box[j], transMat);
+                                        for(patch = patches[i], j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(patch.box[j], patch.box[j], transMat);
                                         _config.debug.boxFromPatches.showTransformed && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawPath(patch.box, {
                                             x: 0,
                                             y: 1
@@ -1069,7 +1069,7 @@
                                             lineWidth: 2
                                         });
                                     } // find bounding box
-                                    for(i = 0; i < patches.length; i++)for(j = 0, patch = patches[i]; j < 4; j++)patch.box[j][0] < minx && (minx = patch.box[j][0]), patch.box[j][0] > maxx && (maxx = patch.box[j][0]), patch.box[j][1] < miny && (miny = patch.box[j][1]), patch.box[j][1] > maxy && (maxy = patch.box[j][1]);
+                                    for(i = 0; i < patches.length; i++)for(patch = patches[i], j = 0; j < 4; j++)patch.box[j][0] < minx && (minx = patch.box[j][0]), patch.box[j][0] > maxx && (maxx = patch.box[j][0]), patch.box[j][1] < miny && (miny = patch.box[j][1]), patch.box[j][1] > maxy && (maxy = patch.box[j][1]);
                                     for(box = [
                                         [
                                             minx,
@@ -2002,7 +2002,7 @@
                         rasterize: function(depthlabel) {
                             var color, bc, lc, labelindex, cx, cy, vertex, p, cc, sc, pos, i, colorMap = [], connectedCount = 0;
                             for(i = 0; i < 400; i++)colorMap[i] = 0;
-                            for(cy = 1, colorMap[0] = imageData[0], cc = null; cy < height - 1; cy++)for(cx = 1, labelindex = 0, bc = colorMap[0]; cx < width - 1; cx++)if (0 === labelData[pos = cy * width + cx]) if ((color = imageData[pos]) !== bc) {
+                            for(colorMap[0] = imageData[0], cc = null, cy = 1; cy < height - 1; cy++)for(labelindex = 0, bc = colorMap[0], cx = 1; cx < width - 1; cx++)if (0 === labelData[pos = cy * width + cx]) if ((color = imageData[pos]) !== bc) {
                                 if (0 === labelindex) colorMap[lc = connectedCount + 1] = color, bc = color, null !== (vertex = tracer.contourTracing(cy, cx, lc, color, Rasterizer.DIR.OUTSIDE_EDGE)) && (connectedCount++, labelindex = lc, (p = Rasterizer.createContour2D()).dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = labelindex, p.firstVertex = vertex, p.nextpeer = cc, p.insideContours = null, null !== cc && (cc.prevpeer = p), cc = p);
                                 else if (null !== (vertex = tracer.contourTracing(cy, cx, Rasterizer.DIR.INSIDE_EDGE, color, labelindex))) {
                                     for((p = Rasterizer.createContour2D()).firstVertex = vertex, p.insideContours = null, 0 === depthlabel ? p.dir = Rasterizer.CONTOUR_DIR.CCW_DIR : p.dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = depthlabel, sc = cc; null !== sc && sc.index !== labelindex;)sc = sc.nextpeer;
@@ -5034,7 +5034,7 @@
                 },
                 printPattern: function(line, canvas) {
                     var i, ctx = canvas.getContext("2d");
-                    for(i = 0, canvas.width = line.length, ctx.fillColor = "black"; i < line.length; i++)1 === line[i] && ctx.fillRect(i, 0, 1, 100);
+                    for(canvas.width = line.length, ctx.fillColor = "black", i = 0; i < line.length; i++)1 === line[i] && ctx.fillRect(i, 0, 1, 100);
                 }
             };
             // EXTERNAL MODULE: ./src/common/image_debug.ts
@@ -8625,7 +8625,7 @@
                 var i, img, num, htmlImagesSrcArray = Array(size), htmlImagesArray = Array(htmlImagesSrcArray.length);
                 if (!1 === sequence) htmlImagesSrcArray[0] = directory;
                 else for(i = 0; i < htmlImagesSrcArray.length; i++)num = offset + i, htmlImagesSrcArray[i] = "".concat(directory, "image-").concat("00".concat(num).slice(-3), ".jpg");
-                for(i = 0, htmlImagesArray.notLoaded = [], htmlImagesArray.addImage = function(image) {
+                for(htmlImagesArray.notLoaded = [], htmlImagesArray.addImage = function(image) {
                     htmlImagesArray.notLoaded.push(image);
                 }, htmlImagesArray.loaded = function(loadedImg) {
                     for(var notloadedImgs = htmlImagesArray.notLoaded, x = 0; x < notloadedImgs.length; x++)if (notloadedImgs[x] === loadedImg) {
@@ -8694,7 +8694,7 @@
                     }).catch(function(e) {
                         console.log(e), callback(htmlImagesArray);
                     }) : callback(htmlImagesArray));
-                }; i < htmlImagesSrcArray.length; i++)img = new Image(), htmlImagesArray.addImage(img), function(img, htmlImagesArray) {
+                }, i = 0; i < htmlImagesSrcArray.length; i++)img = new Image(), htmlImagesArray.addImage(img), function(img, htmlImagesArray) {
                     img.onload = function() {
                         htmlImagesArray.loaded(this);
                     };
