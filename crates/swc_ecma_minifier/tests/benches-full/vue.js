@@ -1096,12 +1096,12 @@
    * Runtime helper for rendering v-for lists.
    */ function renderList(val, render) {
         var ret, i, l, keys, key;
-        if (Array.isArray(val) || 'string' == typeof val) for(i = 0, ret = Array(val.length), l = val.length; i < l; i++)ret[i] = render(val[i], i);
-        else if ('number' == typeof val) for(i = 0, ret = Array(val); i < val; i++)ret[i] = render(i + 1, i);
+        if (Array.isArray(val) || 'string' == typeof val) for(ret = Array(val.length), i = 0, l = val.length; i < l; i++)ret[i] = render(val[i], i);
+        else if ('number' == typeof val) for(ret = Array(val), i = 0; i < val; i++)ret[i] = render(i + 1, i);
         else if (isObject(val)) if (hasSymbol && val[Symbol.iterator]) {
             ret = [];
             for(var iterator = val[Symbol.iterator](), result = iterator.next(); !result.done;)ret.push(render(result.value, ret.length)), result = iterator.next();
-        } else for(i = 0, ret = Array((keys = Object.keys(val)).length), l = keys.length; i < l; i++)key = keys[i], ret[i] = render(val[key], key, i);
+        } else for(ret = Array((keys = Object.keys(val)).length), i = 0, l = keys.length; i < l; i++)key = keys[i], ret[i] = render(val[key], key, i);
         return isDef(ret) || (ret = []), ret._isVList = !0, ret;
     }
     /*  */ /**
@@ -2806,7 +2806,7 @@
     }
     var patch = function(backend) {
         var i, j, cbs = {}, modules = backend.modules, nodeOps = backend.nodeOps;
-        for(i = 0; i < hooks.length; ++i)for(j = 0, cbs[hooks[i]] = []; j < modules.length; ++j)isDef(modules[j][hooks[i]]) && cbs[hooks[i]].push(modules[j][hooks[i]]);
+        for(i = 0; i < hooks.length; ++i)for(cbs[hooks[i]] = [], j = 0; j < modules.length; ++j)isDef(modules[j][hooks[i]]) && cbs[hooks[i]].push(modules[j][hooks[i]]);
         function removeNode(el) {
             var parent = nodeOps.parentNode(el);
             // element may have already been removed due to v-html / v-text

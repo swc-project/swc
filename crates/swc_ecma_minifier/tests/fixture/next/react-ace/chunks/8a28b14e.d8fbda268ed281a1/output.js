@@ -2429,7 +2429,7 @@
                     dir = +!!isRtl, function(chars, levels, len, charTypes) {
                         var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
                         if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
-                        for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
+                        for(hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1, ix = 0; ix < len; ix++){
                             if (prevState = newState, classes[ix] = newClass = function(chars, types, classes, ix) {
                                 var wType, nType, len, i, cType = types[ix];
                                 switch(cType){

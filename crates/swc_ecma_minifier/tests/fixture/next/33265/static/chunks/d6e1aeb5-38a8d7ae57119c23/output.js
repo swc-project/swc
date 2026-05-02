@@ -16950,10 +16950,10 @@
                             if (callbacks = listeners[type]) // can add a significant amount of overhead. Avoid the
                             // intermediate object creation for the common case of a
                             // single callback argument
-                            if (2 == arguments.length) for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                            if (2 == arguments.length) for(length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
                             else {
                                 for(args = [], i = arguments.length, i = 1; i < arguments.length; ++i)args.push(arguments[i]);
-                                for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].apply(this, args);
+                                for(length = callbacks.length, i = 0; i < length; ++i)callbacks[i].apply(this, args);
                             }
                              // Slicing the arguments on every invocation of this method
                         }, /**
@@ -17811,7 +17811,7 @@
                     return sample.dataOffset = dataOffset, sample.compositionTimeOffset = frame.pts - frame.dts, sample.duration = frame.duration, sample.size = 4 * frame.length, sample.size += frame.byteLength, frame.keyFrame && (sample.flags.dependsOn = 2, sample.flags.isNonSyncSample = 0), sample;
                 }, frameUtils_groupNalsIntoFrames = function(nalUnits) {
                     var i, currentNal, currentFrame = [], frames = []; // TODO added for LHLS, make sure this is OK
-                    for(i = 0, frames.byteLength = 0, frames.nalCount = 0, frames.duration = 0, currentFrame.byteLength = 0; i < nalUnits.length; i++)"access_unit_delimiter_rbsp" === (currentNal = nalUnits[i]).nalUnitType ? (currentFrame.length && (currentFrame.duration = currentNal.dts - currentFrame.dts, frames.byteLength += currentFrame.byteLength, frames.nalCount += currentFrame.length, frames.duration += currentFrame.duration, frames.push(currentFrame)), (currentFrame = [
+                    for(frames.byteLength = 0, frames.nalCount = 0, frames.duration = 0, currentFrame.byteLength = 0, i = 0; i < nalUnits.length; i++)"access_unit_delimiter_rbsp" === (currentNal = nalUnits[i]).nalUnitType ? (currentFrame.length && (currentFrame.duration = currentNal.dts - currentFrame.dts, frames.byteLength += currentFrame.byteLength, frames.nalCount += currentFrame.length, frames.duration += currentFrame.duration, frames.push(currentFrame)), (currentFrame = [
                         currentNal
                     ]).byteLength = currentNal.data.byteLength, currentFrame.pts = currentNal.pts, currentFrame.dts = currentNal.dts) : ("slice_layer_without_partitioning_rbsp_idr" === currentNal.nalUnitType && (currentFrame.keyFrame = !0), currentFrame.duration = currentNal.dts - currentFrame.dts, currentFrame.byteLength += currentNal.data.byteLength, currentFrame.push(currentNal));
                      // For the last frame, use the duration of the previous frame if we
@@ -17819,8 +17819,8 @@
                     frames.byteLength += currentFrame.byteLength, frames.nalCount += currentFrame.length, frames.duration += currentFrame.duration, frames.push(currentFrame), frames;
                 }, frameUtils_groupFramesIntoGops = function(frames) {
                     var i, currentFrame, currentGop = [], gops = []; // We must pre-set some of the values on the Gop since we
-                    for(i = 0, // keep running totals of these values
-                    currentGop.byteLength = 0, currentGop.nalCount = 0, currentGop.duration = 0, currentGop.pts = frames[0].pts, currentGop.dts = frames[0].dts, gops.byteLength = 0, gops.nalCount = 0, gops.duration = 0, gops.pts = frames[0].pts, gops.dts = frames[0].dts; i < frames.length; i++)(currentFrame = frames[i]).keyFrame ? (currentGop.length && (gops.push(currentGop), gops.byteLength += currentGop.byteLength, gops.nalCount += currentGop.nalCount, gops.duration += currentGop.duration), (currentGop = [
+                    for(// keep running totals of these values
+                    currentGop.byteLength = 0, currentGop.nalCount = 0, currentGop.duration = 0, currentGop.pts = frames[0].pts, currentGop.dts = frames[0].dts, gops.byteLength = 0, gops.nalCount = 0, gops.duration = 0, gops.pts = frames[0].pts, gops.dts = frames[0].dts, i = 0; i < frames.length; i++)(currentFrame = frames[i]).keyFrame ? (currentGop.length && (gops.push(currentGop), gops.byteLength += currentGop.byteLength, gops.nalCount += currentGop.nalCount, gops.duration += currentGop.duration), (currentGop = [
                         currentFrame
                     ]).nalCount = currentFrame.length, currentGop.byteLength = currentFrame.byteLength, currentGop.pts = currentFrame.pts, currentGop.dts = currentFrame.dts, currentGop.duration = currentFrame.duration) : (currentGop.duration += currentFrame.duration, currentGop.nalCount += currentFrame.length, currentGop.byteLength += currentFrame.byteLength, currentGop.push(currentFrame));
                     return gops.length && currentGop.duration <= 0 && (currentGop.duration = gops[gops.length - 1].duration), gops.byteLength += currentGop.byteLength, gops.nalCount += currentGop.nalCount, gops.duration += currentGop.duration, gops.push(currentGop), gops;
@@ -17832,11 +17832,11 @@
                     gops[0][0].dts = currentGop.dts, gops[0][0].pts = currentGop.pts, gops[0][0].duration += currentGop.duration), gops;
                 }, frameUtils_generateSampleTable = function(gops, baseDataOffset) {
                     var h, i, sample, currentGop, dataOffset = baseDataOffset || 0, samples = [];
-                    for(h = 0; h < gops.length; h++)for(i = 0, currentGop = gops[h]; i < currentGop.length; i++)sample = sampleForFrame(currentGop[i], dataOffset), dataOffset += sample.size, samples.push(sample);
+                    for(h = 0; h < gops.length; h++)for(currentGop = gops[h], i = 0; i < currentGop.length; i++)sample = sampleForFrame(currentGop[i], dataOffset), dataOffset += sample.size, samples.push(sample);
                     return samples;
                 }, frameUtils_concatenateNalData = function(gops) {
                     var h, i, j, currentGop, currentFrame, currentNal, dataOffset = 0, data = new Uint8Array(gops.byteLength + 4 * gops.nalCount), view = new DataView(data.buffer); // For each Gop..
-                    for(h = 0; h < gops.length; h++)for(i = 0, currentGop = gops[h]; i < currentGop.length; i++)for(j = 0, currentFrame = currentGop[i]; j < currentFrame.length; j++)currentNal = currentFrame[j], view.setUint32(dataOffset, currentNal.data.byteLength), dataOffset += 4, data.set(currentNal.data, dataOffset), dataOffset += currentNal.data.byteLength;
+                    for(h = 0; h < gops.length; h++)for(currentGop = gops[h], i = 0; i < currentGop.length; i++)for(currentFrame = currentGop[i], j = 0; j < currentFrame.length; j++)currentNal = currentFrame[j], view.setUint32(dataOffset, currentNal.data.byteLength), dataOffset += 4, data.set(currentNal.data, dataOffset), dataOffset += currentNal.data.byteLength;
                     return data;
                 }, highPrefix = [
                     33,
@@ -18156,7 +18156,7 @@
                     var i, count, offset, data, results = []; // if this is just filler, return immediately
                     if (!(0x40 & userData[0])) return results;
                      // parse out the cc_data_1 and cc_data_2 fields
-                    for(i = 0, count = 0x1f & userData[0]; i < count; i++)data = {
+                    for(count = 0x1f & userData[0], i = 0; i < count; i++)data = {
                         type: 0x03 & userData[(offset = 3 * i) + 2],
                         pts: pts
                     }, 0x04 & userData[offset + 2] && (data.ccData = userData[offset + 3] << 8 | userData[offset + 4], results.push(data));
@@ -19175,12 +19175,12 @@
                             }); // add this chunk to the data we've collected so far
                             if (buffer.push(chunk), bufferSize += chunk.data.byteLength, 1 === buffer.length && // convenient for our comparisons to include it
                             (tagSize = parseSyncSafeInteger$1(chunk.data.subarray(6, 10)) + 10), !(bufferSize < tagSize)) {
-                                for(i = 0, tag = {
+                                for(tag = {
                                     data: new Uint8Array(tagSize),
                                     frames: [],
                                     pts: buffer[0].pts,
                                     dts: buffer[0].dts
-                                }; i < tagSize;)tag.data.set(buffer[0].data.subarray(0, tagSize - i), i), i += buffer[0].data.byteLength, bufferSize -= buffer[0].data.byteLength, buffer.shift();
+                                }, i = 0; i < tagSize;)tag.data.set(buffer[0].data.subarray(0, tagSize - i), i), i += buffer[0].data.byteLength, bufferSize -= buffer[0].data.byteLength, buffer.shift();
                                  // find the start of the first frame and the end of the tag
                                 frameStart = 10, 0x40 & tag.data[5] && (// advance the frame start past the extended header
                                 frameStart += 4, frameStart += parseSyncSafeInteger$1(tag.data.subarray(10, 14)), tagSize -= parseSyncSafeInteger$1(tag.data.subarray(16, 20)));
@@ -19331,7 +19331,7 @@
                         }, i = 0, offset = 0, packetFlushable = !1; // do nothing if there is not enough buffered data for a complete
                         // PES header
                         if (stream.data.length && !(stream.size < 9)) {
-                            for(i = 0, event.trackId = stream.data[0].pid; i < stream.data.length; i++)fragment = stream.data[i], packetData.set(fragment.data, offset), offset += fragment.data.byteLength;
+                            for(event.trackId = stream.data[0].pid, i = 0; i < stream.data.length; i++)fragment = stream.data[i], packetData.set(fragment.data, offset), offset += fragment.data.byteLength;
                              // parse assembled packet's PES header
                             parsePes(packetData, event), // check that there is enough stream data to fill the packet
                             packetFlushable = "video" === type || event.packetLength <= stream.size, (forceFlush || packetFlushable) && (stream.size = 0, stream.data.length = 0), packetFlushable && self1.trigger("data", event);
@@ -19747,8 +19747,8 @@
                             1
                         ];
                         // some profiles have more optional data we don't need
-                        if (profileIdc = (expGolombDecoder = new expGolomb(data)).readUnsignedByte(), profileCompatibility = expGolombDecoder.readUnsignedByte(), levelIdc = expGolombDecoder.readUnsignedByte(), expGolombDecoder.skipUnsignedExpGolomb(), PROFILES_WITH_OPTIONAL_SPS_DATA[profileIdc] && (3 === (chromaFormatIdc = expGolombDecoder.readUnsignedExpGolomb()) && expGolombDecoder.skipBits(1), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean())) for(i = 0, // seq_scaling_matrix_present_flag
-                        scalingListCount = 3 !== chromaFormatIdc ? 8 : 12; i < scalingListCount; i++)expGolombDecoder.readBoolean() && (i < 6 ? skipScalingList(16, expGolombDecoder) : skipScalingList(64, expGolombDecoder));
+                        if (profileIdc = (expGolombDecoder = new expGolomb(data)).readUnsignedByte(), profileCompatibility = expGolombDecoder.readUnsignedByte(), levelIdc = expGolombDecoder.readUnsignedByte(), expGolombDecoder.skipUnsignedExpGolomb(), PROFILES_WITH_OPTIONAL_SPS_DATA[profileIdc] && (3 === (chromaFormatIdc = expGolombDecoder.readUnsignedExpGolomb()) && expGolombDecoder.skipBits(1), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean())) for(// seq_scaling_matrix_present_flag
+                        scalingListCount = 3 !== chromaFormatIdc ? 8 : 12, i = 0; i < scalingListCount; i++)expGolombDecoder.readBoolean() && (i < 6 ? skipScalingList(16, expGolombDecoder) : skipScalingList(64, expGolombDecoder));
                         if (expGolombDecoder.skipUnsignedExpGolomb(), 0 === (picOrderCntType = expGolombDecoder.readUnsignedExpGolomb())) expGolombDecoder.readUnsignedExpGolomb(); // log2_max_pic_order_cnt_lsb_minus4
                         else if (1 === picOrderCntType) for(expGolombDecoder.skipBits(1), expGolombDecoder.skipExpGolomb(), expGolombDecoder.skipExpGolomb(), numRefFramesInPicOrderCntCycle = expGolombDecoder.readUnsignedExpGolomb(), i = 0; i < numRefFramesInPicOrderCntCycle; i++)expGolombDecoder.skipExpGolomb(); // offset_for_ref_frame[ i ]
                         if (expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), picWidthInMbsMinus1 = expGolombDecoder.readUnsignedExpGolomb(), picHeightInMapUnitsMinus1 = expGolombDecoder.readUnsignedExpGolomb(), 0 === (frameMbsOnlyFlag = expGolombDecoder.readBits(1)) && expGolombDecoder.skipBits(1), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean() && (// frame_cropping_flag
@@ -24479,8 +24479,8 @@
                         ]
                     ], encTable = tables[0], decTable = tables[1], sbox = encTable[4], sboxInv = decTable[4], d = [], th = [];
                     for(i = 0; i < 256; i++)th[(d[i] = i << 1 ^ (i >> 7) * 283) ^ i] = i;
-                    for(x = xInv = 0; !sbox[x]; x ^= x2 || 1, xInv = th[xInv] || 1)for(i = 0, s = // Compute sbox
-                    (s = xInv ^ xInv << 1 ^ xInv << 2 ^ xInv << 3 ^ xInv << 4) >> 8 ^ 255 & s ^ 99, sbox[x] = s, sboxInv[s] = x, tDec = 0x1010101 * d[x4 = d[x2 = d[x]]] ^ 0x10001 * x4 ^ 0x101 * x2 ^ 0x1010100 * x, tEnc = 0x101 * d[s] ^ 0x1010100 * s; i < 4; i++)encTable[i][x] = tEnc = tEnc << 24 ^ tEnc >>> 8, decTable[i][s] = tDec = tDec << 24 ^ tDec >>> 8;
+                    for(x = xInv = 0; !sbox[x]; x ^= x2 || 1, xInv = th[xInv] || 1)for(s = // Compute sbox
+                    (s = xInv ^ xInv << 1 ^ xInv << 2 ^ xInv << 3 ^ xInv << 4) >> 8 ^ 255 & s ^ 99, sbox[x] = s, sboxInv[s] = x, tDec = 0x1010101 * d[x4 = d[x2 = d[x]]] ^ 0x10001 * x4 ^ 0x101 * x2 ^ 0x1010100 * x, tEnc = 0x101 * d[s] ^ 0x1010100 * s, i = 0; i < 4; i++)encTable[i][x] = tEnc = tEnc << 24 ^ tEnc >>> 8, decTable[i][s] = tDec = tDec << 24 ^ tDec >>> 8;
                      // Compactify. Considerable speedup on Firefox.
                     for(i = 0; i < 5; i++)encTable[i] = encTable[i].slice(0), decTable[i] = decTable[i].slice(0);
                     return tables;
@@ -24544,8 +24544,8 @@
                     // word-level access to the encrypted bytes
                     var init0, init1, init2, init3, encrypted0, encrypted1, encrypted2, encrypted3, wordIx, encrypted32 = new Int32Array(encrypted.buffer, encrypted.byteOffset, encrypted.byteLength >> 2), decipher = new AES(Array.prototype.slice.call(key)), decrypted = new Uint8Array(encrypted.byteLength), decrypted32 = new Int32Array(decrypted.buffer);
                     // to each decrypted block
-                    for(wordIx = 0, // passed-in reference and easier access
-                    init0 = initVector[0], init1 = initVector[1], init2 = initVector[2], init3 = initVector[3]; wordIx < encrypted32.length; wordIx += 4)// convert big-endian (network order) words into little-endian
+                    for(// passed-in reference and easier access
+                    init0 = initVector[0], init1 = initVector[1], init2 = initVector[2], init3 = initVector[3], wordIx = 0; wordIx < encrypted32.length; wordIx += 4)// convert big-endian (network order) words into little-endian
                     // (javascript order)
                     encrypted0 = ntoh(encrypted32[wordIx]), encrypted1 = ntoh(encrypted32[wordIx + 1]), encrypted2 = ntoh(encrypted32[wordIx + 2]), encrypted3 = ntoh(encrypted32[wordIx + 3]), decipher.decrypt(encrypted0, encrypted1, encrypted2, encrypted3, decrypted32, wordIx), // plaintext
                     decrypted32[wordIx] = ntoh(decrypted32[wordIx] ^ init0), decrypted32[wordIx + 1] = ntoh(decrypted32[wordIx + 1] ^ init1), decrypted32[wordIx + 2] = ntoh(decrypted32[wordIx + 2] ^ init2), decrypted32[wordIx + 3] = ntoh(decrypted32[wordIx + 3] ^ init3), init0 = encrypted0, init1 = encrypted1, init2 = encrypted2, init3 = encrypted3;

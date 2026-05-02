@@ -5280,7 +5280,7 @@
             // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
             nativeReplace.call(match[0], reCopy, function() {
                 for(i = 1; i < arguments.length - 2; i++)void 0 === arguments[i] && (match[i] = void 0);
-            }), match && groups) for(i = 0, match.groups = object = create(null); i < groups.length; i++)object[(group = groups[i])[0]] = match[group[1]];
+            }), match && groups) for(match.groups = object = create(null), i = 0; i < groups.length; i++)object[(group = groups[i])[0]] = match[group[1]];
             return match;
         }), module.exports = patchedExec;
     /***/ },
@@ -6342,7 +6342,7 @@
             slice: function(start, end) {
                 var Constructor, result, n, O = toIndexedObject(this), length = toLength(O.length), k = toAbsoluteIndex(start, length), fin = toAbsoluteIndex(void 0 === end ? length : end, length);
                 if (isArray(O) && (isConstructor(Constructor = O.constructor) && (Constructor === Array || isArray(Constructor.prototype)) ? Constructor = void 0 : isObject(Constructor) && null === (Constructor = Constructor[SPECIES]) && (Constructor = void 0), Constructor === Array || void 0 === Constructor)) return nativeSlice.call(O, k, fin);
-                for(n = 0, result = new (void 0 === Constructor ? Array : Constructor)(max(fin - k, 0)); k < fin; k++, n++)k in O && createProperty(result, n, O[k]);
+                for(result = new (void 0 === Constructor ? Array : Constructor)(max(fin - k, 0)), n = 0; k < fin; k++, n++)k in O && createProperty(result, n, O[k]);
                 return result.length = n, result;
             }
         });
@@ -6442,7 +6442,7 @@
             splice: function(start, deleteCount /* , ...items */ ) {
                 var insertCount, actualDeleteCount, A, k, from, to, O = toObject(this), len = toLength(O.length), actualStart = toAbsoluteIndex(start, len), argumentsLength = arguments.length;
                 if (0 === argumentsLength ? insertCount = actualDeleteCount = 0 : 1 === argumentsLength ? (insertCount = 0, actualDeleteCount = len - actualStart) : (insertCount = argumentsLength - 2, actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart)), len + insertCount - actualDeleteCount > 0x1fffffffffffff) throw TypeError("Maximum allowed length exceeded");
-                for(k = 0, A = arraySpeciesCreate(O, actualDeleteCount); k < actualDeleteCount; k++)(from = actualStart + k) in O && createProperty(A, k, O[from]);
+                for(A = arraySpeciesCreate(O, actualDeleteCount), k = 0; k < actualDeleteCount; k++)(from = actualStart + k) in O && createProperty(A, k, O[from]);
                 if (A.length = actualDeleteCount, insertCount < actualDeleteCount) {
                     for(k = actualStart; k < len - actualDeleteCount; k++)from = k + actualDeleteCount, to = k + insertCount, from in O ? O[to] = O[from] : delete O[to];
                     for(k = len; k > len - actualDeleteCount + insertCount; k--)delete O[k - 1];
@@ -6944,7 +6944,7 @@
                         default:
                             return +it;
                     }
-                    for(index = 0, length = (digits = it.slice(2)).length; index < length; index++)// parseInt parses a string to a first unavailable symbol
+                    for(length = (digits = it.slice(2)).length, index = 0; index < length; index++)// parseInt parses a string to a first unavailable symbol
                     // but ToNumber should return NaN if a string contains unavailable symbols
                     if ((code = digits.charCodeAt(index)) < 48 || code > maxCode) return NaN;
                     return parseInt(digits, radix);
@@ -9571,9 +9571,9 @@
             aTypedArray(this);
             var index, arrayLength = toLength(this.length), items = Array(arrayLength);
             for(index = 0; index < arrayLength; index++)items[index] = this[index];
-            for(index = 0, items = internalSort(this, function(x, y) {
+            for(items = internalSort(this, function(x, y) {
                 return void 0 !== comparefn ? +comparefn(x, y) || 0 : y != y ? -1 : x != x ? 1 : 0 === x && 0 === y ? 1 / x > 0 && 1 / y < 0 ? 1 : -1 : x > y;
-            }); index < arrayLength; index++)this[index] = items[index];
+            }), index = 0; index < arrayLength; index++)this[index] = items[index];
             return this;
         }, !STABLE_SORT || ACCEPT_INCORRECT_ARGUMENTS);
     /***/ },
@@ -9964,8 +9964,8 @@
             // https://url.spec.whatwg.org/#dom-urlsearchparams-sort
             sort: function() {
                 var entry, entriesIndex, sliceIndex, state = getInternalParamsState(this), entries = state.entries, slice = entries.slice();
-                for(sliceIndex = 0, entries.length = 0; sliceIndex < slice.length; sliceIndex++){
-                    for(entriesIndex = 0, entry = slice[sliceIndex]; entriesIndex < sliceIndex; entriesIndex++)if (entries[entriesIndex].key > entry.key) {
+                for(entries.length = 0, sliceIndex = 0; sliceIndex < slice.length; sliceIndex++){
+                    for(entry = slice[sliceIndex], entriesIndex = 0; entriesIndex < sliceIndex; entriesIndex++)if (entries[entriesIndex].key > entry.key) {
                         entries.splice(entriesIndex, 0, entry);
                         break;
                     }
@@ -10057,7 +10057,7 @@
                 url.host = result;
             } else {
                 if (FORBIDDEN_HOST_CODE_POINT_EXCLUDING_PERCENT.test(input)) return INVALID_HOST;
-                for(index = 0, result = "", codePoints = arrayFrom(input); index < codePoints.length; index++)result += percentEncode(codePoints[index], C0ControlPercentEncodeSet);
+                for(result = "", codePoints = arrayFrom(input), index = 0; index < codePoints.length; index++)result += percentEncode(codePoints[index], C0ControlPercentEncodeSet);
                 url.host = result;
             }
         }, parseIPv4 = function(input) {
@@ -10075,7 +10075,7 @@
             for(index = 0; index < partsLength; index++)if (number = numbers[index], index == partsLength - 1) {
                 if (number >= pow(256, 5 - partsLength)) return null;
             } else if (number > 255) return null;
-            for(index = 0, ipv4 = numbers.pop(); index < numbers.length; index++)ipv4 += numbers[index] * pow(256, 3 - index);
+            for(ipv4 = numbers.pop(), index = 0; index < numbers.length; index++)ipv4 += numbers[index] * pow(256, 3 - index);
             return ipv4;
         }, parseIPv6 = function(input) {
             var value, length, numbersSeen, ipv4Piece, number, swaps, swap, address = [
@@ -10142,7 +10142,7 @@
             // ipv6
             }
             if ("object" == typeof host) {
-                for(index = 0, result = "", compress = findLongestZeroSequence(host); index < 8; index++)(!ignore0 || 0 !== host[index]) && (ignore0 && (ignore0 = !1), compress === index ? (result += index ? ":" : "::", ignore0 = !0) : (result += host[index].toString(16), index < 7 && (result += ":")));
+                for(result = "", compress = findLongestZeroSequence(host), index = 0; index < 8; index++)(!ignore0 || 0 !== host[index]) && (ignore0 && (ignore0 = !1), compress === index ? (result += index ? ":" : "::", ignore0 = !0) : (result += host[index].toString(16), index < 7 && (result += ":")));
                 return "[" + result + "]";
             }
             return host;
@@ -12751,7 +12751,7 @@
                 for(var e = 0; e < c.length; e++)b["$" + c[e]] = !0;
                 for(c = 0; c < a.length; c++)e = b.hasOwnProperty("$" + a[c].value), a[c].selected !== e && (a[c].selected = e), e && d && (a[c].defaultSelected = !0);
             } else {
-                for(e = 0, c = "" + Sa(c), b = null; e < a.length; e++){
+                for(c = "" + Sa(c), b = null, e = 0; e < a.length; e++){
                     if (a[e].value === c) {
                         a[e].selected = !0, d && (a[e].defaultSelected = !0);
                         return;
@@ -14863,7 +14863,7 @@
             if (qh(a), 13 === a.tag) {
                 if (!(a = null !== (a = a.memoizedState) ? a.dehydrated : null)) throw Error(y(317));
                 a: {
-                    for(b = 0, a = a.nextSibling; a;){
+                    for(a = a.nextSibling, b = 0; a;){
                         if (8 === a.nodeType) {
                             var c = a.data;
                             if ("/$" === c) {
@@ -15515,7 +15515,7 @@
             if (I(P, d), 0 == (2 & b.mode)) b.memoizedState = null;
             else switch(e){
                 case "forwards":
-                    for(e = null, c = b.child; null !== c;)null !== (a = c.alternate) && null === ih(a) && (e = c), c = c.sibling;
+                    for(c = b.child, e = null; null !== c;)null !== (a = c.alternate) && null === ih(a) && (e = c), c = c.sibling;
                     null === (c = e) ? (e = b.child, b.child = null) : (e = c.sibling, c.sibling = null), zi(b, !1, e, c, f, b.lastEffect);
                     break;
                 case "backwards":
@@ -16079,7 +16079,7 @@
                         break;
                     case 4:
                         if (Ii(a, c), (4186112 & c) === c) break;
-                        for(e = -1, d = a.eventTimes; 0 < c;){
+                        for(d = a.eventTimes, e = -1; 0 < c;){
                             var g = 31 - Vc(c);
                             f = 1 << g, (g = d[g]) > e && (e = g), c &= ~f;
                         }
@@ -16791,7 +16791,7 @@
                     Wi(f, k);
                 }
             }
-            for(d = 0, c = Aj, Aj = []; d < c.length; d += 2){
+            for(c = Aj, Aj = [], d = 0; d < c.length; d += 2){
                 e = c[d], f = c[d + 1];
                 try {
                     var h = e.create;

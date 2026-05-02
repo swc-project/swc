@@ -8,4 +8,4 @@
 | react-17.0.1.js | 82.58 KiB | 22.45 KiB | 8.04 KiB |
 | react-dom-17.0.2.js | 959.53 KiB | 236.30 KiB | 72.82 KiB |
 | underscore-1.5.2.js | 43.49 KiB | 13.83 KiB | 4.68 KiB |
-| yui-3.12.0.js | 321.32 KiB | 86.01 KiB | 24.95 KiB |
+| yui-3.12.0.js | 321.32 KiB | 86.01 KiB | 24.94 KiB |

@@ -396,14 +396,14 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                 async clusterKeys() {
                     var cursor, found, i, k, keys, len, next, start;
                     if (null == this.connection) return this.Promise.resolve(this.keys());
-                    for(keys = [], cursor = null, start = `b_${this.id}-`.length; 0 !== cursor;)for(i = 0, [next, found] = await this.connection.__runCommand__([
+                    for(keys = [], cursor = null, start = `b_${this.id}-`.length; 0 !== cursor;)for([next, found] = await this.connection.__runCommand__([
                         "scan",
                         null != cursor ? cursor : 0,
                         "match",
                         `b_${this.id}-*_settings`,
                         "count",
                         10000
-                    ]), cursor = ~~next, len = found.length; i < len; i++)k = found[i], keys.push(k.slice(start, -9));
+                    ]), cursor = ~~next, i = 0, len = found.length; i < len; i++)k = found[i], keys.push(k.slice(start, -9));
                     return keys;
                 }
                 _startAutoCleanup() {

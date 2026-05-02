@@ -332,7 +332,7 @@
                     for(var e = 0; e < c.length; e++)b["$" + c[e]] = !0;
                     for(c = 0; c < a.length; c++)e = b.hasOwnProperty("$" + a[c].value), a[c].selected !== e && (a[c].selected = e), e && d && (a[c].defaultSelected = !0);
                 } else {
-                    for(e = 0, c = "" + Ra(c), b = null; e < a.length; e++){
+                    for(c = "" + Ra(c), b = null, e = 0; e < a.length; e++){
                         if (a[e].value === c) {
                             a[e].selected = !0, d && (a[e].defaultSelected = !0);
                             return;
@@ -2330,7 +2330,7 @@
                 if (lh(a), 13 === a.tag) {
                     if (!(a = null !== (a = a.memoizedState) ? a.dehydrated : null)) throw Error(p(317));
                     a: {
-                        for(b = 0, a = a.nextSibling; a;){
+                        for(a = a.nextSibling, b = 0; a;){
                             if (8 === a.nodeType) {
                                 var b, c = a.data;
                                 if ("/$" === c) {
@@ -3493,7 +3493,7 @@
                 if (G(K, d), 0 == (1 & b.mode)) b.memoizedState = null;
                 else switch(e){
                     case "forwards":
-                        for(e = null, c = b.child; null !== c;)null !== (a = c.alternate) && null === Jh(a) && (e = c), c = c.sibling;
+                        for(c = b.child, e = null; null !== c;)null !== (a = c.alternate) && null === Jh(a) && (e = c), c = c.sibling;
                         null === (c = e) ? (e = b.child, b.child = null) : (e = c.sibling, c.sibling = null), Dj(b, !1, e, c, f);
                         break;
                     case "backwards":
@@ -4192,7 +4192,7 @@
                                 break;
                             case 4:
                                 if (Bk(a, d), (4194240 & d) === d) break;
-                                for(e = -1, b = a.eventTimes; 0 < d;){
+                                for(b = a.eventTimes, e = -1; 0 < d;){
                                     var g = 31 - nc(d);
                                     f = 1 << g, (g = b[g]) > e && (e = g), d &= ~f;
                                 }

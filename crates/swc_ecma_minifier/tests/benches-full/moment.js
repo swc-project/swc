@@ -287,8 +287,8 @@
     var defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'), MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
     function handleStrictParse(monthName, format, strict) {
         var i, ii, mom, llc = monthName.toLocaleLowerCase();
-        if (!this._monthsParse) for(i = 0, // this is not used
-        this._monthsParse = [], this._longMonthsParse = [], this._shortMonthsParse = []; i < 12; ++i)mom = createUTC([
+        if (!this._monthsParse) for(// this is not used
+        this._monthsParse = [], this._longMonthsParse = [], this._shortMonthsParse = [], i = 0; i < 12; ++i)mom = createUTC([
             2000,
             i
         ]), this._shortMonthsParse[i] = this.monthsShort(mom, '').toLocaleLowerCase(), this._longMonthsParse[i] = this.months(mom, '').toLocaleLowerCase();
@@ -456,7 +456,7 @@
     var defaultLocaleWeekdaysShort = 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_');
     function handleStrictParse$1(weekdayName, format, strict) {
         var i, ii, mom, llc = weekdayName.toLocaleLowerCase();
-        if (!this._weekdaysParse) for(i = 0, this._weekdaysParse = [], this._shortWeekdaysParse = [], this._minWeekdaysParse = []; i < 7; ++i)mom = createUTC([
+        if (!this._weekdaysParse) for(this._weekdaysParse = [], this._shortWeekdaysParse = [], this._minWeekdaysParse = [], i = 0; i < 7; ++i)mom = createUTC([
             2000,
             1
         ]).day(i), this._minWeekdaysParse[i] = this.weekdaysMin(mom, '').toLocaleLowerCase(), this._shortWeekdaysParse[i] = this.weekdaysShort(mom, '').toLocaleLowerCase(), this._weekdaysParse[i] = this.weekdays(mom, '').toLocaleLowerCase();
@@ -790,7 +790,7 @@
     function configFromISO(config) {
         var i, l, allowTime, dateFormat, timeFormat, tzFormat, string = config._i, match = extendedIsoRegex.exec(string) || basicIsoRegex.exec(string);
         if (match) {
-            for(i = 0, getParsingFlags(config).iso = !0, l = isoDates.length; i < l; i++)if (isoDates[i][1].exec(match[1])) {
+            for(getParsingFlags(config).iso = !0, i = 0, l = isoDates.length; i < l; i++)if (isoDates[i][1].exec(match[1])) {
                 dateFormat = isoDates[i][0], allowTime = !1 !== isoDates[i][2];
                 break;
             }
@@ -887,7 +887,7 @@
         config._a = [], getParsingFlags(config).empty = !0;
         // This array is used to make a Date, either with `new Date` or `Date.UTC`
         var locale, hour, meridiem, isPm, i, parsedInput, tokens1, token, skipped, era, string = '' + config._i, stringLength = string.length, totalParsedInputLength = 0;
-        for(i = 0, tokens1 = expandFormat(config._f, config._locale).match(formattingTokens) || []; i < tokens1.length; i++)// don't parse if it's not a known token
+        for(tokens1 = expandFormat(config._f, config._locale).match(formattingTokens) || [], i = 0; i < tokens1.length; i++)// don't parse if it's not a known token
         (token = tokens1[i], (parsedInput = (string.match(!hasOwnProp(regexes, token) ? new RegExp(regexEscape(token.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
             return p1 || p2 || p3 || p4;
         }))) : regexes[token](config._strict, config._locale)) || [])[0]) && ((skipped = string.substr(0, string.indexOf(parsedInput))).length > 0 && getParsingFlags(config).unusedInput.push(skipped), string = string.slice(string.indexOf(parsedInput) + parsedInput.length), totalParsedInputLength += parsedInput.length), formatTokenFunctions[token]) ? (parsedInput ? getParsingFlags(config).empty = !1 : getParsingFlags(config).unusedTokens.push(token), null != parsedInput && hasOwnProp(tokens, token) && tokens[token](parsedInput, config._a, config, token)) : config._strict && !parsedInput && getParsingFlags(config).unusedTokens.push(token);
@@ -978,7 +978,7 @@
     function pickBy(fn, moments) {
         var res, i;
         if (1 === moments.length && isArray(moments[0]) && (moments = moments[0]), !moments.length) return createLocal();
-        for(i = 1, res = moments[0]; i < moments.length; ++i)(!moments[i].isValid() || moments[i][fn](res)) && (res = moments[i]);
+        for(res = moments[0], i = 1; i < moments.length; ++i)(!moments[i].isValid() || moments[i][fn](res)) && (res = moments[i]);
         return res;
     }
     var ordering = [
@@ -1813,7 +1813,7 @@
         return eras;
     }, proto$1.erasParse = function(eraName, format, strict) {
         var i, l, name, abbr, narrow, eras = this.eras();
-        for(i = 0, eraName = eraName.toUpperCase(), l = eras.length; i < l; ++i)if (name = eras[i].name.toUpperCase(), abbr = eras[i].abbr.toUpperCase(), narrow = eras[i].narrow.toUpperCase(), strict) switch(format){
+        for(eraName = eraName.toUpperCase(), i = 0, l = eras.length; i < l; ++i)if (name = eras[i].name.toUpperCase(), abbr = eras[i].abbr.toUpperCase(), narrow = eras[i].narrow.toUpperCase(), strict) switch(format){
             case 'N':
             case 'NN':
             case 'NNN':

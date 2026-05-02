@@ -543,7 +543,7 @@
             return jQuery.widget.extend({}, this.options);
             if ("string" == typeof key) if (// handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
             options = {}, key = (parts = key.split(".")).shift(), parts.length) {
-                for(i = 0, curOption = options[key] = jQuery.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
+                for(curOption = options[key] = jQuery.widget.extend({}, this.options[key]), i = 0; i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
                 if (key = parts.pop(), void 0 === value) return void 0 === curOption[key] ? null : curOption[key];
                 curOption[key] = value;
             } else {
@@ -1222,7 +1222,7 @@
         makePathAbsolute: function(relPath, absPath) {
             var absStack, relStack, i, d;
             if (relPath && "/" === relPath.charAt(0)) return relPath;
-            for(i = 0, relPath = relPath || "", absStack = (absPath = absPath ? absPath.replace(/^\/|(\/[^\/]*|[^\/]+)$/g, "") : "") ? absPath.split("/") : [], relStack = relPath.split("/"); i < relStack.length; i++)switch(d = relStack[i]){
+            for(relPath = relPath || "", absStack = (absPath = absPath ? absPath.replace(/^\/|(\/[^\/]*|[^\/]+)$/g, "") : "") ? absPath.split("/") : [], relStack = relPath.split("/"), i = 0; i < relStack.length; i++)switch(d = relStack[i]){
                 case ".":
                     break;
                 case "..":
@@ -4945,7 +4945,7 @@
                     mini: !1
                 }, unknownClasses = [];
                 // Loop over the classes
-                for(idx = 0, classes = classes.split(" "); idx < classes.length; idx++)// Assume it's an unrecognized class
+                for(classes = classes.split(" "), idx = 0; idx < classes.length; idx++)// Assume it's an unrecognized class
                 unknownClass = !0, void 0 !== // Recognize boolean options from the presence of classes
                 (map = reverseBoolOptionMap[classes[idx]]) ? (unknownClass = !1, o[map] = !0) : 0 === classes[idx].indexOf("ui-btn-icon-") ? (unknownClass = !1, noIcon = !1, o.iconpos = classes[idx].substring(12)) : 0 === classes[idx].indexOf("ui-icon-") ? (unknownClass = !1, o.icon = classes[idx].substring(8)) : 0 === classes[idx].indexOf("ui-btn-") && 8 === classes[idx].length ? (unknownClass = !1, o.theme = classes[idx].substring(7)) : "ui-btn" === classes[idx] && (unknownClass = !1, alreadyEnhanced = !0), unknownClass && unknownClasses.push(classes[idx]);
                 return noIcon && (o.icon = ""), {
@@ -5813,7 +5813,7 @@
         _filterItems: function(val) {
             var idx, callback, length, show = [], hide = [], opts = this.options, filterItems = this._getFilterableItems();
             if (null != val) // Partition the items into those to be hidden and those to be shown
-            for(idx = 0, callback = opts.filterCallback || defaultFilterCallback, length = filterItems.length; idx < length; idx++)(callback.call(filterItems[idx], idx, val) ? hide : show).push(filterItems[idx]);
+            for(callback = opts.filterCallback || defaultFilterCallback, length = filterItems.length, idx = 0; idx < length; idx++)(callback.call(filterItems[idx], idx, val) ? hide : show).push(filterItems[idx]);
             0 === hide.length ? filterItems[opts.filterReveal ? "addClass" : "removeClass"]("ui-screen-hidden") : (jQuery(hide).addClass("ui-screen-hidden"), jQuery(show).removeClass("ui-screen-hidden")), this._refreshChildWidget(), this._trigger("filter", null, {
                 items: filterItems
             });

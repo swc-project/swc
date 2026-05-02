@@ -5245,9 +5245,9 @@
             }, getValue = function(n, scale) {
                 return get(scale, n, n);
             }, get = function(obj, key, def, p, undef) {
-                for(p = 0, key = key && key.split ? key.split(".") : [
+                for(key = key && key.split ? key.split(".") : [
                     key
-                ]; p < key.length; p++)obj = obj ? obj[key[p]] : undef;
+                ], p = 0; p < key.length; p++)obj = obj ? obj[key[p]] : undef;
                 return obj === undef ? def : obj;
             }, createParser = function createParser(config) {
                 var cache = {}, parse = function(props) {
@@ -5756,9 +5756,9 @@
             }
             // based on https://github.com/developit/dlv
             var index_esm_get = function(obj, key, def, p, undef) {
-                for(p = 0, key = key && key.split ? key.split(".") : [
+                for(key = key && key.split ? key.split(".") : [
                     key
-                ]; p < key.length; p++)obj = obj ? obj[key[p]] : undef;
+                ], p = 0; p < key.length; p++)obj = obj ? obj[key[p]] : undef;
                 return obj === undef ? def : obj;
             }, defaultBreakpoints = [
                 40,
