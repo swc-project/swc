@@ -10,6 +10,18 @@
 
 - **(es/minifier)** Fold unary bool nullish coalescing ([#11826](https://github.com/swc-project/swc/issues/11826)) ([e39ae3d](https://github.com/swc-project/swc/commit/e39ae3d3489373414ef23177b82f0ab77250a1f2))
 
+
+- **(es/minifier)** Preserve for-init sequence order ([#11837](https://github.com/swc-project/swc/issues/11837)) ([16a56d0](https://github.com/swc-project/swc/commit/16a56d031fd801796df6b648bc533b97e27b39f8))
+
+
+- **(es/parser)** Parse empty Flow exact object type ([#11836](https://github.com/swc-project/swc/issues/11836)) ([3d18a26](https://github.com/swc-project/swc/commit/3d18a2673a69e6e6172c161815fd576c41d59330))
+
+### Features
+
+
+
+- Move swc ast explorer into workspace ([#11831](https://github.com/swc-project/swc/issues/11831)) ([02a8f81](https://github.com/swc-project/swc/commit/02a8f8123bdec3e8291a2f82ccf01d3e44114c49))
+
 ## [1.15.32] - 2026-04-27
 
 ### Bug Fixes
@@ -2049,9 +2061,6 @@
 
 ### Features
 
-
-
-- **(es/minifier)** Hoist more properties ([#10707](https://github.com/swc-project/swc/issues/10707)) ([0f2c8d5](https://github.com/swc-project/swc/commit/0f2c8d5963a48e582bf4517b4a52a6cfb31b399c))
 
 
 - **(es/transforms)** Expose `tsEnumIsMutable` to JS ([#10716](https://github.com/swc-project/swc/issues/10716)) ([6b3ae00](https://github.com/swc-project/swc/commit/6b3ae008d80c0bf7b215cae7d8a754e51a732bc9))
