@@ -98,7 +98,20 @@ impl<'a> ManglePropertiesState<'a> {
             if let Some(cached) = self.cache.get(name) {
                 Some(cached.clone())
             } else {
-                let mangled_name = self.chars.encode(&mut self.n, true);
+                // Skip candidates that collide with property names already
+                // present in the program. Without this, the encoder may emit
+                // a name like "e" while the program already defines a property
+                // "e" on some object/class, producing observable shadowing
+                // (see #11027).
+                let mangled_name = loop {
+                    let candidate = self.chars.encode(&mut self.n, true);
+                    if !self
+                        .unmangleable
+                        .contains(&Wtf8Atom::from(candidate.clone()))
+                    {
+                        break candidate;
+                    }
+                };
 
                 self.cache.insert(name.clone(), mangled_name.clone());
                 Some(mangled_name)

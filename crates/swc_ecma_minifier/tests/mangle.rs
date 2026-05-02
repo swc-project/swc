@@ -360,3 +360,36 @@ class s {
         },
     )
 }
+
+#[test]
+fn issue_11027_inherited_class_property_collision() {
+    // The property mangler must not produce a name that collides with a
+    // property already used in the program. In particular, `someField`
+    // must not be mangled to `e`, since `e` is already a property on the
+    // base class.
+    let src = "class Class1 {
+    e = 1;
+}
+class Class2 extends Class1 {
+    someField = 2;
+}
+console.log(new Class2().e);";
+    let expected = "class e {
+    e = 1;
+}
+class s extends e {
+    s = 2;
+}
+console.log(new s().e);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
