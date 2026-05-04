@@ -1,4 +1,27 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Preserve args for destructured callbacks ([#11830](https://github.com/swc-project/swc/issues/11830)) ([21873b0](https://github.com/swc-project/swc/commit/21873b06df3fd62d952a21cf879e14d11d4b39d7))
+
+
+- **(es/react)** Exclude self-recursive hooks from refresh dependency array ([#11838](https://github.com/swc-project/swc/issues/11838)) ([9101c71](https://github.com/swc-project/swc/commit/9101c719fa8f3f5cb410d716d4f50544650cd81e))
+
+### Documentation
+
+
+
+- Update agent guidance ([#11842](https://github.com/swc-project/swc/issues/11842)) ([bf2d015](https://github.com/swc-project/swc/commit/bf2d0154cf8b66fdab16085585fda0086d297a64))
+
+### Testing
+
+
+
+- **(es/minifier)** Move issue_11835 fixture out of terser folder ([#11840](https://github.com/swc-project/swc/issues/11840)) ([3dd3431](https://github.com/swc-project/swc/commit/3dd34310d429baff6e8d1a6393266c648684d3c6))
+
 ## [1.15.33] - 2026-05-02
 
 ### Bug Fixes
@@ -2053,35 +2076,17 @@
 
 - **(es/parser)** Allow non-prop operand in delete ([#10733](https://github.com/swc-project/swc/issues/10733)) ([38132e0](https://github.com/swc-project/swc/commit/38132e0e6abaead3eae15a08610ad5dda5026dd8))
 
-### Features
-
-
-
-- **(es/transforms)** Expose `tsEnumIsMutable` to JS ([#10716](https://github.com/swc-project/swc/issues/10716)) ([6b3ae00](https://github.com/swc-project/swc/commit/6b3ae008d80c0bf7b215cae7d8a754e51a732bc9))
-
 ### Performance
 
 
 
 - **(es/minifier)** Make `CharFreq::scan` in mangler table-based ([#10679](https://github.com/swc-project/swc/issues/10679)) ([04d39aa](https://github.com/swc-project/swc/commit/04d39aaa9e57965dacc44d96f3e562cf8311d3bf))
 
-
-- Optimize `Input::reset_to` ([#10719](https://github.com/swc-project/swc/issues/10719)) ([8084066](https://github.com/swc-project/swc/commit/808406616a86f84fa4599a22a01a5a3921975e0e))
-
 ### Refactor
 
 
 
-- **(es/lexer)** Useless reset ([#10714](https://github.com/swc-project/swc/issues/10714)) ([c9eee0b](https://github.com/swc-project/swc/commit/c9eee0beadb2ba927b0c4e068eb034b7712ffffd))
-
-
 - **(es/lexer)** Cleanup `read_int` ([#10727](https://github.com/swc-project/swc/issues/10727)) ([c5fb4b1](https://github.com/swc-project/swc/commit/c5fb4b13f5507dd4fb58f12860d0ec53d00c157d))
-
-
-- **(es/parser)** Remove `read_number_no_dot` ([#10703](https://github.com/swc-project/swc/issues/10703)) ([fa8607f](https://github.com/swc-project/swc/commit/fa8607f1e42a0453d24e72d0c10ab62139d12dd7))
-
-
-- **(es/parser)** Remove needless branching ([#10717](https://github.com/swc-project/swc/issues/10717)) ([b0c23b2](https://github.com/swc-project/swc/commit/b0c23b2d31a27205b061a68688dddf4bc59937d7))
 
 ### Testing
 
