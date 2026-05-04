@@ -1464,7 +1464,13 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
 
         for decl in &n.decls {
-            if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
+            let init = if let Some(init) = decl.init.as_deref() {
+                init
+            } else {
+                continue;
+            };
+
+            if let Pat::Ident(var) = &decl.name {
                 let mut v = None;
                 for id in collect_infects_from(
                     init,
@@ -1512,6 +1518,14 @@ where
                         .data
                         .var_or_default(var.id.to_id())
                         .store_param_count(Value::Unknown),
+                }
+            } else {
+                // Destructuring pulls values from an external object or iterable, so the
+                // callable arity of each binding is not known from this declaration.
+                for id in find_pat_ids(&decl.name) {
+                    self.data
+                        .var_or_default(id)
+                        .store_param_count(Value::Unknown);
                 }
             }
         }
