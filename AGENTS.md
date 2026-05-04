@@ -74,3 +74,4 @@
 ## Compatibility rule
 
 -   Do not use unstable, nightly only features of rustc.
+-   Respect the project's MSRV. Do not rely on Rust language features or standard library APIs newer than the MSRV unless the change intentionally raises the MSRV.

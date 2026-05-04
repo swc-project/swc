@@ -28,17 +28,18 @@ plugin = [
 anyhow             = { workspace = true }
 clap               = { version = "3.2.25", features = ["derive", "wrap_help"] }
 glob               = { workspace = true }
+notify             = { workspace = true }
 par-core           = { workspace = true, features = ["chili"] }
 par-iter           = { workspace = true }
 path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
-relative-path      = { workspace = true }
+pathdiff           = { workspace = true }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
 tracing            = { workspace = true }
 tracing-chrome     = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 walkdir            = { workspace = true }
 
-swc_core = { version = "65.0.2", features = [
+swc_core = { version = "65.0.3", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",
