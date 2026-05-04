@@ -205,14 +205,43 @@ fn is_ignored_path(path: &Path, ignore_pattern: Option<&Pattern>, cwd: &Path) ->
             .unwrap_or(false)
 }
 
+fn absolutize_path(path: &Path) -> anyhow::Result<PathBuf> {
+    Ok(path.absolutize()?.into_owned())
+}
+
+fn is_same_or_nested_path(path: &Path, base_path: &Path) -> bool {
+    let Ok(path) = absolutize_path(path) else {
+        return false;
+    };
+
+    path.starts_with(base_path)
+}
+
+fn is_exact_path(path: &Path, expected_paths: &BTreeSet<PathBuf>) -> bool {
+    let Ok(path) = absolutize_path(path) else {
+        return false;
+    };
+
+    expected_paths.contains(&path)
+}
+
+fn collect_absolute_paths(paths: &[PathBuf]) -> BTreeSet<PathBuf> {
+    paths
+        .iter()
+        .filter_map(|path| absolutize_path(path).ok())
+        .collect()
+}
+
 /// Infer list of files from cli arguments.
 #[tracing::instrument(level = "info", skip_all)]
 fn collect_input_files(
     raw_files_input: &[PathBuf],
     ignore_pattern: Option<&Pattern>,
+    excluded_dir: Option<&Path>,
 ) -> anyhow::Result<Vec<InputFile>> {
     let input_dir = raw_files_input.iter().find(|path| path.is_dir());
     let cwd = std::env::current_dir()?;
+    let excluded_dir = excluded_dir.map(absolutize_path).transpose()?;
 
     let files = if let Some(input_dir) = input_dir {
         if raw_files_input.len() > 1 {
@@ -221,6 +250,14 @@ fn collect_input_files(
 
         WalkDir::new(input_dir)
             .into_iter()
+            .filter_entry(|entry| {
+                // Avoid descending into generated output when --out-dir is
+                // nested inside the watched or compiled input tree.
+                !excluded_dir
+                    .as_deref()
+                    .map(|excluded_dir| is_same_or_nested_path(entry.path(), excluded_dir))
+                    .unwrap_or(false)
+            })
             .filter_map(|entry| entry.ok())
             .map(|entry| entry.into_path())
             .filter(|path| path.is_file())
@@ -233,6 +270,12 @@ fn collect_input_files(
     } else {
         raw_files_input
             .iter()
+            .filter(|path| {
+                !excluded_dir
+                    .as_deref()
+                    .map(|excluded_dir| is_same_or_nested_path(path, excluded_dir))
+                    .unwrap_or(false)
+            })
             .filter(|path| !is_ignored_path(path, ignore_pattern, &cwd))
             .map(|path| InputFile {
                 path: path.clone(),
@@ -445,25 +488,54 @@ impl CompileOptions {
         self.files.iter().any(|path| path.is_dir())
     }
 
-    fn collect_compile_file_paths(&self) -> anyhow::Result<Vec<PathBuf>> {
+    fn collect_compile_file_paths_inner(
+        &self,
+        existing_only: bool,
+        excluded_files: &[PathBuf],
+    ) -> anyhow::Result<Vec<PathBuf>> {
         let ignore_pattern = parse_ignore_pattern(self.ignore.as_deref())?;
-        let inputs = collect_input_files(&self.files, ignore_pattern.as_ref())?;
+        let inputs = collect_input_files(&self.files, ignore_pattern.as_ref(), None)?;
+        let excluded_files = collect_absolute_paths(excluded_files);
+
+        let is_input_path_enabled = |path: &Path| {
+            (!existing_only || path.is_file()) && !is_exact_path(path, &excluded_files)
+        };
 
         if self.has_directory_input() {
             let extensions = self.included_extensions();
 
             Ok(inputs
                 .into_iter()
+                .filter(|input| is_input_path_enabled(&input.path))
                 .filter(|input| is_compilable_extension(&input.path, &extensions))
                 .map(|input| input.path)
                 .collect())
         } else {
-            Ok(inputs.into_iter().map(|input| input.path).collect())
+            Ok(inputs
+                .into_iter()
+                .filter(|input| is_input_path_enabled(&input.path))
+                .map(|input| input.path)
+                .collect())
         }
     }
 
-    fn classify_output_entry(&self, input: InputFile) -> Option<OutputEntry> {
-        if is_compilable_extension(&input.path, &self.included_extensions()) {
+    fn collect_compile_file_paths(&self) -> anyhow::Result<Vec<PathBuf>> {
+        self.collect_compile_file_paths_inner(false, &[])
+    }
+
+    fn collect_existing_compile_file_paths(
+        &self,
+        excluded_files: &[PathBuf],
+    ) -> anyhow::Result<Vec<PathBuf>> {
+        self.collect_compile_file_paths_inner(true, excluded_files)
+    }
+
+    fn classify_output_entry(
+        &self,
+        input: InputFile,
+        extensions: &[String],
+    ) -> Option<OutputEntry> {
+        if is_compilable_extension(&input.path, extensions) {
             return Some(OutputEntry {
                 path: input.path,
                 kind: OutputEntryKind::Compile,
@@ -487,38 +559,46 @@ impl CompileOptions {
         None
     }
 
-    fn collect_output_dir_entries(&self) -> anyhow::Result<Vec<OutputEntry>> {
+    fn collect_output_dir_entries(&self, out_dir: &Path) -> anyhow::Result<Vec<OutputEntry>> {
         let ignore_pattern = parse_ignore_pattern(self.ignore.as_deref())?;
-        let inputs = collect_input_files(&self.files, ignore_pattern.as_ref())?;
+        let inputs = collect_input_files(&self.files, ignore_pattern.as_ref(), Some(out_dir))?;
+        let extensions = self.included_extensions();
 
         Ok(inputs
             .into_iter()
-            .filter_map(|input| self.classify_output_entry(input))
+            .filter_map(|input| self.classify_output_entry(input, &extensions))
             .collect())
+    }
+
+    fn collect_file_inputs(
+        &self,
+        compiler: Arc<Compiler>,
+        file_paths: Vec<PathBuf>,
+    ) -> anyhow::Result<Vec<InputContext>> {
+        file_paths
+            .into_iter()
+            .map(|file_path| {
+                self.build_transform_options(&Some(file_path.as_path()))
+                    .and_then(|options| {
+                        let fm = compiler
+                            .cm
+                            .load_file(&file_path)
+                            .context(format!("Failed to open file {}", file_path.display()))?;
+
+                        Ok(InputContext {
+                            options,
+                            fm,
+                            compiler: compiler.clone(),
+                            file_path,
+                        })
+                    })
+            })
+            .collect()
     }
 
     fn collect_inputs(&self, compiler: Arc<Compiler>) -> anyhow::Result<Vec<InputContext>> {
         if !self.files.is_empty() {
-            return self
-                .collect_compile_file_paths()?
-                .into_iter()
-                .map(|file_path| {
-                    self.build_transform_options(&Some(file_path.as_path()))
-                        .and_then(|options| {
-                            let fm = compiler
-                                .cm
-                                .load_file(&file_path)
-                                .context(format!("Failed to open file {}", file_path.display()))?;
-
-                            Ok(InputContext {
-                                options,
-                                fm,
-                                compiler: compiler.clone(),
-                                file_path,
-                            })
-                        })
-                })
-                .collect();
+            return self.collect_file_inputs(compiler, self.collect_compile_file_paths()?);
         }
 
         let stdin_input = collect_stdin_input();
@@ -631,10 +711,11 @@ impl CompileOptions {
         Ok(())
     }
 
-    fn execute_out_file_once(&self, single_out_file: &Path) -> anyhow::Result<()> {
-        let compiler = new_compiler();
-        let inputs = self.collect_inputs(compiler)?;
-
+    fn execute_out_file_with_inputs(
+        &self,
+        single_out_file: &Path,
+        inputs: Vec<InputContext>,
+    ) -> anyhow::Result<()> {
         let result: anyhow::Result<Vec<TransformOutput>> = inputs
             .into_par_iter()
             .map(
@@ -719,8 +800,40 @@ impl CompileOptions {
             .context("Failed to write output into single file")
     }
 
+    fn execute_out_file_once(&self, single_out_file: &Path) -> anyhow::Result<()> {
+        let compiler = new_compiler();
+        let inputs = self.collect_inputs(compiler)?;
+
+        self.execute_out_file_with_inputs(single_out_file, inputs)
+    }
+
+    fn execute_existing_out_file_paths(
+        &self,
+        single_out_file: &Path,
+        file_paths: Vec<PathBuf>,
+    ) -> anyhow::Result<()> {
+        if file_paths.is_empty() {
+            return self.remove_out_file_outputs(single_out_file);
+        }
+
+        let compiler = new_compiler();
+        let inputs = self.collect_file_inputs(compiler, file_paths)?;
+
+        self.execute_out_file_with_inputs(single_out_file, inputs)
+    }
+
+    fn execute_existing_out_file_once(&self, single_out_file: &Path) -> anyhow::Result<()> {
+        let output_files = self.out_file_output_paths(single_out_file);
+        // Watch mode rebuilds from files that still exist, so deleting one
+        // explicit input removes it from the next bundle instead of failing the
+        // whole rebuild.
+        let file_paths = self.collect_existing_compile_file_paths(&output_files)?;
+
+        self.execute_existing_out_file_paths(single_out_file, file_paths)
+    }
+
     fn execute_out_dir_once(&self, out_dir: &Path) -> anyhow::Result<()> {
-        let entries = self.collect_output_dir_entries()?;
+        let entries = self.collect_output_dir_entries(out_dir)?;
         let compiler = new_compiler();
 
         entries
@@ -787,17 +900,24 @@ impl CompileOptions {
         })
     }
 
-    fn classify_watch_output_entry(&self, file_path: &Path) -> Option<OutputEntry> {
+    fn classify_watch_output_entry(
+        &self,
+        file_path: &Path,
+        extensions: &[String],
+    ) -> Option<OutputEntry> {
         let origin = if self.is_explicit_input_path(file_path) {
             InputOrigin::Explicit
         } else {
             InputOrigin::Discovered
         };
 
-        self.classify_output_entry(InputFile {
-            path: file_path.to_path_buf(),
-            origin,
-        })
+        self.classify_output_entry(
+            InputFile {
+                path: file_path.to_path_buf(),
+                origin,
+            },
+            extensions,
+        )
     }
 
     fn process_out_dir_watch_batch(
@@ -807,16 +927,33 @@ impl CompileOptions {
         removed_paths: Vec<PathBuf>,
         ignore_pattern: Option<&Pattern>,
     ) {
+        let cwd = match std::env::current_dir() {
+            Ok(cwd) => cwd,
+            Err(error) => {
+                tracing::warn!(error = %error, "failed to read current directory for watch batch");
+                return;
+            }
+        };
+        let output_dir = match absolutize_path(out_dir) {
+            Ok(output_dir) => output_dir,
+            Err(error) => {
+                tracing::warn!(error = %error, "failed to resolve output directory for watch batch");
+                return;
+            }
+        };
+        let extensions = self.included_extensions();
+
         let relevant_removed: BTreeSet<_> = removed_paths
             .into_iter()
             .filter(|path| {
                 self.is_relevant_input_path(path)
-                    && !is_ignored_path(path, ignore_pattern, &std::env::current_dir().unwrap())
+                    && !is_same_or_nested_path(path, &output_dir)
+                    && !is_ignored_path(path, ignore_pattern, &cwd)
             })
             .collect();
 
         for path in relevant_removed {
-            if let Some(entry) = self.classify_watch_output_entry(&path) {
+            if let Some(entry) = self.classify_watch_output_entry(&path, &extensions) {
                 if let Err(error) = self.remove_output_dir_entry(out_dir, &entry) {
                     eprintln!("{error:#}");
                 }
@@ -828,14 +965,15 @@ impl CompileOptions {
             .filter(|path| {
                 path.is_file()
                     && self.is_relevant_input_path(path)
-                    && !is_ignored_path(path, ignore_pattern, &std::env::current_dir().unwrap())
+                    && !is_same_or_nested_path(path, &output_dir)
+                    && !is_ignored_path(path, ignore_pattern, &cwd)
             })
             .collect();
 
         let compiler = new_compiler();
 
         for path in relevant_changed {
-            if let Some(entry) = self.classify_watch_output_entry(&path) {
+            if let Some(entry) = self.classify_watch_output_entry(&path, &extensions) {
                 if let Err(error) = self.emit_output_dir_entry(compiler.clone(), out_dir, &entry) {
                     eprintln!("{error:#}");
                 }
@@ -843,30 +981,54 @@ impl CompileOptions {
         }
     }
 
-    fn should_rebuild_out_file(&self, file_path: &Path, ignore_pattern: Option<&Pattern>) -> bool {
+    fn should_rebuild_out_file(
+        &self,
+        file_path: &Path,
+        ignore_pattern: Option<&Pattern>,
+        cwd: &Path,
+        extensions: &[String],
+        output_files: &BTreeSet<PathBuf>,
+    ) -> bool {
+        if is_exact_path(file_path, output_files) {
+            return false;
+        }
+
         if !self.is_relevant_input_path(file_path) {
             return false;
         }
 
-        let cwd = match std::env::current_dir() {
-            Ok(cwd) => cwd,
-            Err(_) => return false,
-        };
-
-        if is_ignored_path(file_path, ignore_pattern, &cwd) {
+        if is_ignored_path(file_path, ignore_pattern, cwd) {
             return false;
         }
 
         if self.has_directory_input() {
-            is_compilable_extension(file_path, &self.included_extensions())
+            is_compilable_extension(file_path, extensions)
         } else {
             true
         }
     }
 
+    fn out_file_output_paths(&self, single_out_file: &Path) -> Vec<PathBuf> {
+        let mut paths = vec![
+            single_out_file.to_path_buf(),
+            single_out_file.with_extension("d.ts"),
+        ];
+
+        if let Some(source_map_target) = &self.source_map_target {
+            paths.push(PathBuf::from(source_map_target));
+        } else {
+            paths.push(resolve_source_map_path(single_out_file));
+        }
+
+        paths
+    }
+
     fn remove_out_file_outputs(&self, single_out_file: &Path) -> anyhow::Result<()> {
         remove_file_if_exists(single_out_file)?;
         remove_file_if_exists(&resolve_source_map_path(single_out_file))?;
+        if let Some(source_map_target) = &self.source_map_target {
+            remove_file_if_exists(Path::new(source_map_target))?;
+        }
         remove_file_if_exists(&single_out_file.with_extension("d.ts"))?;
         Ok(())
     }
@@ -894,32 +1056,49 @@ impl CompileOptions {
         let ignore_pattern = parse_ignore_pattern(self.ignore.as_deref())?;
         let watcher = FileWatcher::new(&self.files)?;
 
-        if let Err(error) = self.execute_out_file_once(single_out_file) {
+        if let Err(error) = self.execute_existing_out_file_once(single_out_file) {
             eprintln!("{error:#}");
         }
 
+        let output_files = self.out_file_output_paths(single_out_file);
+        let output_files = collect_absolute_paths(&output_files);
+        let extensions = self.included_extensions();
+
         loop {
             let changes = watcher.recv_changes()?;
+            let cwd = match std::env::current_dir() {
+                Ok(cwd) => cwd,
+                Err(error) => {
+                    tracing::warn!(error = %error, "failed to read current directory for watch batch");
+                    continue;
+                }
+            };
             let should_rebuild = changes
                 .changed
                 .iter()
                 .chain(changes.removed.iter())
-                .any(|path| self.should_rebuild_out_file(path, ignore_pattern.as_ref()));
+                .any(|path| {
+                    self.should_rebuild_out_file(
+                        path,
+                        ignore_pattern.as_ref(),
+                        &cwd,
+                        &extensions,
+                        &output_files,
+                    )
+                });
 
             if !should_rebuild {
                 continue;
             }
 
-            match self.collect_compile_file_paths() {
-                Ok(files) if files.is_empty() => {
-                    if let Err(error) = self.remove_out_file_outputs(single_out_file) {
-                        eprintln!("{error:#}");
-                    }
-                }
-                Ok(_) => {
+            match self
+                .collect_existing_compile_file_paths(&self.out_file_output_paths(single_out_file))
+            {
+                Ok(files) => {
                     // Rebuild the full bundle so the concatenation order and
                     // source map output stay consistent with one-shot mode.
-                    if let Err(error) = self.execute_out_file_once(single_out_file) {
+                    if let Err(error) = self.execute_existing_out_file_paths(single_out_file, files)
+                    {
                         eprintln!("{error:#}");
                     }
                 }

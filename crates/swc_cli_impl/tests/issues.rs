@@ -389,6 +389,122 @@ fn issue_4017_absolute_directory_input_is_normalized() -> Result<()> {
 }
 
 #[test]
+fn issue_4017_current_directory_input_is_relative_to_cwd() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    create_dir_all(sandbox.path().join("src"))?;
+    fs::write(
+        sandbox.path().join("src/index.ts"),
+        "export const value = 1;\n",
+    )?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--out-dir")
+        .arg("dist")
+        .arg(".");
+
+    cmd.assert().success();
+
+    assert!(
+        sandbox.path().join("dist/src/index.js").exists(),
+        "Expected current-directory input to emit dist/src/index.js"
+    );
+
+    let cwd_name = sandbox
+        .path()
+        .file_name()
+        .expect("temporary directory should have a name");
+    assert!(
+        !sandbox
+            .path()
+            .join("dist")
+            .join(cwd_name)
+            .join("src/index.js")
+            .exists(),
+        "Current-directory input should not prefix output paths with the cwd name"
+    );
+
+    Ok(())
+}
+
+#[test]
+fn issue_4017_absolute_current_directory_input_is_relative_to_cwd() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    create_dir_all(sandbox.path().join("src"))?;
+    fs::write(
+        sandbox.path().join("src/index.ts"),
+        "export const value = 1;\n",
+    )?;
+
+    let absolute_input = sandbox.path().canonicalize()?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--out-dir")
+        .arg("dist")
+        .arg(&absolute_input);
+
+    cmd.assert().success();
+
+    assert!(
+        sandbox.path().join("dist/src/index.js").exists(),
+        "Expected absolute cwd input to emit dist/src/index.js"
+    );
+
+    let cwd_name = sandbox
+        .path()
+        .file_name()
+        .expect("temporary directory should have a name");
+    assert!(
+        !sandbox
+            .path()
+            .join("dist")
+            .join(cwd_name)
+            .join("src/index.js")
+            .exists(),
+        "Absolute cwd input should not prefix output paths with the cwd name"
+    );
+
+    Ok(())
+}
+
+#[test]
+fn issue_4017_out_dir_inside_input_is_excluded_from_scan() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    create_dir_all(sandbox.path().join("src/dist"))?;
+    fs::write(
+        sandbox.path().join("src/index.ts"),
+        "export const value = 1;\n",
+    )?;
+    fs::write(
+        sandbox.path().join("src/dist/stale.ts"),
+        "export const stale = true;\n",
+    )?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--out-dir")
+        .arg("src/dist")
+        .arg("src");
+
+    cmd.assert().success();
+
+    assert!(
+        sandbox.path().join("src/dist/src/index.js").exists(),
+        "Expected source output under nested out-dir"
+    );
+    assert!(
+        !sandbox.path().join("src/dist/src/dist/stale.js").exists(),
+        "Output directory contents should not be treated as fresh inputs"
+    );
+
+    Ok(())
+}
+
+#[test]
 fn issue_4017_copy_files_copies_non_compilable_assets() -> Result<()> {
     let sandbox = TempDir::new()?;
     create_dir_all(sandbox.path().join("src"))?;
@@ -453,6 +569,45 @@ fn issue_4017_watch_out_dir_updates_and_removes_outputs() -> Result<()> {
     wait_for("compiled output removal after deleting source", || {
         Ok(!output_path.exists())
     })?;
+
+    Ok(())
+}
+
+#[test]
+fn issue_4017_watch_out_dir_ignores_generated_output_changes() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    create_dir_all(sandbox.path().join("src"))?;
+
+    let source_path = sandbox.path().join("src/index.ts");
+    let output_path = sandbox.path().join("src/dist/src/index.js");
+    let nested_output_path = sandbox.path().join("src/dist/src/dist/src/index.js");
+
+    fs::write(&source_path, "export const value = 1;\n")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--watch")
+        .arg("--out-dir")
+        .arg("src/dist")
+        .arg("src");
+
+    let mut child = spawn_watch_command(&mut cmd)?;
+
+    wait_for("initial nested out-dir watch output", || {
+        Ok(output_path.exists())
+    })?;
+    wait_for("watch process to stay alive", || {
+        Ok(child.try_wait()?.is_none())
+    })?;
+
+    fs::write(&output_path, "const generated = 1;\n")?;
+    sleep(Duration::from_millis(1000));
+
+    assert!(
+        !nested_output_path.exists(),
+        "Generated output changes should not create nested output files"
+    );
 
     Ok(())
 }
@@ -535,6 +690,86 @@ fn issue_4017_watch_out_file_rebuilds_single_output() -> Result<()> {
             .map(|content| content.contains('2'))
             .unwrap_or(false))
     })?;
+
+    Ok(())
+}
+
+#[test]
+fn issue_4017_watch_out_file_drops_deleted_explicit_inputs() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    let keep_path = sandbox.path().join("keep.ts");
+    let removed_path = sandbox.path().join("removed.ts");
+    let output_path = sandbox.path().join("bundle.js");
+
+    fs::write(&keep_path, "export const keep = 1;\n")?;
+    fs::write(&removed_path, "export const removed = 2;\n")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--watch")
+        .arg("--out-file")
+        .arg("bundle.js")
+        .arg("keep.ts")
+        .arg("removed.ts");
+
+    let mut child = spawn_watch_command(&mut cmd)?;
+
+    wait_for("initial bundle with both explicit inputs", || {
+        Ok(fs::read_to_string(&output_path)
+            .map(|content| content.contains("keep") && content.contains("removed"))
+            .unwrap_or(false))
+    })?;
+    wait_for("watch process to stay alive", || {
+        Ok(child.try_wait()?.is_none())
+    })?;
+
+    fs::remove_file(&removed_path)?;
+
+    wait_for("bundle rebuild without deleted explicit input", || {
+        Ok(fs::read_to_string(&output_path)
+            .map(|content| content.contains("keep") && !content.contains("removed"))
+            .unwrap_or(false))
+    })?;
+
+    Ok(())
+}
+
+#[test]
+fn issue_4017_watch_out_file_ignores_generated_output_changes() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    create_dir_all(sandbox.path().join("src"))?;
+
+    let source_path = sandbox.path().join("src/input.ts");
+    let output_path = sandbox.path().join("src/bundle.js");
+
+    fs::write(&source_path, "export const value = 1;\n")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--watch")
+        .arg("--out-file")
+        .arg("src/bundle.js")
+        .arg("src");
+
+    let mut child = spawn_watch_command(&mut cmd)?;
+
+    wait_for("initial in-tree out-file watch output", || {
+        Ok(output_path.exists())
+    })?;
+    wait_for("watch process to stay alive", || {
+        Ok(child.try_wait()?.is_none())
+    })?;
+
+    fs::write(&output_path, "const generated = 1;\n")?;
+    sleep(Duration::from_millis(1000));
+
+    let output = fs::read_to_string(&output_path)?;
+    assert_eq!(
+        output, "const generated = 1;\n",
+        "Generated out-file changes should not trigger a rebuild"
+    );
 
     Ok(())
 }

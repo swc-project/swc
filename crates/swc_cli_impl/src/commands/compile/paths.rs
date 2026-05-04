@@ -77,10 +77,13 @@ fn resolve_relative_to_input_dir(
         Err(_) => return Ok(None),
     };
 
+    let cwd = std::env::current_dir()?.absolutize()?.into_owned();
     let mut relative_path = PathBuf::new();
 
-    if let Some(dir_name) = input_dir.file_name() {
-        relative_path.push(dir_name);
+    if input_dir != cwd {
+        if let Some(dir_name) = input_dir.file_name() {
+            relative_path.push(dir_name);
+        }
     }
 
     if !stripped.as_os_str().is_empty() {

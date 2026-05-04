@@ -42,10 +42,17 @@ impl FileWatcher {
 
     pub fn recv_changes(&self) -> anyhow::Result<PathChanges> {
         loop {
-            let event = self
+            let event = match self
                 .receiver
                 .recv()
-                .context("watch channel unexpectedly closed")??;
+                .context("watch channel unexpectedly closed")?
+            {
+                Ok(event) => event,
+                Err(error) => {
+                    tracing::warn!(error = %error, "file watcher emitted a recoverable error");
+                    continue;
+                }
+            };
 
             if let Some(changes) = translate_event(event) {
                 return Ok(changes);
