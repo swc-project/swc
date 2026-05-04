@@ -393,3 +393,127 @@ console.log(new s().e);";
         },
     )
 }
+
+#[test]
+fn issue_11027_deep_inheritance_chain() {
+    // Multi-level inheritance with multiple potentially-colliding fields.
+    // None of the mangled names for `len`, `fieldA`, `fieldB`, `fieldC` may
+    // collide with the inherited `e`, `len`, or with each other.
+    let src = "class Class1 {
+    e = 1;
+}
+class Class2 extends Class1 {
+    len = 2;
+}
+class Class3 extends Class2 {
+    fieldA = 3;
+    fieldB = 4;
+    fieldC = 5;
+}
+console.log(new Class3().e, new Class3().len, new Class3().fieldA, new Class3().fieldB, new \
+               Class3().fieldC);";
+    let expected = "class e {
+    e = 1;
+}
+class l extends e {
+    l = 2;
+}
+class n extends l {
+    n = 3;
+    d = 4;
+    s = 5;
+}
+console.log(new n().e, new n().l, new n().n, new n().d, new n().s);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn issue_11027_object_literal_and_class_share_names() {
+    // Object literal properties go through the same mangler as class fields.
+    // Mangled names for `someField`, `otherField`, `thirdField` must not
+    // collide with `e` or `valueOf` already used in the program.
+    let src = "const cfg = { e: 1, valueOf: 2 };
+class Wrapper {
+    someField = 10;
+    otherField = 20;
+    thirdField = 30;
+}
+console.log(cfg.e, cfg.valueOf, new Wrapper().someField, new Wrapper().otherField, new \
+               Wrapper().thirdField);";
+    let expected = "const e = {
+    e: 1,
+    valueOf: 2
+};
+class l {
+    l = 10;
+    d = 20;
+    i = 30;
+}
+console.log(e.e, e.valueOf, new l().l, new l().d, new l().i);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn issue_11027_methods_and_getters_do_not_collide() {
+    // Mix of getter on the base, field on the derived, plus methods on both.
+    // The mangled names for `aField`, `bField`, `extra` must not collide
+    // with the inherited `e` (getter) or `method`.
+    let src = "class Base {
+    get e() { return 1; }
+    method() { return 2; }
+}
+class Derived extends Base {
+    aField = 3;
+    bField = 4;
+    extra() { return 5; }
+}
+console.log(new Derived().e, new Derived().method(), new Derived().extra(), new Derived().aField, \
+               new Derived().bField);";
+    let expected = "class e {
+    get e() {
+        return 1;
+    }
+    method() {
+        return 2;
+    }
+}
+class n extends e {
+    n = 3;
+    t = 4;
+    r() {
+        return 5;
+    }
+}
+console.log(new n().e, new n().method(), new n().r(), new n().n, new n().t);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
