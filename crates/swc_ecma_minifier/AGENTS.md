@@ -7,6 +7,7 @@
 
 ### Fixture Test Addition Guide
 
-- Preferred fixture roots in this crate: tests/fixture, tests/terser, tests/mangle, tests/pass-1, tests/pass-default, tests/full, tests/projects, benches/full.
+- Preferred fixture roots in this crate: tests/fixture, tests/mangle, tests/pass-1, tests/pass-default, tests/full, tests/projects, benches/full.
+- Do not add new regression coverage to tests/terser. Use SWC-owned fixtures such as tests/fixture/issues instead.
 - Update generated fixture outputs with: UPDATE=1 cargo test -p swc_ecma_minifier.
 - Verify without UPDATE before finishing: cargo test -p swc_ecma_minifier.
