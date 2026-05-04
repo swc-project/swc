@@ -152,6 +152,51 @@ struct InputContext {
     file_path: PathBuf,
 }
 
+/// Input path roles captured when watch mode starts.
+///
+/// Removal events are delivered after filesystem state changes, so directory
+/// inputs must not be classified with `Path::is_dir()` while processing each
+/// event.
+struct WatchInputPaths {
+    files: BTreeSet<PathBuf>,
+    directories: Vec<PathBuf>,
+}
+
+impl WatchInputPaths {
+    fn new(raw_inputs: &[PathBuf]) -> anyhow::Result<Self> {
+        let mut files = BTreeSet::new();
+        let mut directories = Vec::new();
+
+        for input in raw_inputs {
+            let input = absolutize_path(input)?;
+
+            if input.is_dir() {
+                directories.push(input);
+            } else {
+                files.insert(input);
+            }
+        }
+
+        Ok(Self { files, directories })
+    }
+
+    fn contains(&self, file_path: &Path) -> bool {
+        let Ok(file_path) = absolutize_path(file_path) else {
+            return false;
+        };
+
+        self.files.contains(&file_path)
+            || self
+                .directories
+                .iter()
+                .any(|input_dir| file_path.starts_with(input_dir))
+    }
+
+    fn is_explicit_file(&self, file_path: &Path) -> bool {
+        is_exact_path(file_path, &self.files)
+    }
+}
+
 fn parse_config(s: &str) -> Result<Config, serde_json::Error> {
     serde_json::from_str(s)
 }
@@ -345,6 +390,14 @@ fn remove_file_if_exists(path: &Path) -> anyhow::Result<()> {
         Err(error) if error.kind() == ErrorKind::NotFound => Ok(()),
         Err(error) => Err(error.into()),
     }
+}
+
+fn remove_dir_if_exists(path: &Path) -> anyhow::Result<()> {
+    if path.is_dir() {
+        fs::remove_dir_all(path)?;
+    }
+
+    Ok(())
 }
 
 fn emit_directory_output(
@@ -711,6 +764,18 @@ impl CompileOptions {
         Ok(())
     }
 
+    fn remove_output_dir_tree(&self, out_dir: &Path, input_dir: &Path) -> anyhow::Result<()> {
+        let output_dir_path = resolve_output_path(
+            out_dir,
+            &self.files,
+            input_dir,
+            None,
+            self.strip_leading_paths,
+        )?;
+
+        remove_dir_if_exists(&output_dir_path)
+    }
+
     fn execute_out_file_with_inputs(
         &self,
         single_out_file: &Path,
@@ -870,42 +935,13 @@ impl CompileOptions {
         }
     }
 
-    fn is_explicit_input_path(&self, file_path: &Path) -> bool {
-        let Ok(file_path) = file_path.absolutize().map(|path| path.into_owned()) else {
-            return false;
-        };
-
-        self.files
-            .iter()
-            .filter(|path| !path.is_dir())
-            .filter_map(|path| path.absolutize().ok().map(|path| path.into_owned()))
-            .any(|path| path == file_path)
-    }
-
-    fn is_relevant_input_path(&self, file_path: &Path) -> bool {
-        let Ok(file_path) = file_path.absolutize().map(|path| path.into_owned()) else {
-            return false;
-        };
-
-        self.files.iter().any(|input| {
-            let Ok(input) = input.absolutize().map(|path| path.into_owned()) else {
-                return false;
-            };
-
-            if input.is_dir() {
-                file_path.starts_with(&input)
-            } else {
-                file_path == input
-            }
-        })
-    }
-
     fn classify_watch_output_entry(
         &self,
         file_path: &Path,
         extensions: &[String],
+        watch_inputs: &WatchInputPaths,
     ) -> Option<OutputEntry> {
-        let origin = if self.is_explicit_input_path(file_path) {
+        let origin = if watch_inputs.is_explicit_file(file_path) {
             InputOrigin::Explicit
         } else {
             InputOrigin::Discovered
@@ -925,7 +961,9 @@ impl CompileOptions {
         out_dir: &Path,
         changed_paths: Vec<PathBuf>,
         removed_paths: Vec<PathBuf>,
+        removed_directories: Vec<PathBuf>,
         ignore_pattern: Option<&Pattern>,
+        watch_inputs: &WatchInputPaths,
     ) {
         let cwd = match std::env::current_dir() {
             Ok(cwd) => cwd,
@@ -946,17 +984,33 @@ impl CompileOptions {
         let relevant_removed: BTreeSet<_> = removed_paths
             .into_iter()
             .filter(|path| {
-                self.is_relevant_input_path(path)
+                watch_inputs.contains(path)
                     && !is_same_or_nested_path(path, &output_dir)
                     && !is_ignored_path(path, ignore_pattern, &cwd)
             })
             .collect();
 
         for path in relevant_removed {
-            if let Some(entry) = self.classify_watch_output_entry(&path, &extensions) {
+            if let Some(entry) = self.classify_watch_output_entry(&path, &extensions, watch_inputs)
+            {
                 if let Err(error) = self.remove_output_dir_entry(out_dir, &entry) {
                     eprintln!("{error:#}");
                 }
+            }
+        }
+
+        let relevant_removed_directories: BTreeSet<_> = removed_directories
+            .into_iter()
+            .filter(|path| {
+                watch_inputs.contains(path)
+                    && !is_same_or_nested_path(path, &output_dir)
+                    && !is_ignored_path(path, ignore_pattern, &cwd)
+            })
+            .collect();
+
+        for path in relevant_removed_directories {
+            if let Err(error) = self.remove_output_dir_tree(out_dir, &path) {
+                eprintln!("{error:#}");
             }
         }
 
@@ -964,7 +1018,7 @@ impl CompileOptions {
             .into_iter()
             .filter(|path| {
                 path.is_file()
-                    && self.is_relevant_input_path(path)
+                    && watch_inputs.contains(path)
                     && !is_same_or_nested_path(path, &output_dir)
                     && !is_ignored_path(path, ignore_pattern, &cwd)
             })
@@ -973,7 +1027,8 @@ impl CompileOptions {
         let compiler = new_compiler();
 
         for path in relevant_changed {
-            if let Some(entry) = self.classify_watch_output_entry(&path, &extensions) {
+            if let Some(entry) = self.classify_watch_output_entry(&path, &extensions, watch_inputs)
+            {
                 if let Err(error) = self.emit_output_dir_entry(compiler.clone(), out_dir, &entry) {
                     eprintln!("{error:#}");
                 }
@@ -988,12 +1043,13 @@ impl CompileOptions {
         cwd: &Path,
         extensions: &[String],
         output_files: &BTreeSet<PathBuf>,
+        watch_inputs: &WatchInputPaths,
     ) -> bool {
         if is_exact_path(file_path, output_files) {
             return false;
         }
 
-        if !self.is_relevant_input_path(file_path) {
+        if !watch_inputs.contains(file_path) {
             return false;
         }
 
@@ -1006,6 +1062,19 @@ impl CompileOptions {
         } else {
             true
         }
+    }
+
+    fn should_rebuild_removed_input_dir_out_file(
+        &self,
+        file_path: &Path,
+        ignore_pattern: Option<&Pattern>,
+        cwd: &Path,
+        output_files: &BTreeSet<PathBuf>,
+        watch_inputs: &WatchInputPaths,
+    ) -> bool {
+        !is_exact_path(file_path, output_files)
+            && watch_inputs.contains(file_path)
+            && !is_ignored_path(file_path, ignore_pattern, cwd)
     }
 
     fn out_file_output_paths(&self, single_out_file: &Path) -> Vec<PathBuf> {
@@ -1036,6 +1105,7 @@ impl CompileOptions {
     fn watch_out_dir(&self, out_dir: &Path) -> anyhow::Result<()> {
         let ignore_pattern = parse_ignore_pattern(self.ignore.as_deref())?;
         let watcher = FileWatcher::new(&self.files)?;
+        let watch_inputs = WatchInputPaths::new(&self.files)?;
 
         if let Err(error) = self.execute_out_dir_once(out_dir) {
             eprintln!("{error:#}");
@@ -1047,7 +1117,9 @@ impl CompileOptions {
                 out_dir,
                 changes.changed,
                 changes.removed,
+                changes.removed_directories,
                 ignore_pattern.as_ref(),
+                &watch_inputs,
             );
         }
     }
@@ -1055,6 +1127,7 @@ impl CompileOptions {
     fn watch_out_file(&self, single_out_file: &Path) -> anyhow::Result<()> {
         let ignore_pattern = parse_ignore_pattern(self.ignore.as_deref())?;
         let watcher = FileWatcher::new(&self.files)?;
+        let watch_inputs = WatchInputPaths::new(&self.files)?;
 
         if let Err(error) = self.execute_existing_out_file_once(single_out_file) {
             eprintln!("{error:#}");
@@ -1084,6 +1157,16 @@ impl CompileOptions {
                         &cwd,
                         &extensions,
                         &output_files,
+                        &watch_inputs,
+                    )
+                })
+                || changes.removed_directories.iter().any(|path| {
+                    self.should_rebuild_removed_input_dir_out_file(
+                        path,
+                        ignore_pattern.as_ref(),
+                        &cwd,
+                        &output_files,
+                        &watch_inputs,
                     )
                 });
 

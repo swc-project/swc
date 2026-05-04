@@ -574,6 +574,75 @@ fn issue_4017_watch_out_dir_updates_and_removes_outputs() -> Result<()> {
 }
 
 #[test]
+fn issue_4017_watch_out_dir_removes_outputs_after_input_dir_deleted() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    let input_dir = sandbox.path().join("src");
+    create_dir_all(input_dir.join("nested"))?;
+
+    let source_path = input_dir.join("nested/index.ts");
+    let output_path = sandbox.path().join("dist/src/nested/index.js");
+
+    fs::write(&source_path, "export const value = 1;\n")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--watch")
+        .arg("--out-dir")
+        .arg("dist")
+        .arg("src");
+
+    let mut child = spawn_watch_command(&mut cmd)?;
+
+    wait_for("initial nested watch output", || Ok(output_path.exists()))?;
+    wait_for("watch process to stay alive", || {
+        Ok(child.try_wait()?.is_none())
+    })?;
+
+    fs::remove_dir_all(&input_dir)?;
+    wait_for("compiled output removal after deleting input dir", || {
+        Ok(!output_path.exists())
+    })?;
+
+    Ok(())
+}
+
+#[test]
+fn issue_4017_watch_out_dir_removes_outputs_after_input_dir_renamed() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    let input_dir = sandbox.path().join("src");
+    let renamed_dir = sandbox.path().join("renamed");
+    create_dir_all(input_dir.join("nested"))?;
+
+    let source_path = input_dir.join("nested/index.ts");
+    let output_path = sandbox.path().join("dist/src/nested/index.js");
+
+    fs::write(&source_path, "export const value = 1;\n")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--watch")
+        .arg("--out-dir")
+        .arg("dist")
+        .arg("src");
+
+    let mut child = spawn_watch_command(&mut cmd)?;
+
+    wait_for("initial nested watch output", || Ok(output_path.exists()))?;
+    wait_for("watch process to stay alive", || {
+        Ok(child.try_wait()?.is_none())
+    })?;
+
+    fs::rename(&input_dir, renamed_dir)?;
+    wait_for("compiled output removal after renaming input dir", || {
+        Ok(!output_path.exists())
+    })?;
+
+    Ok(())
+}
+
+#[test]
 fn issue_4017_watch_out_dir_ignores_generated_output_changes() -> Result<()> {
     let sandbox = TempDir::new()?;
     create_dir_all(sandbox.path().join("src"))?;

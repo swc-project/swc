@@ -5,7 +5,10 @@ use std::{
 };
 
 use anyhow::Context;
-use notify::{Config, Event, EventKind, RecommendedWatcher, RecursiveMode, Watcher};
+use notify::{
+    event::{ModifyKind, RemoveKind},
+    Config, Event, EventKind, RecommendedWatcher, RecursiveMode, Watcher,
+};
 use path_absolutize::Absolutize;
 
 pub struct FileWatcher {
@@ -16,6 +19,7 @@ pub struct FileWatcher {
 pub struct PathChanges {
     pub changed: Vec<PathBuf>,
     pub removed: Vec<PathBuf>,
+    pub removed_directories: Vec<PathBuf>,
 }
 
 impl FileWatcher {
@@ -97,7 +101,31 @@ fn collect_watch_roots(raw_inputs: &[PathBuf]) -> anyhow::Result<HashMap<PathBuf
 
 fn translate_event(event: Event) -> Option<PathChanges> {
     match event.kind {
-        EventKind::Create(_) | EventKind::Modify(_) | EventKind::Remove(_) => {
+        EventKind::Modify(ModifyKind::Name(_)) => {
+            let mut changed = Vec::new();
+            let mut removed = Vec::new();
+            let mut removed_directories = Vec::new();
+
+            for path in event.paths {
+                if path.exists() {
+                    changed.push(path);
+                } else {
+                    removed_directories.push(path.clone());
+                    removed.push(path);
+                }
+            }
+
+            if changed.is_empty() && removed.is_empty() {
+                None
+            } else {
+                Some(PathChanges {
+                    changed,
+                    removed,
+                    removed_directories,
+                })
+            }
+        }
+        EventKind::Create(_) | EventKind::Modify(_) => {
             let mut changed = Vec::new();
             let mut removed = Vec::new();
 
@@ -112,7 +140,29 @@ fn translate_event(event: Event) -> Option<PathChanges> {
             if changed.is_empty() && removed.is_empty() {
                 None
             } else {
-                Some(PathChanges { changed, removed })
+                Some(PathChanges {
+                    changed,
+                    removed,
+                    removed_directories: Vec::new(),
+                })
+            }
+        }
+        EventKind::Remove(remove_kind) => {
+            let removed = event.paths;
+            let removed_directories = if remove_kind == RemoveKind::Folder {
+                removed.clone()
+            } else {
+                Vec::new()
+            };
+
+            if removed.is_empty() {
+                None
+            } else {
+                Some(PathChanges {
+                    changed: Vec::new(),
+                    removed,
+                    removed_directories,
+                })
             }
         }
         _ => None,
