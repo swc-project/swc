@@ -2688,6 +2688,7 @@ impl VisitMut for Optimizer<'_> {
             let span = s.span();
             *s = BlockStmt {
                 span,
+                node_id: Default::default(),
                 ctxt: SyntaxContext::empty().apply_mark(self.marks.fake_block),
                 stmts: self
                     .prepend_stmts

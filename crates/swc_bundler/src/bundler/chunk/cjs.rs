@@ -80,6 +80,7 @@ where
             info.id,
             Module {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 body: vec![stmt],
                 shebang: None,
             },

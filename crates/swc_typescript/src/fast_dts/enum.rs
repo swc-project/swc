@@ -58,6 +58,7 @@ impl FastDts {
                                 span: DUMMY_SP,
                                 sym: atom!("Infinity"),
                                 ctxt: SyntaxContext::empty(),
+                                scope_id: Default::default(),
                                 optional: false,
                             })
                         } else {

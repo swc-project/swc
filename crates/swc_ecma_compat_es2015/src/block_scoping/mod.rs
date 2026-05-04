@@ -346,6 +346,7 @@ impl BlockScoping {
                     stmts.push(
                         SwitchStmt {
                             span: DUMMY_SP,
+                            node_id: Default::default(),
                             discriminant: Box::new(ret.into()),
                             cases: flow_helper
                                 .label

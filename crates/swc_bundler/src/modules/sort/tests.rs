@@ -37,6 +37,7 @@ fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
         let sorted = sort_stmts(t.bundler.injected_ctxt, modules, &t.cm);
 
         let actual: Module = drop_span(Module {
+            node_id: Default::default(),
             span: DUMMY_SP,
             body: sorted,
             shebang: None,

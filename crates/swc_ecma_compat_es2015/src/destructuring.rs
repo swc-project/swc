@@ -132,10 +132,16 @@ macro_rules! impl_for_for_stmt {
             for_stmt.left = left;
 
             for_stmt.body = Box::new(Stmt::Block(match &mut *for_stmt.body {
-                Stmt::Block(BlockStmt { span, stmts, ctxt }) => BlockStmt {
+                Stmt::Block(BlockStmt {
+                    span,
+                    stmts,
+                    ctxt,
+                    node_id,
+                }) => BlockStmt {
                     span: *span,
                     stmts: iter::once(stmt).chain(stmts.take()).collect(),
                     ctxt: *ctxt,
+                    node_id: *node_id,
                 },
                 body => BlockStmt {
                     stmts: vec![stmt, body.take()],

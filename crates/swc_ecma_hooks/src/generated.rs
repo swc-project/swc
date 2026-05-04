@@ -153,6 +153,14 @@ pub trait VisitHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_binary_op(&mut self, node: &BinaryOp, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `BindingId` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_binding_id(&mut self, node: &BindingId, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `BindingId` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_binding_id(&mut self, node: &BindingId, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BindingIdent` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -2735,6 +2743,18 @@ where
     fn exit_binary_op(&mut self, node: &BinaryOp, ctx: &mut C) {
         self.second.exit_binary_op(node, ctx);
         self.first.exit_binary_op(node, ctx);
+    }
+
+    #[inline]
+    fn enter_binding_id(&mut self, node: &BindingId, ctx: &mut C) {
+        self.first.enter_binding_id(node, ctx);
+        self.second.enter_binding_id(node, ctx);
+    }
+
+    #[inline]
+    fn exit_binding_id(&mut self, node: &BindingId, ctx: &mut C) {
+        self.second.exit_binding_id(node, ctx);
+        self.first.exit_binding_id(node, ctx);
     }
 
     #[inline]
@@ -6371,6 +6391,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_binary_op(node, ctx),
             Self::Right(hook) => hook.exit_binary_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_binding_id(&mut self, node: &BindingId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_binding_id(node, ctx),
+            Self::Right(hook) => hook.enter_binding_id(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_binding_id(&mut self, node: &BindingId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_binding_id(node, ctx),
+            Self::Right(hook) => hook.exit_binding_id(node, ctx),
         }
     }
 
@@ -11083,6 +11119,20 @@ where
     }
 
     #[inline]
+    fn enter_binding_id(&mut self, node: &BindingId, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_binding_id(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_binding_id(&mut self, node: &BindingId, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_binding_id(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_binding_ident(&mut self, node: &BindingIdent, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_binding_ident(node, ctx);
@@ -15134,6 +15184,14 @@ impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
         self.hook.exit_binary_op(node, &mut self.context);
     }
 
+    #[doc = "Visits a node of type `BindingId` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_binding_id(&mut self, node: &BindingId) {
+        self.hook.enter_binding_id(node, &mut self.context);
+        node.visit_children_with(self);
+        self.hook.exit_binding_id(node, &mut self.context);
+    }
+
     #[doc = "Visits a node of type `BindingIdent` using the hook's enter and exit methods."]
     #[inline]
     fn visit_binding_ident(&mut self, node: &BindingIdent) {
@@ -17611,6 +17669,14 @@ pub trait VisitMutHook<C> {
     #[inline]
     #[allow(unused_variables)]
     fn exit_binary_op(&mut self, node: &mut BinaryOp, ctx: &mut C) {}
+    #[doc = "Called when entering a node of type `BindingId` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_binding_id(&mut self, node: &mut BindingId, ctx: &mut C) {}
+    #[doc = "Called when exiting a node of type `BindingId` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_binding_id(&mut self, node: &mut BindingId, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BindingIdent` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
@@ -20239,6 +20305,18 @@ where
     fn exit_binary_op(&mut self, node: &mut BinaryOp, ctx: &mut C) {
         self.second.exit_binary_op(node, ctx);
         self.first.exit_binary_op(node, ctx);
+    }
+
+    #[inline]
+    fn enter_binding_id(&mut self, node: &mut BindingId, ctx: &mut C) {
+        self.first.enter_binding_id(node, ctx);
+        self.second.enter_binding_id(node, ctx);
+    }
+
+    #[inline]
+    fn exit_binding_id(&mut self, node: &mut BindingId, ctx: &mut C) {
+        self.second.exit_binding_id(node, ctx);
+        self.first.exit_binding_id(node, ctx);
     }
 
     #[inline]
@@ -23911,6 +23989,22 @@ where
         match self {
             Self::Left(hook) => hook.exit_binary_op(node, ctx),
             Self::Right(hook) => hook.exit_binary_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_binding_id(&mut self, node: &mut BindingId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_binding_id(node, ctx),
+            Self::Right(hook) => hook.enter_binding_id(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_binding_id(&mut self, node: &mut BindingId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_binding_id(node, ctx),
+            Self::Right(hook) => hook.exit_binding_id(node, ctx),
         }
     }
 
@@ -28659,6 +28753,20 @@ where
     }
 
     #[inline]
+    fn enter_binding_id(&mut self, node: &mut BindingId, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.enter_binding_id(node, ctx);
+        }
+    }
+
+    #[inline]
+    fn exit_binding_id(&mut self, node: &mut BindingId, ctx: &mut C) {
+        if let Some(hook) = self {
+            hook.exit_binding_id(node, ctx);
+        }
+    }
+
+    #[inline]
     fn enter_binding_ident(&mut self, node: &mut BindingIdent, ctx: &mut C) {
         if let Some(hook) = self {
             hook.enter_binding_ident(node, ctx);
@@ -32744,6 +32852,14 @@ impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
         self.hook.enter_binary_op(node, &mut self.context);
         node.visit_mut_children_with(self);
         self.hook.exit_binary_op(node, &mut self.context);
+    }
+
+    #[doc = "Visits a node of type `BindingId` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_binding_id(&mut self, node: &mut BindingId) {
+        self.hook.enter_binding_id(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_binding_id(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `BindingIdent` using the hook's enter and exit methods."]

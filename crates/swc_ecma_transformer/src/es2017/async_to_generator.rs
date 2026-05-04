@@ -603,6 +603,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 
         let for_stmt = ForStmt {
             span: s.span,
+            node_id: Default::default(),
             // var _iterator = _async_iterator(lol()), _step;
             init: Some(
                 VarDecl {
@@ -717,6 +718,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 
         CatchClause {
             span: DUMMY_SP,
+            node_id: Default::default(),
             param: Some(err_param.into()),
             body: BlockStmt {
                 stmts: vec![mark_as_errorred, store_error],

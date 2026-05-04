@@ -23,7 +23,7 @@ use crate::{
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
     ArrayPat, BindingIdent, ComputedPropName, Id, IdentName, ImportPhase, Invalid, KeyValueProp,
-    Number, ObjectPat, PropName, Str,
+    NodeId, Number, ObjectPat, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -1080,6 +1080,9 @@ pub struct ArrowExpr {
     pub span: Span,
 
     pub ctxt: SyntaxContext,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub params: Vec<Pat>,
 

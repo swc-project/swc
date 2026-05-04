@@ -1347,6 +1347,7 @@ impl Optimizer<'_> {
 
         Some(BlockStmt {
             span,
+            node_id: Default::default(),
             ctxt: SyntaxContext::empty().apply_mark(self.marks.fake_block),
             stmts,
         })

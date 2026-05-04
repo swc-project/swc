@@ -294,6 +294,7 @@ fn downgrade_flow_script_like_module(program: Program) -> Result<Program, Error>
     }
 
     let Module {
+        node_id,
         span,
         body,
         shebang,
@@ -311,6 +312,7 @@ fn downgrade_flow_script_like_module(program: Program) -> Result<Program, Error>
         .collect::<Result<_, Error>>()?;
 
     Ok(Program::Script(Script {
+        node_id,
         span,
         body,
         shebang,

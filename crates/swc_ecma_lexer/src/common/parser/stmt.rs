@@ -545,6 +545,7 @@ fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
             ForStmt {
                 span,
+                node_id: Default::default(),
                 init,
                 test,
                 update,
@@ -559,6 +560,7 @@ fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
             ForInStmt {
                 span,
+                node_id: Default::default(),
                 left,
                 right,
                 body,
@@ -567,6 +569,7 @@ fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
         }
         TempForHead::ForOf { left, right } => ForOfStmt {
             span,
+            node_id: Default::default(),
             is_await: await_token.is_some(),
             left,
             right,
@@ -886,6 +889,7 @@ pub fn parse_block<'a, P: Parser<'a>>(p: &mut P, allow_directives: bool) -> PRes
     let span = p.span(start);
     Ok(BlockStmt {
         span,
+        node_id: Default::default(),
         stmts,
         ctxt: Default::default(),
     })
@@ -906,6 +910,7 @@ fn parse_catch_clause<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<CatchClaus
         parse_block(p, false)
             .map(|body| CatchClause {
                 span: p.span(start),
+                node_id: Default::default(),
                 param,
                 body,
             })
@@ -999,6 +1004,7 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     Ok(SwitchStmt {
         span: p.span(switch_start),
+        node_id: Default::default(),
         discriminant,
         cases,
     }

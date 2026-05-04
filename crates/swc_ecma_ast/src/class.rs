@@ -11,7 +11,7 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    BigInt, ComputedPropName, EmptyStmt, Id, Ident, IdentName, Number,
+    BigInt, ComputedPropName, EmptyStmt, Id, Ident, IdentName, NodeId, Number,
 };
 
 #[ast_node]
@@ -22,6 +22,9 @@ pub struct Class {
     pub span: Span,
 
     pub ctxt: SyntaxContext,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
@@ -279,6 +282,9 @@ pub struct Constructor {
     pub span: Span,
 
     pub ctxt: SyntaxContext,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     pub key: PropName,
 

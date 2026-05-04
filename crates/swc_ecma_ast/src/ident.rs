@@ -12,7 +12,7 @@ use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 
-use crate::{typescript::TsTypeAnn, Expr};
+use crate::{typescript::TsTypeAnn, BindingId, Expr, ScopeId};
 
 /// Identifier used as a pattern.
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]
@@ -97,6 +97,7 @@ impl From<&'_ BindingIdent> for Ident {
         Ident {
             span: bi.span,
             ctxt: bi.ctxt,
+            scope_id: bi.scope_id,
             sym: bi.sym.clone(),
             optional: bi.optional,
         }
@@ -185,7 +186,12 @@ pub struct Ident {
     pub span: Span,
 
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
+    pub scope_id: ScopeId,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     pub sym: Atom,
@@ -267,6 +273,14 @@ impl Ident {
     /// Creates `Id` using `Atom` and `SyntaxContext` of `self`.
     pub fn to_id(&self) -> Id {
         (self.sym.clone(), self.ctxt)
+    }
+
+    /// Creates an id using the resolver-assigned scope id of `self`.
+    pub fn to_binding_id(&self) -> BindingId {
+        BindingId {
+            sym: self.sym.clone(),
+            scope_id: self.scope_id,
+        }
     }
 
     #[inline]
@@ -573,6 +587,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
             sym,
             optional,
             ctxt: Default::default(),
+            scope_id: Default::default(),
         })
     }
 }
@@ -598,6 +613,7 @@ impl Ident {
         Ident {
             span,
             ctxt,
+            scope_id: ScopeId::INVALID,
             sym,
             optional: false,
         }

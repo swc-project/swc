@@ -289,6 +289,7 @@ fn create_math_pow(left: Box<Expr>, right: Box<Expr>) -> Expr {
                 span: DUMMY_SP,
                 ctxt: SyntaxContext::empty(),
                 sym: "Math".into(),
+                scope_id: Default::default(),
                 optional: false,
             })),
             prop: MemberProp::Ident(IdentName {

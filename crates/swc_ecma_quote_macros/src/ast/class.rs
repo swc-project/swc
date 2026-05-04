@@ -3,6 +3,7 @@ use swc_ecma_ast::*;
 impl_struct!(
     Class,
     [
+        node_id,
         span,
         ctxt,
         decorators,
@@ -17,7 +18,16 @@ impl_struct!(
 
 impl_struct!(
     Constructor,
-    [span, ctxt, key, params, body, accessibility, is_optional]
+    [
+        node_id,
+        span,
+        ctxt,
+        key,
+        params,
+        body,
+        accessibility,
+        is_optional
+    ]
 );
 
 impl_struct!(

@@ -255,6 +255,7 @@ impl ExplicitResourceManagement {
 
         let catch_clause = CatchClause {
             span: DUMMY_SP,
+            node_id: Default::default(),
             param: Some(Pat::Ident(catch_e.clone().into())),
             body: BlockStmt {
                 span: DUMMY_SP,

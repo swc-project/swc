@@ -192,6 +192,7 @@ impl ForOf {
 
             let stmt = ForStmt {
                 span,
+                node_id: Default::default(),
                 init: Some(
                     VarDecl {
                         span: DUMMY_SP,
@@ -317,6 +318,7 @@ impl ForOf {
 
             let stmt = ForStmt {
                 span,
+                node_id: Default::default(),
                 init: Some(
                     VarDecl {
                         kind: VarDeclKind::Var,
@@ -417,6 +419,7 @@ impl ForOf {
 
         let for_stmt = ForStmt {
             span,
+            node_id: Default::default(),
             init: Some(
                 VarDecl {
                     span: DUMMY_SP,
@@ -519,6 +522,7 @@ impl ForOf {
             },
             handler: Some(CatchClause {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 param: Some(quote_ident!("err").into()),
                 // _didIteratorError = true;
                 // _iteratorError = err;

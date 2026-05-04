@@ -267,6 +267,7 @@ impl SystemJs {
             meta.setter_fn_stmts.push(
                 ForInStmt {
                     span: DUMMY_SP,
+                    node_id: Default::default(),
                     left: VarDecl {
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {

@@ -5,7 +5,7 @@ use crate::{
     decl::{Decl, VarDecl},
     expr::Expr,
     pat::Pat,
-    Ident, Lit, Str, UsingDecl,
+    Ident, Lit, NodeId, Str, UsingDecl,
 };
 
 /// Use when only block statements are allowed.
@@ -19,6 +19,9 @@ pub struct BlockStmt {
 
     pub ctxt: SyntaxContext,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
+
     pub stmts: Vec<Stmt>,
 }
 
@@ -28,6 +31,7 @@ impl Take for BlockStmt {
             span: DUMMY_SP,
             stmts: Vec::new(),
             ctxt: Default::default(),
+            node_id: Default::default(),
         }
     }
 }
@@ -328,6 +332,8 @@ pub struct IfStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SwitchStmt {
     pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub discriminant: Box<Expr>,
     pub cases: Vec<SwitchCase>,
 }
@@ -392,6 +398,8 @@ pub struct DoWhileStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForStmt {
     pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(
@@ -423,6 +431,8 @@ pub struct ForStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForInStmt {
     pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     pub left: ForHead,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
@@ -434,6 +444,8 @@ pub struct ForInStmt {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForOfStmt {
     pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     /// Span of the await token.
     ///
     /// es2018
@@ -487,6 +499,8 @@ impl Take for SwitchCase {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct CatchClause {
     pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub node_id: NodeId,
     /// es2019
     ///
     /// The param is null if the catch binding is omitted. E.g., try { foo() }

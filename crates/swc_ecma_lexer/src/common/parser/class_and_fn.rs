@@ -323,6 +323,7 @@ where
             is_generator,
             return_type,
             ctxt: Default::default(),
+            node_id: Default::default(),
         }))
     };
 

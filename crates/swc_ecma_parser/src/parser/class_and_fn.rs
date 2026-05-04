@@ -378,6 +378,7 @@ impl<I: Tokens> Parser<I> {
                 is_generator,
                 return_type,
                 ctxt: Default::default(),
+                node_id: Default::default(),
             }))
         };
 

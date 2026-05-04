@@ -1,3 +1,5 @@
+use std::{cell::Cell, rc::Rc};
+
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
@@ -142,7 +144,14 @@ pub fn resolver(
     let _ = SyntaxContext::empty().apply_mark(top_level_mark);
 
     visit_mut_pass(Resolver {
-        current: Scope::new(ScopeKind::Fn, top_level_mark, None),
+        current: Scope::new(
+            ScopeKind::Fn,
+            top_level_mark,
+            ScopeId::from_node_id(NodeId(1)),
+            Some(NodeId(1)),
+            None,
+        ),
+        node_id_generator: NodeIdGenerator::default(),
         ident_type: IdentType::Ref,
         in_type: false,
         is_module: false,
@@ -168,28 +177,108 @@ struct Scope<'a> {
     /// [Mark] of the current scope.
     mark: Mark,
 
+    /// Stable id of the current scope.
+    id: ScopeId,
+
+    /// AST node owning this scope, if the scope has a concrete owner.
+    owner_node_id: Option<NodeId>,
+
     /// All declarations in the scope
-    declared_symbols: FxHashMap<Atom, DeclKind>,
+    declared_symbols: FxHashMap<Atom, ResolvedBinding>,
 
     /// All types declared in the scope
-    declared_types: FxHashSet<Atom>,
+    declared_types: FxHashMap<Atom, ResolvedBinding>,
 }
 
 impl<'a> Scope<'a> {
-    pub fn new(kind: ScopeKind, mark: Mark, parent: Option<&'a Scope<'a>>) -> Self {
+    pub fn new(
+        kind: ScopeKind,
+        mark: Mark,
+        id: ScopeId,
+        owner_node_id: Option<NodeId>,
+        parent: Option<&'a Scope<'a>>,
+    ) -> Self {
         Scope {
             parent,
             kind,
             mark,
+            id,
+            owner_node_id,
             declared_symbols: Default::default(),
             declared_types: Default::default(),
         }
     }
 
-    fn is_declared(&self, symbol: &Atom) -> Option<&DeclKind> {
+    fn is_declared(&self, symbol: &Atom) -> Option<DeclKind> {
         self.declared_symbols
             .get(symbol)
+            .map(|binding| binding.kind)
             .or_else(|| self.parent?.is_declared(symbol))
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+struct ResolvedBinding {
+    kind: DeclKind,
+    scope_id: ScopeId,
+    legacy_mark: Mark,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct ResolvedRef {
+    scope_id: ScopeId,
+    legacy_mark: Mark,
+}
+
+impl ResolvedRef {
+    fn from_binding(binding: ResolvedBinding, unresolved_mark: Mark) -> Self {
+        let scope_id = if binding.legacy_mark == unresolved_mark {
+            ScopeId::UNRESOLVED
+        } else {
+            binding.scope_id
+        };
+
+        Self {
+            scope_id,
+            legacy_mark: binding.legacy_mark,
+        }
+    }
+
+    fn unresolved(unresolved_mark: Mark) -> Self {
+        Self {
+            scope_id: ScopeId::UNRESOLVED,
+            legacy_mark: unresolved_mark,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+struct NodeIdGenerator {
+    next: Rc<Cell<u32>>,
+}
+
+impl Default for NodeIdGenerator {
+    fn default() -> Self {
+        Self {
+            // The top-level Module/Script scope is always id 1.
+            next: Rc::new(Cell::new(2)),
+        }
+    }
+}
+
+impl NodeIdGenerator {
+    fn fresh(&self) -> NodeId {
+        let id = self.next.get();
+        self.next.set(id + 1);
+        NodeId(id)
+    }
+
+    fn reserve(&self, id: NodeId) {
+        if id.is_invalid() || id.0 == u32::MAX {
+            return;
+        }
+
+        self.next.set(self.next.get().max(id.0 + 1));
     }
 }
 
@@ -200,6 +289,7 @@ impl<'a> Scope<'a> {
 /// ## Resolving phase
 struct Resolver<'a> {
     current: Scope<'a>,
+    node_id_generator: NodeIdGenerator,
     ident_type: IdentType,
     in_type: bool,
     is_module: bool,
@@ -223,6 +313,7 @@ impl<'a> Resolver<'a> {
     fn new(current: Scope<'a>, config: InnerConfig) -> Self {
         Resolver {
             current,
+            node_id_generator: NodeIdGenerator::default(),
             ident_type: IdentType::Ref,
             in_type: false,
             is_module: false,
@@ -237,12 +328,16 @@ impl<'a> Resolver<'a> {
     where
         F: for<'aa> FnOnce(&mut Resolver<'aa>),
     {
+        let scope_id = ScopeId::from_node_id(self.node_id_generator.fresh());
         let mut child = Resolver {
             current: Scope::new(
                 kind,
                 Mark::fresh(self.config.top_level_mark),
+                scope_id,
+                None,
                 Some(&self.current),
             ),
+            node_id_generator: self.node_id_generator.clone(),
             ident_type: IdentType::Ref,
             config: self.config,
             in_type: self.in_type,
@@ -255,53 +350,124 @@ impl<'a> Resolver<'a> {
         op(&mut child);
     }
 
-    fn visit_mut_stmt_within_child_scope(&mut self, s: &mut Stmt) {
-        self.with_child(ScopeKind::Block, |child| match s {
-            Stmt::Block(s) => {
-                child.mark_block(&mut s.ctxt);
-                s.visit_mut_children_with(child);
-            }
-            _ => s.visit_mut_with(child),
-        });
+    fn with_child_for_node<F>(&self, kind: ScopeKind, owner_node_id: NodeId, op: F)
+    where
+        F: for<'aa> FnOnce(&mut Resolver<'aa>),
+    {
+        self.node_id_generator.reserve(owner_node_id);
+        let mut child = Resolver {
+            current: Scope::new(
+                kind,
+                Mark::fresh(self.config.top_level_mark),
+                ScopeId::from_node_id(owner_node_id),
+                Some(owner_node_id),
+                Some(&self.current),
+            ),
+            node_id_generator: self.node_id_generator.clone(),
+            ident_type: IdentType::Ref,
+            config: self.config,
+            in_type: self.in_type,
+            is_module: self.is_module,
+            in_ts_module: self.in_ts_module,
+            decl_kind: self.decl_kind,
+            strict_mode: self.strict_mode,
+        };
+
+        op(&mut child);
     }
 
-    /// Returns a [Mark] for an identifier reference.
-    fn mark_for_ref(&self, sym: &Atom) -> Option<Mark> {
+    fn ensure_node_id(&self, node_id: &mut NodeId) -> NodeId {
+        if node_id.is_invalid() {
+            *node_id = self.node_id_generator.fresh();
+        } else {
+            self.node_id_generator.reserve(*node_id);
+        }
+
+        *node_id
+    }
+
+    fn use_current_scope_node_id(&mut self, node_id: &mut NodeId) {
+        if node_id.is_invalid() {
+            *node_id = self.current.id.as_node_id();
+            return;
+        }
+
+        self.node_id_generator.reserve(*node_id);
+        self.current.id = ScopeId::from_node_id(*node_id);
+        self.current.owner_node_id = Some(*node_id);
+    }
+
+    fn declare_symbol(&mut self, sym: Atom, kind: DeclKind) {
+        self.current.declared_symbols.insert(
+            sym,
+            ResolvedBinding {
+                kind,
+                scope_id: self.current.id,
+                legacy_mark: self.current.mark,
+            },
+        );
+    }
+
+    fn declare_type(&mut self, sym: Atom) {
+        self.current.declared_types.insert(
+            sym,
+            ResolvedBinding {
+                kind: DeclKind::Type,
+                scope_id: self.current.id,
+                legacy_mark: self.current.mark,
+            },
+        );
+    }
+
+    fn visit_mut_stmt_within_child_scope(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Block(s) => {
+                let node_id = self.ensure_node_id(&mut s.node_id);
+                self.with_child_for_node(ScopeKind::Block, node_id, |child| {
+                    child.mark_ctxt(&mut s.ctxt);
+                    s.visit_mut_children_with(child);
+                });
+            }
+            _ => self.with_child(ScopeKind::Block, |child| s.visit_mut_with(child)),
+        }
+    }
+
+    /// Returns the resolved scope and legacy [Mark] for an identifier
+    /// reference.
+    fn mark_for_ref(&self, sym: &Atom) -> Option<ResolvedRef> {
         self.mark_for_ref_inner(sym, false)
     }
 
-    fn mark_for_ref_inner(&self, sym: &Atom, stop_an_fn_scope: bool) -> Option<Mark> {
+    fn mark_for_ref_inner(&self, sym: &Atom, stop_an_fn_scope: bool) -> Option<ResolvedRef> {
         if self.config.handle_types && self.in_type {
-            let mut mark = self.current.mark;
             let mut scope = Some(&self.current);
 
             while let Some(cur) = scope {
                 // if cur.declared_types.contains(sym) ||
                 // cur.hoisted_symbols.borrow().contains(sym) {
-                if cur.declared_types.contains(sym) {
-                    if mark == Mark::root() {
+                if let Some(binding) = cur.declared_types.get(sym) {
+                    if binding.legacy_mark == Mark::root() {
                         break;
                     }
-                    return Some(mark);
+                    return Some(ResolvedRef::from_binding(
+                        *binding,
+                        self.config.unresolved_mark,
+                    ));
                 }
 
                 if cur.kind == ScopeKind::Fn && stop_an_fn_scope {
                     return None;
                 }
 
-                if let Some(parent) = &cur.parent {
-                    mark = parent.mark;
-                }
                 scope = cur.parent;
             }
         }
 
-        let mut mark = self.current.mark;
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
-            if cur.declared_symbols.contains_key(sym) {
-                if mark == Mark::root() {
+            if let Some(binding) = cur.declared_symbols.get(sym) {
+                if binding.legacy_mark == Mark::root() {
                     return None;
                 }
 
@@ -309,11 +475,14 @@ impl<'a> Resolver<'a> {
                     // https://tc39.es/ecma262/multipage/global-object.html#sec-value-properties-of-the-global-object-infinity
                     // non configurable global value
                     "undefined" | "NaN" | "Infinity"
-                        if mark == self.config.top_level_mark && !self.is_module =>
+                        if binding.legacy_mark == self.config.top_level_mark && !self.is_module =>
                     {
-                        Some(self.config.unresolved_mark)
+                        Some(ResolvedRef::unresolved(self.config.unresolved_mark))
                     }
-                    _ => Some(mark),
+                    _ => Some(ResolvedRef::from_binding(
+                        *binding,
+                        self.config.unresolved_mark,
+                    )),
                 };
             }
 
@@ -321,9 +490,6 @@ impl<'a> Resolver<'a> {
                 return None;
             }
 
-            if let Some(parent) = &cur.parent {
-                mark = parent.mark;
-            }
             scope = cur.parent;
         }
 
@@ -344,11 +510,12 @@ impl<'a> Resolver<'a> {
         }
 
         if self.in_type {
-            self.current.declared_types.insert(id.sym.clone());
+            self.declare_type(id.sym.clone());
         } else {
-            self.current.declared_symbols.insert(id.sym.clone(), kind);
+            self.declare_symbol(id.sym.clone(), kind);
         }
 
+        id.scope_id = self.current.id;
         let mark = self.current.mark;
 
         if mark != Mark::root() {
@@ -356,15 +523,23 @@ impl<'a> Resolver<'a> {
         }
     }
 
-    fn mark_block(&mut self, ctxt: &mut SyntaxContext) {
-        if *ctxt != SyntaxContext::empty() {
-            return;
-        }
+    fn mark_block(&mut self, ctxt: &mut SyntaxContext, node_id: &mut NodeId) {
+        self.use_current_scope_node_id(node_id);
 
-        let mark = self.current.mark;
+        debug_assert_eq!(
+            self.current
+                .owner_node_id
+                .map(ScopeId::from_node_id)
+                .unwrap_or(self.current.id),
+            self.current.id
+        );
 
-        if mark != Mark::root() {
-            *ctxt = ctxt.apply_mark(mark)
+        self.mark_ctxt(ctxt);
+    }
+
+    fn mark_ctxt(&self, ctxt: &mut SyntaxContext) {
+        if *ctxt == SyntaxContext::empty() && self.current.mark != Mark::root() {
+            *ctxt = ctxt.apply_mark(self.current.mark)
         }
     }
 
@@ -526,7 +701,8 @@ impl VisitMut for Resolver<'_> {
     typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
-        self.with_child(ScopeKind::Fn, |child| {
+        let node_id = self.ensure_node_id(&mut e.node_id);
+        self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
             e.type_params.visit_mut_with(child);
 
             let old = child.ident_type;
@@ -539,7 +715,7 @@ impl VisitMut for Resolver<'_> {
                     .flat_map(find_pat_ids::<_, Id>);
 
                 for id in params {
-                    child.current.declared_symbols.insert(id.0, DeclKind::Param);
+                    child.declare_symbol(id.0, DeclKind::Param);
                 }
             }
             e.params.visit_mut_with(child);
@@ -547,7 +723,8 @@ impl VisitMut for Resolver<'_> {
 
             match &mut *e.body {
                 BlockStmtOrExpr::BlockStmt(s) => {
-                    child.mark_block(&mut s.ctxt);
+                    child.ensure_node_id(&mut s.node_id);
+                    child.mark_ctxt(&mut s.ctxt);
 
                     let old_strict_mode = child.strict_mode;
 
@@ -593,8 +770,9 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
-        self.with_child(ScopeKind::Block, |child| {
-            child.mark_block(&mut block.ctxt);
+        let node_id = self.ensure_node_id(&mut block.node_id);
+        self.with_child_for_node(ScopeKind::Block, node_id, |child| {
+            child.mark_ctxt(&mut block.ctxt);
             block.visit_mut_children_with(child);
         })
     }
@@ -609,17 +787,21 @@ impl VisitMut for Resolver<'_> {
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         // Child folder
 
-        self.with_child(ScopeKind::Fn, |child| {
+        let node_id = self.ensure_node_id(&mut c.node_id);
+        self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
             child.ident_type = IdentType::Binding;
             c.param.visit_mut_with(child);
             child.ident_type = IdentType::Ref;
 
-            child.mark_block(&mut c.body.ctxt);
+            child.ensure_node_id(&mut c.body.node_id);
+            child.mark_ctxt(&mut c.body.ctxt);
             c.body.visit_mut_children_with(child);
         });
     }
 
     fn visit_mut_class(&mut self, c: &mut Class) {
+        self.ensure_node_id(&mut c.node_id);
+
         let old_strict_mode = self.strict_mode;
         self.strict_mode = true;
 
@@ -654,7 +836,8 @@ impl VisitMut for Resolver<'_> {
 
         // Create a child scope. The class name is only accessible within the class.
 
-        self.with_child(ScopeKind::Fn, |child| {
+        let node_id = self.ensure_node_id(&mut n.class.node_id);
+        self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
             child.ident_type = IdentType::Ref;
 
             n.class.visit_mut_with(child);
@@ -666,7 +849,8 @@ impl VisitMut for Resolver<'_> {
 
         n.class.super_class.visit_mut_with(self);
 
-        self.with_child(ScopeKind::Fn, |child| {
+        let node_id = self.ensure_node_id(&mut n.class.node_id);
+        self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
             child.ident_type = IdentType::Binding;
             n.ident.visit_mut_with(child);
             child.ident_type = IdentType::Ref;
@@ -682,7 +866,10 @@ impl VisitMut for Resolver<'_> {
             p.decorators.visit_mut_with(self);
         }
 
-        self.with_child(ScopeKind::Fn, |child| m.function.visit_mut_with(child));
+        let node_id = self.ensure_node_id(&mut m.function.node_id);
+        self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
+            m.function.visit_mut_with(child)
+        });
     }
 
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
@@ -717,7 +904,8 @@ impl VisitMut for Resolver<'_> {
             }
         }
 
-        self.with_child(ScopeKind::Fn, |child| {
+        let node_id = self.ensure_node_id(&mut c.node_id);
+        self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
             let old = child.ident_type;
             child.ident_type = IdentType::Binding;
             {
@@ -733,14 +921,15 @@ impl VisitMut for Resolver<'_> {
                     .flat_map(find_pat_ids::<_, Id>);
 
                 for id in params {
-                    child.current.declared_symbols.insert(id.0, DeclKind::Param);
+                    child.declare_symbol(id.0, DeclKind::Param);
                 }
             }
             c.params.visit_mut_with(child);
             child.ident_type = old;
 
             if let Some(body) = &mut c.body {
-                child.mark_block(&mut body.ctxt);
+                child.ensure_node_id(&mut body.node_id);
+                child.mark_ctxt(&mut body.ctxt);
                 body.visit_mut_children_with(child);
             }
         });
@@ -759,7 +948,8 @@ impl VisitMut for Resolver<'_> {
         match &mut e.decl {
             DefaultDecl::Fn(f) => {
                 if f.ident.is_some() {
-                    self.with_child(ScopeKind::Fn, |child| {
+                    let node_id = self.ensure_node_id(&mut f.function.node_id);
+                    self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
                         f.function.visit_mut_with(child);
                     });
                 } else {
@@ -768,7 +958,10 @@ impl VisitMut for Resolver<'_> {
             }
             DefaultDecl::Class(c) => {
                 // Skip class expression visitor to treat as a declaration.
-                c.class.visit_mut_with(self)
+                let node_id = self.ensure_node_id(&mut c.class.node_id);
+                self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
+                    c.class.visit_mut_with(child)
+                })
             }
             _ => e.visit_mut_children_with(self),
         }
@@ -827,7 +1020,10 @@ impl VisitMut for Resolver<'_> {
         // We don't fold ident as Hoister handles this.
         node.function.decorators.visit_mut_with(self);
 
-        self.with_child(ScopeKind::Fn, |child| node.function.visit_mut_with(child));
+        let node_id = self.ensure_node_id(&mut node.function.node_id);
+        self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
+            node.function.visit_mut_with(child)
+        });
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
@@ -836,19 +1032,22 @@ impl VisitMut for Resolver<'_> {
         if let Some(ident) = &mut e.ident {
             self.with_child(ScopeKind::Fn, |child| {
                 child.modify(ident, DeclKind::Function);
-                child.with_child(ScopeKind::Fn, |child| {
+                let node_id = child.ensure_node_id(&mut e.function.node_id);
+                child.with_child_for_node(ScopeKind::Fn, node_id, |child| {
                     e.function.visit_mut_with(child);
                 });
             });
         } else {
-            self.with_child(ScopeKind::Fn, |child| {
+            let node_id = self.ensure_node_id(&mut e.function.node_id);
+            self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
                 e.function.visit_mut_with(child);
             });
         }
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
-        self.with_child(ScopeKind::Block, |child| {
+        let node_id = self.ensure_node_id(&mut n.node_id);
+        self.with_child_for_node(ScopeKind::Block, node_id, |child| {
             n.left.visit_mut_with(child);
             n.right.visit_mut_with(child);
 
@@ -857,7 +1056,8 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
-        self.with_child(ScopeKind::Block, |child| {
+        let node_id = self.ensure_node_id(&mut n.node_id);
+        self.with_child_for_node(ScopeKind::Block, node_id, |child| {
             n.left.visit_mut_with(child);
             n.right.visit_mut_with(child);
 
@@ -866,7 +1066,8 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
-        self.with_child(ScopeKind::Block, |child| {
+        let node_id = self.ensure_node_id(&mut n.node_id);
+        self.with_child_for_node(ScopeKind::Block, node_id, |child| {
             child.ident_type = IdentType::Binding;
             n.init.visit_mut_with(child);
             child.ident_type = IdentType::Ref;
@@ -879,7 +1080,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
-        self.mark_block(&mut f.ctxt);
+        self.mark_block(&mut f.ctxt, &mut f.node_id);
         f.type_params.visit_mut_with(self);
 
         self.ident_type = IdentType::Ref;
@@ -893,7 +1094,7 @@ impl VisitMut for Resolver<'_> {
                 .flat_map(find_pat_ids::<_, Id>);
 
             for id in params {
-                self.current.declared_symbols.insert(id.0, DeclKind::Param);
+                self.declare_symbol(id.0, DeclKind::Param);
             }
         }
         self.ident_type = IdentType::Binding;
@@ -903,7 +1104,8 @@ impl VisitMut for Resolver<'_> {
 
         self.ident_type = IdentType::Ref;
         if let Some(body) = &mut f.body {
-            self.mark_block(&mut body.ctxt);
+            self.ensure_node_id(&mut body.node_id);
+            self.mark_ctxt(&mut body.ctxt);
             let old_strict_mode = self.strict_mode;
             if !self.strict_mode {
                 self.strict_mode = body
@@ -943,6 +1145,7 @@ impl VisitMut for Resolver<'_> {
                 }
 
                 i.ctxt = ctxt;
+                i.scope_id = ScopeId::UNRESOLVED;
 
                 return;
             }
@@ -969,13 +1172,14 @@ impl VisitMut for Resolver<'_> {
                     return;
                 }
 
-                if let Some(mark) = self.mark_for_ref(sym) {
-                    let ctxt = ctxt.apply_mark(mark);
+                if let Some(resolved) = self.mark_for_ref(sym) {
+                    let ctxt = ctxt.apply_mark(resolved.legacy_mark);
 
                     if cfg!(debug_assertions) && LOG {
                         debug!("\t -> {:?}", ctxt);
                     }
                     i.ctxt = ctxt;
+                    i.scope_id = resolved.scope_id;
                 } else {
                     if cfg!(debug_assertions) && LOG {
                         debug!("\t -> Unresolved");
@@ -988,6 +1192,7 @@ impl VisitMut for Resolver<'_> {
                     }
 
                     i.ctxt = ctxt;
+                    i.scope_id = ScopeId::UNRESOLVED;
                     // Support hoisting
                     self.modify(i, self.decl_kind)
                 }
@@ -1012,7 +1217,7 @@ impl VisitMut for Resolver<'_> {
         self.ident_type = IdentType::Binding;
         s.local.visit_mut_with(self);
         if self.config.handle_types {
-            self.current.declared_types.insert(s.local.sym.clone());
+            self.declare_type(s.local.sym.clone());
         }
         self.ident_type = old;
     }
@@ -1056,10 +1261,14 @@ impl VisitMut for Resolver<'_> {
         m.key.visit_mut_with(self);
 
         // Child folder
-        self.with_child(ScopeKind::Fn, |child| m.function.visit_mut_with(child));
+        let node_id = self.ensure_node_id(&mut m.function.node_id);
+        self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
+            m.function.visit_mut_with(child)
+        });
     }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
+        self.use_current_scope_node_id(&mut module.node_id);
         self.strict_mode = true;
         self.is_module = true;
         module.visit_mut_children_with(self)
@@ -1116,7 +1325,10 @@ impl VisitMut for Resolver<'_> {
         {
             // Child folder
 
-            self.with_child(ScopeKind::Fn, |child| m.function.visit_mut_with(child));
+            let node_id = self.ensure_node_id(&mut m.function.node_id);
+            self.with_child_for_node(ScopeKind::Fn, node_id, |child| {
+                m.function.visit_mut_with(child)
+            });
         }
     }
 
@@ -1134,6 +1346,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
+        self.use_current_scope_node_id(&mut script.node_id);
         self.strict_mode = script
             .body
             .first()
@@ -1194,7 +1407,8 @@ impl VisitMut for Resolver<'_> {
     fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
         s.discriminant.visit_mut_with(self);
 
-        self.with_child(ScopeKind::Block, |child| {
+        let node_id = self.ensure_node_id(&mut s.node_id);
+        self.with_child_for_node(ScopeKind::Block, node_id, |child| {
             s.cases.visit_mut_with(child);
         });
     }
@@ -1278,15 +1492,14 @@ impl VisitMut for Resolver<'_> {
             // add the enum member names as declared symbols for this scope
             // Ex. `enum Foo { a, b = a }`
             let member_names = decl.members.iter().filter_map(|m| match &m.id {
-                TsEnumMemberId::Ident(id) => Some((id.sym.clone(), DeclKind::Lexical)),
-                TsEnumMemberId::Str(s) => s
-                    .value
-                    .as_atom()
-                    .map(|atom| (atom.clone(), DeclKind::Lexical)),
+                TsEnumMemberId::Ident(id) => Some(id.sym.clone()),
+                TsEnumMemberId::Str(s) => s.value.as_atom().cloned(),
                 #[cfg(swc_ast_unknown)]
                 _ => None,
             });
-            child.current.declared_symbols.extend(member_names);
+            for member_name in member_names {
+                child.declare_symbol(member_name, DeclKind::Lexical);
+            }
 
             decl.members.visit_mut_with(child);
         });
@@ -1709,10 +1922,7 @@ impl VisitMut for Hoister<'_, '_> {
         self.resolver.modify(&mut node.ident, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
-            self.resolver
-                .current
-                .declared_types
-                .insert(node.ident.sym.clone());
+            self.resolver.declare_type(node.ident.sym.clone());
         }
     }
 
@@ -1833,10 +2043,7 @@ impl VisitMut for Hoister<'_, '_> {
         self.resolver.modify(&mut n.local, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
-            self.resolver
-                .current
-                .declared_types
-                .insert(n.local.sym.clone());
+            self.resolver.declare_type(n.local.sym.clone());
         }
     }
 
@@ -1846,10 +2053,7 @@ impl VisitMut for Hoister<'_, '_> {
         self.resolver.modify(&mut n.local, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
-            self.resolver
-                .current
-                .declared_types
-                .insert(n.local.sym.clone());
+            self.resolver.declare_type(n.local.sym.clone());
         }
     }
 
@@ -1859,10 +2063,7 @@ impl VisitMut for Hoister<'_, '_> {
         self.resolver.modify(&mut n.local, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
-            self.resolver
-                .current
-                .declared_types
-                .insert(n.local.sym.clone());
+            self.resolver.declare_type(n.local.sym.clone());
         }
     }
 

@@ -292,6 +292,7 @@ impl Modules {
             cm,
             &Module {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 body: stmts,
                 shebang: None,
             },
@@ -304,6 +305,7 @@ impl From<Modules> for Module {
         // TODO
         Self {
             span: DUMMY_SP,
+            node_id: Default::default(),
             body: modules.into_items(),
             shebang: None,
         }

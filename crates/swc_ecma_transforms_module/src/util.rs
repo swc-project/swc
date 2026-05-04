@@ -307,6 +307,7 @@ pub(crate) fn esm_export() -> Function {
 
     let for_in_stmt: Stmt = ForInStmt {
         span: DUMMY_SP,
+        node_id: Default::default(),
         left: VarDecl {
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,

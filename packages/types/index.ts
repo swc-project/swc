@@ -1302,6 +1302,10 @@ export interface Span {
     ctxt: number;
 }
 
+export type NodeId = number;
+
+export type ScopeId = number;
+
 export interface Node {
     type: string;
 }
@@ -1315,6 +1319,8 @@ export interface HasDecorator {
 }
 
 export interface Class extends HasSpan, HasDecorator {
+    nodeId: NodeId;
+
     body: ClassMember[];
 
     superClass?: Expression;
@@ -1379,6 +1385,8 @@ export interface Param extends Node, HasSpan, HasDecorator {
 
 export interface Constructor extends Node, HasSpan {
     type: "Constructor";
+
+    nodeId: NodeId;
 
     key: PropertyName;
 
@@ -1528,6 +1536,8 @@ export interface Identifier extends ExpressionBase {
     type: "Identifier";
 
     value: string;
+
+    scopeId: ScopeId;
 
     /// TypeScript only. Used in case of an optional parameter.
     optional: boolean;
@@ -1696,6 +1706,8 @@ export interface SequenceExpression extends ExpressionBase {
 export interface ArrowFunctionExpression extends ExpressionBase {
     type: "ArrowFunctionExpression";
 
+    nodeId: NodeId;
+
     params: Pattern[];
 
     body: BlockStatement | Expression;
@@ -1762,6 +1774,8 @@ export interface ParenthesisExpression extends ExpressionBase {
 }
 
 export interface Fn extends HasSpan, HasDecorator {
+    nodeId: NodeId;
+
     params: Param[];
 
     body?: BlockStatement;
@@ -2106,11 +2120,15 @@ export type Program = Module | Script;
 export interface Module extends Node, HasSpan, HasInterpreter {
     type: "Module";
 
+    nodeId: NodeId;
+
     body: ModuleItem[];
 }
 
 export interface Script extends Node, HasSpan, HasInterpreter {
     type: "Script";
+
+    nodeId: NodeId;
 
     body: Statement[];
 }
@@ -2185,6 +2203,7 @@ export type Pattern =
 export interface BindingIdentifier extends PatternBase {
     type: "Identifier";
     value: string;
+    scopeId: ScopeId;
     optional: boolean;
 }
 
@@ -2304,6 +2323,8 @@ export interface ComputedPropName extends Node, HasSpan {
 export interface BlockStatement extends Node, HasSpan {
     type: "BlockStatement";
 
+    nodeId: NodeId;
+
     stmts: Statement[];
 }
 
@@ -2384,6 +2405,8 @@ export interface IfStatement extends Node, HasSpan {
 export interface SwitchStatement extends Node, HasSpan {
     type: "SwitchStatement";
 
+    nodeId: NodeId;
+
     discriminant: Expression;
     cases: SwitchCase[];
 }
@@ -2419,6 +2442,8 @@ export interface DoWhileStatement extends Node, HasSpan {
 export interface ForStatement extends Node, HasSpan {
     type: "ForStatement";
 
+    nodeId: NodeId;
+
     init?: VariableDeclaration | Expression;
     test?: Expression;
     update?: Expression;
@@ -2428,6 +2453,8 @@ export interface ForStatement extends Node, HasSpan {
 export interface ForInStatement extends Node, HasSpan {
     type: "ForInStatement";
 
+    nodeId: NodeId;
+
     left: VariableDeclaration | Pattern;
     right: Expression;
     body: Statement;
@@ -2435,6 +2462,8 @@ export interface ForInStatement extends Node, HasSpan {
 
 export interface ForOfStatement extends Node, HasSpan {
     type: "ForOfStatement";
+
+    nodeId: NodeId;
 
     /**
      *  Span of the await token.
@@ -2459,6 +2488,8 @@ export interface SwitchCase extends Node, HasSpan {
 
 export interface CatchClause extends Node, HasSpan {
     type: "CatchClause";
+
+    nodeId: NodeId;
 
     /**
      * The param is `undefined` if the catch binding is omitted. E.g., `try { foo() } catch {}`

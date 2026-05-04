@@ -200,6 +200,8 @@ fn test_ecmascript() {
             "EncodeBigInt".into(),
             "EsVersion".into(),
             "FnPass".into(),
+            "NodeId".into(),
+            "ScopeId".into(),
         ],
     )
     .unwrap();
@@ -212,6 +214,8 @@ fn test_ecmascript() {
             "EncodeBigInt".into(),
             "EsVersion".into(),
             "FnPass".into(),
+            "NodeId".into(),
+            "ScopeId".into(),
         ],
     )
     .unwrap();

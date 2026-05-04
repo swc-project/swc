@@ -67,7 +67,7 @@ macro_rules! impl_struct {
             fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
                 let mut builder = crate::builder::Builder::new(stringify!($name));
 
-                let Self { $($v,)* } = self;
+                let Self { $($v,)* .. } = self;
 
                 $(
                     builder.add(
@@ -136,6 +136,20 @@ impl ToCode for Span {
 impl ToCode for SyntaxContext {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
         parse_quote!(swc_core::common::SyntaxContext::empty())
+    }
+}
+
+impl ToCode for NodeId {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
+        let id = self.as_u32();
+        parse_quote!(swc_core::ecma::ast::NodeId(#id))
+    }
+}
+
+impl ToCode for ScopeId {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
+        let id = self.as_u32();
+        parse_quote!(swc_core::ecma::ast::ScopeId(#id))
     }
 }
 

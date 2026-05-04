@@ -91,6 +91,7 @@ where
         |tester| {
             Ok(Module {
                 span: DUMMY_SP,
+                node_id: Default::default(),
                 body: op(tester)?.into_iter().map(ModuleItem::Stmt).collect(),
                 shebang: None,
             })

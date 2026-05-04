@@ -569,6 +569,7 @@ impl<I: Tokens> Parser<I> {
 
                 ForStmt {
                     span,
+                    node_id: Default::default(),
                     init,
                     test,
                     update,
@@ -583,6 +584,7 @@ impl<I: Tokens> Parser<I> {
 
                 ForInStmt {
                     span,
+                    node_id: Default::default(),
                     left,
                     right,
                     body,
@@ -599,6 +601,7 @@ impl<I: Tokens> Parser<I> {
 
                 ForOfStmt {
                     span,
+                    node_id: Default::default(),
                     is_await: await_token.is_some(),
                     left,
                     right,
@@ -920,6 +923,7 @@ impl<I: Tokens> Parser<I> {
         let span = self.span(start);
         Ok(BlockStmt {
             span,
+            node_id: Default::default(),
             stmts,
             ctxt: Default::default(),
         })
@@ -940,6 +944,7 @@ impl<I: Tokens> Parser<I> {
             self.parse_block(false)
                 .map(|body| CatchClause {
                     span: self.span(start),
+                    node_id: Default::default(),
                     param,
                     body,
                 })
@@ -1035,6 +1040,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(SwitchStmt {
             span: self.span(switch_start),
+            node_id: Default::default(),
             discriminant,
             cases,
         }
@@ -1689,6 +1695,7 @@ impl<I: Tokens> Parser<I> {
                 decorators: Vec::new(),
                 body: Some(BlockStmt {
                     span,
+                    node_id: Default::default(),
                     stmts,
                     ctxt: Default::default(),
                 }),
@@ -1697,6 +1704,7 @@ impl<I: Tokens> Parser<I> {
                 type_params: None,
                 return_type: None,
                 ctxt: Default::default(),
+                node_id: Default::default(),
             }),
         }));
 
@@ -1749,6 +1757,7 @@ impl<I: Tokens> Parser<I> {
                 test,
                 cons: Box::new(Stmt::Block(BlockStmt {
                     span,
+                    node_id: Default::default(),
                     stmts: cons_stmts,
                     ctxt: Default::default(),
                 })),
@@ -1788,6 +1797,7 @@ impl<I: Tokens> Parser<I> {
                 let expr = self.allow_in_expr(Self::parse_assignment_expr)?;
                 BlockStmt {
                     span,
+                    node_id: Default::default(),
                     stmts: vec![Stmt::Expr(ExprStmt { span, expr })],
                     ctxt: Default::default(),
                 }
@@ -1811,6 +1821,7 @@ impl<I: Tokens> Parser<I> {
                 test,
                 cons: Box::new(Stmt::Block(BlockStmt {
                     span,
+                    node_id: Default::default(),
                     stmts,
                     ctxt: Default::default(),
                 })),
@@ -1835,6 +1846,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(Stmt::Block(BlockStmt {
             span,
+            node_id: Default::default(),
             stmts,
             ctxt: Default::default(),
         }))
@@ -2304,6 +2316,7 @@ mod tests {
                     ..Default::default()
                 },
                 handler: Some(CatchClause {
+                    node_id: Default::default(),
                     span,
                     param: Pat::Object(ObjectPat {
                         span,
@@ -2345,6 +2358,7 @@ mod tests {
         assert_eq_ignore_span!(
             stmt("for await (const a of b) ;"),
             Stmt::ForOf(ForOfStmt {
+                node_id: Default::default(),
                 span,
                 is_await: true,
                 left: ForHead::VarDecl(Box::new(VarDecl {
