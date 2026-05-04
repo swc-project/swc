@@ -517,3 +517,112 @@ console.log(new n().e, new n().method(), new n().r(), new n().n, new n().t);";
         },
     )
 }
+
+#[test]
+fn issue_11027_many_properties_stress_test() {
+    // Stress test: a base class with several reserved DOM property names
+    // followed by a subclass declaring 25 fresh fields. Roughly half of the
+    // single-character base54 alphabet is reserved (DOM props like `a`,
+    // `b`, `c`, `d`, `e`, `f`, `n`, `r`, `s`, `w`, `x`, `y`, `z`, plus
+    // language reserved words), so generating 25 mangled names forces the
+    // collision-avoidance loop in `gen_name` to be exercised many times.
+    // None of the resulting mangled names may collide with any property
+    // already in the program (DOM-reserved or inherited from Base).
+    let src = "class Base {
+    a = 1;
+    b = 2;
+    c = 3;
+    d = 4;
+    e = 5;
+    f = 6;
+}
+class Derived extends Base {
+    fieldAlpha = 10;
+    fieldBeta = 11;
+    fieldGamma = 12;
+    fieldDelta = 13;
+    fieldEpsilon = 14;
+    fieldZeta = 15;
+    fieldEta = 16;
+    fieldTheta = 17;
+    fieldIota = 18;
+    fieldKappa = 19;
+    fieldLambda = 20;
+    fieldMu = 21;
+    fieldNu = 22;
+    fieldXi = 23;
+    fieldOmicron = 24;
+    fieldPi = 25;
+    fieldRho = 26;
+    fieldSigma = 27;
+    fieldTau = 28;
+    fieldUpsilon = 29;
+    fieldPhi = 30;
+    fieldChi = 31;
+    fieldPsi = 32;
+    fieldOmega = 33;
+    fieldFinal = 34;
+}
+const obj = new Derived();
+console.log(obj.a, obj.b, obj.c, obj.d, obj.e, obj.f);
+console.log(obj.fieldAlpha, obj.fieldBeta, obj.fieldGamma, obj.fieldDelta);
+console.log(obj.fieldEpsilon, obj.fieldZeta, obj.fieldEta, obj.fieldTheta);
+console.log(obj.fieldIota, obj.fieldKappa, obj.fieldLambda, obj.fieldMu);
+console.log(obj.fieldNu, obj.fieldXi, obj.fieldOmicron, obj.fieldPi);
+console.log(obj.fieldRho, obj.fieldSigma, obj.fieldTau, obj.fieldUpsilon);
+console.log(obj.fieldPhi, obj.fieldChi, obj.fieldPsi, obj.fieldOmega, obj.fieldFinal);";
+    let expected = "class i {
+    a = 1;
+    b = 2;
+    c = 3;
+    d = 4;
+    e = 5;
+    f = 6;
+}
+class l extends i {
+    i = 10;
+    l = 11;
+    o = 12;
+    t = 13;
+    m = 14;
+    s = 15;
+    g = 16;
+    n = 17;
+    h = 18;
+    p = 19;
+    u = 20;
+    P = 21;
+    E = 22;
+    O = 23;
+    T = 24;
+    r = 25;
+    A = 26;
+    B = 27;
+    C = 28;
+    D = 29;
+    F = 30;
+    G = 31;
+    I = 32;
+    K = 33;
+    L = 34;
+}
+const e = new l();
+console.log(e.a, e.b, e.c, e.d, e.e, e.f);
+console.log(e.i, e.l, e.o, e.t);
+console.log(e.m, e.s, e.g, e.n);
+console.log(e.h, e.p, e.u, e.P);
+console.log(e.E, e.O, e.T, e.r);
+console.log(e.A, e.B, e.C, e.D);
+console.log(e.F, e.G, e.I, e.K, e.L);";
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
