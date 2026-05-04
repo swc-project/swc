@@ -1513,6 +1513,16 @@ where
                         .var_or_default(var.id.to_id())
                         .store_param_count(Value::Unknown),
                 }
+            } else if !matches!(&decl.name, Pat::Ident(_)) {
+                // Destructuring binding (object/array/rest pattern). The
+                // bound identifiers are read from runtime properties or
+                // elements, so we cannot statically determine the arity
+                // of any callable that reaches them.
+                for id in find_pat_ids::<_, Id>(&decl.name) {
+                    self.data
+                        .var_or_default(id)
+                        .store_param_count(Value::Unknown);
+                }
             }
         }
     }
