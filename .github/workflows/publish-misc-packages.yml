@@ -2,8 +2,6 @@ name: "Publish misc packages"
 run-name: "Publish misc packages (${{ inputs.npmTag }})"
 
 env:
-  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
-  SKIP_YARN_COREPACK_CHECK: 1
 
 permissions:
   contents: read
@@ -65,6 +63,6 @@ jobs:
       - name: Publish
         shell: bash
         working-directory: ${{ matrix.package.dir }}
-        run: yarn npm publish --access public --tag "${{ inputs.npmTag }}" --tolerate-republish
+        run: pnpm publish --access public --tag "${{ inputs.npmTag }}" --force --no-git-checks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

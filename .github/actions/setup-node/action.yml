@@ -13,7 +13,8 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
-        cache: "yarn"
+        cache: "pnpm"
+        cache-dependency-path: pnpm-lock.yaml
 
     - name: Enable corepack
       shell: bash
@@ -21,4 +22,4 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      run: yarn
+      run: pnpm install --frozen-lockfile

@@ -5,7 +5,7 @@ set -eu
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 git pull || true
-yarn
+pnpm install
 
 version="$1"
 swc_core_version="$(cargo tree -i -p swc_core --depth 0 | awk '{print $2}')"
@@ -28,7 +28,7 @@ git tag -a -m "swc_core $swc_core_version" "v$version"
 
 
 # Update changelog
-yarn changelog
+pnpm changelog
 git add -A || true
 git commit -m 'chore: Update changelog' || true
 

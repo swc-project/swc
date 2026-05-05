@@ -69,7 +69,7 @@
     -   `(cd bindings/binding_typescript_wasm && ./scripts/test.sh)`
     -   `(cd bindings/binding_es_ast_viewer && ./scripts/test.sh)`
 -   If node bindings or integration paths are touched, run:
-    -   `(cd packages/core && yarn build:dev && yarn test)`
+    -   `(cd packages/core && pnpm build:dev && pnpm test)`
 
 ## Compatibility rule
 

@@ -15,8 +15,6 @@ env:
   DIFF: 0
   # For faster CI
   RUST_LOG: "off"
-  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
-  SKIP_YARN_COREPACK_CHECK: 1
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -128,14 +126,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "yarn"
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install node dependencies
         shell: bash
         run: |
           corepack enable
-          yarn
-
+          pnpm install --frozen-lockfile
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --all --all-targets
@@ -170,14 +168,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "yarn"
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install node dependencies
         shell: bash
         run: |
           corepack enable
-          yarn
-
+          pnpm install --frozen-lockfile
       - name: Test
         run: |
           (cd bindings/${{ matrix.pkg }} && ./scripts/test.sh)
@@ -240,7 +238,8 @@ jobs:
         if: matrix.settings.crate != '__noop__'
         with:
           node-version: "20"
-          cache: "yarn"
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
 
       # We explicitly do this to cache properly.
       - name: Install Rust
@@ -264,28 +263,23 @@ jobs:
         shell: bash
         run: |
           corepack enable
-          yarn
+          pnpm install --frozen-lockfile
           # I don't want to think deeply about this
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || true
+          npm install -g jest@27 mocha || \
+          npm install -g jest@27 mocha || \
+          npm install -g jest@27 mocha || true
 
       - name: Configure path (windows)
         shell: bash
         if: runner.os == 'Windows' && matrix.settings.crate != '__noop__'
         run: |
-          echo $(yarn global bin) >> $GITHUB_PATH
+          echo "$(npm prefix -g)" >> $GITHUB_PATH
 
       - name: Verify dependencies
         if: matrix.settings.crate != '__noop__'
         shell: bash
         run: |
-          yarn jest --version && yarn mocha --version
+          jest --version && mocha --version
 
       - name: Configure execution cache
         if: matrix.settings.crate != '__noop__'
@@ -401,7 +395,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: "yarn"
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Set platform name
         run: |
@@ -416,17 +411,16 @@ jobs:
         run: |
           rustup target add wasm32-wasip1
           corepack enable
-          yarn
-
+          pnpm install --frozen-lockfile
       - name: Build
         working-directory: packages/core
         run: |
-          yarn build:dev
+          pnpm build:dev
 
       - name: Test
         working-directory: packages/core
         run: |
-          yarn test
+          pnpm test
 
   integration-test:
     name: "Test with @swc/cli"
@@ -442,7 +436,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "yarn"
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Set platform name
         run: |
@@ -457,9 +452,8 @@ jobs:
         run: |
           rustup target add wasm32-wasip1
           corepack enable
-          yarn
-
-          yarn build:dev
+          pnpm install --frozen-lockfile
+          pnpm build:dev
 
           # Avoid no space left on device, copyfile
           cargo clean
@@ -476,7 +470,7 @@ jobs:
       - name: (swc) three.js
         run: |
           # mkdir -p tests/integration/three-js
-          # yarn global add qunit failonlyreporter
+          # npm install -g qunit failonlyreporter
 
           # Download three.js
           # git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 tests/integration/three-js/repo
@@ -493,7 +487,7 @@ jobs:
       - name: (swc) redux
         run: |
           # mkdir -p tests/integration/redux
-          # yarn global add qunit failonlyreporter
+          # npm install -g qunit failonlyreporter
 
           # Download
           # git clone --depth 1 https://github.com/reduxjs/redux.git -b v4.1.0 tests/integration/redux/repo
@@ -506,7 +500,7 @@ jobs:
           # swc --sync tests/integration/redux/repo/test/ -d tests/integration/redux/repo/test/
 
           # TODO
-          # (cd tests/integration/redux/repo && yarn)
+          # (cd tests/integration/redux/repo && pnpm install)
           # TODO
           # (cd tests/integration/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
       - name: (swcpack) example react app

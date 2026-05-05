@@ -24,7 +24,7 @@ echo '[patch.crates-io]' >> bindings/Cargo.toml
 (cd bindings && cargo update -p swc_core -p swc_ts_fast_strip)
 
 # Build the project
-yarn build:dev
+pnpm build:dev
 
 # Check if package.json exists in target directory
 if [ ! -f "$TARGET_DIR/package.json" ]; then

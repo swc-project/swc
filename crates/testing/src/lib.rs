@@ -61,35 +61,24 @@ pub fn find_executable(name: &str) -> Option<PathBuf> {
         }
     }
 
+    let candidates = executable_candidates(name);
     let mut path = env::var_os("PATH").and_then(|paths| {
         env::split_paths(&paths)
-            .filter_map(|dir| {
-                let full_path = dir.join(name);
-                if full_path.is_file() {
-                    Some(full_path)
-                } else {
-                    None
-                }
-            })
+            .filter_map(|dir| find_executable_in_dir(&dir, &candidates))
             .next()
     });
 
     if path.is_none() {
-        // Run yarn bin $name
-
-        path = Command::new("yarn")
+        // pnpm bin prints the directory containing package executables.
+        path = Command::new("pnpm")
             .arg("bin")
-            .arg(name)
             .output()
             .ok()
             .and_then(|output| {
                 if output.status.success() {
-                    let path = String::from_utf8(output.stdout).ok()?;
-                    let path = path.trim();
-                    let path = PathBuf::from(path);
-                    if path.is_file() {
-                        return Some(path);
-                    }
+                    let bin_dir = String::from_utf8(output.stdout).ok()?;
+                    let bin_dir = PathBuf::from(bin_dir.trim());
+                    return find_executable_in_dir(&bin_dir, &candidates);
                 }
 
                 None
@@ -102,6 +91,26 @@ pub fn find_executable(name: &str) -> Option<PathBuf> {
     }
 
     path
+}
+
+fn executable_candidates(name: &str) -> Vec<String> {
+    if cfg!(windows) && Path::new(name).extension().is_none() {
+        vec![
+            format!("{name}.exe"),
+            format!("{name}.cmd"),
+            format!("{name}.bat"),
+            name.to_string(),
+        ]
+    } else {
+        vec![name.to_string()]
+    }
+}
+
+fn find_executable_in_dir(dir: &Path, candidates: &[String]) -> Option<PathBuf> {
+    candidates
+        .iter()
+        .map(|candidate| dir.join(candidate))
+        .find(|path| path.is_file())
 }
 
 /// Run test and print errors.

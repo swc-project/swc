@@ -62,16 +62,16 @@ fn init_helpers() -> Arc<PathBuf> {
             return Arc::new(helper_dir);
         }
 
-        let yarn = find_executable("yarn").expect("failed to find yarn");
+        let pnpm = find_executable("pnpm").expect("failed to find pnpm");
         {
             let mut cmd = if cfg!(target_os = "windows") {
                 let mut c = Command::new("cmd");
-                c.arg("/C").arg(&yarn);
+                c.arg("/C").arg(&pnpm);
                 c
             } else {
-                Command::new(&yarn)
+                Command::new(&pnpm)
             };
-            cmd.current_dir(&helper_dir);
+            cmd.current_dir(&helper_dir).arg("install");
             let status = cmd.status().expect("failed to update swc core");
             assert!(status.success());
         }
@@ -79,10 +79,10 @@ fn init_helpers() -> Arc<PathBuf> {
         {
             let mut cmd = if cfg!(target_os = "windows") {
                 let mut c = Command::new("cmd");
-                c.arg("/C").arg(&yarn);
+                c.arg("/C").arg(&pnpm);
                 c
             } else {
-                Command::new(&yarn)
+                Command::new(&pnpm)
             };
             cmd.current_dir(&helper_dir).arg("build");
             let status = cmd.status().expect("failed to compile helper package");
